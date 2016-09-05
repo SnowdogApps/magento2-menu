@@ -15,4 +15,6 @@ interface MenuRepositoryInterface
     public function delete(MenuInterface $page);
 
     public function deleteById($id);
+
+    public function get(string $identifier, int $storeId);
 }

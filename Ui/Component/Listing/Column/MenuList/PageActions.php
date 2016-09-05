@@ -1,7 +1,9 @@
 <?php
-namespace Snowdog\Menu\Ui\Component\Listing\Column\Snowmenumenulist;
+namespace Snowdog\Menu\Ui\Component\Listing\Column\MenuList;
 
-class PageActions extends \Magento\Ui\Component\Listing\Columns\Column
+use Magento\Ui\Component\Listing\Columns\Column;
+
+class PageActions extends Column
 {
     public function prepareDataSource(array $dataSource)
     {
@@ -9,19 +11,20 @@ class PageActions extends \Magento\Ui\Component\Listing\Columns\Column
             foreach ($dataSource["data"]["items"] as & $item) {
                 $name = $this->getData("name");
                 $id = "X";
-                if(isset($item["menu_id"]))
-                {
+                if (isset($item["menu_id"])) {
                     $id = $item["menu_id"];
                 }
                 $item[$name]["view"] = [
-                    "href"=>$this->getContext()->getUrl(
-                        "adminhtml/snowmenu_menu_list/viewlog",["id"=>$id]),
-                    "label"=>__("Edit")
+                    "href"  => $this->getContext()->getUrl(
+                        "snowmenu/menu/edit",
+                        ["id" => $id]
+                    ),
+                    "label" => __("Edit"),
                 ];
             }
         }
 
         return $dataSource;
-    }    
-    
+    }
+
 }

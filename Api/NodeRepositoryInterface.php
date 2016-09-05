@@ -15,4 +15,6 @@ interface NodeRepositoryInterface
     public function delete(NodeInterface $page);
 
     public function deleteById($id);
+
+    public function getByMenu($menuId);
 }

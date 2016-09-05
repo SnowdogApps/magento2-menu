@@ -3,7 +3,6 @@ namespace Snowdog\Menu\Model;
 
 use Snowdog\Menu\Api\MenuRepositoryInterface;
 use Snowdog\Menu\Api\Data\MenuInterface;
-use Snowdog\Menu\Model\MenuFactory;
 use Snowdog\Menu\Model\ResourceModel\Menu\CollectionFactory;
 
 use Magento\Framework\Api\SearchCriteriaInterface;
@@ -11,29 +10,27 @@ use Magento\Framework\Exception\CouldNotSaveException;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\Exception\CouldNotDeleteException;
 use Magento\Framework\Api\SearchResultsInterfaceFactory;
+
 class MenuRepository implements MenuRepositoryInterface
 {
     protected $objectFactory;
     protected $collectionFactory;
+
     public function __construct(
         MenuFactory $objectFactory,
         CollectionFactory $collectionFactory,
-        SearchResultsInterfaceFactory $searchResultsFactory       
-    )
-    {
-        $this->objectFactory        = $objectFactory;
-        $this->collectionFactory    = $collectionFactory;
+        SearchResultsInterfaceFactory $searchResultsFactory
+    ) {
+        $this->objectFactory = $objectFactory;
+        $this->collectionFactory = $collectionFactory;
         $this->searchResultsFactory = $searchResultsFactory;
     }
-    
+
     public function save(MenuInterface $object)
     {
-        try
-        {
+        try {
             $object->save();
-        }
-        catch(Exception $e)
-        {
+        } catch (Exception $e) {
             throw new CouldNotSaveException($e->getMessage());
         }
         return $object;
@@ -46,8 +43,8 @@ class MenuRepository implements MenuRepositoryInterface
         if (!$object->getId()) {
             throw new NoSuchEntityException(__('Object with id "%1" does not exist.', $id));
         }
-        return $object;        
-    }       
+        return $object;
+    }
 
     public function delete(MenuInterface $object)
     {
@@ -56,18 +53,18 @@ class MenuRepository implements MenuRepositoryInterface
         } catch (Exception $exception) {
             throw new CouldNotDeleteException(__($exception->getMessage()));
         }
-        return true;    
-    }    
+        return true;
+    }
 
     public function deleteById($id)
     {
         return $this->delete($this->getById($id));
-    }    
+    }
 
     public function getList(SearchCriteriaInterface $criteria)
     {
         $searchResults = $this->searchResultsFactory->create();
-        $searchResults->setSearchCriteria($criteria);  
+        $searchResults->setSearchCriteria($criteria);
         $collection = $this->collectionFactory->create();
         foreach ($criteria->getFilterGroups() as $filterGroup) {
             $fields = [];
@@ -80,7 +77,7 @@ class MenuRepository implements MenuRepositoryInterface
             if ($fields) {
                 $collection->addFieldToFilter($fields, $conditions);
             }
-        }  
+        }
         $searchResults->setTotalCount($collection->getSize());
         $sortOrders = $criteria->getSortOrders();
         if ($sortOrders) {
@@ -94,10 +91,21 @@ class MenuRepository implements MenuRepositoryInterface
         }
         $collection->setCurPage($criteria->getCurrentPage());
         $collection->setPageSize($criteria->getPageSize());
-        $objects = [];                                     
+        $objects = [];
         foreach ($collection as $objectModel) {
             $objects[] = $objectModel;
         }
         $searchResults->setItems($objects);
-        return $searchResults;        
-    }}
+        return $searchResults;
+    }
+
+    public function get(string $identifier, int $storeId)
+    {
+        $collection = $this->collectionFactory->create();
+        $collection->addFilter('identifier', $identifier);
+        $collection->addFilter('is_active', 1);
+        $collection->join(['stores' => 'snowmenu_store'], 'main_table.menu_id = stores.menu_id', 'store_id');
+        $collection->addFilter('store_id', $storeId);
+        return $collection->getFirstItem();
+    }
+}

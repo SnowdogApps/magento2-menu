@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <preference for="Snowdog\Menu\Api\MenuRepositoryInterface" type="Snowdog\Menu\Model\MenuRepository"/>
+    <preference for="Snowdog\Menu\Api\NodeRepositoryInterface" type="Snowdog\Menu\Model\Menu\NodeRepository"/>
+    <type name="Snowdog\Menu\Model\NodeTypeProvider">
+        <arguments>
+            <argument name="providers" xsi:type="array">
+                <item name="category" xsi:type="object">Snowdog\Menu\Block\NodeType\Category</item>
+                <item name="cms_page" xsi:type="object">Snowdog\Menu\Block\NodeType\CmsPage</item>
+            </argument>
+        </arguments>
+    </type>
+</config>

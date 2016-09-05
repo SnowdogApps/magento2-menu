@@ -1,13 +1,16 @@
 <?php
 namespace Snowdog\Menu\Ui\Component\Listing\DataProviders\Snowmenu\Menu;
 
-class ListProvider extends \Magento\Ui\DataProvider\AbstractDataProvider
+use Magento\Ui\DataProvider\AbstractDataProvider;
+use Snowdog\Menu\Model\ResourceModel\Menu\CollectionFactory;
+
+class ListProvider extends AbstractDataProvider
 {    
     public function __construct(
         $name,
         $primaryFieldName,
         $requestFieldName,
-        \Snowdog\Menu\Model\ResourceModel\Menu\CollectionFactory $collectionFactory,
+        CollectionFactory $collectionFactory,
         array $meta = [],
         array $data = []
     ) {

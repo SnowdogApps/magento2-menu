@@ -139,13 +139,13 @@ class InstallSchema implements InstallSchemaInterface
             'menu_id',
             Table::TYPE_INTEGER,
             null,
-            ['identity' => true, 'nullable' => false, 'primary' => true, 'unsigned' => true,],
+            ['nullable' => false, 'primary' => true, 'unsigned' => true,],
             'Menu ID'
         )->addColumn(
             'store_id',
             Table::TYPE_INTEGER,
             null,
-            ['identity' => true, 'nullable' => false, 'primary' => true, 'unsigned' => true,],
+            ['nullable' => false, 'primary' => true, 'unsigned' => true,],
             'Store ID'
         );
         $installer->getConnection()->createTable($table);
