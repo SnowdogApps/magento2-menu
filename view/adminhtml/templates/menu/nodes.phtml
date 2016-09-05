@@ -1,0 +1,33 @@
+<div id="jstree">
+    <!-- in this example the tree is populated from inline HTML -->
+    <ul>
+        <li class="jstree-open">Root node 1
+            <ul>
+                <li class="jstree-open" data-content="siedem" data-type="category" id="child_node_1">Child node 1</li>
+                <li class="jstree-open" data-content="34" data-type="cms">Child node 2</li>
+            </ul>
+        </li>
+        <li class="jstree-open" data-content="fasfd" data-dupa="fsafsdf">Root node 2</li>
+    </ul>
+</div>
+<button>demo button</button>
+
+
+<script>
+    require(['jquery', 'snowmenu_jstree', 'domReady!'], function ($) {
+        $('#jstree').jstree({
+            "core": {
+                "check_callback": true,
+                "themes": {
+                    "icons": false
+                }
+            },
+            "plugins": ["dnd"]
+        });
+        // 7 bind to events triggered on the tree
+        $('#jstree').on("changed.jstree", function (e, data) {
+            console.log(data.selected);
+            console.log(JSON.stringify(data.instance.get_json(null, {flat:true, no_a_attr:true, no_li_attr:true, no_state:true})));
+        });
+    });
+</script>

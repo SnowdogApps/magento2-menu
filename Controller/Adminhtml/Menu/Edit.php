@@ -4,6 +4,7 @@ namespace Snowdog\Menu\Controller\Adminhtml\Menu;
 
 use Magento\Backend\App\Action;
 use Magento\Framework\App\ResponseInterface;
+use Magento\Framework\Controller\ResultFactory;
 
 class Edit extends Action
 {
@@ -16,7 +17,9 @@ class Edit extends Action
      */
     public function execute()
     {
+        $result = $this->resultFactory->create(ResultFactory::TYPE_PAGE);
         // TODO: Implement execute() method.
+        return $result;
     }
 
     protected function _isAllowed()
