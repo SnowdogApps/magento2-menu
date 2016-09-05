@@ -1,11 +1,19 @@
 {
-    "name": "snowdog/module-menu",
-    "description": "Provides powerful menu editor to replace category based Magento2 menus.",
-    "authors": [
-        {
-            "name": "Kamil Balwierz",
-            "email": "kamil@snow.dog"
-        }
+  "name": "snowdog/module-menu",
+  "description": "Provides powerful menu editor to replace category based Magento2 menus.",
+  "authors": [
+    {
+      "name": "Kamil Balwierz",
+      "email": "kamil@snow.dog"
+    }
+  ],
+  "atuload": {
+    "file": [
+      "registration.php"
     ],
-    "require": {}
+    "psr-4": {
+      "Snowdog\\Menu\\": ""
+    }
+  },
+  "require": {}
 }
