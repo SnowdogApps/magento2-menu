@@ -8,7 +8,7 @@
     }
   ],
   "autoload": {
-    "file": [
+    "files": [
       "registration.php"
     ],
     "psr-4": {
