@@ -7,7 +7,7 @@
       "email": "kamil@snow.dog"
     }
   ],
-  "atuload": {
+  "autoload": {
     "file": [
       "registration.php"
     ],
