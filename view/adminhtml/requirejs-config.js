@@ -6,7 +6,13 @@
 var config = {
     map: {
         '*': {
-            "snowmenu_jstree"    : "Snowdog_Menu/js/jstree.min"
+            snowMenuTree: "Snowdog_Menu/js/jstree",
+            snowMenuEditorInit: "Snowdog_Menu/js/init",
+            snowMenuEditorSerialize: "Snowdog_Menu/js/serialize",
+            snowMenuEditorRename: "Snowdog_Menu/js/rename",
+            snowMenuEditorAdd: "Snowdog_Menu/js/add",
+            snowMenuCategory: "Snowdog_Menu/js/category",
+            snowMenuCmsPage: "Snowdog_Menu/js/cmspage"
         }
     }
 };

@@ -5,9 +5,28 @@ namespace Snowdog\Menu\Controller\Adminhtml\Menu;
 use Magento\Backend\App\Action;
 use Magento\Framework\App\ResponseInterface;
 use Magento\Framework\Controller\ResultFactory;
+use Magento\Framework\Exception\NoSuchEntityException;
+use Magento\Framework\Registry;
+use Snowdog\Menu\Api\MenuRepositoryInterface;
 
 class Edit extends Action
 {
+    /**
+     * @var MenuRepositoryInterface
+     */
+    private $menuRepository;
+    /**
+     * @var Registry
+     */
+    private $registry;
+
+    public function __construct(Action\Context $context, MenuRepositoryInterface $menuRepository, Registry $registry)
+    {
+        parent::__construct($context);
+        $this->menuRepository = $menuRepository;
+        $this->registry = $registry;
+    }
+
 
     /**
      * Dispatch request
@@ -17,9 +36,17 @@ class Edit extends Action
      */
     public function execute()
     {
-        $result = $this->resultFactory->create(ResultFactory::TYPE_PAGE);
-        // TODO: Implement execute() method.
-        return $result;
+        $id = $this->getRequest()->getParam('id');
+        try {
+            $model = $this->menuRepository->getById($id);
+            $this->registry->register('snowmenu_menu', $model);
+            $result = $this->resultFactory->create(ResultFactory::TYPE_PAGE);
+            return $result;
+        } catch(NoSuchEntityException $e) {
+            $result = $this->resultRedirectFactory->create();
+            $result->setPath('*/*/index');
+            return $result;
+        }
     }
 
     protected function _isAllowed()

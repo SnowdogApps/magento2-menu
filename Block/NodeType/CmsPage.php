@@ -81,4 +81,14 @@ class CmsPage implements NodeTypeInterface
 <a href="$url" class="$classes" role="menuitem"><span>$title</span></a>
 HTML;
     }
+
+    public function getAddButtonLabel()
+    {
+        return __("Add Cms Page link node");
+    }
+
+    public function toHtml()
+    {
+        return '';
+    }
 }

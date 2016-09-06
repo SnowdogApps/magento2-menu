@@ -23,4 +23,18 @@ class NodeTypeProvider
     {
         return $this->providers[$type]->getHtml($id, $level);
     }
+
+    public function getAddButtonLabels()
+    {
+        $result = [];
+        foreach ($this->providers as $code => $instance) {
+            $result[$code] = $instance->getAddButtonLabel();
+        }
+        return $result;
+    }
+
+    public function getEditForms()
+    {
+        return $this->providers;
+    }
 }

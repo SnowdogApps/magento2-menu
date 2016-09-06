@@ -1,33 +1,19 @@
-<div id="jstree">
-    <!-- in this example the tree is populated from inline HTML -->
-    <ul>
-        <li class="jstree-open">Root node 1
-            <ul>
-                <li class="jstree-open" data-content="siedem" data-type="category" id="child_node_1">Child node 1</li>
-                <li class="jstree-open" data-content="34" data-type="cms">Child node 2</li>
-            </ul>
-        </li>
-        <li class="jstree-open" data-content="fasfd" data-dupa="fsafsdf">Root node 2</li>
-    </ul>
+<?php /** @var $block \Snowdog\Menu\Block\Menu\Edit\Tab\Nodes */ ?>
+<div>
+    <div data-mage-init='{"snowMenuEditorInit":{}}' id="snowmenu_tree_container">
+        <?= $block->renderNodes() ?>
+    </div>
+    <div data-mage-init='{"snowMenuEditorAdd":{}}' class="node-buttons-container">
+        <?php foreach ($block->getNodeButtons() as $code => $label): ?>
+            <button id="add-<?= $code ?>" data-type="<?= $code ?>"><?= $label ?></button>
+        <?php endforeach ?>
+    </div>
+    <div>
+        <label for="snowmenu-node-name"><?= __('Node name') ?></label>
+        <input data-mage-init='{"snowMenuEditorRename":{}}' id="snowmenu-node-name" type="text"/>
+    </div>
+    <?php foreach ($block->getNodeForms() as $form): ?>
+        <?= $form->toHtml() ?>
+    <?php endforeach ?>
+    <textarea name="serialized_nodes" data-mage-init='{"snowMenuEditorSerialize":{}}' rows="20" cols="200"></textarea>
 </div>
-<button>demo button</button>
-
-
-<script>
-    require(['jquery', 'snowmenu_jstree', 'domReady!'], function ($) {
-        $('#jstree').jstree({
-            "core": {
-                "check_callback": true,
-                "themes": {
-                    "icons": false
-                }
-            },
-            "plugins": ["dnd"]
-        });
-        // 7 bind to events triggered on the tree
-        $('#jstree').on("changed.jstree", function (e, data) {
-            console.log(data.selected);
-            console.log(JSON.stringify(data.instance.get_json(null, {flat:true, no_a_attr:true, no_li_attr:true, no_state:true})));
-        });
-    });
-</script>
