@@ -69,7 +69,7 @@
 /* Misc visuals
 ----------------------------------*/
 /* Overlays */
-.ui-widget-overlay {
+.ui-autocomplete .ui-widget-overlay {
 	position: fixed;
 	top: 0;
 	left: 0;
@@ -134,42 +134,42 @@
 }
 /* Component containers
 ----------------------------------*/
-.ui-widget {
+.ui-autocomplete .ui-widget {
 	font-family: Arial,Helvetica,sans-serif;
 	font-size: 1em;
 }
-.ui-widget .ui-widget {
+.ui-autocomplete .ui-widget .ui-autocomplete .ui-widget {
 	font-size: 1em;
 }
-.ui-widget input,
-.ui-widget select,
-.ui-widget textarea,
-.ui-widget button {
+.ui-autocomplete .ui-widget input,
+.ui-autocomplete .ui-widget select,
+.ui-autocomplete .ui-widget textarea,
+.ui-autocomplete .ui-widget button {
 	font-family: Arial,Helvetica,sans-serif;
 	font-size: 1em;
 }
-.ui-widget-content {
+.ui-autocomplete .ui-widget-content {
 	border: 1px solid #dddddd;
 	background: #ffffff;
 	color: #333333;
 }
-.ui-widget-content a {
+.ui-autocomplete .ui-widget-content a {
 	color: #333333;
 }
-.ui-widget-header {
+.ui-autocomplete .ui-widget-header {
 	border: 1px solid #dddddd;
 	background: #e9e9e9;
 	color: #333333;
 	font-weight: bold;
 }
-.ui-widget-header a {
+.ui-autocomplete .ui-widget-header a {
 	color: #333333;
 }
 /* Interaction states
 ----------------------------------*/
 .ui-autocomplete .ui-state-default,
-.ui-widget-content .ui-autocomplete .ui-state-default,
-.ui-widget-header .ui-autocomplete .ui-state-default {
+.ui-autocomplete .ui-widget-content .ui-autocomplete .ui-state-default,
+.ui-autocomplete .ui-widget-header .ui-autocomplete .ui-state-default {
 	border: 1px solid #c5c5c5;
 	background: #f6f6f6;
 	font-weight: normal;
@@ -182,11 +182,11 @@
 	text-decoration: none;
 }
 .ui-autocomplete .ui-state-hover,
-.ui-widget-content .ui-autocomplete .ui-state-hover,
-.ui-widget-header .ui-autocomplete .ui-state-hover,
+.ui-autocomplete .ui-widget-content .ui-autocomplete .ui-state-hover,
+.ui-autocomplete .ui-widget-header .ui-autocomplete .ui-state-hover,
 .ui-autocomplete .ui-state-focus,
-.ui-widget-content .ui-autocomplete .ui-state-focus,
-.ui-widget-header .ui-autocomplete .ui-state-focus {
+.ui-autocomplete .ui-widget-content .ui-autocomplete .ui-state-focus,
+.ui-autocomplete .ui-widget-header .ui-autocomplete .ui-state-focus {
 	border: 1px solid #cccccc;
 	background: #ededed;
 	font-weight: normal;
@@ -204,8 +204,8 @@
 	text-decoration: none;
 }
 .ui-autocomplete .ui-state-active,
-.ui-widget-content .ui-autocomplete .ui-state-active,
-.ui-widget-header .ui-autocomplete .ui-state-active {
+.ui-autocomplete .ui-widget-content .ui-autocomplete .ui-state-active,
+.ui-autocomplete .ui-widget-header .ui-autocomplete .ui-state-active {
 	border: 1px solid #003eff;
 	background: #007fff;
 	font-weight: normal;
@@ -220,49 +220,49 @@
 /* Interaction Cues
 ----------------------------------*/
 .ui-autocomplete .ui-state-highlight,
-.ui-widget-content .ui-autocomplete .ui-state-highlight,
-.ui-widget-header .ui-autocomplete .ui-state-highlight {
+.ui-autocomplete .ui-widget-content .ui-autocomplete .ui-state-highlight,
+.ui-autocomplete .ui-widget-header .ui-autocomplete .ui-state-highlight {
 	border: 1px solid #dad55e;
 	background: #fffa90;
 	color: #777620;
 }
 .ui-autocomplete .ui-state-highlight a,
-.ui-widget-content .ui-autocomplete .ui-state-highlight a,
-.ui-widget-header .ui-autocomplete .ui-state-highlight a {
+.ui-autocomplete .ui-widget-content .ui-autocomplete .ui-state-highlight a,
+.ui-autocomplete .ui-widget-header .ui-autocomplete .ui-state-highlight a {
 	color: #777620;
 }
 .ui-autocomplete .ui-state-error,
-.ui-widget-content .ui-autocomplete .ui-state-error,
-.ui-widget-header .ui-autocomplete .ui-state-error {
+.ui-autocomplete .ui-widget-content .ui-autocomplete .ui-state-error,
+.ui-autocomplete .ui-widget-header .ui-autocomplete .ui-state-error {
 	border: 1px solid #f1a899;
 	background: #fddfdf;
 	color: #5f3f3f;
 }
 .ui-autocomplete .ui-state-error a,
-.ui-widget-content .ui-autocomplete .ui-state-error a,
-.ui-widget-header .ui-autocomplete .ui-state-error a {
+.ui-autocomplete .ui-widget-content .ui-autocomplete .ui-state-error a,
+.ui-autocomplete .ui-widget-header .ui-autocomplete .ui-state-error a {
 	color: #5f3f3f;
 }
 .ui-autocomplete .ui-state-error-text,
-.ui-widget-content .ui-autocomplete .ui-state-error-text,
-.ui-widget-header .ui-autocomplete .ui-state-error-text {
+.ui-autocomplete .ui-widget-content .ui-autocomplete .ui-state-error-text,
+.ui-autocomplete .ui-widget-header .ui-autocomplete .ui-state-error-text {
 	color: #5f3f3f;
 }
 .ui-priority-primary,
-.ui-widget-content .ui-priority-primary,
-.ui-widget-header .ui-priority-primary {
+.ui-autocomplete .ui-widget-content .ui-priority-primary,
+.ui-autocomplete .ui-widget-header .ui-priority-primary {
 	font-weight: bold;
 }
 .ui-priority-secondary,
-.ui-widget-content .ui-priority-secondary,
-.ui-widget-header .ui-priority-secondary {
+.ui-autocomplete .ui-widget-content .ui-priority-secondary,
+.ui-autocomplete .ui-widget-header .ui-priority-secondary {
 	opacity: .7;
 	filter:Alpha(Opacity=70); /* support: IE8 */
 	font-weight: normal;
 }
 .ui-autocomplete .ui-state-disabled,
-.ui-widget-content .ui-autocomplete .ui-state-disabled,
-.ui-widget-header .ui-autocomplete .ui-state-disabled {
+.ui-autocomplete .ui-widget-content .ui-autocomplete .ui-state-disabled,
+.ui-autocomplete .ui-widget-header .ui-autocomplete .ui-state-disabled {
 	opacity: .35;
 	filter:Alpha(Opacity=35); /* support: IE8 */
 	background-image: none;
@@ -278,10 +278,10 @@
 	height: 16px;
 }
 .ui-icon,
-.ui-widget-content .ui-icon {
+.ui-autocomplete .ui-widget-content .ui-icon {
 	background-image: url("images/ui-icons_444444_256x240.png");
 }
-.ui-widget-header .ui-icon {
+.ui-autocomplete .ui-widget-header .ui-icon {
 	background-image: url("images/ui-icons_444444_256x240.png");
 }
 .ui-autocomplete .ui-state-default .ui-icon {
@@ -506,12 +506,12 @@
 	border-bottom-right-radius: 3px;
 }
 /* Overlays */
-.ui-widget-overlay {
+.ui-autocomplete .ui-widget-overlay {
 	background: #aaaaaa;
 	opacity: .3;
 	filter: Alpha(Opacity=30); /* support: IE8 */
 }
-.ui-widget-shadow {
+.ui-autocomplete .ui-widget-shadow {
 	margin: 0px 0 0 0px;
 	padding: 5px;
 	background: #666666;

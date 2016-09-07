@@ -18,10 +18,7 @@ class CmsPage extends Template implements NodeTypeInterface
      * @var ResourceConnection
      */
     private $connection;
-    /**
-     * @var StoreManagerInterface
-     */
-    private $storeManager;
+
     /**
      * @var Profiler
      */
@@ -32,12 +29,10 @@ class CmsPage extends Template implements NodeTypeInterface
     public function __construct(
         Context $context,
         ResourceConnection $connection,
-        StoreManagerInterface $storeManager,
         Profiler $profiler,
         $data = []
     ) {
         $this->connection = $connection;
-        $this->storeManager = $storeManager;
         $this->profiler = $profiler;
         parent::__construct($context, $data);
     }
@@ -81,7 +76,7 @@ class CmsPage extends Template implements NodeTypeInterface
             ['page_id', 'identifier']
         )->join(['s' => $storeTable], 'p.page_id = s.page_id', [])->where(
             's.store_id IN (0, ?)',
-            $this->storeManager->getStore()->getId()
+            $this->_storeManager->getStore()->getId()
         )->where('p.identifier IN (?)', $pagesCodes)->where('p.is_active = ?', 1)->order('s.store_id ASC');
         $codes = $this->connection->getConnection('read')->fetchAll($select);
         $this->pageIds = [];
@@ -94,7 +89,7 @@ class CmsPage extends Template implements NodeTypeInterface
                                    ->select()
                                    ->from($table, ['entity_id', 'request_path'])
                                    ->where('entity_type = ?', 'cms-page')
-                                   ->where('store_id = ?', $this->storeManager->getStore()->getId())
+                                   ->where('store_id = ?', $this->_storeManager->getStore()->getId())
                                    ->where('entity_id IN (?)', array_values($this->pageIds));
         $this->pageUrls = $this->connection->getConnection('read')->fetchPairs($select);
         $this->profiler->stop(__METHOD__);
@@ -106,9 +101,9 @@ class CmsPage extends Template implements NodeTypeInterface
         $node = $this->nodes[$nodeId];
         if(isset($this->pageIds[$node->getContent()])) {
             $pageId = $this->pageIds[$node->getContent()];
-            $url = $this->storeManager->getStore()->getBaseUrl() . $this->pageUrls[$pageId];
+            $url = $this->_storeManager->getStore()->getBaseUrl() . $this->pageUrls[$pageId];
         } else {
-            $url = $this->storeManager->getStore()->getBaseUrl();
+            $url = $this->_storeManager->getStore()->getBaseUrl();
         }
         $title = $node->getTitle();
         return <<<HTML
