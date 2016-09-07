@@ -10,6 +10,7 @@ use Magento\Framework\App\ResponseInterface;
 use Snowdog\Menu\Api\MenuRepositoryInterface;
 use Snowdog\Menu\Api\NodeRepositoryInterface;
 use Snowdog\Menu\Model\Menu\NodeFactory;
+use Snowdog\Menu\Model\MenuFactory;
 
 class Save extends Action
 {
@@ -37,6 +38,10 @@ class Save extends Action
      * @var NodeFactory
      */
     private $nodeFactory;
+    /**
+     * @var MenuFactory
+     */
+    private $menuFactory;
 
     public function __construct(
         Action\Context $context,
@@ -45,7 +50,8 @@ class Save extends Action
         FilterBuilderFactory $filterBuilderFactory,
         FilterGroupBuilderFactory $filterGroupBuilderFactory,
         SearchCriteriaBuilderFactory $searchCriteriaBuilderFactory,
-        NodeFactory $nodeFactory
+        NodeFactory $nodeFactory,
+        MenuFactory $menuFactory
     ) {
         parent::__construct($context);
         $this->menuRepository = $menuRepository;
@@ -54,6 +60,7 @@ class Save extends Action
         $this->filterGroupBuilderFactory = $filterGroupBuilderFactory;
         $this->searchCriteriaBuilderFactory = $searchCriteriaBuilderFactory;
         $this->nodeFactory = $nodeFactory;
+        $this->menuFactory = $menuFactory;
     }
 
 
@@ -66,8 +73,20 @@ class Save extends Action
     public function execute()
     {
         $id = $this->getRequest()->getParam('id');
+        if ($id) {
+            $menu = $this->menuRepository->getById($id);
+        } else {
+            $menu = $this->menuFactory->create();
+        }
+        $menu->setTitle($this->getRequest()->getParam('title'));
+        $menu->setIdentifier($this->getRequest()->getParam('identifier'));
+        $menu->setIsActive(1);
+        $menu = $this->menuRepository->save($menu);
 
-        $menu = $this->menuRepository->getById($id);
+        if (!$id) {
+            $id = $menu->getId();
+        }
+
         $nodes = $this->getRequest()->getParam('serialized_nodes');
         if (!empty($nodes)) {
             $nodes = json_decode($nodes, true);
@@ -158,8 +177,6 @@ class Save extends Action
             }
         }
 
-
-        // TODO: Implement execute() method.
         $redirect = $this->resultRedirectFactory->create();
         $redirect->setPath('*/*/index');
         return $redirect;

@@ -6,15 +6,16 @@ define([
     return function(options, element) {
         var editorBlock = $(element);
         editorBlock.hide();
-        var input = editorBlock.children('input');
+        var input = editorBlock.find('input');
         var treeContainer = $('#snowmenu_tree_container');
         var tree = treeContainer.jstree(true);
         treeContainer.on("changed.jstree", function (e, data) {
-            if (data.node.data.type == options.type) {
+            if (data.node.data && data.node.data.type == options.type) {
                 editorBlock.show();
                 input.val(data.node.data.content);
             } else {
                 editorBlock.hide();
+                input.val(null);
             }
         });
         input.change(function () {

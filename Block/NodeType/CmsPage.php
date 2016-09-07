@@ -53,7 +53,7 @@ class CmsPage extends Template implements NodeTypeInterface
             $pagesCodes[] = $node->getContent();
         }
         $this->nodes = $localNodes;
-        // TODO pages codes into pages Ids
+
         $pageTable = $this->connection->getTableName('cms_page');
         $storeTable = $this->connection->getTableName('cms_page_store');
         $select = $this->connection->getConnection('read')->select()->from(
@@ -84,8 +84,12 @@ class CmsPage extends Template implements NodeTypeInterface
     {
         $classes = $level == 0 ? 'level-top"' : '';
         $node = $this->nodes[$nodeId];
-        $pageId = $this->pageIds[$node->getContent()];
-        $url = $this->storeManager->getStore()->getBaseUrl() . $this->pageUrls[$pageId];
+        if(isset($this->pageIds[$node->getContent()])) {
+            $pageId = $this->pageIds[$node->getContent()];
+            $url = $this->storeManager->getStore()->getBaseUrl() . $this->pageUrls[$pageId];
+        } else {
+            $url = $this->storeManager->getStore()->getBaseUrl();
+        }
         $title = $node->getTitle();
         return <<<HTML
 <a href="$url" class="$classes" role="menuitem"><span>$title</span></a>
