@@ -6,6 +6,7 @@ use Magento\Backend\Block\Template;
 use Magento\Backend\Block\Widget\Tab\TabInterface;
 use Magento\Framework\Registry;
 use Snowdog\Menu\Api\NodeRepositoryInterface;
+use Snowdog\Menu\Controller\Adminhtml\Menu\Edit;
 use Snowdog\Menu\Model\NodeTypeProvider;
 
 class Nodes extends Template implements TabInterface
@@ -39,22 +40,25 @@ class Nodes extends Template implements TabInterface
 
     public function renderNodes()
     {
-        $menu = $this->registry->registry('snowmenu_menu');
-        $nodes = $this->nodeRepository->getByMenu($menu->getId());
-        $data = [];
-        foreach ($nodes as $node) {
-            $level = $node->getLevel();
-            $parent = $node->getParentId() ?: 0;
-            if (!isset($data[$level])) {
-                $data[$level] = [];
+        $menu = $this->registry->registry(Edit::REGISTRY_CODE);
+        if ($menu) {
+            $nodes = $this->nodeRepository->getByMenu($menu->getId());
+            $data = [];
+            foreach ($nodes as $node) {
+                $level = $node->getLevel();
+                $parent = $node->getParentId() ?: 0;
+                if (!isset($data[$level])) {
+                    $data[$level] = [];
+                }
+                if (!isset($data[$level][$parent])) {
+                    $data[$level][$parent] = [];
+                }
+                $data[$level][$parent][] = $node;
             }
-            if (!isset($data[$level][$parent])) {
-                $data[$level][$parent] = [];
-            }
-            $data[$level][$parent][] = $node;
-        }
 
-        return $this->renderNodeList(0, null, $data);
+            return $this->renderNodeList(0, null, $data);
+        }
+        return '';
     }
 
     /**
@@ -116,7 +120,7 @@ class Nodes extends Template implements TabInterface
         $html = '<ul>';
         foreach ($nodes as $node) {
             $html .= '<li class="jstree-open" data-type="' . $node->getType() . '" data-content="' . $node->getContent(
-                ) . '" id="node_' . $node->getId() . '"">';
+                ) . '" data-classes="' . $node->getClasses() . '" id="node_' . $node->getId() . '"">';
             $html .= $node->getTitle();
             $html .= $this->renderNodeList($level + 1, $node->getId(), $data);
             $html .= '</li>';

@@ -13,8 +13,6 @@ use Snowdog\Menu\Model\NodeTypeProvider;
 
 class Menu extends Template implements IdentityInterface
 {
-    const CACHE_TAG = 'snowmenu';
-
     /**
      * @var MenuRepositoryInterface
      */
@@ -29,6 +27,7 @@ class Menu extends Template implements IdentityInterface
     private $nodeTypeProvider;
 
     private $nodes;
+    private $menu;
     /**
      * @var SearchCriteriaFactory
      */
@@ -53,6 +52,7 @@ class Menu extends Template implements IdentityInterface
         $this->nodeTypeProvider = $nodeTypeProvider;
         $this->searchCriteriaFactory = $searchCriteriaFactory;
         $this->filterGroupBuilder = $filterGroupBuilder;
+        $this->setData('cache_lifetime', false); // infinite caching
     }
 
     /**
@@ -62,7 +62,19 @@ class Menu extends Template implements IdentityInterface
      */
     public function getIdentities()
     {
-        return [self::CACHE_TAG, Block::CACHE_TAG];
+        return [\Snowdog\Menu\Model\Menu::CACHE_TAG, Block::CACHE_TAG];
+    }
+
+    public function getCacheKeyInfo()
+    {
+        if (!$this->menu) {
+            $this->fetchData();
+        }
+        return [
+            \Snowdog\Menu\Model\Menu::CACHE_TAG,
+            'menu_' . $this->menu->getId(),
+            'store_' . $this->_storeManager->getStore()->getId(),
+        ];
     }
 
     public function getMenuHtml($level = 0, $parent = null)
@@ -74,6 +86,7 @@ class Menu extends Template implements IdentityInterface
             $children = $this->getMenuHtml($level + 1, $node);
             $classes = [
                 'level' . $level,
+                $node->getClasses() ?: '',
             ];
             if (!empty($children)) {
                 $classes[] = 'parent';
@@ -84,13 +97,13 @@ class Menu extends Template implements IdentityInterface
             if ($i == count($nodes) - 1) {
                 $classes[] = 'last';
             }
-            if($level == 0) {
+            if ($level == 0) {
                 $classes[] = 'level-top';
             }
             $html .= '<li class="' . implode(' ', $classes) . '">';
             $html .= $this->renderNode($node, $level);
             if (!empty($children)) {
-                $html .= '<ul class="level'.$level.' submenu">';
+                $html .= '<ul class="level' . $level . ' submenu">';
                 $html .= $children;
                 $html .= '</ul>';
             }
@@ -118,8 +131,8 @@ class Menu extends Template implements IdentityInterface
     private function fetchData()
     {
         $storeId = $this->_storeManager->getStore()->getId();
-        $menu = $this->menuRepository->get($this->getData('menu'), $storeId);
-        $nodes = $this->nodeRepository->getByMenu($menu->getId());
+        $this->menu = $this->menuRepository->get($this->getData('menu'), $storeId);
+        $nodes = $this->nodeRepository->getByMenu($this->menu->getId());
         $result = [];
         $types = [];
         foreach ($nodes as $node) {

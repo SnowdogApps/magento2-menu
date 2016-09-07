@@ -11,6 +11,7 @@ use Snowdog\Menu\Api\MenuRepositoryInterface;
 
 class Edit extends Action
 {
+    const REGISTRY_CODE = 'snowmenu_menu';
     /**
      * @var MenuRepositoryInterface
      */
@@ -39,10 +40,12 @@ class Edit extends Action
         $id = $this->getRequest()->getParam('id');
         try {
             $model = $this->menuRepository->getById($id);
-            $this->registry->register('snowmenu_menu', $model);
+            $this->registry->register(self::REGISTRY_CODE, $model);
             $result = $this->resultFactory->create(ResultFactory::TYPE_PAGE);
+            $result->setActiveMenu('Snowdog_Menu::menus');
+            $result->getConfig()->getTitle()->prepend(__('Edit Menu %1', $model->getTitle()));
             return $result;
-        } catch(NoSuchEntityException $e) {
+        } catch (NoSuchEntityException $e) {
             $result = $this->resultRedirectFactory->create();
             $result->setPath('*/*/index');
             return $result;

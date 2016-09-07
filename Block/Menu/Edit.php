@@ -13,5 +13,4 @@ class Edit extends Container
         $this->_mode = 'edit';
         parent::_construct();
     }
-
 }

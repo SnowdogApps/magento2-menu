@@ -6,6 +6,14 @@
             <item name="deps" xsi:type="string">snowmenu_menu_list.snowmenu_menu_list_data_source</item>
         </item>
         <item name="spinner" xsi:type="string">snowmenu_menu_list_columns</item>
+        <item name="buttons" xsi:type="array">
+            <item name="add" xsi:type="array">
+                <item name="name" xsi:type="string">add</item>
+                <item name="label" xsi:type="string" translate="true">Create new menu</item>
+                <item name="class" xsi:type="string">primary</item>
+                <item name="url" xsi:type="string">*/*/create</item>
+            </item>
+        </item>
     </argument>
     <dataSource name="snowmenu_menu_list_data_source">
         <argument name="dataProvider" xsi:type="configurableObject">
@@ -65,7 +73,7 @@
                 </item>
             </argument>
         </column>
-        <column name="is_active">
+<!--        <column name="is_active">
             <argument name="data" xsi:type="array">
                 <item name="config" xsi:type="array">
                     <item name="filter" xsi:type="string">textRange</item>
@@ -75,7 +83,7 @@
                     <item name="label" xsi:type="string" translate="true">Active</item>
                 </item>
             </argument>
-        </column>
+        </column>-->
         <actionsColumn name="actions" class="Snowdog\Menu\Ui\Component\Listing\Column\MenuList\PageActions">
             <argument name="data" xsi:type="array">
                 <item name="config" xsi:type="array">

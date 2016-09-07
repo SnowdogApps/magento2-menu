@@ -2,12 +2,14 @@
 
 namespace Snowdog\Menu\Block\NodeType;
 
+use Magento\Backend\Block\Template;
+use Magento\Backend\Block\Template\Context;
 use Magento\Framework\App\ResourceConnection;
 use Magento\Framework\Profiler;
 use Magento\Store\Model\StoreManagerInterface;
 use Snowdog\Menu\Api\NodeTypeInterface;
 
-class CmsPage implements NodeTypeInterface
+class CmsPage extends Template implements NodeTypeInterface
 {
     protected $nodes;
     protected $pageUrls;
@@ -25,11 +27,19 @@ class CmsPage implements NodeTypeInterface
      */
     private $profiler;
 
-    public function __construct(ResourceConnection $connection, StoreManagerInterface $storeManager, Profiler $profiler)
-    {
+    protected $_template = 'menu/node_type/cms_page.phtml';
+
+    public function __construct(
+        Context $context,
+        ResourceConnection $connection,
+        StoreManagerInterface $storeManager,
+        Profiler $profiler,
+        $data = []
+    ) {
         $this->connection = $connection;
         $this->storeManager = $storeManager;
         $this->profiler = $profiler;
+        parent::__construct($context, $data);
     }
 
 
@@ -87,8 +97,4 @@ HTML;
         return __("Add Cms Page link node");
     }
 
-    public function toHtml()
-    {
-        return '';
-    }
 }

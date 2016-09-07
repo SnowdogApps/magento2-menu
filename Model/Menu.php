@@ -1,5 +1,6 @@
 <?php
 namespace Snowdog\Menu\Model;
+
 use Magento\Framework\DataObject\IdentityInterface;
 use Magento\Framework\Model\AbstractModel;
 use Snowdog\Menu\Api\Data\MenuInterface;
@@ -7,6 +8,8 @@ use Snowdog\Menu\Api\Data\MenuInterface;
 class Menu extends AbstractModel implements MenuInterface, IdentityInterface
 {
     const CACHE_TAG = 'snowdog_menu_menu';
+
+    protected $_cacheTag = self::CACHE_TAG;
 
     protected function _construct()
     {
@@ -17,4 +20,5 @@ class Menu extends AbstractModel implements MenuInterface, IdentityInterface
     {
         return [self::CACHE_TAG . '_' . $this->getId()];
     }
+
 }

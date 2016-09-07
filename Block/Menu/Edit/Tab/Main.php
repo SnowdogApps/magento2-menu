@@ -4,6 +4,7 @@ namespace Snowdog\Menu\Block\Menu\Edit\Tab;
 
 use Magento\Backend\Block\Widget\Form\Generic;
 use Magento\Backend\Block\Widget\Tab\TabInterface;
+use Snowdog\Menu\Controller\Adminhtml\Menu\Edit;
 
 class Main extends Generic implements TabInterface
 {
@@ -14,16 +15,44 @@ class Main extends Generic implements TabInterface
 
         $form->setHtmlIdPrefix('menu_');
 
-        $fieldset = $form->addFieldset(
+        $fieldSet = $form->addFieldset(
             'menu_fieldset',
             ['legend' => __('Menu Data'), 'class' => 'fieldset-wide']
         );
 
-        $this->setForm($form);
+        $fieldSet->addField(
+            'title',
+            'text',
+            [
+                'name'  => 'title',
+                'label' => __('Title'),
+                'class' => 'required',
+            ]
+        );
 
+        $fieldSet->addField(
+            'identifier',
+            'text',
+            [
+                'name'  => 'identifier',
+                'label' => __('Identifier'),
+                'class' => 'required',
+            ]
+        );
+
+        $this->setForm($form);
     }
 
-        /**
+    protected function _initFormValues()
+    {
+        $menu = $this->_coreRegistry->registry(Edit::REGISTRY_CODE);
+        if ($menu) {
+            $this->getForm()->setValues($menu->getData());
+        }
+    }
+
+
+    /**
      * Return Tab label
      *
      * @return string
