@@ -42,6 +42,26 @@ class CmsPage extends Template implements NodeTypeInterface
         parent::__construct($context, $data);
     }
 
+    public function getJsonConfig()
+    {
+        $this->profiler->start(__METHOD__);
+        $connection = $this->connection->getConnection('read');
+        $select = $connection->select()->from(
+            $this->connection->getTableName('cms_page'),
+            ['title', 'identifier']
+        );
+        $options = $connection->fetchPairs($select);
+
+        $data = [
+            'snowMenuAutoCompleteField' => [
+                'type'    => 'cms_page',
+                'options' => $options,
+                'message' => __('CMS Page not found'),
+            ],
+        ];
+        $this->profiler->stop(__METHOD__);
+        return json_encode($data);
+    }
 
     public function fetchData(array $nodes)
     {
