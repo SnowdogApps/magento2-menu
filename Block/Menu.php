@@ -52,7 +52,6 @@ class Menu extends Template implements IdentityInterface
         $this->nodeTypeProvider = $nodeTypeProvider;
         $this->searchCriteriaFactory = $searchCriteriaFactory;
         $this->filterGroupBuilder = $filterGroupBuilder;
-        $this->setData('cache_lifetime', false); // infinite caching
     }
 
     /**
@@ -64,6 +63,12 @@ class Menu extends Template implements IdentityInterface
     {
         return [\Snowdog\Menu\Model\Menu::CACHE_TAG, Block::CACHE_TAG];
     }
+
+    protected function getCacheLifetime()
+    {
+        return false;
+    }
+
 
     public function getCacheKeyInfo()
     {

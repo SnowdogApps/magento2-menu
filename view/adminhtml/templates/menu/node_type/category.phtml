@@ -1,5 +1,5 @@
 <?php /** @var $block \Snowdog\Menu\Block\NodeType\Category */ ?>
-<div class="admin__field field field-title" data-mage-init='<?= $block->getJsonConfig() ?>'>
+<div class="admin__field field field-title" data-mage-init='<?= str_replace('\'', '', $block->getJsonConfig()) ?>'>
     <label class="label admin__field-label" for="category-id"><?= __('Category') ?></label>
     <div class="admin__field-control control autocomplete_container">
         <input class="input-text admin__control-text" id="category-id" type="text"/>

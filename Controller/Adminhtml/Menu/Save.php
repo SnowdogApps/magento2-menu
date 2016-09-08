@@ -87,6 +87,8 @@ class Save extends Action
             $id = $menu->getId();
         }
 
+        $menu->saveStores($this->getRequest()->getParam('stores'));
+
         $nodes = $this->getRequest()->getParam('serialized_nodes');
         if (!empty($nodes)) {
             $nodes = json_decode($nodes, true);

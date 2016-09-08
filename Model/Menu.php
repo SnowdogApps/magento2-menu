@@ -21,4 +21,25 @@ class Menu extends AbstractModel implements MenuInterface, IdentityInterface
         return [self::CACHE_TAG . '_' . $this->getId()];
     }
 
+    public function getStores()
+    {
+        $connection = $this->getResource()->getConnection();
+        $select = $connection->select()->from($this->getResource()->getTable('snowmenu_store'), ['store_id'])->where(
+            'menu_id = ?',
+            $this->getId()
+        );
+        return $connection->fetchCol($select);
+    }
+
+    public function saveStores(array $stores)
+    {
+        $connection = $this->getResource()->getConnection();
+        $connection->beginTransaction();
+        $table = $this->getResource()->getTable('snowmenu_store');
+        $connection->delete($table, ['menu_id = ?' => $this->getId()]);
+        foreach ($stores as $store) {
+            $connection->insert($table, ['menu_id' => $this->getId(), 'store_id' => $store]);
+        }
+        $connection->commit();
+    }
 }

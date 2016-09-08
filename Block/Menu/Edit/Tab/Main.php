@@ -2,12 +2,14 @@
 
 namespace Snowdog\Menu\Block\Menu\Edit\Tab;
 
+use Magento\Backend\Block\Template\Context;
 use Magento\Backend\Block\Widget\Form\Generic;
 use Magento\Backend\Block\Widget\Tab\TabInterface;
 use Snowdog\Menu\Controller\Adminhtml\Menu\Edit;
 
 class Main extends Generic implements TabInterface
 {
+
     protected function _prepareForm()
     {
         /** @var \Magento\Framework\Data\Form $form */
@@ -40,6 +42,25 @@ class Main extends Generic implements TabInterface
             ]
         );
 
+        $values = [];
+        foreach ($this->_storeManager->getStores(false) as $storeId => $store) {
+            $values[] = [
+                'label' => $store->getName(),
+                'value' => $storeId,
+            ];
+        }
+
+        $fieldSet->addField(
+            'stores',
+            'multiselect',
+            [
+                'name'   => 'stores',
+                'label'  => __('Store View'),
+                'class'  => 'required',
+                'values' => $values,
+            ]
+        );
+
         $this->setForm($form);
     }
 
@@ -47,6 +68,7 @@ class Main extends Generic implements TabInterface
     {
         $menu = $this->_coreRegistry->registry(Edit::REGISTRY_CODE);
         if ($menu) {
+            $menu->setData('stores', $menu->getStores());
             $this->getForm()->setValues($menu->getData());
         }
     }
