@@ -1,8 +1,8 @@
 define([
     'jquery',
     'snowMenuTree'
-], function ($) {
-    return function (options, element) {
+], function($) {
+    return function(options, element) {
         var treeContainer = $(element);
         treeContainer.jstree({
             "core": {

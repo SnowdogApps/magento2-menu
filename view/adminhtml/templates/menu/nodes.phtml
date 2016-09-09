@@ -1,35 +1,58 @@
 <?php /** @var $block \Snowdog\Menu\Block\Menu\Edit\Tab\Nodes */ ?>
-<fieldset class="fieldset admin__fieldset fieldset-wide" id="menu_tree_editor">
-    <div>
-        <div class="admin__field field field-title" data-mage-init='{"snowMenuEditorInit":{}}'
-             id="snowmenu_tree_container">
-            <?= $block->renderNodes() ?>
-        </div>
-        <div class="admin__field field field-title" data-mage-init='{"snowMenuEditorAdd":{}}'
-             class="node-buttons-container">
-            <?php foreach ($block->getNodeButtons() as $code => $label): ?>
-                <button id="add-<?= $code ?>" data-type="<?= $code ?>"><?= $label ?></button>
-            <?php endforeach ?>
-            <button data-remove="true"><?= __('Delete selected node') ?></button>
-        </div>
-        <div class="admin__field field field-title">
-            <label class="label admin__field-label" for="snowmenu-node-name"><?= __('Node name') ?></label>
-            <div class="admin__field-control control">
-                <input class="input-text admin__control-text" data-mage-init='{"snowMenuEditorRename":{"type":"name"}}'
-                       id="snowmenu-node-name" type="text"/>
-            </div>
-        </div>
-        <div class="admin__field field field-title">
-            <label class="label admin__field-label" for="snowmenu-node-classes"><?= __('Node CSS classes') ?></label>
-            <div class="admin__field-control control">
-                <input class="input-text admin__control-text"
-                       data-mage-init='{"snowMenuEditorRename":{"type":"classes"}}'
-                       id="snowmenu-node-classes" type="text"/>
-            </div>
-        </div>
-        <?php foreach ($block->getNodeForms() as $form): ?>
-            <?= $form->toHtml() ?>
-        <?php endforeach ?>
-        <input type="hidden" name="serialized_nodes" data-mage-init='{"snowMenuEditorSerialize":{}}'/>
+<div class="fieldset admin__fieldset fieldset-wide snowdog-tree-menu-editor" id="menu_tree_editor">
+    <div class="admin__field field field-title"
+         data-mage-init='{"snowMenuEditorInit":{}}'
+         id="snowmenu_tree_container"
+    >
+        <?= $block->renderNodes() ?>
     </div>
+
+    <div class="admin__field field field-title"
+         data-mage-init='{"snowMenuEditorAdd":{}}'
+         class="node-buttons-container"
+    >
+        <?php foreach ($block->getNodeButtons() as $code => $label): ?>
+            <button id="add-<?= $code ?>" data-type="<?= $code ?>">
+                <?= $label ?>
+            </button>
+        <?php endforeach ?>
+        <button data-remove="true">
+            <?= __('Delete selected node') ?>
+        </button>
+    </div>
+
+    <div class="admin__field field field-title">
+        <label class="label admin__field-label" for="snowmenu-node-name">
+            <?= __('Node name') ?>
+        </label>
+        <div class="admin__field-control control">
+            <input class="input-text admin__control-text"
+                   data-mage-init='{"snowMenuEditorRename":{"type":"name"}}'
+                   id="snowmenu-node-name"
+                   type="text"
+            />
+        </div>
+    </div>
+
+    <div class="admin__field field field-title">
+        <label class="label admin__field-label"for="snowmenu-node-classes">
+          <?= __('Node CSS classes') ?>
+        </label>
+        <div class="admin__field-control control">
+            <input class="input-text admin__control-text"
+                   data-mage-init='{"snowMenuEditorRename":{"type":"classes"}}'
+                   id="snowmenu-node-classes"
+                   type="text"
+             />
+        </div>
+    </div>
+
+    <?php foreach ($block->getNodeForms() as $form): ?>
+        <?= $form->toHtml() ?>
+    <?php endforeach ?>
+
+    <input type="hidden"
+           name="serialized_nodes"
+           data-mage-init='{"snowMenuEditorSerialize":{}}'
+    />
 </fieldset>

@@ -1,0 +1,32 @@
+.selected-option {
+    width: 100%;
+    clear: both;
+    padding-top: 29px;
+}
+
+.selected-option:after {
+    content: '';
+    display: block;
+    clear: both;
+}
+
+.selected-option__label {
+    float: left;
+    width: 20%;
+    color: #303030;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 3.2rem;
+    padding: 0 30px 0 0;
+    white-space: nowrap;
+    word-wrap: break-word;
+    text-align: right;
+}
+
+.selected-option__value {
+    float: left;
+    width: 60%;
+    margin: 0;
+    line-height: 3.2rem;
+    font-size: 14px;
+}

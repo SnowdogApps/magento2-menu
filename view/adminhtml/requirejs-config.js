@@ -6,13 +6,13 @@
 var config = {
     map: {
         '*': {
-            snowMenuTree: "Snowdog_Menu/js/jstree",
-            snowMenuEditorInit: "Snowdog_Menu/js/init",
-            snowMenuEditorSerialize: "Snowdog_Menu/js/serialize",
-            snowMenuEditorRename: "Snowdog_Menu/js/rename",
+            snowMenuAutoCompleteField: "Snowdog_Menu/js/auto_complete_field",
             snowMenuEditorAdd: "Snowdog_Menu/js/add",
+            snowMenuEditorInit: "Snowdog_Menu/js/init",
+            snowMenuEditorRename: "Snowdog_Menu/js/rename",
+            snowMenuEditorSerialize: "Snowdog_Menu/js/serialize",
             snowMenuSimpleField: "Snowdog_Menu/js/simple_field",
-            snowMenuAutoCompleteField: "Snowdog_Menu/js/auto_complete_field"
+            snowMenuTree: "Snowdog_Menu/js/jstree"
         }
     }
 };
