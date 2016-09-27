@@ -66,18 +66,27 @@ class Menu extends Template implements IdentityInterface
 
     protected function getCacheLifetime()
     {
-        return false;
+        return 60*60*24*365;
+    }
+
+    /**
+     * @return \Snowdog\Menu\Model\Menu
+     */
+    protected function getMenu()
+    {
+        if(!$this->menu) {
+            $storeId = $this->_storeManager->getStore()->getId();
+            $this->menu = $this->menuRepository->get($this->getData('menu'), $storeId);
+        }
+        return $this->menu;
     }
 
 
     public function getCacheKeyInfo()
     {
-        if (!$this->menu) {
-            $this->fetchData();
-        }
         return [
             \Snowdog\Menu\Model\Menu::CACHE_TAG,
-            'menu_' . $this->menu->getId(),
+            'menu_' . $this->getMenu()->getId(),
             'store_' . $this->_storeManager->getStore()->getId(),
         ];
     }
@@ -135,9 +144,7 @@ class Menu extends Template implements IdentityInterface
 
     private function fetchData()
     {
-        $storeId = $this->_storeManager->getStore()->getId();
-        $this->menu = $this->menuRepository->get($this->getData('menu'), $storeId);
-        $nodes = $this->nodeRepository->getByMenu($this->menu->getId());
+        $nodes = $this->nodeRepository->getByMenu($this->getMenu()->getId());
         $result = [];
         $types = [];
         foreach ($nodes as $node) {

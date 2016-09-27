@@ -105,6 +105,7 @@ class Category extends Template implements NodeTypeInterface
                                    ->select()
                                    ->from($table, ['entity_id', 'request_path'])
                                    ->where('entity_type = ?', 'category')
+                                   ->where('redirect_type = ?', 0)
                                    ->where('store_id = ?', $this->_storeManager->getStore()->getId())
                                    ->where('entity_id IN (' . implode(',', $categoryIds) . ')');
         $this->categoryUrls = $this->connection->getConnection('read')->fetchPairs($select);
