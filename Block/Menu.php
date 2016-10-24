@@ -88,6 +88,7 @@ class Menu extends Template implements IdentityInterface
             \Snowdog\Menu\Model\Menu::CACHE_TAG,
             'menu_' . $this->getMenu()->getId(),
             'store_' . $this->_storeManager->getStore()->getId(),
+            'template_' . $this->getTemplate()
         ];
     }
 
