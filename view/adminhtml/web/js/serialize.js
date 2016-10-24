@@ -7,6 +7,7 @@ define([
         var serializedInput = $(element),
             treeContainer   = $('#snowmenu_tree_container'),
             nodeNameInput   = $('#snowmenu-node-name'),
+            nodeClassInput  = $('#snowmenu-node-classes'),
             tree            = treeContainer.jstree(true);
 
         function serialize() {
@@ -23,6 +24,9 @@ define([
             serialize();
         });
         nodeNameInput.change(function() {
+            serialize();
+        });
+        nodeClassInput.change(function() {
             serialize();
         });
         $(document).on("dnd_stop.vakata", serialize);
