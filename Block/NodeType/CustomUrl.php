@@ -44,7 +44,7 @@ class CustomUrl extends Template implements NodeTypeInterface
 
     public function getHtml(int $nodeId, int $level)
     {
-        $classes = $level == 0 ? 'level-top"' : '';
+        $classes = $level == 0 ? 'level-top' : '';
         $node = $this->nodes[$nodeId];
         $url = $this->_storeManager->getStore()->getBaseUrl() . $node->getContent();
         $title = $node->getTitle();
