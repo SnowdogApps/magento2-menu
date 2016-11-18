@@ -1,6 +1,17 @@
 <?php /** @var \Snowdog\Menu\Block\Menu $block */ ?>
 <nav class="navigation" data-action="navigation">
-    <ul data-mage-init='{"menu":{"responsive":true, "expanded":true, "position":{"my":"left top","at":"left bottom"}}}'>
+    <ul role="menu"
+        data-mage-init='{
+            "menu": {
+                "responsive": true,
+                "expanded": false,
+                "position": {
+                    "my": "left top",
+                    "at": "left bottom"
+                }
+            }
+        }'
+    >
         <?= /* @escapeNotVerified */ $this->getMenuHtml(); ?>
     </ul>
 </nav>

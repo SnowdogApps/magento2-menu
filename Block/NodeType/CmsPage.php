@@ -97,7 +97,7 @@ class CmsPage extends Template implements NodeTypeInterface
 
     public function getHtml(int $nodeId, int $level)
     {
-        $classes = $level == 0 ? 'level-top"' : '';
+        $classes = $level == 0 ? 'level-top' : '';
         $node = $this->nodes[$nodeId];
         if(isset($this->pageIds[$node->getContent()])) {
             $pageId = $this->pageIds[$node->getContent()];

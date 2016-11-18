@@ -1,4 +1,4 @@
-# Snowdog_Menu
+# Snowdog_Menu - Version 1.1.0
 
 Module provides powerful menu editor.
 
@@ -8,7 +8,7 @@ List of menus is located in Admin Panel under `Content > Elements > Menus`.
 
 Following is example how to replace main menu with user defined menu (with identifier `main`).
 
-```
+```xml
 <referenceBlock name="catalog.topnav" remove="true"/>
 <referenceContainer name="store.menu">
   <block name="main.menu" class="Snowdog\Menu\Block\Menu" template="Snowdog_Menu::menu.phtml">
@@ -29,7 +29,7 @@ Note that only one instance of block will be rendered and You should handle show
 
 Newly created block with additional method should be added via `di.xml` defining block instance and node type code (code will be stored in database).
 
-```
+```xml
 <?xml version="1.0" encoding="UTF-8" ?>
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
     <type name="Snowdog\Menu\Model\NodeTypeProvider">

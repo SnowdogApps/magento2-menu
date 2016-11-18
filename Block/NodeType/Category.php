@@ -114,7 +114,7 @@ class Category extends Template implements NodeTypeInterface
 
     public function getHtml(int $nodeId, int $level)
     {
-        $classes = $level == 0 ? 'level-top"' : '';
+        $classes = $level == 0 ? 'level-top' : '';
         $node = $this->nodes[$nodeId];
         if (isset($this->categoryUrls[(int)$node->getContent()])) {
             $url = $this->_storeManager->getStore()->getBaseUrl() . $this->categoryUrls[(int)$node->getContent()];
