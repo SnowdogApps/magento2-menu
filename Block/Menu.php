@@ -128,6 +128,25 @@ class Menu extends Template implements IdentityInterface
         return $html;
     }
 
+    /**
+     * @param int $level
+     * @param NodeRepositoryInterface|null $parent
+     * @return array
+     */
+    public function getNodesData($level = 0, $parent = null)
+    {
+        $nodesData = [];
+        $nodes = $this->getNodes($level, $parent);
+
+        foreach ($nodes as $node) {
+            $nodeData = $node->getData();
+            $nodeData['children'] = $this->getNodesData($level + 1, $node);
+            $nodesData[] = $nodeData;
+        }
+
+        return $nodesData;
+    }
+
     private function getNodes($level, $parent)
     {
         if (empty($this->nodes)) {
