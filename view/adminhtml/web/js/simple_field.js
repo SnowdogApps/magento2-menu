@@ -1,23 +1,26 @@
 define([
     'jquery',
+    'snowMenuEditorSerialize',
     'snowMenuTree',
     'snowMenuEditorInit'
-], function($) {
+], function($, snowSerialize) {
     return function(options, element) {
-        var editorBlock   = $(element),
-            input         = editorBlock.find('input'),
+        var editorParent  = $(element).parent(),
+            editorBlock   = $(element).detach(),
+            nodeNameInput   = editorBlock.find('#snowmenu_node_name'),
+            nodeClassInput  = editorBlock.find('#snowmenu_node_classes'),
+            input         = editorBlock.find('.node-value-field input'),
             treeContainer = $('#snowmenu_tree_container'),
             tree          = treeContainer.jstree(true);
 
-        editorBlock.css('display', 'none');
-
         treeContainer.on("changed.jstree", function(e, data) {
             if (data.node.data && data.node.data.type === options.type) {
-                editorBlock.css('display', 'block');
+                editorParent.append(editorBlock);
                 input.val(data.node.data.content);
+                nodeNameInput.val(data.instance.get_text(data.selected));
             }
             else {
-                editorBlock.css('display', 'none');
+                editorBlock.detach();
                 input.val(null);
             }
         });
@@ -29,6 +32,14 @@ define([
             selected.data.content = $(this).val();
             tree.deselect_node(node);
             tree.select_node(node);
+        });
+
+        nodeNameInput.change(function() {
+            snowSerialize();
+        });
+
+        nodeClassInput.change(function() {
+            snowSerialize();
         });
     }
 });

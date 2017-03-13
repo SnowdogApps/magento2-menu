@@ -3,8 +3,15 @@
 namespace Snowdog\Menu\Api;
 
 
-interface NodeTypeInterface
+use Magento\Framework\View\Element\BlockInterface;
+
+interface NodeTypeInterface extends BlockInterface
 {
+    /**
+     * @return string
+     */
+    public function getJsonConfig();
+
     /**
      * Fetch additional data required for rendering nodes.
      *
@@ -27,14 +34,7 @@ interface NodeTypeInterface
     /**
      * Returns label od "add node" button in edit form
      *
-     * @return string
+     * @return string|\Magento\Framework\Phrase
      */
     public function getAddButtonLabel();
-
-    /**
-     * Renders node content edition form in editor
-     *
-     * @return string
-     */
-    public function toHtml();
 }

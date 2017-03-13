@@ -3,14 +3,12 @@ define([
     'snowMenuTree',
     'snowMenuEditorInit'
 ], function($) {
-    return function(options, element) {
-        var serializedInput = $(element),
-            treeContainer   = $('#snowmenu_tree_container'),
-            nodeNameInput   = $('#snowmenu-node-name'),
-            nodeClassInput  = $('#snowmenu-node-classes'),
-            tree            = treeContainer.jstree(true);
+    return function() {
+        var treeContainer   = $('#snowmenu_tree_container'),
+            tree            = treeContainer.jstree(true),
+            serializedInput = $('#serialized_nodes');
 
-        function serialize() {
+        if(serializedInput !== 'undefinied' && tree !== false){
             var data = tree.get_json(null, {
                 flat: true,
                 no_a_attr: true,
@@ -20,15 +18,5 @@ define([
             data = JSON.stringify(data);
             serializedInput.val(data);
         }
-        treeContainer.on("changed.jstree", function() {
-            serialize();
-        });
-        nodeNameInput.change(function() {
-            serialize();
-        });
-        nodeClassInput.change(function() {
-            serialize();
-        });
-        $(document).on("dnd_stop.vakata", serialize);
     }
 });
