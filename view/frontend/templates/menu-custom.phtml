@@ -1,0 +1,106 @@
+<?php /** @var \Snowdog\Menu\Block\Menu $block */ ?>
+<div class="menu__mobile">
+    <svg title="icon-arrow-down" class="menu__mobile-icon">
+        <use xlink:href="<?= $block->getViewFileUrl('images/icon-sprite.svg#icon-mobile-menu'); ?>"></use>
+    </svg>
+</div>
+<nav class="menu">
+    <ul class="menu__list"
+        data-mage-init='{ "navigationMenu": {} }'
+    >
+    <!-- <?php //echo $this->getMenuHtml(); ?> -->
+        <?php $nodesData = $this->getNodesData();?>
+        <?php foreach ($nodesData as $_item) : ?>
+            <?php if($_item['is_active']) : ?>
+                <?php
+                if (!empty($_item['children'])):
+                    $_children = true;
+                else:
+                    $_children = false;
+                endif;
+                if ($_item['type'] == 'category'):
+                    $_itemUrl = 'category-' . $_item['content'];
+                elseif ($_item['type'] == 'cms_block'):
+                    $_itemUrl = false;
+                else :
+                    $_itemUrl = $_item['content'];
+                endif;
+                ?>
+
+                <li class="menu__item <?php if($_children) : echo 'menu__item--parent'; endif; ?> <?= $_item['classes']; ?>">
+                    <?php if ($_itemUrl) : ?>
+                        <a href="<?= $_itemUrl ?>" class="menu__link">
+                            <?= $_item['title']; ?>
+                        </a>
+                    <?php else : ?>
+                        <div class="menu__link">
+                            <?= $block->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId($_item['content'])->toHtml(); ?>
+                        </div>
+                    <?php endif; ?>
+                    <?php if ($_children) : ?>
+                        <ul class="menu__inner-list menu__inner-list--level1">
+                            <?php foreach ($_item['children'] as $_childItem) : ?>
+                                <?php if($_childItem['is_active']) : ?>
+                                    <?php
+                                        if (!empty($_childItem['children'])):
+                                            $_subChildren = true;
+                                        else:
+                                            $_subChildren = false;
+                                        endif;
+                                        if ($_childItem['type'] == 'category'):
+                                            $_subItemUrl = 'category-' . $_childItem['content'];
+                                        elseif ($_childItem['type'] == 'cms_block'):
+                                            $_subItemUrl = false;
+                                        else :
+                                            $_subItemUrl = $_childItem['content'];
+                                        endif;
+                                    ?>
+                                    <li class="menu__inner-item
+                                               menu__inner-item--level<?= $_childItem['level']; ?>
+                                               <?php if ($_subChildren) : echo 'menu__inner-item--parent'; endif; ?>
+                                               <?= $_childItem['classes']; ?>"
+                                    >
+                                        <?php if ($_subItemUrl) : ?>
+                                            <a href="<?= $_subItemUrl ?>" class="menu__inner-link">
+                                                <?= $_childItem['title']; ?>
+                                            </a>
+                                        <?php else : ?>
+                                            <?= $block->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId($_childItem['content'])->toHtml(); ?>
+                                        <?php endif; ?>
+                                        <?php if ($_subChildren) : ?>
+                                            <ul class="menu__ineer-list menu__inner-list--level2">
+                                                <?php foreach($_childItem['children'] as $_childItem2) : ?>
+                                                    <?php if($_childItem2['is_active']) : ?>
+                                                        <?php
+                                                            if ($_childItem2['type'] == 'category'):
+                                                                $_subItemUrl = 'category-' . $_childItem2['content'];
+                                                            elseif ($_item['type'] == 'cms_block'):
+                                                                $_subItemUrl = false;
+                                                            else :
+                                                                $_subItemUrl = $_childItem2['content'];
+                                                            endif;
+                                                        ?>
+                                                        <li class="menu__inner-item menu__inner-item--level2 <?= $_childItem2['classes']; ?>">
+                                                            <?php if ($_subItemUrl) : ?>
+                                                                <a href="<?= $_subItemUrl ?>" class="menu__inner-link">
+                                                                    <?= $_childItem2['title']; ?>
+                                                                </a>
+                                                            <?php else : ?>
+                                                                <?= $block->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId($_childItem2['content'])->toHtml(); ?>
+                                                            <?php endif; ?>
+                                                        </li>
+                                                    <?php endif; ?>
+                                                <?php endforeach; ?>
+                                            </ul>
+                                        <?php endif; ?>
+                                    </li>
+                                <?php endif; ?>
+                            <?php endforeach; ?>
+                        </ul>
+                    <?php endif; ?>
+                </li>
+            <?php endif; ?>
+        <?php endforeach ?>
+    </ul>
+    <div class="menu__mobile-bg"></div>
+</nav>
