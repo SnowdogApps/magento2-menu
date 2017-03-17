@@ -39,7 +39,7 @@ abstract class AbstractNode extends Template implements NodeTypeInterface
     {
         parent::__construct($context, $data);
 
-        $this->addNodeAttribute(self::NAME_CODE, 'Node name', 'text');
+        $this->addNodeAttribute(self::NAME_CODE, 'Node name', 'wysiwyg');
         $this->addNodeAttribute(self::CLASSES_CODE, 'Node CSS classes', 'text');
     }
 
@@ -100,9 +100,10 @@ abstract class AbstractNode extends Template implements NodeTypeInterface
     public function addNodeAttribute($key, $label, $type)
     {
         $data = [
-            'id' => $key,
+            'id' => $key . '_' . $this->nodeType,
             'label' => $label,
-            'type' => $type
+            'type' => $type,
+            'code' => $key
         ];
         $this->nodeAttributes[$key] = new DataObject($data);
     }

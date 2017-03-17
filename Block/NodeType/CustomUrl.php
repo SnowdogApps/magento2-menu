@@ -15,7 +15,7 @@ class CustomUrl extends AbstractNode
     /**
      * @var string
      */
-    protected $nodeType = 'custom-url';
+    protected $nodeType = 'custom_url';
     /**
      * @var array
      */

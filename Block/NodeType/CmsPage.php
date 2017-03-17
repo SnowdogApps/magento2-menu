@@ -15,7 +15,7 @@ class CmsPage extends AbstractNode
     /**
      * @var string
      */
-    protected $nodeType = 'cms-page';
+    protected $nodeType = 'cms_page';
     /**
      * @var array
      */

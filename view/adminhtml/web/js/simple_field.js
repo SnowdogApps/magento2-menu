@@ -7,21 +7,35 @@ define([
     return function(options, element) {
         var editorParent  = $(element).parent(),
             editorBlock   = $(element).detach(),
-            nodeNameInput   = editorBlock.find('#snowmenu_node_name'),
+            nodeType      = editorBlock.attr('data-node-type'),
+            nodeNameInput   = editorBlock.find('#snowmenu_node_name_' + nodeType),
             nodeClassInput  = editorBlock.find('#snowmenu_node_classes'),
             input         = editorBlock.find('.node-value-field input'),
             treeContainer = $('#snowmenu_tree_container'),
             tree          = treeContainer.jstree(true);
 
         treeContainer.on("changed.jstree", function(e, data) {
+            var editor = tinyMceEditors.get(nodeNameInput.attr('id'));
+            if(editor) {
+                editor.turnOff();
+            }
+
             if (data.node.data && data.node.data.type === options.type) {
-                editorParent.append(editorBlock);
+                var value = data.node.data.content,
+                    currentEditorNode = input.attr('current-node-id');
+
+                if(!currentEditorNode || data.node.id != currentEditorNode) {
+                    input.attr('current-node-id', data.node.id);
+                    editorParent.append(editorBlock);
+                    nodeNameInput.val(data.instance.get_text(data.selected));
+                }
+
                 input.val(data.node.data.content);
-                nodeNameInput.val(data.instance.get_text(data.selected));
             }
             else {
                 editorBlock.detach();
-                input.val(null);
+                input.val('');
+                input.attr('current-node-id', '');
             }
         });
 

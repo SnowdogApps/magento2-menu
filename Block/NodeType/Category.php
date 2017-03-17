@@ -42,13 +42,6 @@ class Category extends AbstractNode
     ) {
         parent::__construct($context, $data);
         $this->_categoryModel = $categoryModel;
-
-        $nameNode = $this->getNodeAttribute(AbstractNode::NAME_CODE);
-        $this->addNodeAttribute(
-            AbstractNode::NAME_CODE,
-            $nameNode->getLabel(),
-            'wysiwyg'
-        );
     }
 
     /**

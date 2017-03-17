@@ -25,7 +25,8 @@
     <?php /** @var \Snowdog\Menu\Block\NodeType\AbstractNode $form */ ?>
     <?php foreach ($block->getNodeForms() as $form): ?>
     <fieldset class="fieldset fieldset-<?= $form->getNodeType(); ?> admin__fieldset fieldset-wide"
-              data-mage-init='<?= str_replace('\'', '', $form->getJsonConfig()); ?>'>
+              data-mage-init='<?= str_replace('\'', '', $form->getJsonConfig()); ?>'
+              data-node-type="<?= $form->getNodeType(); ?>">
         <?php foreach ($form->getNodeAttributes() as $formAttribute): ?>
             <div class="admin__field field field-title">
                 <label class="label admin__field-label" for="snowmenu_<?= $formAttribute->getId(); ?>">
@@ -34,7 +35,7 @@
                 <div class="admin__field-control control">
                 <?php if ($formAttribute->getType() != 'wysiwyg'): ?>
                     <input class="input-text admin__control-text"
-                           data-mage-init='{"snowMenuEditorRename":{"type":"<?= $formAttribute->getId(); ?>"}}'
+                           data-mage-init='{"snowMenuEditorRename":{"type":"<?= $formAttribute->getCode(); ?>"}}'
                            id="snowmenu_<?= $formAttribute->getId(); ?>"
                            type="<?= $formAttribute->getType(); ?>"
                     />
@@ -42,7 +43,7 @@
                 <?php
                     $wysiwyg = $block->getEditor('snowmenu_' . $formAttribute->getId(), $formAttribute->getId());
                     $wysiwyg->setDataMageInit(
-                        "{\"snowMenuEditorRename\":{\"type\":\"" . $formAttribute->getId() . "\"}}"
+                        "{\"snowMenuEditorRename\":{\"type\":\"" . $formAttribute->getCode() . "\"}}"
                     );
                     echo $wysiwyg->getElementHtml();
                 ?>
