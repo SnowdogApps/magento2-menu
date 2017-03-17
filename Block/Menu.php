@@ -147,6 +147,15 @@ class Menu extends Template implements IdentityInterface
         return $nodesData;
     }
 
+    /**
+     * @param string $nodeType
+     * @return \Snowdog\Menu\Api\NodeTypeInterface
+     */
+    public function getNodeTypeProvider($nodeType)
+    {
+        return $this->nodeTypeProvider->getProvider($nodeType);
+    }
+
     private function getNodes($level, $parent)
     {
         if (empty($this->nodes)) {
