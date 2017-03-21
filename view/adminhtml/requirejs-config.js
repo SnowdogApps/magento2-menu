@@ -12,7 +12,8 @@ var config = {
             snowMenuEditorRename: "Snowdog_Menu/js/rename",
             snowMenuEditorSerialize: "Snowdog_Menu/js/serialize",
             snowMenuSimpleField: "Snowdog_Menu/js/simple_field",
-            snowMenuTree: "Snowdog_Menu/js/jstree"
+            snowMenuTree: "Snowdog_Menu/js/jstree",
+            snowWysiwygSetup: "Snowdog_Menu/js/wysiwyg/setup"
         }
     }
 };
