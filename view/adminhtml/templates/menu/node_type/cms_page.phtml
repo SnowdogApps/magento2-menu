@@ -1,7 +1,7 @@
 <?php /** @var $block \Snowdog\Menu\Block\NodeType\CmsPage */ ?>
-<div class="admin__field field field-title" data-mage-init='<?= str_replace('\'', '', $block->getJsonConfig()) ?>'>
-    <label class="label admin__field-label" for="cms_page_identifier">Page Name</label>
-    <div class="admin__field-control control">
+<div class="admin__field field field-title">
+    <label class="label admin__field-label" for="cms_page_identifier"><?= __('Page Name'); ?></label>
+    <div class="admin__field-control control node-value-field">
         <input class="input-text admin__control-text" id="cms_page_identifier" type="text"/>
     </div>
     <span class="label"></span>

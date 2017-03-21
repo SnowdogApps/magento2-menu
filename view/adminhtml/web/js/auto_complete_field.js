@@ -1,20 +1,24 @@
 define([
     'jquery',
     'underscore',
+    'snowMenuEditorSerialize',
     'snowMenuTree',
-    'snowMenuEditorInit'
-], function($, _) {
+    'snowMenuEditorInit',
+    'snowWysiwygSetup'
+], function($, _, snowSerialize) {
     return function(options, element) {
-        var editorBlock           = $(element),
-            input                 = editorBlock.find('input'),
+        var editorParent          = $(element).parent(),
+            editorBlock           = $(element).detach(),
+            nodeType              = editorBlock.attr('data-node-type'),
+            input                 = editorBlock.find('.node-value-field input'),
             label                 = editorBlock.find('.selected-option__value'),
+            nodeNameInput         = editorBlock.find('#snowmenu_node_name_' + nodeType),
+            nodeClassInput        = editorBlock.find('#snowmenu_node_classes'),
             configuration         = options.options,
             configurationKeys     = Object.keys(options.options),
             invertedConfiguration = _.invert(configuration),
             treeContainer         = $('#snowmenu_tree_container'),
             tree                  = treeContainer.jstree(true);
-
-        editorBlock.css('display', 'none');
 
         input.autocomplete({
             source: configurationKeys,
@@ -41,10 +45,21 @@ define([
         });
 
         treeContainer.on("changed.jstree", function(e, data) {
-            if (data.node.data && data.node.data.type === options.type) {
-                var value = data.node.data.content;
+            var editor = tinyMceEditors.get(nodeNameInput.attr('id'));
+            if(editor) {
+                editor.turnOff();
+            }
 
-                editorBlock.css('display', 'block');
+            if (data.node.data && data.node.data.type === options.type) {
+                var value = data.node.data.content,
+                    currentEditorNode = input.attr('current-node-id');
+
+                if(!currentEditorNode || data.node.id != currentEditorNode) {
+                    input.attr('current-node-id', data.node.id);
+                    editorParent.append(editorBlock);
+                    nodeNameInput.val(data.instance.get_text(data.selected));
+                }
+
                 input.val(invertedConfiguration[value]);
 
                 if (configuration[invertedConfiguration[value]]) {
@@ -57,11 +72,20 @@ define([
                 }
             }
             else {
-                editorBlock.css('display', 'none');
+                editorBlock.detach();
                 input.val('');
+                input.attr('current-node-id', '');
                 label.html('');
                 label.removeClass('admin__field-error');
             }
+        });
+
+        nodeNameInput.change(function() {
+            snowSerialize();
+        });
+
+        nodeClassInput.change(function() {
+            snowSerialize();
         });
     }
 });

@@ -1,7 +1,8 @@
 define([
     'jquery',
+    'snowMenuEditorSerialize',
     'snowMenuTree'
-], function($) {
+], function($, snowSerialize) {
     return function(options, element) {
         var treeContainer = $(element);
         treeContainer.jstree({
@@ -14,5 +15,8 @@ define([
             },
             "plugins": ["dnd"]
         });
+
+        treeContainer.on("changed.jstree", snowSerialize);
+        $(document).on("dnd_stop.vakata", snowSerialize);
     }
 });
