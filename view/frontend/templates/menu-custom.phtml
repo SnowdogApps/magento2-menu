@@ -19,7 +19,7 @@
                     $_children = false;
                 endif;
                 if ($_item['type'] == 'category'):
-                    $_itemUrl = 'category-' . $_item['content'];
+                    $_itemUrl = $this->getNodeTypeProvider($_item['type'])->getCategoryUrl($_item['node_id']);
                 elseif ($_item['type'] == 'cms_block'):
                     $_itemUrl = false;
                 else :
@@ -48,7 +48,7 @@
                                             $_subChildren = false;
                                         endif;
                                         if ($_childItem['type'] == 'category'):
-                                            $_subItemUrl = 'category-' . $_childItem['content'];
+                                            $_subItemUrl = $this->getNodeTypeProvider($_childItem['type'])->getCategoryUrl($_childItem['node_id']);
                                         elseif ($_childItem['type'] == 'cms_block'):
                                             $_subItemUrl = false;
                                         else :
@@ -73,7 +73,7 @@
                                                     <?php if($_childItem2['is_active']) : ?>
                                                         <?php
                                                             if ($_childItem2['type'] == 'category'):
-                                                                $_subItemUrl = 'category-' . $_childItem2['content'];
+                                                                $_subItemUrl = $this->getNodeTypeProvider($_childItem2['type'])->getCategoryUrl($_childItem2['node_id']);
                                                             elseif ($_item['type'] == 'cms_block'):
                                                                 $_subItemUrl = false;
                                                             else :
