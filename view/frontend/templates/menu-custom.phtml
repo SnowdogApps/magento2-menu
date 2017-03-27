@@ -56,7 +56,7 @@
                     }
 
                     if ($item['children']) {
-                        $html .= renderSnowdogMenuSubList($item['children'], $listLevel + 1);
+                        $html .= renderSnowdogMenuSubList($block, $item['children'], $listLevel + 1);
                     }
 
                     $html .= '</li>';
