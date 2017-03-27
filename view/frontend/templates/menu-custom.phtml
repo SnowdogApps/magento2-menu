@@ -9,76 +9,97 @@
         data-mage-init='{ "navigationMenu": {} }'
     >
         <?php
-            function renderSubList($_sublist, $_listLevel) {
-                echo '<ul class="menu__inner-list menu__inner-list--level' . ($_listLevel + 1) . '">';
-                foreach ($_sublist as $_subItem) {
-                    $_children = false;
-                    $_itemUrl = false;
-                    if (!empty($_subItem['children'])) {
-                        $_children = true;
+            /**
+             * Render child menus
+             *
+             * @param \Snowdog\Menu\Block\Menu $block
+             * @param array $subList
+             * @param int $listLevel
+             * @return string
+             */
+            function renderSnowdogMenuSubList(\Snowdog\Menu\Block\Menu $block, array $subList, int $listLevel)
+            {
+                $wrapperLevelClass = 'menu__inner-list--level' . $listLevel;
+                $wrapperClass = 'menu__inner-list ' . $wrapperLevelClass;
+                $itemLevelClass = 'menu__inner-item--level' . $listLevel;
+                $parentItemClass = 'menu__inner-item--parent';
+                $itemBaseClass = 'menu__inner-item ' . $itemLevelClass;
+                $itemLinkClass = 'menu__inner-link';
+
+                $html = '<ul class="' . $wrapperClass . '">';
+
+                foreach ($subList as $item) {
+                    $node = $item['node'];
+                    $itemClass = $itemBaseClass . ' ' . $node->getClasses();
+
+                    if ($item['children']) {
+                        $itemClass .= ' ' . $parentItemClass;
                     }
 
-                    if ($_subItem['type'] == 'category') {
-                        // here I should use function for render category url buti it's not working in this scope
-                        $_itemUrl = 'category' . $_subItem['content'];
-                    }
-                    elseif ($_subItem['type'] == 'cms_block') {
-                        $_itemUrl = false;
-                    }
-                    else {
-                        $_itemUrl = $_subItem['content'];
-                    }
-                    echo '<li class="menu__inner-item menu__inner-item--level' . $_subItem['level'] . (($_children) ? ' menu__inner-item--parent ': '') . $_subItem['classes'] . '">';
+                    $html .= '<li class="' . $itemClass . '">';
 
-                    if ($_itemUrl) {
-                        echo '<a href="' . $_itemUrl . '" class="menu__inner-link">' . $_subItem['title'] . '</a>';
+                    switch ($node->getType()) {
+                        case 'category':
+                            $categoryUrl = $block->getNodeTypeProvider($node->getType())
+                                ->getCategoryUrl($node->getNodeId());
+
+                            $html .= '<a href="' . $categoryUrl
+                                   . '" class="' . $itemLinkClass
+                                   . '">' . $node->getTitle() . '</a>';
+                            break;
+                        case 'cms_block':
+                            $html .= $block->getNodeTypeProvider($node->getType())
+                                ->getHtml($node->getNodeId(), $listLevel);
+                            break;
+                        default:
+                            $html .= $node->getContent();
                     }
-                    else {
-                        // here I should render cms block from its id but it's not wokring in this scope
-                        echo 'render cms block with blockId in $_item["content"]';
+
+                    if ($item['children']) {
+                        $html .= renderSnowdogMenuSubList($item['children'], $listLevel + 1);
                     }
-                    if ($_children) {
-                        renderSublist($_subItem['children'], $_subItem['level']);
-                    }
-                    echo '</li>';
+
+                    $html .= '</li>';
                 }
-                echo '</ul>';
-        }
+
+                $html .= '</ul>';
+
+                return $html;
+            }
         ?>
 
-        <?php $nodesData = $this->getNodesData();?>
-        <?php foreach ($nodesData as $_item) : ?>
+        <?php foreach ($this->getNodesTree() as $item): ?>
             <?php
-                $_children = false;
-                $_itemUrl = false;
-                if (!empty($_item['children'])) {
-                    $_children = true;
-                }
+                $node = $item['node'];
+                $itemParentClass = $item['children'] ? 'menu__item--parent' : '';
+                $itemLinkUrl = '';
 
-                if ($_item['type'] == 'category') {
-                    $_itemUrl = $this->getNodeTypeProvider($_item['type'])->getCategoryUrl($_item['node_id']);
+                switch ($node->getType()) {
+                    case 'category':
+                        $itemLinkUrl = $this->getNodeTypeProvider($node->getType())
+                            ->getCategoryUrl($node->getNodeId());
+                        break;
+                    case 'custom_url':
+                        $itemLinkUrl = $node->getContent();
+                        break;
                 }
-                elseif ($_item['type'] == 'cms_block') {
-                    $_itemUrl = false;
-                }
-                else {
-                    $_itemUrl = $_item['content'];
-                }
-
             ?>
-            <li class="menu__item <?php if($_children) { echo 'menu__item--parent'; } ?> <?= $_item['classes']; ?>">
-                <?php if ($_itemUrl) : ?>
-                    <a href="<?= $_itemUrl ?>" class="menu__link">
-                        <?= $_item['title']; ?>
+
+            <li class="menu__item <?= $itemParentClass ?> <?= $node->getClasses() ?>">
+                <?php if ($itemLinkUrl): ?>
+                    <a href="<?= $itemLinkUrl ?>" class="menu__link">
+                        <?= $node->getTitle() ?>
                     </a>
-                <?php else : ?>
+                <?php elseif ($node->getType() == 'cms_block'): ?>
                     <div class="menu__link">
-                        <?= $block->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId($_item['content'])->toHtml(); ?>
+                        <?= $this->getNodeTypeProvider($node->getType())->getHtml($node->getNodeId(), $listLevel) ?>
                     </div>
-                <?php endif; ?>
+                <?php else: ?>
+                    <?= $node->getContent() ?>
+                <?php endif ?>
                 <?php
-                    if ($_children) {
-                        renderSubList($_item['children'], $_item['level']);
+                    if ($item['children']) {
+                        echo renderSnowdogMenuSubList($block, $item['children'], $node->getLevel() + 1);
                     }
                 ?>
             </li>
