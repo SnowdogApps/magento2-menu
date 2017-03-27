@@ -114,25 +114,26 @@ class Category extends Template implements NodeTypeInterface
 
     /**
      * @param int $nodeId
+     * @param int|null $storeId
      * @return string
      */
-    public function getCategoryUrl(int $nodeId)
+    public function getCategoryUrl(int $nodeId, $storeId = null)
     {
         $node = $this->nodes[$nodeId];
         if (isset($this->categoryUrls[(int) $node->getContent()])) {
-            $url = $this->_storeManager->getStore()->getBaseUrl() . $this->categoryUrls[(int) $node->getContent()];
+            $url = $this->_storeManager->getStore($storeId)->getBaseUrl() . $this->categoryUrls[(int) $node->getContent()];
         } else {
-            $url = $this->_storeManager->getStore()->getBaseUrl();
+            $url = $this->_storeManager->getStore($storeId)->getBaseUrl();
         }
 
         return $url;
     }
 
-    public function getHtml(int $nodeId, int $level)
+    public function getHtml(int $nodeId, int $level, $storeId = null)
     {
         $classes = $level == 0 ? 'level-top' : '';
         $node = $this->nodes[$nodeId];
-        $url = $this->getCategoryUrl($nodeId);
+        $url = $this->getCategoryUrl($nodeId, $storeId);
         $title = $node->getTitle();
         return <<<HTML
 <a href="$url" class="$classes" role="menuitem"><span>$title</span></a>
