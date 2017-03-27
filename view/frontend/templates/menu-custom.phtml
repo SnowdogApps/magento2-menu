@@ -17,7 +17,7 @@
              * @param int $listLevel
              * @return string
              */
-            function renderSnowdogMenuSubList(\Snowdog\Menu\Block\Menu $block, array $subList, int $listLevel)
+            function renderSnowdogMenuSubList(\Snowdog\Menu\Block\Menu $block, array $subList, int $listLevel, $itemId)
             {
                 $wrapperLevelClass = 'menu__inner-list--level' . $listLevel;
                 $wrapperClass = 'menu__inner-list ' . $wrapperLevelClass;
@@ -25,12 +25,14 @@
                 $parentItemClass = 'menu__inner-item--parent';
                 $itemBaseClass = 'menu__inner-item ' . $itemLevelClass;
                 $itemLinkClass = 'menu__inner-link';
+                $itemParentId = $itemId;
 
-                $html = '<ul class="' . $wrapperClass . '">';
+                $html = '<ul class="' . $wrapperClass . '"' . $itemParentId . '>';
 
                 foreach ($subList as $item) {
                     $node = $item['node'];
                     $itemClass = $itemBaseClass . ' ' . $node->getClasses();
+                    $itemId = $item['children'] ? 'data-menu="menu-' . $node->getId() . '"' : '';
 
                     if ($item['children']) {
                         $itemClass .= ' ' . $parentItemClass;
@@ -45,18 +47,20 @@
 
                             $html .= '<a href="' . $categoryUrl
                                    . '" class="' . $itemLinkClass
-                                   . '">' . $node->getTitle() . '</a>';
+                                   . '"' . $itemId . '>' . $node->getTitle() . '</a>';
                             break;
                         case 'cms_block':
                             $html .= $block->getNodeTypeProvider($node->getType())
                                 ->getHtml($node->getNodeId(), $listLevel);
                             break;
                         default:
-                            $html .= $node->getContent();
+                            $html .= '<a href="' . $node->getContent()
+                                   . '" class="' . $itemLinkClass
+                                   . '"' . $itemId . '>' . $node->getTitle() . '</a>';
                     }
 
                     if ($item['children']) {
-                        $html .= renderSnowdogMenuSubList($block, $item['children'], $listLevel + 1);
+                        $html .= renderSnowdogMenuSubList($block, $item['children'], $listLevel + 1, $itemId);
                     }
 
                     $html .= '</li>';
@@ -70,8 +74,10 @@
 
         <?php foreach ($this->getNodesTree() as $item): ?>
             <?php
+
                 $node = $item['node'];
                 $itemParentClass = $item['children'] ? 'menu__item--parent' : '';
+                $itemId = $item['children'] ? 'data-menu="menu-' . $node->getId() . '"' : '';
                 $itemLinkUrl = '';
 
                 switch ($node->getType()) {
@@ -87,19 +93,21 @@
 
             <li class="menu__item <?= $itemParentClass ?> <?= $node->getClasses() ?>">
                 <?php if ($itemLinkUrl): ?>
-                    <a href="<?= $itemLinkUrl ?>" class="menu__link">
+                    <a href="<?= $itemLinkUrl ?>" class="menu__link" <?= $itemId ?>>
                         <?= $node->getTitle() ?>
                     </a>
                 <?php elseif ($node->getType() == 'cms_block'): ?>
-                    <div class="menu__link">
+                    <div class="menu__link" <?= $itemId ?>>
                         <?= $this->getNodeTypeProvider($node->getType())->getHtml($node->getNodeId(), $listLevel) ?>
                     </div>
                 <?php else: ?>
-                    <?= $node->getContent() ?>
+                    <a href="<?= $node->getContent() ?>" class="menu__link" <?= $itemId ?>>
+                        <?= $node->getTitle() ?>
+                    </a>
                 <?php endif ?>
                 <?php
                     if ($item['children']) {
-                        echo renderSnowdogMenuSubList($block, $item['children'], $node->getLevel() + 1);
+                        echo renderSnowdogMenuSubList($block, $item['children'], $node->getLevel() + 1, $itemId);
                     }
                 ?>
             </li>
