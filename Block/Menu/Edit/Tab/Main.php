@@ -42,6 +42,16 @@ class Main extends Generic implements TabInterface
             ]
         );
 
+        $fieldSet->addField(
+            'css_class',
+            'text',
+            [
+                'name'  => 'css_class',
+                'label' => __('Menu Main CSS Class'),
+                'class' => 'required',
+            ]
+        );
+
         $values = [];
         foreach ($this->_storeManager->getStores(false) as $storeId => $store) {
             $values[] = [

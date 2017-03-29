@@ -80,6 +80,7 @@ class Save extends Action
         }
         $menu->setTitle($this->getRequest()->getParam('title'));
         $menu->setIdentifier($this->getRequest()->getParam('identifier'));
+        $menu->setCssClass($this->getRequest()->getParam('css_class'));
         $menu->setIsActive(1);
         $menu = $this->menuRepository->save($menu);
 
