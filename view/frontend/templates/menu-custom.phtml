@@ -14,53 +14,59 @@
              *
              * @param \Snowdog\Menu\Block\Menu $block
              * @param array $subList
+             * @param int $parentNodeId
              * @param int $listLevel
              * @return string
              */
-            function renderSnowdogMenuSubList(\Snowdog\Menu\Block\Menu $block, array $subList, int $listLevel, $itemId)
-            {
-                $wrapperLevelClass = 'menu__inner-list--level' . $listLevel;
-                $wrapperClass = 'menu__inner-list ' . $wrapperLevelClass;
-                $itemLevelClass = 'menu__inner-item--level' . $listLevel;
-                $parentItemClass = 'menu__inner-item--parent';
-                $itemBaseClass = 'menu__inner-item ' . $itemLevelClass;
-                $itemLinkClass = 'menu__inner-link';
-                $itemParentId = $itemId;
+            function renderSnowdogMenuSubList(
+                \Snowdog\Menu\Block\Menu $block,
+                array $subList,
+                int $parentNodeId,
+                int $listLevel
+            ) {
+                $menuClass = $block->getMenu()->getCssClass();
+                $wrapperLevelClass = $menuClass . '__inner-list--level' . $listLevel;
+                $wrapperClass = $menuClass . '__inner-list ' . $wrapperLevelClass;
+                $itemLevelClass = $menuClass . '__inner-item--level' . $listLevel;
+                $parentItemClass = $menuClass . '__inner-item--parent';
+                $itemBaseClass = $menuClass . '__inner-item ' . $itemLevelClass;
+                $itemLinkClass = $menuClass . '__inner-link';
+                $parentItemId = ' data-menu="menu-' . $parentNodeId . '"';
 
-                $html = '<ul class="' . $wrapperClass . '"' . $itemParentId . '>';
+                $html = '<ul class="' . $wrapperClass . '"' . $parentItemId . '>';
 
                 foreach ($subList as $item) {
                     $node = $item['node'];
+                    $nodeId = $node->getNodeId();
                     $itemClass = $itemBaseClass . ' ' . $node->getClasses();
-                    $itemId = $item['children'] ? 'data-menu="menu-' . $node->getId() . '"' : '';
+                    $itemId = '';
+                    $itemLinkUrl = '';
 
                     if ($item['children']) {
                         $itemClass .= ' ' . $parentItemClass;
+                        $itemId = ' data-menu="menu-' . $nodeId . '"';
                     }
 
                     $html .= '<li class="' . $itemClass . '">';
 
-                    switch ($node->getType()) {
-                        case 'category':
-                            $categoryUrl = $block->getNodeTypeProvider($node->getType())
-                                ->getCategoryUrl($node->getNodeId());
+                    if ($node->getType() == 'category') {
+                        $itemLinkUrl = $block->getNodeTypeProvider($node->getType())
+                            ->getCategoryUrl($nodeId);
+                    } elseif ($node->getType() == 'cms_page' || $node->getType() == 'custom_url') {
+                        $itemLinkUrl = $node->getContent();
+                    }
 
-                            $html .= '<a href="' . $categoryUrl
-                                   . '" class="' . $itemLinkClass
-                                   . '"' . $itemId . '>' . $node->getTitle() . '</a>';
-                            break;
-                        case 'cms_block':
-                            $html .= $block->getNodeTypeProvider($node->getType())
-                                ->getHtml($node->getNodeId(), $listLevel);
-                            break;
-                        default:
-                            $html .= '<a href="' . $node->getContent()
-                                   . '" class="' . $itemLinkClass
-                                   . '"' . $itemId . '>' . $node->getTitle() . '</a>';
+                    if ($itemLinkUrl) {
+                        $html .= '<a href="' . $itemLinkUrl
+                               . '" class="' . $itemLinkClass
+                               . '"' . $itemId . '>' . $node->getTitle() . '</a>';
+                    } elseif ($node->getType() == 'cms_block') {
+                        $html .= $block->getNodeTypeProvider($node->getType())
+                            ->getHtml($nodeId, $listLevel);
                     }
 
                     if ($item['children']) {
-                        $html .= renderSnowdogMenuSubList($block, $item['children'], $listLevel + 1, $itemId);
+                        $html .= renderSnowdogMenuSubList($block, $item['children'], $nodeId, $listLevel + 1);
                     }
 
                     $html .= '</li>';
@@ -74,40 +80,39 @@
 
         <?php foreach ($this->getNodesTree() as $item): ?>
             <?php
-
+                $menuClass = $block->getMenu()->getCssClass();
                 $node = $item['node'];
-                $itemParentClass = $item['children'] ? 'menu__item--parent' : '';
-                $itemId = $item['children'] ? 'data-menu="menu-' . $node->getId() . '"' : '';
+                $nodeId = $node->getNodeId();
+                $itemParentClass = '';
+                $itemId = '';
                 $itemLinkUrl = '';
 
-                switch ($node->getType()) {
-                    case 'category':
-                        $itemLinkUrl = $this->getNodeTypeProvider($node->getType())
-                            ->getCategoryUrl($node->getNodeId());
-                        break;
-                    case 'custom_url':
-                        $itemLinkUrl = $node->getContent();
-                        break;
+                if ($item['children']) {
+                    $itemParentClass = $menuClass . '__item--parent';
+                    $itemId = ' data-menu="menu-' . $nodeId . '"';
+                }
+
+                if ($node->getType() == 'category') {
+                    $itemLinkUrl = $block->getNodeTypeProvider($node->getType())
+                        ->getCategoryUrl($nodeId);
+                } elseif ($node->getType() == 'cms_page' || $node->getType() == 'custom_url') {
+                    $itemLinkUrl = $node->getContent();
                 }
             ?>
 
-            <li class="menu__item <?= $itemParentClass ?> <?= $node->getClasses() ?>">
+            <li class="<?= $menuClass ?>__item <?= $itemParentClass ?> <?= $node->getClasses() ?>">
                 <?php if ($itemLinkUrl): ?>
-                    <a href="<?= $itemLinkUrl ?>" class="menu__link" <?= $itemId ?>>
+                    <a href="<?= $itemLinkUrl ?>" class="<?= $menuClass ?>__link"<?= $itemId ?>>
                         <?= $node->getTitle() ?>
                     </a>
                 <?php elseif ($node->getType() == 'cms_block'): ?>
-                    <div class="menu__link" <?= $itemId ?>>
-                        <?= $this->getNodeTypeProvider($node->getType())->getHtml($node->getNodeId(), $listLevel) ?>
+                    <div class="<?= $menuClass ?>__link"<?= $itemId ?>>
+                        <?= $this->getNodeTypeProvider($node->getType())->getHtml($nodeId, $listLevel) ?>
                     </div>
-                <?php else: ?>
-                    <a href="<?= $node->getContent() ?>" class="menu__link" <?= $itemId ?>>
-                        <?= $node->getTitle() ?>
-                    </a>
                 <?php endif ?>
                 <?php
                     if ($item['children']) {
-                        echo renderSnowdogMenuSubList($block, $item['children'], $node->getLevel() + 1, $itemId);
+                        echo renderSnowdogMenuSubList($block, $item['children'], $nodeId, $node->getLevel() + 1);
                     }
                 ?>
             </li>

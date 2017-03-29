@@ -72,7 +72,7 @@ class Menu extends Template implements IdentityInterface
     /**
      * @return \Snowdog\Menu\Model\Menu
      */
-    protected function getMenu()
+    public function getMenu()
     {
         if(!$this->menu) {
             $storeId = $this->_storeManager->getStore()->getId();
