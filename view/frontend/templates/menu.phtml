@@ -49,15 +49,13 @@
             $html .= '<li class="' . $itemClass . '">';
 
             switch ($node->getType()) {
+                case 'cms_page':
+                case 'custom_url':
+                    $itemLinkUrl = $node->getContent();
+                    break;
                 case 'category':
                     $itemLinkUrl = $block->getNodeTypeProvider($node->getType())
                         ->getCategoryUrl($nodeId);
-                    break;
-                case 'cms_page':
-                    $itemLinkUrl = $node->getContent();
-                    break;
-                case 'custom_url':
-                    $itemLinkUrl = $node->getContent();
                     break;
                 case 'cms_block':
                     $html .= $block->getNodeTypeProvider($node->getType())
