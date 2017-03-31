@@ -21,7 +21,7 @@
             $itemBaseClass = $menuClass . '__item';
             $parentItemClass = $itemBaseClass . '--parent';
             $itemLinkClass = $menuClass . '__link';
-            $wrapperDataAttribute = " data-mage-init='{ \"navigationMenu\": {} }'";
+            $wrapperDataAttribute = " data-mage-init='{ \"navigationMenu\": { \"menuClass\" : \"" . $menuClass . "\"} }'";
         } else {
             $wrapperLevelClass = $menuClass . '__inner-list--level' . $level;
             $wrapperClass = $menuClass . '__inner-list ' . $wrapperLevelClass;
@@ -29,7 +29,7 @@
             $parentItemClass = $menuClass . '__inner-item--parent';
             $itemBaseClass = $menuClass . '__inner-item ' . $itemLevelClass;
             $itemLinkClass = $menuClass . '__inner-link';
-            $wrapperDataAttribute = ' data-menu="menu-' . $parentId . '"';
+            $wrapperDataAttribute = ' data-menu="' . $menuClass . '-' . $parentId . '"';
         }
 
         $html = '<ul class="' . $wrapperClass . '"' . $wrapperDataAttribute . '>';
@@ -43,7 +43,7 @@
 
             if ($_node['children']) {
                 $itemClass .= ' ' . $parentItemClass;
-                $itemDataAttribute = ' data-menu="menu-' . $nodeId . '"';
+                $itemDataAttribute = ' data-menu="' . $menuClass . '-' . $nodeId . '"';
             }
 
             $html .= '<li class="' . $itemClass . '">';
