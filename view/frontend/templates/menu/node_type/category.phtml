@@ -3,7 +3,9 @@
     $menuClass = $block->getMenu()->getCssClass();
     $node = $block->getMenuNode();
     $nodeId = $node->getNodeId();
+    $class = $menuClass;
+    $class .= $node->getLevel() == 0 ? '__link' : '__inner-link';
     $dataAttribute = $nodeId ? ' data-menu="menu-' . $nodeId . '"' : '';
     $itemLinkUrl = $block->getNodeTypeProvider($node->getType())->getCategoryUrl($nodeId);
 ?>
-<a href="<?= $itemLinkUrl ?>" class="<?= $menuClass ?>__inner-link"<?= $dataAttribute ?>><?= $node->getTitle() ?></a>
+<a href="<?= $itemLinkUrl ?>" class="<?= $class ?>"<?= $dataAttribute ?>><?= $node->getTitle() ?></a>

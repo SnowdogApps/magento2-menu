@@ -2,6 +2,8 @@
 <?php
     $menuClass = $block->getMenu()->getCssClass();
     $node = $block->getMenuNode();
+    $class = $menuClass;
+    $class .= $node->getLevel() == 0 ? '__link' : '__inner-link';
     $dataAttribute = $node->getNodeId() ? ' data-menu="menu-' . $node->getNodeId() . '"' : '';
 ?>
-<a href="<?= $node->getContent() ?>" class="<?= $menuClass ?>__inner-link"<?= $dataAttribute ?>><?= $node->getTitle() ?></a>
+<a href="<?= $node->getContent() ?>" class="<?= $class ?>"<?= $dataAttribute ?>><?= $node->getTitle() ?></a>

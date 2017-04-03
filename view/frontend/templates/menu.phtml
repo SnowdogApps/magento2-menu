@@ -9,12 +9,13 @@
     <ul class="<?= $menuClass ?>__list" data-mage-init='{ "navigationMenu": {} }'>
         <?php foreach ($block->getNodes() as $node): ?>
             <?php
-                $children = $this->getNodes($node->getLevel() + 1, $node);
+                $childrenLevel = $node->getLevel() + 1;
+                $children = $this->getNodes($childrenLevel, $node);
                 $parentClass = $children ? '--parent' : '';
             ?>
             <li class="<?= $menuClass ?>__item<?= $parentClass ?>">
                 <?php echo $block->renderMenuNode($node) ?>
-                <?php echo $block->renderSubmenu($children, $node->getNodeId()) ?>
+                <?php echo $block->renderSubmenu($children, $node->getNodeId(), $childrenLevel) ?>
             </li>
         <?php endforeach ?>
     </ul>
