@@ -3,13 +3,14 @@ define(function() {
 
     return function(options) {
         const menuMainclass = options.menuClass,
-              itemParent      = document.querySelectorAll(`.${menuMainclass}__item--parent .menu__link`),
+              itemParent      = document.querySelectorAll(`.${menuMainclass}__item--parent .${menuMainclass}__link`),
               itemInnerParent = document.querySelectorAll(`.${menuMainclass}__inner-item--parent > .${menuMainclass}__inner-link`),
               mobileMenu      = document.querySelector(`.${menuMainclass}__mobile`),
               navMenu         = document.querySelector(`.${menuMainclass}`),
               menuBg          = document.querySelector(`.${menuMainclass}__mobile-bg`),
               desktopViewport = window.matchMedia('screen and (min-width: 992px)'),
               menuInnerLists  = document.querySelectorAll(`.${menuMainclass}__inner-list`);
+
 
         function setListHeight(item) {
             return Array.from(item.children)

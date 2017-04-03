@@ -6,12 +6,12 @@
     </svg>
 </div>
 <nav class="<?= $menuClass ?>">
-    <ul class="<?= $menuClass ?>__list" data-mage-init='{ "navigationMenu": {} }'>
+    <ul class="<?= $menuClass ?>__list" data-mage-init='{ "navigationMenu": { "menuClass" : "<?= $menuClass ?>"} }'>
         <?php foreach ($block->getNodes() as $node): ?>
             <?php
                 $childrenLevel = $node->getLevel() + 1;
                 $children = $this->getNodes($childrenLevel, $node);
-                $parentClass = $children ? '--parent' : '';
+                $parentClass = $children ? ' menu__item--parent' : '';
             ?>
             <li class="<?= $menuClass ?>__item<?= $parentClass ?>">
                 <?php echo $block->renderMenuNode($node) ?>
