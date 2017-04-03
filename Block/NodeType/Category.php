@@ -144,4 +144,12 @@ HTML;
     {
         return __("Add Category node");
     }
+
+    /**
+     * @return string
+     */
+    public function getTemplate()
+    {
+        return $this->_template;
+    }
 }

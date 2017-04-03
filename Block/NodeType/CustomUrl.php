@@ -57,4 +57,12 @@ HTML;
     {
         return __("Add Custom Url node");
     }
+
+    /**
+     * @return string
+     */
+    public function getTemplate()
+    {
+        return $this->_template;
+    }
 }

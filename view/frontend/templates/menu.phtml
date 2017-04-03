@@ -1,94 +1,22 @@
 <?php /** @var \Snowdog\Menu\Block\Menu $block */ ?>
 <?php $menuClass = $block->getMenu()->getCssClass() ?>
-<?php if (!function_exists('renderSnowdogMenu')): ?>
-<?php
-    /**
-     * @param \Snowdog\Menu\Block\Menu $block
-     * @param array $nodes    A tree array of node objects
-     * @param int $parentId   Parent node ID
-     * @param int $level
-     * @return string
-     */
-    function renderSnowdogMenu(
-        \Snowdog\Menu\Block\Menu $block,
-        $nodes,
-        $parentId = 0,
-        $level = 0
-    ) {
-        $menuClass = $block->getMenu()->getCssClass();
-
-        if ($level == 0) {
-            $wrapperClass = $menuClass . '__list';
-            $itemBaseClass = $menuClass . '__item';
-            $parentItemClass = $itemBaseClass . '--parent';
-            $itemLinkClass = $menuClass . '__link';
-            $wrapperDataAttribute = " data-mage-init='{ \"navigationMenu\": { \"menuClass\" : \"" . $menuClass . "\"} }'";
-        } else {
-            $wrapperLevelClass = $menuClass . '__inner-list--level' . $level;
-            $wrapperClass = $menuClass . '__inner-list ' . $wrapperLevelClass;
-            $itemLevelClass = $menuClass . '__inner-item--level' . $level;
-            $parentItemClass = $menuClass . '__inner-item--parent';
-            $itemBaseClass = $menuClass . '__inner-item ' . $itemLevelClass;
-            $itemLinkClass = $menuClass . '__inner-link';
-            $wrapperDataAttribute = ' data-menu="' . $menuClass . '-' . $parentId . '"';
-        }
-
-        $html = '<ul class="' . $wrapperClass . '"' . $wrapperDataAttribute . '>';
-
-        foreach ($nodes as $_node) {
-            $node = $_node['node'];
-            $nodeId = $node->getNodeId();
-            $itemClass = $itemBaseClass . ' ' . $node->getClasses();
-            $itemDataAttribute = '';
-            $itemLinkUrl = '';
-
-            if ($_node['children']) {
-                $itemClass .= ' ' . $parentItemClass;
-                $itemDataAttribute = ' data-menu="' . $menuClass . '-' . $nodeId . '"';
-            }
-
-            $html .= '<li class="' . $itemClass . '">';
-
-            switch ($node->getType()) {
-                case 'cms_page':
-                case 'custom_url':
-                    $itemLinkUrl = $node->getContent();
-                    break;
-                case 'category':
-                    $itemLinkUrl = $block->getNodeTypeProvider($node->getType())
-                        ->getCategoryUrl($nodeId);
-                    break;
-                case 'cms_block':
-                    $html .= $block->getNodeTypeProvider($node->getType())
-                        ->getHtml($nodeId, $level);
-                    break;
-            }
-
-            if ($itemLinkUrl) {
-                $html .= '<a href="' . $itemLinkUrl
-                       . '" class="' . $itemLinkClass
-                       . '"' . $itemDataAttribute . '>' . $node->getTitle() . '</a>';
-            }
-
-            if ($_node['children']) {
-                $html .= renderSnowdogMenu($block, $_node['children'], $nodeId, $level + 1);
-            }
-
-            $html .= '</li>';
-        }
-
-        $html .= '</ul>';
-
-        return $html;
-    }
-?>
-<?php endif ?>
 <div class="<?= $menuClass ?>__mobile">
     <svg title="icon-arrow-down" class="<?= $menuClass ?>__mobile-icon">
         <use xlink:href="<?= $block->getViewFileUrl('images/icon-sprite.svg#icon-mobile-menu'); ?>"></use>
     </svg>
 </div>
 <nav class="<?= $menuClass ?>">
-    <?php /* @escapeNotVerified */ echo renderSnowdogMenu($block, $block->getNodesTree()) ?>
+    <ul class="<?= $menuClass ?>__list" data-mage-init='{ "navigationMenu": {} }'>
+        <?php foreach ($block->getNodes() as $node): ?>
+            <?php
+                $children = $this->getNodes($node->getLevel() + 1, $node);
+                $parentClass = $children ? '--parent' : '';
+            ?>
+            <li class="<?= $menuClass ?>__item<?= $parentClass ?>">
+                <?php echo $block->renderMenuNode($node) ?>
+                <?php echo $block->renderSubmenu($children, $node->getNodeId()) ?>
+            </li>
+        <?php endforeach ?>
+    </ul>
     <div class="<?= $menuClass ?>__mobile-bg"></div>
 </nav>

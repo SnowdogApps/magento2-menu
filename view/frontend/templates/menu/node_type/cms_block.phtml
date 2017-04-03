@@ -1,0 +1,6 @@
+<?php /** @var \Snowdog\Menu\Block\Menu $block */ ?>
+<?php
+    $node = $block->getMenuNode();
+    $html = $block->getNodeTypeProvider($node->getType())->getHtml($node->getNodeId(), $node->getLevel());
+?>
+<?php /* @escapeNotVerified */ echo $html ?>

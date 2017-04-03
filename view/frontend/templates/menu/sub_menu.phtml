@@ -1,0 +1,17 @@
+<?php /** @var \Snowdog\Menu\Block\Menu $block */ ?>
+<?php
+    $menuClass = $block->getMenu()->getCssClass();
+    $level = $block->getLevel();
+?>
+<ul class="<?= $menuClass ?>__inner-list <?= $menuClass ?>__inner-list--level<?= $level ?>" data-menu="menu-<?= $block->getParentNodeId() ?>">
+    <?php foreach ($block->getSubmenuNodes() as $node): ?>
+        <?php
+            $children = $this->getNodes($level + 1, $node);
+            $parentClass = $children ? ' ' . $menuClass . '__inner-item--parent' : '';
+        ?>
+        <li class="<?= $menuClass ?>__inner-item <?= $menuClass ?>__inner-item--level<?= $level ?><?= $parentClass ?>">
+            <?php echo $block->renderMenuNode($node) ?>
+            <?php echo $block->renderSubmenu($children, $node->getNodeId(), $level + 1) ?>
+        </li>
+    <?php endforeach ?>
+</ul>

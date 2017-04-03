@@ -110,4 +110,11 @@ class CmsBlock extends Template implements NodeTypeInterface
         return __("Add Cms Block node");
     }
 
+    /**
+     * @return string
+     */
+    public function getTemplate()
+    {
+        return $this->_template;
+    }
 }

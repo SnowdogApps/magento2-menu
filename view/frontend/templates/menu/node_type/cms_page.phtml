@@ -1,0 +1,7 @@
+<?php /** @var \Snowdog\Menu\Block\Menu $block */ ?>
+<?php
+    $menuClass = $block->getMenu()->getCssClass();
+    $node = $block->getMenuNode();
+    $dataAttribute = $node->getNodeId() ? ' data-menu="menu-' . $node->getNodeId() . '"' : '';
+?>
+<a href="<?= $node->getContent() ?>" class="<?= $menuClass ?>__inner-link"<?= $dataAttribute ?>><?= $node->getTitle() ?></a>
