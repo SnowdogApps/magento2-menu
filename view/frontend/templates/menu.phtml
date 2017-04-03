@@ -11,7 +11,7 @@
             <?php
                 $childrenLevel = $node->getLevel() + 1;
                 $children = $this->getNodes($childrenLevel, $node);
-                $parentClass = $children ? ' menu__item--parent' : '';
+                $parentClass = $children ? ' ' . $menuClass . '__item--parent' : '';
             ?>
             <li class="<?= $menuClass ?>__item<?= $parentClass ?>">
                 <?php echo $block->renderMenuNode($node) ?>
