@@ -2,9 +2,8 @@
 <?php
     $menuClass = $block->getMenu()->getCssClass();
     $node = $block->getMenuNode();
-    $classes = $menuClass;
-    $classes .= $node->getLevel() == 0 ? '__link' : '__inner-link';
-    $classes .= $node->getClasses() ? ' ' . $node->getClasses() : '';
+    $class = $menuClass;
+    $class .= $node->getLevel() == 0 ? '__link' : '__inner-link';
     $dataAttribute = $node->getNodeId() ? ' data-menu="menu-' . $node->getNodeId() . '"' : '';
 ?>
-<a href="<?= $node->getContent() ?>" class="<?= $classes ?>"<?= $dataAttribute ?>><?= $node->getTitle() ?></a>
+<a href="<?= $node->getContent() ?>" class="<?= $class ?>"<?= $dataAttribute ?>><?= $node->getTitle() ?></a>

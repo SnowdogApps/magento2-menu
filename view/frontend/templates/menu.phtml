@@ -12,8 +12,10 @@
                 $childrenLevel = $node->getLevel() + 1;
                 $children = $this->getNodes($childrenLevel, $node);
                 $parentClass = $children ? ' ' . $menuClass . '__item--parent' : '';
+                $additionalClasses = $node->getClasses() ? ' ' . $node->getClasses() : '';
+                $itemClasses = $parentClass . $additionalClasses;
             ?>
-            <li class="<?= $menuClass ?>__item<?= $parentClass ?>">
+            <li class="<?= $menuClass ?>__item<?= $itemClasses ?>">
                 <?php echo $block->renderMenuNode($node) ?>
                 <?php echo $block->renderSubmenu($children, $node->getNodeId(), $childrenLevel) ?>
             </li>
