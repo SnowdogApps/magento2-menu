@@ -37,6 +37,11 @@ class Menu extends Template implements IdentityInterface
      */
     private $filterGroupBuilder;
 
+    /**
+     * @var string
+     */
+    private $submenuTemplate = 'menu/sub_menu.phtml';
+
     public function __construct(
         Template\Context $context,
         MenuRepositoryInterface $menuRepository,
@@ -198,7 +203,7 @@ class Menu extends Template implements IdentityInterface
         return $this->nodeTypeProvider->getProvider($nodeType);
     }
 
-    private function getNodes($level = 0, $parent = null)
+    public function getNodes($level = 0, $parent = null)
     {
         if (empty($this->nodes)) {
             $this->fetchData();
