@@ -6,7 +6,9 @@
     </svg>
 </div>
 <nav class="<?= $menuClass ?>">
-    <ul class="<?= $menuClass ?>__list" data-mage-init='{ "navigationMenu": { "menuClass" : "<?= $menuClass ?>"} }'>
+    <ul class="<?= $menuClass ?>__list"
+        data-mage-init='{ "navigationMenu": { "menuClass" : "<?= $menuClass ?>"} }'
+    >
         <?php foreach ($block->getNodes() as $node): ?>
             <?php
                 $childrenLevel = $node->getLevel() + 1;
