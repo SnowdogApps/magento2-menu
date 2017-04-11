@@ -116,11 +116,8 @@ HTML;
         return __("Add Cms Page link node");
     }
 
-    /**
-     * @return string
-     */
-    public function getTemplate()
+    public function initTemplate()
     {
-        return $this->_template;
+        return $this->setTemplate($this->_template);
     }
 }

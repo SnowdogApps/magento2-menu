@@ -58,11 +58,8 @@ HTML;
         return __("Add Custom Url node");
     }
 
-    /**
-     * @return string
-     */
-    public function getTemplate()
+    public function initTemplate()
     {
-        return $this->_template;
+        return $this->setTemplate($this->_template);
     }
 }

@@ -123,17 +123,17 @@ class Category extends Template implements NodeTypeInterface
         if (!isset($this->nodes[$nodeId])) {
             throw new \InvalidArgumentException('Invalid node identifier specified');
         }
-        
+
         $node = $this->nodes[$nodeId];
         $categoryId = (int) $node->getContent();
 
         if (isset($this->categoryUrls[$categoryId])) {
             $baseUrl = $this->_storeManager->getStore($storeId)->getBaseUrl();
             $categoryUrlPath = $this->categoryUrls[$categoryId];
-            
+
             return $baseUrl . $categoryUrlPath;
         }
-        
+
         return false;
     }
 
@@ -153,11 +153,8 @@ HTML;
         return __("Add Category node");
     }
 
-    /**
-     * @return string
-     */
-    public function getTemplate()
+    public function initTemplate()
     {
-        return $this->_template;
+        return $this->setTemplate($this->_template);
     }
 }

@@ -1,7 +1,7 @@
 <?php /** @var \Snowdog\Menu\Block\Menu $block */ ?>
 <?php
-    $menuClass = $block->getMenu()->getCssClass();
-    $level = $block->getLevel();
+$menuClass = $block->getMenu()->getCssClass();
+$level = $block->getLevel();
 ?>
 <ul class="<?= $menuClass ?>__inner-list <?= $menuClass ?>__inner-list--level<?= $level ?>" data-menu="menu-<?= $block->getParentNodeId() ?>">
     <?php foreach ($block->getSubmenuNodes() as $node): ?>

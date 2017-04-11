@@ -1,13 +1,11 @@
-<?php /** @var \Snowdog\Menu\Block\Menu $block */ ?>
+<?php /** @var \Snowdog\Menu\Block\NodeType\CustomUrl $block */ ?>
 <?php
-    $menuClass = $block->getMenu()->getCssClass();
-    $node = $block->getMenuNode();
-    $class = $menuClass;
-    $class .= $node->getLevel() == 0 ? '__link' : '__inner-link';
-    $dataAttribute = $node->getNodeId() ? ' data-menu="menu-' . $node->getNodeId() . '"' : '';
+$class = $block->getMenuClass();
+$class .= $block->getIsRoot() ? '__link' : '__inner-link';
+$dataAttribute = $block->getId() ? ' data-menu="menu-' . $block->getId() . '"' : '';
 ?>
-<a href="<?= $node->getContent() ?>"
+<a href="<?= $block->getContent() ?>"
    class="<?= $class ?>"<?= $dataAttribute ?>
 >
-    <?= $node->getTitle() ?>
+    <?= $block->getTitle() ?>
 </a>

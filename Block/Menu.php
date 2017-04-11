@@ -139,14 +139,19 @@ class Menu extends Template implements IdentityInterface
      */
     public function renderMenuNode($node)
     {
-        $block = clone $this;
+        $nodeBlock = $this->getNodeTypeProvider($node->getType());
 
-        $block->setMenuNode($node);
-        $block->setTemplateContext($block);
+        $level = $node->getLevel();
+        $isRoot = $level == 0;
 
-        $template = $block->getNodeTypeProvider($node->getType())->getTemplate();
+        $nodeBlock->setId($node->getNodeId())
+            ->setTitle($node->getTitle())
+            ->setLevel($level)
+            ->setIsRoot($isRoot)
+            ->setContent($node->getContent())
+            ->setMenuClass($this->getMenu()->getCssClass());
 
-        return $block->setTemplate($template)->toHtml();
+        return $nodeBlock->initTemplate()->toHtml();
     }
 
     /**

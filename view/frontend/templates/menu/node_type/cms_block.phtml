@@ -1,6 +1,2 @@
-<?php /** @var \Snowdog\Menu\Block\Menu $block */ ?>
-<?php
-    $node = $block->getMenuNode();
-    $html = $block->getNodeTypeProvider($node->getType())->getHtml($node->getNodeId(), $node->getLevel());
-?>
-<?php /* @escapeNotVerified */ echo $html ?>
+<?php /** @var \Snowdog\Menu\Block\NodeType\CmsBlock $block */ ?>
+<?php /* @escapeNotVerified */ echo $block->getHtml($block->getId(), $block->getLevel()) ?>
