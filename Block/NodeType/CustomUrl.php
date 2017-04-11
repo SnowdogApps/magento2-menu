@@ -60,6 +60,6 @@ HTML;
 
     public function initTemplate()
     {
-        $this->setTemplate($this->_template);
+        return $this->setTemplate($this->_template);
     }
 }
