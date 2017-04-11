@@ -118,6 +118,6 @@ HTML;
 
     public function initTemplate()
     {
-        return $this->setTemplate($this->_template);
+        $this->setTemplate($this->_template);
     }
 }
