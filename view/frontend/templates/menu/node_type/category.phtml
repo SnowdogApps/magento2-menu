@@ -8,7 +8,7 @@
     $dataAttribute = $nodeId ? ' data-menu="menu-' . $nodeId . '"' : '';
     $itemLinkUrl = $block->getNodeTypeProvider($node->getType())->getCategoryUrl($nodeId);
 ?>
-<a href="<?= $itemLinkUrl ?>"
+<a href="<?= $itemLinkUrl ?: '#' ?>"
    class="<?= $class ?>"<?= $dataAttribute ?>
 >
     <?= $node->getTitle() ?>
