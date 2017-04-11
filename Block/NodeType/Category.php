@@ -115,18 +115,26 @@ class Category extends Template implements NodeTypeInterface
     /**
      * @param int $nodeId
      * @param int|null $storeId
-     * @return string
+     * @return string|false
+     * @throws \InvalidArgumentException
      */
     public function getCategoryUrl(int $nodeId, $storeId = null)
     {
-        $node = $this->nodes[$nodeId];
-        if (isset($this->categoryUrls[(int) $node->getContent()])) {
-            $url = $this->_storeManager->getStore($storeId)->getBaseUrl() . $this->categoryUrls[(int) $node->getContent()];
-        } else {
-            $url = $this->_storeManager->getStore($storeId)->getBaseUrl();
+        if (!isset($this->nodes[$nodeId])) {
+            throw new \InvalidArgumentException('Invalid node identifier specified');
         }
+        
+        $node = $this->nodes[$nodeId];
+        $categoryId = (int) $node->getContent();
 
-        return $url;
+        if (isset($this->categoryUrls[$categoryId])) {
+            $baseUrl = $this->_storeManager->getStore($storeId)->getBaseUrl();
+            $categoryUrlPath = $this->categoryUrls[$categoryId];
+            
+            return $baseUrl . $categoryUrlPath;
+        }
+        
+        return false;
     }
 
     public function getHtml(int $nodeId, int $level, $storeId = null)
