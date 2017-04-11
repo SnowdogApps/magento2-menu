@@ -9,7 +9,8 @@ define(function() {
               navMenu         = document.querySelector(`.${menuMainclass}`),
               menuBg          = document.querySelector(`.${menuMainclass}__mobile-bg`),
               desktopViewport = window.matchMedia('screen and (min-width: 992px)'),
-              menuInnerLists  = document.querySelectorAll(`.${menuMainclass}__inner-list`);
+              menuInnerLists  = document.querySelectorAll(`.${menuMainclass}__inner-list`),
+              documentBody    = document.querySelector('body');
 
 
         function setListHeight(item) {
@@ -82,10 +83,14 @@ define(function() {
 
         mobileMenu.addEventListener('click', () => {
             navMenu.classList.toggle('open');
+            // disable document scrolling while menu is open
+            documentBody.classList.toggle('menu-open');
         });
 
         menuBg.addEventListener('click', () => {
             navMenu.classList.toggle('open');
+            // disable document scrolling while menu is open
+            documentBody.classList.toggle('menu-open');
         });
 
         window.onresize = () => {
