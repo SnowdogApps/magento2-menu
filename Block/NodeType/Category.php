@@ -153,6 +153,9 @@ HTML;
         return __("Add Category node");
     }
 
+    /**
+     * @return Category
+     */
     public function initTemplate()
     {
         return $this->setTemplate($this->_template);
