@@ -152,7 +152,7 @@ class Menu extends Template implements IdentityInterface
             ->setContent($node->getContent())
             ->setMenuClass($this->getMenu()->getCssClass());
 
-        return $nodeBlock->initTemplate()->toHtml();
+        return $nodeBlock->toHtml();
     }
 
     /**
