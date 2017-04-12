@@ -2,14 +2,14 @@ define(function() {
     'use strict'
 
     return function(options) {
-        const menuMainclass = options.menuClass,
-              itemParent      = document.querySelectorAll(`.${menuMainclass}__item--parent .${menuMainclass}__link`),
-              itemInnerParent = document.querySelectorAll(`.${menuMainclass}__inner-item--parent > .${menuMainclass}__inner-link`),
-              mobileMenu      = document.querySelector(`.${menuMainclass}__mobile`),
-              navMenu         = document.querySelector(`.${menuMainclass}`),
-              menuBg          = document.querySelector(`.${menuMainclass}__mobile-bg`),
+        const menuMainClass = options.menuClass,
+              itemParent      = document.querySelectorAll(`.${menuMainClass}__item--parent .${menuMainClass}__link`),
+              itemInnerParent = document.querySelectorAll(`.${menuMainClass}__inner-item--parent > .${menuMainClass}__inner-link`),
+              mobileMenu      = document.querySelector(`.${menuMainClass}__mobile`),
+              navMenu         = document.querySelector(`.${menuMainClass}`),
+              menuBg          = document.querySelector(`.${menuMainClass}__mobile-bg`),
               desktopViewport = window.matchMedia('screen and (min-width: 992px)'),
-              menuInnerLists  = document.querySelectorAll(`.${menuMainclass}__inner-list`),
+              menuInnerLists  = document.querySelectorAll(`.${menuMainClass}__inner-list`),
               documentBody    = document.querySelector('body');
 
 
@@ -22,13 +22,13 @@ define(function() {
         function toggleSubmenu(item, inner) {
             const menuId = item.dataset.menu,
                   menuList = inner
-                  ? item.parentNode.querySelector(`.${menuMainclass}__inner-list--level2[data-menu="${menuId}"]`)
-                  : document.querySelector(`.${menuMainclass}__inner-list--level1[data-menu="${menuId}"]`),
+                  ? item.parentNode.querySelector(`.${menuMainClass}__inner-list--level2[data-menu="${menuId}"]`)
+                  : document.querySelector(`.${menuMainClass}__inner-list--level1[data-menu="${menuId}"]`),
                   innerLists = inner
                   ? null
-                  : item.parentNode.querySelectorAll(`.${menuMainclass}__inner-list--level2`),
+                  : item.parentNode.querySelectorAll(`.${menuMainClass}__inner-list--level2`),
                   upperList = inner
-                  ? item.closest(`.${menuMainclass}__inner-list--level1`)
+                  ? item.closest(`.${menuMainClass}__inner-list--level1`)
                   : null;
 
             item.parentNode.classList.toggle('open');
@@ -93,16 +93,16 @@ define(function() {
             documentBody.classList.toggle('menu-open');
         });
 
-        window.onresize = () => {
+        window.addEventListener('resize', () => {
             if (desktopViewport.matches) {
                 menuInnerLists.forEach(key => key.style.height = 'auto');
-                document.querySelectorAll(`.${menuMainclass}__list li`)
+                document.querySelectorAll(`.${menuMainClass}__list li`)
                         .forEach(key => key.classList.remove('open'));
                 navMenu.classList.remove('open');
             }
             else {
                 menuInnerLists.forEach(key => key.style.height = '0');
             }
-        }
+        });
     }
 });
