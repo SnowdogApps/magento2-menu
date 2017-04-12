@@ -8,6 +8,7 @@ $level = $block->getLevel();
         <?php
             $childrenLevel = $node->getLevel() + 1;
             $children = $this->getNodes($childrenLevel, $node);
+            $node->setIsParent((bool) $children);
             $parentClass = $children ? ' ' . $menuClass . '__inner-item--parent' : '';
             $additionalClasses = $node->getClasses() ? ' ' . $node->getClasses() : '';
             $itemClasses = $parentClass . $additionalClasses;

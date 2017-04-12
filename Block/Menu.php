@@ -148,6 +148,7 @@ class Menu extends Template implements IdentityInterface
             ->setTitle($node->getTitle())
             ->setLevel($level)
             ->setIsRoot($isRoot)
+            ->setIsParent((bool) $node->getIsParent())
             ->setContent($node->getContent())
             ->setMenuClass($this->getMenu()->getCssClass());
 
