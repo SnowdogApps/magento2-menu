@@ -142,7 +142,7 @@ class Menu extends Template implements IdentityInterface
         $nodeBlock = $this->getNodeTypeProvider($node->getType());
 
         $level = $node->getLevel();
-        $isRoot = $level == 0;
+        $isRoot = 0 === $level;
 
         $nodeBlock->setId($node->getNodeId())
             ->setTitle($node->getTitle())
