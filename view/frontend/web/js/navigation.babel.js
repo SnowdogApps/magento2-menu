@@ -3,7 +3,7 @@ define(function() {
 
     return function(options) {
         const menuMainClass = options.menuClass,
-              itemParent      = document.querySelectorAll(`.${menuMainClass}__item--parent .${menuMainClass}__link`),
+              itemParent      = document.querySelectorAll(`.${menuMainClass}__item--parent > .${menuMainClass}__link`),
               itemInnerParent = document.querySelectorAll(`.${menuMainClass}__inner-item--parent > .${menuMainClass}__inner-link`),
               mobileMenu      = document.querySelector(`.${menuMainClass}__mobile`),
               navMenu         = document.querySelector(`.${menuMainClass}`),
