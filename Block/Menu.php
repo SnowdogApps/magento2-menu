@@ -89,9 +89,13 @@ class Menu extends Template implements IdentityInterface
 
     public function getCacheKeyInfo()
     {
+        $parentNodeId = $this->getParentNodeId()
+            ? '--parent_' . $this->getParentNodeId()
+            : '';
+
         return [
             \Snowdog\Menu\Model\Menu::CACHE_TAG,
-            'menu_' . $this->getMenu()->getId(),
+            'menu_' . $this->getMenu()->getId() . $parentNodeId,
             'store_' . $this->_storeManager->getStore()->getId(),
             'template_' . $this->getTemplate()
         ];
