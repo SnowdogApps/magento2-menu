@@ -7,7 +7,9 @@
 </div>
 <nav class="<?= $menuClass ?>">
     <ul class="<?= $menuClass ?>__list"
-        data-mage-init='{ "navigationMenu": { "menuClass" : "<?= $menuClass ?>"} }'
+        data-mage-init='{ "navigationMenu": { "menuClass" : "<?= $menuClass ?>",
+                                              "allLabel" : "<?= __('All products'); ?>"
+                        } }'
     >
         <?php foreach ($block->getNodes() as $node): ?>
             <?php

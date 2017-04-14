@@ -2,7 +2,8 @@ define(function() {
     'use strict'
 
     return function(options) {
-        const menuMainClass = options.menuClass,
+        const menuMainClass   = options.menuClass,
+              alliTemLabel    = options.allLabel,
               itemParent      = document.querySelectorAll(`.${menuMainClass}__item--parent > .${menuMainClass}__link`),
               itemInnerParent = document.querySelectorAll(`.${menuMainClass}__inner-item--parent > .${menuMainClass}__inner-link`),
               mobileMenu      = document.querySelector(`.${menuMainClass}__mobile`),
@@ -20,14 +21,14 @@ define(function() {
         }
 
         function toggleSubmenu(item, inner) {
-            const menuId = item.dataset.menu,
-                  menuList = inner
+            const menuId     = item.dataset.menu,
+                  menuList   = inner
                   ? item.parentNode.querySelector(`.${menuMainClass}__inner-list--level2[data-menu="${menuId}"]`)
                   : document.querySelector(`.${menuMainClass}__inner-list--level1[data-menu="${menuId}"]`),
                   innerLists = inner
                   ? null
                   : item.parentNode.querySelectorAll(`.${menuMainClass}__inner-list--level2`),
-                  upperList = inner
+                  upperList  = inner
                   ? item.closest(`.${menuMainClass}__inner-list--level1`)
                   : null;
 
@@ -55,30 +56,53 @@ define(function() {
             }
         }
 
+        function appendAllItem(item) {
+            const itemHref   = item.href,
+                  sublist    = navMenu.querySelector(`ul[data-menu="${item.dataset.menu}"]`),
+                  levelClass = sublist.classList.value.includes('level1')
+                             ? `${menuMainClass}__inner-item--level1`
+                             : `${menuMainClass}__inner-item--level2`,
+                  allLink    = `<a href="${itemHref}" class="${menuMainClass}__inner-link">
+                                    ${alliTemLabel}
+                                </a>`,
+                 allItem     = document.createElement('li');
+
+            allItem.innerHTML = allLink;
+            allItem.classList = `${menuMainClass}__inner-item ${menuMainClass}__inner-item--all ${levelClass}`;
+            sublist.insertBefore(allItem, sublist.firstChild);
+        }
+
         itemParent.forEach(
-            key => key.addEventListener(
-                'click',
-                function(e) {
-                    if (!desktopViewport.matches) {
-                        e.preventDefault();
-                        toggleSubmenu(key, false);
-                    }
-                },
-                false
-            )
+            key => {
+                key.addEventListener(
+                    'click',
+                    function(e) {
+                        if (!desktopViewport.matches) {
+                            e.preventDefault();
+                            toggleSubmenu(key, false);
+                        }
+                    },
+                    false
+                );
+                appendAllItem(key);
+            }
+
         );
 
         itemInnerParent.forEach(
-            key => key.addEventListener(
-                'click',
-                (e) => {
-                    if (!desktopViewport.matches) {
-                        e.preventDefault();
-                        toggleSubmenu(key, true);
-                    }
-                },
-                false
-            )
+            key => {
+                key.addEventListener(
+                    'click',
+                    (e) => {
+                        if (!desktopViewport.matches) {
+                            e.preventDefault();
+                            toggleSubmenu(key, true);
+                        }
+                    },
+                    false
+                );
+                appendAllItem(key);
+            }
         );
 
         mobileMenu.addEventListener('click', () => {
