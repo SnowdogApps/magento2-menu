@@ -2,8 +2,7 @@
 
 namespace Snowdog\Menu\Block\NodeType;
 
-use Magento\Backend\Block\Template\Context;
-use Magento\Backend\Block\Template;
+use Magento\Framework\View\Element\Template;
 use Magento\Framework\App\ResourceConnection;
 use Magento\Framework\Profiler;
 use Snowdog\Menu\Api\NodeTypeInterface;
@@ -30,7 +29,7 @@ class Category extends Template implements NodeTypeInterface
     protected $_template = 'menu/node_type/category.phtml';
 
     public function __construct(
-        Context $context,
+        Template\Context $context,
         ResourceConnection $connection,
         Profiler $profiler,
         $data = []

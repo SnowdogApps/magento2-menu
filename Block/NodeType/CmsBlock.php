@@ -2,8 +2,7 @@
 
 namespace Snowdog\Menu\Block\NodeType;
 
-use Magento\Backend\Block\Template;
-use Magento\Backend\Block\Template\Context;
+use Magento\Framework\View\Element\Template;
 use Magento\Cms\Model\Template\FilterProvider;
 use Magento\Framework\App\ResourceConnection;
 use Magento\Framework\Profiler;
@@ -36,7 +35,7 @@ class CmsBlock extends Template implements NodeTypeInterface
     private $filterProvider;
 
     public function __construct(
-        Context $context,
+        Template\Context $context,
         ResourceConnection $connection,
         Profiler $profiler,
         FilterProvider $filterProvider,

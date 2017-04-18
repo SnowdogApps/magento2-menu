@@ -2,8 +2,7 @@
 
 namespace Snowdog\Menu\Block\NodeType;
 
-use Magento\Backend\Block\Template;
-use Magento\Backend\Block\Template\Context;
+use Magento\Framework\View\Element\Template;
 use Magento\Framework\App\ResourceConnection;
 use Magento\Framework\Profiler;
 use Magento\Store\Model\StoreManagerInterface;
@@ -32,7 +31,7 @@ class CmsPage extends Template implements NodeTypeInterface
     protected $_template = 'menu/node_type/cms_page.phtml';
 
     public function __construct(
-        Context $context,
+        Template\Context $context,
         ResourceConnection $connection,
         Profiler $profiler,
         $data = []
