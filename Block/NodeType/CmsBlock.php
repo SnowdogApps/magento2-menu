@@ -24,6 +24,11 @@ class CmsBlock extends Template implements NodeTypeInterface
      */
     private $profiler;
 
+    /**
+     * @var bool
+     */
+    private $viewAllLink = false;
+
     protected $_template = 'menu/node_type/cms_block.phtml';
     /**
      * @var FilterProvider
@@ -108,5 +113,13 @@ class CmsBlock extends Template implements NodeTypeInterface
     public function getAddButtonLabel()
     {
         return __("Add Cms Block node");
+    }
+
+    /**
+     * @return bool
+     */
+    public function isViewAllLinkAllowed()
+    {
+        return $this->viewAllLink;
     }
 }

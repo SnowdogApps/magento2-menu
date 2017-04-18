@@ -13,6 +13,11 @@ $level = $block->getLevel();
             $additionalClasses = $node->getClasses() ? ' ' . $node->getClasses() : '';
             $itemClasses = $parentClass . $additionalClasses;
         ?>
+        <?php if ($children && $block->isViewAllLinkAllowed($node->getType())): ?>
+            <li class="<?= $menuClass ?>__inner-item <?= $menuClass ?>__inner-item--all <?= $menuClass ?>__inner-item--level<?= $level ?>">
+                <?php echo $block->renderViewAllLink($node) ?>
+            </li>
+        <?php endif ?>
         <li class="<?= $menuClass ?>__inner-item <?= $menuClass ?>__inner-item--level<?= $level ?><?= $itemClasses ?>">
             <?php echo $block->renderMenuNode($node) ?>
             <?php echo $block->renderSubmenu($children, $node->getNodeId(), $childrenLevel) ?>

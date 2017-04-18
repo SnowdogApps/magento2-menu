@@ -22,6 +22,11 @@ class Category extends Template implements NodeTypeInterface
      */
     private $profiler;
 
+    /**
+     * @var bool
+     */
+    private $viewAllLink = true;
+
     protected $_template = 'menu/node_type/category.phtml';
 
     public function __construct(
@@ -151,5 +156,13 @@ HTML;
     public function getAddButtonLabel()
     {
         return __("Add Category node");
+    }
+
+    /**
+     * @return bool
+     */
+    public function isViewAllLinkAllowed()
+    {
+        return $this->viewAllLink;
     }
 }

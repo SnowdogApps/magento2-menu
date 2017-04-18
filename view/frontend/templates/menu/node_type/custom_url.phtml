@@ -2,10 +2,19 @@
 <?php
 $class = $block->getMenuClass();
 $class .= $block->getIsRoot() ? '__link' : '__inner-link';
-$dataAttribute = $block->getId() ? ' data-menu="menu-' . $block->getId() . '"' : '';
+$dataAttribute = '';
+
+if ($block->getIsViewAllLink()) {
+    $title = __('View All');
+} else {
+    $title = $block->getTitle();
+    if ($block->getId()) {
+        $dataAttribute = ' data-menu="menu-' . $block->getId() . '"';
+    }
+}
 ?>
 <a href="<?= $block->getContent() ?>"
    class="<?= $class ?>"<?= $dataAttribute ?>
 >
-    <?= $block->getTitle() ?>
+    <?= $title ?>
 </a>

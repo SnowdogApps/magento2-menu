@@ -24,6 +24,11 @@ class CmsPage extends Template implements NodeTypeInterface
      */
     private $profiler;
 
+    /**
+     * @var bool
+     */
+    private $viewAllLink = true;
+
     protected $_template = 'menu/node_type/cms_page.phtml';
 
     public function __construct(
@@ -114,5 +119,13 @@ HTML;
     public function getAddButtonLabel()
     {
         return __("Add Cms Page link node");
+    }
+
+    /**
+     * @return bool
+     */
+    public function isViewAllLinkAllowed()
+    {
+        return $this->viewAllLink;
     }
 }

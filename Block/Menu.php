@@ -138,25 +138,56 @@ class Menu extends Template implements IdentityInterface
     }
 
     /**
+     * @param string $nodeType
+     * @return bool
+     */
+    public function isViewAllLinkAllowed($nodeType)
+    {
+        return $this->getNodeTypeProvider($nodeType)->isViewAllLinkAllowed();
+    }
+
+    /**
+     * @param NodeRepositoryInterface $node
+     * @return string
+     */
+    public function renderViewAllLink($node)
+    {
+        $nodeBlock = $this->getMenuNodeBlock($node)
+            ->setIsViewAllLink(true);
+
+        return $nodeBlock->toHtml();
+    }
+
+    /**
      * @param NodeRepositoryInterface $node
      * @return string
      */
     public function renderMenuNode($node)
     {
+        return $this->getMenuNodeBlock($node)->toHtml();
+    }
+
+    /**
+     * @param NodeRepositoryInterface $node
+     * @return Template
+     */
+    public function getMenuNodeBlock($node)
+    {
         $nodeBlock = $this->getNodeTypeProvider($node->getType());
 
         $level = $node->getLevel();
-        $isRoot = 0 == $level;
+        $isRoot = 0 === $level;
 
         $nodeBlock->setId($node->getNodeId())
             ->setTitle($node->getTitle())
             ->setLevel($level)
             ->setIsRoot($isRoot)
             ->setIsParent((bool) $node->getIsParent())
+            ->setIsViewAllLink(false)
             ->setContent($node->getContent())
             ->setMenuClass($this->getMenu()->getCssClass());
 
-        return $nodeBlock->toHtml();
+        return $nodeBlock;
     }
 
     /**
