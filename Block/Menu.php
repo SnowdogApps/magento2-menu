@@ -168,29 +168,6 @@ class Menu extends Template implements IdentityInterface
     }
 
     /**
-     * @param NodeRepositoryInterface $node
-     * @return Template
-     */
-    public function getMenuNodeBlock($node)
-    {
-        $nodeBlock = $this->getNodeTypeProvider($node->getType());
-
-        $level = $node->getLevel();
-        $isRoot = 0 === $level;
-
-        $nodeBlock->setId($node->getNodeId())
-            ->setTitle($node->getTitle())
-            ->setLevel($level)
-            ->setIsRoot($isRoot)
-            ->setIsParent((bool) $node->getIsParent())
-            ->setIsViewAllLink(false)
-            ->setContent($node->getContent())
-            ->setMenuClass($this->getMenu()->getCssClass());
-
-        return $nodeBlock;
-    }
-
-    /**
      * @param array $nodes
      * @param int $parentNodeId
      * @param int $level
@@ -198,21 +175,9 @@ class Menu extends Template implements IdentityInterface
      */
     public function renderSubmenu($nodes, $parentNodeId = 0, $level = 0)
     {
-        $html = '';
-
-        if ($nodes) {
-            $block = clone $this;
-
-            $block->setSubmenuNodes($nodes)
-                ->setParentNodeId($parentNodeId)
-                ->setLevel($level);
-
-            $block->setTemplateContext($block);
-
-            $html = $block->setTemplate($this->submenuTemplate)->toHtml();
-        }
-
-        return $html;
+        return $nodes
+            ? $this->getSubmenuBlock($nodes, $parentNodeId, $level)->toHtml()
+            : '';
     }
 
     /**
@@ -257,6 +222,49 @@ class Menu extends Template implements IdentityInterface
             return [];
         }
         return $this->nodes[$level][$parentId];
+    }
+
+    /**
+     * @param NodeRepositoryInterface $node
+     * @return Template
+     */
+    private function getMenuNodeBlock($node)
+    {
+        $nodeBlock = $this->getNodeTypeProvider($node->getType());
+
+        $level = $node->getLevel();
+        $isRoot = 0 === $level;
+
+        $nodeBlock->setId($node->getNodeId())
+            ->setTitle($node->getTitle())
+            ->setLevel($level)
+            ->setIsRoot($isRoot)
+            ->setIsParent((bool) $node->getIsParent())
+            ->setIsViewAllLink(false)
+            ->setContent($node->getContent())
+            ->setMenuClass($this->getMenu()->getCssClass());
+
+        return $nodeBlock;
+    }
+
+    /**
+     * @param array $nodes
+     * @param int $parentNodeId
+     * @param int $level
+     * @return Menu
+     */
+    private function getSubmenuBlock($nodes, $parentNodeId = 0, $level = 0)
+    {
+        $block = clone $this;
+
+        $block->setSubmenuNodes($nodes)
+            ->setParentNodeId($parentNodeId)
+            ->setLevel($level);
+
+        $block->setTemplateContext($block);
+        $block->setTemplate($block->submenuTemplate);
+
+        return $block;
     }
 
     private function fetchData()
