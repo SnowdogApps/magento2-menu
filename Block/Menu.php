@@ -89,8 +89,8 @@ class Menu extends Template implements IdentityInterface
 
     public function getCacheKeyInfo()
     {
-        $parentNodeId = $this->getParentNodeId()
-            ? '--parent_' . $this->getParentNodeId()
+        $parentNodeId = $this->getParentNode()
+            ? '--parent_' . $this->getParentNode()->getNodeId()
             : '';
 
         return [
