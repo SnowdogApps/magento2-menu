@@ -99,6 +99,32 @@ class CmsPage extends Template implements NodeTypeInterface
         $this->profiler->stop(__METHOD__);
     }
 
+    /**
+     * @param int $nodeId
+     * @param int|null $storeId
+     * @return string|false
+     * @throws \InvalidArgumentException
+     */
+    public function getPageUrl(int $nodeId, $storeId = null)
+    {
+        if (!isset($this->nodes[$nodeId])) {
+            throw new \InvalidArgumentException('Invalid node identifier specified');
+        }
+
+        $node = $this->nodes[$nodeId];
+        $nodeContent = $node->getContent();
+
+        if (isset($this->pageIds[$nodeContent])) {
+            $pageId = $this->pageIds[$nodeContent];
+            $baseUrl = $this->_storeManager->getStore($storeId)->getBaseUrl();
+            $pageUrlPath = $this->pageUrls[$pageId];
+
+            return $baseUrl . $pageUrlPath;
+        }
+
+        return false;
+    }
+
     public function getHtml(int $nodeId, int $level)
     {
         $classes = $level == 0 ? 'level-top' : '';

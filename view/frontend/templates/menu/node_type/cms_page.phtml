@@ -1,6 +1,9 @@
 <?php /** @var \Snowdog\Menu\Block\NodeType\CmsPage $block */ ?>
 <?php
+$nodeId = $block->getId();
 $class = $block->getMenuClass();
+$pageUrl = $block->getPageUrl($nodeId);
+$pageUrl = $pageUrl ?: '#';
 $dataAttribute = '';
 
 if ($block->getIsViewAllLink()) {
@@ -9,12 +12,12 @@ if ($block->getIsViewAllLink()) {
 } else {
     $class .= $block->getIsRoot() ? '__link' : '__inner-link';
     $title = $block->getTitle();
-    if ($block->getId()) {
-        $dataAttribute = ' data-menu="menu-' . $block->getId() . '"';
+    if ($nodeId) {
+        $dataAttribute = ' data-menu="menu-' . $nodeId . '"';
     }
 }
 ?>
-<a href="<?= $block->getContent() ?>"
+<a href="<?= $pageUrl ?>"
    class="<?= $class ?>"<?= $dataAttribute ?>
 >
     <?= $title ?>
