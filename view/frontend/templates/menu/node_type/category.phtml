@@ -2,14 +2,15 @@
 <?php
 $nodeId = $block->getId();
 $class = $block->getMenuClass();
-$class .= $block->getIsRoot() ? '__link' : '__inner-link';
 $categoryUrl = $block->getCategoryUrl($nodeId);
 $categoryUrl = $categoryUrl ?: '#';
 $dataAttribute = '';
 
 if ($block->getIsViewAllLink()) {
     $title = __('View All');
+    $class .= '__inner-link';
 } else {
+    $class .= $block->getIsRoot() ? '__link' : '__inner-link';
     $title = $block->getTitle();
     if ($nodeId) {
         $dataAttribute = ' data-menu="menu-' . $nodeId . '"';

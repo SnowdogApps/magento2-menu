@@ -1,12 +1,13 @@
 <?php /** @var \Snowdog\Menu\Block\NodeType\CmsPage $block */ ?>
 <?php
 $class = $block->getMenuClass();
-$class .= $block->getIsRoot() ? '__link' : '__inner-link';
 $dataAttribute = '';
 
 if ($block->getIsViewAllLink()) {
     $title = __('View All');
+    $class .= '__inner-link';
 } else {
+    $class .= $block->getIsRoot() ? '__link' : '__inner-link';
     $title = $block->getTitle();
     if ($block->getId()) {
         $dataAttribute = ' data-menu="menu-' . $block->getId() . '"';
