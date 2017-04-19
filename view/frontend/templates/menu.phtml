@@ -22,7 +22,7 @@
             ?>
             <li class="<?= $menuClass ?>__item<?= $itemClasses ?>">
                 <?php echo $block->renderMenuNode($node) ?>
-                <?php echo $block->renderSubmenu($children, $node->getNodeId(), $childrenLevel) ?>
+                <?php echo $block->renderSubmenu($children, $node, $childrenLevel) ?>
             </li>
         <?php endforeach ?>
     </ul>

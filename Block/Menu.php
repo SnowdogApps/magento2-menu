@@ -169,14 +169,14 @@ class Menu extends Template implements IdentityInterface
 
     /**
      * @param array $nodes
-     * @param int $parentNodeId
+     * @param NodeRepositoryInterface $parentNode
      * @param int $level
      * @return string
      */
-    public function renderSubmenu($nodes, $parentNodeId = 0, $level = 0)
+    public function renderSubmenu($nodes, $parentNode, $level = 0)
     {
         return $nodes
-            ? $this->getSubmenuBlock($nodes, $parentNodeId, $level)->toHtml()
+            ? $this->getSubmenuBlock($nodes, $parentNode, $level)->toHtml()
             : '';
     }
 
@@ -249,16 +249,16 @@ class Menu extends Template implements IdentityInterface
 
     /**
      * @param array $nodes
-     * @param int $parentNodeId
+     * @param NodeRepositoryInterface $parentNode
      * @param int $level
      * @return Menu
      */
-    private function getSubmenuBlock($nodes, $parentNodeId = 0, $level = 0)
+    private function getSubmenuBlock($nodes, $parentNode, $level = 0)
     {
         $block = clone $this;
 
         $block->setSubmenuNodes($nodes)
-            ->setParentNodeId($parentNodeId)
+            ->setParentNode($parentNode)
             ->setLevel($level);
 
         $block->setTemplateContext($block);
