@@ -56,53 +56,30 @@ define(function() {
             }
         }
 
-        function appendAllItem(item) {
-            const itemHref   = item.href,
-                  sublist    = navMenu.querySelector(`ul[data-menu="${item.dataset.menu}"]`),
-                  levelClass = sublist.classList.value.includes('level1')
-                             ? `${menuMainClass}__inner-item--level1`
-                             : `${menuMainClass}__inner-item--level2`,
-                  allLink    = `<a href="${itemHref}" class="${menuMainClass}__inner-link">
-                                    ${alliTemLabel}
-                                </a>`,
-                 allItem     = document.createElement('li');
-
-            allItem.innerHTML = allLink;
-            allItem.classList = `${menuMainClass}__inner-item ${menuMainClass}__inner-item--all ${levelClass}`;
-            sublist.insertBefore(allItem, sublist.firstChild);
-        }
-
         itemParent.forEach(
-            key => {
-                key.addEventListener(
-                    'click',
-                    function(e) {
-                        if (!desktopViewport.matches) {
-                            e.preventDefault();
-                            toggleSubmenu(key, false);
-                        }
-                    },
-                    false
-                );
-                appendAllItem(key);
-            }
-
+            key => key.addEventListener(
+                'click',
+                (e) => {
+                    if (!desktopViewport.matches) {
+                        e.preventDefault();
+                        toggleSubmenu(key, false);
+                    }
+                },
+                false
+            )
         );
 
         itemInnerParent.forEach(
-            key => {
-                key.addEventListener(
-                    'click',
-                    (e) => {
-                        if (!desktopViewport.matches) {
-                            e.preventDefault();
-                            toggleSubmenu(key, true);
-                        }
-                    },
-                    false
-                );
-                appendAllItem(key);
-            }
+            key => key.addEventListener(
+                'click',
+                 (e) => {
+                     if (!desktopViewport.matches) {
+                         e.preventDefault();
+                         toggleSubmenu(key, true);
+                    }
+                },
+                false
+            )
         );
 
         mobileMenu.addEventListener('click', () => {
