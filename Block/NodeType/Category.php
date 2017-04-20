@@ -5,6 +5,7 @@ namespace Snowdog\Menu\Block\NodeType;
 use Magento\Framework\View\Element\Template;
 use Magento\Framework\App\ResourceConnection;
 use Magento\Framework\Profiler;
+use Magento\Framework\Registry;
 use Snowdog\Menu\Api\NodeTypeInterface;
 
 class Category extends Template implements NodeTypeInterface
@@ -22,6 +23,11 @@ class Category extends Template implements NodeTypeInterface
     private $profiler;
 
     /**
+     * @var Registry
+     */
+    private $coreRegistry;
+
+    /**
      * @var bool
      */
     private $viewAllLink = true;
@@ -32,10 +38,12 @@ class Category extends Template implements NodeTypeInterface
         Template\Context $context,
         ResourceConnection $connection,
         Profiler $profiler,
+        Registry $coreRegistry,
         $data = []
     ) {
         $this->connection = $connection;
         $this->profiler = $profiler;
+        $this->coreRegistry = $coreRegistry;
         parent::__construct($context, $data);
     }
 
@@ -114,6 +122,26 @@ class Category extends Template implements NodeTypeInterface
                                    ->where('entity_id IN (' . implode(',', $categoryIds) . ')');
         $this->categoryUrls = $this->connection->getConnection('read')->fetchPairs($select);
         $this->profiler->stop(__METHOD__);
+    }
+
+    /**
+     * @param int $nodeId
+     * @return bool
+     * @throws \InvalidArgumentException
+     */
+    public function isCurrentCategory(int $nodeId)
+    {
+        if (!isset($this->nodes[$nodeId])) {
+            throw new \InvalidArgumentException('Invalid node identifier specified');
+        }
+
+        $node = $this->nodes[$nodeId];
+        $categoryId = (int) $node->getContent();
+        $currentCategory = $this->coreRegistry->registry('current_category');
+
+        return $currentCategory
+            ? $currentCategory->getId() == $categoryId
+            : false;
     }
 
     /**

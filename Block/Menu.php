@@ -7,6 +7,7 @@ use Magento\Framework\Api\Search\SearchCriteriaFactory;
 use Magento\Framework\App\Cache\Type\Block;
 use Magento\Framework\DataObject\IdentityInterface;
 use Magento\Framework\View\Element\Template;
+use Magento\Framework\Registry;
 use Snowdog\Menu\Api\MenuRepositoryInterface;
 use Snowdog\Menu\Api\NodeRepositoryInterface;
 use Snowdog\Menu\Model\NodeTypeProvider;
@@ -36,6 +37,10 @@ class Menu extends Template implements IdentityInterface
      * @var FilterGroupBuilder
      */
     private $filterGroupBuilder;
+    /**
+     * @var Registry
+     */
+    private $coreRegistry;
 
     /**
      * @var string
@@ -49,6 +54,7 @@ class Menu extends Template implements IdentityInterface
         NodeTypeProvider $nodeTypeProvider,
         SearchCriteriaFactory $searchCriteriaFactory,
         FilterGroupBuilder $filterGroupBuilder,
+        Registry $coreRegistry,
         array $data = []
     ) {
         parent::__construct($context, $data);
@@ -57,6 +63,7 @@ class Menu extends Template implements IdentityInterface
         $this->nodeTypeProvider = $nodeTypeProvider;
         $this->searchCriteriaFactory = $searchCriteriaFactory;
         $this->filterGroupBuilder = $filterGroupBuilder;
+        $this->coreRegistry = $coreRegistry;
     }
 
     /**
@@ -86,19 +93,50 @@ class Menu extends Template implements IdentityInterface
         return $this->menu;
     }
 
-
     public function getCacheKeyInfo()
     {
         $parentNodeId = $this->getParentNode()
             ? '--parent_' . $this->getParentNode()->getNodeId()
             : '';
 
-        return [
+        $info = [
             \Snowdog\Menu\Model\Menu::CACHE_TAG,
             'menu_' . $this->getMenu()->getId() . $parentNodeId,
             'store_' . $this->_storeManager->getStore()->getId(),
             'template_' . $this->getTemplate()
         ];
+
+        $pageIdentifier = $this->getCachePageIdentifier();
+        if ($pageIdentifier) {
+            $info['page_'] = $pageIdentifier;
+        }
+
+        return $info;
+    }
+
+    /**
+     * @return string
+     */
+    private function getCachePageIdentifier()
+    {
+        $identifier = '';
+
+        switch ($this->getRequest()->getRouteName()) {
+            case 'cms':
+                $pageId = $this->getRequest()->getParam('page_id');
+                if ($pageId) {
+                    $identifier = 'cms-page-' . $pageId;
+                }
+                break;
+            case 'catalog':
+                $category = $this->coreRegistry->registry('current_category');
+                if ($category) {
+                    $identifier = 'category-' . $category->getId();
+                }
+                break;
+        }
+
+        return $identifier;
     }
 
     public function getMenuHtml($level = 0, $parent = null)

@@ -6,6 +6,7 @@ use Magento\Framework\View\Element\Template;
 use Magento\Framework\App\ResourceConnection;
 use Magento\Framework\Profiler;
 use Magento\Store\Model\StoreManagerInterface;
+use Magento\Cms\Api\Data\PageInterface;
 use Snowdog\Menu\Api\NodeTypeInterface;
 
 class CmsPage extends Template implements NodeTypeInterface
@@ -24,6 +25,11 @@ class CmsPage extends Template implements NodeTypeInterface
     private $profiler;
 
     /**
+     * @var PageInterface
+     */
+    private $page;
+
+    /**
      * @var bool
      */
     private $viewAllLink = true;
@@ -34,10 +40,12 @@ class CmsPage extends Template implements NodeTypeInterface
         Template\Context $context,
         ResourceConnection $connection,
         Profiler $profiler,
+        PageInterface $page,
         $data = []
     ) {
         $this->connection = $connection;
         $this->profiler = $profiler;
+        $this->page = $page;
         parent::__construct($context, $data);
     }
 
@@ -97,6 +105,25 @@ class CmsPage extends Template implements NodeTypeInterface
                                    ->where('entity_id IN (?)', array_values($this->pageIds));
         $this->pageUrls = $this->connection->getConnection('read')->fetchPairs($select);
         $this->profiler->stop(__METHOD__);
+    }
+
+    /**
+     * @param int $nodeId
+     * @return bool
+     * @throws \InvalidArgumentException
+     */
+    public function isCurrentPage(int $nodeId)
+    {
+        if (!isset($this->nodes[$nodeId])) {
+            throw new \InvalidArgumentException('Invalid node identifier specified');
+        }
+
+        $node = $this->nodes[$nodeId];
+        $nodeContent = $node->getContent();
+
+        return isset($this->pageIds[$nodeContent])
+            ? $this->page->getId() == $this->pageIds[$nodeContent]
+            : false;
     }
 
     /**
