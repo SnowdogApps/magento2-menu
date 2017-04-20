@@ -25,13 +25,13 @@ if ($block->getIsViewAllLink()) {
     <?= $title ?>
     <?php if ($hasChildren && !$block->getIsViewAllLink()): ?>
         <?php if ($nodeLevel == 1): ?>
-            <svg title="view more" class="<?= $class; ?>__icon">
-                <use xlink:href="<?= $block->getViewFileUrl('Snowdog_Menu::images/menu-icon-sprite.svg#icon-arrow-down'); ?>"></use>
+            <svg title="view more" class="<?= $class ?>__icon">
+                <use xlink:href="<?= $block->getViewFileUrl('Snowdog_Menu::images/menu-icon-sprite.svg#icon-arrow-down') ?>"></use>
             </svg>
-        <?php elseif($nodeLevel !== 1) : ?>
-            <svg title="view more" class="<?= $class; ?>__icon <?= $class; ?>__icon--inner">
-                <use xlink:href="<?= $block->getViewFileUrl('Snowdog_Menu::images/menu-icon-sprite.svg#icon-plus'); ?>"></use>
+        <?php elseif ($nodeLevel != 1): ?>
+            <svg title="view more" class="<?= $class ?>__icon <?= $class ?>__icon--inner">
+                <use xlink:href="<?= $block->getViewFileUrl('Snowdog_Menu::images/menu-icon-sprite.svg#icon-plus') ?>"></use>
             </svg>
-        <?php endif; ?>
-    <?php endif; ?>
+        <?php endif ?>
+    <?php endif ?>
 </a>
