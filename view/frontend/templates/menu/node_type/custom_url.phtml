@@ -3,7 +3,6 @@
 $class = $block->getMenuClass();
 $dataAttribute = '';
 $nodeLevel = $block->getLevel() + 1;
-$hasChildren = $block->getIsParent();
 
 if ($block->getIsViewAllLink()) {
     $title = __('View All');
@@ -20,7 +19,7 @@ if ($block->getIsViewAllLink()) {
    class="<?= $classLink ?>"<?= $dataAttribute ?>
 >
     <?= $title ?>
-    <?php if ($hasChildren && !$block->getIsViewAllLink()): ?>
+    <?php if ($block->getIsParent() && !$block->getIsViewAllLink()): ?>
         <?php if ($nodeLevel == 1): ?>
             <svg title="view more" class="<?= $class ?>__icon">
                 <use xlink:href="<?= $block->getViewFileUrl('Snowdog_Menu::images/menu-icon-sprite.svg#icon-arrow-down') ?>"></use>
