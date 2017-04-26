@@ -47,6 +47,34 @@ class Category extends Template implements NodeTypeInterface
         parent::__construct($context, $data);
     }
 
+    /**
+     * @return \Magento\Catalog\Model\Category|null
+     */
+    public function getCurrentCategory()
+    {
+        return $this->coreRegistry->registry('current_category');
+    }
+
+    /**
+     * @return array
+     */
+    public function getNodeCacheKeyInfo()
+    {
+        $info = [
+            'module_' . $this->getRequest()->getModuleName(),
+            'controller_' . $this->getRequest()->getControllerName(),
+            'route_' . $this->getRequest()->getRouteName(),
+            'action_' . $this->getRequest()->getActionName()
+        ];
+
+        $category = $this->getCurrentCategory();
+        if ($category) {
+            $info[] = 'category_' . $category->getId();
+        }
+
+        return $info;
+    }
+
     public function getJsonConfig()
     {
         $this->profiler->start(__METHOD__);
@@ -137,7 +165,7 @@ class Category extends Template implements NodeTypeInterface
 
         $node = $this->nodes[$nodeId];
         $categoryId = (int) $node->getContent();
-        $currentCategory = $this->coreRegistry->registry('current_category');
+        $currentCategory = $this->getCurrentCategory();
 
         return $currentCategory
             ? $currentCategory->getId() == $categoryId

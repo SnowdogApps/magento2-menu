@@ -7,7 +7,6 @@ use Magento\Framework\Api\Search\SearchCriteriaFactory;
 use Magento\Framework\App\Cache\Type\Block;
 use Magento\Framework\DataObject\IdentityInterface;
 use Magento\Framework\View\Element\Template;
-use Magento\Framework\Registry;
 use Snowdog\Menu\Api\MenuRepositoryInterface;
 use Snowdog\Menu\Api\NodeRepositoryInterface;
 use Snowdog\Menu\Model\NodeTypeProvider;
@@ -37,10 +36,6 @@ class Menu extends Template implements IdentityInterface
      * @var FilterGroupBuilder
      */
     private $filterGroupBuilder;
-    /**
-     * @var Registry
-     */
-    private $coreRegistry;
 
     /**
      * @var string
@@ -54,7 +49,6 @@ class Menu extends Template implements IdentityInterface
         NodeTypeProvider $nodeTypeProvider,
         SearchCriteriaFactory $searchCriteriaFactory,
         FilterGroupBuilder $filterGroupBuilder,
-        Registry $coreRegistry,
         array $data = []
     ) {
         parent::__construct($context, $data);
@@ -63,7 +57,6 @@ class Menu extends Template implements IdentityInterface
         $this->nodeTypeProvider = $nodeTypeProvider;
         $this->searchCriteriaFactory = $searchCriteriaFactory;
         $this->filterGroupBuilder = $filterGroupBuilder;
-        $this->coreRegistry = $coreRegistry;
     }
 
     /**
@@ -95,48 +88,53 @@ class Menu extends Template implements IdentityInterface
 
     public function getCacheKeyInfo()
     {
-        $parentNodeId = $this->getParentNode()
-            ? '--parent_' . $this->getParentNode()->getNodeId()
-            : '';
-
         $info = [
             \Snowdog\Menu\Model\Menu::CACHE_TAG,
-            'menu_' . $this->getMenu()->getId() . $parentNodeId,
+            'menu_' . $this->getMenu()->getId(),
             'store_' . $this->_storeManager->getStore()->getId(),
             'template_' . $this->getTemplate()
         ];
 
-        $pageIdentifier = $this->getCachePageIdentifier();
-        if ($pageIdentifier) {
-            $info['page_'] = $pageIdentifier;
+        $nodeCacheKeyInfo = $this->getNodeCacheKeyInfo();
+        if ($nodeCacheKeyInfo) {
+            $info = array_merge($info, $nodeCacheKeyInfo);
         }
 
         return $info;
     }
 
     /**
-     * @return string
+     * @return array
      */
-    private function getCachePageIdentifier()
+    private function getNodeCacheKeyInfo()
     {
-        $identifier = '';
+        $info = [];
+        $nodeType = '';
+        $request = $this->getRequest();
 
-        switch ($this->getRequest()->getRouteName()) {
+        switch ($request->getRouteName()) {
             case 'cms':
-                $pageId = $this->getRequest()->getParam('page_id');
-                if ($pageId) {
-                    $identifier = 'cms-page-' . $pageId;
-                }
+                $nodeType = 'cms_page';
                 break;
             case 'catalog':
-                $category = $this->coreRegistry->registry('current_category');
-                if ($category) {
-                    $identifier = 'category-' . $category->getId();
+                $nodeType = 'category';
+                break;
+            case 'snownav':
+                if ($request->getControllerName() == 'catalog') {
+                    $nodeType = 'category';
                 }
                 break;
         }
 
-        return $identifier;
+        if ($nodeType) {
+            $info = $this->getNodeTypeProvider($nodeType)->getNodeCacheKeyInfo();
+        }
+
+        if ($this->getParentNode()) {
+            $info[] = 'parent_node_' . $this->getParentNode()->getNodeId();
+        }
+
+        return $info;
     }
 
     public function getMenuHtml($level = 0, $parent = null)

@@ -49,6 +49,21 @@ class CmsPage extends Template implements NodeTypeInterface
         parent::__construct($context, $data);
     }
 
+    /**
+     * @return array
+     */
+    public function getNodeCacheKeyInfo()
+    {
+        $info = [];
+        $pageId = $this->getRequest()->getParam('page_id');
+
+        if ($pageId) {
+            $info[] = 'cms_page_' . $pageId;
+        }
+
+        return $info;
+    }
+
     public function getJsonConfig()
     {
         $this->profiler->start(__METHOD__);
