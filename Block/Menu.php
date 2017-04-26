@@ -188,10 +188,9 @@ class Menu extends Template implements IdentityInterface
      */
     public function renderViewAllLink($node)
     {
-        $nodeBlock = $this->getMenuNodeBlock($node)
-            ->setIsViewAllLink(true);
-
-        return $nodeBlock->toHtml();
+        return $this->getMenuNodeBlock($node)
+            ->setIsViewAllLink(true)
+            ->toHtml();
     }
 
     /**
