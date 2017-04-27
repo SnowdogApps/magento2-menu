@@ -128,14 +128,19 @@ class Menu extends Template implements DataObject\IdentityInterface
                 break;
         }
 
-        $dispatchedNodeType = new DataObject();
+        $transport = [
+            'node_type' => $nodeType,
+            'request' => $request
+        ];
+
+        $transport = new DataObject($transport);
         $this->eventManager->dispatch(
             'snowdog_menu_cache_node_type',
-            ['node_type' => $dispatchedNodeType]
+            ['transport' => $transport]
         );
 
-        if ($dispatchedNodeType->getType()) {
-            $nodeType = $dispatchedNodeType->getType();
+        if ($transport->getNodeType()) {
+            $nodeType = $transport->getNodeType();
         }
 
         if ($nodeType) {
