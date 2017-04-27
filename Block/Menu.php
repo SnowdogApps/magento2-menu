@@ -272,7 +272,7 @@ class Menu extends Template implements DataObject\IdentityInterface
     }
 
     /**
-     * Builds HTML attributes from an array of attributes data
+     * Builds HTML tag attributes from an array of attributes data
      *
      * @param array $array
      * @return string
