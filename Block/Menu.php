@@ -5,13 +5,14 @@ namespace Snowdog\Menu\Block;
 use Magento\Framework\Api\Search\FilterGroupBuilder;
 use Magento\Framework\Api\Search\SearchCriteriaFactory;
 use Magento\Framework\App\Cache\Type\Block;
-use Magento\Framework\DataObject\IdentityInterface;
+use Magento\Framework\DataObject;
 use Magento\Framework\View\Element\Template;
+use Magento\Framework\Event\Manager as EventManager;
 use Snowdog\Menu\Api\MenuRepositoryInterface;
 use Snowdog\Menu\Api\NodeRepositoryInterface;
 use Snowdog\Menu\Model\NodeTypeProvider;
 
-class Menu extends Template implements IdentityInterface
+class Menu extends Template implements DataObject\IdentityInterface
 {
     /**
      * @var MenuRepositoryInterface
@@ -36,6 +37,10 @@ class Menu extends Template implements IdentityInterface
      * @var FilterGroupBuilder
      */
     private $filterGroupBuilder;
+    /**
+     * @var EventManager
+     */
+    private $eventManager;
 
     /**
      * @var string
@@ -44,6 +49,7 @@ class Menu extends Template implements IdentityInterface
 
     public function __construct(
         Template\Context $context,
+        EventManager $eventManager,
         MenuRepositoryInterface $menuRepository,
         NodeRepositoryInterface $nodeRepository,
         NodeTypeProvider $nodeTypeProvider,
@@ -57,6 +63,7 @@ class Menu extends Template implements IdentityInterface
         $this->nodeTypeProvider = $nodeTypeProvider;
         $this->searchCriteriaFactory = $searchCriteriaFactory;
         $this->filterGroupBuilder = $filterGroupBuilder;
+        $this->eventManager = $eventManager;
     }
 
     /**
@@ -119,11 +126,16 @@ class Menu extends Template implements IdentityInterface
             case 'catalog':
                 $nodeType = 'category';
                 break;
-            case 'snownav':
-                if ($request->getControllerName() == 'catalog') {
-                    $nodeType = 'category';
-                }
-                break;
+        }
+
+        $dispatchedNodeType = new DataObject();
+        $this->eventManager->dispatch(
+            'snowdog_menu_cache_node_type',
+            ['node_type' => $dispatchedNodeType]
+        );
+
+        if ($dispatchedNodeType->getType()) {
+            $nodeType = $dispatchedNodeType->getType();
         }
 
         if ($nodeType) {
@@ -257,6 +269,27 @@ class Menu extends Template implements IdentityInterface
             return [];
         }
         return $this->nodes[$level][$parentId];
+    }
+
+    /**
+     * Builds HTML attributes from an array of attributes data
+     *
+     * @param array $array
+     * @return string
+     */
+    public function buildAttrFromArray(array $array)
+    {
+        $attributes = [];
+
+        foreach ($array as $attribute => $data) {
+            if (is_array($data)) {
+                $data = implode(' ', $data);
+            }
+
+            $attributes[] = $attribute . '="' . htmlspecialchars($data) . '"';
+        }
+
+        return $attributes ? ' ' . implode(' ', $attributes) : '';
     }
 
     /**

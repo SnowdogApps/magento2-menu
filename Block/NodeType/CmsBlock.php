@@ -24,6 +24,9 @@ class CmsBlock extends Template implements NodeTypeInterface
     private $profiler;
 
     /**
+     * Determines whether a "View All" link item,
+     * of the current parent node, could be added to menu.
+     *
      * @var bool
      */
     private $viewAllLink = false;

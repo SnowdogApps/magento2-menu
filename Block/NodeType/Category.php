@@ -28,6 +28,9 @@ class Category extends Template implements NodeTypeInterface
     private $coreRegistry;
 
     /**
+     * Determines whether a "View All" link item,
+     * of the current parent node, could be added to menu.
+     *
      * @var bool
      */
     private $viewAllLink = true;
