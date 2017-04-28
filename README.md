@@ -1,4 +1,4 @@
-# Snowdog_Menu - Version 1.2.0
+# Snowdog_Menu - Version 2.0.0
 
 Module provides powerful menu editor.
 
@@ -41,4 +41,3 @@ Newly created block with additional method should be added via `di.xml` defining
     </type>
 </config>
 ```
-
