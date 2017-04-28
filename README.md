@@ -1,4 +1,4 @@
-# Snowdog_Menu - Version 1.1.0
+# Snowdog_Menu - Version 1.2.0
 
 Module provides powerful menu editor.
 

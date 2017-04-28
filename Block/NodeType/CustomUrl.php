@@ -2,74 +2,90 @@
 
 namespace Snowdog\Menu\Block\NodeType;
 
-use Magento\Framework\View\Element\Template;
-use Magento\Framework\App\ResourceConnection;
-use Magento\Framework\Profiler;
-use Magento\Store\Model\StoreManagerInterface;
-use Snowdog\Menu\Api\NodeTypeInterface;
+use Magento\Framework\View\Element\Template\Context;
+use Snowdog\Menu\Model\NodeType\CustomUrl as CustomUrlModel;
 
-class CustomUrl extends Template implements NodeTypeInterface
+class CustomUrl extends AbstractNode
 {
+    /**
+     * @var string
+     */
+    protected $nodeType = 'custom_url';
+    /**
+     * @var array
+     */
     protected $nodes;
     /**
-     * @var Profiler
+     * @var string
      */
-    private $profiler;
+    protected $_template = 'menu/node_type/custom_url.phtml';
+    /**
+     * @var CustomUrlModel
+     */
+    private $_customUrlModel;
 
     /**
-     * Determines whether a "View All" link item,
-     * of the current parent node, could be added to menu.
+     * CustomUrl constructor.
      *
-     * @var bool
+     * @param Context $context
+     * @param CustomUrlModel $customUrlModel
+     * @param array $data
      */
-    private $viewAllLink = true;
-
-    protected $_template = 'menu/node_type/custom_url.phtml';
-
     public function __construct(
-        Template\Context $context,
-        Profiler $profiler,
+        Context $context,
+        CustomUrlModel $customUrlModel,
         $data = []
     ) {
-        $this->profiler = $profiler;
         parent::__construct($context, $data);
+        $this->_customUrlModel = $customUrlModel;
     }
 
+    /**
+     * @inheritDoc
+     */
+    public function getJsonConfig()
+    {
+        $data = [
+            "snowMenuSimpleField" => [
+                "type" => "custom_url"
+            ]
+        ];
+        return json_encode($data);
+    }
 
+    /**
+     * @param array $nodes
+     */
     public function fetchData(array $nodes)
     {
-        $this->profiler->start(__METHOD__);
-        $localNodes = [];
-        $categoryIds = [];
-        foreach ($nodes as $node) {
-            $localNodes[$node->getId()] = $node;
-            $categoryIds[] = (int)$node->getContent();
-        }
-        $this->nodes = $localNodes;
-        $this->profiler->stop(__METHOD__);
+        $storeId = $this->_storeManager->getStore()->getId();
+
+        $this->nodes = $this->_customUrlModel->fetchData($nodes, $storeId);
     }
 
+    /**
+     * @param int $nodeId
+     * @param int $level
+     *
+     * @return string
+     */
     public function getHtml(int $nodeId, int $level)
     {
         $classes = $level == 0 ? 'level-top' : '';
         $node = $this->nodes[$nodeId];
         $url = $this->_storeManager->getStore()->getBaseUrl() . $node->getContent();
         $title = $node->getTitle();
+
         return <<<HTML
 <a href="$url" class="$classes" role="menuitem"><span>$title</span></a>
 HTML;
     }
 
+    /**
+     * @return \Magento\Framework\Phrase
+     */
     public function getAddButtonLabel()
     {
         return __("Add Custom Url node");
-    }
-
-    /**
-     * @return bool
-     */
-    public function isViewAllLinkAllowed()
-    {
-        return $this->viewAllLink;
     }
 }

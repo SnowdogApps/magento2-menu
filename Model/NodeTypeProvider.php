@@ -9,11 +9,20 @@ class NodeTypeProvider
      */
     private $providers;
 
+    /**
+     * NodeTypeProvider constructor.
+     *
+     * @param array $providers
+     */
     public function __construct(array $providers = [])
     {
         $this->providers = $providers;
     }
 
+    /**
+     * @param $type
+     * @param $nodes
+     */
     public function prepareData($type, $nodes)
     {
         $this->providers[$type]->fetchData($nodes);
@@ -28,11 +37,21 @@ class NodeTypeProvider
         return $this->providers[$type];
     }
 
+    /**
+     * @param $type
+     * @param $id
+     * @param $level
+     *
+     * @return mixed
+     */
     public function render($type, $id, $level)
     {
         return $this->providers[$type]->getHtml($id, $level);
     }
 
+    /**
+     * @return array
+     */
     public function getAddButtonLabels()
     {
         $result = [];
@@ -42,6 +61,9 @@ class NodeTypeProvider
         return $result;
     }
 
+    /**
+     * @return array
+     */
     public function getEditForms()
     {
         return $this->providers;
