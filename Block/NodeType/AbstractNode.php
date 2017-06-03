@@ -10,7 +10,7 @@
 
 namespace Snowdog\Menu\Block\NodeType;
 
-use Magento\Backend\Block\Template;
+use Magento\Framework\View\Element\Template;
 use Magento\Backend\Block\Template\Context;
 use Magento\Framework\DataObject;
 use Snowdog\Menu\Api\NodeTypeInterface;
@@ -31,12 +31,21 @@ abstract class AbstractNode extends Template implements NodeTypeInterface
      * @var DataObject[]
      */
     protected $nodeAttributes = [];
+    /**
+     * Determines whether a "View All" link item,
+     * of the current parent node, could be added to menu.
+     *
+     * @var bool
+     */
+    protected $viewAllLink = true;
 
     /**
      * @inheritDoc
      */
-    public function __construct(Context $context, array $data = [])
-    {
+    public function __construct(
+        Template\Context $context,
+        array $data = []
+    ) {
         parent::__construct($context, $data);
 
         $this->addNodeAttribute(self::NAME_CODE, 'Node name', 'wysiwyg');
@@ -122,5 +131,13 @@ abstract class AbstractNode extends Template implements NodeTypeInterface
         }
 
         return false;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isViewAllLinkAllowed()
+    {
+        return $this->viewAllLink;
     }
 }

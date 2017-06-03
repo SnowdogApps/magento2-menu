@@ -2,12 +2,8 @@
 
 namespace Snowdog\Menu\Block\NodeType;
 
-use Magento\Backend\Block\Template;
-use Magento\Backend\Block\Template\Context;
+use Magento\Framework\View\Element\Template\Context;
 use Magento\Cms\Model\Template\FilterProvider;
-use Magento\Framework\App\ResourceConnection;
-use Magento\Framework\Profiler;
-use Snowdog\Menu\Api\NodeTypeInterface;
 use Snowdog\Menu\Model\NodeType\CmsBlock as CmsBlockModel;
 
 class CmsBlock extends AbstractNode
@@ -25,6 +21,10 @@ class CmsBlock extends AbstractNode
      */
     protected $content;
     /**
+     * {@inheritdoc}
+     */
+    protected $viewAllLink = false;
+    /**
      * @var string
      */
     protected $_template = 'menu/node_type/cms_block.phtml';
@@ -40,10 +40,10 @@ class CmsBlock extends AbstractNode
     /**
      * CmsBlock constructor.
      *
-     * @param Context        $context
-     * @param CmsBlockModel  $cmsBlockModel
+     * @param Context $context
+     * @param CmsBlockModel $cmsBlockModel
      * @param FilterProvider $filterProvider
-     * @param array          $data
+     * @param array $data
      */
     public function __construct(
         Context $context,
@@ -104,5 +104,4 @@ class CmsBlock extends AbstractNode
     {
         return __("Add Cms Block node");
     }
-
 }

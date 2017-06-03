@@ -1,0 +1,40 @@
+<?php /** @var \Snowdog\Menu\Block\NodeType\Category $block */ ?>
+<?php
+$nodeId = $block->getId();
+$class = $block->getMenuClass();
+$categoryUrl = $block->getCategoryUrl($nodeId);
+$categoryUrl = $categoryUrl ?: '#';
+$dataAttribute = '';
+
+if ($block->getIsViewAllLink()) {
+    $title = __('View All');
+    $classLink = $class . '__inner-link';
+} else {
+    $classLink = $block->getIsRoot() ? $class . '__link' : $class . '__inner-link';
+    $title = $block->getTitle();
+
+    if ($nodeId) {
+        $dataAttribute = ' data-menu="menu-' . $nodeId . '"';
+    }
+
+    if ($block->isCurrentCategory($nodeId)) {
+        $classLink .= ' current';
+    }
+}
+?>
+<a href="<?= $categoryUrl ?>"
+   class="<?= $classLink ?>"<?= $dataAttribute ?>
+>
+    <?= $title ?>
+    <?php if ($block->getIsParent() && !$block->getIsViewAllLink()): ?>
+       <?php if ($block->getLevel() == 0): ?>
+            <svg title="view more" class="<?= $class ?>__icon">
+                <use xlink:href="<?= $block->getViewFileUrl('Snowdog_Menu::images/menu-icon-sprite.svg#icon-arrow-down') ?>"></use>
+            </svg>
+        <?php else: ?>
+            <svg title="view more" class="<?= $class ?>__icon <?= $class ?>__icon--inner">
+                <use xlink:href="<?= $block->getViewFileUrl('Snowdog_Menu::images/menu-icon-sprite.svg#icon-plus') ?>"></use>
+            </svg>
+        <?php endif ?>
+    <?php endif ?>
+</a>

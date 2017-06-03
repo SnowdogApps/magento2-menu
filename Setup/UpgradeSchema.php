@@ -18,17 +18,43 @@ use Magento\Framework\Setup\UpgradeSchemaInterface;
 class UpgradeSchema implements UpgradeSchemaInterface
 {
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function upgrade(SchemaSetupInterface $setup, ModuleContextInterface $context)
     {
         $setup->startSetup();
+
+        if (version_compare($context->getVersion(), '0.0.2', '<')) {
+            $this->addMenuCssClassField($setup);
+        }
 
         if (version_compare($context->getVersion(), '0.1.0', '<')) {
             $this->changeTitleType($setup);
         }
 
         $setup->endSetup();
+    }
+
+    /**
+     * @param SchemaSetupInterface $setup
+     * @return $this
+     */
+    private function addMenuCssClassField(SchemaSetupInterface $setup)
+    {
+        $setup->getConnection()->addColumn(
+            $setup->getTable('snowmenu_menu'),
+            'css_class',
+            [
+                'type' => Table::TYPE_TEXT,
+                'length' => 255,
+                'nullable' => true,
+                'after' => 'identifier',
+                'default' => 'menu',
+                'comment' => 'CSS Class'
+            ]
+        );
+
+        return $this;
     }
 
     private function changeTitleType(SchemaSetupInterface $setup)

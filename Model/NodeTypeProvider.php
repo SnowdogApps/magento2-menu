@@ -29,6 +29,15 @@ class NodeTypeProvider
     }
 
     /**
+     * @param string $type
+     * @return \Snowdog\Menu\Api\NodeTypeInterface
+     */
+    public function getProvider($type)
+    {
+        return $this->providers[$type];
+    }
+
+    /**
      * @param $type
      * @param $id
      * @param $level

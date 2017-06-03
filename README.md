@@ -1,10 +1,10 @@
-# Snowdog_Menu - Version 1.2.0
+# Magento 2 Menu
 
-Module provides powerful menu editor.
-
-List of menus is located in Admin Panel under `Content > Elements > Menus`.
+Provides powerful menu editor to replace category based menus in Magento 2.
 
 ## Use
+
+List of menus is located in Admin Panel under `Content > Elements > Menus`.
 
 Following is example how to replace main menu with user defined menu (with identifier `main`).
 
@@ -41,4 +41,3 @@ Newly created block with additional method should be added via `di.xml` defining
     </type>
 </config>
 ```
-

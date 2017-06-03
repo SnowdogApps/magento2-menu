@@ -2,12 +2,8 @@
 
 namespace Snowdog\Menu\Block\NodeType;
 
-use Magento\Backend\Block\Template;
-use Magento\Backend\Block\Template\Context;
-use Magento\Framework\App\ResourceConnection;
-use Magento\Framework\Profiler;
-use Magento\Store\Model\StoreManagerInterface;
-use Snowdog\Menu\Api\NodeTypeInterface;
+use Magento\Framework\View\Element\Template\Context;
+use Magento\Cms\Api\Data\PageInterface;
 use Snowdog\Menu\Model\NodeType\CmsPage as CmsPageModel;
 
 class CmsPage extends AbstractNode
@@ -29,6 +25,10 @@ class CmsPage extends AbstractNode
      */
     protected $pageIds;
     /**
+     * @var PageInterface
+     */
+    private $page;
+    /**
      * @var string
      */
     protected $_template = 'menu/node_type/cms_page.phtml';
@@ -40,17 +40,35 @@ class CmsPage extends AbstractNode
     /**
      * CmsPage constructor.
      *
-     * @param Context      $context
+     * @param Context $context
+     * @param PageInterface $page
      * @param CmsPageModel $cmsPageModel
-     * @param array        $data
+     * @param array $data
      */
     public function __construct(
         Context $context,
+        PageInterface $page,
         CmsPageModel $cmsPageModel,
         $data = []
     ) {
         parent::__construct($context, $data);
         $this->_cmsPageModel = $cmsPageModel;
+        $this->page = $page;
+    }
+
+    /**
+     * @return array
+     */
+    public function getNodeCacheKeyInfo()
+    {
+        $info = [];
+        $pageId = $this->getRequest()->getParam('page_id');
+
+        if ($pageId) {
+            $info[] = 'cms_page_' . $pageId;
+        }
+
+        return $info;
     }
 
     /**
@@ -71,6 +89,51 @@ class CmsPage extends AbstractNode
         $storeId = $this->_storeManager->getStore()->getId();
 
         list($this->nodes, $this->pageIds, $this->pageUrls) = $this->_cmsPageModel->fetchData($nodes, $storeId);
+    }
+
+    /**
+     * @param int $nodeId
+     * @return bool
+     * @throws \InvalidArgumentException
+     */
+    public function isCurrentPage(int $nodeId)
+    {
+        if (!isset($this->nodes[$nodeId])) {
+            throw new \InvalidArgumentException('Invalid node identifier specified');
+        }
+
+        $node = $this->nodes[$nodeId];
+        $nodeContent = $node->getContent();
+
+        return isset($this->pageIds[$nodeContent])
+            ? $this->page->getId() == $this->pageIds[$nodeContent]
+            : false;
+    }
+
+    /**
+     * @param int $nodeId
+     * @param int|null $storeId
+     * @return string|false
+     * @throws \InvalidArgumentException
+     */
+    public function getPageUrl(int $nodeId, $storeId = null)
+    {
+        if (!isset($this->nodes[$nodeId])) {
+            throw new \InvalidArgumentException('Invalid node identifier specified');
+        }
+
+        $node = $this->nodes[$nodeId];
+        $nodeContent = $node->getContent();
+
+        if (isset($this->pageIds[$nodeContent])) {
+            $pageId = $this->pageIds[$nodeContent];
+            $baseUrl = $this->_storeManager->getStore($storeId)->getBaseUrl();
+            $pageUrlPath = $this->pageUrls[$pageId];
+
+            return $baseUrl . $pageUrlPath;
+        }
+
+        return false;
     }
 
     /**

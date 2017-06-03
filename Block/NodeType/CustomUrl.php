@@ -2,12 +2,7 @@
 
 namespace Snowdog\Menu\Block\NodeType;
 
-use Magento\Backend\Block\Template\Context;
-use Magento\Backend\Block\Template;
-use Magento\Framework\App\ResourceConnection;
-use Magento\Framework\Profiler;
-use Magento\Store\Model\StoreManagerInterface;
-use Snowdog\Menu\Api\NodeTypeInterface;
+use Magento\Framework\View\Element\Template\Context;
 use Snowdog\Menu\Model\NodeType\CustomUrl as CustomUrlModel;
 
 class CustomUrl extends AbstractNode
@@ -32,9 +27,9 @@ class CustomUrl extends AbstractNode
     /**
      * CustomUrl constructor.
      *
-     * @param Context        $context
+     * @param Context $context
      * @param CustomUrlModel $customUrlModel
-     * @param array          $data
+     * @param array $data
      */
     public function __construct(
         Context $context,
