@@ -128,8 +128,9 @@ class CmsPage extends AbstractNode
         if (isset($this->pageIds[$nodeContent])) {
             $pageId = $this->pageIds[$nodeContent];
             $baseUrl = $this->_storeManager->getStore($storeId)->getBaseUrl();
-            $pageUrlPath = $this->pageUrls[$pageId];
-
+            $pageUrlPath = (! isset($this->pageUrls[$pageId]))
+                ? $this->pageUrls[$pageId]
+                :'';
             return $baseUrl . $pageUrlPath;
         }
 
