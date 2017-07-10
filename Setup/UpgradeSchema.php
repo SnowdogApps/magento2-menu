@@ -24,12 +24,12 @@ class UpgradeSchema implements UpgradeSchemaInterface
     {
         $setup->startSetup();
 
-        if (version_compare($context->getVersion(), '0.0.2', '<')) {
-            $this->addMenuCssClassField($setup);
-        }
-
         if (version_compare($context->getVersion(), '0.1.0', '<')) {
             $this->changeTitleType($setup);
+        }
+
+        if (version_compare($context->getVersion(), '0.2.0', '<')) {
+            $this->addMenuCssClassField($setup);
         }
 
         $setup->endSetup();
