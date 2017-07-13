@@ -11,10 +11,31 @@
 namespace Snowdog\Menu\Model\ResourceModel\NodeType;
 
 use Magento\Catalog\Model\Category as CoreCategory;
+use Magento\Framework\App\ResourceConnection;
+use Snowdog\Menu\Helper\EavStructureWrapper;
 use Magento\Store\Model\Store;
 
 class CmsPage extends AbstractNode
 {
+    /**
+     * @var EavStructureWrapper
+     */
+    protected $eavStructureWrapper;
+
+    /**
+     * CmsPage constructor.
+     *
+     * @param ResourceConnection $resource
+     * @param EavStructureWrapper $eavStructureWrapper
+     */
+    public function __construct(
+        ResourceConnection $resource,
+        EavStructureWrapper $eavStructureWrapper
+    ) {
+        $this->eavStructureWrapper = $eavStructureWrapper;
+        parent::__construct($resource);
+    }
+
     /**
      * @return array
      */
@@ -38,16 +59,16 @@ class CmsPage extends AbstractNode
      */
     public function fetchData($storeId = Store::DEFAULT_STORE_ID, $pageIds = [])
     {
+        $eavColumnName = $this->eavStructureWrapper->getEntityColumnName();
         $connection = $this->getConnection('read');
-
         $table = $connection->getTableName('url_rewrite');
 
         $select = $connection
             ->select()
-            ->from($table, ['entity_id', 'request_path'])
+            ->from($table, [$eavColumnName, 'request_path'])
             ->where('entity_type = ?', 'cms-page')
             ->where('store_id = ?', $storeId)
-            ->where('entity_id IN (?)', array_values($pageIds));
+            ->where($eavColumnName . ' IN (?)', array_values($pageIds));
 
         return $connection->fetchPairs($select);
     }
