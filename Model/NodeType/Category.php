@@ -10,8 +10,16 @@
 
 namespace Snowdog\Menu\Model\NodeType;
 
+use Magento\Framework\Profiler;
+use Snowdog\Menu\Helper\EavStructureWrapper;
+
 class Category extends AbstractNode
 {
+    /**
+     * @var EavStructureWrapper
+     */
+    protected $eavStructureWrapper;
+
     /**
      * @inheritDoc
      */
@@ -22,11 +30,26 @@ class Category extends AbstractNode
     }
 
     /**
+     * Category constructor.
+     *
+     * @param Profiler $profiler
+     * @param EavStructureWrapper $eavStructureWrapper
+     */
+    public function __construct(
+        Profiler $profiler,
+        EavStructureWrapper $eavStructureWrapper
+    ) {
+        $this->eavStructureWrapper = $eavStructureWrapper;
+        parent::__construct($profiler);
+    }
+
+    /**
      * @inheritDoc
      */
     public function fetchConfigData()
     {
         $this->profiler->start(__METHOD__);
+        $eavColumnName = $this->eavStructureWrapper->getEntityColumnName();
 
         $data = $this->getResource()->fetchConfigData();
         $labels = [];
@@ -38,7 +61,7 @@ class Category extends AbstractNode
                 $label = [];
             }
             $label[] = $row['name'];
-            $labels[$row['entity_id']] = $label;
+            $labels[$row[$eavColumnName]] = $label;
         }
 
         $options = [];
