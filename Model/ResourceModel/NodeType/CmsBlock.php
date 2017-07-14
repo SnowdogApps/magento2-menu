@@ -11,10 +11,26 @@
 namespace Snowdog\Menu\Model\ResourceModel\NodeType;
 
 use Magento\Catalog\Model\Category as CoreCategory;
+use Magento\Framework\App\ResourceConnection;
 use Magento\Store\Model\Store;
+use Snowdog\Menu\Helper\EavStructureWrapper;
 
 class CmsBlock extends AbstractNode
 {
+    /**
+     * @var EavStructureWrapper
+     */
+    protected $eavStructureWrapper;
+
+    public function __construct(
+        ResourceConnection $resource,
+        EavStructureWrapper  $eavStructureWrapper
+    ) {
+        $this->eavStructureWrapper = $eavStructureWrapper;
+        parent::__construct($resource);
+    }
+
+
     /**
      * @return array
      */
@@ -38,6 +54,7 @@ class CmsBlock extends AbstractNode
      */
     public function fetchData($storeId = Store::DEFAULT_STORE_ID, $blocksCodes = [])
     {
+        $eavColumnName = $this->eavStructureWrapper->getEntityBlockColumnName();
         $connection = $this->getConnection('read');
 
         $blockTable = $connection->getTableName('cms_block');
@@ -46,7 +63,7 @@ class CmsBlock extends AbstractNode
         $select = $connection->select()->from(
             ['p' => $blockTable],
             ['content', 'identifier']
-        )->join(['s' => $storeTable], 'p.block_id = s.block_id', [])->where(
+        )->join(['s' => $storeTable], 'p.' . $eavColumnName . ' = s.' .$eavColumnName, [])->where(
             's.store_id IN (0, ?)',
             $storeId
         )->where('p.identifier IN (?)', $blocksCodes)->where('p.is_active = ?', 1)->order('s.store_id ASC');
