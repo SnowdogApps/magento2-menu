@@ -81,16 +81,15 @@ class Category extends AbstractNode
      */
     public function fetchData($storeId = Store::DEFAULT_STORE_ID, $categoryIds = [])
     {
-        $eavColumnName = $this->eavStructureWrapper->getEntityColumnName();
         $connection = $this->getConnection('read');
         $table = $connection->getTableName('url_rewrite');
         $select = $connection
             ->select()
-            ->from($table, [$eavColumnName, 'request_path'])
+            ->from($table, ['entity_id', 'request_path'])
             ->where('entity_type = ?', 'category')
             ->where('redirect_type = ?', 0)
             ->where('store_id = ?', $storeId)
-            ->where($eavColumnName . ' IN (' . implode(',', $categoryIds) . ')');
+            ->where('entity_id IN (' . implode(',', $categoryIds) . ')');
 
         return $connection->fetchPairs($select);
     }
