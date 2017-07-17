@@ -1,11 +1,10 @@
 define([
     'jquery',
     'underscore',
-    'snowMenuEditorSerialize',
     'snowMenuTree',
     'snowMenuEditorInit',
     'snowWysiwygSetup'
-], function($, _, snowSerialize) {
+], function($, _) {
     return function(options, element) {
         var editorParent          = $(element).parent(),
             editorBlock           = $(element).detach(),
@@ -13,7 +12,6 @@ define([
             input                 = editorBlock.find('.node-value-field input'),
             label                 = editorBlock.find('.selected-option__value'),
             nodeNameInput         = editorBlock.find('#snowmenu_node_name_' + nodeType),
-            nodeClassInput        = editorBlock.find('#snowmenu_node_classes'),
             configuration         = options.options,
             configurationKeys     = Object.keys(options.options),
             invertedConfiguration = _.invert(configuration),
@@ -78,14 +76,6 @@ define([
                 label.html('');
                 label.removeClass('admin__field-error');
             }
-        });
-
-        nodeNameInput.change(function() {
-            snowSerialize();
-        });
-
-        nodeClassInput.change(function() {
-            snowSerialize();
         });
     }
 });

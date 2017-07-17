@@ -1,18 +1,16 @@
 define([
     'jquery',
-    'snowMenuEditorSerialize',
     'snowMenuTree',
     'snowMenuEditorInit'
-], function($, snowSerialize) {
+], function($) {
     return function(options, element) {
-        var editorParent  = $(element).parent(),
-            editorBlock   = $(element).detach(),
-            nodeType      = editorBlock.attr('data-node-type'),
-            nodeNameInput   = editorBlock.find('#snowmenu_node_name_' + nodeType),
-            nodeClassInput  = editorBlock.find('#snowmenu_node_classes'),
-            input         = editorBlock.find('.node-value-field input'),
-            treeContainer = $('#snowmenu_tree_container'),
-            tree          = treeContainer.jstree(true);
+        var editorParent   = $(element).parent(),
+            editorBlock    = $(element).detach(),
+            nodeType       = editorBlock.attr('data-node-type'),
+            nodeNameInput  = editorBlock.find('#snowmenu_node_name_' + nodeType),
+            input          = editorBlock.find('.node-value-field input'),
+            treeContainer  = $('#snowmenu_tree_container'),
+            tree           = treeContainer.jstree(true);
 
         treeContainer.on("changed.jstree", function(e, data) {
             var editor = tinyMceEditors.get(nodeNameInput.attr('id'));
@@ -39,21 +37,13 @@ define([
             }
         });
 
-        input.change(function() {
+        input.on('input', function() {
             var node     = tree.get_selected(),
                 selected = tree.get_node(node);
 
             selected.data.content = $(this).val();
             tree.deselect_node(node);
             tree.select_node(node);
-        });
-
-        nodeNameInput.change(function() {
-            snowSerialize();
-        });
-
-        nodeClassInput.change(function() {
-            snowSerialize();
         });
     }
 });

@@ -67,7 +67,7 @@ class CmsPage extends AbstractNode
             ->from($table, ['entity_id', 'request_path'])
             ->where('entity_type = ?', 'cms-page')
             ->where('store_id = ?', $storeId)
-            ->where('entity_id' . ' IN (?)', array_values($pageIds));
+            ->where('entity_id IN (?)', array_values($pageIds));
 
         return $connection->fetchPairs($select);
     }
@@ -80,6 +80,7 @@ class CmsPage extends AbstractNode
      */
     public function getPageIds($storeId, $pagesCodes = [])
     {
+        $eavColumnName = $this->eavStructureWrapper->getCmsPageEntityColumnName();
         $connection = $this->getConnection('read');
         $eavColumnName = $this->eavStructureWrapper->getEntityColumnName();
 
@@ -88,8 +89,8 @@ class CmsPage extends AbstractNode
 
         $select = $connection->select()->from(
             ['p' => $pageTable],
-            ['page_id', 'identifier']
-        )->join(['s' => $storeTable], "p.page_id = s.{$eavColumnName}", [])->where(
+            [$eavColumnName, 'identifier']
+        )->join(['s' => $storeTable], 'p.' . $eavColumnName . ' = s.' . $eavColumnName, [])->where(
             's.store_id IN (0, ?)',
             $storeId
         )->where('p.identifier IN (?)', $pagesCodes)->where('p.is_active = ?', 1)->order('s.store_id ASC');
@@ -99,7 +100,7 @@ class CmsPage extends AbstractNode
         $pageIds = [];
 
         foreach ($codes as $row) {
-            $pageIds[$row['identifier']] = $row['page_id'];
+            $pageIds[$row['identifier']] = $row[$eavColumnName];
         }
 
         return $pageIds;

@@ -89,7 +89,7 @@ class Category extends AbstractNode
             ->where('entity_type = ?', 'category')
             ->where('redirect_type = ?', 0)
             ->where('store_id = ?', $storeId)
-            ->where('entity_id' . ' IN (' . implode(',', $categoryIds) . ')');
+            ->where('entity_id IN (' . implode(',', $categoryIds) . ')');
 
         return $connection->fetchPairs($select);
     }
