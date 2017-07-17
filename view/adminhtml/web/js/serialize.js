@@ -15,6 +15,7 @@ define([
                 no_li_attr: true,
                 no_state: true
             });
+
             data = JSON.stringify(data);
             serializedInput.val(data);
         }

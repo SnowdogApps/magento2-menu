@@ -5,6 +5,7 @@ define([
 ], function($, snowSerialize) {
     return function(options, element) {
         var treeContainer = $(element);
+
         treeContainer.jstree({
             "core": {
                 "check_callback": true,
