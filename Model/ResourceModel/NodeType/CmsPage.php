@@ -82,6 +82,7 @@ class CmsPage extends AbstractNode
     {
         $eavColumnName = $this->eavStructureWrapper->getCmsPageEntityColumnName();
         $connection = $this->getConnection('read');
+        $eavColumnName = $this->eavStructureWrapper->getEntityColumnName();
 
         $pageTable = $connection->getTableName('cms_page');
         $storeTable = $connection->getTableName('cms_page_store');
