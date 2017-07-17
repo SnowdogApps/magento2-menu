@@ -59,16 +59,15 @@ class CmsPage extends AbstractNode
      */
     public function fetchData($storeId = Store::DEFAULT_STORE_ID, $pageIds = [])
     {
-        $eavColumnName = $this->eavStructureWrapper->getEntityColumnName();
         $connection = $this->getConnection('read');
         $table = $connection->getTableName('url_rewrite');
 
         $select = $connection
             ->select()
-            ->from($table, [$eavColumnName, 'request_path'])
+            ->from($table, ['entity_id', 'request_path'])
             ->where('entity_type = ?', 'cms-page')
             ->where('store_id = ?', $storeId)
-            ->where($eavColumnName . ' IN (?)', array_values($pageIds));
+            ->where('entity_id IN (?)', array_values($pageIds));
 
         return $connection->fetchPairs($select);
     }
@@ -81,15 +80,17 @@ class CmsPage extends AbstractNode
      */
     public function getPageIds($storeId, $pagesCodes = [])
     {
+        $eavColumnName = $this->eavStructureWrapper->getCmsPageEntityColumnName();
         $connection = $this->getConnection('read');
+        $eavColumnName = $this->eavStructureWrapper->getEntityColumnName();
 
         $pageTable = $connection->getTableName('cms_page');
         $storeTable = $connection->getTableName('cms_page_store');
 
         $select = $connection->select()->from(
             ['p' => $pageTable],
-            ['page_id', 'identifier']
-        )->join(['s' => $storeTable], 'p.page_id = s.page_id', [])->where(
+            [$eavColumnName, 'identifier']
+        )->join(['s' => $storeTable], 'p.' . $eavColumnName . ' = s.' . $eavColumnName, [])->where(
             's.store_id IN (0, ?)',
             $storeId
         )->where('p.identifier IN (?)', $pagesCodes)->where('p.is_active = ?', 1)->order('s.store_id ASC');
@@ -99,7 +100,7 @@ class CmsPage extends AbstractNode
         $pageIds = [];
 
         foreach ($codes as $row) {
-            $pageIds[$row['identifier']] = $row['page_id'];
+            $pageIds[$row['identifier']] = $row[$eavColumnName];
         }
 
         return $pageIds;
