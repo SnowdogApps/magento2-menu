@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [2.0.5] - 2017-07-18
+## Fixed
+- Fix problem with compatible CE cms page
+
 ## [2.0.4] - 2017-07-17
 ### Fixed
 - Fix problem with compatible EE CE block and cms page (EE compatibility)
