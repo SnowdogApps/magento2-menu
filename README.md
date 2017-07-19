@@ -1,3 +1,5 @@
+[![Packagist](https://img.shields.io/packagist/v/snowdog/module-menu.svg)](https://packagist.org/packages/snowdog/module-menu) [![Packagist](https://img.shields.io/packagist/dt/snowdog/module-menu.svg)](https://packagist.org/packages/snowdog/module-menu)
+
 # Magento 2 Menu
 
 Provides powerful menu editor to replace category based menus in Magento 2.
