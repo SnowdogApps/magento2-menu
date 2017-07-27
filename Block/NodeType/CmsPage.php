@@ -96,7 +96,7 @@ class CmsPage extends AbstractNode
      * @return bool
      * @throws \InvalidArgumentException
      */
-    public function isCurrentPage(int $nodeId)
+    public function isCurrentPage($nodeId)
     {
         if (!isset($this->nodes[$nodeId])) {
             throw new \InvalidArgumentException('Invalid node identifier specified');
@@ -116,7 +116,7 @@ class CmsPage extends AbstractNode
      * @return string|false
      * @throws \InvalidArgumentException
      */
-    public function getPageUrl(int $nodeId, $storeId = null)
+    public function getPageUrl($nodeId, $storeId = null)
     {
         if (!isset($this->nodes[$nodeId])) {
             throw new \InvalidArgumentException('Invalid node identifier specified');
@@ -143,7 +143,7 @@ class CmsPage extends AbstractNode
      *
      * @return string
      */
-    public function getHtml(int $nodeId, int $level)
+    public function getHtml($nodeId, $level)
     {
         $classes = $level == 0 ? 'level-top' : '';
         $node = $this->nodes[$nodeId];

@@ -99,7 +99,7 @@ class MenuRepository implements MenuRepositoryInterface
         return $searchResults;
     }
 
-    public function get(string $identifier, int $storeId)
+    public function get($identifier, $storeId)
     {
         $collection = $this->collectionFactory->create();
         $collection->addFilter('identifier', $identifier);

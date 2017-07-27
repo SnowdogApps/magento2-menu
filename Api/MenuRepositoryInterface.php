@@ -16,5 +16,5 @@ interface MenuRepositoryInterface
 
     public function deleteById($id);
 
-    public function get(string $identifier, int $storeId);
+    public function get($identifier, $storeId);
 }

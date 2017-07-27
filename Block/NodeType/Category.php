@@ -105,7 +105,7 @@ class Category extends AbstractNode
      * @return bool
      * @throws \InvalidArgumentException
      */
-    public function isCurrentCategory(int $nodeId)
+    public function isCurrentCategory($nodeId)
     {
         if (!isset($this->nodes[$nodeId])) {
             throw new \InvalidArgumentException('Invalid node identifier specified');
@@ -126,7 +126,7 @@ class Category extends AbstractNode
      * @return string|false
      * @throws \InvalidArgumentException
      */
-    public function getCategoryUrl(int $nodeId, $storeId = null)
+    public function getCategoryUrl($nodeId, $storeId = null)
     {
         if (!isset($this->nodes[$nodeId])) {
             throw new \InvalidArgumentException('Invalid node identifier specified');
@@ -152,7 +152,7 @@ class Category extends AbstractNode
      *
      * @return string
      */
-    public function getHtml(int $nodeId, int $level, $storeId = null)
+    public function getHtml($nodeId, $level, $storeId = null)
     {
         $classes = $level == 0 ? 'level-top' : '';
         $node = $this->nodes[$nodeId];

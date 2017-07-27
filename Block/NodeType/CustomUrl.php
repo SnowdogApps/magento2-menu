@@ -69,7 +69,7 @@ class CustomUrl extends AbstractNode
      *
      * @return string
      */
-    public function getHtml(int $nodeId, int $level)
+    public function getHtml($nodeId, $level)
     {
         $classes = $level == 0 ? 'level-top' : '';
         $node = $this->nodes[$nodeId];
