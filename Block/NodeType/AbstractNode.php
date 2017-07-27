@@ -53,21 +53,6 @@ abstract class AbstractNode extends Template implements NodeTypeInterface
     }
 
     /**
-     * @inheritDoc
-     */
-    public abstract function fetchData(array $nodes);
-
-    /**
-     * @inheritDoc
-     */
-    public abstract function getHtml(int $nodeId, int $level);
-
-    /**
-     * @inheritDoc
-     */
-    public abstract function getAddButtonLabel();
-
-    /**
      * @return string
      */
     public function getNodeType()
