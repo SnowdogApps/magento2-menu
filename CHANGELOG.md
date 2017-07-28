@@ -6,8 +6,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 ### Fixed
-- Fixed method declaration compatibility in node type blocks
-- Removed PHP7 type hints
+- Method declaration compatibility in node type blocks
+
+### Removed
+- PHP7 type hints
 
 ## [2.0.5] - 2017-07-18
 ### Fixed
