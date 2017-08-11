@@ -12,13 +12,13 @@ Following is example how to replace main menu with user defined menu (with ident
 
 ```xml
 <referenceBlock name="catalog.topnav" remove="true"/>
-<referenceContainer name="store.menu">
+<referenceBlock name="store.menu">
   <block name="main.menu" class="Snowdog\Menu\Block\Menu" template="Snowdog_Menu::menu.phtml">
      <arguments>
         <argument name="menu" xsi:type="string">main</argument>
      </arguments>
   </block>
-</referenceContainer>
+</referenceBlock>
 ```
 
 ## Adding new types of nodes
