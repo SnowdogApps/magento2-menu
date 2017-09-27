@@ -32,6 +32,10 @@ class UpgradeSchema implements UpgradeSchemaInterface
             $this->addMenuCssClassField($setup);
         }
 
+        if (version_compare($context->getVersion(), '0.2.1', '<')) {
+            $this->addTargetAttribute($setup);
+        }
+
         $setup->endSetup();
     }
 
@@ -68,5 +72,23 @@ class UpgradeSchema implements UpgradeSchemaInterface
             ],
             'Demo Title'
         );
+    }
+
+    private function addTargetAttribute($setup)
+    {
+        $setup->getConnection()->addColumn(
+            $setup->getTable('snowmenu_node'),
+            'target',
+            [
+                'type' => Table::TYPE_TEXT,
+                'length' => 10,
+                'nullable' => true,
+                'after' => 'identifier',
+                'default' => '_self',
+                'comment' => 'Link target'
+            ]
+        );
+
+        return $this;
     }
 }
