@@ -19,8 +19,8 @@
     }
   },
   "require": {
-    "magento/module-catalog": "100.*|101.*",
-    "magento/module-cms": "100.*|101.*",
-    "magento/module-backend": "100.*"
+    "magento/module-catalog": "100.*|101.*|102.*",
+    "magento/module-cms": "100.*|101.*|102.*",
+    "magento/module-backend": "100.*|102.*"
   }
 }
