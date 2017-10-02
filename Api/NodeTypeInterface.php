@@ -20,7 +20,7 @@ interface NodeTypeInterface extends BlockInterface
      * @param \Snowdog\Menu\Api\Data\NodeInterface[] $nodes
      * @return void
      */
-    public function fetchData(array $nodes);
+    public function fetchData($nodes);
 
     /**
      * Renders node content.
