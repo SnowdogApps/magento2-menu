@@ -2,6 +2,7 @@
 <?php
 $class = $block->getMenuClass();
 $dataAttribute = '';
+$target = '';
 
 if ($block->getIsViewAllLink()) {
     $title = __('View All');
@@ -13,9 +14,16 @@ if ($block->getIsViewAllLink()) {
         $dataAttribute = ' data-menu="menu-' . $block->getId() . '"';
     }
 }
+
+if($block->getTarget()) {
+    $target = 'target="__blank"';
+}
+
 ?>
 <a href="<?= $block->getContent() ?>"
-   class="<?= $classLink ?>"<?= $dataAttribute ?>
+   class="<?= $classLink ?>"
+    <?= $dataAttribute ?>
+    <?= $target ?>
 >
     <?= $title ?>
     <?php if ($block->getIsParent() && !$block->getIsViewAllLink()): ?>

@@ -21,15 +21,24 @@ define([
             serialize();
         });
 
-        nodeInput.on('input', function() {
-            if (options.type === 'node_name') {
-                tree.rename_node(tree.get_selected(), $(this).val());
-            }
+        if (element.type === 'checkbox') {
+            nodeInput.change(function() {
+                if (options.type === 'node_target') {
+                    tree.get_node(tree.get_selected()).data.target = this.checked;
+                }
+                serialize();
+            });
+        } else {
+            nodeInput.on('input', function() {
+                if (options.type === 'node_name') {
+                    tree.rename_node(tree.get_selected(), $(this).val());
+                }
 
-            if (options.type === 'node_classes') {
-                tree.get_node(tree.get_selected()).data.classes = $(this).val();
-            }
-            serialize();
-        });
+                if (options.type === 'node_classes') {
+                    tree.get_node(tree.get_selected()).data.classes = $(this).val();
+                }
+                serialize();
+            });
+        }
     }
 });

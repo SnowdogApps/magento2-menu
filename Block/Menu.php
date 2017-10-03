@@ -315,7 +315,8 @@ class Menu extends Template implements DataObject\IdentityInterface
             ->setIsParent((bool) $node->getIsParent())
             ->setIsViewAllLink(false)
             ->setContent($node->getContent())
-            ->setMenuClass($this->getMenu()->getCssClass());
+            ->setMenuClass($this->getMenu()->getCssClass())
+            ->setTarget($node->getTarget());
 
         return $nodeBlock;
     }
