@@ -143,7 +143,7 @@ class CmsPage extends AbstractNode
      *
      * @return string
      */
-    public function getHtml($nodeId, $level)
+    public function getHtml(int $nodeId, int $level)
     {
         $classes = $level == 0 ? 'level-top' : '';
         $node = $this->nodes[$nodeId];

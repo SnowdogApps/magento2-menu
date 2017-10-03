@@ -152,7 +152,7 @@ class Category extends AbstractNode
      *
      * @return string
      */
-    public function getHtml($nodeId, $level, $storeId = null)
+    public function getHtml(int $nodeId, int $level, $storeId = null)
     {
         $classes = $level == 0 ? 'level-top' : '';
         $node = $this->nodes[$nodeId];

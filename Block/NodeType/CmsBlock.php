@@ -82,7 +82,7 @@ class CmsBlock extends AbstractNode
      *
      * @return mixed|string
      */
-    public function getHtml($nodeId, $level)
+    public function getHtml(int $nodeId, int $level)
     {
         $node = $this->nodes[$nodeId];
         $storeId = $this->_storeManager->getStore()->getId();
