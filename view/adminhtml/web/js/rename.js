@@ -11,11 +11,17 @@ define([
             tree          = treeContainer.jstree(true);
 
         treeContainer.on("changed.jstree", function(e, data) {
-            if (options.type === 'node_classes') {
-                var node = data.instance.get_node(data.selected);
+            var node = data.instance.get_node(data.selected);
 
+            if (options.type === 'node_classes') {
                 if (node.data) {
                     nodeInput.val(node.data.classes);
+                }
+            }
+
+            if (options.type === 'node_target') {
+                if (node.data) {
+                    nodeInput.prop('checked', !!node.data.target);
                 }
             }
             serialize();
