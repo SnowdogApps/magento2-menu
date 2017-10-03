@@ -29,7 +29,7 @@ interface NodeTypeInterface extends BlockInterface
      * @param int $level in tree depth
      * @return string
      */
-    public function getHtml(int $nodeId, int $level);
+    public function getHtml($nodeId, $level);
 
     /**
      * Returns label od "add node" button in edit form

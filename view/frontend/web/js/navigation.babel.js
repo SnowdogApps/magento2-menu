@@ -82,20 +82,24 @@ define(function() {
             )
         );
 
-        mobileMenu.addEventListener('click', () => {
-            navMenu.classList.toggle('open');
-            // disable document scrolling while menu is open
-            documentBody.classList.toggle('menu-open');
-        });
+        if (mobileMenu) {
+            mobileMenu.addEventListener('click', () => {
+                navMenu.classList.toggle('open');
+                // disable document scrolling while menu is open
+                documentBody.classList.toggle('menu-open');
+            });
+        }
 
-        menuBg.addEventListener('click', () => {
-            navMenu.classList.toggle('open');
-            // disable document scrolling while menu is open
-            documentBody.classList.toggle('menu-open');
-        });
+        if (menuBg) {
+            menuBg.addEventListener('click', () => {
+                navMenu.classList.toggle('open');
+                // disable document scrolling while menu is open
+                documentBody.classList.toggle('menu-open');
+            });
+        }
 
         window.addEventListener('resize', () => {
-            if (desktopViewport.matches) {
+            if (desktopViewport.matches && navMenu) {
                 menuInnerLists.forEach(key => key.style.height = 'auto');
                 document.querySelectorAll(`.${menuMainClass}__list li`)
                         .forEach(key => key.classList.remove('open'));

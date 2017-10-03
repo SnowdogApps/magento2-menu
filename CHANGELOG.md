@@ -6,6 +6,18 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [2.1.0] - 2017-10-03
+### Changed
+- Update composer.json for compatibility with M2.2 (#18)
+
+### Fixed
+- Fix method declaration compatibility in node type blocks (#9)
+- Fix example layout xml code in README.md (#12)
+- Fix showing error on browser console with eventListeners who calling element which doesn't exist (#13)
+
+### Removed
+- Remove PHP7 type hints (#11)
+
 ## [2.0.5] - 2017-07-18
 ### Fixed
 - Fix problem with compatible CE cms page
@@ -15,7 +27,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Fix problem with compatible EE CE block and cms page (EE compatibility)
     - Remove `$eavColumnName` from `fetchData–url_rewrite` always uses `entity_id`
     - Use `$eavColumnName` for `cms_page_store` table page reference
-- Fixed issue with not saving data when user not blur the input before save
+- Fix issue with not saving data when user not blur the input before save
 
 ## [2.0.3] - 2017-07-13
 ### Fixed
@@ -30,5 +42,5 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Fix for undefined offset in CmsPage block
 
 ## [2.0.0] - 2017-06-03
-### Changes
+### Changed
 - Rendering rewrited and moved to more front-end friendly palces, to make customizations easier

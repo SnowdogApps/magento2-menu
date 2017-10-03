@@ -1,7 +1,7 @@
 {
   "name": "snowdog/module-menu",
   "description": "Provides powerful menu editor to replace category based menus in Magento 2",
-  "version": "2.0.5",
+  "version": "2.1.0",
   "license": "MIT",
   "type": "magento2-module",
   "authors": [
@@ -19,8 +19,8 @@
     }
   },
   "require": {
-    "magento/module-catalog": "100.*|101.*",
-    "magento/module-cms": "100.*|101.*",
-    "magento/module-backend": "100.*"
+    "magento/module-catalog": "100.*|101.*|102.*",
+    "magento/module-cms": "100.*|101.*|102.*",
+    "magento/module-backend": "100.*|102.*"
   }
 }
