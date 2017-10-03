@@ -83,7 +83,7 @@ class UpgradeSchema implements UpgradeSchemaInterface
                 'type' => Table::TYPE_TEXT,
                 'length' => 10,
                 'nullable' => true,
-                'after' => 'identifier',
+                'after' => 'title',
                 'default' => '_self',
                 'comment' => 'Link target'
             ]
