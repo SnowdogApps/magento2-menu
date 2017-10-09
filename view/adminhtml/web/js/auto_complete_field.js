@@ -22,7 +22,7 @@ define([
             source: configurationKeys,
             autoFocus: true,
             minLength: 0,
-            select: function( event, ui) {
+            select: function(event, ui) {
                 var node = tree.get_selected(),
                     selected = tree.get_node(node),
                     value = ui.item.value;
@@ -36,9 +36,12 @@ define([
                     label.html(options.message);
                     label.addClass('admin__field-error');
                 }
-
                 tree.deselect_node(node);
                 tree.select_node(node);
+            },
+            change: function(event) {
+                var helper = $(event.target.nextSibling);
+                helper.html('');
             }
         });
 
