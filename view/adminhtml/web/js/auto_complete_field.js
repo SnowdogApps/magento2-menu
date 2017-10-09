@@ -22,10 +22,10 @@ define([
             source: configurationKeys,
             autoFocus: true,
             minLength: 0,
-            change: function() {
+            select: function( event, ui) {
                 var node = tree.get_selected(),
                     selected = tree.get_node(node),
-                    value = $(this).val();
+                    value = ui.item.value;
 
                 if (configuration[value]) {
                     label.html(configuration[value]);
