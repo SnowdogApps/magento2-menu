@@ -1,4 +1,26 @@
 <?php /** @var $block \Snowdog\Menu\Block\Menu\Edit\Tab\Nodes */ ?>
+<div id="snowdog-menu">
+    <div style="text-align: center">
+        <div class="spinner">
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </div>
+</div>
+<script type="text/x-magento-init">
+    {
+        "#snowdog-menu": {
+            "snowMenuVue": {}
+        }
+    }
+</script>
+<hr>
 <fieldset class="fieldset admin__fieldset fieldset-wide snowdog-tree-menu-editor" id="menu_tree_editor">
     <div class="admin__field field field-title"
          data-mage-init='{"snowMenuEditorInit":{}}'
@@ -24,35 +46,36 @@
 
     <?php /** @var \Snowdog\Menu\Block\NodeType\AbstractNode $form */ ?>
     <?php foreach ($block->getNodeForms() as $form): ?>
-    <fieldset class="fieldset fieldset-<?= $form->getNodeType(); ?> admin__fieldset fieldset-wide"
-              data-mage-init='<?= str_replace('\'', '', $form->getJsonConfig()); ?>'
-              data-node-type="<?= $form->getNodeType(); ?>">
-        <?php foreach ($form->getNodeAttributes() as $formAttribute): ?>
-            <div class="admin__field field field-title">
-                <label class="label admin__field-label" for="snowmenu_<?= $formAttribute->getId(); ?>">
-                    <?= __($formAttribute->getLabel()); ?>
-                </label>
-                <div class="admin__field-control control">
-                <?php if ($formAttribute->getType() != 'wysiwyg'): ?>
-                    <input class="input-text admin__control-text"
-                           data-mage-init='{"snowMenuEditorRename":{"type":"<?= $formAttribute->getCode(); ?>"}}'
-                           id="snowmenu_<?= $formAttribute->getId(); ?>"
-                           type="<?= $formAttribute->getType(); ?>"
-                    />
-                <?php else: ?>
-                <?php
-                    $wysiwyg = $block->getEditor('snowmenu_' . $formAttribute->getId(), $formAttribute->getId());
-                    $wysiwyg->setDataMageInit(
-                        "{\"snowMenuEditorRename\":{\"type\":\"" . $formAttribute->getCode() . "\"}}"
-                    );
-                    echo $wysiwyg->getElementHtml();
-                ?>
-                <?php endif; ?>
+        <fieldset class="fieldset fieldset-<?= $form->getNodeType(); ?> admin__fieldset fieldset-wide"
+                  data-mage-init='<?= str_replace('\'', '', $form->getJsonConfig()); ?>'
+                  data-node-type="<?= $form->getNodeType(); ?>"
+        >
+            <?php foreach ($form->getNodeAttributes() as $formAttribute): ?>
+                <div class="admin__field field field-title">
+                    <label class="label admin__field-label" for="snowmenu_<?= $formAttribute->getId(); ?>">
+                        <?= __($formAttribute->getLabel()); ?>
+                    </label>
+                    <div class="admin__field-control control">
+                        <?php if ($formAttribute->getType() != 'wysiwyg'): ?>
+                            <input class="input-text admin__control-text"
+                                   data-mage-init='{"snowMenuEditorRename":{"type":"<?= $formAttribute->getCode(); ?>"}}'
+                                   id="snowmenu_<?= $formAttribute->getId(); ?>"
+                                   type="<?= $formAttribute->getType(); ?>"
+                            />
+                        <?php else: ?>
+                            <?php
+                            $wysiwyg = $block->getEditor('snowmenu_' . $formAttribute->getId(), $formAttribute->getId());
+                            $wysiwyg->setDataMageInit(
+                                "{\"snowMenuEditorRename\":{\"type\":\"" . $formAttribute->getCode() . "\"}}"
+                            );
+                            echo $wysiwyg->getElementHtml();
+                            ?>
+                        <?php endif; ?>
+                    </div>
                 </div>
-            </div>
-        <?php endforeach; ?>
-        <?= $form->toHtml(); ?>
-    </fieldset>
+            <?php endforeach; ?>
+            <?= $form->toHtml(); ?>
+        </fieldset>
     <?php endforeach; ?>
 
     <input type="hidden"

@@ -13,7 +13,8 @@ var config = {
             snowMenuEditorSerialize: "Snowdog_Menu/js/serialize",
             snowMenuSimpleField: "Snowdog_Menu/js/simple_field",
             snowMenuTree: "Snowdog_Menu/js/jstree",
-            snowWysiwygSetup: "Snowdog_Menu/js/wysiwyg/setup"
+            snowWysiwygSetup: "Snowdog_Menu/js/wysiwyg/setup",
+            snowMenuVue: "Snowdog_Menu/js/vue/dist/build"
         }
     }
 };
