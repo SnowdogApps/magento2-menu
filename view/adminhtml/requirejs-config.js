@@ -14,7 +14,7 @@ var config = {
             snowMenuSimpleField: "Snowdog_Menu/js/simple_field",
             snowMenuTree: "Snowdog_Menu/js/jstree",
             snowWysiwygSetup: "Snowdog_Menu/js/wysiwyg/setup",
-            snowMenuVue: "Snowdog_Menu/js/vue/dist/build"
+            snowMenuVue: "Snowdog_Menu/js/vue/dist/snowdog-menu"
         }
     }
 };

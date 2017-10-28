@@ -6,7 +6,7 @@ module.exports = {
     output: {
         path: path.resolve(__dirname, './view/adminhtml/web/js/vue/dist'),
         publicPath: '/dist/',
-        filename: 'build.js'
+        filename: 'snowdog-menu.js'
     },
     module: {
         rules: [
