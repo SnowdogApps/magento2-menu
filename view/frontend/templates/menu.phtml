@@ -1,15 +1,20 @@
 <?php /** @var \Snowdog\Menu\Block\Menu $block */ ?>
 <?php $menuClass = $block->getMenu()->getCssClass() ?>
+
 <div class="<?= $menuClass ?>__mobile">
     <svg title="icon-arrow-down" class="<?= $menuClass ?>__mobile-icon">
-        <use xlink:href="<?= $block->getViewFileUrl('images/icon-sprite.svg#icon-mobile-menu'); ?>"></use>
+        <use xlink:href="<?= $block->getViewFileUrl('images/icon-sprite.svg#icon-mobile-menu') ?>"></use>
     </svg>
 </div>
+
 <nav class="<?= $menuClass ?>">
     <ul class="<?= $menuClass ?>__list"
-        data-mage-init='{ "navigationMenu": { "menuClass" : "<?= $menuClass ?>",
-                                              "allLabel" : "<?= __('All products'); ?>"
-                        } }'
+        data-mage-init='{
+            "navigationMenu": {
+                "menuClass": "<?= $menuClass ?>",
+                "allLabel": "<?= __('All products') ?>"
+            }
+        }'
     >
         <?php foreach ($block->getNodes() as $node): ?>
             <?php
