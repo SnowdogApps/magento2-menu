@@ -44,7 +44,7 @@ class CmsPage extends AbstractNode
         $connection = $this->getConnection('read');
 
         $select = $connection->select()->from(
-            $connection->getTableName('cms_page'),
+            $this->getTable('cms_page'),
             ['title', 'identifier']
         );
 
@@ -60,7 +60,7 @@ class CmsPage extends AbstractNode
     public function fetchData($storeId = Store::DEFAULT_STORE_ID, $pageIds = [])
     {
         $connection = $this->getConnection('read');
-        $table = $connection->getTableName('url_rewrite');
+        $table = $this->getTable('url_rewrite');
 
         $select = $connection
             ->select()
@@ -83,8 +83,8 @@ class CmsPage extends AbstractNode
         $eavColumnName = $this->eavStructureWrapper->getCmsPageEntityColumnName();
         $connection = $this->getConnection('read');
 
-        $pageTable = $connection->getTableName('cms_page');
-        $storeTable = $connection->getTableName('cms_page_store');
+        $pageTable = $this->getTable('cms_page');
+        $storeTable = $this->getTable('cms_page_store');
 
         $select = $connection->select()->from(
             ['p' => $pageTable],
