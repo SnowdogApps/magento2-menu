@@ -12,7 +12,7 @@ use Snowdog\Menu\Api\MenuRepositoryInterface;
 use Snowdog\Menu\Api\NodeRepositoryInterface;
 use Snowdog\Menu\Model\NodeTypeProvider;
 
-class Menu extends Template implements DataObject\IdentityInterface
+class Menu extends AbstractTemplate implements DataObject\IdentityInterface
 {
     /**
      * @var MenuRepositoryInterface
@@ -307,7 +307,7 @@ class Menu extends Template implements DataObject\IdentityInterface
 
         $level = $node->getLevel();
         $isRoot = 0 == $level;
-
+        
         $nodeBlock->setId($node->getNodeId())
             ->setTitle($node->getTitle())
             ->setLevel($level)
@@ -315,7 +315,8 @@ class Menu extends Template implements DataObject\IdentityInterface
             ->setIsParent((bool) $node->getIsParent())
             ->setIsViewAllLink(false)
             ->setContent($node->getContent())
-            ->setMenuClass($this->getMenu()->getCssClass());
+            ->setMenuClass($this->getMenu()->getCssClass())
+            ->setMenuCode($this->getData('menu'));
 
         return $nodeBlock;
     }
@@ -335,7 +336,12 @@ class Menu extends Template implements DataObject\IdentityInterface
             ->setLevel($level);
 
         $block->setTemplateContext($block);
-        $block->setTemplate($block->submenuTemplate);
+        $block->setTemplate(
+            $this->getMenuTemplate(
+                $this->getData('menu'),
+                $block->submenuTemplate
+            )
+        );
 
         return $block;
     }
@@ -374,4 +380,13 @@ class Menu extends Template implements DataObject\IdentityInterface
         return $this->nodeTypeProvider->render($type, $node->getId(), $level);
     }
 
+    public function _prepareLayout()
+    {
+        $this->setTemplate(
+            $this->getMenuTemplate(
+                $this->getData('menu'),
+                $this->_template
+            )
+        );
+    }
 }

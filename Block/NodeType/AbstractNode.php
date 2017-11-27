@@ -11,12 +11,12 @@
 namespace Snowdog\Menu\Block\NodeType;
 
 use Magento\Framework\View\Element\Template;
-use Magento\Backend\Block\Template\Context;
 use Magento\Framework\DataObject;
 use Snowdog\Menu\Api\NodeTypeInterface;
+use Snowdog\Menu\Block\AbstractTemplate;
 
 /** @noinspection MagentoApiInspection */
-abstract class AbstractNode extends Template implements NodeTypeInterface
+abstract class AbstractNode extends AbstractTemplate implements NodeTypeInterface
 {
     const NAME_CODE = 'node_name';
     const CLASSES_CODE = 'node_classes';
@@ -124,5 +124,13 @@ abstract class AbstractNode extends Template implements NodeTypeInterface
     public function isViewAllLinkAllowed()
     {
         return $this->viewAllLink;
+    }
+
+    public function _toHtml()
+    {
+        $template = $this->getMenuTemplate($this->getMenuCode(), $this->_template);
+        $this->setTemplate($template);
+
+        return parent::_toHtml();
     }
 }
