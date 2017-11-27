@@ -31,8 +31,8 @@ abstract class AbstractTemplate extends Template
         } else {
             $newTemplate = $menuId . DIRECTORY_SEPARATOR .$oldTemplate;
         }
-        $this->setTemplate($newTemplate);
-        if (!file_exists($this->getTemplateFile())) {
+
+        if (!file_exists($this->getTemplateFile($newTemplate))) {
             return $oldTemplate;
         }
 
