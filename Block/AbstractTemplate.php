@@ -29,7 +29,7 @@ abstract class AbstractTemplate extends Template
         if (isset($template[1])) {
             $newTemplate = $template[0] . '::' . $menuId . DIRECTORY_SEPARATOR . $template[1];
         } else {
-            $newTemplate = $menuId . DIRECTORY_SEPARATOR .$oldTemplate;
+            $newTemplate = $menuId . DIRECTORY_SEPARATOR . $oldTemplate;
         }
 
         if (!file_exists($this->getTemplateFile($newTemplate))) {
