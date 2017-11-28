@@ -4,7 +4,7 @@ namespace Snowdog\Menu\Block\NodeType;
 
 use Magento\Framework\View\Element\Template\Context;
 use Magento\Framework\Registry;
-use Snowdog\Menu\Block\TemplateResolver;
+use Snowdog\Menu\Model\TemplateResolver;
 use Snowdog\Menu\Model\NodeType\Category as ModelCategory;
 
 class Category extends AbstractNode

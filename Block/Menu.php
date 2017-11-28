@@ -11,6 +11,7 @@ use Magento\Framework\Event\Manager as EventManager;
 use Snowdog\Menu\Api\MenuRepositoryInterface;
 use Snowdog\Menu\Api\NodeRepositoryInterface;
 use Snowdog\Menu\Model\NodeTypeProvider;
+use Snowdog\Menu\Model\TemplateResolver;
 
 class Menu extends Template implements DataObject\IdentityInterface
 {
@@ -71,6 +72,7 @@ class Menu extends Template implements DataObject\IdentityInterface
         $this->eventManager = $eventManager;
         $this->templateResolver = $templateResolver;
         $this->submenuTemplate = $this->templateResolver->getMenuTemplate(
+            $this,
             $this->getData('menu'),
             $this->submenuTemplate
         );
@@ -388,6 +390,7 @@ class Menu extends Template implements DataObject\IdentityInterface
     {
         $this->setTemplate(
             $this->templateResolver->getMenuTemplate(
+                $this,
                 $this->getData('menu'),
                 $this->_template
             )

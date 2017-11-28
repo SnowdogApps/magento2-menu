@@ -13,7 +13,7 @@ namespace Snowdog\Menu\Block\NodeType;
 use Magento\Framework\View\Element\Template;
 use Magento\Framework\DataObject;
 use Snowdog\Menu\Api\NodeTypeInterface;
-use Snowdog\Menu\Block\TemplateResolver;
+use Snowdog\Menu\Model\TemplateResolver;
 
 /** @noinspection MagentoApiInspection */
 abstract class AbstractNode extends Template implements NodeTypeInterface
@@ -134,6 +134,7 @@ abstract class AbstractNode extends Template implements NodeTypeInterface
     public function _toHtml()
     {
         $template = $this->templateResolver->getMenuTemplate(
+            $this,
             $this->getMenuCode(),
             $this->_template
         );

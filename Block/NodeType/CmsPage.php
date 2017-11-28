@@ -4,7 +4,7 @@ namespace Snowdog\Menu\Block\NodeType;
 
 use Magento\Framework\View\Element\Template\Context;
 use Magento\Cms\Api\Data\PageInterface;
-use Snowdog\Menu\Block\TemplateResolver;
+use Snowdog\Menu\Model\TemplateResolver;
 use Snowdog\Menu\Model\NodeType\CmsPage as CmsPageModel;
 
 class CmsPage extends AbstractNode

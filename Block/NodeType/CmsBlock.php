@@ -4,7 +4,7 @@ namespace Snowdog\Menu\Block\NodeType;
 
 use Magento\Framework\View\Element\Template\Context;
 use Magento\Cms\Model\Template\FilterProvider;
-use Snowdog\Menu\Block\TemplateResolver;
+use Snowdog\Menu\Model\TemplateResolver;
 use Snowdog\Menu\Model\NodeType\CmsBlock as CmsBlockModel;
 
 class CmsBlock extends AbstractNode

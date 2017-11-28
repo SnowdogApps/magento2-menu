@@ -43,3 +43,24 @@ Newly created block with additional method should be added via `di.xml` defining
     </type>
 </config>
 ```
+
+## Overwrite templates per menu code
+
+To overwrite templates for menu code You have to add new folder with menu code name and add same structure like in default folder ex:
+
+```
+Snowdog_Menu  
+└───templates
+    │
+    └───menu_code
+        │   
+        │---menu
+        │   │
+        │   │--node_type
+        │   │  │
+        │   │  └-...
+        │   │   
+        │   └--sub_menu.phtml
+        │
+        └menu.phtml
+```

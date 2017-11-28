@@ -3,7 +3,7 @@
 namespace Snowdog\Menu\Block\NodeType;
 
 use Magento\Framework\View\Element\Template\Context;
-use Snowdog\Menu\Block\TemplateResolver;
+use Snowdog\Menu\Model\TemplateResolver;
 use Snowdog\Menu\Model\NodeType\CustomUrl as CustomUrlModel;
 
 class CustomUrl extends AbstractNode

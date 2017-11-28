@@ -8,18 +8,19 @@
  * @copyright   Copyright Snowdog (http://snow.dog)
  */
 
-namespace Snowdog\Menu\Block;
+namespace Snowdog\Menu\Model;
 
 use Magento\Framework\View\Element\Template;
 
-class TemplateResolver extends Template
+class TemplateResolver
 {
     /**
+     * @param Template $block
      * @param string $menuId
      * @param string $oldTemplate
      * @return string
      */
-    public function getMenuTemplate($menuId, $oldTemplate)
+    public function getMenuTemplate($block, $menuId, $oldTemplate)
     {
         $template = explode('::', $oldTemplate);
         if (isset($template[1])) {
@@ -28,7 +29,7 @@ class TemplateResolver extends Template
             $newTemplate = $menuId . DIRECTORY_SEPARATOR . $oldTemplate;
         }
 
-        if (!file_exists($this->getTemplateFile($newTemplate))) {
+        if (!file_exists($block->getTemplateFile($newTemplate))) {
             return $oldTemplate;
         }
 
