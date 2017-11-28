@@ -4,6 +4,7 @@ namespace Snowdog\Menu\Block\NodeType;
 
 use Magento\Framework\View\Element\Template\Context;
 use Magento\Cms\Api\Data\PageInterface;
+use Snowdog\Menu\Block\TemplateResolver;
 use Snowdog\Menu\Model\NodeType\CmsPage as CmsPageModel;
 
 class CmsPage extends AbstractNode
@@ -43,15 +44,17 @@ class CmsPage extends AbstractNode
      * @param Context $context
      * @param PageInterface $page
      * @param CmsPageModel $cmsPageModel
+     * @param TemplateResolver $templateResolver
      * @param array $data
      */
     public function __construct(
         Context $context,
         PageInterface $page,
         CmsPageModel $cmsPageModel,
+        TemplateResolver $templateResolver,
         $data = []
     ) {
-        parent::__construct($context, $data);
+        parent::__construct($context, $templateResolver, $data);
         $this->_cmsPageModel = $cmsPageModel;
         $this->page = $page;
     }

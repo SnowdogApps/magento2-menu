@@ -12,11 +12,7 @@ namespace Snowdog\Menu\Block;
 
 use Magento\Framework\View\Element\Template;
 
-/**
- * Class AbstractTemplate
- * @package Snowdog\Menu\Block
- */
-abstract class AbstractTemplate extends Template
+class TemplateResolver extends Template
 {
     /**
      * @param string $menuId

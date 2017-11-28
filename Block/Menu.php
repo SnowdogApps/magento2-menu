@@ -12,8 +12,12 @@ use Snowdog\Menu\Api\MenuRepositoryInterface;
 use Snowdog\Menu\Api\NodeRepositoryInterface;
 use Snowdog\Menu\Model\NodeTypeProvider;
 
-class Menu extends AbstractTemplate implements DataObject\IdentityInterface
+class Menu extends Template implements DataObject\IdentityInterface
 {
+    /**
+     * @var TemplateResolver
+     */
+    protected $templateResolver;
     /**
      * @var MenuRepositoryInterface
      */
@@ -55,6 +59,7 @@ class Menu extends AbstractTemplate implements DataObject\IdentityInterface
         NodeTypeProvider $nodeTypeProvider,
         SearchCriteriaFactory $searchCriteriaFactory,
         FilterGroupBuilder $filterGroupBuilder,
+        TemplateResolver $templateResolver,
         array $data = []
     ) {
         parent::__construct($context, $data);
@@ -64,6 +69,11 @@ class Menu extends AbstractTemplate implements DataObject\IdentityInterface
         $this->searchCriteriaFactory = $searchCriteriaFactory;
         $this->filterGroupBuilder = $filterGroupBuilder;
         $this->eventManager = $eventManager;
+        $this->templateResolver = $templateResolver;
+        $this->submenuTemplate = $this->templateResolver->getMenuTemplate(
+            $this->getData('menu'),
+            $this->submenuTemplate
+        );
     }
 
     /**
@@ -86,7 +96,7 @@ class Menu extends AbstractTemplate implements DataObject\IdentityInterface
      */
     public function getMenu()
     {
-        if(!$this->menu) {
+        if (!$this->menu) {
             $storeId = $this->_storeManager->getStore()->getId();
             $this->menu = $this->menuRepository->get($this->getData('menu'), $storeId);
         }
@@ -307,7 +317,6 @@ class Menu extends AbstractTemplate implements DataObject\IdentityInterface
 
         $level = $node->getLevel();
         $isRoot = 0 == $level;
-        
         $nodeBlock->setId($node->getNodeId())
             ->setTitle($node->getTitle())
             ->setLevel($level)
@@ -336,12 +345,7 @@ class Menu extends AbstractTemplate implements DataObject\IdentityInterface
             ->setLevel($level);
 
         $block->setTemplateContext($block);
-        $block->setTemplate(
-            $this->getMenuTemplate(
-                $this->getData('menu'),
-                $block->submenuTemplate
-            )
-        );
+        $block->setTemplate($this->submenuTemplate);
 
         return $block;
     }
@@ -383,7 +387,7 @@ class Menu extends AbstractTemplate implements DataObject\IdentityInterface
     public function _prepareLayout()
     {
         $this->setTemplate(
-            $this->getMenuTemplate(
+            $this->templateResolver->getMenuTemplate(
                 $this->getData('menu'),
                 $this->_template
             )

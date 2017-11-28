@@ -13,10 +13,10 @@ namespace Snowdog\Menu\Block\NodeType;
 use Magento\Framework\View\Element\Template;
 use Magento\Framework\DataObject;
 use Snowdog\Menu\Api\NodeTypeInterface;
-use Snowdog\Menu\Block\AbstractTemplate;
+use Snowdog\Menu\Block\TemplateResolver;
 
 /** @noinspection MagentoApiInspection */
-abstract class AbstractNode extends AbstractTemplate implements NodeTypeInterface
+abstract class AbstractNode extends Template implements NodeTypeInterface
 {
     const NAME_CODE = 'node_name';
     const CLASSES_CODE = 'node_classes';
@@ -38,18 +38,23 @@ abstract class AbstractNode extends AbstractTemplate implements NodeTypeInterfac
      * @var bool
      */
     protected $viewAllLink = true;
+    /**
+     * @var TemplateResolver
+     */
+    protected $templateResolver;
 
     /**
      * @inheritDoc
      */
     public function __construct(
         Template\Context $context,
+        TemplateResolver $templateResolver,
         array $data = []
     ) {
         parent::__construct($context, $data);
-
         $this->addNodeAttribute(self::NAME_CODE, 'Node name', 'wysiwyg');
         $this->addNodeAttribute(self::CLASSES_CODE, 'Node CSS classes', 'text');
+        $this->templateResolver = $templateResolver;
     }
 
     /**
@@ -128,7 +133,10 @@ abstract class AbstractNode extends AbstractTemplate implements NodeTypeInterfac
 
     public function _toHtml()
     {
-        $template = $this->getMenuTemplate($this->getMenuCode(), $this->_template);
+        $template = $this->templateResolver->getMenuTemplate(
+            $this->getMenuCode(),
+            $this->_template
+        );
         $this->setTemplate($template);
 
         return parent::_toHtml();
