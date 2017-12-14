@@ -98,7 +98,7 @@ class Menu extends Template implements DataObject\IdentityInterface
      */
     public function getMenu()
     {
-        $menu = $this->getMenu();
+        $menu = $this->loadMenu();
         if (!$menu->getMenuId()) {
             return null;
         }
