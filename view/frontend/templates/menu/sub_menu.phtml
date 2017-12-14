@@ -1,4 +1,5 @@
 <?php /** @var \Snowdog\Menu\Block\Menu $block */ ?>
+<?php if ($block->getMenu()): ?>
 <?php
 $menuClass = $block->getMenu()->getCssClass();
 $parentNode = $block->getParentNode();
@@ -54,3 +55,4 @@ $wrapperAttributes = [
         </li>
     <?php endforeach ?>
 </ul>
+<?php endif; ?>

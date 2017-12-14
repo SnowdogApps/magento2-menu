@@ -1,4 +1,5 @@
 <?php /** @var \Snowdog\Menu\Block\Menu $block */ ?>
+<?php if ($block->getMenu()): ?>
 <?php $menuClass = $block->getMenu()->getCssClass() ?>
 
 <div class="<?= $menuClass ?>__mobile">
@@ -33,3 +34,4 @@
     </ul>
     <div class="<?= $menuClass ?>__mobile-bg"></div>
 </nav>
+<?php endif; ?>
