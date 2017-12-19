@@ -15,18 +15,17 @@ if ($block->getIsViewAllLink()) {
     }
 }
 
-if($block->getTarget()) {
+if ($block->getTarget()) {
     $target = 'target="__blank" rel="noopener"';
 }
-
 ?>
 <a href="<?= $block->getContent() ?>"
    class="<?= $classLink ?>"
-   <?= $dataAttribute ?>
-   <?= $target ?>
+    <?= $dataAttribute ?>
+    <?= $target ?>
 >
     <?= $title ?>
-    <?php if ($block->getIsParent() && !$block->getIsViewAllLink()): ?>
+    <?php if ($block->getIsParent() && ! $block->getIsViewAllLink()): ?>
         <?php if ($block->getLevel() == 0): ?>
             <svg title="view more" class="<?= $class ?>__icon">
                 <use xlink:href="<?= $block->getViewFileUrl('Snowdog_Menu::images/menu-icon-sprite.svg#icon-arrow-down') ?>"></use>
