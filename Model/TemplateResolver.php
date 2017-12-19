@@ -14,6 +14,8 @@ use Magento\Framework\View\Element\Template;
 
 class TemplateResolver
 {
+    protected $templateMap;
+
     /**
      * @param Template $block
      * @param string $menuId
@@ -22,6 +24,10 @@ class TemplateResolver
      */
     public function getMenuTemplate($block, $menuId, $oldTemplate)
     {
+        if (isset($this->templateMap[$menuId . '-' . $oldTemplate])) {
+            return $this->templateMap[$menuId . '-' . $oldTemplate];
+        }
+
         $template = explode('::', $oldTemplate);
         if (isset($template[1])) {
             $newTemplate = $template[0] . '::' . $menuId . DIRECTORY_SEPARATOR . $template[1];
@@ -30,9 +36,20 @@ class TemplateResolver
         }
 
         if (!file_exists($block->getTemplateFile($newTemplate))) {
-            return $oldTemplate;
+            return $this->setTemplateMap($menuId, $oldTemplate, $oldTemplate);
         }
 
-        return $newTemplate;
+        return $this->setTemplateMap($menuId, $newTemplate, $oldTemplate);
+    }
+
+    /**
+     * @param string $menuId
+     * @param string $template
+     * @param string $oldTemplate
+     * @return string
+     */
+    protected function setTemplateMap($menuId, $template, $oldTemplate)
+    {
+        return $this->templateMap[$menuId . '-' . $oldTemplate] = $template;
     }
 }
