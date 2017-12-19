@@ -47,10 +47,10 @@ class Category extends AbstractNode
         $connection = $this->getConnection('read');
 
         $select = $connection->select()->from(
-            ['a' => $connection->getTableName('eav_attribute')],
+            ['a' => $this->getTable('eav_attribute')],
             ['attribute_id']
         )->join(
-            ['t' => $connection->getTableName('eav_entity_type')],
+            ['t' => $this->getTable('eav_entity_type')],
             't.entity_type_id = a.entity_type_id',
             []
         )->where('t.entity_type_code = ?', CoreCategory::ENTITY)->where(
@@ -61,10 +61,10 @@ class Category extends AbstractNode
         $nameAttributeId = $connection->fetchOne($select);
 
         $select = $connection->select()->from(
-            ['e' => $connection->getTableName('catalog_category_entity')],
+            ['e' => $this->getTable('catalog_category_entity')],
             [$eavColumnName => 'e.' . $eavColumnName, 'parent_id' => 'e.parent_id']
         )->join(
-            ['v' => $connection->getTableName('catalog_category_entity_varchar')],
+            ['v' => $this->getTable('catalog_category_entity_varchar')],
             'v.' . $eavColumnName . ' = e.' . $eavColumnName . ' AND v.store_id = 0 
             AND v.attribute_id = ' . $nameAttributeId,
             ['name' => 'v.value']
@@ -82,7 +82,7 @@ class Category extends AbstractNode
     public function fetchData($storeId = Store::DEFAULT_STORE_ID, $categoryIds = [])
     {
         $connection = $this->getConnection('read');
-        $table = $connection->getTableName('url_rewrite');
+        $table = $this->getTable('url_rewrite');
         $select = $connection
             ->select()
             ->from($table, ['entity_id', 'request_path'])

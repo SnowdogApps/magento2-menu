@@ -39,7 +39,7 @@ class CmsBlock extends AbstractNode
         $connection = $this->getConnection('read');
 
         $select = $connection->select()->from(
-            $connection->getTableName('cms_block'),
+            $this->getTable('cms_block'),
             ['title', 'identifier']
         );
 
@@ -57,8 +57,8 @@ class CmsBlock extends AbstractNode
         $eavColumnName = $this->eavStructureWrapper->getEntityBlockColumnName();
         $connection = $this->getConnection('read');
 
-        $blockTable = $connection->getTableName('cms_block');
-        $storeTable = $connection->getTableName('cms_block_store');
+        $blockTable = $this->getTable('cms_block');
+        $storeTable = $this->getTable('cms_block_store');
 
         $select = $connection->select()->from(
             ['p' => $blockTable],
