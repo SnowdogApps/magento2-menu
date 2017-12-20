@@ -16,10 +16,6 @@ use Snowdog\Menu\Model\TemplateResolver;
 class Menu extends Template implements DataObject\IdentityInterface
 {
     /**
-     * @var TemplateResolver
-     */
-    protected $templateResolver;
-    /**
      * @var MenuRepositoryInterface
      */
     private $menuRepository;
@@ -50,6 +46,11 @@ class Menu extends Template implements DataObject\IdentityInterface
     /**
      * @var string
      */
+    protected $_template = 'Snowdog_Menu::menu.phtml';
+
+    /**
+     * @var string
+     */
     private $submenuTemplate = 'menu/sub_menu.phtml';
 
     public function __construct(
@@ -70,11 +71,17 @@ class Menu extends Template implements DataObject\IdentityInterface
         $this->searchCriteriaFactory = $searchCriteriaFactory;
         $this->filterGroupBuilder = $filterGroupBuilder;
         $this->eventManager = $eventManager;
-        $this->templateResolver = $templateResolver;
-        $this->submenuTemplate = $this->templateResolver->getMenuTemplate(
+        $this->submenuTemplate = $templateResolver->getMenuTemplate(
             $this,
             $this->getData('menu'),
             $this->submenuTemplate
+        );
+        $this->setTemplate(
+            $templateResolver->getMenuTemplate(
+                $this,
+                $this->getData('menu'),
+                $this->_template
+            )
         );
     }
 
@@ -386,14 +393,11 @@ class Menu extends Template implements DataObject\IdentityInterface
         return $this->nodeTypeProvider->render($type, $node->getId(), $level);
     }
 
-    public function _prepareLayout()
-    {
-        $this->setTemplate(
-            $this->templateResolver->getMenuTemplate(
-                $this,
-                $this->getData('menu'),
-                $this->_template
-            )
-        );
-    }
+//    public function _prepareLayout()
+//    {
+//        echo '<pre>';
+//        var_dump($this->_template);
+//        die();
+
+//    }
 }

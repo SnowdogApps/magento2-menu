@@ -38,6 +38,7 @@ abstract class AbstractNode extends Template implements NodeTypeInterface
      * @var bool
      */
     protected $viewAllLink = true;
+
     /**
      * @var TemplateResolver
      */
@@ -131,7 +132,10 @@ abstract class AbstractNode extends Template implements NodeTypeInterface
         return $this->viewAllLink;
     }
 
-    public function _toHtml()
+    /**
+     * @return string
+     */
+    protected function _toHtml()
     {
         $template = $this->templateResolver->getMenuTemplate(
             $this,
