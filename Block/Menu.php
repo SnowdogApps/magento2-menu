@@ -392,12 +392,4 @@ class Menu extends Template implements DataObject\IdentityInterface
         $type = $node->getType();
         return $this->nodeTypeProvider->render($type, $node->getId(), $level);
     }
-
-//    public function _prepareLayout()
-//    {
-//        echo '<pre>';
-//        var_dump($this->_template);
-//        die();
-
-//    }
 }
