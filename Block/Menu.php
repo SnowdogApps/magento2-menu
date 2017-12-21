@@ -101,7 +101,7 @@ class Menu extends Template implements DataObject\IdentityInterface
     /**
      * @return \Snowdog\Menu\Model\Menu
      */
-    public function getMenu()
+    private function loadMenu()
     {
         if (!$this->menu) {
             $storeId = $this->_storeManager->getStore()->getId();
@@ -110,11 +110,24 @@ class Menu extends Template implements DataObject\IdentityInterface
         return $this->menu;
     }
 
+    /**
+     * @return \Snowdog\Menu\Model\Menu|null
+     */
+    public function getMenu()
+    {
+        $menu = $this->loadMenu();
+        if (!$menu->getMenuId()) {
+            return null;
+        }
+
+        return $menu;
+    }
+
     public function getCacheKeyInfo()
     {
         $info = [
             \Snowdog\Menu\Model\Menu::CACHE_TAG,
-            'menu_' . $this->getMenu()->getId(),
+            'menu_' . $this->loadMenu()->getId(),
             'store_' . $this->_storeManager->getStore()->getId(),
             'template_' . $this->getTemplate()
         ];
@@ -331,6 +344,7 @@ class Menu extends Template implements DataObject\IdentityInterface
             ->setIsParent((bool) $node->getIsParent())
             ->setIsViewAllLink(false)
             ->setContent($node->getContent())
+            ->setNodeClasses($node->getClasses())
             ->setMenuClass($this->getMenu()->getCssClass())
             ->setMenuCode($this->getData('menu'));
 
@@ -359,7 +373,7 @@ class Menu extends Template implements DataObject\IdentityInterface
 
     private function fetchData()
     {
-        $nodes = $this->nodeRepository->getByMenu($this->getMenu()->getId());
+        $nodes = $this->nodeRepository->getByMenu($this->loadMenu()->getId());
         $result = [];
         $types = [];
         foreach ($nodes as $node) {
