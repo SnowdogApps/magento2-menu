@@ -44,14 +44,19 @@ class Menu extends Template implements DataObject\IdentityInterface
     private $eventManager;
 
     /**
-     * @var string
+     * @var TemplateResolver
      */
-    protected $_template = 'Snowdog_Menu::menu.phtml';
+    private $templateResolver;
 
     /**
      * @var string
      */
-    private $submenuTemplate = 'menu/sub_menu.phtml';
+    private $submenuTemplate;
+
+    /**
+     * @var string
+     */
+    protected $_template = 'Snowdog_Menu::menu.phtml';
 
     public function __construct(
         Template\Context $context,
@@ -71,18 +76,11 @@ class Menu extends Template implements DataObject\IdentityInterface
         $this->searchCriteriaFactory = $searchCriteriaFactory;
         $this->filterGroupBuilder = $filterGroupBuilder;
         $this->eventManager = $eventManager;
-        $this->submenuTemplate = $templateResolver->getMenuTemplate(
-            $this,
-            $this->getData('menu'),
-            $this->submenuTemplate
+        $this->templateResolver = $templateResolver;
+        $this->submenuTemplate = $this->getMenuTemplate(
+            'Snowdog_Menu::menu/sub_menu.phtml'
         );
-        $this->setTemplate(
-            $templateResolver->getMenuTemplate(
-                $this,
-                $this->getData('menu'),
-                $this->_template
-            )
-        );
+        $this->setTemplate($this->getMenuTemplate($this->_template));
     }
 
     /**
@@ -391,5 +389,18 @@ class Menu extends Template implements DataObject\IdentityInterface
     {
         $type = $node->getType();
         return $this->nodeTypeProvider->render($type, $node->getId(), $level);
+    }
+
+    /**
+     * @param string $template
+     * @return string
+     */
+    private function getMenuTemplate($template)
+    {
+        return $this->templateResolver->getMenuTemplate(
+            $this,
+            $this->getData('menu'),
+            $template
+        );
     }
 }
