@@ -13,7 +13,7 @@ Following is example how to replace main menu with user defined menu (with ident
 ```xml
 <referenceBlock name="catalog.topnav" remove="true"/>
 <referenceBlock name="store.menu">
-  <block name="main.menu" class="Snowdog\Menu\Block\Menu" template="Snowdog_Menu::menu.phtml">
+  <block name="main.menu" class="Snowdog\Menu\Block\Menu">
      <arguments>
         <argument name="menu" xsi:type="string">main</argument>
      </arguments>
@@ -42,4 +42,25 @@ Newly created block with additional method should be added via `di.xml` defining
         </arguments>
     </type>
 </config>
+```
+
+## Overwrite templates per menu code
+
+To overwrite templates for menu code You have to add new folder with menu code name and add same structure like in default folder ex:
+
+```
+Snowdog_Menu  
+└───templates
+    │
+    └───menu_code
+        │   
+        │---menu
+        │   │
+        │   │--node_type
+        │   │  │
+        │   │  └-...
+        │   │   
+        │   └--sub_menu.phtml
+        │
+        └menu.phtml
 ```

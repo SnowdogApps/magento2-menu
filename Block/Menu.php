@@ -11,6 +11,7 @@ use Magento\Framework\Event\Manager as EventManager;
 use Snowdog\Menu\Api\MenuRepositoryInterface;
 use Snowdog\Menu\Api\NodeRepositoryInterface;
 use Snowdog\Menu\Model\NodeTypeProvider;
+use Snowdog\Menu\Model\TemplateResolver;
 
 class Menu extends Template implements DataObject\IdentityInterface
 {
@@ -43,9 +44,19 @@ class Menu extends Template implements DataObject\IdentityInterface
     private $eventManager;
 
     /**
+     * @var TemplateResolver
+     */
+    private $templateResolver;
+
+    /**
      * @var string
      */
-    private $submenuTemplate = 'menu/sub_menu.phtml';
+    private $submenuTemplate;
+
+    /**
+     * @var string
+     */
+    protected $_template = 'Snowdog_Menu::menu.phtml';
 
     public function __construct(
         Template\Context $context,
@@ -55,6 +66,7 @@ class Menu extends Template implements DataObject\IdentityInterface
         NodeTypeProvider $nodeTypeProvider,
         SearchCriteriaFactory $searchCriteriaFactory,
         FilterGroupBuilder $filterGroupBuilder,
+        TemplateResolver $templateResolver,
         array $data = []
     ) {
         parent::__construct($context, $data);
@@ -64,6 +76,11 @@ class Menu extends Template implements DataObject\IdentityInterface
         $this->searchCriteriaFactory = $searchCriteriaFactory;
         $this->filterGroupBuilder = $filterGroupBuilder;
         $this->eventManager = $eventManager;
+        $this->templateResolver = $templateResolver;
+        $this->submenuTemplate = $this->getMenuTemplate(
+            'Snowdog_Menu::menu/sub_menu.phtml'
+        );
+        $this->setTemplate($this->getMenuTemplate($this->_template));
     }
 
     /**
@@ -320,7 +337,6 @@ class Menu extends Template implements DataObject\IdentityInterface
 
         $level = $node->getLevel();
         $isRoot = 0 == $level;
-
         $nodeBlock->setId($node->getNodeId())
             ->setTitle($node->getTitle())
             ->setLevel($level)
@@ -329,7 +345,8 @@ class Menu extends Template implements DataObject\IdentityInterface
             ->setIsViewAllLink(false)
             ->setContent($node->getContent())
             ->setNodeClasses($node->getClasses())
-            ->setMenuClass($this->loadMenu()->getCssClass());
+            ->setMenuClass($this->getMenu()->getCssClass())
+            ->setMenuCode($this->getData('menu'));
 
         return $nodeBlock;
     }
@@ -349,7 +366,7 @@ class Menu extends Template implements DataObject\IdentityInterface
             ->setLevel($level);
 
         $block->setTemplateContext($block);
-        $block->setTemplate($block->submenuTemplate);
+        $block->setTemplate($this->submenuTemplate);
 
         return $block;
     }
@@ -388,4 +405,16 @@ class Menu extends Template implements DataObject\IdentityInterface
         return $this->nodeTypeProvider->render($type, $node->getId(), $level);
     }
 
+    /**
+     * @param string $template
+     * @return string
+     */
+    private function getMenuTemplate($template)
+    {
+        return $this->templateResolver->getMenuTemplate(
+            $this,
+            $this->getData('menu'),
+            $template
+        );
+    }
 }
