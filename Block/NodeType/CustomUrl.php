@@ -3,6 +3,7 @@
 namespace Snowdog\Menu\Block\NodeType;
 
 use Magento\Framework\View\Element\Template\Context;
+use Snowdog\Menu\Model\TemplateResolver;
 use Snowdog\Menu\Model\NodeType\CustomUrl as CustomUrlModel;
 
 class CustomUrl extends AbstractNode
@@ -29,14 +30,16 @@ class CustomUrl extends AbstractNode
      *
      * @param Context $context
      * @param CustomUrlModel $customUrlModel
+     * @param TemplateResolver $templateResolver
      * @param array $data
      */
     public function __construct(
         Context $context,
         CustomUrlModel $customUrlModel,
+        TemplateResolver $templateResolver,
         $data = []
     ) {
-        parent::__construct($context, $data);
+        parent::__construct($context, $templateResolver, $data);
         $this->_customUrlModel = $customUrlModel;
     }
 

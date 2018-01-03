@@ -4,6 +4,7 @@ namespace Snowdog\Menu\Block\NodeType;
 
 use Magento\Framework\View\Element\Template\Context;
 use Magento\Cms\Model\Template\FilterProvider;
+use Snowdog\Menu\Model\TemplateResolver;
 use Snowdog\Menu\Model\NodeType\CmsBlock as CmsBlockModel;
 
 class CmsBlock extends AbstractNode
@@ -43,15 +44,17 @@ class CmsBlock extends AbstractNode
      * @param Context $context
      * @param CmsBlockModel $cmsBlockModel
      * @param FilterProvider $filterProvider
+     * @param TemplateResolver $templateResolver
      * @param array $data
      */
     public function __construct(
         Context $context,
         CmsBlockModel $cmsBlockModel,
         FilterProvider $filterProvider,
+        TemplateResolver $templateResolver,
         $data = []
     ) {
-        parent::__construct($context, $data);
+        parent::__construct($context, $templateResolver, $data);
         $this->filterProvider = $filterProvider;
         $this->_cmsBlockModel = $cmsBlockModel;
     }

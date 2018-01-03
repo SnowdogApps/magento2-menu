@@ -4,6 +4,7 @@ namespace Snowdog\Menu\Block\NodeType;
 
 use Magento\Framework\View\Element\Template\Context;
 use Magento\Framework\Registry;
+use Snowdog\Menu\Model\TemplateResolver;
 use Snowdog\Menu\Model\NodeType\Category as ModelCategory;
 
 class Category extends AbstractNode
@@ -39,15 +40,17 @@ class Category extends AbstractNode
      * @param Context $context
      * @param Registry $coreRegistry
      * @param ModelCategory $categoryModel
+     * @param TemplateResolver $templateResolver
      * @param array $data
      */
     public function __construct(
         Context $context,
         Registry $coreRegistry,
         ModelCategory $categoryModel,
+        TemplateResolver $templateResolver,
         array $data = []
     ) {
-        parent::__construct($context, $data);
+        parent::__construct($context, $templateResolver, $data);
         $this->coreRegistry = $coreRegistry;
         $this->_categoryModel = $categoryModel;
     }
