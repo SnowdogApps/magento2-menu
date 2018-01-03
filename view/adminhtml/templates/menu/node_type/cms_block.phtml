@@ -1,8 +1,27 @@
 <?php /** @var $block \Snowdog\Menu\Block\NodeType\CmsBlock */ ?>
 <div class="admin__field field field-title">
-    <label class="label admin__field-label" for="cms_block_identifier"><?= __('Block Title'); ?></label>
-    <div class="admin__field-control control node-value-field">
-        <input class="input-text admin__control-text" id="cms_block_identifier" type="text"/>
+    <label class="label admin__field-label" for="cms_block_identifier">
+        <?= __('Block Title'); ?>
+    </label>
+    
+    <div class="
+             admin__field-control
+             control
+             autocomplete_container
+             node-value-field
+         "
+    >
+        <input class="input-text admin__control-text"
+               id="cms_block_identifier"
+               type="text"
+        />
     </div>
-    <span class="label"></span>
+    
+    <div class="selected-option">
+        <p class="selected-option__label">
+            <?= __('Block ID'); ?>
+        </p>
+        
+        <p class="selected-option__value"></p>
+    </div>
 </div>

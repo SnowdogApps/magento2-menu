@@ -30,3 +30,20 @@
     line-height: 3.2rem;
     font-size: 14px;
 }
+
+.node-buttons-container__row {
+    margin-top: 10px;
+}
+
+.node-buttons-container__button::before {
+    font-family: 'Admin Icons';
+    margin-right: 5px;
+}
+
+.node-buttons-container__button--add::before  {
+    content: '\e61d';
+}
+
+.node-buttons-container__button--delete::before {
+    content: '\e630';
+}

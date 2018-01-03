@@ -6,6 +6,18 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [2.2.0] - 2018-01-03
+### Added
+- Ability to overwritte templates per menu ID
+
+### Changed
+- Formatting of `menu.phtml` template
+- #1 - Better autocomplete
+- Styling of node action buttons
+
+### Fixed
+- Sql queries when table prefix is set in Magento (#28)
+
 ## [2.1.0] - 2017-10-03
 ### Changed
 - Update composer.json for compatibility with M2.2 (#18)
@@ -25,8 +37,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [2.0.4] - 2017-07-17
 ### Fixed
 - Fix problem with compatible EE CE block and cms page (EE compatibility)
-    - Remove `$eavColumnName` from `fetchData–url_rewrite` always uses `entity_id`
-    - Use `$eavColumnName` for `cms_page_store` table page reference
+- Remove `$eavColumnName` from `fetchData–url_rewrite` always uses `entity_id`
+- Use `$eavColumnName` for `cms_page_store` table page reference
 - Fix issue with not saving data when user not blur the input before save
 
 ## [2.0.3] - 2017-07-13
