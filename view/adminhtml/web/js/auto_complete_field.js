@@ -38,10 +38,10 @@ define([
                 }
                 tree.deselect_node(node);
                 tree.select_node(node);
-            },
-            change: function(event) {
-                var helper = $(event.target.nextSibling);
-                helper.html('');
+
+                if (event.target.value) {
+                    $(event.target.nextSibling).html('');
+                }
             }
         });
 
