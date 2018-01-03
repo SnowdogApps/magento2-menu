@@ -5,6 +5,16 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+### Added
+- Ability to overwritte templates per menu ID
+
+### Changed
+- Formatting of `menu.phtml` template
+- #1 - Better autocomplete
+- Styling of node action buttons
+
+### Fixed
+- Sql queries when table prefix is set in Magento (#28)
 
 ## [2.1.0] - 2017-10-03
 ### Changed
