@@ -35,8 +35,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [2.0.4] - 2017-07-17
 ### Fixed
 - Fix problem with compatible EE CE block and cms page (EE compatibility)
-    - Remove `$eavColumnName` from `fetchData–url_rewrite` always uses `entity_id`
-    - Use `$eavColumnName` for `cms_page_store` table page reference
+- Remove `$eavColumnName` from `fetchData–url_rewrite` always uses `entity_id`
+- Use `$eavColumnName` for `cms_page_store` table page reference
 - Fix issue with not saving data when user not blur the input before save
 
 ## [2.0.3] - 2017-07-13
