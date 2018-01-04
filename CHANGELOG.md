@@ -6,6 +6,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [2.2.1] - 2018-01-04
+### Fixed
+- Delete node button action
 ## [2.2.0] - 2018-01-03
 ### Added
 - Ability to overwritte templates per menu ID
