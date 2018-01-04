@@ -8,7 +8,7 @@ define([
             treeContainer   = $('#snowmenu_tree_container'),
             tree            = treeContainer.jstree(true);
 
-        buttonContainer.children('button').click(function(e) {
+        buttonContainer.find('button').click(function(e) {
             e.preventDefault();
             var selected = tree.get_selected();
 
