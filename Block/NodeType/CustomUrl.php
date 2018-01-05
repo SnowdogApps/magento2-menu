@@ -3,6 +3,7 @@
 namespace Snowdog\Menu\Block\NodeType;
 
 use Magento\Framework\View\Element\Template\Context;
+use Snowdog\Menu\Model\TemplateResolver;
 use Snowdog\Menu\Model\NodeType\CustomUrl as CustomUrlModel;
 
 class CustomUrl extends AbstractNode
@@ -30,14 +31,16 @@ class CustomUrl extends AbstractNode
      *
      * @param Context $context
      * @param CustomUrlModel $customUrlModel
+     * @param TemplateResolver $templateResolver
      * @param array $data
      */
     public function __construct(
         Context $context,
         CustomUrlModel $customUrlModel,
+        TemplateResolver $templateResolver,
         $data = []
     ) {
-        parent::__construct($context, $data);
+        parent::__construct($context, $templateResolver, $data);
         $this->addNodeAttribute(self::NAME_TARGET, 'Node target blank', 'checkbox');
         $this->_customUrlModel = $customUrlModel;
     }
@@ -71,7 +74,7 @@ class CustomUrl extends AbstractNode
      *
      * @return string
      */
-    public function getHtml(int $nodeId, int $level)
+    public function getHtml($nodeId, $level)
     {
         $classes = $level == 0 ? 'level-top' : '';
         $node = $this->nodes[$nodeId];

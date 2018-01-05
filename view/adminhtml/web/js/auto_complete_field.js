@@ -22,10 +22,10 @@ define([
             source: configurationKeys,
             autoFocus: true,
             minLength: 0,
-            change: function() {
+            select: function(event, ui) {
                 var node = tree.get_selected(),
                     selected = tree.get_node(node),
-                    value = $(this).val();
+                    value = ui.item.value;
 
                 if (configuration[value]) {
                     label.html(configuration[value]);
@@ -36,9 +36,12 @@ define([
                     label.html(options.message);
                     label.addClass('admin__field-error');
                 }
-
                 tree.deselect_node(node);
                 tree.select_node(node);
+
+                if (event.target.value) {
+                    $(event.target.nextSibling).html('');
+                }
             }
         });
 
