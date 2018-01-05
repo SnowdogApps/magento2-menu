@@ -33,7 +33,7 @@
                     <?= __($formAttribute->getLabel()); ?>
                 </label>
                 <div class="admin__field-control control">
-                    <?php if ($formAttribute->getType() == 'wysiwyg'): ?>
+                    <?php if ($formAttribute->getType() === 'wysiwyg'): ?>
                         <?php
                         $wysiwyg = $block->getEditor('snowmenu_' . $formAttribute->getId(), $formAttribute->getId());
                         $wysiwyg->setDataMageInit(
@@ -41,7 +41,7 @@
                         );
                         echo $wysiwyg->getElementHtml();
                         ?>
-                    <?php elseif ($formAttribute->getType() == 'checkbox'): ?>
+                    <?php elseif ($formAttribute->getType() === 'checkbox'): ?>
                         <input class="checkbox"
                                data-mage-init='{"snowMenuEditorRename":{"type":"<?= $formAttribute->getCode(); ?>"}}'
                                id="snowmenu_<?= $formAttribute->getId(); ?>"
