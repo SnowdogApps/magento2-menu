@@ -74,7 +74,7 @@ class UpgradeSchema implements UpgradeSchemaInterface
         );
     }
 
-    private function addTargetAttribute($setup)
+    private function addTargetAttribute(SchemaSetupInterface $setup)
     {
         $setup->getConnection()->addColumn(
             $setup->getTable('snowmenu_node'),
@@ -85,7 +85,7 @@ class UpgradeSchema implements UpgradeSchemaInterface
                 'nullable' => true,
                 'after' => 'title',
                 'default' => '_self',
-                'comment' => 'Link target'
+                'comment' => 'Link target',
             ]
         );
 
