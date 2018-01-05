@@ -9,6 +9,7 @@ use Snowdog\Menu\Model\NodeType\CustomUrl as CustomUrlModel;
 class CustomUrl extends AbstractNode
 {
     const NAME_TARGET = 'node_target';
+
     /**
      * @var string
      */
