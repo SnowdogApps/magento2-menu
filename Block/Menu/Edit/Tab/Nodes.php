@@ -146,7 +146,7 @@ class Nodes extends Template implements TabInterface
             $html .= 'data-content="' . $node->getContent() . '"';
             $html .= 'data-classes="' . $node->getClasses() . '"';
             $html .= 'data-target="' . $node->getTarget() . '"';
-            $html .= 'id="node_' . $node->getId() . '""';
+            $html .= 'id="node_' . $node->getId() . '"';
             $html .= '>';
             $html .= $node->getTitle();
             $html .= $this->renderNodeList($level + 1, $node->getId(), $data);
