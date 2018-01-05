@@ -37,7 +37,7 @@
                         <?php
                         $wysiwyg = $block->getEditor('snowmenu_' . $formAttribute->getId(), $formAttribute->getId());
                         $wysiwyg->setDataMageInit(
-                            "{\"snowMenuEditorRename\":{\"type\":\"" . $formAttribute->getCode() . "\"}}"
+                            '{"snowMenuEditorRename":{"type":"' . $formAttribute->getCode() . '"}}'
                         );
                         echo $wysiwyg->getElementHtml();
                         ?>
