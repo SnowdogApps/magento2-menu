@@ -47,3 +47,8 @@
 .node-buttons-container__button--delete::before {
     content: '\e630';
 }
+
+.node-buttons-container__add {
+    display: inline-block;
+    margin-right: 20px;
+}

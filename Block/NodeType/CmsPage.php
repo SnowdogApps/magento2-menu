@@ -170,6 +170,6 @@ HTML;
      */
     public function getAddButtonLabel()
     {
-        return __("Add Cms Page link node");
+        return __("Cms Page");
     }
 }
