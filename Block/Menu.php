@@ -328,6 +328,21 @@ class Menu extends Template implements DataObject\IdentityInterface
     }
 
     /**
+     * @param string $defaultClass
+     * @return string
+     */
+    public function getMenuCssClass($defaultClass = '')
+    {
+        $menu = $this->getMenu();
+
+        if (is_null($menu)) {
+            return $defaultClass;
+        }
+
+        return $menu->getCssClass();
+    }
+
+    /**
      * @param NodeRepositoryInterface $node
      * @return Template
      */
