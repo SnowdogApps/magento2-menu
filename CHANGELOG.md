@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [2.2.2] - 2018-01-09
+### Added
+- getMenuCssClass to menu block (menu is null check) 
+
 ## [2.2.1] - 2018-01-04
 ### Fixed
 - Delete node button action
