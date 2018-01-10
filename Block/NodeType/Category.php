@@ -9,7 +9,10 @@ use Snowdog\Menu\Model\NodeType\Category as ModelCategory;
 
 class Category extends AbstractNode
 {
-    const DEFAULT_TEMPLATE = 'menu/node_type/cms_block.phtml';
+    /**
+     * @var string
+     */
+    protected $defaultTemplate = 'menu/node_type/cms_block.phtml';
 
     /**
      * @var string
@@ -172,13 +175,5 @@ HTML;
     public function getAddButtonLabel()
     {
         return __("Add Category node");
-    }
-
-    /**
-     * @return string
-     */
-    protected function getDefaultTemplate()
-    {
-        return self::DEFAULT_TEMPLATE;
     }
 }
