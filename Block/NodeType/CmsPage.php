@@ -9,6 +9,8 @@ use Snowdog\Menu\Model\NodeType\CmsPage as CmsPageModel;
 
 class CmsPage extends AbstractNode
 {
+    const DEFAULT_TEMPLATE = 'menu/node_type/cms_page.phtml';
+
     /**
      * @var string
      */
@@ -29,10 +31,7 @@ class CmsPage extends AbstractNode
      * @var PageInterface
      */
     private $page;
-    /**
-     * @var string
-     */
-    protected $_template = 'menu/node_type/cms_page.phtml';
+
     /**
      * @var CmsPageModel
      */
@@ -171,5 +170,13 @@ HTML;
     public function getAddButtonLabel()
     {
         return __("Add Cms Page link node");
+    }
+
+    /**
+     * @return string
+     */
+    protected function getDefaultTemplate()
+    {
+        return self::DEFAULT_TEMPLATE;
     }
 }

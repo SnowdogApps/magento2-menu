@@ -9,6 +9,8 @@ use Snowdog\Menu\Model\NodeType\CmsBlock as CmsBlockModel;
 
 class CmsBlock extends AbstractNode
 {
+    const DEFAULT_TEMPLATE = 'menu/node_type/cms_block.phtml';
+
     /**
      * @var string
      */
@@ -25,10 +27,7 @@ class CmsBlock extends AbstractNode
      * {@inheritdoc}
      */
     protected $viewAllLink = false;
-    /**
-     * @var string
-     */
-    protected $_template = 'menu/node_type/cms_block.phtml';
+
     /**
      * @var FilterProvider
      */
@@ -106,5 +105,13 @@ class CmsBlock extends AbstractNode
     public function getAddButtonLabel()
     {
         return __("Add Cms Block node");
+    }
+
+    /**
+     * @return string
+     */
+    protected function getDefaultTemplate()
+    {
+        return self::DEFAULT_TEMPLATE;
     }
 }

@@ -135,12 +135,20 @@ abstract class AbstractNode extends Template implements NodeTypeInterface
     /**
      * @return string
      */
+    protected function getDefaultTemplate()
+    {
+        return '';
+    }
+
+    /**
+     * @return string
+     */
     protected function _toHtml()
     {
         $template = $this->templateResolver->getMenuTemplate(
             $this,
             $this->getMenuCode(),
-            $this->_template
+            $this->getDefaultTemplate()
         );
         $this->setTemplate($template);
 
