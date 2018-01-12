@@ -14,7 +14,7 @@ class Edit extends Container
         parent::_construct();
 
         $this->buttonList->add(
-            'saveandcontinue',
+            'save_and_continue',
             [
                 'label' => __('Save and Continue Edit'),
                 'class' => 'save',
