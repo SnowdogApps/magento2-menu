@@ -24,7 +24,7 @@ abstract class AbstractNode extends Template implements NodeTypeInterface
     /**
      * @var string
      */
-    protected $defaultTemplate = '';
+    protected $defaultTemplate;
 
     /**
      * @var string
