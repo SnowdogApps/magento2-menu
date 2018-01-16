@@ -142,11 +142,11 @@ class Nodes extends Template implements TabInterface
         $html = '<ul>';
         foreach ($nodes as $node) {
             $html .= '<li class="jstree-close"';
-            $html .= 'data-type="' . $node->getType() . '"';
-            $html .= 'data-content="' . $node->getContent() . '"';
-            $html .= 'data-classes="' . $node->getClasses() . '"';
-            $html .= 'data-target="' . $node->getTarget() . '"';
-            $html .= 'id="node_' . $node->getId() . '"';
+            $html .= ' data-type="' . $node->getType() . '"';
+            $html .= ' data-content="' . $node->getContent() . '"';
+            $html .= ' data-classes="' . $node->getClasses() . '"';
+            $html .= ' data-target="' . $node->getTarget() . '"';
+            $html .= ' id="node_' . $node->getId() . '"';
             $html .= '>';
             $html .= $node->getTitle();
             $html .= $this->renderNodeList($level + 1, $node->getId(), $data);
