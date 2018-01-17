@@ -185,6 +185,11 @@ class Save extends Action
 
         $redirect = $this->resultRedirectFactory->create();
         $redirect->setPath('*/*/index');
+
+        if ($this->getRequest()->getParam('back')) {
+            $redirect->setPath('*/*/edit', ['id' => $menu->getId(), '_current' => true]);
+        }
+
         return $redirect;
     }
 
