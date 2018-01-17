@@ -24,6 +24,11 @@ abstract class AbstractNode extends Template implements NodeTypeInterface
     /**
      * @var string
      */
+    protected $defaultTemplate;
+
+    /**
+     * @var string
+     */
     protected $nodeType;
     /**
      * Main node attributes
@@ -140,7 +145,7 @@ abstract class AbstractNode extends Template implements NodeTypeInterface
         $template = $this->templateResolver->getMenuTemplate(
             $this,
             $this->getMenuCode(),
-            $this->_template
+            $this->defaultTemplate
         );
         $this->setTemplate($template);
 
