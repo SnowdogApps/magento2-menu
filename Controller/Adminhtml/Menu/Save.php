@@ -167,6 +167,9 @@ class Save extends Action
                     if (isset($node['data']['content'])) {
                         $nodeObject->setContent($node['data']['content']);
                     }
+                    if (isset($node['data']['target'])) {
+                        $nodeObject->setTarget($node['data']['target']);
+                    }
                     $nodeObject->setMenuId($id);
                     $nodeObject->setTitle($node['text']);
                     $nodeObject->setIsActive(1);
