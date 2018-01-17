@@ -6,6 +6,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [2.3.0] - 2018-01-17
+### Added
+- Added target option for custom link to open in a new tab
+- Added save and continue button
+
+### Fixed
+- Fixed issue with node templates if it's more than one menu
+
 ## [2.2.3] - 2018-01-09
 ### Removed
 - Remove package version from composer.json 
