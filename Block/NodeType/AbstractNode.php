@@ -136,7 +136,7 @@ abstract class AbstractNode extends Template implements NodeTypeInterface
     {
         return $this->viewAllLink;
     }
-    
+
     /**
      * @return string
      */
