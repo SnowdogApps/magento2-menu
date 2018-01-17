@@ -8,6 +8,13 @@ use Snowdog\Menu\Model\NodeType\CustomUrl as CustomUrlModel;
 
 class CustomUrl extends AbstractNode
 {
+    const NAME_TARGET = 'node_target';
+
+    /**
+     * @var string
+     */
+    protected $defaultTemplate = 'menu/node_type/custom_url.phtml';
+
     /**
      * @var string
      */
@@ -16,10 +23,7 @@ class CustomUrl extends AbstractNode
      * @var array
      */
     protected $nodes;
-    /**
-     * @var string
-     */
-    protected $_template = 'menu/node_type/custom_url.phtml';
+
     /**
      * @var CustomUrlModel
      */
@@ -40,6 +44,7 @@ class CustomUrl extends AbstractNode
         $data = []
     ) {
         parent::__construct($context, $templateResolver, $data);
+        $this->addNodeAttribute(self::NAME_TARGET, 'Node target blank', 'checkbox');
         $this->_customUrlModel = $customUrlModel;
     }
 
