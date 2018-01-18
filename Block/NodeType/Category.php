@@ -12,7 +12,7 @@ class Category extends AbstractNode
     /**
      * @var string
      */
-    protected $defaultTemplate = 'menu/node_type/cms_block.phtml';
+    protected $defaultTemplate = 'menu/node_type/category.phtml';
 
     /**
      * @var string
