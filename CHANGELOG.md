@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [2.3.1] - 2018-01-18
+### Fixed
+- Fixed issue with overwrite category node
+
 ## [2.3.0] - 2018-01-17
 ### Added
 - Added target option for custom link to open in a new tab
