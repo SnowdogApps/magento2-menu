@@ -10,41 +10,40 @@
 
 namespace Snowdog\Menu\Model\ResourceModel\NodeType;
 
+use Magento\Catalog\Api\Data\CategoryInterface;
 use Magento\Catalog\Model\Category as CoreCategory;
 use Magento\Framework\App\ResourceConnection;
-use Snowdog\Menu\Helper\EavStructureWrapper;
+use Magento\Framework\EntityManager\MetadataPool;
 use Magento\Store\Model\Store;
-
 
 class Category extends AbstractNode
 {
     /**
-     * @var EavStructureWrapper
+     * @var MetadataPool
      */
-    protected $eavStructureWrapper;
+    private $metadataPool;
 
     /**
-     * Category constructor.
-     *
      * @param ResourceConnection $resource
-     * @param EavStructureWrapper $eavStructureWrapper
+     * @param MetadataPool $metadataPool
      */
     public function __construct(
         ResourceConnection $resource,
-        EavStructureWrapper $eavStructureWrapper
-
+        MetadataPool $metadataPool
     ) {
-        $this->eavStructureWrapper = $eavStructureWrapper;
+        $this->metadataPool = $metadataPool;
         parent::__construct($resource);
     }
 
     /**
      * @return array
+     * @throws \Exception
      */
     public function fetchConfigData()
     {
-        $identifierField = $this->eavStructureWrapper->getCategoryIdentifierField();
-        $linkField = $this->eavStructureWrapper->getCategoryLinkField();
+        $metadata = $this->metadataPool->getMetadata(CategoryInterface::class);
+        $identifierField = $metadata->getIdentifierField();
+        $linkField = $metadata->getLinkField();
         $connection = $this->getConnection('read');
 
         $select = $connection->select()->from(

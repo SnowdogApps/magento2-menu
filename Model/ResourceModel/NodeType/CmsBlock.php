@@ -10,26 +10,25 @@
 
 namespace Snowdog\Menu\Model\ResourceModel\NodeType;
 
-use Magento\Catalog\Model\Category as CoreCategory;
+use Magento\Cms\Api\Data\BlockInterface;
 use Magento\Framework\App\ResourceConnection;
+use Magento\Framework\EntityManager\MetadataPool;
 use Magento\Store\Model\Store;
-use Snowdog\Menu\Helper\EavStructureWrapper;
 
 class CmsBlock extends AbstractNode
 {
     /**
-     * @var EavStructureWrapper
+     * @var MetadataPool
      */
-    protected $eavStructureWrapper;
+    private $metadataPool;
 
     public function __construct(
         ResourceConnection $resource,
-        EavStructureWrapper  $eavStructureWrapper
+        MetadataPool $metadataPool
     ) {
-        $this->eavStructureWrapper = $eavStructureWrapper;
+        $this->metadataPool = $metadataPool;
         parent::__construct($resource);
     }
-
 
     /**
      * @return array
@@ -47,14 +46,14 @@ class CmsBlock extends AbstractNode
     }
 
     /**
-     * @param int   $storeId
+     * @param int $storeId
      * @param array $blocksCodes
-     *
      * @return array
+     * @throws \Exception
      */
     public function fetchData($storeId = Store::DEFAULT_STORE_ID, $blocksCodes = [])
     {
-        $linkField = $this->eavStructureWrapper->getCmsBlockLinkField();
+        $linkField = $this->metadataPool->getMetadata(BlockInterface::class)->getLinkField();
         $connection = $this->getConnection('read');
 
         $blockTable = $this->getTable('cms_block');
