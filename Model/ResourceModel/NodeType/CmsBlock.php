@@ -54,7 +54,7 @@ class CmsBlock extends AbstractNode
      */
     public function fetchData($storeId = Store::DEFAULT_STORE_ID, $blocksCodes = [])
     {
-        $eavColumnName = $this->eavStructureWrapper->getEntityBlockColumnName();
+        $linkField = $this->eavStructureWrapper->getCmsBlockLinkField();
         $connection = $this->getConnection('read');
 
         $blockTable = $this->getTable('cms_block');
@@ -63,7 +63,7 @@ class CmsBlock extends AbstractNode
         $select = $connection->select()->from(
             ['p' => $blockTable],
             ['content', 'identifier']
-        )->join(['s' => $storeTable], 'p.' . $eavColumnName . ' = s.' .$eavColumnName, [])->where(
+        )->join(['s' => $storeTable], 'p.' . $linkField . ' = s.' .$linkField, [])->where(
             's.store_id IN (0, ?)',
             $storeId
         )->where('p.identifier IN (?)', $blocksCodes)->where('p.is_active = ?', 1)->order('s.store_id ASC');

@@ -2,219 +2,124 @@
 
 namespace Snowdog\Menu\Helper;
 
-use Magento\Framework\App\CacheInterface;
-use Magento\Framework\App\ProductMetadataInterface\Proxy as ProductMetadataInterface;
-use Magento\Framework\App\ResourceConnection\Proxy as ResourceConnection;
+use Magento\Catalog\Api\Data\CategoryInterface;
+use Magento\Cms\Api\Data\BlockInterface;
+use Magento\Cms\Api\Data\PageInterface;
+use Magento\Framework\EntityManager\EntityMetadataInterface;
+use Magento\Framework\EntityManager\MetadataPool;
 
-/**
- * Class EavStructureWrapper
- *
- * @package Snowdog\Menu\Helper
- */
 class EavStructureWrapper
 {
     /**
-     * EavStructureWrapper Cache Tag
+     * @var MetadataPool
      */
-    const SNOWDOG_MENU_DATABASE_ENTITY_ID_TAG = 'snowdog_menu_database_entity_id_tag';
-
-    /**
-     * EavStructureWrapper Cache Tag For Block
-     */
-    const SNOWDOG_MENU_DATABASE_BLOCK_ENTITY_ID_TAG = 'snowdog_menu_database_block_entity_id_tag';
-
-    /**
-     * EavStructureWrapper Cache Tag For Cms Page
-     */
-    const SNOWDOG_MENU_DATABASE_CMS_PAGE_ENTITY_ID_TAG = 'snowdog_menu_database_cms_page_entity_id_tag';
-
-    /**
-     * Enterprise Column Name
-     */
-    const ENTERPRISE_EDITION_COLUMN = 'row_id';
-
-    /**
-     * Community Column Name
-     */
-    const COMMUNITY_EDITION_COLUMN = 'entity_id';
-
-    /**
-     * Enterprise Block Column Index
-     */
-    const COMMUNITY_EDITION_BLOCK_COLUMN_INDEX = 'block_id';
-
-    /**
-     * Enterprise Cms Page Column Index
-     */
-    const COMMUNITY_EDITION_CMS_PAGE_COLUMN_INDEX = 'page_id';
-
-    /**
-     * @var ProductMetadataInterface
-     */
-    private $productMetadata;
-
-    /**
-     * @var ResourceConnection
-     */
-    private $connection;
+    private $metadataPool;
 
     /**
      * @var string
      */
-    private $columnName = '';
+    private $cmsPageLinkField;
 
     /**
      * @var string
      */
-    private $blockColumnName = '';
+    private $cmsPageIdentifierField;
 
     /**
-     * @var
+     * @var string
      */
-    private $cmsPageColumnName = '';
+    private $cmsBlockLinkField;
 
     /**
-     * @var CacheInterface
+     * @var string
      */
-    private $cache;
+    private $categoryLinkField;
 
     /**
-     * EavStructureWrapper constructor.
-     *
-     * @param ProductMetadataInterface $productMetadata
-     * @param ResourceConnection $connection
-     * @param CacheInterface $cache
+     * @var string
      */
-    public function __construct(
-        ProductMetadataInterface $productMetadata,
-        ResourceConnection $connection,
-        CacheInterface $cache
-    ) {
-        $this->productMetadata = $productMetadata;
-        $this->connection = $connection;
-        $this->cache = $cache;
-        $this->initCacheVariables();
-    }
+    private $categoryIdentifierField;
 
-    protected function initCacheVariables()
+    /**
+     * @param MetadataPool $metadataPool
+     */
+    public function __construct(MetadataPool $metadataPool)
     {
-        if ($columnName = $this->cache->load(self::SNOWDOG_MENU_DATABASE_ENTITY_ID_TAG)) {
-            $this->columnName = $columnName;
-        }
-        if ($blockColumnName = $this->cache->load(self::SNOWDOG_MENU_DATABASE_BLOCK_ENTITY_ID_TAG)) {
-            $this->blockColumnName = $blockColumnName;
-        }
-        if ($cmsPagecolumnName = $this->cache->load(self::SNOWDOG_MENU_DATABASE_CMS_PAGE_ENTITY_ID_TAG)) {
-            $this->cmsPageColumnName = $cmsPagecolumnName;
-        }
+        $this->metadataPool = $metadataPool;
     }
 
     /**
      * @return string
+     * @throws \Exception
      */
-    public function getEdition()
+    public function getCategoryLinkField()
     {
-        return strtolower($this->productMetadata->getEdition());
-    }
-
-    /**
-     * @param string|null $entity
-     * @return string
-     */
-    private function getEntityColumnNameByVersion($entity = null)
-    {
-        if ($this->getEdition() == 'enterprise') {
-            return self::ENTERPRISE_EDITION_COLUMN;
+        if ($this->categoryLinkField === null) {
+            $this->categoryLinkField = $this->getMetadata(CategoryInterface::class)->getLinkField();
         }
 
-        return $this->getCommunityColumn($entity);
-    }
-    /**
-     * @return string
-     */
-    public function getEntityColumnName()
-    {
-        if ($this->columnName) {
-            return $this->columnName;
-        }
-
-        $column = $this->getEntityColumnNameByVersion();
-        try {
-            $this->checkVersion($column);
-        } catch (\Exception $e) {
-            $column = self::COMMUNITY_EDITION_COLUMN;
-        }
-        $this->cache->save($column, self::SNOWDOG_MENU_DATABASE_ENTITY_ID_TAG);
-
-        return $column;
+        return $this->categoryLinkField;
     }
 
     /**
      * @return string
+     * @throws \Exception
      */
-    public function getEntityBlockColumnName()
+    public function getCategoryIdentifierField()
     {
-        if ($this->blockColumnName) {
-            return $this->blockColumnName;
+        if ($this->categoryIdentifierField === null) {
+            $this->categoryIdentifierField = $this->getMetadata(CategoryInterface::class)->getIdentifierField();
         }
 
-        $column = $this->getEntityColumnNameByVersion('block');
-        try {
-            $this->checkVersion($column);
-        } catch (\Exception $e) {
-            $column = self::COMMUNITY_EDITION_BLOCK_COLUMN_INDEX;
-        }
-        $this->cache->save($column, self::SNOWDOG_MENU_DATABASE_BLOCK_ENTITY_ID_TAG);
-
-        return $column;
+        return $this->categoryIdentifierField;
     }
 
     /**
      * @return string
+     * @throws \Exception
      */
-    public function getCmsPageEntityColumnName()
+    public function getCmsBlockLinkField()
     {
-        if ($this->cmsPageColumnName) {
-            return $this->cmsPageColumnName;
+        if ($this->cmsBlockLinkField === null) {
+            $this->cmsBlockLinkField = $this->getMetadata(BlockInterface::class)->getLinkField();
         }
 
-        $column = $this->getEntityColumnNameByVersion('cms_page');
-        try {
-            $this->checkVersion($column);
-        } catch (\Exception $e) {
-            $column = self::COMMUNITY_EDITION_CMS_PAGE_COLUMN_INDEX;
-        }
-        $this->cache->save($column, self::SNOWDOG_MENU_DATABASE_CMS_PAGE_ENTITY_ID_TAG);
-
-        return $column;
+        return $this->cmsBlockLinkField;
     }
 
     /**
-     * @param string $column
      * @return string
+     * @throws \Exception
      */
-    protected function checkVersion($column)
+    public function getCmsPageLinkField()
     {
-        $connection = $this->connection->getConnection();
-        $select = $connection->select()
-            ->from($this->connection->getTableName('catalog_product_entity_varchar'), $column);
+        if ($this->cmsPageLinkField === null) {
+            $this->cmsPageLinkField = $this->getMetadata(PageInterface::class)->getLinkField();
+        }
 
-        return $connection->fetchOne($select);
+        return $this->cmsPageLinkField;
     }
 
     /**
-     * @param $entity
      * @return string
+     * @throws \Exception
      */
-    private function getCommunityColumn($entity)
+    public function getCmsPageIdentifierField()
     {
-        switch ($entity) {
-            case 'block':
-                return self::COMMUNITY_EDITION_BLOCK_COLUMN_INDEX;
-            case 'cms_page':
-                return self::COMMUNITY_EDITION_CMS_PAGE_COLUMN_INDEX;
-            default:
-                return self::COMMUNITY_EDITION_COLUMN;
+        if ($this->cmsPageIdentifierField === null) {
+            $this->cmsPageIdentifierField = $this->getMetadata(PageInterface::class)->getIdentifierField();
         }
+
+        return $this->cmsPageIdentifierField;
+    }
+
+    /**
+     * @param string $entityType
+     * @return EntityMetadataInterface
+     * @throws \Exception
+     */
+    private function getMetadata($entityType)
+    {
+        return $this->metadataPool->getMetadata($entityType);
     }
 }

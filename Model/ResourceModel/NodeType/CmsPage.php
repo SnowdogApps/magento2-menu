@@ -80,7 +80,8 @@ class CmsPage extends AbstractNode
      */
     public function getPageIds($storeId, $pagesCodes = [])
     {
-        $eavColumnName = $this->eavStructureWrapper->getCmsPageEntityColumnName();
+        $identifierField = $this->eavStructureWrapper->getCmsPageIdentifierField();
+        $linkField = $this->eavStructureWrapper->getCmsPageLinkField();
         $connection = $this->getConnection('read');
 
         $pageTable = $this->getTable('cms_page');
@@ -88,18 +89,30 @@ class CmsPage extends AbstractNode
 
         $select = $connection->select()->from(
             ['p' => $pageTable],
-            [$eavColumnName, 'identifier']
-        )->join(['s' => $storeTable], 'p.' . $eavColumnName . ' = s.' . $eavColumnName, [])->where(
+            [$identifierField, 'identifier']
+        )->join(
+            ['s' => $storeTable],
+            'p.' . $linkField . ' = s.' . $linkField,
+            []
+        )->where(
             's.store_id IN (0, ?)',
             $storeId
-        )->where('p.identifier IN (?)', $pagesCodes)->where('p.is_active = ?', 1)->order('s.store_id ASC');
+        )->where(
+            'p.identifier IN (?)',
+            $pagesCodes
+        )->where(
+            'p.is_active = ?',
+            1
+        )->order(
+            's.store_id ASC'
+        );
 
         $codes = $connection->fetchAll($select);
 
         $pageIds = [];
 
         foreach ($codes as $row) {
-            $pageIds[$row['identifier']] = $row[$eavColumnName];
+            $pageIds[$row['identifier']] = $row[$identifierField];
         }
 
         return $pageIds;
