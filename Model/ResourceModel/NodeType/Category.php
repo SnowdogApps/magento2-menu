@@ -43,7 +43,8 @@ class Category extends AbstractNode
      */
     public function fetchConfigData()
     {
-        $eavColumnName = $this->eavStructureWrapper->getEntityColumnName();
+        $identifierField = $this->eavStructureWrapper->getCategoryIdentifierField();
+        $linkField = $this->eavStructureWrapper->getCategoryLinkField();
         $connection = $this->getConnection('read');
 
         $select = $connection->select()->from(
@@ -62,13 +63,21 @@ class Category extends AbstractNode
 
         $select = $connection->select()->from(
             ['e' => $this->getTable('catalog_category_entity')],
-            [$eavColumnName => 'e.' . $eavColumnName, 'parent_id' => 'e.parent_id']
+            [$identifierField, 'parent_id']
         )->join(
             ['v' => $this->getTable('catalog_category_entity_varchar')],
-            'v.' . $eavColumnName . ' = e.' . $eavColumnName . ' AND v.store_id = 0 
+            'v.' . $linkField . ' = e.' . $linkField . ' AND v.store_id = 0 
             AND v.attribute_id = ' . $nameAttributeId,
             ['name' => 'v.value']
-        )->where('e.level > 0')->order('e.level ASC')->order('e.position ASC');
+        )->where(
+            'e.level > 0'
+        )->order(
+            'e.level ASC'
+        )->order(
+            'e.position ASC'
+        )->order(
+            $linkField . ' DESC'
+        );
 
         return $connection->fetchAll($select);
     }

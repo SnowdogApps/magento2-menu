@@ -49,7 +49,7 @@ class Category extends AbstractNode
     public function fetchConfigData()
     {
         $this->profiler->start(__METHOD__);
-        $eavColumnName = $this->eavStructureWrapper->getEntityColumnName();
+        $identifierField = $this->eavStructureWrapper->getCategoryIdentifierField();
 
         $data = $this->getResource()->fetchConfigData();
         $labels = [];
@@ -61,7 +61,7 @@ class Category extends AbstractNode
                 $label = [];
             }
             $label[] = $row['name'];
-            $labels[$row[$eavColumnName]] = $label;
+            $labels[$row[$identifierField]] = $label;
         }
 
         $options = [];
