@@ -5,6 +5,8 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+
+## [2.4.0] - 2018-01-29
 ### Changed
 - Module doesn't support 2.0 anymore
 
@@ -26,11 +28,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [2.2.3] - 2018-01-09
 ### Removed
-- Remove package version from composer.json 
+- Remove package version from composer.json
 
 ## [2.2.2] - 2018-01-09
 ### Added
-- getMenuCssClass to menu block (menu is null check) 
+- getMenuCssClass to menu block (menu is null check)
 
 ## [2.2.1] - 2018-01-04
 ### Fixed
