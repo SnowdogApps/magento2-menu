@@ -10,29 +10,27 @@
 
 namespace Snowdog\Menu\Model\ResourceModel\NodeType;
 
-use Magento\Catalog\Model\Category as CoreCategory;
+use Magento\Cms\Api\Data\PageInterface;
 use Magento\Framework\App\ResourceConnection;
-use Snowdog\Menu\Helper\EavStructureWrapper;
+use Magento\Framework\EntityManager\MetadataPool;
 use Magento\Store\Model\Store;
 
 class CmsPage extends AbstractNode
 {
     /**
-     * @var EavStructureWrapper
+     * @var MetadataPool
      */
-    protected $eavStructureWrapper;
+    private $metadataPool;
 
     /**
-     * CmsPage constructor.
-     *
      * @param ResourceConnection $resource
-     * @param EavStructureWrapper $eavStructureWrapper
+     * @param MetadataPool $metadataPool
      */
     public function __construct(
         ResourceConnection $resource,
-        EavStructureWrapper $eavStructureWrapper
+        MetadataPool $metadataPool
     ) {
-        $this->eavStructureWrapper = $eavStructureWrapper;
+        $this->metadataPool = $metadataPool;
         parent::__construct($resource);
     }
 
@@ -74,14 +72,16 @@ class CmsPage extends AbstractNode
 
     /**
      * @param int|string $storeId
-     * @param array      $pagesCodes
-     *
+     * @param array $pagesCodes
      * @return array
+     * @throws \Exception
      */
     public function getPageIds($storeId, $pagesCodes = [])
     {
-        $identifierField = $this->eavStructureWrapper->getCmsPageIdentifierField();
-        $linkField = $this->eavStructureWrapper->getCmsPageLinkField();
+        $metadata = $this->metadataPool->getMetadata(PageInterface::class);
+        $identifierField = $metadata->getIdentifierField();
+        $linkField = $metadata->getLinkField();
+
         $connection = $this->getConnection('read');
 
         $pageTable = $this->getTable('cms_page');

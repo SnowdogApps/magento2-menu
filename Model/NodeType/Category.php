@@ -10,15 +10,16 @@
 
 namespace Snowdog\Menu\Model\NodeType;
 
+use Magento\Catalog\Api\Data\CategoryInterface;
+use Magento\Framework\EntityManager\MetadataPool;
 use Magento\Framework\Profiler;
-use Snowdog\Menu\Helper\EavStructureWrapper;
 
 class Category extends AbstractNode
 {
     /**
-     * @var EavStructureWrapper
+     * @var MetadataPool
      */
-    protected $eavStructureWrapper;
+    private $metadataPool;
 
     /**
      * @inheritDoc
@@ -33,23 +34,25 @@ class Category extends AbstractNode
      * Category constructor.
      *
      * @param Profiler $profiler
-     * @param EavStructureWrapper $eavStructureWrapper
+     * @param MetadataPool $metadataPool
      */
     public function __construct(
         Profiler $profiler,
-        EavStructureWrapper $eavStructureWrapper
+        MetadataPool $metadataPool
     ) {
-        $this->eavStructureWrapper = $eavStructureWrapper;
+        $this->metadataPool = $metadataPool;
         parent::__construct($profiler);
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
+     * @throws \Exception
      */
     public function fetchConfigData()
     {
         $this->profiler->start(__METHOD__);
-        $identifierField = $this->eavStructureWrapper->getCategoryIdentifierField();
+        $metadata = $this->metadataPool->getMetadata(CategoryInterface::class);
+        $identifierField = $metadata->getIdentifierField();
 
         $data = $this->getResource()->fetchConfigData();
         $labels = [];
