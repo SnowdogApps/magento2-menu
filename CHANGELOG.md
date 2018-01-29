@@ -5,7 +5,12 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
-- Fixed compatibility with Magento Enterprise
+### Changed
+- Module doesn't support 2.0 anymore
+
+### Fixed
+- Fixed compatibility with Magento Commerce (Enterprise)
+- Imporved compatibility with Magento 2.2
 
 ## [2.3.1] - 2018-01-18
 ### Fixed
