@@ -76,7 +76,7 @@ class Category extends AbstractNode
         )->order(
             'e.position ASC'
         )->order(
-            $linkField . ' DESC'
+            'e.' . $linkField . ' DESC'
         );
 
         return $connection->fetchAll($select);
