@@ -1,5 +1,8 @@
 <template>
-    <div class="admin__field">
+    <fieldset class="admin__fieldset fieldset-wide">
+        <legend class="admin__legend legend">
+            <span>Node Data</span>
+        </legend>
         <simple-field label="Node name"
                       id="node_name"
                       type="textarea"
@@ -34,8 +37,7 @@
             </div>
         </div>
         <component :is="item['data-type']" :item="item" :config="config"></component>
-        <button @click.prevent="removeEvent">Remove</button>
-    </div>
+    </fieldset>
 </template>
 
 <script>
@@ -47,9 +49,6 @@
                 changeType: function (value) {
                     this.item['data-type'] = value;
                     this.item['content'] = null;
-                },
-                removeEvent: function () {
-                    this.$emit('removeEvent', this.item)
                 }
             }
         });
