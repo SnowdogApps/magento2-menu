@@ -60,7 +60,7 @@ class Nodes extends Template implements TabInterface
         $this->editor->setConfig($config);
     }
 
-    public function renderNodes()
+    public function renderNodesJson()
     {
         $menu = $this->registry->registry(Edit::REGISTRY_CODE);
         if ($menu) {
@@ -78,9 +78,9 @@ class Nodes extends Template implements TabInterface
                 $data[$level][$parent][] = $node;
             }
 
-            return $this->renderNodeList(0, null, $data);
+            return json_encode($this->renderNodeListJson(0, null, $data));
         }
-        return '';
+        return [];
     }
 
     /**
@@ -127,7 +127,7 @@ class Nodes extends Template implements TabInterface
         return false;
     }
 
-    private function renderNodeList($level, $parent, $data)
+    private function renderNodeListJson($level, $parent, $data)
     {
         if (is_null($parent)) {
             $parent = 0;
@@ -139,16 +139,18 @@ class Nodes extends Template implements TabInterface
             return;
         }
         $nodes = $data[$level][$parent];
-        $html = '<ul>';
         foreach ($nodes as $node) {
-            $html .= '<li class="jstree-close" data-type="' . $node->getType() . '" data-content="' . $node->getContent(
-                ) . '" data-classes="' . $node->getClasses() . '" id="node_' . $node->getId() . '"">';
-            $html .= $node->getTitle();
-            $html .= $this->renderNodeList($level + 1, $node->getId(), $data);
-            $html .= '</li>';
+            $menu[] = [
+                'type' => 'container',
+                'data-type' => $node->getType(),
+                'content' => $node->getContent(),
+                'classes' => $node->getClasses(),
+                'id' => $node->getId(),
+                'title' => $node->getTitle(),
+                'columns' => $this->renderNodeListJson($level + 1, $node->getId(), $data) ? $this->renderNodeListJson($level + 1, $node->getId(), $data) : []
+            ];
         }
-        $html .= '</ul>';
-        return $html;
+        return $menu;
     }
 
     public function getNodeForms()
