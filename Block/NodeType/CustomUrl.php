@@ -50,7 +50,7 @@ class CustomUrl extends AbstractNode
                 "type" => "custom_url"
             ]
         ];
-        return json_encode($data);
+        return $data;
     }
 
     /**
@@ -86,6 +86,6 @@ HTML;
      */
     public function getAddButtonLabel()
     {
-        return __("Add Custom Url node");
+        return __("Custom Url");
     }
 }

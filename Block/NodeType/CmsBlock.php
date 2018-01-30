@@ -63,7 +63,7 @@ class CmsBlock extends AbstractNode
     {
         $data = $this->_cmsBlockModel->fetchConfigData();
 
-        return json_encode($data);
+        return $data;
     }
 
     /**
@@ -102,6 +102,6 @@ class CmsBlock extends AbstractNode
      */
     public function getAddButtonLabel()
     {
-        return __("Add Cms Block node");
+        return __("Cms Block");
     }
 }

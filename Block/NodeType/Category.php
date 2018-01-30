@@ -87,7 +87,7 @@ class Category extends AbstractNode
     {
         $data = $this->_categoryModel->fetchConfigData();
 
-        return json_encode($data);
+        return $data;
     }
 
     /**
@@ -169,6 +169,6 @@ HTML;
      */
     public function getAddButtonLabel()
     {
-        return __("Add Category node");
+        return __("Category");
     }
 }

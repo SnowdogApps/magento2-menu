@@ -78,7 +78,7 @@ class CmsPage extends AbstractNode
     {
         $data = $this->_cmsPageModel->fetchConfigData();
 
-        return json_encode($data);
+        return $data;
     }
 
     /**
@@ -167,6 +167,6 @@ HTML;
      */
     public function getAddButtonLabel()
     {
-        return __("Add Cms Page link node");
+        return __("Cms Page link");
     }
 }
