@@ -1,16 +1,15 @@
 .selected-option {
-    width: 100%;
-    clear: both;
-    padding-top: 29px;
-}
+  width: 100%;
+  clear: both;
+  padding: 10px 0;
 
-.selected-option:after {
+  &::after {
     content: '';
     display: block;
     clear: both;
-}
+  }
 
-.selected-option__label {
+  &__label {
     float: left;
     width: 20%;
     color: #303030;
@@ -21,12 +20,13 @@
     white-space: nowrap;
     word-wrap: break-word;
     text-align: right;
-}
+  }
 
-.selected-option__value {
+  &__value {
     float: left;
     width: 60%;
     margin: 0;
     line-height: 3.2rem;
     font-size: 14px;
+  }
 }
