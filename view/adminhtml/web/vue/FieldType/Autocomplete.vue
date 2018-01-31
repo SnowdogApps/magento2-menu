@@ -40,7 +40,7 @@
                     return Object.keys(this.options);
                 },
                 selectedId() {
-                    return this.item.content ? this.item.content : '';
+                    return this.item.content ? this.options[this.item.content] : '';
                 },
                 placeHolder: function () {
                     return 'Please select a ' + this.label.toLocaleLowerCase();
