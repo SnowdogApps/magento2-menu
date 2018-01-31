@@ -26,7 +26,7 @@
                 <select class="admin__control-select"
                         name="node_type"
                         id="node_type"
-                        :value="item['data-type']"
+                        :value="item['type']"
                         @change="changeType($event.target.value)"
                 >
                     <option value="">Select Node Type</option>
@@ -36,7 +36,7 @@
                 </select>
             </div>
         </div>
-        <component :is="item['data-type']" :item="item" :config="config"></component>
+        <component :is="item['type']" :item="item" :config="config"></component>
     </fieldset>
 </template>
 
@@ -47,7 +47,7 @@
             props: ['item', 'config'],
             methods: {
                 changeType: function (value) {
-                    this.item['data-type'] = value;
+                    this.item['type'] = value;
                     this.item['content'] = null;
                 }
             }

@@ -3,32 +3,34 @@
                     :draggable="item"
                     :index="index"
                     :selected="selectedEvent"
+                    :delete="deleteEvent"
+                    :append="appendEvent"
                     :wrapper="list"
                     v-bind:class="{'selected': selectedItem === item}">
-        <div class="panel padding" v-if="item.type === 'container'">
+        <div class="panel padding">
             <div class="panel__heading v-row">
                 <div>
                     {{item.title}}
                     <span class="panel__heading-type"
-                          v-if="nodeType(item['data-type'])"
+                          v-if="nodeType(item['type'])"
                     >
-                        {{ nodeType(item['data-type']) }}
+                        {{ nodeType(item['type']) }}
                     </span>
                 </div>
                 <div>
-                    <button @click.prevent="editedItem = ! editedItem">
-                        <span v-if="!editedItem">Edit</span>
+                    <button @click.prevent="editItem = ! editItem">
+                        <span v-if="!editItem">Edit</span>
                         <span v-else>Close</span>
                     </button>
-                    <button @click.prevent="handleInsert">Append</button>
-                    <button @click.prevent="handleRemove">Delete</button>
+                    <button @click.prevent="appendEvent(list, index)">Append</button>
+                    <button @click.prevent="deleteEvent(list, index)">Delete</button>
                 </div>
             </div>
             <vddl-list class="panel__body"
                        :list="item.columns"
                        :external-sources="true"
             >
-                <template v-if="editedItem">
+                <template v-if="editItem">
                     <snowdog-menu-type :item.sync="item"
                                        :config="$root.config"
                     >
@@ -42,15 +44,14 @@
                           :index="number"
                           :selected="selectedEvent"
                           :selected-item="selectedItem"
+                          :delete="deleteEvent"
+                          :append="appendEvent"
                     >
                     </list>
                 </template>
                 <vddl-placeholder class="red">Insert here</vddl-placeholder>
             </vddl-list>
         </div>
-        <p v-else>
-            {{item.type}} {{item.id}}
-        </p>
     </vddl-draggable>
 </template>
 
@@ -59,32 +60,29 @@
         Vue.component("snowdog-nested-list", {
             template: template,
             name: 'list',
-            props: ['item', 'list', 'index', 'selected', 'selectedItem', 'config'],
-            data: function() {
+            props: ['item', 'list', 'index', 'selected', 'selectedItem', 'delete', 'append', 'config'],
+            data: function () {
                 return {
-                    editedItem: false,
-                    itemMock : {
-                        "type": "container",
-                        'data-type': 'category',
-                        'title': 'New node',
-                        "id": 4,
-                        "columns": []
-                    }
+                    editItem: false
                 }
             },
             methods: {
-                selectedEvent(item) {
+                selectedEvent: function (item) {
                     if (typeof(this.selected) === 'function') {
                         this.selected(item);
                     }
                 },
-                handleRemove: function () {
-                    this.editedItem = false;
-                    this.list.splice(this.index, 1);
+                appendEvent: function (list, index) {
+                    this.editItem = false;
+                    if (typeof(this.append) === 'function') {
+                        this.append(list, index);
+                    }
                 },
-                handleInsert: function (item) {
-                    this.editedItem = false;
-                    this.list[this.index].columns.push(this.itemMock);
+                deleteEvent: function (list, index) {
+                    this.editItem = false;
+                    if (typeof(this.delete) === 'function') {
+                        this.delete(list, index);
+                    }
                 },
                 nodeType: function (type) {
                     var nodeType = '';

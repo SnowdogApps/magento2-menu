@@ -1,8 +1,13 @@
 <template>
     <div class="nested">
         <div class="panel">
-            <div class="panel__heading">
-                <h3>Menu</h3>
+            <div class="panel__heading v-row">
+                <div>
+                    <span>Nodes</span>
+                </div>
+                <div>
+                    <button @click.prevent="newNode">Add new node</button>
+                </div>
             </div>
             <div class="panel__body">
                 <vddl-list class="panel__body--list"
@@ -18,7 +23,10 @@
                                              :index="index"
                                              :selected="handleSelected"
                                              :selected-item="selectedItem"
-                                             :config="config">
+                                             :delete="handleDelete"
+                                             :append="handleAppend"
+                                             :config="config"
+                        >
                         </snowdog-nested-list>
                     </template>
                     <vddl-placeholder class="red">Insert here</vddl-placeholder>
@@ -52,8 +60,27 @@
                 },
                 handleSelected(item) {
                     this.selectedItem = item;
+                },
+                handleDelete: function (list, index) {
+                    list.splice(index, 1);
+                },
+                handleAppend: function (list, index) {
+                    list[index].columns.push({
+                        'type': 'category',
+                        'title': 'New node',
+                        "id": new Date().getTime(),
+                        "columns": []
+                    });
+                },
+                newNode: function () {
+                    this.list.push({
+                        'type': 'category',
+                        'title': 'New node',
+                        "id": new Date().getTime(),
+                        "columns": []
+                    });
                 }
-            },
+            }
             computed: {
                 jsonList: function () {
                     var list = this.list,
@@ -66,7 +93,7 @@
                             data: {
                                 classes: item.classes,
                                 content: item.content,
-                                type: item['data-type']
+                                type: item['type']
                             },
                             parent: parent
                         }

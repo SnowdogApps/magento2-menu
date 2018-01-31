@@ -141,8 +141,7 @@ class Nodes extends Template implements TabInterface
         $nodes = $data[$level][$parent];
         foreach ($nodes as $node) {
             $menu[] = [
-                'type' => 'container',
-                'data-type' => $node->getType(),
+                'type' => $node->getType(),
                 'content' => $node->getContent(),
                 'classes' => $node->getClasses(),
                 'id' => $node->getId(),
