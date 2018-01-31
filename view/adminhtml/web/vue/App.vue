@@ -80,7 +80,7 @@
                         "columns": []
                     });
                 }
-            }
+            },
             computed: {
                 jsonList: function () {
                     var list = this.list,
