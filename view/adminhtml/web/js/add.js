@@ -24,12 +24,12 @@ define([
                 selected = '#';
             }
 
-            var data   = {
-                    data: {
-                        type: nodeType
-                    }
-                },
-                nodeId = tree.create_node(selected, data);
+            var data = {
+                data: {
+                    type: nodeType
+                }
+            },
+            nodeId = tree.create_node(selected, data);
 
             tree.deselect_node(selected);
             tree.select_node(nodeId);
