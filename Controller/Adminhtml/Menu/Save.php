@@ -167,6 +167,9 @@ class Save extends Action
                     if (isset($node['data']['content'])) {
                         $nodeObject->setContent($node['data']['content']);
                     }
+                    if (isset($node['data']['target'])) {
+                        $nodeObject->setTarget($node['data']['target']);
+                    }
                     $nodeObject->setMenuId($id);
                     $nodeObject->setTitle($node['text']);
                     $nodeObject->setIsActive(1);
@@ -182,6 +185,11 @@ class Save extends Action
 
         $redirect = $this->resultRedirectFactory->create();
         $redirect->setPath('*/*/index');
+
+        if ($this->getRequest()->getParam('back')) {
+            $redirect->setPath('*/*/edit', ['id' => $menu->getId(), '_current' => true]);
+        }
+
         return $redirect;
     }
 

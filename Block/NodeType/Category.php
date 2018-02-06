@@ -12,6 +12,11 @@ class Category extends AbstractNode
     /**
      * @var string
      */
+    protected $defaultTemplate = 'menu/node_type/category.phtml';
+
+    /**
+     * @var string
+     */
     protected $nodeType = 'category';
     /**
      * @var array
@@ -25,10 +30,7 @@ class Category extends AbstractNode
      * @var Registry
      */
     private $coreRegistry;
-    /**
-     * @var string
-     */
-    protected $_template = 'menu/node_type/category.phtml';
+
     /**
      * @var ModelCategory
      */

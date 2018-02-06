@@ -12,6 +12,11 @@ class CmsBlock extends AbstractNode
     /**
      * @var string
      */
+    protected $defaultTemplate = 'menu/node_type/cms_block.phtml';
+
+    /**
+     * @var string
+     */
     protected $nodeType = 'cms_block';
     /**
      * @var array
@@ -25,10 +30,7 @@ class CmsBlock extends AbstractNode
      * {@inheritdoc}
      */
     protected $viewAllLink = false;
-    /**
-     * @var string
-     */
-    protected $_template = 'menu/node_type/cms_block.phtml';
+
     /**
      * @var FilterProvider
      */

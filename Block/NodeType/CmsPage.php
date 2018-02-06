@@ -12,6 +12,11 @@ class CmsPage extends AbstractNode
     /**
      * @var string
      */
+    protected $defaultTemplate = 'menu/node_type/cms_page.phtml';
+
+    /**
+     * @var string
+     */
     protected $nodeType = 'cms_page';
     /**
      * @var array
@@ -29,10 +34,7 @@ class CmsPage extends AbstractNode
      * @var PageInterface
      */
     private $page;
-    /**
-     * @var string
-     */
-    protected $_template = 'menu/node_type/cms_page.phtml';
+
     /**
      * @var CmsPageModel
      */

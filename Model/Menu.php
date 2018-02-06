@@ -5,6 +5,9 @@ use Magento\Framework\DataObject\IdentityInterface;
 use Magento\Framework\Model\AbstractModel;
 use Snowdog\Menu\Api\Data\MenuInterface;
 
+/**
+ * @method string getCssClass()
+ */
 class Menu extends AbstractModel implements MenuInterface, IdentityInterface
 {
     const CACHE_TAG = 'snowdog_menu_menu';

@@ -6,6 +6,34 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [2.4.0] - 2018-01-29
+### Changed
+- Module doesn't support 2.0 anymore
+
+### Fixed
+- Fixed compatibility with Magento Commerce (Enterprise)
+- Imporved compatibility with Magento 2.2
+
+## [2.3.1] - 2018-01-18
+### Fixed
+- Fixed issue with overwrite category node
+
+## [2.3.0] - 2018-01-17
+### Added
+- Added target option for custom link to open in a new tab
+- Added save and continue button
+
+### Fixed
+- Fixed issue with node templates if it's more than one menu
+
+## [2.2.3] - 2018-01-09
+### Removed
+- Remove package version from composer.json
+
+## [2.2.2] - 2018-01-09
+### Added
+- getMenuCssClass to menu block (menu is null check)
+
 ## [2.2.1] - 2018-01-04
 ### Fixed
 - Delete node button action

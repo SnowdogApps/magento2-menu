@@ -65,20 +65,26 @@
                     </label>
 
                     <div class="admin__field-control control">
-                        <?php if ($formAttribute->getType() != 'wysiwyg'): ?>
-                            <input class="input-text admin__control-text"
+                        <?php if ($formAttribute->getType() === 'wysiwyg'): ?>
+                            <?php
+                            $wysiwyg = $block->getEditor('snowmenu_' . $formAttribute->getId(), $formAttribute->getId());
+                            $wysiwyg->setDataMageInit(
+                                '{"snowMenuEditorRename":{"type":"' . $formAttribute->getCode() . '"}}'
+                            );
+                            echo $wysiwyg->getElementHtml();
+                            ?>
+                        <?php elseif ($formAttribute->getType() === 'checkbox'): ?>
+                            <input class="checkbox"
                                    data-mage-init='{"snowMenuEditorRename":{"type":"<?= $formAttribute->getCode(); ?>"}}'
                                    id="snowmenu_<?= $formAttribute->getId(); ?>"
                                    type="<?= $formAttribute->getType(); ?>"
                             />
                         <?php else: ?>
-                        <?php
-                            $wysiwyg = $block->getEditor('snowmenu_' . $formAttribute->getId(), $formAttribute->getId());
-                            $wysiwyg->setDataMageInit(
-                                "{\"snowMenuEditorRename\":{\"type\":\"" . $formAttribute->getCode() . "\"}}"
-                            );
-                            echo $wysiwyg->getElementHtml();
-                        ?>
+                            <input class="input-text admin__control-text"
+                                   data-mage-init='{"snowMenuEditorRename":{"type":"<?= $formAttribute->getCode(); ?>"}}'
+                                   id="snowmenu_<?= $formAttribute->getId(); ?>"
+                                   type="<?= $formAttribute->getType(); ?>"
+                            />
                         <?php endif; ?>
                     </div>
                 </div>

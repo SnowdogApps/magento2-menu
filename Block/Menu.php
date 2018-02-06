@@ -328,6 +328,21 @@ class Menu extends Template implements DataObject\IdentityInterface
     }
 
     /**
+     * @param string $defaultClass
+     * @return string
+     */
+    public function getMenuCssClass($defaultClass = '')
+    {
+        $menu = $this->getMenu();
+
+        if (is_null($menu)) {
+            return $defaultClass;
+        }
+
+        return $menu->getCssClass();
+    }
+
+    /**
      * @param NodeRepositoryInterface $node
      * @return Template
      */
@@ -346,7 +361,8 @@ class Menu extends Template implements DataObject\IdentityInterface
             ->setContent($node->getContent())
             ->setNodeClasses($node->getClasses())
             ->setMenuClass($this->getMenu()->getCssClass())
-            ->setMenuCode($this->getData('menu'));
+            ->setMenuCode($this->getData('menu'))
+            ->setTarget($node->getTarget());
 
         return $nodeBlock;
     }
