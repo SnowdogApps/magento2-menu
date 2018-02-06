@@ -174,6 +174,6 @@ HTML;
      */
     public function getAddButtonLabel()
     {
-        return __("Add Category node");
+        return __("Category");
     }
 }

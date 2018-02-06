@@ -107,6 +107,6 @@ class CmsBlock extends AbstractNode
      */
     public function getAddButtonLabel()
     {
-        return __("Add Cms Block node");
+        return __("Cms Block");
     }
 }

@@ -94,6 +94,6 @@ HTML;
      */
     public function getAddButtonLabel()
     {
-        return __("Add Custom Url node");
+        return __("Custom Url");
     }
 }

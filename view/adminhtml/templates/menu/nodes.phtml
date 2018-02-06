@@ -9,31 +9,43 @@
         <?= $block->renderNodes() ?>
     </div>
 
-    <div class="admin__field field field-title"
-         data-mage-init='{"snowMenuEditorAdd":{}}'
-         class="node-buttons-container"
-    >
-        <?php foreach ($block->getNodeButtons() as $code => $label): ?>
-            <button class="
-                        tertiary
-                        node-buttons-container__button
-                        node-buttons-container__button--add
-                    "
-                    type="button"
-                    id="add-<?= $code ?>"
-                    data-type="<?= $code ?>"
-            >
-                <?= $label ?>
-            </button>
-        <?php endforeach ?>
+    <div class="admin__field field field-title">
         <div class="node-buttons-container__row">
+            <div class="node-buttons-container__add"
+                 data-mage-init='{"snowMenuEditorAdd":{}}'
+            >
+                <select class="admin__control-select"
+                        name="node_type"
+                        id="node_type"
+                >
+                    <option value="">
+                        <?= __('Select Node Type') ?>
+                    </option>
+                    <?php foreach ($block->getNodeButtons() as $code => $label): ?>
+                        <option value="<?= $code ?>">
+                            <?= $label ?>
+                        </option>
+                    <?php endforeach; ?>
+                </select>
+                <button class="
+                            primary
+                            node-buttons-container__button
+                            node-buttons-container__button--add
+                        "
+                        type="button"
+                        id="snowmenu_tree_add"
+                        disabled
+                >
+                    <?= __('Add') ?>
+                </button>
+            </div>
             <button class="
                         secondary
                         node-buttons-container__button
                         node-buttons-container__button--delete
                     "
                     type="button"
-                    data-remove="true"
+                    data-mage-init='{"snowMenuEditorDelete":{}}'
             >
                 <?= __('Delete selected node') ?>
             </button>

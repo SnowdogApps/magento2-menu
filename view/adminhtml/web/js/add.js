@@ -4,32 +4,35 @@ define([
     'snowMenuEditorInit'
 ], function($) {
     return function(options, element) {
-        var buttonContainer = $(element),
-            treeContainer   = $('#snowmenu_tree_container'),
-            tree            = treeContainer.jstree(true);
+        var container     = $(element),
+            treeContainer = $('#snowmenu_tree_container'),
+            addButton     = container.find('button'),
+            tree          = treeContainer.jstree(true),
+            selectField   = container.find('select'),
+            nodeType      = '';
 
-        buttonContainer.find('button').click(function(e) {
-            e.preventDefault();
+
+        selectField.change(function(e) {
+            nodeType = this.value;
+            addButton.attr('disabled', this.value == '')
+        });
+
+        addButton.click(function(e) {
             var selected = tree.get_selected();
 
             if (selected.length === 0) {
                 selected = '#';
             }
 
-            if ($(this).data('type')) {
-                var data = {
-                        data: {
-                            type: $(this).data('type')
-                        }
-                    },
-                    nodeId = tree.create_node(selected, data);
+            var data = {
+                data: {
+                    type: nodeType
+                }
+            },
+            nodeId = tree.create_node(selected, data);
 
-                tree.deselect_node(selected);
-                tree.select_node(nodeId);
-            }
-            else if ($(this).data('remove') && selected !== '#') {
-                tree.delete_node(selected);
-            }
+            tree.deselect_node(selected);
+            tree.select_node(nodeId);
         });
     }
 });

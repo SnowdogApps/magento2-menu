@@ -8,6 +8,7 @@ var config = {
         '*': {
             snowMenuAutoCompleteField: "Snowdog_Menu/js/auto_complete_field",
             snowMenuEditorAdd: "Snowdog_Menu/js/add",
+            snowMenuEditorDelete: "Snowdog_Menu/js/delete",
             snowMenuEditorInit: "Snowdog_Menu/js/init",
             snowMenuEditorRename: "Snowdog_Menu/js/rename",
             snowMenuEditorSerialize: "Snowdog_Menu/js/serialize",
