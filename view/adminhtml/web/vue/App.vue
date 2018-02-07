@@ -93,7 +93,8 @@
                             data: {
                                 classes: item.classes,
                                 content: item.content,
-                                type: item['type']
+                                target: item.target,
+                                type: item.type
                             },
                             parent: parent
                         }

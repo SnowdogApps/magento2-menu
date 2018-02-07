@@ -26,7 +26,7 @@
                 <select class="admin__control-select"
                         name="node_type"
                         id="node_type"
-                        :value="item['type']"
+                        :value="item.type"
                         @change="changeType($event.target.value)"
                 >
                     <option value="">Select Node Type</option>
