@@ -10,29 +10,27 @@
 
 namespace Snowdog\Menu\Model\ResourceModel\NodeType;
 
-use Magento\Catalog\Model\Category as CoreCategory;
+use Magento\Cms\Api\Data\PageInterface;
 use Magento\Framework\App\ResourceConnection;
-use Snowdog\Menu\Helper\EavStructureWrapper;
+use Magento\Framework\EntityManager\MetadataPool;
 use Magento\Store\Model\Store;
 
 class CmsPage extends AbstractNode
 {
     /**
-     * @var EavStructureWrapper
+     * @var MetadataPool
      */
-    protected $eavStructureWrapper;
+    private $metadataPool;
 
     /**
-     * CmsPage constructor.
-     *
      * @param ResourceConnection $resource
-     * @param EavStructureWrapper $eavStructureWrapper
+     * @param MetadataPool $metadataPool
      */
     public function __construct(
         ResourceConnection $resource,
-        EavStructureWrapper $eavStructureWrapper
+        MetadataPool $metadataPool
     ) {
-        $this->eavStructureWrapper = $eavStructureWrapper;
+        $this->metadataPool = $metadataPool;
         parent::__construct($resource);
     }
 
@@ -44,7 +42,7 @@ class CmsPage extends AbstractNode
         $connection = $this->getConnection('read');
 
         $select = $connection->select()->from(
-            $connection->getTableName('cms_page'),
+            $this->getTable('cms_page'),
             ['title', 'identifier']
         );
 
@@ -60,7 +58,7 @@ class CmsPage extends AbstractNode
     public function fetchData($storeId = Store::DEFAULT_STORE_ID, $pageIds = [])
     {
         $connection = $this->getConnection('read');
-        $table = $connection->getTableName('url_rewrite');
+        $table = $this->getTable('url_rewrite');
 
         $select = $connection
             ->select()
@@ -74,32 +72,47 @@ class CmsPage extends AbstractNode
 
     /**
      * @param int|string $storeId
-     * @param array      $pagesCodes
-     *
+     * @param array $pagesCodes
      * @return array
+     * @throws \Exception
      */
     public function getPageIds($storeId, $pagesCodes = [])
     {
-        $eavColumnName = $this->eavStructureWrapper->getCmsPageEntityColumnName();
+        $metadata = $this->metadataPool->getMetadata(PageInterface::class);
+        $identifierField = $metadata->getIdentifierField();
+        $linkField = $metadata->getLinkField();
+
         $connection = $this->getConnection('read');
 
-        $pageTable = $connection->getTableName('cms_page');
-        $storeTable = $connection->getTableName('cms_page_store');
+        $pageTable = $this->getTable('cms_page');
+        $storeTable = $this->getTable('cms_page_store');
 
         $select = $connection->select()->from(
             ['p' => $pageTable],
-            [$eavColumnName, 'identifier']
-        )->join(['s' => $storeTable], 'p.' . $eavColumnName . ' = s.' . $eavColumnName, [])->where(
+            [$identifierField, 'identifier']
+        )->join(
+            ['s' => $storeTable],
+            'p.' . $linkField . ' = s.' . $linkField,
+            []
+        )->where(
             's.store_id IN (0, ?)',
             $storeId
-        )->where('p.identifier IN (?)', $pagesCodes)->where('p.is_active = ?', 1)->order('s.store_id ASC');
+        )->where(
+            'p.identifier IN (?)',
+            $pagesCodes
+        )->where(
+            'p.is_active = ?',
+            1
+        )->order(
+            's.store_id ASC'
+        );
 
         $codes = $connection->fetchAll($select);
 
         $pageIds = [];
 
         foreach ($codes as $row) {
-            $pageIds[$row['identifier']] = $row[$eavColumnName];
+            $pageIds[$row['identifier']] = $row[$identifierField];
         }
 
         return $pageIds;

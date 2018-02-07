@@ -11,15 +11,20 @@
 namespace Snowdog\Menu\Block\NodeType;
 
 use Magento\Framework\View\Element\Template;
-use Magento\Backend\Block\Template\Context;
 use Magento\Framework\DataObject;
 use Snowdog\Menu\Api\NodeTypeInterface;
+use Snowdog\Menu\Model\TemplateResolver;
 
 /** @noinspection MagentoApiInspection */
 abstract class AbstractNode extends Template implements NodeTypeInterface
 {
     const NAME_CODE = 'node_name';
     const CLASSES_CODE = 'node_classes';
+
+    /**
+     * @var string
+     */
+    protected $defaultTemplate;
 
     /**
      * @var string
@@ -40,16 +45,22 @@ abstract class AbstractNode extends Template implements NodeTypeInterface
     protected $viewAllLink = true;
 
     /**
+     * @var TemplateResolver
+     */
+    protected $templateResolver;
+
+    /**
      * @inheritDoc
      */
     public function __construct(
         Template\Context $context,
+        TemplateResolver $templateResolver,
         array $data = []
     ) {
         parent::__construct($context, $data);
-
         $this->addNodeAttribute(self::NAME_CODE, 'Node name', 'wysiwyg');
         $this->addNodeAttribute(self::CLASSES_CODE, 'Node CSS classes', 'text');
+        $this->templateResolver = $templateResolver;
     }
 
     /**
@@ -124,5 +135,20 @@ abstract class AbstractNode extends Template implements NodeTypeInterface
     public function isViewAllLinkAllowed()
     {
         return $this->viewAllLink;
+    }
+
+    /**
+     * @return string
+     */
+    protected function _toHtml()
+    {
+        $template = $this->templateResolver->getMenuTemplate(
+            $this,
+            $this->getMenuCode(),
+            $this->defaultTemplate
+        );
+        $this->setTemplate($template);
+
+        return parent::_toHtml();
     }
 }

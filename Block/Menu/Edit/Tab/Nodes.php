@@ -144,6 +144,7 @@ class Nodes extends Template implements TabInterface
                 'type' => $node->getType(),
                 'content' => $node->getContent(),
                 'classes' => $node->getClasses(),
+                'target' => $node->getTarget(),
                 'id' => $node->getId(),
                 'title' => $node->getTitle(),
                 'columns' => $this->renderNodeListJson($level + 1, $node->getId(), $data) ? $this->renderNodeListJson($level + 1, $node->getId(), $data) : []

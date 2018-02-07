@@ -6,6 +6,49 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [2.4.0] - 2018-01-29
+### Changed
+- Module doesn't support 2.0 anymore
+
+### Fixed
+- Fixed compatibility with Magento Commerce (Enterprise)
+- Imporved compatibility with Magento 2.2
+
+## [2.3.1] - 2018-01-18
+### Fixed
+- Fixed issue with overwrite category node
+
+## [2.3.0] - 2018-01-17
+### Added
+- Added target option for custom link to open in a new tab
+- Added save and continue button
+
+### Fixed
+- Fixed issue with node templates if it's more than one menu
+
+## [2.2.3] - 2018-01-09
+### Removed
+- Remove package version from composer.json
+
+## [2.2.2] - 2018-01-09
+### Added
+- getMenuCssClass to menu block (menu is null check)
+
+## [2.2.1] - 2018-01-04
+### Fixed
+- Delete node button action
+## [2.2.0] - 2018-01-03
+### Added
+- Ability to overwritte templates per menu ID
+
+### Changed
+- Formatting of `menu.phtml` template
+- #1 - Better autocomplete
+- Styling of node action buttons
+
+### Fixed
+- Sql queries when table prefix is set in Magento (#28)
+
 ## [2.1.0] - 2017-10-03
 ### Changed
 - Update composer.json for compatibility with M2.2 (#18)
@@ -25,8 +68,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [2.0.4] - 2017-07-17
 ### Fixed
 - Fix problem with compatible EE CE block and cms page (EE compatibility)
-    - Remove `$eavColumnName` from `fetchData–url_rewrite` always uses `entity_id`
-    - Use `$eavColumnName` for `cms_page_store` table page reference
+- Remove `$eavColumnName` from `fetchData–url_rewrite` always uses `entity_id`
+- Use `$eavColumnName` for `cms_page_store` table page reference
 - Fix issue with not saving data when user not blur the input before save
 
 ## [2.0.3] - 2017-07-13
