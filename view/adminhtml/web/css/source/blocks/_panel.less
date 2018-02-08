@@ -1,67 +1,149 @@
 .panel {
-  border-radius: 8px;
-  border: 1px solid #eee;
-  overflow: hidden;
-  margin-bottom: 15px;
-  p {
-    display: inline-block;
-    margin: 0;
-  }
-  &__heading {
-    height: @item-height;
-    line-height: @item-height;
-    border-bottom: 1px solid #eee;
-    background: #f5f5f5;
-    h3 {
-      font-size: 15px;
-      padding: 0 15px;
-      margin: 0;
-    }
-  }
-  &__body {
-    background: #fff;
-    min-height: @item-height;
-    > .panel {
-      margin: 10px;
-    }
-    p {
-      width: 100%;
-      padding: 0 15px;
-      font-size: 14px;
-      line-height: 20px;
-      color: #666;
-    }
-    &--list {
-      background: #fff;
-    }
-    &--item, .panel__placeholder {
-      width: 100%;
-      min-height: @item-height;
-      line-height: @item-height;
-      border-bottom: 1px solid #eee;
-      padding: 0 15px;
-      background: #ffffff;
-      box-sizing: border-box;
-    }
-    &--item.no-padding-left {
-      padding-left: 0;
-    }
-    &--item:last-child {
-      border-bottom: none;
-    }
-    &--item {
-      > .panel {
-        margin: 15px 0;
-      }
-    }
-  }
-  .panel__placeholder {
-    background: @placeholder-bg;
-  }
-}
+    border-radius: 8px;
+    border: 1px solid @color-gray90;
+    overflow: hidden;
+    margin-bottom: 15px;
 
-.panel.panel--info {
-  .panel__body {
-    padding: 25px;
-  }
+    &__heading {
+        height: @snow-menu__item-height;
+        line-height: @snow-menu__item-height;
+        padding: 0 10px 0 0;
+        border-bottom: 1px solid @color-gray90;
+        margin-bottom: -1px;
+
+        &:hover {
+            background-color: @color-white-fog;
+        }
+    }
+    &__body {
+        min-height: @snow-menu__item-height;
+
+        > .panel {
+            margin: 10px;
+        }
+
+        &--item,
+        .panel__placeholder {
+            width: 100%;
+            min-height: @snow-menu__item-height;
+            line-height: @snow-menu__item-height;
+            padding: 0 15px;
+            box-sizing: border-box;
+        }
+
+        &--item.no-padding-left {
+            padding-left: 0;
+        }
+
+        &--item:last-child {
+            border-bottom: none;
+        }
+
+        &--item {
+            > .panel {
+                margin: 15px 0;
+            }
+        }
+    }
+
+    &__heading-text {
+        margin-left: 0;
+        margin-right: auto;
+        cursor: pointer;
+        flex-grow: 1;
+    }
+
+    &__heading-type {
+        font-size: 12px;
+        color: @color-gray52;
+        padding-left: 5px;
+    }
+
+    &__buttom {
+        border-color: transparent;
+        color: @primary__color;
+        background-color: transparent;
+        padding: 0;
+        margin: 0 5px;
+        border: none;
+
+        &:focus,
+        &:active {
+            color: @primary__color;
+            background-color: transparent;
+        }
+
+        &:hover {
+            color: @primary__color__darker;
+            background-color: transparent;
+        }
+
+        &:before {
+            &:extend(.abs-icon all);
+            line-height: @snow-menu__item-height;
+            vertical-align: middle;
+            font-size: 14px;
+        }
+
+        &--append {
+            &:before {
+                content: @icon-plus__content;
+            }
+        }
+
+        &--edit {
+            &:before {
+                content: @icon-edit__content;
+            }
+        }
+
+        &--delete {
+            &:before {
+                content: @icon-delete__content;
+            }
+        }
+    }
+
+    &__collapse {
+        height: @snow-menu__item-height;
+        cursor: pointer;
+        width: 24px;
+        text-align: center;
+
+        &:before {
+            &:extend(.abs-icon all);
+            line-height: @snow-menu__item-height;
+            vertical-align: middle;
+            font-size: 14px;
+            color: @color-gray-darken3;
+        }
+
+        &--down {
+            &:before {
+                content: @icon-expand-open__content;
+            }
+        }
+
+        &--up {
+            &:before {
+                content: @icon-expand-close__content;
+            }
+        }
+        &--none {
+            &:before {
+                content: '';
+            }
+        }
+    }
+
+    &__empty-text {
+        text-align: center;
+        color: @color-gray-darken2;
+        line-height: @snow-menu__item-height;
+    }
+
+    .admin__fieldset {
+        padding-bottom: 0;
+        border-bottom: 1px solid #eee;
+    }
 }

@@ -1,12 +1,17 @@
 <template>
-    <div class="nested">
+    <div>
         <div class="panel">
             <div class="panel__heading v-row">
-                <div>
+                <div class="panel__collapse"></div>
+                <div class="panel__heading-text">
                     <span>Nodes</span>
                 </div>
                 <div>
-                    <button @click.prevent="newNode">Add new node</button>
+                    <button @click.prevent="newNode"
+                            class="panel__buttom panel__buttom--append"
+                            title="Append"
+                    >
+                    </button>
                 </div>
             </div>
             <div class="panel__body">
@@ -29,7 +34,18 @@
                         >
                         </snowdog-nested-list>
                     </template>
-                    <vddl-placeholder class="red">Insert here</vddl-placeholder>
+                    <div v-else class="panel__empty-text">
+                        Click
+                        <button @click.prevent="newNode"
+                                class="panel__buttom panel__buttom--append"
+                                title="Append"
+                        >
+                        </button>
+                        to create your first node.
+                    </div>
+                    <vddl-placeholder>
+                        <div class="vddl-placeholder__inner"></div>
+                    </vddl-placeholder>
                 </vddl-list>
             </div>
         </div>

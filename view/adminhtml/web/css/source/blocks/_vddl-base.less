@@ -1,10 +1,10 @@
-
 /**
  * For the correct positioning of the placeholder element, the vddl-list and
  * it's children must have position: relative
  */
-.vddl-list, .vddl-draggable {
-  position: relative;
+.vddl-list,
+.vddl-draggable {
+    position: relative;
 }
 
 /**
@@ -12,12 +12,12 @@
  * otherwise you can't drop to it once it's empty
  */
 .vddl-list {
-  padding-left: 0px;
-  min-height: @item-height;
+    padding-left: 0px;
+    min-height: @snow-menu__item-height;
 }
 
-.vddl-dragging{
-  opacity: 0.7;
+.vddl-dragging {
+    opacity: 0.7;
 }
 
 /**
@@ -27,5 +27,5 @@
  * that he's actually moving it.
  */
 .vddl-dragging-source {
-  display: none;
+    display: none;
 }

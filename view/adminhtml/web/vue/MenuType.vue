@@ -1,8 +1,5 @@
 <template>
     <fieldset class="admin__fieldset fieldset-wide">
-        <legend class="admin__legend legend">
-            <span>Node Data</span>
-        </legend>
         <simple-field label="Node name"
                       id="node_name"
                       type="textarea"
