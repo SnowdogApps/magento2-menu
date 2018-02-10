@@ -60,27 +60,28 @@ class Nodes extends Template implements TabInterface
         $this->editor->setConfig($config);
     }
 
-    public function renderNodesJson()
+    public function renderNodes()
     {
         $menu = $this->registry->registry(Edit::REGISTRY_CODE);
         if ($menu) {
             $nodes = $this->nodeRepository->getByMenu($menu->getId());
             $data = [];
-            foreach ($nodes as $node) {
-                $level = $node->getLevel();
-                $parent = $node->getParentId() ?: 0;
-                if (!isset($data[$level])) {
-                    $data[$level] = [];
+            if (!empty($nodes)) {
+                foreach ($nodes as $node) {
+                    $level = $node->getLevel();
+                    $parent = $node->getParentId() ?: 0;
+                    if (!isset($data[$level])) {
+                        $data[$level] = [];
+                    }
+                    if (!isset($data[$level][$parent])) {
+                        $data[$level][$parent] = [];
+                    }
+                    $data[$level][$parent][] = $node;
                 }
-                if (!isset($data[$level][$parent])) {
-                    $data[$level][$parent] = [];
-                }
-                $data[$level][$parent][] = $node;
+                return $this->renderNodeList(0, null, $data);
             }
-
-            return json_encode($this->renderNodeListJson(0, null, $data));
         }
-        return [];
+        return $data;
     }
 
     /**
@@ -127,7 +128,7 @@ class Nodes extends Template implements TabInterface
         return false;
     }
 
-    private function renderNodeListJson($level, $parent, $data)
+    private function renderNodeList($level, $parent, $data)
     {
         if (is_null($parent)) {
             $parent = 0;
@@ -147,7 +148,7 @@ class Nodes extends Template implements TabInterface
                 'target' => $node->getTarget(),
                 'id' => $node->getId(),
                 'title' => $node->getTitle(),
-                'columns' => $this->renderNodeListJson($level + 1, $node->getId(), $data) ? $this->renderNodeListJson($level + 1, $node->getId(), $data) : []
+                'columns' => $this->renderNodeList($level + 1, $node->getId(), $data) ? $this->renderNodeList($level + 1, $node->getId(), $data) : []
             ];
         }
         return $menu;

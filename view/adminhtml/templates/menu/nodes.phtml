@@ -1,11 +1,4 @@
 <?php
-/** @var $block \Snowdog\Menu\Block\Menu\Edit\Tab\Nodes */
-$nodeTypes = [];
-foreach ($block->getNodeLabels() as $code => $label) {
-    $nodeTypes[$code] = $label;
-}
-?>
-<?php
 /** @var \Snowdog\Menu\Block\NodeType\AbstractNode $form */
 $fieldData = [];
 foreach ($block->getNodeForms() as $form) {
@@ -51,10 +44,10 @@ foreach ($block->getNodeForms() as $form) {
             var app = new Vue({
                 el: "#snowdog_menu",
                 data: {
-                    list: <?= $block->renderNodesJson() ?>,
+                    list: <?= json_encode($block->renderNodes()) ?>,
                     config: {
                         fieldData: <?= json_encode($fieldData) ?>,
-                        nodeTypes: <?= json_encode($nodeTypes) ?>,
+                        nodeTypes: <?= json_encode($block->getNodeLabels()) ?>,
                         translation: {
                             nodes: "<?= __('Nodes') ?>",
                             click: "<?= __('Click') ?>",
