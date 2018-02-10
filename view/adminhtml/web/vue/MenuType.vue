@@ -1,13 +1,12 @@
 <template>
     <fieldset class="admin__fieldset fieldset-wide">
-        <simple-field label="Node name"
-                      id="node_name"
-                      type="textarea"
-                      v-model="item.title"
-
+        <simple-field :label="config.translation.nodeName"
+                  id="node_name"
+                  type="textarea"
+                  v-model="item.title"
         >
         </simple-field>
-        <simple-field label="Node CSS classes"
+        <simple-field :label="config.translation.nodeClasses"
                       id="node_classes"
                       type="text"
                       v-model="item.classes"
