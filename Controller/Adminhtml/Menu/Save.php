@@ -91,9 +91,10 @@ class Save extends Action
         $menu->saveStores($this->getRequest()->getParam('stores'));
 
         $nodes = $this->getRequest()->getParam('serialized_nodes');
-        $nodes = $this->_convertTree($nodes, '#');
         if (!empty($nodes)) {
             $nodes = json_decode($nodes, true);
+            $nodes = $this->_convertTree($nodes, '#');
+
             if (!empty($nodes)) {
 
                 $filterBuilder = $this->filterBuilderFactory->create();
