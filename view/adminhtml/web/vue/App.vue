@@ -93,33 +93,7 @@
             },
             computed: {
                 jsonList: function () {
-                    var list = this.list,
-                        newList = [];
-
-                    function itemMockup(item, parent) {
-                        var updatedItem = {
-                            id: item.id,
-                            text: item.title,
-                            data: {
-                                classes: item.classes,
-                                content: item.content,
-                                target: item.target,
-                                type: item.type
-                            },
-                            parent: parent
-                        }
-                        newList.push(updatedItem);
-                        if (item.columns.length > 0) {
-                            for (var i = 0; i < item.columns.length; i++) {
-                                itemMockup(item.columns[i], item.id);
-                            }
-                        }
-                    }
-
-                    for (var i = 0; i < list.length; i++) {
-                        itemMockup(list[i], '#')
-                    }
-                    return JSON.stringify(newList);
+                    return JSON.stringify(this.list);
                 }
             }
         });
