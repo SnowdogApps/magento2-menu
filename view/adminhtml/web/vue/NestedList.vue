@@ -19,7 +19,7 @@
                 >
                 </div>
                 <div class="panel__heading-text" @click.prevent="collapsed = !collapsed">
-                    {{item.title}}
+                    {{ item.title }}
                     <span class="panel__heading-type"
                           v-if="nodeType(item.type)"
                     >
@@ -29,17 +29,17 @@
                 <div>
                     <button @click.prevent="editNode"
                             class="panel__buttom panel__buttom--edit"
-                            title="Edit"
+                            :title="config.translation.edit"
                     >
                     </button>
                     <button @click.prevent="appendEvent(list, index)"
                             class="panel__buttom panel__buttom--append"
-                            title="Append"
+                            :title="config.translation.append"
                     >
                     </button>
                     <button @click.prevent="deleteEvent(list, index)"
                             class="panel__buttom panel__buttom--delete"
-                            title="Delete"
+                            :title="config.translation.delete"
                     >
                     </button>
                 </div>
@@ -51,7 +51,7 @@
                 >
                     <template v-if="editItem">
                         <snowdog-menu-type :item.sync="item"
-                                           :config="$root.config"
+                                           :config="config"
                         >
                         </snowdog-menu-type>
                     </template>
@@ -65,17 +65,18 @@
                               :selected-item="selectedItem"
                               :delete="deleteEvent"
                               :append="appendEvent"
+                              :config="config"
                         >
                         </list>
                     </template>
                     <div v-else class="panel__empty-text">
-                        Click
+                        {{ config.translation.click }}
                         <button @click.prevent="appendEvent(list, index)"
                                 class="panel__buttom panel__buttom--append"
                                 title="Append"
                         >
                         </button>
-                        to create sub node or drag and drop other nodes here.
+                        {{ config.translation.createSubNode }}
                     </div>
                     <vddl-placeholder>
                         <div class="vddl-placeholder__inner"></div>
@@ -91,7 +92,16 @@
         Vue.component("snowdog-nested-list", {
             template: template,
             name: 'list',
-            props: ['item', 'list', 'index', 'selected', 'selectedItem', 'delete', 'append', 'config'],
+            props: [
+                'item',
+                'list',
+                'index',
+                'selected',
+                'selectedItem',
+                'delete',
+                'append',
+                'config'
+            ],
             data: function () {
                 return {
                     editItem: false,

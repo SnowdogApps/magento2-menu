@@ -16,7 +16,7 @@
             </div>
             <div class="selected-option__value">
                 <span v-if="selectedId">
-                    {{selectedId}}
+                    {{ selectedId }}
                 </span>
                 <span v-else>
                     {{ placeHolder }} ⇡
@@ -33,7 +33,8 @@
                 'label',
                 'description',
                 'options',
-                'item'
+                'item',
+                'config'
             ],
             computed: {
                 fieldOptions: function () {
@@ -43,7 +44,7 @@
                     return this.item.content ? this.options[this.item.content] : '';
                 },
                 placeHolder: function () {
-                    return 'Please select a ' + this.label.toLocaleLowerCase();
+                    return this.config.translation.pleaseSelect + " " + this.label.toLocaleLowerCase();
                 }
             }
         });

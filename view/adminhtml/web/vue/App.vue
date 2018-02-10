@@ -4,12 +4,12 @@
             <div class="panel__heading v-row">
                 <div class="panel__collapse"></div>
                 <div class="panel__heading-text">
-                    <span>Nodes</span>
+                    <span>{{ config.translation.nodes }}</span>
                 </div>
                 <div>
                     <button @click.prevent="newNode"
                             class="panel__buttom panel__buttom--append"
-                            title="Append"
+                            :title="config.translation.append"
                     >
                     </button>
                 </div>
@@ -17,9 +17,10 @@
             <div class="panel__body">
                 <vddl-list class="panel__body--list"
                            :list="list"
-                           :inserted="inserted"
                            effect-allowed="move"
-                           :external-sources="true">
+                           :external-sources="true"
+                           :config="config"
+                >
                     <template v-if="list.length > 0">
                         <snowdog-nested-list v-for="(item, index) in list"
                                              :key="item.id"
@@ -35,13 +36,13 @@
                         </snowdog-nested-list>
                     </template>
                     <div v-else class="panel__empty-text">
-                        Click
+                        {{ config.translation.click }}
                         <button @click.prevent="newNode"
                                 class="panel__buttom panel__buttom--append"
-                                title="Append"
+                                :title="config.translation.append"
                         >
                         </button>
-                        to create your first node.
+                        {{ config.translation.createFirstNode }}
                     </div>
                     <vddl-placeholder>
                         <div class="vddl-placeholder__inner"></div>
@@ -68,12 +69,6 @@
                 };
             },
             methods: {
-                copied(item) {
-                    item.id++;
-                },
-                inserted(data) {
-                    console.log(data);
-                },
                 handleSelected(item) {
                     this.selectedItem = item;
                 },
@@ -83,7 +78,7 @@
                 handleAppend: function (list, index) {
                     list[index].columns.push({
                         'type': 'category',
-                        'title': 'New node',
+                        'title': this.config.translation.newNode,
                         "id": new Date().getTime(),
                         "columns": []
                     });
@@ -91,7 +86,7 @@
                 newNode: function () {
                     this.list.push({
                         'type': 'category',
-                        'title': 'New node',
+                        'title': this.config.translation.newNode,
                         "id": new Date().getTime(),
                         "columns": []
                     });

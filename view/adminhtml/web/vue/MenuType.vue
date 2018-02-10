@@ -17,7 +17,7 @@
             <label class="label admin__field-label"
                    for="node_type"
             >
-                Node Type
+                {{ config.translation.nodeType }}
             </label>
             <div class="admin__field-control control">
                 <select class="admin__control-select"
@@ -26,9 +26,9 @@
                         :value="item.type"
                         @change="changeType($event.target.value)"
                 >
-                    <option value="">Select Node Type</option>
+                    <option value="">{{config.translation.selectNodeType}}</option>
                     <option v-for="(label, key) in config.nodeTypes" :value="key">
-                        {{label}}
+                        {{ label }}
                     </option>
                 </select>
             </div>

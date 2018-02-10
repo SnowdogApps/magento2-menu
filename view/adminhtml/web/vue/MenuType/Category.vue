@@ -1,9 +1,10 @@
 <template>
     <div class="admin__field field">
-        <auto-complete label="Category"
-                       description="Category ID"
+        <auto-complete :label="config.translation.category"
+                       :description="config.translation.category"
                        :item="item"
                        :options="config.fieldData.category.snowMenuAutoCompleteField.options"
+                       :config="config"
         >
         </auto-complete>
     </div>

@@ -55,7 +55,27 @@ foreach ($block->getNodeForms() as $form) {
                     config: {
                         fieldData: <?= json_encode($fieldData) ?>,
                         nodeTypes: <?= json_encode($nodeTypes) ?>,
-                        translation: {}
+                        translation: {
+                            nodes: "<?= __('Nodes') ?>",
+                            click: "<?= __('Click') ?>",
+                            createFirstNode: "<?= __('to create your first node.') ?>",
+                            createSubNode: "<?= __('to create sub node or drag and drop other nodes here.') ?>",
+                            append: "<?= __('Append') ?>",
+                            edit: "<?= __('Edit') ?>",
+                            delete: "<?= __('Delete') ?>",
+                            newNode: "<?= __('New node') ?>",
+                            nodeType: "<?= __('Node Type') ?>",
+                            selectNodeType: "<?= __('Select Node Type') ?>",
+                            pleaseSelect: "<?= __('Please select a') ?>",
+                            targetLabel: "<?= __('Node target blank') ?>",
+                            category: "<?= __('Category') ?>",
+                            categoryId: "<?= __('Category ID') ?>",
+                            block: "<?= __('Block') ?>",
+                            blockId: "<?= __('Block ID') ?>",
+                            page: "<?= __('Page') ?>",
+                            pageId: "<?= __('Page URL key') ?>",
+                            customURL: "<?= __('Custom URL') ?>"
+                        }
                     }
                 }
             });

@@ -1,6 +1,6 @@
 <template>
     <div class="admin__field field">
-        <simple-field label="Custom URL"
+        <simple-field :label="config.translation.customURL"
                       id="custom_url"
                       type="text"
                       v-model="item.content"
@@ -10,7 +10,7 @@
             <label class="label admin__field-label"
                    for="snowmenu_custom_target"
             >
-                Node target blank
+                {{ config.translation.targetLabel }}
             </label>
             <div class="admin__field-control control">
                 <input class="checkbox"
