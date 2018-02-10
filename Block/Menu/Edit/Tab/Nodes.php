@@ -158,9 +158,9 @@ class Nodes extends Template implements TabInterface
         return $this->nodeTypeProvider->getEditForms();
     }
 
-    public function getNodeButtons()
+    public function getNodeLabels()
     {
-        return $this->nodeTypeProvider->getAddButtonLabels();
+        return $this->nodeTypeProvider->getLabels();
     }
 
     public function getEditor($id, $name)

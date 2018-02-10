@@ -36,5 +36,5 @@ interface NodeTypeInterface extends BlockInterface
      *
      * @return string|\Magento\Framework\Phrase
      */
-    public function getAddButtonLabel();
+    public function getLabel();
 }

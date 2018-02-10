@@ -105,7 +105,7 @@ class CmsBlock extends AbstractNode
     /**
      * @return \Magento\Framework\Phrase
      */
-    public function getAddButtonLabel()
+    public function getLabel()
     {
         return __("Cms Block");
     }

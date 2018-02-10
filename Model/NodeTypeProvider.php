@@ -52,11 +52,11 @@ class NodeTypeProvider
     /**
      * @return array
      */
-    public function getAddButtonLabels()
+    public function getLabels()
     {
         $result = [];
         foreach ($this->providers as $code => $instance) {
-            $result[$code] = $instance->getAddButtonLabel();
+            $result[$code] = $instance->getLabel();
         }
         return $result;
     }

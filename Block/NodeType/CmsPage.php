@@ -170,7 +170,7 @@ HTML;
     /**
      * @return \Magento\Framework\Phrase
      */
-    public function getAddButtonLabel()
+    public function getLabel()
     {
         return __("Cms Page link");
     }

@@ -1,7 +1,7 @@
 <?php
 /** @var $block \Snowdog\Menu\Block\Menu\Edit\Tab\Nodes */
 $nodeTypes = [];
-foreach ($block->getNodeButtons() as $code => $label) {
+foreach ($block->getNodeLabels() as $code => $label) {
     $nodeTypes[$code] = $label;
 }
 ?>

@@ -92,7 +92,7 @@ HTML;
     /**
      * @return \Magento\Framework\Phrase
      */
-    public function getAddButtonLabel()
+    public function getLabel()
     {
         return __("Custom Url");
     }
