@@ -6,15 +6,18 @@
                     :delete="deleteEvent"
                     :append="appendEvent"
                     :wrapper="list"
-                    v-bind:class="{'selected': selectedItem === item}">
+                    v-bind:class="{'selected': selectedItem === item}"
+    >
         <div class="panel padding">
             <div class="panel__heading v-row">
-                <div class="panel__collapse"
-                     :class="{
-                        'panel__collapse--up': collapsed,
-                        'panel__collapse--down': !collapsed,
-                        'panel__collapse--none': item.columns.length == 0,
-                     }"
+                <div :class="[
+                        'panel__collapse',
+                        {
+                            'panel__collapse--up': collapsed,
+                            'panel__collapse--down': !collapsed,
+                            'panel__collapse--none': item.columns.length == 0,
+                         }
+                     ]"
                      @click.prevent="collapsed = !collapsed"
                 >
                 </div>

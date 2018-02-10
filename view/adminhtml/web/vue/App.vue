@@ -58,7 +58,6 @@
 </template>
 
 <script>
-
     define(["Vue"], function (Vue) {
         Vue.component("snowdog-menu", {
             template: template,
