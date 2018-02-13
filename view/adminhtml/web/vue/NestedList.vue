@@ -9,7 +9,7 @@
                     v-bind:class="{'selected': selectedItem === item}"
     >
         <div class="panel padding">
-            <div class="panel__heading v-row">
+            <div class="panel__heading">
                 <div :class="[
                         'panel__collapse',
                         {

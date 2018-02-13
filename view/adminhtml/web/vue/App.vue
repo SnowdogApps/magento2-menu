@@ -1,7 +1,7 @@
 <template>
     <div>
         <div class="panel">
-            <div class="panel__heading v-row">
+            <div class="panel__heading">
                 <div class="panel__collapse"></div>
                 <div class="panel__heading-text">
                     <span>{{ config.translation.nodes }}</span>
