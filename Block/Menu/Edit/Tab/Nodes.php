@@ -7,7 +7,6 @@ use Magento\Backend\Block\Widget\Tab\TabInterface;
 use Magento\Cms\Model\Wysiwyg\Config;
 use Magento\Framework\Registry;
 use Snowdog\Menu\Api\NodeRepositoryInterface;
-use Snowdog\Menu\Block\Element\Editor;
 use Snowdog\Menu\Controller\Adminhtml\Menu\Edit;
 use Snowdog\Menu\Model\NodeTypeProvider;
 
@@ -26,38 +25,18 @@ class Nodes extends Template implements TabInterface
      * @var NodeTypeProvider
      */
     private $nodeTypeProvider;
-    /**
-     * @var Config
-     */
-    private $wysiwygConfig;
-    /**
-     * @var Editor
-     */
-    private $editor;
 
     public function __construct(
         Template\Context $context,
         NodeRepositoryInterface $nodeRepository,
         NodeTypeProvider $nodeTypeProvider,
         Registry $registry,
-        Config $wysiwygConfig,
-        Editor $editor,
         array $data = []
     ) {
         parent::__construct($context, $data);
         $this->registry = $registry;
         $this->nodeRepository = $nodeRepository;
         $this->nodeTypeProvider = $nodeTypeProvider;
-        $this->wysiwygConfig = $wysiwygConfig;
-        $this->editor = $editor;
-        $config = $this->wysiwygConfig->getConfig([
-            'add_variables' => false,
-            'add_widgets' => false,
-            'add_images' => false,
-            'height' => '100px',
-            'hidden' => true
-        ]);
-        $this->editor->setConfig($config);
     }
 
     public function renderNodes()
@@ -162,12 +141,5 @@ class Nodes extends Template implements TabInterface
     public function getNodeLabels()
     {
         return $this->nodeTypeProvider->getLabels();
-    }
-
-    public function getEditor($id, $name)
-    {
-        $this->editor->setId($id);
-        $this->editor->setName($name);
-        return $this->editor;
     }
 }
