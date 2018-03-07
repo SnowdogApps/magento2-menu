@@ -4,9 +4,10 @@
             {{ label }}
         </label>
         <div class="admin__field-control control">
-            <v-select v-model="item.content"
-                      :options="fieldOptions"
-                      :placeholder="placeHolder"
+            <v-select
+                v-model="item.content"
+                :options="fieldOptions"
+                :placeholder="placeHolder"
             >
             </v-select>
         </div>
@@ -26,10 +27,10 @@
     </div>
 </template>
 <script>
-    define(["Vue"], function (Vue) {
+    define(["Vue"], function(Vue) {
         Vue.component("auto-complete", {
             template: template,
-            props: [
+            props   : [
                 'label',
                 'description',
                 'options',
@@ -37,13 +38,13 @@
                 'config'
             ],
             computed: {
-                fieldOptions: function () {
+                fieldOptions: function() {
                     return Object.keys(this.options);
                 },
                 selectedId() {
                     return this.item.content ? this.options[this.item.content] : '';
                 },
-                placeHolder: function () {
+                placeHolder : function() {
                     return this.config.translation.pleaseSelect + " " + this.label.toLocaleLowerCase();
                 }
             }

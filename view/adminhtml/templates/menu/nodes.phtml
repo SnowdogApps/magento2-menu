@@ -38,38 +38,38 @@ foreach ($block->getNodeForms() as $form) {
             "vue!Snowdog_Menu/vue/MenuType/CustomUrl",
             "vue!Snowdog_Menu/vue/FieldType/Simple",
             "vue!Snowdog_Menu/vue/FieldType/Autocomplete"
-        ], function (Vue, Vddl, vueSelect) {
+        ], function(Vue, Vddl, vueSelect) {
             Vue.use(Vddl);
             Vue.component('v-select', vueSelect.VueSelect);
             var app = new Vue({
-                el: "#snowdog_menu",
+                el  : "#snowdog_menu",
                 data: {
-                    list: <?= json_encode($block->renderNodes()) ?>,
+                    list  : <?= json_encode($block->renderNodes()) ?>,
                     config: {
-                        fieldData: <?= json_encode($fieldData) ?>,
-                        nodeTypes: <?= json_encode($block->getNodeLabels()) ?>,
+                        fieldData  : <?= json_encode($fieldData) ?>,
+                        nodeTypes  : <?= json_encode($block->getNodeLabels()) ?>,
                         translation: {
-                            nodes: "<?= __('Nodes') ?>",
-                            click: "<?= __('Click') ?>",
+                            nodes          : "<?= __('Nodes') ?>",
+                            click          : "<?= __('Click') ?>",
                             createFirstNode: "<?= __('to create your first node.') ?>",
-                            createSubNode: "<?= __('to create sub node or drag and drop other nodes here.') ?>",
-                            append: "<?= __('Append') ?>",
-                            edit: "<?= __('Edit') ?>",
-                            delete: "<?= __('Delete') ?>",
-                            newNode: "<?= __('New node') ?>",
-                            nodeType: "<?= __('Node Type') ?>",
-                            nodeName: "<?= __('Node name') ?>",
-                            nodeClasses: "<?= __('Node CSS classes') ?>",
-                            selectNodeType: "<?= __('Select Node Type') ?>",
-                            pleaseSelect: "<?= __('Please select a') ?>",
-                            targetLabel: "<?= __('Node target blank') ?>",
-                            category: "<?= __('Category') ?>",
-                            categoryId: "<?= __('Category ID') ?>",
-                            block: "<?= __('Block') ?>",
-                            blockId: "<?= __('Block ID') ?>",
-                            page: "<?= __('Page') ?>",
-                            pageId: "<?= __('Page URL key') ?>",
-                            customURL: "<?= __('Custom URL') ?>"
+                            createSubNode  : "<?= __('to create sub node or drag and drop other nodes here.') ?>",
+                            append         : "<?= __('Append') ?>",
+                            edit           : "<?= __('Edit') ?>",
+                            delete         : "<?= __('Delete') ?>",
+                            newNode        : "<?= __('New node') ?>",
+                            nodeType       : "<?= __('Node Type') ?>",
+                            nodeName       : "<?= __('Node name') ?>",
+                            nodeClasses    : "<?= __('Node CSS classes') ?>",
+                            selectNodeType : "<?= __('Select Node Type') ?>",
+                            pleaseSelect   : "<?= __('Please select a') ?>",
+                            targetLabel    : "<?= __('Node target blank') ?>",
+                            category       : "<?= __('Category') ?>",
+                            categoryId     : "<?= __('Category ID') ?>",
+                            block          : "<?= __('Block') ?>",
+                            blockId        : "<?= __('Block ID') ?>",
+                            page           : "<?= __('Page') ?>",
+                            pageId         : "<?= __('Page URL key') ?>",
+                            customURL      : "<?= __('Custom URL') ?>"
                         }
                     }
                 }
