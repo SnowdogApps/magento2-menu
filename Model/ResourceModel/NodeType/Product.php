@@ -99,15 +99,18 @@ class Product extends AbstractNode
      */
     public function fetchImageData($productIds = [])
     {
+        $metadata = $this->metadataPool->getMetadata(ProductInterface::class);
+        $linkField = $metadata->getLinkField();
+
         $connection = $this->getConnection('read');
         $nameAttributeId = $this->getAttributeIdByCode($connection, 'image');
 
         $table = $this->getTable('catalog_product_entity_varchar');
         $select = $connection->select()
-            ->from($table, ['entity_id', 'value'])
+            ->from($table, [$linkField, 'value'])
             ->where('attribute_id = ?', $nameAttributeId)
             ->where('store_id = ?', 0)
-            ->where('entity_id IN (' . implode(',', $productIds) . ')');
+            ->where($linkField .' IN (' . implode(',', $productIds) . ')');
 
         return $connection->fetchPairs($select);
     }
