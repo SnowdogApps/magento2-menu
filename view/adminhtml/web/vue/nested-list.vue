@@ -86,7 +86,7 @@
                         <button
                             @click.prevent="appendEvent(list, index)"
                             class="panel__buttom panel__buttom--append"
-                            title="Append"
+                            :title="config.translation.append"
                         >
                         </button>
                         {{ config.translation.createSubNode }}
