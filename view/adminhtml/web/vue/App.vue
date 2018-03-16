@@ -29,9 +29,9 @@
                         :item="item"
                         :list="list"
                         :index="index"
-                        :selected="handleSelected"
+                        :selected="setSelectedNode"
                         :selected-item="selectedItem"
-                        :delete="handleDelete"
+                        :delete="removeNode"
                         :append="addNode"
                         :config="config"
                     >
@@ -71,10 +71,10 @@ define(["Vue"], function(Vue) {
             };
         },
         methods: {
-            handleSelected: function(item) {
+            setSelectedNode: function(item) {
                 this.selectedItem = item;
             },
-            handleDelete: function(list, index) {
+            removeNode: function(list, index) {
                 list.splice(index, 1);
             },
             addNode: function(target) {
