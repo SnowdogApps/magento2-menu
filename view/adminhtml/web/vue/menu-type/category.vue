@@ -2,7 +2,7 @@
     <div class="admin__field field">
         <auto-complete
             :label="config.translation.category"
-            :description="config.translation.category"
+            :description="config.translation.categoryId"
             :item="item"
             :options="config.fieldData.category.snowMenuAutoCompleteField.options"
             :config="config"
