@@ -131,7 +131,7 @@ define(["Vue"], function(Vue) {
                 this.editItem = false;
                 this.collapsed = false;
                 if (typeof(this.append) === 'function') {
-                    this.append(list, index);
+                    this.append(list[index].columns);
                 }
             },
             deleteEvent: function(list, index) {
