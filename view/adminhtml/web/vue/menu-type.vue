@@ -45,10 +45,25 @@ define(["Vue"], function(Vue) {
     Vue.component("snowdog-menu-type", {
         template: template,
         props: ['item', 'config'],
+        data: function() {
+            return {
+                draft: {}
+            }
+        },
         methods: {
             changeType: function(value) {
+                var type = this.item.type;
+                if (type) {
+                    this.draft[type] = {
+                        content: this.item['content']
+                    };
+                }
+                if (this.draft[value]) {
+                    this.item['content'] = this.draft[value].content;
+                } else {
+                    this.item['content'] = null;
+                }
                 this.item['type'] = value;
-                this.item['content'] = null;
             }
         }
     });
