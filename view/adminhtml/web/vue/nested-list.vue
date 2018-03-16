@@ -27,9 +27,9 @@
                     {{ item.title }}
                     <span
                         class="panel__heading-type"
-                        v-if="nodeType(item.type)"
+                        v-if="getNodeType(item.type)"
                     >
-                        {{ nodeType(item.type) }}
+                        {{ getNodeType(item.type) }}
                     </span>
                 </div>
                 <div>
@@ -140,7 +140,7 @@ define(["Vue"], function(Vue) {
                     this.delete(list, index);
                 }
             },
-            nodeType: function(type) {
+            getNodeType: function(type) {
                 var nodeType = '';
                 if (type) {
                     nodeType = '(' + this.$root.config.nodeTypes[type] + ')';
