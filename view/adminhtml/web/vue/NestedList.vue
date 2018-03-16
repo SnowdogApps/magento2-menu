@@ -101,57 +101,57 @@
 </template>
 
 <script>
-    define(["Vue"], function(Vue) {
-        Vue.component("snowdog-nested-list", {
-            template: template,
-            name    : 'list',
-            props   : [
-                'item',
-                'list',
-                'index',
-                'selected',
-                'selectedItem',
-                'delete',
-                'append',
-                'config'
-            ],
-            data    : function() {
-                return {
-                    editItem : false,
-                    collapsed: true
+define(["Vue"], function(Vue) {
+    Vue.component("snowdog-nested-list", {
+        template: template,
+        name: 'list',
+        props: [
+            'item',
+            'list',
+            'index',
+            'selected',
+            'selectedItem',
+            'delete',
+            'append',
+            'config'
+        ],
+        data: function() {
+            return {
+                editItem: false,
+                collapsed: true
+            }
+        },
+        methods: {
+            selectedEvent: function(item) {
+                if (typeof(this.selected) === 'function') {
+                    this.selected(item);
                 }
             },
-            methods : {
-                selectedEvent: function(item) {
-                    if (typeof(this.selected) === 'function') {
-                        this.selected(item);
-                    }
-                },
-                appendEvent  : function(list, index) {
-                    this.editItem = false;
-                    this.collapsed = false;
-                    if (typeof(this.append) === 'function') {
-                        this.append(list, index);
-                    }
-                },
-                deleteEvent  : function(list, index) {
-                    this.editItem = false;
-                    if (typeof(this.delete) === 'function') {
-                        this.delete(list, index);
-                    }
-                },
-                nodeType     : function(type) {
-                    var nodeType = '';
-                    if (type) {
-                        nodeType = '(' + this.$root.config.nodeTypes[type] + ')';
-                    }
-                    return nodeType;
-                },
-                editNode     : function() {
-                    this.editItem = !this.editItem;
-                    this.collapsed = !this.editItem;
+            appendEvent: function(list, index) {
+                this.editItem = false;
+                this.collapsed = false;
+                if (typeof(this.append) === 'function') {
+                    this.append(list, index);
                 }
+            },
+            deleteEvent: function(list, index) {
+                this.editItem = false;
+                if (typeof(this.delete) === 'function') {
+                    this.delete(list, index);
+                }
+            },
+            nodeType: function(type) {
+                var nodeType = '';
+                if (type) {
+                    nodeType = '(' + this.$root.config.nodeTypes[type] + ')';
+                }
+                return nodeType;
+            },
+            editNode: function() {
+                this.editItem = !this.editItem;
+                this.collapsed = !this.editItem;
             }
-        });
+        }
     });
+});
 </script>

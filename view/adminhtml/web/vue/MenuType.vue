@@ -41,16 +41,16 @@
 </template>
 
 <script>
-    define(["Vue"], function(Vue) {
-        Vue.component("snowdog-menu-type", {
-            template: template,
-            props   : ['item', 'config'],
-            methods : {
-                changeType: function(value) {
-                    this.item['type'] = value;
-                    this.item['content'] = null;
-                }
+define(["Vue"], function(Vue) {
+    Vue.component("snowdog-menu-type", {
+        template: template,
+        props: ['item', 'config'],
+        methods: {
+            changeType: function(value) {
+                this.item['type'] = value;
+                this.item['content'] = null;
             }
-        });
+        }
     });
+});
 </script>

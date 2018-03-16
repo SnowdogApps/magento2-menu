@@ -11,10 +11,10 @@
     </div>
 </template>
 <script>
-    define(["Vue"], function(Vue) {
-        Vue.component("cms_page", {
-            template: template,
-            props   : ['config', 'item'],
-        });
+define(["Vue"], function(Vue) {
+    Vue.component("cms_page", {
+        template: template,
+        props: ['config', 'item'],
     });
+});
 </script>

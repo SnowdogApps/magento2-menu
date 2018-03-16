@@ -29,10 +29,10 @@
 </template>
 
 <script>
-    define(["Vue"], function(Vue) {
-        Vue.component("custom_url", {
-            template: template,
-            props   : ['config', 'item']
-        });
+define(["Vue"], function(Vue) {
+    Vue.component("custom_url", {
+        template: template,
+        props: ['config', 'item']
     });
+});
 </script>
