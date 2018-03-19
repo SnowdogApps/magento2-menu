@@ -36,6 +36,10 @@ class UpgradeSchema implements UpgradeSchemaInterface
             $this->addTargetAttribute($setup);
         }
 
+        if (version_compare($context->getVersion(), '0.2.2', '<')) {
+            $this->updateTargetAttribute($setup);
+        }
+
         $setup->endSetup();
     }
 
@@ -90,5 +94,30 @@ class UpgradeSchema implements UpgradeSchemaInterface
         );
 
         return $this;
+    }
+
+    private function updateTargetAttribute(SchemaSetupInterface $setup)
+    {
+        $table = $setup->getTable('snowmenu_node');
+        $connection = $setup->getConnection();
+
+        $connection->update(
+            $table,
+            ['target' => 0],
+            "target = '_self'"
+        );
+        $connection->update(
+            $table,
+            ['target' => 1],
+            "target = '_blank'"
+        );
+        $connection->modifyColumn(
+            $table,
+            'target',
+            [
+                'type' => Table::TYPE_SMALLINT,
+                'default' => 0,
+            ]
+        );
     }
 }
