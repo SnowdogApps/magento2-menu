@@ -115,7 +115,7 @@ class UpgradeSchema implements UpgradeSchemaInterface
             $table,
             'target',
             [
-                'type' => Table::TYPE_SMALLINT,
+                'type' => Table::TYPE_BOOLEAN,
                 'default' => 0,
             ]
         );
