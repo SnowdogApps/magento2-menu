@@ -22,18 +22,15 @@
                 {{ config.translation.nodeType }}
             </label>
             <div class="admin__field-control control">
-                <select
-                    class="admin__control-select"
-                    name="node_type"
-                    id="node_type"
+                <v-select
                     :value="item.type"
-                    @change="changeType($event.target.value)"
+                    @input="changeType"
+                    :options="options"
+                    :placeholder="config.translation.selectNodeType"
+                    :getOptionLabel="getOptionLabel"
+                    :searchable="false"
                 >
-                    <option value="">{{config.translation.selectNodeType}}</option>
-                    <option v-for="(label, key) in config.nodeTypes" :value="key">
-                        {{ label }}
-                    </option>
-                </select>
+                </v-select>
             </div>
         </div>
         <component :is="item['type']" :item="item" :config="config"></component>
@@ -47,23 +44,47 @@ define(["Vue"], function(Vue) {
         props: ['item', 'config'],
         data: function() {
             return {
-                draft: {}
+                draft: {},
+            }
+        },
+        computed: {
+            options: function() {
+                var list = [];
+                for (type in this.config.nodeTypes) {
+                    list.push({
+                        label: this.config.nodeTypes[type],
+                        value: type
+                    })
+                }
+                return list;
             }
         },
         methods: {
-            changeType: function(value) {
-                var type = this.item.type;
-                if (type) {
-                    this.draft[type] = {
-                        content: this.item['content']
-                    };
+            changeType: function(selected) {
+                if (selected && typeof selected === 'object') {
+                    var type  = this.item.type,
+                        value = selected.value;
+                    if (type) {
+                        this.draft[type] = {
+                            content: this.item['content']
+                        };
+                    }
+                    if (this.draft[value]) {
+                        this.item['content'] = this.draft[value].content;
+                    } else {
+                        this.item['content'] = null;
+                    }
+                    this.item['type'] = value;
                 }
-                if (this.draft[value]) {
-                    this.item['content'] = this.draft[value].content;
-                } else {
-                    this.item['content'] = null;
+            },
+            getOptionLabel: function(option) {
+                if (typeof option === 'object') {
+                    return option.label;
                 }
-                this.item['type'] = value;
+                if (option) {
+                    return this.config.nodeTypes[option];
+                }
+                return option;
             }
         }
     });
