@@ -59,7 +59,7 @@ class Product extends AbstractNode
 
         $options = [];
         foreach ($data as $row) {
-            $options[$row['name']] = $row[$identifierField];
+            $options[$row['sku']] = $row[$identifierField];
         }
 
         $data = [

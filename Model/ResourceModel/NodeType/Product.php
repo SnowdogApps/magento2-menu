@@ -32,21 +32,11 @@ class Product extends AbstractNode
     {
         $metadata = $this->metadataPool->getMetadata(ProductInterface::class);
         $identifierField = $metadata->getIdentifierField();
-        $linkField = $metadata->getLinkField();
         $connection = $this->getConnection('read');
-
-        $nameAttributeId = $this->getAttributeIdByCode($connection, 'name');
 
         $select = $connection->select()->from(
             ['e' => $this->getTable('catalog_product_entity')],
-            [$identifierField]
-        )->join(
-            ['v' => $this->getTable('catalog_product_entity_varchar')],
-            'v.' . $linkField . ' = e.' . $linkField . ' AND v.store_id = 0
-            AND v.attribute_id = ' . $nameAttributeId,
-            ['name' => 'v.value']
-        )->order(
-            'e.' . $linkField . ' DESC'
+            [$identifierField, 'sku']
         );
 
         return $connection->fetchAll($select);

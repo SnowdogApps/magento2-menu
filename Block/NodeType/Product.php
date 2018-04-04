@@ -75,7 +75,7 @@ class Product extends AbstractNode
     public function getJsonConfig()
     {
         $data = $this->productModel->fetchConfigData();
-
+        
         return json_encode($data);
     }
 
@@ -198,6 +198,6 @@ HTML;
      */
     public function getAddButtonLabel()
     {
-        return __("Add Product node");
+        return __("Product");
     }
 }
