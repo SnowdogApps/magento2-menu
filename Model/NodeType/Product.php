@@ -93,7 +93,6 @@ class Product extends AbstractNode
             $productIds[] = (int)$node->getContent();
         }
 
-
         $resource = $this->getResource();
         $productImages = $resource->fetchImageData($productIds);
         $productUrls = $resource->fetchData($storeId, $productIds);

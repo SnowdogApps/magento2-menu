@@ -58,7 +58,7 @@ class Product extends AbstractNode
             ->where('entity_type = ?', 'product')
             ->where('redirect_type = ?', 0)
             ->where('store_id = ?', $storeId)
-            ->where('entity_id IN (' . implode(',', $productIds) . ')');
+            ->where('entity_id IN (?)', implode(',', $productIds));
 
         return $connection->fetchPairs($select);
     }
@@ -119,7 +119,10 @@ class Product extends AbstractNode
             ['t' => $this->getTable('eav_entity_type')],
             't.entity_type_id = a.entity_type_id',
             []
-        )->where('t.entity_type_code = ?', CoreProduct::ENTITY)->where(
+        )->where(
+            't.entity_type_code = ?',
+            CoreProduct::ENTITY
+        )->where(
             'a.attribute_code = ?',
             $code
         );

@@ -97,7 +97,7 @@ class Product extends AbstractNode
             $this->productUrls,
             $this->productPrices,
             $this->productImages
-            ) = $this->productModel->fetchData($nodes, $storeId);
+        ) = $this->productModel->fetchData($nodes, $storeId);
     }
 
     /**
@@ -112,7 +112,7 @@ class Product extends AbstractNode
         }
 
         $node = $this->nodes[$nodeId];
-        $productId = (int) $node->getContent();
+        $productId = (int)$node->getContent();
         $currentProduct = $this->getCurrentProduct();
 
         return $currentProduct
@@ -176,7 +176,7 @@ class Product extends AbstractNode
         }
 
         $node = $this->nodes[$nodeId];
-        $productId = (int) $node->getContent();
+        $productId = (int)$node->getContent();
 
         if (isset($data[$productId])) {
             return $data[$productId];
