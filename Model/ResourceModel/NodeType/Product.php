@@ -58,7 +58,7 @@ class Product extends AbstractNode
             ->where('entity_type = ?', 'product')
             ->where('redirect_type = ?', 0)
             ->where('store_id = ?', $storeId)
-            ->where('entity_id IN (?)', implode(',', $productIds));
+            ->where('entity_id IN (?)', $productIds);
 
         return $connection->fetchPairs($select);
     }
@@ -78,7 +78,7 @@ class Product extends AbstractNode
             ->from($table, ['entity_id', 'final_price'])
             ->where('customer_group_id = ?', $customerGroupId)
             ->where('website_id = ?', $websiteId)
-            ->where('entity_id IN (' . implode(',', $productIds) . ')');
+            ->where('entity_id IN (?)', $productIds);
 
         return $connection->fetchPairs($select);
     }
@@ -100,7 +100,7 @@ class Product extends AbstractNode
             ->from($table, [$linkField, 'value'])
             ->where('attribute_id = ?', $nameAttributeId)
             ->where('store_id = ?', 0)
-            ->where($linkField .' IN (' . implode(',', $productIds) . ')');
+            ->where($linkField .' IN (?)', $productIds);
 
         return $connection->fetchPairs($select);
     }
