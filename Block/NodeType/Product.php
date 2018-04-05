@@ -3,6 +3,7 @@
 namespace Snowdog\Menu\Block\NodeType;
 
 use Magento\Framework\Registry;
+use Magento\Framework\UrlInterface;
 use Snowdog\Menu\Model\TemplateResolver;
 use Magento\Framework\View\Element\Template\Context;
 use Snowdog\Menu\Model\NodeType\Product as ModelProduct;
@@ -49,6 +50,11 @@ class Product extends AbstractNode
      */
     private $productModel;
 
+    /**
+     * @var String
+     */
+    private $mediaUrl;
+
     public function __construct(
         Context $context,
         Registry $coreRegistry,
@@ -75,7 +81,7 @@ class Product extends AbstractNode
     public function getJsonConfig()
     {
         $data = $this->productModel->fetchConfigData();
-        
+
         return json_encode($data);
     }
 
@@ -145,12 +151,17 @@ class Product extends AbstractNode
 
     /**
      * @param int $nodeId
-     * @return string|false
-     * @throws \InvalidArgumentException
+     * @return null|string
      */
     public function getProductImage($nodeId)
     {
-        return $this->getProductData($this->productImages, $nodeId);
+        $image = $this->getProductData($this->productImages, $nodeId);
+
+        if (!$image) {
+            return null;
+        }
+
+        return $this->getMediaUrl('catalog/product' . $image);
     }
 
     /**
@@ -199,5 +210,19 @@ HTML;
     public function getAddButtonLabel()
     {
         return __("Product");
+    }
+
+    /**
+     * @param string $path
+     * @return string
+     */
+    private function getMediaUrl($path)
+    {
+        if (!$this->mediaUrl) {
+            $this->mediaUrl = $this->_storeManager->getStore()
+                ->getBaseUrl(UrlInterface::URL_TYPE_MEDIA);
+        }
+
+        return $this->mediaUrl . $path;
     }
 }
