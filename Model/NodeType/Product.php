@@ -94,7 +94,7 @@ class Product extends AbstractNode
         }
         
         $resource = $this->getResource();
-        $productImages = $resource->fetchImageData($productIds);
+        $productImages = $resource->fetchImageData($storeId, $productIds);
         $productUrls = $resource->fetchData($storeId, $productIds);
         $productPrices = $resource->fetchPriceData($websiteId, $customerGroupId, $productIds);
         $this->profiler->stop(__METHOD__);

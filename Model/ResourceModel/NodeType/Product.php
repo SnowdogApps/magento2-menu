@@ -87,7 +87,7 @@ class Product extends AbstractNode
      * @param array $productIds
      * @return array
      */
-    public function fetchImageData($productIds = [])
+    public function fetchImageData($storeId = Store::DEFAULT_STORE_ID, $productIds = [])
     {
         $metadata = $this->metadataPool->getMetadata(ProductInterface::class);
         $linkField = $metadata->getLinkField();
@@ -99,7 +99,7 @@ class Product extends AbstractNode
         $select = $connection->select()
             ->from($table, [$linkField, 'value'])
             ->where('attribute_id = ?', $nameAttributeId)
-            ->where('store_id = ?', 0)
+            ->where('store_id = ?', $storeId)
             ->where($linkField .' IN (?)', $productIds);
 
         return $connection->fetchPairs($select);
