@@ -76,7 +76,7 @@
                             :selected="selectedEvent"
                             :selected-item="selectedItem"
                             :delete="deleteEvent"
-                            :append="appendEvent"
+                            :append="append"
                             :config="config"
                         >
                         </list>
