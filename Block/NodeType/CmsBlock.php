@@ -68,7 +68,7 @@ class CmsBlock extends AbstractNode
     {
         $data = $this->_cmsBlockModel->fetchConfigData();
 
-        return json_encode($data);
+        return $data;
     }
 
     /**
@@ -105,7 +105,7 @@ class CmsBlock extends AbstractNode
     /**
      * @return \Magento\Framework\Phrase
      */
-    public function getAddButtonLabel()
+    public function getLabel()
     {
         return __("Cms Block");
     }

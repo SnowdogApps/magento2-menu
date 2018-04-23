@@ -93,6 +93,8 @@ class Save extends Action
         $nodes = $this->getRequest()->getParam('serialized_nodes');
         if (!empty($nodes)) {
             $nodes = json_decode($nodes, true);
+            $nodes = $this->_convertTree($nodes, '#');
+
             if (!empty($nodes)) {
 
                 $filterBuilder = $this->filterBuilderFactory->create();
@@ -160,18 +162,18 @@ class Save extends Action
                         $nodeObject->setParentId($nodeMap[$node['parent']]->getId());
                     }
 
-                    $nodeObject->setType($node['data']['type']);
-                    if (isset($node['data']['classes'])) {
-                        $nodeObject->setClasses($node['data']['classes']);
+                    $nodeObject->setType($node['type']);
+                    if (isset($node['classes'])) {
+                        $nodeObject->setClasses($node['classes']);
                     }
-                    if (isset($node['data']['content'])) {
-                        $nodeObject->setContent($node['data']['content']);
+                    if (isset($node['content'])) {
+                        $nodeObject->setContent($node['content']);
                     }
-                    if (isset($node['data']['target'])) {
-                        $nodeObject->setTarget($node['data']['target']);
+                    if (isset($node['target'])) {
+                        $nodeObject->setTarget($node['target']);
                     }
                     $nodeObject->setMenuId($id);
-                    $nodeObject->setTitle($node['text']);
+                    $nodeObject->setTitle($node['title']);
                     $nodeObject->setIsActive(1);
                     $nodeObject->setLevel($level);
                     $nodeObject->setPosition($position);
@@ -196,5 +198,18 @@ class Save extends Action
     protected function _isAllowed()
     {
         return $this->_authorization->isAllowed('Snowdog_Menu::menus');
+    }
+
+    protected function _convertTree($nodes, $parent)
+    {
+        $convertedTree = [];
+        if (!empty($nodes)) {
+            foreach ($nodes as $node) {
+                $node['parent'] = $parent;
+                $convertedTree[] = $node;
+                $convertedTree = array_merge($convertedTree, $this->_convertTree($node['columns'], $node['id']));
+            }
+        }
+        return $convertedTree;
     }
 }
