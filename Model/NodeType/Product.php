@@ -4,8 +4,6 @@ namespace Snowdog\Menu\Model\NodeType;
 
 use Magento\Customer\Model\Session;
 use Magento\Framework\Profiler;
-use Magento\Catalog\Api\Data\ProductInterface;
-use Magento\Framework\EntityManager\MetadataPool;
 use Magento\Store\Model\StoreManagerInterface;
 
 class Product extends AbstractNode
@@ -21,11 +19,6 @@ class Product extends AbstractNode
     protected $customerSession;
 
     /**
-     * @var MetadataPool
-     */
-    private $metadataPool;
-
-    /**
      * @inheritDoc
      */
     protected function _construct()
@@ -36,12 +29,10 @@ class Product extends AbstractNode
 
     public function __construct(
         Profiler $profiler,
-        MetadataPool $metadataPool,
         StoreManagerInterface $storeManager,
         Session $customerSession
     ) {
         $this->storeManager = $storeManager;
-        $this->metadataPool = $metadataPool;
         $this->customerSession = $customerSession;
         parent::__construct($profiler);
     }
@@ -65,7 +56,7 @@ class Product extends AbstractNode
         $localNodes = [];
         $productIds = [];
 
-        $websiteId = $this->storeManager->getStore()->getWebsiteId();
+        $websiteId = $this->storeManager->getStore($storeId)->getWebsiteId();
         $customerGroupId = $this->customerSession->getCustomer()->getGroupId();
 
         foreach ($nodes as $node) {

@@ -51,11 +51,6 @@ class Save extends Action
      */
     private $productRepository;
 
-    /**
-     * @var ManagerInterface
-     */
-    private $manager;
-
     public function __construct(
         Action\Context $context,
         MenuRepositoryInterface $menuRepository,
@@ -65,8 +60,7 @@ class Save extends Action
         SearchCriteriaBuilderFactory $searchCriteriaBuilderFactory,
         NodeFactory $nodeFactory,
         MenuFactory $menuFactory,
-        ProductRepository $productRepository,
-        ManagerInterface $manager
+        ProductRepository $productRepository
     ) {
         parent::__construct($context);
         $this->menuRepository = $menuRepository;
@@ -77,7 +71,6 @@ class Save extends Action
         $this->nodeFactory = $nodeFactory;
         $this->menuFactory = $menuFactory;
         $this->productRepository = $productRepository;
-        $this->manager = $manager;
     }
 
 
@@ -221,12 +214,12 @@ class Save extends Action
      * @param array $node
      * @return bool
      */
-    private function validateProductNode($node)
+    private function validateProductNode(array $node)
     {
         try {
             $this->productRepository->getById($node['data']['content']);
         } catch (NoSuchEntityException $e) {
-            $this->manager->addErrorMessage(__('Product does not exist'));
+            $this->messageManager->addErrorMessage(__('Product does not exist'));
             return false;
         }
 

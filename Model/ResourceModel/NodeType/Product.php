@@ -2,30 +2,21 @@
 
 namespace Snowdog\Menu\Model\ResourceModel\NodeType;
 
-use Magento\Catalog\Model\ResourceModel\Product\Collection;
 use Magento\Store\Model\Store;
 use Magento\Framework\App\ResourceConnection;
-use Magento\Framework\EntityManager\MetadataPool;
+use Magento\Catalog\Model\ResourceModel\Product\CollectionFactory;
 
 class Product extends AbstractNode
 {
     /**
-     * @var MetadataPool
-     */
-    private $metadataPool;
-
-    /**
-     * @var Collection
+     * @var CollectionFactory
      */
     private $productCollection;
 
     public function __construct(
         ResourceConnection $resource,
-        MetadataPool $metadataPool,
-        Collection $productCollection
-
+        CollectionFactory $productCollection
     ) {
-        $this->metadataPool = $metadataPool;
         $this->productCollection = $productCollection;
         parent::__construct($resource);
     }
@@ -33,7 +24,6 @@ class Product extends AbstractNode
     /**
      * @param int   $storeId
      * @param array $productIds
-     *
      * @return array
      */
     public function fetchData($storeId = Store::DEFAULT_STORE_ID, $productIds = [])
@@ -73,14 +63,16 @@ class Product extends AbstractNode
     }
 
     /**
+     * @param int $storeId
      * @param array $productIds
      * @return array
      */
-    public function fetchImageData($productIds = [])
+    public function fetchImageData($storeId, $productIds = [])
     {
-        $collection = $this->productCollection->addAttributeToSelect(
-            ['thumbnail']
-        )->addFieldToFilter('entity_id', ['in' => $productIds]);
+        $collection = $this->productCollection->create();
+        $collection->addAttributeToSelect(['thumbnail'])
+            ->addFieldToFilter('entity_id', ['in' => $productIds])
+            ->addStoreFilter($storeId);
 
         $imageData = [];
         foreach ($collection->getData() as $data) {
