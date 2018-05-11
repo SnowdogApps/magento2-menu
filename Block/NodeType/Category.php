@@ -92,7 +92,7 @@ class Category extends AbstractNode
     {
         $data = $this->_categoryModel->fetchConfigData();
 
-        return json_encode($data);
+        return $data;
     }
 
     /**
@@ -172,7 +172,7 @@ HTML;
     /**
      * @return \Magento\Framework\Phrase
      */
-    public function getAddButtonLabel()
+    public function getLabel()
     {
         return __("Category");
     }

@@ -83,7 +83,7 @@ class CmsPage extends AbstractNode
     {
         $data = $this->_cmsPageModel->fetchConfigData();
 
-        return json_encode($data);
+        return $data;
     }
 
     /**
@@ -170,8 +170,8 @@ HTML;
     /**
      * @return \Magento\Framework\Phrase
      */
-    public function getAddButtonLabel()
+    public function getLabel()
     {
-        return __("Cms Page");
+        return __("Cms Page link");
     }
 }
