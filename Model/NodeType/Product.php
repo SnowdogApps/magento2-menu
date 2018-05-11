@@ -52,27 +52,7 @@ class Product extends AbstractNode
      */
     public function fetchConfigData()
     {
-        $this->profiler->start(__METHOD__);
-        $metadata = $this->metadataPool->getMetadata(ProductInterface::class);
-        $identifierField = $metadata->getIdentifierField();
-        $data = $this->getResource()->fetchConfigData();
-
-        $options = [];
-        foreach ($data as $row) {
-            $options[$row['sku']] = $row[$identifierField];
-        }
-
-        $data = [
-            'snowMenuAutoCompleteField' => [
-                'type'    => 'product',
-                'options' => $options,
-                'message' => __('Product not found'),
-            ],
-        ];
-
-        $this->profiler->stop(__METHOD__);
-
-        return $data;
+        return [];
     }
 
     /**

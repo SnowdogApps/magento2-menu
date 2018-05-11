@@ -2,11 +2,9 @@
 
 namespace Snowdog\Menu\Model\ResourceModel\NodeType;
 
-use Magento\Framework\DB\Adapter\AdapterInterface;
+use Magento\Catalog\Model\ResourceModel\Product\Collection;
 use Magento\Store\Model\Store;
 use Magento\Framework\App\ResourceConnection;
-use Magento\Catalog\Api\Data\ProductInterface;
-use Magento\Catalog\Model\Product as CoreProduct;
 use Magento\Framework\EntityManager\MetadataPool;
 
 class Product extends AbstractNode
@@ -16,30 +14,20 @@ class Product extends AbstractNode
      */
     private $metadataPool;
 
+    /**
+     * @var Collection
+     */
+    private $productCollection;
+
     public function __construct(
         ResourceConnection $resource,
-        MetadataPool $metadataPool
+        MetadataPool $metadataPool,
+        Collection $productCollection
+
     ) {
         $this->metadataPool = $metadataPool;
+        $this->productCollection = $productCollection;
         parent::__construct($resource);
-    }
-
-    /**
-     * @return array
-     * @throws \Exception
-     */
-    public function fetchConfigData()
-    {
-        $metadata = $this->metadataPool->getMetadata(ProductInterface::class);
-        $identifierField = $metadata->getIdentifierField();
-        $connection = $this->getConnection('read');
-
-        $select = $connection->select()->from(
-            ['e' => $this->getTable('catalog_product_entity')],
-            [$identifierField, 'sku']
-        );
-
-        return $connection->fetchAll($select);
     }
 
     /**
@@ -58,7 +46,8 @@ class Product extends AbstractNode
             ->where('entity_type = ?', 'product')
             ->where('redirect_type = ?', 0)
             ->where('store_id = ?', $storeId)
-            ->where('entity_id IN (?)', $productIds);
+            ->where('entity_id IN (?)', $productIds)
+            ->where('metadata = ?' , null);
 
         return $connection->fetchPairs($select);
     }
@@ -87,46 +76,25 @@ class Product extends AbstractNode
      * @param array $productIds
      * @return array
      */
-    public function fetchImageData($storeId = Store::DEFAULT_STORE_ID, $productIds = [])
+    public function fetchImageData($productIds = [])
     {
-        $metadata = $this->metadataPool->getMetadata(ProductInterface::class);
-        $linkField = $metadata->getLinkField();
+        $collection = $this->productCollection->addAttributeToSelect(
+            ['thumbnail']
+        )->addFieldToFilter('entity_id', ['in' => $productIds]);
 
-        $connection = $this->getConnection('read');
-        $nameAttributeId = $this->getAttributeIdByCode($connection, 'image');
+        $imageData = [];
+        foreach ($collection->getData() as $data) {
+            $imageData[$data['entity_id']] = $data['thumbnail'];
+        }
 
-        $table = $this->getTable('catalog_product_entity_varchar');
-        $select = $connection->select()
-            ->from($table, [$linkField, 'value'])
-            ->where('attribute_id = ?', $nameAttributeId)
-            ->where('store_id = ?', $storeId)
-            ->where($linkField .' IN (?)', $productIds);
-
-        return $connection->fetchPairs($select);
+        return $imageData;
     }
 
     /**
-     * @param AdapterInterface $connection
-     * @param string $code
-     * @return array|string
+     * @inheritDoc
      */
-    private function getAttributeIdByCode($connection, $code)
+    public function fetchConfigData()
     {
-        $select = $connection->select()->from(
-            ['a' => $this->getTable('eav_attribute')],
-            ['attribute_id']
-        )->join(
-            ['t' => $this->getTable('eav_entity_type')],
-            't.entity_type_id = a.entity_type_id',
-            []
-        )->where(
-            't.entity_type_code = ?',
-            CoreProduct::ENTITY
-        )->where(
-            'a.attribute_code = ?',
-            $code
-        );
-
-        return $connection->fetchOne($select);
+        return [];
     }
 }

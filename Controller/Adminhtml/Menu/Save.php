@@ -3,10 +3,13 @@
 namespace Snowdog\Menu\Controller\Adminhtml\Menu;
 
 use Magento\Backend\App\Action;
+use Magento\Catalog\Model\ProductRepository;
 use Magento\Framework\Api\FilterBuilderFactory;
 use Magento\Framework\Api\Search\FilterGroupBuilderFactory;
 use Magento\Framework\Api\SearchCriteriaBuilderFactory;
 use Magento\Framework\App\ResponseInterface;
+use Magento\Framework\Exception\NoSuchEntityException;
+use Magento\Framework\Message\ManagerInterface;
 use Snowdog\Menu\Api\MenuRepositoryInterface;
 use Snowdog\Menu\Api\NodeRepositoryInterface;
 use Snowdog\Menu\Model\Menu\NodeFactory;
@@ -43,6 +46,16 @@ class Save extends Action
      */
     private $menuFactory;
 
+    /**
+     * @var ProductRepository
+     */
+    private $productRepository;
+
+    /**
+     * @var ManagerInterface
+     */
+    private $manager;
+
     public function __construct(
         Action\Context $context,
         MenuRepositoryInterface $menuRepository,
@@ -51,7 +64,9 @@ class Save extends Action
         FilterGroupBuilderFactory $filterGroupBuilderFactory,
         SearchCriteriaBuilderFactory $searchCriteriaBuilderFactory,
         NodeFactory $nodeFactory,
-        MenuFactory $menuFactory
+        MenuFactory $menuFactory,
+        ProductRepository $productRepository,
+        ManagerInterface $manager
     ) {
         parent::__construct($context);
         $this->menuRepository = $menuRepository;
@@ -61,6 +76,8 @@ class Save extends Action
         $this->searchCriteriaBuilderFactory = $searchCriteriaBuilderFactory;
         $this->nodeFactory = $nodeFactory;
         $this->menuFactory = $menuFactory;
+        $this->productRepository = $productRepository;
+        $this->manager = $manager;
     }
 
 
@@ -137,11 +154,13 @@ class Save extends Action
                     $this->nodeRepository->deleteById($nodeId);
                 }
 
-
                 $path = [
                     '#' => 0,
                 ];
                 foreach ($nodes as $node) {
+                    if ($node['data']['type'] == 'product' && !$this->validateProductNode($node)) {
+                        continue;
+                    }
                     $nodeObject = $nodeMap[$node['id']];
 
                     $parents = array_keys($path);
@@ -196,5 +215,21 @@ class Save extends Action
     protected function _isAllowed()
     {
         return $this->_authorization->isAllowed('Snowdog_Menu::menus');
+    }
+
+    /**
+     * @param array $node
+     * @return bool
+     */
+    private function validateProductNode($node)
+    {
+        try {
+            $this->productRepository->getById($node['data']['content']);
+        } catch (NoSuchEntityException $e) {
+            $this->manager->addErrorMessage(__('Product does not exist'));
+            return false;
+        }
+
+        return true;
     }
 }
