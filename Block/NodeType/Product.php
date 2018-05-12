@@ -82,7 +82,7 @@ class Product extends AbstractNode
     {
         $data = $this->productModel->fetchConfigData();
 
-        return json_encode($data);
+        return $data;
     }
 
     /**
@@ -205,14 +205,6 @@ HTML;
     }
 
     /**
-     * @return \Magento\Framework\Phrase
-     */
-    public function getAddButtonLabel()
-    {
-        return __("Product");
-    }
-
-    /**
      * @param string $path
      * @return string
      */
@@ -224,5 +216,13 @@ HTML;
         }
 
         return $this->mediaUrl . $path;
+    }
+
+    /**
+     * @return \Magento\Framework\Phrase
+     */
+    public function getLabel()
+    {
+        return __("Product");
     }
 }
