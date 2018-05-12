@@ -36,6 +36,7 @@ foreach ($block->getNodeForms() as $form) {
             "vue!Snowdog_Menu/vue/menu-type/cms-page",
             "vue!Snowdog_Menu/vue/menu-type/cms-block",
             "vue!Snowdog_Menu/vue/menu-type/custom-url",
+            "vue!Snowdog_Menu/vue/menu-type/product",
             "vue!Snowdog_Menu/vue/field-type/simple",
             "vue!Snowdog_Menu/vue/field-type/autocomplete"
         ], function(Vue, Vddl, vueSelect) {
@@ -69,7 +70,9 @@ foreach ($block->getNodeForms() as $form) {
                             blockId        : "<?= __('Block ID') ?>",
                             page           : "<?= __('Page') ?>",
                             pageId         : "<?= __('Page URL key') ?>",
-                            customURL      : "<?= __('Custom URL') ?>"
+                            customURL      : "<?= __('Custom URL') ?>",
+                            product        : "<?= __('Product') ?>",
+                            productId     : "<?= __('Product ID') ?>"
                         }
                     }
                 }
