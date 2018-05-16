@@ -7,25 +7,20 @@ $productPrice = $block->getProductPrice($nodeId);
 $productImage = $block->getProductImage($nodeId);
 $productUrl = $productUrl ?: '#';
 $dataAttribute = '';
+$classLink = $block->getIsRoot() ? $class . '__link' : $class . '__inner-link';
+$title = $block->getTitle();
 
-if ($block->getIsViewAllLink()) {
-    $title = __('View All');
-    $classLink = $class . '__inner-link';
-} else {
-    $classLink = $block->getIsRoot() ? $class . '__link' : $class . '__inner-link';
-    $title = $block->getTitle();
+if ($nodeId) {
+    $dataAttribute = ' data-menu="menu-' . $nodeId . '"';
+}
 
-    if ($nodeId) {
-        $dataAttribute = ' data-menu="menu-' . $nodeId . '"';
-    }
-
-    if ($block->isCurrentProduct($nodeId)) {
-        $classLink .= ' current';
-    }
+if ($block->isCurrentProduct($nodeId)) {
+    $classLink .= ' current';
 }
 ?>
-<a href="<?= $productUrl ?>"
-   class="<?= $classLink ?>"<?= $dataAttribute ?>
+<a
+    href="<?= $productUrl ?>"
+    class="<?= $classLink ?>"<?= $dataAttribute ?>
 >
     <?= $title ?>
 </a>
