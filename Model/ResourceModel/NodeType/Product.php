@@ -76,7 +76,7 @@ class Product extends AbstractNode
 
         $imageData = [];
         foreach ($collection->getData() as $data) {
-            $imageData[$data['entity_id']] = $data['thumbnail'];
+            $imageData[$data['entity_id']] = $data['thumbnail'] ?? '';
         }
 
         return $imageData;
