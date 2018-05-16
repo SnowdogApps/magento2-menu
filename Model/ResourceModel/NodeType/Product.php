@@ -37,7 +37,7 @@ class Product extends AbstractNode
             ->where('redirect_type = ?', 0)
             ->where('store_id = ?', $storeId)
             ->where('entity_id IN (?)', $productIds)
-            ->where('metadata = ?' , null);
+            ->where('metadata IS NULL');
 
         return $connection->fetchPairs($select);
     }
