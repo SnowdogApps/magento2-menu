@@ -5,8 +5,8 @@
         </label>
         <div class="admin__field-control control">
             <v-select
-                v-model="item.content"
-                :options="fieldOptions"
+                v-model="selected"
+                :options="options"
                 :placeholder="placeHolder"
             >
             </v-select>
@@ -16,8 +16,8 @@
                 {{ description }}
             </div>
             <div class="selected-option__value">
-                <span v-if="selectedId">
-                    {{ selectedId }}
+                <span v-if="item.content">
+                    {{ item.content }}
                 </span>
                 <span v-else>
                     {{ placeHolder }} ⇡
@@ -38,11 +38,21 @@ define(["Vue"], function(Vue) {
             'config'
         ],
         computed: {
-            fieldOptions: function() {
-                return Object.keys(this.options);
-            },
-            selectedId() {
-                return this.item.content ? this.options[this.item.content] : '';
+            selected: {
+                get() {
+                    selectedOption = '';
+                    for (var i = 0; i < this.options.length; i++) {
+                        if (this.options[i].value === this.item.content) {
+                            selectedOption = this.options[i];
+                        }
+                    }
+                    return selectedOption;
+                },
+                set(option) {
+                    if (typeof option === 'object') {
+                        this.item.content = option.value;
+                    }
+                }
             },
             placeHolder: function() {
                 return this.config.translation.pleaseSelect + " " + this.label.toLocaleLowerCase();
