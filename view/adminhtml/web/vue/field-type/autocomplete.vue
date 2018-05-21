@@ -42,7 +42,7 @@ define(["Vue"], function(Vue) {
                 get() {
                     selectedOption = '';
                     for (var i = 0; i < this.options.length; i++) {
-                        if (this.options[i].value === this.item.content) {
+                        if (this.options[i].value.toString() === this.item.content) {
                             selectedOption = this.options[i];
                         }
                     }
@@ -50,7 +50,7 @@ define(["Vue"], function(Vue) {
                 },
                 set(option) {
                     if (typeof option === 'object') {
-                        this.item.content = option.value;
+                        this.item.content = option.value.toString();
                     }
                 }
             },
