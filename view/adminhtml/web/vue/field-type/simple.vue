@@ -22,9 +22,9 @@ define(["Vue"], function(Vue) {
     Vue.component("simple-field", {
         template: template,
         props: ['label', 'id', 'type', 'value'],
-        computed: {
-            fieldId: function() {
-                return 'snowmenu_' + this.id;
+        data: function() {
+            return {
+                fieldId: ''
             }
         },
         methods: {
@@ -33,7 +33,7 @@ define(["Vue"], function(Vue) {
             }
         },
         mounted: function() {
-            this.id = this.id + '_' +  this._uid;
+            this.fieldId = 'snowmenu_' + this.id + '_' + this._uid;
         }
     });
 });
