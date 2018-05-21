@@ -66,19 +66,12 @@ class Category extends AbstractNode
             $label[] = $row['name'];
             $labels[$row[$identifierField]] = $label;
         }
-
-        $options = [];
-
-        foreach ($labels as $id => $label) {
-            $label = implode(' > ', $label);
-            $options[$label] = $id;
-        }
-
+        
         $fieldOptions = [];
-        foreach ($options as $label => $value) {
+        foreach ($labels as $id => $label) {
             $fieldOptions[] = [
-                'label' => $label,
-                'value' => $value
+                'label' => $label = implode(' > ', $label),
+                'value' => $id
             ];
         }
 
