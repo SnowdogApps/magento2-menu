@@ -31,6 +31,9 @@ define(["Vue"], function(Vue) {
             updateValue: function(value) {
                 this.$emit('input', value);
             }
+        },
+        mounted: function() {
+            this.id = this.id + '_' +  this._uid;
         }
     });
 });
