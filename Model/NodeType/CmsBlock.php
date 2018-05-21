@@ -30,10 +30,19 @@ class CmsBlock extends AbstractNode
 
         $options = $this->getResource()->fetchConfigData();
 
+        $fieldOptions = [];
+
+        foreach ($options as $label => $value) {
+            $fieldOptions[] = [
+                'label' => $label,
+                'value' => $value
+            ];
+        }
+
         $data = [
             'snowMenuAutoCompleteField' => [
                 'type'    => 'cms_block',
-                'options' => $options,
+                'options' => $fieldOptions,
                 'message' => __('CMS Block not found'),
             ],
         ];

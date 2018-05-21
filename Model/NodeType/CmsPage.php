@@ -29,11 +29,19 @@ class CmsPage extends AbstractNode
         $this->profiler->start(__METHOD__);
 
         $options = $this->getResource()->fetchConfigData();
+        $fieldOptions = [];
+
+        foreach ($options as $label => $value) {
+            $fieldOptions[] = [
+                'label' => $label,
+                'value' => $value
+            ];
+        }
 
         $data = [
             'snowMenuAutoCompleteField' => [
-                'type'    => 'cms_page',
-                'options' => $options,
+                'type' => 'cms_page',
+                'options' => $fieldOptions,
                 'message' => __('CMS Page not found'),
             ],
         ];

@@ -42,9 +42,9 @@ class Nodes extends Template implements TabInterface
     public function renderNodes()
     {
         $menu = $this->registry->registry(Edit::REGISTRY_CODE);
+        $data = [];
         if ($menu) {
             $nodes = $this->nodeRepository->getByMenu($menu->getId());
-            $data = [];
             if (!empty($nodes)) {
                 foreach ($nodes as $node) {
                     $level = $node->getLevel();

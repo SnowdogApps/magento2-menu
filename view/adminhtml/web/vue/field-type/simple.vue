@@ -22,15 +22,18 @@ define(["Vue"], function(Vue) {
     Vue.component("simple-field", {
         template: template,
         props: ['label', 'id', 'type', 'value'],
-        computed: {
-            fieldId: function() {
-                return 'snowmenu_' + this.id;
+        data: function() {
+            return {
+                fieldId: ''
             }
         },
         methods: {
             updateValue: function(value) {
                 this.$emit('input', value);
             }
+        },
+        mounted: function() {
+            this.fieldId = 'snowmenu_' + this.id + '_' + this._uid;
         }
     });
 });
