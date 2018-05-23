@@ -1,0 +1,26 @@
+<?php /** @var \Snowdog\Menu\Block\NodeType\Product $block */ ?>
+<?php
+$nodeId = $block->getId();
+$class = $block->getMenuClass();
+$productUrl = $block->getProductUrl($nodeId);
+$productPrice = $block->getProductPrice($nodeId);
+$productImage = $block->getProductImage($nodeId);
+$productUrl = $productUrl ?: '#';
+$dataAttribute = '';
+$classLink = $block->getIsRoot() ? $class . '__link' : $class . '__inner-link';
+$title = $block->getTitle();
+
+if ($nodeId) {
+    $dataAttribute = ' data-menu="menu-' . $nodeId . '"';
+}
+
+if ($block->isCurrentProduct($nodeId)) {
+    $classLink .= ' current';
+}
+?>
+<a
+    href="<?= $productUrl ?>"
+    class="<?= $classLink ?>"<?= $dataAttribute ?>
+>
+    <?= $title ?>
+</a>

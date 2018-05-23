@@ -26,15 +26,4 @@ if ($block->getIsViewAllLink()) {
    class="<?= $classLink ?>"<?= $dataAttribute ?>
 >
     <?= $title ?>
-    <?php if ($block->getIsParent() && !$block->getIsViewAllLink()): ?>
-       <?php if ($block->getLevel() == 0): ?>
-            <svg title="view more" class="<?= $class ?>__icon">
-                <use xlink:href="<?= $block->getViewFileUrl('Snowdog_Menu::images/menu-icon-sprite.svg#icon-arrow-down') ?>"></use>
-            </svg>
-        <?php else: ?>
-            <svg title="view more" class="<?= $class ?>__icon <?= $class ?>__icon--inner">
-                <use xlink:href="<?= $block->getViewFileUrl('Snowdog_Menu::images/menu-icon-sprite.svg#icon-plus') ?>"></use>
-            </svg>
-        <?php endif ?>
-    <?php endif ?>
 </a>

@@ -66,18 +66,19 @@ class Category extends AbstractNode
             $label[] = $row['name'];
             $labels[$row[$identifierField]] = $label;
         }
-
-        $options = [];
-
+        
+        $fieldOptions = [];
         foreach ($labels as $id => $label) {
-            $label = implode(' > ', $label);
-            $options[$label] = $id;
+            $fieldOptions[] = [
+                'label' => $label = implode(' > ', $label),
+                'value' => $id
+            ];
         }
 
         $data = [
             'snowMenuAutoCompleteField' => [
                 'type'    => 'category',
-                'options' => $options,
+                'options' => $fieldOptions,
                 'message' => __('Category not found'),
             ],
         ];

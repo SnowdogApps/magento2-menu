@@ -32,9 +32,9 @@ interface NodeTypeInterface extends BlockInterface
     public function getHtml($nodeId, $level);
 
     /**
-     * Returns label od "add node" button in edit form
+     * Returns label of "add node" button in edit form
      *
      * @return string|\Magento\Framework\Phrase
      */
-    public function getAddButtonLabel();
+    public function getLabel();
 }

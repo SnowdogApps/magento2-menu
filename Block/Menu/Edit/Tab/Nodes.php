@@ -7,7 +7,6 @@ use Magento\Backend\Block\Widget\Tab\TabInterface;
 use Magento\Cms\Model\Wysiwyg\Config;
 use Magento\Framework\Registry;
 use Snowdog\Menu\Api\NodeRepositoryInterface;
-use Snowdog\Menu\Block\Element\Editor;
 use Snowdog\Menu\Controller\Adminhtml\Menu\Edit;
 use Snowdog\Menu\Model\NodeTypeProvider;
 
@@ -26,61 +25,42 @@ class Nodes extends Template implements TabInterface
      * @var NodeTypeProvider
      */
     private $nodeTypeProvider;
-    /**
-     * @var Config
-     */
-    private $wysiwygConfig;
-    /**
-     * @var Editor
-     */
-    private $editor;
 
     public function __construct(
         Template\Context $context,
         NodeRepositoryInterface $nodeRepository,
         NodeTypeProvider $nodeTypeProvider,
         Registry $registry,
-        Config $wysiwygConfig,
-        Editor $editor,
         array $data = []
     ) {
         parent::__construct($context, $data);
         $this->registry = $registry;
         $this->nodeRepository = $nodeRepository;
         $this->nodeTypeProvider = $nodeTypeProvider;
-        $this->wysiwygConfig = $wysiwygConfig;
-        $this->editor = $editor;
-        $config = $this->wysiwygConfig->getConfig([
-            'add_variables' => false,
-            'add_widgets' => false,
-            'add_images' => false,
-            'height' => '100px',
-            'hidden' => true
-        ]);
-        $this->editor->setConfig($config);
     }
 
     public function renderNodes()
     {
         $menu = $this->registry->registry(Edit::REGISTRY_CODE);
+        $data = [];
         if ($menu) {
             $nodes = $this->nodeRepository->getByMenu($menu->getId());
-            $data = [];
-            foreach ($nodes as $node) {
-                $level = $node->getLevel();
-                $parent = $node->getParentId() ?: 0;
-                if (!isset($data[$level])) {
-                    $data[$level] = [];
+            if (!empty($nodes)) {
+                foreach ($nodes as $node) {
+                    $level = $node->getLevel();
+                    $parent = $node->getParentId() ?: 0;
+                    if (!isset($data[$level])) {
+                        $data[$level] = [];
+                    }
+                    if (!isset($data[$level][$parent])) {
+                        $data[$level][$parent] = [];
+                    }
+                    $data[$level][$parent][] = $node;
                 }
-                if (!isset($data[$level][$parent])) {
-                    $data[$level][$parent] = [];
-                }
-                $data[$level][$parent][] = $node;
+                return $this->renderNodeList(0, null, $data);
             }
-
-            return $this->renderNodeList(0, null, $data);
         }
-        return '';
+        return $data;
     }
 
     /**
@@ -139,21 +119,18 @@ class Nodes extends Template implements TabInterface
             return;
         }
         $nodes = $data[$level][$parent];
-        $html = '<ul>';
         foreach ($nodes as $node) {
-            $html .= '<li class="jstree-close"';
-            $html .= ' data-type="' . $node->getType() . '"';
-            $html .= ' data-content="' . $node->getContent() . '"';
-            $html .= ' data-classes="' . $node->getClasses() . '"';
-            $html .= ' data-target="' . $node->getTarget() . '"';
-            $html .= ' id="node_' . $node->getId() . '"';
-            $html .= '>';
-            $html .= $node->getTitle();
-            $html .= $this->renderNodeList($level + 1, $node->getId(), $data);
-            $html .= '</li>';
+            $menu[] = [
+                'type' => $node->getType(),
+                'content' => $node->getContent(),
+                'classes' => $node->getClasses(),
+                'target' => $node->getTarget(),
+                'id' => $node->getId(),
+                'title' => $node->getTitle(),
+                'columns' => $this->renderNodeList($level + 1, $node->getId(), $data) ? $this->renderNodeList($level + 1, $node->getId(), $data) : []
+            ];
         }
-        $html .= '</ul>';
-        return $html;
+        return $menu;
     }
 
     public function getNodeForms()
@@ -161,15 +138,8 @@ class Nodes extends Template implements TabInterface
         return $this->nodeTypeProvider->getEditForms();
     }
 
-    public function getNodeButtons()
+    public function getNodeLabels()
     {
-        return $this->nodeTypeProvider->getAddButtonLabels();
-    }
-
-    public function getEditor($id, $name)
-    {
-        $this->editor->setId($id);
-        $this->editor->setName($name);
-        return $this->editor;
+        return $this->nodeTypeProvider->getLabels();
     }
 }

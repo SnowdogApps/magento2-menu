@@ -58,7 +58,7 @@ class CustomUrl extends AbstractNode
                 "type" => "custom_url"
             ]
         ];
-        return json_encode($data);
+        return $data;
     }
 
     /**
@@ -92,8 +92,8 @@ HTML;
     /**
      * @return \Magento\Framework\Phrase
      */
-    public function getAddButtonLabel()
+    public function getLabel()
     {
-        return __("Add Custom Url node");
+        return __("Custom Url");
     }
 }
