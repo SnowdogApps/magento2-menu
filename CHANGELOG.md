@@ -6,6 +6,18 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [2.5.0] - 2018-05-23
+### Added
+- Add product node type
+- Add the ability to change node type
+- Enhance admin panel UI using VueJS
+
+### Fixed
+- Fix saving target blank for custom url
+
+### Removed
+- Remove frontend javascript and icon
+
 ## [2.4.0] - 2018-01-29
 ### Changed
 - Module doesn't support 2.0 anymore
