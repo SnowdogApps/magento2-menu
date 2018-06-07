@@ -40,6 +40,10 @@ class UpgradeSchema implements UpgradeSchemaInterface
             $this->updateTargetAttribute($setup);
         }
 
+        if (version_compare($context->getVersion(), '0.2.3', '<')) {
+            $this->addForeignKeys($setup);
+        }
+
         $setup->endSetup();
     }
 
@@ -118,6 +122,47 @@ class UpgradeSchema implements UpgradeSchemaInterface
                 'type' => Table::TYPE_BOOLEAN,
                 'default' => 0,
             ]
+        );
+    }
+
+    private function addForeignKeys(SchemaSetupInterface $setup)
+    {
+        $setup->getConnection()->modifyColumn(
+            $setup->getTable('snowmenu_node'),
+            'menu_id',
+            ['unsigned' => true],
+            'Menu ID'
+        );
+
+        $setup->getConnection()->modifyColumn(
+            $setup->getTable('snowmenu_store'),
+            'store_id',
+            ['type' => Table::TYPE_SMALLINT],
+            'Store ID'
+        );
+
+        $setup->getConnection()->addForeignKey(
+            $setup->getFkName('snowmenu_node', 'menu_id', 'snowmenu_menu', 'menu_id'),
+            'menu_id',
+            $setup->getTable('snowmenu_menu'),
+            'menu_id',
+            Table::ACTION_CASCADE
+        );
+
+        $setup->getConnection()->addForeignKey(
+            $setup->getFkName('snowmenu_store', 'menu_id', 'snowmenu_menu', 'menu_id'),
+            'menu_id',
+            $setup->getTable('snowmenu_menu'),
+            'menu_id',
+            Table::ACTION_CASCADE
+        );
+
+        $setup->getConnection()->addForeignKey(
+            $setup->getFkName('snowmenu_store', 'store_id', 'store', 'store_id'),
+            'store_id',
+            $setup->getTable('store'),
+            'store_id',
+            Table::ACTION_CASCADE
         );
     }
 }
