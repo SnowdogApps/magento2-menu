@@ -130,19 +130,36 @@ class UpgradeSchema implements UpgradeSchemaInterface
         $setup->getConnection()->modifyColumn(
             $setup->getTable('snowmenu_node'),
             'menu_id',
-            ['unsigned' => true],
-            'Menu ID'
+            [
+                'type' => Table::TYPE_INTEGER,
+                'length' => 10,
+                'nullable' => true,
+                'unsigned' => true,
+                'comment' => 'Menu ID'
+            ]
         );
 
         $setup->getConnection()->modifyColumn(
             $setup->getTable('snowmenu_store'),
             'store_id',
-            ['type' => Table::TYPE_SMALLINT],
-            'Store ID'
+            [
+                'type' => Table::TYPE_SMALLINT,
+                'length' => 5,
+                'nullable' => false,
+                'primary' => true, 
+                'unsigned' => true,
+                'comment' => 'Store ID'
+            ]
         );
 
         $setup->getConnection()->addForeignKey(
-            $setup->getFkName('snowmenu_node', 'menu_id', 'snowmenu_menu', 'menu_id'),
+            $setup->getFkName(
+                'snowmenu_node', 
+                'menu_id', 
+                'snowmenu_menu', 
+                'menu_id'
+            ),
+            $setup->getTable('snowmenu_node'),
             'menu_id',
             $setup->getTable('snowmenu_menu'),
             'menu_id',
@@ -150,7 +167,13 @@ class UpgradeSchema implements UpgradeSchemaInterface
         );
 
         $setup->getConnection()->addForeignKey(
-            $setup->getFkName('snowmenu_store', 'menu_id', 'snowmenu_menu', 'menu_id'),
+            $setup->getFkName(
+                'snowmenu_store', 
+                'menu_id', 
+                'snowmenu_menu', 
+                'menu_id'
+            ),
+            $setup->getTable('snowmenu_store'),
             'menu_id',
             $setup->getTable('snowmenu_menu'),
             'menu_id',
@@ -158,7 +181,13 @@ class UpgradeSchema implements UpgradeSchemaInterface
         );
 
         $setup->getConnection()->addForeignKey(
-            $setup->getFkName('snowmenu_store', 'store_id', 'store', 'store_id'),
+            $setup->getFkName(
+                'snowmenu_store', 
+                'store_id', 
+                'store', 
+                'store_id'
+            ),
+            $setup->getTable('snowmenu_store'),
             'store_id',
             $setup->getTable('store'),
             'store_id',
