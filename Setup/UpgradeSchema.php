@@ -133,7 +133,7 @@ class UpgradeSchema implements UpgradeSchemaInterface
             [
                 'type' => Table::TYPE_INTEGER,
                 'length' => 10,
-                'nullable' => true,
+                'nullable' => false,
                 'unsigned' => true,
                 'comment' => 'Menu ID'
             ]
