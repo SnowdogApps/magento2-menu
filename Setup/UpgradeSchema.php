@@ -127,8 +127,11 @@ class UpgradeSchema implements UpgradeSchemaInterface
 
     private function addForeignKeys(SchemaSetupInterface $setup)
     {
+        $menuTable = $setup->getTable('snowmenu_menu');
+        $nodeTable = $setup->getTable('snowmenu_node');
+        $storeTable = $setup->getTable('snowmenu_store');
         $setup->getConnection()->modifyColumn(
-            $setup->getTable('snowmenu_node'),
+            $nodeTable,
             'menu_id',
             [
                 'type' => Table::TYPE_INTEGER,
@@ -140,7 +143,7 @@ class UpgradeSchema implements UpgradeSchemaInterface
         );
 
         $setup->getConnection()->modifyColumn(
-            $setup->getTable('snowmenu_store'),
+            $storeTable,
             'store_id',
             [
                 'type' => Table::TYPE_SMALLINT,
@@ -159,9 +162,9 @@ class UpgradeSchema implements UpgradeSchemaInterface
                 'snowmenu_menu', 
                 'menu_id'
             ),
-            $setup->getTable('snowmenu_node'),
+            $nodeTable,
             'menu_id',
-            $setup->getTable('snowmenu_menu'),
+            $menuTable,
             'menu_id',
             Table::ACTION_CASCADE
         );
@@ -173,9 +176,9 @@ class UpgradeSchema implements UpgradeSchemaInterface
                 'snowmenu_menu', 
                 'menu_id'
             ),
-            $setup->getTable('snowmenu_store'),
+            $storeTable,
             'menu_id',
-            $setup->getTable('snowmenu_menu'),
+            $menuTable,
             'menu_id',
             Table::ACTION_CASCADE
         );
@@ -187,7 +190,7 @@ class UpgradeSchema implements UpgradeSchemaInterface
                 'store', 
                 'store_id'
             ),
-            $setup->getTable('snowmenu_store'),
+            $storeTable,
             'store_id',
             $setup->getTable('store'),
             'store_id',
