@@ -5,7 +5,7 @@ namespace Snowdog\Menu\Model\ResourceModel\NodeType;
 use Magento\Store\Model\Store;
 use Magento\Framework\App\ResourceConnection;
 use Magento\Catalog\Model\ResourceModel\Product\CollectionFactory;
-use Magento\Framework\App\ProductMetadataInterface as ProductMetadata;
+use Magento\Framework\EntityManager\MetadataPool;
 
 class Product extends AbstractNode
 {
@@ -15,29 +15,17 @@ class Product extends AbstractNode
     private $productCollection;
 
     /**
-     * @var ProductMetadata
+     * @var MetadataPool
      */
-    private $productMetadata;
-
-    /**
-     * @var array
-     */
-    private $productFieldsByEdition = [
-        'Community' => [
-            'entity_id' => 'entity_id'
-        ],
-        'Enterprise' => [
-            'entity_id' => 'row_id'
-        ]
-    ];
+    private $metadataPool;
 
     public function __construct(
         ResourceConnection $resource,
         CollectionFactory $productCollection,
-        ProductMetadata $productMetadata
+        MetadataPool $metadataPool
     ) {
         $this->productCollection = $productCollection;
-        $this->productMetadata = $productMetadata;
+        $this->metadataPool = $metadataPool;
         parent::__construct($resource);
     }
 
@@ -117,14 +105,15 @@ class Product extends AbstractNode
      */
     public function fetchTitleData($storeId = Store::DEFAULT_STORE_ID, $productIds = [])
     {
-        $entity_id = $this->getField('entity_id');
+        $metadata = $this->metadataPool->getMetadata(ProductInterface::class);
+        $identifierField = $metadata->getIdentifierField();
 
         $connection = $this->getConnection('read');
         $select = $connection
             ->select()
             ->from(
                 ['p' => $this->getTable('catalog_product_entity_varchar')],
-                ["{$entity_id}", 'value']
+                [$identifierField, 'value']
             )
             ->joinLeft(
                 ['e' => $this->getTable('eav_attribute')],
@@ -132,25 +121,9 @@ class Product extends AbstractNode
                 []
             )
             ->where('p.store_id = ?', $storeId)
-            ->where("p.{$entity_id} IN (?)", $productIds)
+            ->where("p.' . $identifierField . ' IN (?)", $productIds)
             ->where('e.attribute_code = ?', 'name');
 
         return $connection->fetchPairs($select);
-    }
-
-    /**
-     * @param string $name
-     * @return string
-     */
-    private function getField($name)
-    {
-        $edition = $this->getMagentoEdition();
-
-        return $this->productFieldsByEdition[$edition][$name];
-    }
-
-    private function getMagentoEdition()
-    {
-        return $this->productMetadata->getEdition();
     }
 }
