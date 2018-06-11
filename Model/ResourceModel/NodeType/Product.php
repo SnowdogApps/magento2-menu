@@ -89,4 +89,29 @@ class Product extends AbstractNode
     {
         return [];
     }
+
+    /**
+     * @param int $storeId
+     * @param array $productIds
+     * @return array
+     */
+    public function fetchTitleData($storeId = Store::DEFAULT_STORE_ID, $productIds = [])
+    {
+        $connection = $this->getConnection('read');
+        $select = $connection
+            ->select()
+            ->from(
+                ['p' => $this->getTable('catalog_product_entity_varchar')],
+                ['entity_id', 'value']
+            )
+            ->joinLeft(
+                ['e' => $this->getTable('eav_attribute')],
+                'e.attribute_id = p.attribute_id'
+            )
+            ->where('p.store_id = ?', $storeId)
+            ->where('p.entity_id IN (?)', $productIds)
+            ->where('e.attribute_code = ?', 'name');
+
+        return $connection->fetchPairs($select);
+    }
 }
