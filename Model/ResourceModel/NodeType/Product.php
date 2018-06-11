@@ -5,6 +5,7 @@ namespace Snowdog\Menu\Model\ResourceModel\NodeType;
 use Magento\Store\Model\Store;
 use Magento\Framework\App\ResourceConnection;
 use Magento\Catalog\Model\ResourceModel\Product\CollectionFactory;
+use Magento\Framework\App\ProductMetadataInterface as ProductMetadata;
 
 class Product extends AbstractNode
 {
@@ -13,11 +14,30 @@ class Product extends AbstractNode
      */
     private $productCollection;
 
+    /**
+     * @var ProductMetadata
+     */
+    private $productMetadata;
+
+    /**
+     * @var array
+     */
+    private $productFieldsByEdition = [
+        'Community' => [
+            'entity_id' => 'entity_id'
+        ],
+        'Enterprise' => [
+            'entity_id' => 'row_id'
+        ]
+    ];
+
     public function __construct(
         ResourceConnection $resource,
-        CollectionFactory $productCollection
+        CollectionFactory $productCollection,
+        ProductMetadata $productMetadata
     ) {
         $this->productCollection = $productCollection;
+        $this->productMetadata = $productMetadata;
         parent::__construct($resource);
     }
 
@@ -88,5 +108,49 @@ class Product extends AbstractNode
     public function fetchConfigData()
     {
         return [];
+    }
+
+    /**
+     * @param int $storeId
+     * @param array $productIds
+     * @return array
+     */
+    public function fetchTitleData($storeId = Store::DEFAULT_STORE_ID, $productIds = [])
+    {
+        $entity_id = $this->getField('entity_id');
+
+        $connection = $this->getConnection('read');
+        $select = $connection
+            ->select()
+            ->from(
+                ['p' => $this->getTable('catalog_product_entity_varchar')],
+                ["{$entity_id}", 'value']
+            )
+            ->joinLeft(
+                ['e' => $this->getTable('eav_attribute')],
+                'e.attribute_id = p.attribute_id',
+                []
+            )
+            ->where('p.store_id = ?', $storeId)
+            ->where("p.{$entity_id} IN (?)", $productIds)
+            ->where('e.attribute_code = ?', 'name');
+
+        return $connection->fetchPairs($select);
+    }
+
+    /**
+     * @param string $name
+     * @return string
+     */
+    private function getField($name)
+    {
+        $edition = $this->getMagentoEdition();
+
+        return $this->productFieldsByEdition[$edition][$name];
+    }
+
+    private function getMagentoEdition()
+    {
+        return $this->productMetadata->getEdition();
     }
 }

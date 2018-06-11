@@ -7,6 +7,7 @@ use Magento\Framework\UrlInterface;
 use Snowdog\Menu\Model\TemplateResolver;
 use Magento\Framework\View\Element\Template\Context;
 use Snowdog\Menu\Model\NodeType\Product as ModelProduct;
+use Magento\Framework\Pricing\Helper\Data as PricingHelper;
 
 class Product extends AbstractNode
 {
@@ -41,6 +42,11 @@ class Product extends AbstractNode
     protected $productImages;
 
     /**
+     * @var array
+     */
+    protected $productTitles;
+
+    /**
      * @var Registry
      */
     private $coreRegistry;
@@ -55,16 +61,24 @@ class Product extends AbstractNode
      */
     private $mediaUrl;
 
+
+    /**
+     * @var PricingHelper
+     */
+    private $priceHelper;
+
     public function __construct(
         Context $context,
         Registry $coreRegistry,
         ModelProduct $productModel,
         TemplateResolver $templateResolver,
+        PricingHelper $priceHelper,
         array $data = []
     ) {
         parent::__construct($context, $templateResolver, $data);
         $this->coreRegistry = $coreRegistry;
         $this->productModel = $productModel;
+        $this->priceHelper = $priceHelper;
     }
 
     /**
@@ -96,7 +110,8 @@ class Product extends AbstractNode
             $this->nodes,
             $this->productUrls,
             $this->productPrices,
-            $this->productImages
+            $this->productImages,
+            $this->productTitles
         ) = $this->productModel->fetchData($nodes, $storeId);
     }
 
@@ -224,5 +239,25 @@ HTML;
     public function getLabel()
     {
         return __("Product");
+    }
+
+    /**
+     * @param int $nodeId
+     * @return false|string
+     * @throws \InvalidArgumentException
+     */
+    public function getProductTitle($nodeId)
+    {
+        return $this->getProductData($this->productTitles, $nodeId);
+    }
+
+    /**
+     * @param float $amount
+     * @return string
+     * @throws \InvalidArgumentException
+     */
+    public function getFormattedProductPrice($nodeId)
+    {
+        return $this->priceHelper->currency($this->getProductPrice($nodeId), true, false);
     }
 }
