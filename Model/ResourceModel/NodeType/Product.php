@@ -105,25 +105,16 @@ class Product extends AbstractNode
      */
     public function fetchTitleData($storeId = Store::DEFAULT_STORE_ID, $productIds = [])
     {
-        $metadata = $this->metadataPool->getMetadata(ProductInterface::class);
-        $identifierField = $metadata->getIdentifierField();
+        $collection = $this->productCollection->create();
+        $collection->addAttributeToSelect(['name'])
+                   ->addFieldToFilter('entity_id', ['in' => $productIds])
+                   ->addStoreFilter($storeId);
 
-        $connection = $this->getConnection('read');
-        $select = $connection
-            ->select()
-            ->from(
-                ['p' => $this->getTable('catalog_product_entity_varchar')],
-                [$identifierField, 'value']
-            )
-            ->joinLeft(
-                ['e' => $this->getTable('eav_attribute')],
-                'e.attribute_id = p.attribute_id',
-                []
-            )
-            ->where('p.store_id = ?', $storeId)
-            ->where("p.' . $identifierField . ' IN (?)", $productIds)
-            ->where('e.attribute_code = ?', 'name');
+        $titleData = [];
+        foreach ($collection->getData() as $data) {
+            $titleData[$data['entity_id']] = $data['name'] ?? '';
+        }
 
-        return $connection->fetchPairs($select);
+        return $titleData;
     }
 }

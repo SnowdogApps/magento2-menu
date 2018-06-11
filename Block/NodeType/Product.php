@@ -61,7 +61,6 @@ class Product extends AbstractNode
      */
     private $mediaUrl;
 
-
     /**
      * @var PricingHelper
      */
@@ -244,7 +243,6 @@ HTML;
     /**
      * @param int $nodeId
      * @return false|string
-     * @throws \InvalidArgumentException
      */
     public function getProductTitle($nodeId)
     {
@@ -252,12 +250,13 @@ HTML;
     }
 
     /**
-     * @param float $amount
-     * @return string
-     * @throws \InvalidArgumentException
+     * @param int $nodeId
+     * @return float|string
      */
     public function getFormattedProductPrice($nodeId)
     {
-        return $this->priceHelper->currency($this->getProductPrice($nodeId), true, false);
+        $productPrice = $this->getProductPrice($nodeId);
+
+        return $this->priceHelper->currency($productPrice, true, false);
     }
 }

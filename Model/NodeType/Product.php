@@ -71,6 +71,12 @@ class Product extends AbstractNode
         $productTitles = $resource->fetchTitleData($storeId, $productIds);
         $this->profiler->stop(__METHOD__);
 
-        return [$localNodes, $productUrls, $productPrices, $productImages, $productTitles];
+        return [
+            $localNodes,
+            $productUrls,
+            $productPrices,
+            $productImages,
+            $productTitles
+        ];
     }
 }
