@@ -107,8 +107,8 @@ class Product extends AbstractNode
     {
         $collection = $this->productCollection->create();
         $collection->addAttributeToSelect(['name'])
-                   ->addFieldToFilter('entity_id', ['in' => $productIds])
-                   ->addStoreFilter($storeId);
+            ->addFieldToFilter('entity_id', ['in' => $productIds])
+            ->addStoreFilter($storeId);
 
         $titleData = [];
         foreach ($collection->getData() as $data) {
