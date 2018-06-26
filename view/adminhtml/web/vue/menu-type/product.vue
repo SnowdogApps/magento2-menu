@@ -1,7 +1,7 @@
 <template>
     <div class="admin__field field">
         <simple-field
-            :label="config.translation.productId"
+            :label="config.translation.productSku"
             id="snowmenu_node_product"
             type="textarea"
             v-model="item.content"
