@@ -5,6 +5,7 @@ namespace Snowdog\Menu\Model\ResourceModel\NodeType;
 use Magento\Store\Model\Store;
 use Magento\Framework\App\ResourceConnection;
 use Magento\Catalog\Model\ResourceModel\Product\CollectionFactory;
+use Magento\Framework\EntityManager\MetadataPool;
 
 class Product extends AbstractNode
 {
@@ -13,11 +14,18 @@ class Product extends AbstractNode
      */
     private $productCollection;
 
+    /**
+     * @var MetadataPool
+     */
+    private $metadataPool;
+
     public function __construct(
         ResourceConnection $resource,
-        CollectionFactory $productCollection
+        CollectionFactory $productCollection,
+        MetadataPool $metadataPool
     ) {
         $this->productCollection = $productCollection;
+        $this->metadataPool = $metadataPool;
         parent::__construct($resource);
     }
 
@@ -88,5 +96,25 @@ class Product extends AbstractNode
     public function fetchConfigData()
     {
         return [];
+    }
+
+    /**
+     * @param int $storeId
+     * @param array $productIds
+     * @return array
+     */
+    public function fetchTitleData($storeId = Store::DEFAULT_STORE_ID, $productIds = [])
+    {
+        $collection = $this->productCollection->create();
+        $collection->addAttributeToSelect(['name'])
+            ->addFieldToFilter('entity_id', ['in' => $productIds])
+            ->addStoreFilter($storeId);
+
+        $titleData = [];
+        foreach ($collection->getData() as $data) {
+            $titleData[$data['entity_id']] = $data['name'] ?? '';
+        }
+
+        return $titleData;
     }
 }
