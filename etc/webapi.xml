@@ -7,7 +7,7 @@
         </resources>
     </route>
     <route url="/V1/nodes" method="POST">
-        <service class="Snowdog\Menu\Api\NodeRepositoryInterface" method="getByMenu"/>
+        <service class="Snowdog\Menu\Api\NodeRepositoryInterface" method="getByMenuId"/>
         <resources>
             <resource ref="Snowdog_Menu::menus"/>
         </resources>

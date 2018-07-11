@@ -13,7 +13,7 @@ interface MenuRepositoryInterface
     public function save(MenuInterface $page);
 
     /**
-     * @param $id
+     * @param int $id
      * @return \Snowdog\Menu\Model\Menu
      */
     public function getById($id);

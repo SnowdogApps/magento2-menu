@@ -15,7 +15,7 @@ class Node extends AbstractModel implements NodeInterface, IdentityInterface
     }
 
     /**
-     * @return array|string[]
+     * @inheritdoc
      */
     public function getIdentities()
     {
@@ -23,9 +23,7 @@ class Node extends AbstractModel implements NodeInterface, IdentityInterface
     }
 
     /**
-     * Get node id
-     *
-     * @return int
+     * @inheritdoc
      */
     public function getNodeId()
     {
@@ -33,10 +31,7 @@ class Node extends AbstractModel implements NodeInterface, IdentityInterface
     }
 
     /**
-     * Set node id
-     *
-     * @param int $nodeId
-     * @return $this
+     * @inheritdoc
      */
     public function setNodeId($nodeId)
     {
@@ -44,9 +39,7 @@ class Node extends AbstractModel implements NodeInterface, IdentityInterface
     }
 
     /**
-     * Get menu id
-     *
-     * @return int
+     * @inheritdoc
      */
     public function getMenuId()
     {
@@ -54,10 +47,7 @@ class Node extends AbstractModel implements NodeInterface, IdentityInterface
     }
 
     /**
-     * Set menu id
-     *
-     * @param int $menuId
-     * @return $this
+     * @inheritdoc
      */
     public function setMenuId($menuId)
     {
@@ -65,9 +55,7 @@ class Node extends AbstractModel implements NodeInterface, IdentityInterface
     }
 
     /**
-     * Get type
-     *
-     * @return string
+     * @inheritdoc
      */
     public function getType()
     {
@@ -75,10 +63,7 @@ class Node extends AbstractModel implements NodeInterface, IdentityInterface
     }
 
     /**
-     * Set type
-     *
-     * @param string $type
-     * @return $this
+     * @inheritdoc
      */
     public function setType($type)
     {
@@ -86,9 +71,7 @@ class Node extends AbstractModel implements NodeInterface, IdentityInterface
     }
 
     /**
-     * Get content
-     *
-     * @return string
+     * @inheritdoc
      */
     public function getContent()
     {
@@ -96,10 +79,7 @@ class Node extends AbstractModel implements NodeInterface, IdentityInterface
     }
 
     /**
-     * Set content
-     *
-     * @param string $content
-     * @return $this
+     * @inheritdoc
      */
     public function setContent($content)
     {
@@ -107,9 +87,7 @@ class Node extends AbstractModel implements NodeInterface, IdentityInterface
     }
 
     /**
-     * Get classes
-     *
-     * @return string
+     * @inheritdoc
      */
     public function getClasses()
     {
@@ -117,10 +95,7 @@ class Node extends AbstractModel implements NodeInterface, IdentityInterface
     }
 
     /**
-     * Set classes
-     *
-     * @param string $classes
-     * @return $this
+     * @inheritdoc
      */
     public function setClasses($classes)
     {
@@ -128,9 +103,7 @@ class Node extends AbstractModel implements NodeInterface, IdentityInterface
     }
 
     /**
-     * Get parent id
-     *
-     * @return int
+     * @inheritdoc
      */
     public function getParentId()
     {
@@ -138,10 +111,7 @@ class Node extends AbstractModel implements NodeInterface, IdentityInterface
     }
 
     /**
-     * Set parent id
-     *
-     * @param int $parentId
-     * @return $this
+     * @inheritdoc
      */
     public function setParentId($parentId)
     {
@@ -149,9 +119,7 @@ class Node extends AbstractModel implements NodeInterface, IdentityInterface
     }
 
     /**
-     * Get position
-     *
-     * @return int
+     * @inheritdoc
      */
     public function getPosition()
     {
@@ -159,10 +127,7 @@ class Node extends AbstractModel implements NodeInterface, IdentityInterface
     }
 
     /**
-     * Set position
-     *
-     * @param int $position
-     * @return $this
+     * @inheritdoc
      */
     public function setPosition($position)
     {
@@ -170,9 +135,7 @@ class Node extends AbstractModel implements NodeInterface, IdentityInterface
     }
 
     /**
-     * Get level
-     *
-     * @return int
+     * @inheritdoc
      */
     public function getLevel()
     {
@@ -180,10 +143,7 @@ class Node extends AbstractModel implements NodeInterface, IdentityInterface
     }
 
     /**
-     * Set level
-     *
-     * @param int $level
-     * @return $this
+     * @inheritdoc
      */
     public function setLevel($level)
     {
@@ -191,9 +151,7 @@ class Node extends AbstractModel implements NodeInterface, IdentityInterface
     }
 
     /**
-     * Get title
-     *
-     * @return string
+     * @inheritdoc
      */
     public function getTitle()
     {
@@ -201,10 +159,7 @@ class Node extends AbstractModel implements NodeInterface, IdentityInterface
     }
 
     /**
-     * Set title
-     *
-     * @param string $title
-     * @return $this
+     * @inheritdoc
      */
     public function setTitle($title)
     {
@@ -212,9 +167,7 @@ class Node extends AbstractModel implements NodeInterface, IdentityInterface
     }
 
     /**
-     * Get target
-     *
-     * @return int
+     * @inheritdoc
      */
     public function getTarget()
     {
@@ -222,10 +175,7 @@ class Node extends AbstractModel implements NodeInterface, IdentityInterface
     }
 
     /**
-     * Set target
-     *
-     * @param int $target
-     * @return $this
+     * @inheritdoc
      */
     public function setTarget($target)
     {
@@ -233,9 +183,7 @@ class Node extends AbstractModel implements NodeInterface, IdentityInterface
     }
 
     /**
-     * Get creation time
-     *
-     * @return string
+     * @inheritdoc
      */
     public function getCreationTime()
     {
@@ -243,10 +191,7 @@ class Node extends AbstractModel implements NodeInterface, IdentityInterface
     }
 
     /**
-     * Set creation time
-     *
-     * @param string $creationTime
-     * @return $this
+     * @inheritdoc
      */
     public function setCreationTime($creationTime)
     {
@@ -254,9 +199,7 @@ class Node extends AbstractModel implements NodeInterface, IdentityInterface
     }
 
     /**
-     * Get update time
-     *
-     * @return string
+     * @inheritdoc
      */
     public function getUpdateTime()
     {
@@ -264,10 +207,7 @@ class Node extends AbstractModel implements NodeInterface, IdentityInterface
     }
 
     /**
-     * Set updated time
-     *
-     * @param string $updateTime
-     * @return $this
+     * @inheritdoc
      */
     public function setUpdateTime($updateTime)
     {
@@ -275,9 +215,7 @@ class Node extends AbstractModel implements NodeInterface, IdentityInterface
     }
 
     /**
-     * Get is active
-     *
-     * @return int
+     * @inheritdoc
      */
     public function getIsActive()
     {
@@ -285,10 +223,7 @@ class Node extends AbstractModel implements NodeInterface, IdentityInterface
     }
 
     /**
-     * Set is active
-     *
-     * @param int $isActive
-     * @return $this
+     * @inheritdoc
      */
     public function setIsActive($isActive)
     {

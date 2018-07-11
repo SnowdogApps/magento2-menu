@@ -47,9 +47,7 @@ class Menu extends AbstractModel implements MenuInterface, IdentityInterface
     }
 
     /**
-     * Gets menu id.
-     *
-     * @return int|null
+     * @inheritdoc
      */
     public function getMenuId()
     {
@@ -57,10 +55,7 @@ class Menu extends AbstractModel implements MenuInterface, IdentityInterface
     }
 
     /**
-     * Set menu id
-     *
-     * @param int $menuId
-     * @return $this
+     * @inheritdoc
      */
     public function setMenuId($menuId)
     {
@@ -68,9 +63,7 @@ class Menu extends AbstractModel implements MenuInterface, IdentityInterface
     }
 
     /**
-     * Get title
-     *
-     * @return string
+     * @inheritdoc
      */
     public function getTitle()
     {
@@ -78,10 +71,7 @@ class Menu extends AbstractModel implements MenuInterface, IdentityInterface
     }
 
     /**
-     * Set title
-     *
-     * @param string $title
-     * @return $this
+     * @inheritdoc
      */
     public function setTitle($title)
     {
@@ -89,9 +79,7 @@ class Menu extends AbstractModel implements MenuInterface, IdentityInterface
     }
 
     /**
-     * Get identifier
-     *
-     * @return string
+     * @inheritdoc
      */
     public function getIdentifier()
     {
@@ -99,10 +87,7 @@ class Menu extends AbstractModel implements MenuInterface, IdentityInterface
     }
 
     /**
-     * Set identifier
-     *
-     * @param string $identifier
-     * @return $this
+     * @inheritdoc
      */
     public function setIdentifier($identifier)
     {
@@ -110,9 +95,7 @@ class Menu extends AbstractModel implements MenuInterface, IdentityInterface
     }
 
     /**
-     * Get creation time
-     *
-     * @return string
+     * @inheritdoc
      */
     public function getCreationTime()
     {
@@ -120,10 +103,7 @@ class Menu extends AbstractModel implements MenuInterface, IdentityInterface
     }
 
     /**
-     * Set css class
-     *
-     * @param string $cssClass
-     * @return $this
+     * @inheritdoc
      */
     public function setCssClass($cssClass)
     {
@@ -131,9 +111,7 @@ class Menu extends AbstractModel implements MenuInterface, IdentityInterface
     }
 
     /**
-     * Get css class
-     *
-     * @return string
+     * @inheritdoc
      */
     public function getCssClass()
     {
@@ -141,10 +119,7 @@ class Menu extends AbstractModel implements MenuInterface, IdentityInterface
     }
 
     /**
-     * Set creation time
-     *
-     * @param string $creationTime
-     * @return $this
+     * @inheritdoc
      */
     public function setCreationTime($creationTime)
     {
@@ -152,9 +127,7 @@ class Menu extends AbstractModel implements MenuInterface, IdentityInterface
     }
 
     /**
-     * Get update time
-     *
-     * @return string
+     * @inheritdoc
      */
     public function getUpdateTime()
     {
@@ -162,10 +135,7 @@ class Menu extends AbstractModel implements MenuInterface, IdentityInterface
     }
 
     /**
-     * Set update time
-     *
-     * @param string $updateTime
-     * @return $this
+     * @inheritdoc
      */
     public function setUpdateTime($updateTime)
     {
@@ -173,9 +143,7 @@ class Menu extends AbstractModel implements MenuInterface, IdentityInterface
     }
 
     /**
-     * Get is active
-     *
-     * @return int
+     * @inheritdoc
      */
     public function getIsActive()
     {
@@ -183,10 +151,7 @@ class Menu extends AbstractModel implements MenuInterface, IdentityInterface
     }
 
     /**
-     * Set is active
-     *
-     * @param int $isActive
-     * @return $this
+     * @inheritdoc
      */
     public function setIsActive($isActive)
     {

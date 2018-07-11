@@ -389,7 +389,7 @@ class Menu extends Template implements DataObject\IdentityInterface
 
     private function fetchData()
     {
-        $nodes = $this->nodeRepository->getByMenu($this->loadMenu()->getId());
+        $nodes = $this->nodeRepository->getByMenuId($this->loadMenu()->getId());
         $result = [];
         $types = [];
         foreach ($nodes as $node) {
