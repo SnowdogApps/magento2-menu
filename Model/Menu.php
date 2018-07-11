@@ -45,4 +45,151 @@ class Menu extends AbstractModel implements MenuInterface, IdentityInterface
         }
         $connection->commit();
     }
+
+    /**
+     * Gets menu id.
+     *
+     * @return int|null
+     */
+    public function getMenuId()
+    {
+        return $this->_getData(MenuInterface::MENU_ID);
+    }
+
+    /**
+     * Set menu id
+     *
+     * @param int $menuId
+     * @return $this
+     */
+    public function setMenuId($menuId)
+    {
+        return $this->setData(MenuInterface::MENU_ID, $menuId);
+    }
+
+    /**
+     * Get title
+     *
+     * @return string
+     */
+    public function getTitle()
+    {
+        return $this->_getData(MenuInterface::TITLE);
+    }
+
+    /**
+     * Set title
+     *
+     * @param string $title
+     * @return $this
+     */
+    public function setTitle($title)
+    {
+        return $this->setData(MenuInterface::TITLE, $title);
+    }
+
+    /**
+     * Get identifier
+     *
+     * @return string
+     */
+    public function getIdentifier()
+    {
+        return $this->_getData(MenuInterface::IDENTIFIER);
+    }
+
+    /**
+     * Set identifier
+     *
+     * @param string $identifier
+     * @return $this
+     */
+    public function setIdentifier($identifier)
+    {
+        return $this->setData(MenuInterface::IDENTIFIER, $identifier);
+    }
+
+    /**
+     * Get creation time
+     *
+     * @return string
+     */
+    public function getCreationTime()
+    {
+        return $this->_getData(MenuInterface::CREATION_TIME);
+    }
+
+    /**
+     * Set css class
+     *
+     * @param string $cssClass
+     * @return $this
+     */
+    public function setCssClass($cssClass)
+    {
+        return $this->setData(MenuInterface::CSS_CLASS, $cssClass);
+    }
+
+    /**
+     * Get css class
+     *
+     * @return string
+     */
+    public function getCssClass()
+    {
+        return $this->_getData(MenuInterface::CSS_CLASS);
+    }
+
+    /**
+     * Set creation time
+     *
+     * @param string $creationTime
+     * @return $this
+     */
+    public function setCreationTime($creationTime)
+    {
+        return $this->setData(MenuInterface::CREATION_TIME, $creationTime);
+    }
+
+    /**
+     * Get update time
+     *
+     * @return string
+     */
+    public function getUpdateTime()
+    {
+        return $this->_getData(MenuInterface::UPDATE_TIME);
+    }
+
+    /**
+     * Set update time
+     *
+     * @param string $updateTime
+     * @return $this
+     */
+    public function setUpdateTime($updateTime)
+    {
+        return $this->setData(MenuInterface::UPDATE_TIME, $updateTime);
+    }
+
+    /**
+     * Get is active
+     *
+     * @return int
+     */
+    public function getIsActive()
+    {
+        return $this->_getData(MenuInterface::IS_ACTIVE);
+    }
+
+    /**
+     * Set is active
+     *
+     * @param int $isActive
+     * @return $this
+     */
+    public function setIsActive($isActive)
+    {
+        return $this->setData(MenuInterface::IS_ACTIVE, $isActive);
+    }
 }

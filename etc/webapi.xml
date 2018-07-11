@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<routes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Webapi:etc/webapi.xsd">
+    <route url="/V1/menus" method="POST">
+        <service class="Snowdog\Menu\Api\MenuRepositoryInterface" method="getList"/>
+        <resources>
+            <resource ref="Snowdog_Menu::menus"/>
+        </resources>
+    </route>
+    <route url="/V1/nodes" method="POST">
+        <service class="Snowdog\Menu\Api\NodeRepositoryInterface" method="getByMenu"/>
+        <resources>
+            <resource ref="Snowdog_Menu::menus"/>
+        </resources>
+    </route>
+</routes>
