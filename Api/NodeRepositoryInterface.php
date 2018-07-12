@@ -43,5 +43,5 @@ interface NodeRepositoryInterface
      * @param int $menuId
      * @return \Snowdog\Menu\Api\Data\NodeInterface[]
      */
-    public function getByMenuId($menuId);
+    public function getByMenu($menuId);
 }

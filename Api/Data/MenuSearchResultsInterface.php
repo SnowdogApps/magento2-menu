@@ -9,7 +9,7 @@ use Magento\Framework\Api\SearchResultsInterface;
  *
  * @api
  */
-interface SearchItemResultsInterface extends SearchResultsInterface
+interface MenuSearchResultsInterface extends SearchResultsInterface
 {
     /**
      * Get pages list.

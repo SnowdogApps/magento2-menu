@@ -23,7 +23,7 @@ interface MenuRepositoryInterface
      *
      * @api
      * @param \Magento\Framework\Api\SearchCriteriaInterface $criteria
-     * @return \Snowdog\Menu\Api\Data\SearchItemResultsInterface|string
+     * @return \Snowdog\Menu\Api\Data\MenuSearchResultsInterface|string
      */
     public function getList(SearchCriteriaInterface $criteria);
 

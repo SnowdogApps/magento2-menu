@@ -101,7 +101,7 @@ class NodeRepository implements NodeRepositoryInterface
         return $searchResults;
     }
 
-    public function getByMenuId($menuId)
+    public function getByMenu($menuId)
     {
         $collection = $this->collectionFactory->create();
         $collection->addFilter('menu_id', $menuId);
