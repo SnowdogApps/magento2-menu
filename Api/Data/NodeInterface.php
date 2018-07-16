@@ -180,7 +180,7 @@ interface NodeInterface
     /**
      * Set creation time
      *
-     * @param string $creationTime
+     * @param string $creationTime format: Y-m-d H:i:s
      * @return $this
      */
     public function setCreationTime($creationTime);
@@ -195,7 +195,7 @@ interface NodeInterface
     /**
      * Set updated time
      *
-     * @param string $updateTime
+     * @param string $updateTime format: Y-m-d H:i:s
      * @return $this
      */
     public function setUpdateTime($updateTime);

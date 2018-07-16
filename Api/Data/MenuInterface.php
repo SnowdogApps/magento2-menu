@@ -84,7 +84,7 @@ interface MenuInterface
     /**
      * Set creation time
      *
-     * @param string $creationTime
+     * @param string $creationTime format: Y-m-d H:i:s
      * @return $this
      */
     public function setCreationTime($creationTime);
@@ -99,7 +99,7 @@ interface MenuInterface
     /**
      * Set update time
      *
-     * @param string $updateTime
+     * @param string $updateTime format: Y-m-d H:i:s
      * @return $this
      */
     public function setUpdateTime($updateTime);
