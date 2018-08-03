@@ -11,7 +11,7 @@ if ($block->getIsViewAllLink()) {
     $classLink = $class . '__inner-link';
 } else {
     $classLink = $block->getIsRoot() ? $class . '__link' : $class . '__inner-link';
-    $title = $block->getTitle();
+    $title = __($block->getTitle());
 
     if ($nodeId) {
         $dataAttribute = ' data-menu="menu-' . $nodeId . '"';
