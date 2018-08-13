@@ -4,26 +4,31 @@ namespace Snowdog\Menu\Model;
 use Snowdog\Menu\Api\MenuRepositoryInterface;
 use Snowdog\Menu\Api\Data\MenuInterface;
 use Snowdog\Menu\Model\ResourceModel\Menu\CollectionFactory;
+use Snowdog\Menu\Api\Data\MenuSearchResultsInterfaceFactory;
 
 use Magento\Framework\Api\SearchCriteriaInterface;
 use Magento\Framework\Exception\CouldNotSaveException;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\Exception\CouldNotDeleteException;
-use Magento\Framework\Api\SearchResultsInterfaceFactory;
 
 class MenuRepository implements MenuRepositoryInterface
 {
     protected $objectFactory;
     protected $collectionFactory;
 
+    /**
+     * @var MenuSearchResultsInterfaceFactory
+     */
+    private $menuSearchResultsFactory;
+
     public function __construct(
         MenuFactory $objectFactory,
         CollectionFactory $collectionFactory,
-        SearchResultsInterfaceFactory $searchResultsFactory
+        MenuSearchResultsInterfaceFactory $menuSearchResults
     ) {
         $this->objectFactory = $objectFactory;
         $this->collectionFactory = $collectionFactory;
-        $this->searchResultsFactory = $searchResultsFactory;
+        $this->menuSearchResultsFactory = $menuSearchResults;
     }
 
     public function save(MenuInterface $object)
@@ -61,9 +66,12 @@ class MenuRepository implements MenuRepositoryInterface
         return $this->delete($this->getById($id));
     }
 
+    /**
+     * @inheritdoc
+     */
     public function getList(SearchCriteriaInterface $criteria)
     {
-        $searchResults = $this->searchResultsFactory->create();
+        $searchResults = $this->menuSearchResultsFactory->create();
         $searchResults->setSearchCriteria($criteria);
         $collection = $this->collectionFactory->create();
         foreach ($criteria->getFilterGroups() as $filterGroup) {
@@ -96,6 +104,7 @@ class MenuRepository implements MenuRepositoryInterface
             $objects[] = $objectModel;
         }
         $searchResults->setItems($objects);
+
         return $searchResults;
     }
 

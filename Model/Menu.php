@@ -45,4 +45,116 @@ class Menu extends AbstractModel implements MenuInterface, IdentityInterface
         }
         $connection->commit();
     }
+
+    /**
+     * @inheritdoc
+     */
+    public function getMenuId()
+    {
+        return $this->_getData(MenuInterface::MENU_ID);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function setMenuId($menuId)
+    {
+        return $this->setData(MenuInterface::MENU_ID, $menuId);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getTitle()
+    {
+        return $this->_getData(MenuInterface::TITLE);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function setTitle($title)
+    {
+        return $this->setData(MenuInterface::TITLE, $title);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getIdentifier()
+    {
+        return $this->_getData(MenuInterface::IDENTIFIER);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function setIdentifier($identifier)
+    {
+        return $this->setData(MenuInterface::IDENTIFIER, $identifier);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getCreationTime()
+    {
+        return $this->_getData(MenuInterface::CREATION_TIME);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function setCssClass($cssClass)
+    {
+        return $this->setData(MenuInterface::CSS_CLASS, $cssClass);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getCssClass()
+    {
+        return $this->_getData(MenuInterface::CSS_CLASS);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function setCreationTime($creationTime)
+    {
+        return $this->setData(MenuInterface::CREATION_TIME, $creationTime);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getUpdateTime()
+    {
+        return $this->_getData(MenuInterface::UPDATE_TIME);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function setUpdateTime($updateTime)
+    {
+        return $this->setData(MenuInterface::UPDATE_TIME, $updateTime);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getIsActive()
+    {
+        return $this->_getData(MenuInterface::IS_ACTIVE);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function setIsActive($isActive)
+    {
+        return $this->setData(MenuInterface::IS_ACTIVE, $isActive);
+    }
 }
