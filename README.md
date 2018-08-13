@@ -54,3 +54,8 @@ Newly created block with additional method should be added via `di.xml` defining
     </type>
 </config>
 ```
+
+## Available endpoints: 
+   
+ * `/rest/V1/menus`: retrieves available menus
+ * `/rest/V1/nodes`: retrieves nodes by menuId
