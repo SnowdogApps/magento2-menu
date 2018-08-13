@@ -37,8 +37,8 @@ Snowdog_Menu
 To add new type node you have to add new backend block that also implements `\Snowdog\Menu\Api\NodeTypeInterface`.
 
 Backend block will be directly injected into menu editor.
-Note that only one instance of block will be rendered and you should handle showing and hiding of this block in javascript depending on selected type of node.
-(See `view/adminhtml/web/js/category.js` and `view/adminhtml/templates/menu/node_type/category.phtml` for reference)
+Menu editor is using Vue.js so you need to create a new vue component that has node type code as name in `view/adminhtml/web/vue/menu-type` and load it in `view/adminhtml/templates/menu/nodes.phtml`
+(See `view/adminhtml/web/vue/menu-type/category.vue` for reference)
 
 Newly created block with additional method should be added via `di.xml` defining block instance and node type code (code will be stored in database).
 
