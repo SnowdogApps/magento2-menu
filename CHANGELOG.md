@@ -9,7 +9,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 - Add api endpoints
 
-
 ## [2.6.0] - 2018-07-2
 ### Added
 - Product title method
