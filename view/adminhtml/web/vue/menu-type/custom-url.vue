@@ -19,8 +19,8 @@
                     class="checkbox"
                     type="checkbox"
                     id="snowmenu_custom_target"
-                    true-value="_blank"
-                    false-value="_self"
+                    true-value="1"
+                    false-value="0"
                     v-model="item.target"
                 />
             </div>
