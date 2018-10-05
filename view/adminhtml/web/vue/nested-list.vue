@@ -60,11 +60,13 @@
                     :external-sources="true"
                 >
                     <template v-if="editItem">
-                        <snowdog-menu-type
-                            :item.sync="item"
-                            :config="config"
-                        >
-                        </snowdog-menu-type>
+                        <vddl-nodrag>
+                            <snowdog-menu-type
+                                :item.sync="item"
+                                :config="config"
+                            >
+                            </snowdog-menu-type>
+                        </vddl-nodrag>
                     </template>
                     <template v-if="item.columns.length > 0">
                         <list
