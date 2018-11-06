@@ -5,6 +5,11 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+## [2.8.0] - 2018-11-06
+- Fix true/false values for saved target checkbox
+- Fix drag and drop behaviour for edited menu
+- Preliminary support for Magento 2.3
+
 ## [2.7.0] - 2018-08-13
 ### Added
 - Add api endpoints
