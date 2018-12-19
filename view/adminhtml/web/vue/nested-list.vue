@@ -57,6 +57,7 @@
                 <vddl-list
                     class="panel__body"
                     :list="item.columns"
+                    :drop="drop"
                     :external-sources="true"
                 >
                     <template v-if="editItem">
@@ -79,6 +80,7 @@
                             :selected-item="selectedItem"
                             :delete="deleteEvent"
                             :append="append"
+                            :drop="drop"
                             :config="config"
                         >
                         </list>
@@ -115,6 +117,7 @@ define(["Vue"], function(Vue) {
             'selectedItem',
             'delete',
             'append',
+            'drop',
             'config'
         ],
         data: function() {
