@@ -20,6 +20,7 @@
                 :list="list"
                 effect-allowed="move"
                 :external-sources="true"
+                :drop="handleDrop"
                 :config="config"
             >
                 <template v-if="list.length > 0">
@@ -33,6 +34,7 @@
                         :selected-item="selectedItem"
                         :delete="removeNode"
                         :append="addNode"
+                        :drop="handleDrop"
                         :config="config"
                     >
                     </snowdog-nested-list>
@@ -85,6 +87,10 @@ define(["Vue"], function(Vue) {
                     "content": null,
                     "columns": []
                 });
+            },
+            handleDrop(data) {
+                data.item.id = new Date().getTime();
+                data.list.splice(data.index, 0, data.item);
             }
         },
         computed: {
