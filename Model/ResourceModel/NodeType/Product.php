@@ -78,7 +78,7 @@ class Product extends AbstractNode
     public function fetchImageData($storeId, $productIds = [])
     {
         $collection = $this->productCollection->create();
-        $collection->addAttributeToSelect(['thumbnail'])
+        $collection->addAttributeToSelect(['thumbnail'], 'left')
             ->addFieldToFilter('entity_id', ['in' => $productIds])
             ->addStoreFilter($storeId);
 
