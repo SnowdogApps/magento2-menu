@@ -4,12 +4,22 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+## [2.8.2] - 2019-02-12
+### Fixed
+- Product node images fixed - #73 #74
+
 ## [2.8.1] - 2018-12-19
+### Fixed
 - Fix menu item border style and duplicated item key on menu drop
 
 ## [2.8.0] - 2018-11-06
+### Fixed
 - Fix true/false values for saved target checkbox
 - Fix drag and drop behaviour for edited menu
+
+### Added
 - Preliminary support for Magento 2.3
 
 ## [2.7.0] - 2018-08-13
