@@ -9,7 +9,7 @@
         :wrapper="list"
         v-bind:class="{'selected': selectedItem === item}"
     >
-        <div class="panel padding">
+        <div :class="['panel padding', !collapsed && 'panel--open']">
             <div class="panel__heading">
                 <div
                     :class="[
