@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [2.8.3] - 2019-02-17
+### Fixed
+- Disable overflow for opened panel - #78 #79
+
 ## [2.8.2] - 2019-02-12
 ### Fixed
 - Product node images fixed - #73 #74
