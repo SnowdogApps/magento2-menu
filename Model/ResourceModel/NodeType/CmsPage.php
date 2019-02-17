@@ -15,6 +15,7 @@ use Magento\Cms\Api\PageRepositoryInterface;
 use Magento\Framework\Api\SearchCriteriaBuilder;
 use Magento\Framework\App\ResourceConnection;
 use Magento\Framework\EntityManager\MetadataPool;
+use Magento\Framework\Exception\LocalizedException;
 use Magento\Store\Model\Store;
 
 class CmsPage extends AbstractNode
@@ -71,7 +72,7 @@ class CmsPage extends AbstractNode
      * @param int $storeId
      * @param array $pageIds
      * @return array
-     * @throws \Magento\Framework\Exception\LocalizedException
+     * @throws LocalizedException
      */
     public function fetchData($storeId = Store::DEFAULT_STORE_ID, $pageIds = [])
     {
@@ -88,11 +89,11 @@ class CmsPage extends AbstractNode
         $urlsBasedOnRewrites = $connection->fetchPairs($select);
 
         $additionalPageUrls = [];
-        $pageIdsWithMissingUrl =array_diff_key($pageIds, array_flip($urlsBasedOnRewrites));
+        $pageIdsWithMissingUrl = array_diff_key($pageIds, array_flip($urlsBasedOnRewrites));
 
         $searchCriteria = $this->searchCriteriaBuilder
             ->addFilter('page_id', $pageIdsWithMissingUrl, 'in')
-            ->addFilter('store_id', [ $storeId, Store::DEFAULT_STORE_ID ], 'in')
+            ->addFilter('store_id', [$storeId, Store::DEFAULT_STORE_ID], 'in')
             ->create();
 
         $pages = $this->pageRepository->getList($searchCriteria);
