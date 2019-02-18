@@ -11,8 +11,11 @@
 namespace Snowdog\Menu\Model\ResourceModel\NodeType;
 
 use Magento\Cms\Api\Data\PageInterface;
+use Magento\Cms\Api\PageRepositoryInterface;
+use Magento\Framework\Api\SearchCriteriaBuilder;
 use Magento\Framework\App\ResourceConnection;
 use Magento\Framework\EntityManager\MetadataPool;
+use Magento\Framework\Exception\LocalizedException;
 use Magento\Store\Model\Store;
 
 class CmsPage extends AbstractNode
@@ -23,14 +26,30 @@ class CmsPage extends AbstractNode
     private $metadataPool;
 
     /**
+     * @var PageRepositoryInterface
+     */
+    private $pageRepository;
+
+    /**
+     * @var SearchCriteriaBuilder
+     */
+    private $searchCriteriaBuilder;
+
+    /**
      * @param ResourceConnection $resource
      * @param MetadataPool $metadataPool
+     * @param PageRepositoryInterface $pageRepository
+     * @param SearchCriteriaBuilder $searchCriteriaBuilder
      */
     public function __construct(
         ResourceConnection $resource,
-        MetadataPool $metadataPool
+        MetadataPool $metadataPool,
+        PageRepositoryInterface $pageRepository,
+        SearchCriteriaBuilder $searchCriteriaBuilder
     ) {
         $this->metadataPool = $metadataPool;
+        $this->pageRepository = $pageRepository;
+        $this->searchCriteriaBuilder = $searchCriteriaBuilder;
         parent::__construct($resource);
     }
 
@@ -50,10 +69,10 @@ class CmsPage extends AbstractNode
     }
 
     /**
-     * @param int   $storeId
+     * @param int $storeId
      * @param array $pageIds
-     *
      * @return array
+     * @throws LocalizedException
      */
     public function fetchData($storeId = Store::DEFAULT_STORE_ID, $pageIds = [])
     {
@@ -67,7 +86,23 @@ class CmsPage extends AbstractNode
             ->where('store_id = ?', $storeId)
             ->where('entity_id IN (?)', array_values($pageIds));
 
-        return $connection->fetchPairs($select);
+        $urlsBasedOnRewrites = $connection->fetchPairs($select);
+
+        $additionalPageUrls = [];
+        $pageIdsWithMissingUrl = array_diff_key($pageIds, array_flip($urlsBasedOnRewrites));
+
+        $searchCriteria = $this->searchCriteriaBuilder
+            ->addFilter('page_id', $pageIdsWithMissingUrl, 'in')
+            ->addFilter('store_id', [$storeId, Store::DEFAULT_STORE_ID], 'in')
+            ->create();
+
+        $pages = $this->pageRepository->getList($searchCriteria);
+
+        foreach ($pages->getItems() as $page) {
+            $additionalPageUrls[$page->getId()] = $page->getIdentifier();
+        }
+
+        return $urlsBasedOnRewrites + $additionalPageUrls;
     }
 
     /**
