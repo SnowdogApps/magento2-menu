@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [2.8.4] - 2019-02-18
+### Fixed
+- Missing url when a cms page has no url rewrites - #76
+
 ## [2.8.3] - 2019-02-17
 ### Fixed
 - Disable overflow for opened panel - #78 #79
