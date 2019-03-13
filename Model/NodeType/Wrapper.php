@@ -10,6 +10,6 @@
 
 namespace Snowdog\Menu\Model\NodeType;
 
-class CustomUrl extends AbstractNode
+class Wrapper extends AbstractNode
 {
 }
