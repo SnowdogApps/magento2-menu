@@ -2,7 +2,6 @@
 /**
  * Snowdog
  *
- * @author      Paweł Pisarek <pawel.pisarek@snow.dog>.
  * @category
  * @package
  * @copyright   Copyright Snowdog (http://snow.dog)
