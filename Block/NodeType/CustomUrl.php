@@ -83,9 +83,10 @@ class CustomUrl extends AbstractNode
         $node = $this->nodes[$nodeId];
         $url = $this->_storeManager->getStore()->getBaseUrl() . $node->getContent();
         $title = $node->getTitle();
+        $target = $this->getTarget() == 1 ? 'target="_blank"' : '';
 
         return <<<HTML
-<a href="$url" class="$classes" role="menuitem"><span>$title</span></a>
+<a href="$url" class="$classes" $target role="menuitem"><span>$title</span></a>
 HTML;
     }
 
