@@ -97,6 +97,16 @@ HTML;
     }
 
     /**
+     * @param string $url
+     *
+     * @return bool
+     */
+    public function isExternalUrl(string $url = '')
+    {
+        return filter_var($url, FILTER_VALIDATE_URL);
+    }
+
+    /**
      * @return \Magento\Framework\Phrase
      */
     public function getLabel()
