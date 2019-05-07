@@ -101,7 +101,7 @@ HTML;
      *
      * @return bool
      */
-    public function isExternalUrl(string $url = '')
+    private function isExternalUrl(string $url = '')
     {
         return filter_var($url, FILTER_VALIDATE_URL);
     }
