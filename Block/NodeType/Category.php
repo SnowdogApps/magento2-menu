@@ -6,6 +6,7 @@ use Magento\Framework\View\Element\Template\Context;
 use Magento\Framework\Registry;
 use Snowdog\Menu\Model\TemplateResolver;
 use Snowdog\Menu\Model\NodeType\Category as ModelCategory;
+use Magento\Catalog\Model\CategoryRepository;
 
 class Category extends AbstractNode
 {
@@ -37,12 +38,18 @@ class Category extends AbstractNode
     private $_categoryModel;
 
     /**
+     * @var CategoryRepository
+     */
+    private $categoryRepository;
+
+    /**
      * Category constructor.
      *
      * @param Context $context
      * @param Registry $coreRegistry
      * @param ModelCategory $categoryModel
      * @param TemplateResolver $templateResolver
+     * @param CategoryRepository $categoryRepository
      * @param array $data
      */
     public function __construct(
@@ -50,11 +57,13 @@ class Category extends AbstractNode
         Registry $coreRegistry,
         ModelCategory $categoryModel,
         TemplateResolver $templateResolver,
+        CategoryRepository $categoryRepository,
         array $data = []
     ) {
         parent::__construct($context, $templateResolver, $data);
         $this->coreRegistry = $coreRegistry;
         $this->_categoryModel = $categoryModel;
+        $this->categoryRepository = $categoryRepository;
     }
 
     /**
@@ -148,6 +157,24 @@ class Category extends AbstractNode
         }
 
         return false;
+    }
+
+    /**
+     * @param int $nodeId
+     *
+     * @return CategoryRepository
+     */
+    public function getCategory(int $nodeId)
+    {
+        if (!isset($this->nodes[$nodeId])) {
+            throw new \InvalidArgumentException('Invalid node identifier specified');
+        }
+
+        $storeId = $this->_storeManager->getStore()->getId();
+        $node = $this->nodes[$nodeId];
+        $categoryId = (int) $node->getContent();
+
+        return $this->categoryRepository->get($categoryId, $storeId);
     }
 
     /**
