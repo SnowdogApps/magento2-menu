@@ -1,2 +1,23 @@
 <?php /** @var \Snowdog\Menu\Block\NodeType\CustomUrl $block */ ?>
-<?= $block->getHtml($block->getId(), 0) ?>
+<?php
+$attributes = [];
+$class = $block->getMenuClass();
+if ($block->getIsViewAllLink()) {
+    $title = __('View All');
+    $classLink = $class . '__inner-link';
+} else {
+    $classLink = $block->getIsRoot() ? $class . '__link' : $class . '__inner-link';
+    $title = $block->getTitle();
+    if ($block->getId()) {
+        $attributes[] = 'data-menu="menu-' . $block->getId() . '"';
+    }
+}
+$attributes[] = 'class="' . $classLink . '"';
+
+if ($block->getTarget()) {
+    $attributes[] = 'target="__blank" rel="noopener"';
+}
+?>
+<a href="<?= $block->getContent() ?>" <?= implode(' ', $attributes) ?>>
+    <?= $title ?>
+</a>
