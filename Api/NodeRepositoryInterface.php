@@ -44,4 +44,13 @@ interface NodeRepositoryInterface
      * @return \Snowdog\Menu\Api\Data\NodeInterface[]
      */
     public function getByMenu($menuId);
+
+    /**
+     * Return node by identifier
+     *
+     * @api
+     * @param string $identifier
+     * @return \Snowdog\Menu\Api\Data\NodeInterface[]
+     */
+    public function getByIdentifier($identifier);
 }
