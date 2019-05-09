@@ -13,6 +13,7 @@ namespace Snowdog\Menu\Model\NodeType;
 use Magento\Catalog\Api\Data\CategoryInterface;
 use Magento\Framework\EntityManager\MetadataPool;
 use Magento\Framework\Profiler;
+use Magento\Catalog\Model\CategoryFactory;
 
 class Category extends AbstractNode
 {
@@ -20,6 +21,11 @@ class Category extends AbstractNode
      * @var MetadataPool
      */
     private $metadataPool;
+
+    /**
+     * @var CategoryFactory
+     */
+    protected $categoryFactory;
 
     /**
      * @inheritDoc
@@ -35,12 +41,15 @@ class Category extends AbstractNode
      *
      * @param Profiler $profiler
      * @param MetadataPool $metadataPool
+     * @param CategoryFactory $categoryFactory
      */
     public function __construct(
         Profiler $profiler,
-        MetadataPool $metadataPool
+        MetadataPool $metadataPool,
+        CategoryFactory $categoryFactory
     ) {
         $this->metadataPool = $metadataPool;
+        $this->categoryFactory = $categoryFactory;
         parent::__construct($profiler);
     }
 
@@ -97,16 +106,26 @@ class Category extends AbstractNode
 
         $localNodes = [];
         $categoryIds = [];
+        $categories = [];
 
         foreach ($nodes as $node) {
             $localNodes[$node->getId()] = $node;
-            $categoryIds[] = (int)$node->getContent();
+            $categoryId = (int)$node->getContent();
+            $categoryIds[] = $categoryId;
+            $categories[$categoryId] = $this->getCategory($categoryId);
         }
 
         $categoryUrls = $this->getResource()->fetchData($storeId, $categoryIds);
 
         $this->profiler->stop(__METHOD__);
 
-        return [$localNodes, $categoryUrls];
+        return [$localNodes, $categoryUrls, $categories];
+    }
+
+    public function getCategory($categoryId)
+    {
+        $category = $this->categoryFactory->create();
+        $category->load($categoryId);
+        return $category;
     }
 }
