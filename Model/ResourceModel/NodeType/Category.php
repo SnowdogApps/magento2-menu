@@ -12,6 +12,7 @@ namespace Snowdog\Menu\Model\ResourceModel\NodeType;
 
 use Magento\Catalog\Api\Data\CategoryInterface;
 use Magento\Catalog\Model\Category as CoreCategory;
+use Magento\Catalog\Model\ResourceModel\Category\CollectionFactory;
 use Magento\Framework\App\ResourceConnection;
 use Magento\Framework\EntityManager\MetadataPool;
 use Magento\Store\Model\Store;
@@ -26,12 +27,15 @@ class Category extends AbstractNode
     /**
      * @param ResourceConnection $resource
      * @param MetadataPool $metadataPool
+     * @param CollectionFactory $categoryCollectionFactory
      */
     public function __construct(
         ResourceConnection $resource,
-        MetadataPool $metadataPool
+        MetadataPool $metadataPool,
+        CollectionFactory $categoryCollectionFactory
     ) {
         $this->metadataPool = $metadataPool;
+        $this->categoryCollectionFactory = $categoryCollectionFactory;
         parent::__construct($resource);
     }
 
@@ -89,16 +93,19 @@ class Category extends AbstractNode
      */
     public function fetchData($storeId = Store::DEFAULT_STORE_ID, $categoryIds = [])
     {
-        $connection = $this->getConnection('read');
-        $table = $this->getTable('url_rewrite');
-        $select = $connection
-            ->select()
-            ->from($table, ['entity_id', 'request_path'])
-            ->where('entity_type = ?', 'category')
-            ->where('redirect_type = ?', 0)
-            ->where('store_id = ?', $storeId)
-            ->where('entity_id IN (' . implode(',', $categoryIds) . ')');
+        /* @var \Magento\Catalog\Model\ResourceModel\Category\Collection $categories */
+        $categories = $this->categoryCollectionFactory
+            ->create()
+            ->addAttributeToSelect('*')
+            ->addIdFilter($categoryIds);
 
-        return $connection->fetchPairs($select);
+        $data = [];
+
+        /* @var \Magento\Catalog\Model\Category $category */
+        foreach ($categories as $category) {
+            $data[$category->getId()] = $category;
+        }
+
+        return $data;
     }
 }

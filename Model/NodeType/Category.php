@@ -97,16 +97,19 @@ class Category extends AbstractNode
 
         $localNodes = [];
         $categoryIds = [];
+        $categoryUrls = [];
+        $categories = [];
 
         foreach ($nodes as $node) {
             $localNodes[$node->getId()] = $node;
             $categoryIds[] = (int)$node->getContent();
         }
 
-        $categoryUrls = $this->getResource()->fetchData($storeId, $categoryIds);
+        /* @see \Snowdog\Menu\Model\ResourceModel\NodeType\Category->fetchData() */
+        $categories = $this->getResource()->fetchData($storeId, $categoryIds);
 
         $this->profiler->stop(__METHOD__);
 
-        return [$localNodes, $categoryUrls];
+        return [$localNodes, $categoryUrls, $categories];
     }
 }

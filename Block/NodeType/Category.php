@@ -2,6 +2,7 @@
 
 namespace Snowdog\Menu\Block\NodeType;
 
+use Magento\Catalog\Model\CategoryRepository;
 use Magento\Framework\View\Element\Template\Context;
 use Magento\Framework\Registry;
 use Snowdog\Menu\Model\TemplateResolver;
@@ -27,6 +28,10 @@ class Category extends AbstractNode
      */
     protected $categoryUrls;
     /**
+     * @var array
+     */
+    protected $categories;
+    /**
      * @var Registry
      */
     private $coreRegistry;
@@ -50,11 +55,14 @@ class Category extends AbstractNode
         Registry $coreRegistry,
         ModelCategory $categoryModel,
         TemplateResolver $templateResolver,
+        CategoryRepository $categoryRepository,
         array $data = []
     ) {
         parent::__construct($context, $templateResolver, $data);
         $this->coreRegistry = $coreRegistry;
         $this->_categoryModel = $categoryModel;
+
+        $this->categoryRepository = $categoryRepository;
     }
 
     /**
@@ -102,7 +110,7 @@ class Category extends AbstractNode
     {
         $storeId = $this->_storeManager->getStore()->getId();
 
-        list($this->nodes, $this->categoryUrls) = $this->_categoryModel->fetchData($nodes, $storeId);
+        list($this->nodes, $this->categoryUrls, $this->categories) = $this->_categoryModel->fetchData($nodes, $storeId);
     }
 
     /**
@@ -140,14 +148,11 @@ class Category extends AbstractNode
         $node = $this->nodes[$nodeId];
         $categoryId = (int) $node->getContent();
 
-        if (isset($this->categoryUrls[$categoryId])) {
-            $baseUrl = $this->_storeManager->getStore($storeId)->getBaseUrl();
-            $categoryUrlPath = $this->categoryUrls[$categoryId];
-
-            return $baseUrl . $categoryUrlPath;
+        if (isset($this->categories[$categoryId])) {
+            return $this->categories[$categoryId]->getUrl();
+        } else {
+            return false;
         }
-
-        return false;
     }
 
     /**
@@ -175,5 +180,33 @@ HTML;
     public function getLabel()
     {
         return __("Category");
+    }
+
+    /**
+     * Get the category associated with the menu node.
+     *
+     * @param $nodeId
+     * @param null $storeId
+     * @return \Magento\Catalog\Api\Data\CategoryInterface|mixed
+     */
+    public function getCategory($nodeId, $storeId = null)
+    {
+        if (!isset($this->nodes[$nodeId])) {
+            throw new \InvalidArgumentException("The menu node ($nodeId) does not exist.");
+        }
+
+        /* @var \Snowdog\Menu\Model\Menu\Node $node */
+        $node = $this->nodes[$nodeId];
+
+        $categoryId = (int) $node->getContent();
+
+        if (!isset($this->categories[$categoryId])) {
+            throw new \InvalidArgumentException("Category $categoryId defined for menu node \"{$node->getTitle()}\" ($nodeId) does not exist.");
+        }
+
+        /* @var \Magento\Catalog\Model\Category $category */
+        $category = $this->categories[$categoryId];
+
+        return $category;
     }
 }

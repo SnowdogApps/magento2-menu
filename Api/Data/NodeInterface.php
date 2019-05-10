@@ -10,6 +10,7 @@ interface NodeInterface
     const MENU_ID = 'menu_id';
     const TYPE = 'type';
     const CONTENT = 'content';
+    const ENTITY = 'entity';
     const CLASSES = 'classes';
     const PARENT_ID = 'parent_id';
     const POSITION = 'position';
