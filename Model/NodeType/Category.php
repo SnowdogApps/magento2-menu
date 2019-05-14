@@ -13,7 +13,7 @@ namespace Snowdog\Menu\Model\NodeType;
 use Magento\Catalog\Api\Data\CategoryInterface;
 use Magento\Framework\EntityManager\MetadataPool;
 use Magento\Framework\Profiler;
-use Magento\Catalog\Model\CategoryFactory;
+use Magento\Catalog\Model\ResourceModel\Category\CollectionFactory;
 
 class Category extends AbstractNode
 {
@@ -23,9 +23,9 @@ class Category extends AbstractNode
     private $metadataPool;
 
     /**
-     * @var CategoryFactory
+     * @var CollectionFactory
      */
-    protected $categoryFactory;
+    protected $categoryCollection;
 
     /**
      * @inheritDoc
@@ -41,15 +41,15 @@ class Category extends AbstractNode
      *
      * @param Profiler $profiler
      * @param MetadataPool $metadataPool
-     * @param CategoryFactory $categoryFactory
+     * @param CollectionFactory $categoryCollection
      */
     public function __construct(
         Profiler $profiler,
         MetadataPool $metadataPool,
-        CategoryFactory $categoryFactory
+        CollectionFactory $categoryCollection
     ) {
         $this->metadataPool = $metadataPool;
-        $this->categoryFactory = $categoryFactory;
+        $this->categoryCollection = $categoryCollection;
         parent::__construct($profiler);
     }
 
@@ -106,26 +106,35 @@ class Category extends AbstractNode
 
         $localNodes = [];
         $categoryIds = [];
-        $categories = [];
 
         foreach ($nodes as $node) {
             $localNodes[$node->getId()] = $node;
-            $categoryId = (int)$node->getContent();
-            $categoryIds[] = $categoryId;
-            $categories[$categoryId] = $this->getCategory($categoryId);
+            $categoryIds[] = (int)$node->getContent();
         }
 
         $categoryUrls = $this->getResource()->fetchData($storeId, $categoryIds);
+        $categories = $this->getCategories($storeId, $categoryIds);
 
         $this->profiler->stop(__METHOD__);
 
         return [$localNodes, $categoryUrls, $categories];
     }
 
-    public function getCategory($categoryId)
+    public function getCategories($storeId, $categoryIds)
     {
-        $category = $this->categoryFactory->create();
-        $category->load($categoryId);
-        return $category;
+        $return = [];
+        $categories = $this->categoryCollection->create()
+            ->addAttributeToSelect('*')
+            ->setStore($storeId)
+            ->addFieldToFilter(
+                'entity_id',
+                ['in' => $categoryIds]
+            );
+
+        foreach ($categories as $category) {
+            $return[$category->getId()] = $category;
+        }
+
+        return $return;
     }
 }
