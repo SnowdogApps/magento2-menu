@@ -37,7 +37,7 @@ class Category extends AbstractNode
     /**
      * @var array
      */
-    protected $categories;
+    private $categories;
 
     /**
      * Category constructor.
