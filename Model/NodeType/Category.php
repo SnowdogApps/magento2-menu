@@ -25,7 +25,7 @@ class Category extends AbstractNode
     /**
      * @var CollectionFactory
      */
-    protected $categoryCollection;
+    private $categoryCollection;
 
     /**
      * @inheritDoc
@@ -120,7 +120,12 @@ class Category extends AbstractNode
         return [$localNodes, $categoryUrls, $categories];
     }
 
-    public function getCategories($storeId, $categoryIds)
+    /**
+     * @param int $storeId
+     * @param array $categoryIds
+     * @return array
+     */
+    public function getCategories($storeId, array $categoryIds)
     {
         $return = [];
         $categories = $this->categoryCollection->create()
