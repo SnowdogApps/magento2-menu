@@ -39,21 +39,10 @@ abstract class AbstractNode implements NodeTypeInterface
      */
     public function __construct(
         \Magento\Framework\Profiler $profiler
-    )
-    {
+    ) {
         $this->_construct();
         $this->profiler = $profiler;
     }
-
-    /**
-     * @inheritDoc
-     */
-    public abstract function fetchData(array $nodes, $storeId);
-
-    /**
-     * @inheritDoc
-     */
-    public abstract function fetchConfigData();
 
     /**
      * Model construct that should be used for object initialization
@@ -65,11 +54,37 @@ abstract class AbstractNode implements NodeTypeInterface
     }
 
     /**
+     * @inheritDoc
+     */
+    public function fetchConfigData()
+    {
+        return [];
+    }
+
+    /**
      * @return string
      */
     public function getResourceName()
     {
         return $this->_resourceName;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function fetchData(array $nodes, $storeId)
+    {
+        $this->profiler->start(__METHOD__);
+
+        $localNodes = [];
+
+        foreach ($nodes as $node) {
+            $localNodes[$node->getId()] = $node;
+        }
+
+        $this->profiler->stop(__METHOD__);
+
+        return $localNodes;
     }
 
     /**
