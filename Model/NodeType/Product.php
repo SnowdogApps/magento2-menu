@@ -38,15 +38,6 @@ class Product extends AbstractNode
     }
 
     /**
-     * {@inheritdoc}
-     * @throws \Exception
-     */
-    public function fetchConfigData()
-    {
-        return [];
-    }
-
-    /**
      * @inheritDoc
      */
     public function fetchData(array $nodes, $storeId)
