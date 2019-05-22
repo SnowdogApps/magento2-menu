@@ -121,16 +121,16 @@ class Category extends AbstractNode
     }
 
     /**
-     * @param int $storeId
+     * @param int|string|\Magento\Store\Model\Store $store
      * @param array $categoryIds
      * @return array
      */
-    public function getCategories($storeId, array $categoryIds)
+    public function getCategories($store, array $categoryIds)
     {
         $return = [];
         $categories = $this->categoryCollection->create()
             ->addAttributeToSelect('*')
-            ->setStore($storeId)
+            ->setStoreId($store)
             ->addFieldToFilter(
                 'entity_id',
                 ['in' => $categoryIds]
