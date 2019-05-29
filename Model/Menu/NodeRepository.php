@@ -111,4 +111,16 @@ class NodeRepository implements NodeRepositoryInterface
         $collection->addOrder('position', AbstractCollection::SORT_ORDER_ASC);
         return $collection->getItems();
     }
+
+    public function getByIdentifier($identifier)
+    {
+        $collection = $this->collectionFactory->create();
+        $collection->addFilter('main_table.is_active', 1);
+        $collection->addOrder('level', AbstractCollection::SORT_ORDER_ASC);
+        $collection->addOrder('parent_id', AbstractCollection::SORT_ORDER_ASC);
+        $collection->addOrder('position', AbstractCollection::SORT_ORDER_ASC);
+        $collection->join(['menu' => 'snowmenu_menu'], 'main_table.menu_id = menu.menu_id', 'identifier');
+        $collection->addFilter('identifier', $identifier);
+        return $collection->getItems();
+    }
 }

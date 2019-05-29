@@ -12,4 +12,10 @@
             <resource ref="Snowdog_Menu::menus"/>
         </resources>
     </route>
+    <route url="/V1/menus/:identifier/nodes" method="GET">
+        <service class="Snowdog\Menu\Api\NodeRepositoryInterface" method="getByIdentifier"/>
+        <resources>
+            <resource ref="Snowdog_Menu::menus"/>
+        </resources>
+    </route>
 </routes>
