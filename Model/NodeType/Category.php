@@ -13,6 +13,7 @@ namespace Snowdog\Menu\Model\NodeType;
 use Magento\Catalog\Api\Data\CategoryInterface;
 use Magento\Framework\EntityManager\MetadataPool;
 use Magento\Framework\Profiler;
+use Magento\Catalog\Model\ResourceModel\Category\CollectionFactory;
 
 class Category extends AbstractNode
 {
@@ -20,6 +21,11 @@ class Category extends AbstractNode
      * @var MetadataPool
      */
     private $metadataPool;
+
+    /**
+     * @var CollectionFactory
+     */
+    private $categoryCollection;
 
     /**
      * @inheritDoc
@@ -35,12 +41,15 @@ class Category extends AbstractNode
      *
      * @param Profiler $profiler
      * @param MetadataPool $metadataPool
+     * @param CollectionFactory $categoryCollection
      */
     public function __construct(
         Profiler $profiler,
-        MetadataPool $metadataPool
+        MetadataPool $metadataPool,
+        CollectionFactory $categoryCollection
     ) {
         $this->metadataPool = $metadataPool;
+        $this->categoryCollection = $categoryCollection;
         parent::__construct($profiler);
     }
 
@@ -104,9 +113,33 @@ class Category extends AbstractNode
         }
 
         $categoryUrls = $this->getResource()->fetchData($storeId, $categoryIds);
+        $categories = $this->getCategories($storeId, $categoryIds);
 
         $this->profiler->stop(__METHOD__);
 
-        return [$localNodes, $categoryUrls];
+        return [$localNodes, $categoryUrls, $categories];
+    }
+
+    /**
+     * @param int|string|\Magento\Store\Model\Store $store
+     * @param array $categoryIds
+     * @return array
+     */
+    public function getCategories($store, array $categoryIds)
+    {
+        $return = [];
+        $categories = $this->categoryCollection->create()
+            ->addAttributeToSelect('*')
+            ->setStoreId($store)
+            ->addFieldToFilter(
+                'entity_id',
+                ['in' => $categoryIds]
+            );
+
+        foreach ($categories as $category) {
+            $return[$category->getId()] = $category;
+        }
+
+        return $return;
     }
 }

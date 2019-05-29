@@ -30,11 +30,14 @@ class Category extends AbstractNode
      * @var Registry
      */
     private $coreRegistry;
-
     /**
      * @var ModelCategory
      */
     private $_categoryModel;
+    /**
+     * @var array
+     */
+    private $categories;
 
     /**
      * Category constructor.
@@ -102,7 +105,7 @@ class Category extends AbstractNode
     {
         $storeId = $this->_storeManager->getStore()->getId();
 
-        list($this->nodes, $this->categoryUrls) = $this->_categoryModel->fetchData($nodes, $storeId);
+        list($this->nodes, $this->categoryUrls, $this->categories) = $this->_categoryModel->fetchData($nodes, $storeId);
     }
 
     /**
@@ -145,6 +148,28 @@ class Category extends AbstractNode
             $categoryUrlPath = $this->categoryUrls[$categoryId];
 
             return $baseUrl . $categoryUrlPath;
+        }
+
+        return false;
+    }
+
+    /**
+     * @param int $nodeId
+     *
+     * @return object|false
+     * @throws \InvalidArgumentException
+     */
+    public function getCategory(int $nodeId)
+    {
+        if (!isset($this->nodes[$nodeId])) {
+            throw new \InvalidArgumentException('Invalid node identifier specified');
+        }
+
+        $node = $this->nodes[$nodeId];
+        $categoryId = (int) $node->getContent();
+
+        if (isset($this->categories[$categoryId])) {
+            return $this->categories[$categoryId];
         }
 
         return false;
