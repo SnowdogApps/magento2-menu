@@ -82,33 +82,34 @@ class Save extends Action
      */
     public function execute()
     {
-        $id = $this->getRequest()->getParam('id');
-        if ($id) {
+        $menuId = $this->getRequest()->getParam('id');
+
+        if ($menuId) {
             $menu = $this->menuRepository->getById($id);
         } else {
             $menu = $this->menuFactory->create();
         }
+
         $menu->setTitle($this->getRequest()->getParam('title'));
         $menu->setIdentifier($this->getRequest()->getParam('identifier'));
         $menu->setCssClass($this->getRequest()->getParam('css_class'));
         $menu->setIsActive(1);
         $menu = $this->menuRepository->save($menu);
 
-        if (!$id) {
-            $id = $menu->getId();
+        if (!$menuId) {
+            $menuId = $menu->getId();
         }
 
         $menu->saveStores($this->getRequest()->getParam('stores'));
-
         $nodes = $this->getRequest()->getParam('serialized_nodes');
+
         if (!empty($nodes)) {
             $nodes = json_decode($nodes, true);
             $nodes = $this->_convertTree($nodes, '#');
 
             if (!empty($nodes)) {
-
                 $filterBuilder = $this->filterBuilderFactory->create();
-                $filter = $filterBuilder->setField('menu_id')->setValue($id)->setConditionType('eq')->create();
+                $filter = $filterBuilder->setField('menu_id')->setValue($menuId)->setConditionType('eq')->create();
 
                 $filterGroupBuilder = $this->filterGroupBuilderFactory->create();
                 $filterGroup = $filterGroupBuilder->addFilter($filter)->create();
@@ -119,11 +120,13 @@ class Save extends Action
                 $oldNodes = $this->nodeRepository->getList($searchCriteria)->getItems();
 
                 $existingNodes = [];
+
                 foreach ($oldNodes as $node) {
                     $existingNodes[$node->getId()] = $node;
                 }
 
                 $nodesToDelete = [];
+
                 foreach ($existingNodes as $nodeId => $noe) {
                     $nodesToDelete[$nodeId] = true;
                 }
@@ -133,13 +136,14 @@ class Save extends Action
                 foreach ($nodes as $node) {
                     $nodeId = $node['id'];
                     $matches = [];
+
                     if (preg_match('/^node_([0-9]+)$/', $nodeId, $matches)) {
                         $nodeId = $matches[1];
                         unset($nodesToDelete[$nodeId]);
                         $nodeMap[$node['id']] = $existingNodes[$nodeId];
                     } else {
                         $nodeObject = $this->nodeFactory->create();
-                        $nodeObject->setMenuId($id);
+                        $nodeObject->setMenuId($menuId);
                         $nodeObject = $this->nodeRepository->save($nodeObject);
                         $nodeMap[$nodeId] = $nodeObject;
                     }
@@ -149,17 +153,17 @@ class Save extends Action
                     $this->nodeRepository->deleteById($nodeId);
                 }
 
-                $path = [
-                    '#' => 0,
-                ];
+                $path = ['#' => 0];
+
                 foreach ($nodes as $node) {
                     if ($node['type'] == 'product' && !$this->validateProductNode($node)) {
                         continue;
                     }
-                    $nodeObject = $nodeMap[$node['id']];
 
+                    $nodeObject = $nodeMap[$node['id']];
                     $parents = array_keys($path);
                     $parent = array_pop($parents);
+
                     while ($parent != $node['parent']) {
                         array_pop($path);
                         $parent = array_pop($parents);
@@ -175,16 +179,20 @@ class Save extends Action
                     }
 
                     $nodeObject->setType($node['type']);
+
                     if (isset($node['classes'])) {
                         $nodeObject->setClasses($node['classes']);
                     }
+
                     if (isset($node['content'])) {
                         $nodeObject->setContent($node['content']);
                     }
+
                     if (isset($node['target'])) {
                         $nodeObject->setTarget($node['target']);
                     }
-                    $nodeObject->setMenuId($id);
+
+                    $nodeObject->setMenuId($menuId);
                     $nodeObject->setTitle($node['title']);
                     $nodeObject->setIsActive(1);
                     $nodeObject->setLevel($level);
@@ -215,6 +223,7 @@ class Save extends Action
     protected function _convertTree($nodes, $parent)
     {
         $convertedTree = [];
+
         if (!empty($nodes)) {
             foreach ($nodes as $node) {
                 $node['parent'] = $parent;
@@ -222,6 +231,7 @@ class Save extends Action
                 $convertedTree = array_merge($convertedTree, $this->_convertTree($node['columns'], $node['id']));
             }
         }
+        
         return $convertedTree;
     }
 
