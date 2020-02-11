@@ -85,7 +85,7 @@ class Save extends Action
         $menuId = $this->getRequest()->getParam('id');
 
         if ($menuId) {
-            $menu = $this->menuRepository->getById($id);
+            $menu = $this->menuRepository->getById($menuId);
         } else {
             $menu = $this->menuFactory->create();
         }
@@ -135,12 +135,10 @@ class Save extends Action
 
                 foreach ($nodes as $node) {
                     $nodeId = $node['id'];
-                    $matches = [];
 
-                    if (preg_match('/^node_([0-9]+)$/', $nodeId, $matches)) {
-                        $nodeId = $matches[1];
+                    if (in_array($nodeId, array_keys($existingNodes))) {
                         unset($nodesToDelete[$nodeId]);
-                        $nodeMap[$node['id']] = $existingNodes[$nodeId];
+                        $nodeMap[$nodeId] = $existingNodes[$nodeId];
                     } else {
                         $nodeObject = $this->nodeFactory->create();
                         $nodeObject->setMenuId($menuId);
@@ -231,7 +229,7 @@ class Save extends Action
                 $convertedTree = array_merge($convertedTree, $this->_convertTree($node['columns'], $node['id']));
             }
         }
-        
+
         return $convertedTree;
     }
 
