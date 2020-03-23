@@ -8,7 +8,7 @@
             <block class="Snowdog\Menu\Block\Menu\Edit"/>
         </referenceContainer>
         <referenceContainer name="left">
-            <block class="Snowdog\Menu\Block\Menu\Edit\Tabs" name="snowmeu_edit_tabs">
+            <block class="Snowdog\Menu\Block\Menu\Edit\Tabs" name="snowmenu_edit_tabs">
                 <block class="Snowdog\Menu\Block\Menu\Edit\Tab\Main" name="snowmenu_edit_tab_main"/>
                 <block class="Snowdog\Menu\Block\Menu\Edit\Tab\Nodes" name="snowmenu_edit_tab_node"/>
                 <action method="addTab">
