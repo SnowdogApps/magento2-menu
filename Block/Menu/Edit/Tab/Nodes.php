@@ -125,6 +125,7 @@ class Nodes extends Template implements TabInterface
                 'content' => $node->getContent(),
                 'classes' => $node->getClasses(),
                 'target' => $node->getTarget(),
+                'template' => $node->getTemplate(),
                 'id' => $node->getId(),
                 'title' => $node->getTitle(),
                 'columns' => $this->renderNodeList($level + 1, $node->getId(), $data) ? $this->renderNodeList($level + 1, $node->getId(), $data) : []

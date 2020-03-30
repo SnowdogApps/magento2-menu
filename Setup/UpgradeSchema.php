@@ -44,6 +44,10 @@ class UpgradeSchema implements UpgradeSchemaInterface
             $this->addForeignKeys($setup);
         }
 
+        if (version_compare($context->getVersion(), '0.2.4', '<')) {
+            $this->addTemplateField($setup);
+        }
+
         $setup->endSetup();
     }
 
@@ -149,7 +153,7 @@ class UpgradeSchema implements UpgradeSchemaInterface
                 'type' => Table::TYPE_SMALLINT,
                 'length' => 5,
                 'nullable' => false,
-                'primary' => true, 
+                'primary' => true,
                 'unsigned' => true,
                 'comment' => 'Store ID'
             ]
@@ -157,9 +161,9 @@ class UpgradeSchema implements UpgradeSchemaInterface
 
         $setup->getConnection()->addForeignKey(
             $setup->getFkName(
-                'snowmenu_node', 
-                'menu_id', 
-                'snowmenu_menu', 
+                'snowmenu_node',
+                'menu_id',
+                'snowmenu_menu',
                 'menu_id'
             ),
             $nodeTable,
@@ -171,9 +175,9 @@ class UpgradeSchema implements UpgradeSchemaInterface
 
         $setup->getConnection()->addForeignKey(
             $setup->getFkName(
-                'snowmenu_store', 
-                'menu_id', 
-                'snowmenu_menu', 
+                'snowmenu_store',
+                'menu_id',
+                'snowmenu_menu',
                 'menu_id'
             ),
             $storeTable,
@@ -185,9 +189,9 @@ class UpgradeSchema implements UpgradeSchemaInterface
 
         $setup->getConnection()->addForeignKey(
             $setup->getFkName(
-                'snowmenu_store', 
-                'store_id', 
-                'store', 
+                'snowmenu_store',
+                'store_id',
+                'store',
                 'store_id'
             ),
             $storeTable,
@@ -196,5 +200,26 @@ class UpgradeSchema implements UpgradeSchemaInterface
             'store_id',
             Table::ACTION_CASCADE
         );
+    }
+
+    /**
+     * @param SchemaSetupInterface $setup
+     * @return $this
+     */
+    private function addTemplateField(SchemaSetupInterface $setup)
+    {
+        $setup->getConnection()->addColumn(
+            $setup->getTable('snowmenu_node'),
+            'template',
+            [
+                'type' => Table::TYPE_TEXT,
+                'length' => 255,
+                'nullable' => true,
+                'after' => 'target',
+                'comment' => 'Template',
+            ]
+        );
+
+        return $this;
     }
 }
