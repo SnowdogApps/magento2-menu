@@ -90,6 +90,38 @@ class Category extends AbstractNode
                 'options' => $fieldOptions,
                 'message' => __('Category not found'),
             ],
+            'snowMenuNodeCustomTemplates' => [
+                'defaultTemplate' => 'category',
+                'options' => [
+                    [
+                        'label' => 'default',
+                        'id' => 'category'
+                    ],
+                    [
+                        'id' => 'node-category-file-custom-template-name-a'
+                    ],
+                    [
+                        'id' => 'node-category-file-custom-template-name-b'
+                    ]
+                ],
+                'message' => __('Template not found'),
+            ],
+            'snowMenuSubmenuCustomTemplates' => [
+                'defaultTemplate' => 'sub_menu',
+                'options' => [
+                    [
+                        'label' => 'default',
+                        'id' => 'sub_menu'
+                    ],
+                    [
+                        'id' => 'submenu-file-custom-template-name-a'
+                    ],
+                    [
+                        'id' => 'submenu-file-custom-template-name-b'
+                    ]
+                ],
+                'message' => __('Template not found'),
+            ],
         ];
 
         $this->profiler->stop(__METHOD__);

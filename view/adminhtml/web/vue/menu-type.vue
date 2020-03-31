@@ -17,7 +17,7 @@
         <div class="admin__field field field-title">
             <label
                 class="label admin__field-label"
-                for="node_type"
+                for="node_template"
             >
                 {{ config.translation.nodeType }}
             </label>
@@ -33,21 +33,66 @@
                 </v-select>
             </div>
         </div>
+        <h2>
+            {{ additionalLabel }}
+        </h2>
         <component :is="item['type']" :item="item" :config="config"></component>
+        <h2>
+            {{ templatesLabel }}
+        </h2>
+        <template v-if="isTemplateSectionVisible">
+            <component
+                is="template-list"
+                :item="item"
+                :typeId="templateList['node']"
+                itemKey="template"
+                templateType="node"
+                :config="config"
+            ></component>
+            <component
+                is="template-list"
+                :item="item"
+                :typeId="templateList['submenu']"
+                templateType="submenu"
+                :config="config"
+                itemKey="submenuTemplate"
+            ></component>
+        </template>
+        <template v-else>
+            <p>{{ noTemplatesMessage }}</p>
+        </template>
     </fieldset>
 </template>
 
 <script>
-define(["Vue"], function(Vue) {
+define(["Vue", "mage/translate"], function(Vue, $t) {
     Vue.component("snowdog-menu-type", {
         template: template,
         props: ['item', 'config'],
         data: function() {
             return {
                 draft: {},
+                additionalLabel: $t('Additional type options'),
+                noTemplatesMessage: $t('There is no custom defined templates defined in theme for this node type'),
+                templatesLabel: $t('Templates'),
+                templateList: {
+                  'node': 'snowMenuNodeCustomTemplates',
+                  'submenu': 'snowMenuSubmenuCustomTemplates',
+                }
             }
         },
         computed: {
+            isTemplateSectionVisible: function() {
+                var nodeId = this.templateList['node'],
+                    submenuId = this.templateList['submenu'],
+                    typeData = this.config.fieldData[this.item['type']];
+
+                if (typeData[nodeId] || typeData[submenuId]) {
+                    return typeData[nodeId].options.length > 0 || typeData[submenuId].options.length > 0;
+                }
+
+                return false;
+            },
             options: function() {
                 var list = [];
                 for (type in this.config.nodeTypes) {
@@ -57,6 +102,9 @@ define(["Vue"], function(Vue) {
                     })
                 }
                 return list;
+            },
+            templateOptions: function() {
+                return this.templateOptionsData[this.item['type']] || [];
             }
         },
         methods: {

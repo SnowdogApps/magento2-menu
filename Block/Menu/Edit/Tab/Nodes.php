@@ -125,7 +125,8 @@ class Nodes extends Template implements TabInterface
                 'content' => $node->getContent(),
                 'classes' => $node->getClasses(),
                 'target' => $node->getTarget(),
-                'template' => $node->getTemplate(),
+                'template' => $node->getTemplate(), // we can leave it or to be explicit add getNodeTemplate() ?
+                'submenuTemplate' => '', // we need add submenu method $node->getSubmenuTemplate(),
                 'id' => $node->getId(),
                 'title' => $node->getTitle(),
                 'columns' => $this->renderNodeList($level + 1, $node->getId(), $data) ? $this->renderNodeList($level + 1, $node->getId(), $data) : []

@@ -45,6 +45,40 @@ class CmsBlock extends AbstractNode
                 'options' => $fieldOptions,
                 'message' => __('CMS Block not found'),
             ],
+            'snowMenuNodeCustomTemplates' => [
+                'type'    => 'cms_block',
+                'defaultTemplate' => 'cms_block',
+                'options' => [
+                    [
+                        'label' => 'default',
+                        'id' => 'cms_block'
+                    ],
+                    [
+                        'id' => 'node-cms-block-file-custom-template-name-a'
+                    ],
+                    [
+                        'id' => 'node-cms-block-file-custom-template-name-b'
+                    ]
+                ],
+                'message' => __('Template not found'),
+            ],
+            'snowMenuSubmenuCustomTemplates' => [
+                'type'    => 'cms_block',
+                'defaultTemplate' => 'sub_menu',
+                'options' => [
+                    [
+                        'label' => 'default',
+                        'id' => 'sub_menu'
+                    ],
+                    [
+                        'id' => 'submenu-file-custom-template-name-a'
+                    ],
+                    [
+                        'id' => 'submenu-file-custom-template-name-b'
+                    ]
+                ],
+                'message' => __('Template not found'),
+            ],
         ];
 
         $this->profiler->stop(__METHOD__);

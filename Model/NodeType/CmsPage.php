@@ -44,6 +44,38 @@ class CmsPage extends AbstractNode
                 'options' => $fieldOptions,
                 'message' => __('CMS Page not found'),
             ],
+            'snowMenuNodeCustomTemplates' => [
+                'defaultTemplate' => 'cms_page',
+                'options' => [
+                    [
+                        'label' => 'default',
+                        'id' => 'cms_page'
+                    ],
+                    [
+                        'id' => 'node-cms-page-file-custom-template-name-a'
+                    ],
+                    [
+                        'id' => 'node-cms-page-file-custom-template-name-b'
+                    ]
+                ],
+                'message' => __('Template not found'),
+            ],
+            'snowMenuSubmenuCustomTemplates' => [
+                'defaultTemplate' => 'sub_menu',
+                'options' => [
+                    [
+                        'label' => 'default',
+                        'id' => 'sub_menu'
+                    ],
+                    [
+                        'id' => 'submenu-file-custom-template-name-a'
+                    ],
+                    [
+                        'id' => 'submenu-file-custom-template-name-b'
+                    ]
+                ],
+                'message' => __('Template not found'),
+            ],
         ];
 
         $this->profiler->stop(__METHOD__);
