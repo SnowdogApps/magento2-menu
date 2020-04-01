@@ -45,7 +45,7 @@
                 is="template-list"
                 :item="item"
                 :typeId="templateList['node']"
-                itemKey="template"
+                itemKey="node_template"
                 templateType="node"
                 :config="config"
             ></component>
@@ -55,7 +55,7 @@
                 :typeId="templateList['submenu']"
                 templateType="submenu"
                 :config="config"
-                itemKey="submenuTemplate"
+                itemKey="submenu_template"
             ></component>
         </template>
         <template v-else>
