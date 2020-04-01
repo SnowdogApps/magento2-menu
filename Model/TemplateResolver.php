@@ -6,6 +6,7 @@
 
 namespace Snowdog\Menu\Model;
 
+use Magento\Framework\Registry;
 use Magento\Framework\View\Element\Template;
 use Magento\Framework\View\Element\Template\File\Validator;
 use Magento\Framework\App\Config\ScopeConfigInterface;
@@ -53,10 +54,18 @@ class TemplateResolver
     private $filesystem;
 
     /**
+     * @var Registry
+     */
+    private $registry;
+
+    /**
      * @var null
      */
     private $templateDir = null;
 
+    /**
+     * @var array
+     */
     private $templateList = [];
 
     public function __construct(
@@ -65,7 +74,8 @@ class TemplateResolver
         StoreManagerInterface $storeManager,
         ThemeProviderInterface $themeProvider,
         DriverFile $driverFile,
-        Filesystem $filesystem
+        Filesystem $filesystem,
+        Registry $registry
     ) {
         $this->validator = $validator;
         $this->scopeConfig = $scopeConfig;
@@ -73,6 +83,7 @@ class TemplateResolver
         $this->themeProvider = $themeProvider;
         $this->driverFile = $driverFile;
         $this->filesystem = $filesystem;
+        $this->registry = $registry;
     }
 
     /**
@@ -168,8 +179,11 @@ class TemplateResolver
         $theme = $this->themeProvider->getThemeById($themeId);
         $themeFullPath = $theme->getFullPath();
 
+        $menu = $this->registry->registry('snowmenu_menu');
+        $menuIdentifier = $menu->getIdentifier();
+
         $appPath = $this->filesystem->getDirectoryRead(DirectoryList::APP)->getAbsolutePath();
-        $customTemplatePath = '/Snowdog_Menu/templates/menu/custom/';
+        $customTemplatePath = '/Snowdog_Menu/templates/' . $menuIdentifier . '/menu/custom/';
         $this->templateDir = $appPath . 'design/' . $themeFullPath . $customTemplatePath;
 
         return $this->templateDir;
