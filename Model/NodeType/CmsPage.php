@@ -10,8 +10,16 @@
 
 namespace Snowdog\Menu\Model\NodeType;
 
+use Magento\Framework\Profiler;
+use Snowdog\Menu\Model\TemplateResolver;
+
 class CmsPage extends AbstractNode
 {
+    /**
+     * @var TemplateResolver
+     */
+    private $templateResolver;
+
     /**
      * @inheritDoc
      */
@@ -19,6 +27,14 @@ class CmsPage extends AbstractNode
     {
         $this->_init('Snowdog\Menu\Model\ResourceModel\NodeType\CmsPage');
         parent::_construct();
+    }
+
+    public function __construct(
+        Profiler $profiler,
+        TemplateResolver $templateResolver
+    ) {
+        $this->templateResolver = $templateResolver;
+        parent::__construct($profiler);
     }
 
     /**
@@ -46,34 +62,12 @@ class CmsPage extends AbstractNode
             ],
             'snowMenuNodeCustomTemplates' => [
                 'defaultTemplate' => 'cms_page',
-                'options' => [
-                    [
-                        'label' => 'default',
-                        'id' => 'cms_page'
-                    ],
-                    [
-                        'id' => 'node-cms-page-file-custom-template-name-a'
-                    ],
-                    [
-                        'id' => 'node-cms-page-file-custom-template-name-b'
-                    ]
-                ],
+                'options' => $this->templateResolver->getCustomTemplateOptions('cms_page'),
                 'message' => __('Template not found'),
             ],
             'snowMenuSubmenuCustomTemplates' => [
                 'defaultTemplate' => 'sub_menu',
-                'options' => [
-                    [
-                        'label' => 'default',
-                        'id' => 'sub_menu'
-                    ],
-                    [
-                        'id' => 'submenu-file-custom-template-name-a'
-                    ],
-                    [
-                        'id' => 'submenu-file-custom-template-name-b'
-                    ]
-                ],
+                'options' => $this->templateResolver->getCustomTemplateOptions('sub_menu'),
                 'message' => __('Template not found'),
             ],
         ];

@@ -45,7 +45,7 @@ class UpgradeSchema implements UpgradeSchemaInterface
         }
 
         if (version_compare($context->getVersion(), '0.2.4', '<')) {
-            $this->addTemplateField($setup);
+            $this->addTemplateFields($setup);
         }
 
         $setup->endSetup();
@@ -206,17 +206,29 @@ class UpgradeSchema implements UpgradeSchemaInterface
      * @param SchemaSetupInterface $setup
      * @return $this
      */
-    private function addTemplateField(SchemaSetupInterface $setup)
+    private function addTemplateFields(SchemaSetupInterface $setup)
     {
         $setup->getConnection()->addColumn(
             $setup->getTable('snowmenu_node'),
-            'template',
+            'submenu_template',
             [
                 'type' => Table::TYPE_TEXT,
                 'length' => 255,
                 'nullable' => true,
                 'after' => 'target',
-                'comment' => 'Template',
+                'comment' => 'Submenu Template',
+            ]
+        );
+
+        $setup->getConnection()->addColumn(
+            $setup->getTable('snowmenu_node'),
+            'node_template',
+            [
+                'type' => Table::TYPE_TEXT,
+                'length' => 255,
+                'nullable' => true,
+                'after' => 'target',
+                'comment' => 'Node Template',
             ]
         );
 

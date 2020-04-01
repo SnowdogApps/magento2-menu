@@ -14,6 +14,7 @@ use Magento\Catalog\Api\Data\CategoryInterface;
 use Magento\Framework\EntityManager\MetadataPool;
 use Magento\Framework\Profiler;
 use Magento\Catalog\Model\ResourceModel\Category\CollectionFactory;
+use Snowdog\Menu\Model\TemplateResolver;
 
 class Category extends AbstractNode
 {
@@ -28,6 +29,11 @@ class Category extends AbstractNode
     private $categoryCollection;
 
     /**
+     * @var TemplateResolver
+     */
+    private $templateResolver;
+
+    /**
      * @inheritDoc
      */
     protected function _construct()
@@ -36,20 +42,15 @@ class Category extends AbstractNode
         parent::_construct();
     }
 
-    /**
-     * Category constructor.
-     *
-     * @param Profiler $profiler
-     * @param MetadataPool $metadataPool
-     * @param CollectionFactory $categoryCollection
-     */
     public function __construct(
         Profiler $profiler,
         MetadataPool $metadataPool,
-        CollectionFactory $categoryCollection
+        CollectionFactory $categoryCollection,
+        TemplateResolver $templateResolver
     ) {
         $this->metadataPool = $metadataPool;
         $this->categoryCollection = $categoryCollection;
+        $this->templateResolver = $templateResolver;
         parent::__construct($profiler);
     }
 
@@ -75,7 +76,7 @@ class Category extends AbstractNode
             $label[] = $row['name'];
             $labels[$row[$identifierField]] = $label;
         }
-        
+
         $fieldOptions = [];
         foreach ($labels as $id => $label) {
             $fieldOptions[] = [
@@ -92,34 +93,12 @@ class Category extends AbstractNode
             ],
             'snowMenuNodeCustomTemplates' => [
                 'defaultTemplate' => 'category',
-                'options' => [
-                    [
-                        'label' => 'default',
-                        'id' => 'category'
-                    ],
-                    [
-                        'id' => 'node-category-file-custom-template-name-a'
-                    ],
-                    [
-                        'id' => 'node-category-file-custom-template-name-b'
-                    ]
-                ],
+                'options' => $this->templateResolver->getCustomTemplateOptions('category'),
                 'message' => __('Template not found'),
             ],
             'snowMenuSubmenuCustomTemplates' => [
                 'defaultTemplate' => 'sub_menu',
-                'options' => [
-                    [
-                        'label' => 'default',
-                        'id' => 'sub_menu'
-                    ],
-                    [
-                        'id' => 'submenu-file-custom-template-name-a'
-                    ],
-                    [
-                        'id' => 'submenu-file-custom-template-name-b'
-                    ]
-                ],
+                'options' => $this->templateResolver->getCustomTemplateOptions('sub_menu'),
                 'message' => __('Template not found'),
             ],
         ];
