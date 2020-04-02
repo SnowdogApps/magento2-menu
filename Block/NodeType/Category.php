@@ -17,6 +17,11 @@ class Category extends AbstractNode
     /**
      * @var string
      */
+    protected $customTemplateFolder = 'menu/custom/category/';
+
+    /**
+     * @var string
+     */
     protected $nodeType = 'category';
     /**
      * @var array

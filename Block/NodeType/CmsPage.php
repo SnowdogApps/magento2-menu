@@ -17,6 +17,11 @@ class CmsPage extends AbstractNode
     /**
      * @var string
      */
+    protected $customTemplateFolder = 'menu/custom/cms_page/';
+
+    /**
+     * @var string
+     */
     protected $nodeType = 'cms_page';
     /**
      * @var array

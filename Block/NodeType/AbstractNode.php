@@ -29,6 +29,11 @@ abstract class AbstractNode extends Template implements NodeTypeInterface
     /**
      * @var string
      */
+    protected $customTemplateFolder;
+
+    /**
+     * @var string
+     */
     protected $nodeType;
     /**
      * Main node attributes
@@ -135,6 +140,14 @@ abstract class AbstractNode extends Template implements NodeTypeInterface
     public function isViewAllLinkAllowed()
     {
         return $this->viewAllLink;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCustomTemplateFolder()
+    {
+        return $this->customTemplateFolder;
     }
 
     /**

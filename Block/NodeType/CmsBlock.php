@@ -17,6 +17,11 @@ class CmsBlock extends AbstractNode
     /**
      * @var string
      */
+    protected $customTemplateFolder = 'menu/custom/cms_block/';
+
+    /**
+     * @var string
+     */
     protected $nodeType = 'cms_block';
     /**
      * @var array

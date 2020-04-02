@@ -9,39 +9,20 @@ namespace Snowdog\Menu\Model;
 use Magento\Framework\Registry;
 use Magento\Framework\View\Element\Template;
 use Magento\Framework\View\Element\Template\File\Validator;
-use Magento\Framework\App\Config\ScopeConfigInterface;
-use Magento\Store\Model\StoreManagerInterface;
-use Magento\Framework\View\Design\Theme\ThemeProviderInterface;
 use Magento\Framework\Filesystem\Driver\File as DriverFile;
-use Magento\Framework\Filesystem;
-use Magento\Framework\View\DesignInterface;
-use Magento\Store\Model\ScopeInterface;
-use Magento\Framework\View\Design\ThemeInterface;
-use Magento\Framework\App\Filesystem\DirectoryList;
+use Magento\Framework\View\Asset\Repository as AssetRepository;
+use Magento\Framework\View\Design\Fallback\RulePool;
 use Magento\Framework\Exception\FileSystemException;
 use Magento\Framework\Exception\NoSuchEntityException;
 
 class TemplateResolver
 {
+    const MODULE_NAME = 'Snowdog_Menu';
+
     /**
      * @var array
      */
     private $templateMap = [];
-
-    /**
-     * @var ScopeConfigInterface
-     */
-    private $scopeConfig;
-
-    /**
-     * @var StoreManagerInterface
-     */
-    private $storeManager;
-
-    /**
-     * @var ThemeProviderInterface
-     */
-    private $themeProvider;
 
     /**
      * @var DriverFile
@@ -49,14 +30,19 @@ class TemplateResolver
     private $driverFile;
 
     /**
-     * @var Filesystem
-     */
-    private $filesystem;
-
-    /**
      * @var Registry
      */
     private $registry;
+
+    /**
+     * @var AssetRepository
+     */
+    private $assetRepo;
+
+    /**
+     * @var RulePool
+     */
+    private $rulePool;
 
     /**
      * @var null
@@ -70,20 +56,16 @@ class TemplateResolver
 
     public function __construct(
         Validator $validator,
-        ScopeConfigInterface $scopeConfig,
-        StoreManagerInterface $storeManager,
-        ThemeProviderInterface $themeProvider,
         DriverFile $driverFile,
-        Filesystem $filesystem,
-        Registry $registry
+        Registry $registry,
+        AssetRepository $assetRepo,
+        RulePool $rulePool
     ) {
         $this->validator = $validator;
-        $this->scopeConfig = $scopeConfig;
-        $this->storeManager = $storeManager;
-        $this->themeProvider = $themeProvider;
         $this->driverFile = $driverFile;
-        $this->filesystem = $filesystem;
         $this->registry = $registry;
+        $this->assetRepo = $assetRepo;
+        $this->rulePool = $rulePool;
     }
 
     /**
@@ -99,7 +81,13 @@ class TemplateResolver
         }
 
         $templateArr = explode('::', $template);
-        if (isset($templateArr[1])) {
+        if ($block->getCustomTemplate()) {
+            $newTemplate = $menuId
+                . DIRECTORY_SEPARATOR
+                . $block->getCustomTemplateFolder()
+                . $block->getCustomTemplate()
+                . '.phtml';
+        } elseif (isset($templateArr[1])) {
             $newTemplate = $templateArr[0] . '::' . $menuId . DIRECTORY_SEPARATOR . $templateArr[1];
         } else {
             $newTemplate = $menuId . DIRECTORY_SEPARATOR . $template;
@@ -141,7 +129,7 @@ class TemplateResolver
             return $this->templateList[$noteType];
         }
 
-        $templateDir = $this->getThemeDir() . $noteType . DIRECTORY_SEPARATOR;
+        $templateDir = $this->getTemplateDir() . $noteType . DIRECTORY_SEPARATOR;
         if ($this->driverFile->isExists($templateDir)) {
             $files = $this->driverFile->readDirectory($templateDir);
             foreach ($files as $file) {
@@ -160,36 +148,6 @@ class TemplateResolver
     }
 
     /**
-     * @return string
-     * @throws NoSuchEntityException
-     */
-    private function getThemeDir()
-    {
-        if (!is_null($this->templateDir)) {
-            return $this->templateDir;
-        }
-
-        $themeId = $this->scopeConfig->getValue(
-            DesignInterface::XML_PATH_THEME_ID,
-            ScopeInterface::SCOPE_STORE,
-            $this->storeManager->getStore()->getId()
-        );
-
-        /** @var ThemeInterface $theme */
-        $theme = $this->themeProvider->getThemeById($themeId);
-        $themeFullPath = $theme->getFullPath();
-
-        $menu = $this->registry->registry('snowmenu_menu');
-        $menuIdentifier = $menu->getIdentifier();
-
-        $appPath = $this->filesystem->getDirectoryRead(DirectoryList::APP)->getAbsolutePath();
-        $customTemplatePath = '/Snowdog_Menu/templates/' . $menuIdentifier . '/menu/custom/';
-        $this->templateDir = $appPath . 'design/' . $themeFullPath . $customTemplatePath;
-
-        return $this->templateDir;
-    }
-
-    /**
      * @param string $menuId
      * @param string $template
      * @param string $oldTemplate
@@ -198,5 +156,52 @@ class TemplateResolver
     private function setTemplateMap($menuId, $template, $oldTemplate)
     {
         return $this->templateMap[$menuId . '-' . $oldTemplate] = $template;
+    }
+
+    /**
+     * @return string
+     * @throws NoSuchEntityException
+     */
+    private function getTemplateDir()
+    {
+        if (!is_null($this->templateDir)) {
+            return $this->templateDir;
+        }
+
+        $menuIdentifier = $this->getMenuIdentifier();
+        $params = ['module' => self::MODULE_NAME, 'area' => 'frontend'];
+        $this->assetRepo->updateDesignParams($params);
+        $fallbackType = $this->rulePool->getRule(RulePool::TYPE_FILE);
+        $params = [
+            'area' => $params['area'],
+            'theme' => $params['themeModel'],
+            'locale' => $params['locale'],
+            'module_name' => $params['module']
+        ];
+        $menuIdentifier = $this->getMenuIdentifier();
+        $customTemplatePath = '/templates/' . $menuIdentifier . '/menu/custom/';
+        $this->templateDir = '';
+        foreach ($fallbackType->getPatternDirs($params) as $dir) {
+            $templateDir = $dir . $customTemplatePath;
+            if ($this->driverFile->isExists($templateDir)) {
+                $this->templateDir = $templateDir;
+                break;
+            }
+        }
+
+        return $this->templateDir;
+    }
+
+    /**
+     * @return string
+     */
+    private function getMenuIdentifier()
+    {
+        $menu = $this->registry->registry('snowmenu_menu');
+        if (!$menu) {
+            return '';
+        }
+
+        return $menu->getIdentifier();
     }
 }

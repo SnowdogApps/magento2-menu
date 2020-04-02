@@ -19,6 +19,11 @@ class Product extends AbstractNode
     /**
      * @var string
      */
+    protected $customTemplateFolder = 'menu/custom/product/';
+
+    /**
+     * @var string
+     */
     protected $nodeType = 'product';
 
     /**

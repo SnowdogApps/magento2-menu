@@ -18,6 +18,11 @@ class CustomUrl extends AbstractNode
     /**
      * @var string
      */
+    protected $customTemplateFolder = 'menu/custom/custom_url/';
+
+    /**
+     * @var string
+     */
     protected $nodeType = 'custom_url';
     /**
      * @var array
