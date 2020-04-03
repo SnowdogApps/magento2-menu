@@ -73,7 +73,7 @@ define(["Vue", "mage/translate"], function(Vue, $t) {
             return {
                 draft: {},
                 additionalLabel: $t('Additional type options'),
-                noTemplatesMessage: $t('There is no custom defined templates defined in theme for this node type'),
+                noTemplatesMessage: $t('There is no custom templates defined in theme for this type of node.'),
                 templatesLabel: $t('Templates'),
                 templateList: {
                   'node': 'snowMenuNodeCustomTemplates',
@@ -88,7 +88,7 @@ define(["Vue", "mage/translate"], function(Vue, $t) {
                     typeData = this.config.fieldData[this.item['type']];
 
                 if (typeData[nodeId] || typeData[submenuId]) {
-                    return typeData[nodeId].options.length > 0 || typeData[submenuId].options.length > 0;
+                    return typeData[nodeId].options.length > 1 || typeData[submenuId].options.length > 1;
                 }
 
                 return false;

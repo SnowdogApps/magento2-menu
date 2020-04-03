@@ -14,6 +14,11 @@
         >
         </auto-complete>
     </div>
+    <div
+        v-else
+    >
+        {{ noCustomTemplatesMessage[templateType] }}
+    </div>
 </template>
 <script>
 define(['Vue', 'mage/translate'], function(Vue, $t) {
@@ -29,6 +34,10 @@ define(['Vue', 'mage/translate'], function(Vue, $t) {
                 description: {
                   'node': $t('Selected template'),
                   'submenu': $t('Selected template')
+                },
+                noCustomTemplatesMessage: {
+                  'node': $t('There is no custom node template for this type of node.'),
+                  'submenu': $t('There is no custom submenu (children wrapper) template for this type of node.')
                 }
             }
         },
@@ -55,7 +64,7 @@ define(['Vue', 'mage/translate'], function(Vue, $t) {
                 return list;
             },
             isVisible () {
-                return this.options.length > 0
+                return this.options.length > 1
             }
         }
     });
