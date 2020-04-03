@@ -85,6 +85,8 @@ define(["Vue"], function(Vue) {
                     'title': this.config.translation.addNode,
                     "id": new Date().getTime(),
                     "content": null,
+                    "node_template": null,
+                    "submenu_template": null,
                     "columns": []
                 });
             },
