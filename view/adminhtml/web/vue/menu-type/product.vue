@@ -1,12 +1,10 @@
 <template>
-    <div class="admin__field field">
-        <simple-field
-            id="snowmenu_node_product"
-            v-model="item.content"
-            :label="config.translation.productId"
-            type="textarea"
-        />
-    </div>
+    <simple-field
+        id="snowmenu_node_product"
+        v-model="item.content"
+        :label="config.translation.productId"
+        type="textarea"
+    />
 </template>
 
 <script>

@@ -1,11 +1,12 @@
 <template>
-    <div class="admin__field field">
+    <div class="admin__field field field-title">
         <simple-field
             id="custom_url"
             v-model="item.content"
             :label="config.translation.customURL"
             type="text"
         />
+
         <div class="admin__field field field-title">
             <label
                 class="label admin__field-label"
@@ -13,6 +14,7 @@
             >
                 {{ config.translation.targetLabel }}
             </label>
+
             <div class="admin__field-control control">
                 <input
                     id="snowmenu_custom_target"

@@ -14,11 +14,17 @@
                     :options="options"
                     :placeholder="config.translation.selectNodeType"
                     :get-option-label="getOptionLabel"
-                    :searchable="false"
+                    :clearable="false"
                     @input="changeType"
                 />
             </div>
         </div>
+
+        <component
+            :is="item['type']"
+            :item="item"
+            :config="config"
+        />
 
         <simple-field
             id="node_name"
@@ -32,12 +38,6 @@
             v-model="item.classes"
             :label="config.translation.nodeClasses"
             type="text"
-        />
-
-        <component
-            :is="item['type']"
-            :item="item"
-            :config="config"
         />
     </fieldset>
 </template>

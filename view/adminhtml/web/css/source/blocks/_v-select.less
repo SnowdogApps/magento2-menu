@@ -1,12 +1,21 @@
-.panel {
-    .v-select .open-indicator,
-    .v-select .dropdown-toggle .clear {
+.panel .v-select{
+    .open-indicator,
+    .dropdown-toggle .clear {
         top: 0;
         bottom: 0;
         margin: auto;
     }
 
-    .v-select .open-indicator {
+    .open-indicator {
         height: 14px;
     }
+
+    .vs__search {
+        border: none;
+    }
+
+    .vs--single.vs--open .vs__selected {
+        position: relative;
+    }
+
 }
