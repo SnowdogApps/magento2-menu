@@ -5,7 +5,8 @@ use Magento\Ui\DataProvider\AbstractDataProvider;
 use Snowdog\Menu\Model\ResourceModel\Menu\CollectionFactory;
 
 class ListProvider extends AbstractDataProvider
-{    
+{
+
     public function __construct(
         $name,
         $primaryFieldName,

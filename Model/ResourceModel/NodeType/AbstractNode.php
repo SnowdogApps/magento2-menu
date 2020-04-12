@@ -44,12 +44,12 @@ abstract class AbstractNode extends AbstractResource
      *
      * @return mixed
      */
-    public abstract function fetchData($storeId = Store::DEFAULT_STORE_ID, $params = []);
+    abstract public function fetchData($storeId = Store::DEFAULT_STORE_ID, $params = []);
 
     /**
      * @inheritDoc
      */
-    public abstract function fetchConfigData();
+    abstract public function fetchConfigData();
 
     /**
      * Get real table name for db table, validated by db adapter

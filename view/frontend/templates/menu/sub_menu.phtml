@@ -16,14 +16,15 @@
     <ul <?= $block->buildAttrFromArray($wrapperAttributes) ?>>
         <?php if ($block->isViewAllLinkAllowed($parentNode->getType())): ?>
             <?php
-                $viewAllAttributes = [
-                    'class' => [
-                        $menuClass . '__inner-item',
-                        $menuClass . '__inner-item--all',
-                        $menuClass . '__inner-item--level' . $level
-                    ]
-                ];
+            $viewAllAttributes = [
+                'class' => [
+                    $menuClass . '__inner-item',
+                    $menuClass . '__inner-item--all',
+                    $menuClass . '__inner-item--level' . $level
+                ]
+            ];
             ?>
+
             <li <?= $block->buildAttrFromArray($viewAllAttributes) ?>>
                 <?= $block->renderViewAllLink($parentNode) ?>
             </li>
@@ -31,25 +32,26 @@
 
         <?php foreach ($block->getSubmenuNodes() as $node): ?>
             <?php
-                $childrenLevel = $node->getLevel() + 1;
-                $children = $this->getNodes($childrenLevel, $node);
-                $node->setIsParent((bool) $children);
+            $childrenLevel = $node->getLevel() + 1;
+            $children = $this->getNodes($childrenLevel, $node);
+            $node->setIsParent((bool) $children);
 
-                $nodeAttributes = [
-                    'class' => [
-                        $menuClass . '__inner-item',
-                        $menuClass . '__inner-item--level' . $level
-                    ]
-                ];
+            $nodeAttributes = [
+                'class' => [
+                    $menuClass . '__inner-item',
+                    $menuClass . '__inner-item--level' . $level
+                ]
+            ];
 
-                if ($children) {
-                    $nodeAttributes['class'][] = $menuClass . '__inner-item--parent';
-                }
+            if ($children) {
+                $nodeAttributes['class'][] = $menuClass . '__inner-item--parent';
+            }
 
-                if ($node->getClasses()) {
-                    $nodeAttributes['class'][] = $node->getClasses();
-                }
+            if ($node->getClasses()) {
+                $nodeAttributes['class'][] = $node->getClasses();
+            }
             ?>
+
             <li <?= $block->buildAttrFromArray($nodeAttributes) ?>>
                 <?= $block->renderMenuNode($node) ?>
                 <?= $block->renderSubmenu($children, $node, $childrenLevel) ?>

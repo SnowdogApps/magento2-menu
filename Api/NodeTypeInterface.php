@@ -2,7 +2,6 @@
 
 namespace Snowdog\Menu\Api;
 
-
 use Magento\Framework\View\Element\BlockInterface;
 
 interface NodeTypeInterface extends BlockInterface

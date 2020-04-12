@@ -26,5 +26,4 @@ class Index extends Action
     {
         return $this->_authorization->isAllowed('Snowdog_Menu::menus');
     }
-
 }
