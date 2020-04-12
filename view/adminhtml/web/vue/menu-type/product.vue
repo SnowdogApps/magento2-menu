@@ -9,11 +9,12 @@
         </simple-field>
     </div>
 </template>
+
 <script>
-define(["Vue"], function(Vue) {
-    Vue.component("product", {
-        template: template,
-        props: ['config', 'item']
+    define(['Vue'], function(Vue) {
+        Vue.component('product', {
+            template: template,
+            props: ['config', 'item']
+        });
     });
-});
 </script>

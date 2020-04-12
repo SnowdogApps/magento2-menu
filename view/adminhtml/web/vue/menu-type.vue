@@ -7,6 +7,7 @@
             v-model="item.title"
         >
         </simple-field>
+
         <simple-field
             :label="config.translation.nodeClasses"
             id="node_classes"
@@ -14,6 +15,7 @@
             v-model="item.classes"
         >
         </simple-field>
+
         <div class="admin__field field field-title">
             <label
                 class="label admin__field-label"
@@ -21,6 +23,7 @@
             >
                 {{ config.translation.nodeType }}
             </label>
+
             <div class="admin__field-control control">
                 <v-select
                     :value="item.type"
@@ -33,60 +36,65 @@
                 </v-select>
             </div>
         </div>
-        <component :is="item['type']" :item="item" :config="config"></component>
+
+        <component
+            :is="item['type']"
+            :item="item"
+            :config="config"
+        ></component>
     </fieldset>
 </template>
 
 <script>
-define(["Vue"], function(Vue) {
-    Vue.component("snowdog-menu-type", {
-        template: template,
-        props: ['item', 'config'],
-        data: function() {
-            return {
-                draft: {},
-            }
-        },
-        computed: {
-            options: function() {
-                var list = [];
-                for (type in this.config.nodeTypes) {
-                    list.push({
-                        label: this.config.nodeTypes[type],
-                        value: type
-                    })
-                }
-                return list;
-            }
-        },
-        methods: {
-            changeType: function(selected) {
-                if (selected && typeof selected === 'object') {
-                    var type  = this.item.type,
-                        value = selected.value;
-                    if (type) {
-                        this.draft[type] = {
-                            content: this.item['content']
-                        };
-                    }
-                    if (this.draft[value]) {
-                        this.item['content'] = this.draft[value].content;
-                    } else {
-                        this.item['content'] = null;
-                    }
-                    this.item['type'] = value;
+    define(['Vue'], function(Vue) {
+        Vue.component('snowdog-menu-type', {
+            template: template,
+            props: ['item', 'config'],
+            data: function() {
+                return {
+                    draft: {},
                 }
             },
-            getOptionLabel: function(option) {
-                if (typeof option === 'object') {
-                    return option.label;
+            computed: {
+                options: function() {
+                    var list = [];
+                    for (type in this.config.nodeTypes) {
+                        list.push({
+                            label: this.config.nodeTypes[type],
+                            value: type
+                        })
+                    }
+                    return list;
                 }
-                if (option) {
-                    return this.config.nodeTypes[option];
+            },
+            methods: {
+                changeType: function(selected) {
+                    if (selected && typeof selected === 'object') {
+                        var type  = this.item.type,
+                            value = selected.value;
+                        if (type) {
+                            this.draft[type] = {
+                                content: this.item['content']
+                            };
+                        }
+                        if (this.draft[value]) {
+                            this.item['content'] = this.draft[value].content;
+                        } else {
+                            this.item['content'] = null;
+                        }
+                        this.item['type'] = value;
+                    }
+                },
+                getOptionLabel: function(option) {
+                    if (typeof option === 'object') {
+                        return option.label;
+                    }
+                    if (option) {
+                        return this.config.nodeTypes[option];
+                    }
+                    return option;
                 }
-                return option;
             }
-        }
+        });
     });
-});
 </script>

@@ -63,41 +63,41 @@
 </template>
 
 <script>
-define(["Vue"], function(Vue) {
-    Vue.component("snowdog-menu", {
-        template: template,
-        props: ['list', 'config'],
-        data: function() {
-            return {
-                selectedItem: null
-            };
-        },
-        methods: {
-            setSelectedNode: function(item) {
-                this.selectedItem = item;
+    define(['Vue'], function(Vue) {
+        Vue.component('snowdog-menu', {
+            template: template,
+            props: ['list', 'config'],
+            data: function() {
+                return {
+                    selectedItem: null
+                };
             },
-            removeNode: function(list, index) {
-                list.splice(index, 1);
+            methods: {
+                setSelectedNode: function(item) {
+                    this.selectedItem = item;
+                },
+                removeNode: function(list, index) {
+                    list.splice(index, 1);
+                },
+                addNode: function(target) {
+                    target.push({
+                        'type': 'category',
+                        'title': this.config.translation.addNode,
+                        'id': new Date().getTime(),
+                        'content': null,
+                        'columns': []
+                    });
+                },
+                handleDrop(data) {
+                    data.item.id = new Date().getTime();
+                    data.list.splice(data.index, 0, data.item);
+                }
             },
-            addNode: function(target) {
-                target.push({
-                    'type': 'category',
-                    'title': this.config.translation.addNode,
-                    "id": new Date().getTime(),
-                    "content": null,
-                    "columns": []
-                });
-            },
-            handleDrop(data) {
-                data.item.id = new Date().getTime();
-                data.list.splice(data.index, 0, data.item);
+            computed: {
+                jsonList: function() {
+                    return JSON.stringify(this.list);
+                }
             }
-        },
-        computed: {
-            jsonList: function() {
-                return JSON.stringify(this.list);
-            }
-        }
+        });
     });
-});
 </script>

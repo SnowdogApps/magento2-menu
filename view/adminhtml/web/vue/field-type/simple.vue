@@ -6,6 +6,7 @@
         >
             {{ label }}
         </label>
+
         <div class="admin__field-control control">
             <input
                 class="input-text admin__control-text"
@@ -17,24 +18,25 @@
         </div>
     </div>
 </template>
+
 <script>
-define(["Vue"], function(Vue) {
-    Vue.component("simple-field", {
-        template: template,
-        props: ['label', 'id', 'type', 'value'],
-        data: function() {
-            return {
-                fieldId: ''
+    define(['Vue'], function(Vue) {
+        Vue.component('simple-field', {
+            template: template,
+            props: ['label', 'id', 'type', 'value'],
+            data: function() {
+                return {
+                    fieldId: ''
+                }
+            },
+            methods: {
+                updateValue: function(value) {
+                    this.$emit('input', value);
+                }
+            },
+            mounted: function() {
+                this.fieldId = 'snowmenu_' + this.id + '_' + this._uid;
             }
-        },
-        methods: {
-            updateValue: function(value) {
-                this.$emit('input', value);
-            }
-        },
-        mounted: function() {
-            this.fieldId = 'snowmenu_' + this.id + '_' + this._uid;
-        }
+        });
     });
-});
 </script>
