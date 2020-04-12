@@ -8,24 +8,19 @@
             <v-select
                 v-model="selected"
                 :options="options"
-                :placeholder="placeHolder"
-            />
-        </div>
+                :placeholder="placeholder"
+                :clearable="false"
+            >
+              <template v-slot:option="option">
+                    {{ option.label }}
 
-        <div class="selected-option">
-            <div class="selected-option__label">
-                {{ description }}
-            </div>
-
-            <div class="selected-option__value">
-                <span v-if="item.content">
-                    {{ item.content }}
-                </span>
-
-                <span v-else>
-                    {{ placeHolder }} ⇡
-                </span>
-            </div>
+                    <template v-if="option.store">
+                        <span class="vs__dropdown-option__details">
+                            {{ option.store.join(', ') }}
+                        </span>
+                    </template>
+                </template>
+            </v-select>
         </div>
     </div>
 </template>
@@ -72,7 +67,7 @@
                         }
                     }
                 },
-                placeHolder: function() {
+                placeholder: function() {
                     return this.config.translation.pleaseSelect + ' ' + this.label.toLocaleLowerCase();
                 }
             },
