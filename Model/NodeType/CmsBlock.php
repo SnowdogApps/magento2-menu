@@ -28,13 +28,15 @@ class CmsBlock extends AbstractNode
     {
         $this->profiler->start(__METHOD__);
 
-        $options = array_map(function($block) {
+        $options = array_map(function ($block) {
             return [
                 'label' => $block->getTitle(),
                 'value' => $block->getIdentifier(),
                 'store' => array_filter(
                     $block->getStoreId(),
-                    function($id) { return (int)$id !== 0; }
+                    function ($id) {
+                        return (int)$id !== 0;
+                    }
                 )
             ];
         }, $this->getResource()->fetchConfigData());

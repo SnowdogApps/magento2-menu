@@ -11,7 +11,7 @@
                 :placeholder="placeholder"
                 :clearable="false"
             >
-              <template v-slot:option="option">
+                <template v-slot:option="option">
                     {{ option.label }}
 
                     <template v-if="option.store">

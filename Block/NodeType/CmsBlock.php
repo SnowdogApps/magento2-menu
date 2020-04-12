@@ -70,8 +70,8 @@ class CmsBlock extends AbstractNode
     {
         $options = $this->_cmsBlockModel->fetchConfigData();
 
-        $options = array_map(function($block) {
-            $block['store'] = array_map(function($id) {
+        $options = array_map(function ($block) {
+            $block['store'] = array_map(function ($id) {
                 return $this->storesList[$id]['name'];
             }, $block['store']);
 

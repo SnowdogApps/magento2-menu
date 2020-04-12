@@ -85,8 +85,8 @@ class CmsPage extends AbstractNode
     {
         $options = $this->_cmsPageModel->fetchConfigData();
 
-        $options = array_map(function($page) {
-            $page['store'] = array_map(function($id) {
+        $options = array_map(function ($page) {
+            $page['store'] = array_map(function ($id) {
                 return $this->storesList[$id]['name'];
             }, $page['store']);
 

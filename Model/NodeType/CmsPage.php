@@ -28,13 +28,15 @@ class CmsPage extends AbstractNode
     {
         $this->profiler->start(__METHOD__);
 
-        $options = array_map(function($page) {
+        $options = array_map(function ($page) {
             return [
                 'label' => $page->getTitle(),
                 'value' => $page->getIdentifier(),
                 'store' => array_filter(
                     $page->getStoreId(),
-                    function($id) { return (int)$id !== 0; }
+                    function ($id) {
+                        return (int)$id !== 0;
+                    }
                 )
             ];
         }, $this->getResource()->fetchConfigData());
