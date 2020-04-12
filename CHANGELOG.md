@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [Unreleased]
 
 
+## [2.10.1] - 2020-03-23
+### Fixed
+- Nodes are deleted and recreated every time a menu is saved (#97)
+- Typo in a layout file (#96)
+
 ## [2.10.0] - 2019-05-29
 ### Added
 - Provide access to entity associated with menu node (#83)
