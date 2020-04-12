@@ -33,7 +33,7 @@
         <?php foreach ($block->getSubmenuNodes() as $node): ?>
             <?php
             $childrenLevel = $node->getLevel() + 1;
-            $children = $this->getNodes($childrenLevel, $node);
+            $children = $block->getNodes($childrenLevel, $node);
             $node->setIsParent((bool) $children);
 
             $nodeAttributes = [

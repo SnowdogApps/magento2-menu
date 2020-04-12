@@ -73,7 +73,6 @@ class Save extends Action
         $this->productRepository = $productRepository;
     }
 
-
     /**
      * Dispatch request
      *

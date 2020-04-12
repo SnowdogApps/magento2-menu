@@ -16,7 +16,7 @@
             <?php foreach ($block->getNodes() as $node): ?>
                 <?php
                     $childrenLevel = $node->getLevel() + 1;
-                    $children = $this->getNodes($childrenLevel, $node);
+                    $children = $block->getNodes($childrenLevel, $node);
                     $node->setIsParent((bool) $children);
                     $parentClass = $children ? ' ' . $menuClass . '__item--parent' : '';
                     $additionalClasses = $node->getClasses() ? ' ' . $node->getClasses() : '';

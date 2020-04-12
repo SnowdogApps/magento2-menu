@@ -71,7 +71,6 @@ class CmsPage extends AbstractNode
         $pageIds = $resource->getPageIds($storeId, $pagesCodes);
         $pageUrls = $resource->fetchData($storeId, $pageIds);
 
-
         $this->profiler->stop(__METHOD__);
 
         return [$localNodes, $pageIds, $pageUrls];
