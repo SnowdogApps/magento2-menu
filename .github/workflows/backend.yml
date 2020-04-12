@@ -1,7 +1,7 @@
 name: Backend
 on: push
 jobs:
-  lint:
+  backend-lint:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout

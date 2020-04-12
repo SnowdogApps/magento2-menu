@@ -1,7 +1,7 @@
 name: Frontend
 on: push
 jobs:
-  lint:
+  frontend-lint:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout
