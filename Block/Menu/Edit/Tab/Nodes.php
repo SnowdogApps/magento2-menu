@@ -109,7 +109,7 @@ class Nodes extends Template implements TabInterface
 
     private function renderNodeList($level, $parent, $data)
     {
-        if (is_null($parent)) {
+        if ($parent === null) {
             $parent = 0;
         }
         if (empty($data[$level])) {

@@ -96,6 +96,7 @@ abstract class AbstractNode extends AbstractResource
     /**
      * @inheritDoc
      */
+    // phpcs:ignore Magento2.CodeAnalysis.EmptyBlock.DetectedFunction
     protected function _construct()
     {
     }

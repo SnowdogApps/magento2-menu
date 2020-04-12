@@ -17,7 +17,7 @@ class CmsPage extends AbstractNode
      */
     protected function _construct()
     {
-        $this->_init('Snowdog\Menu\Model\ResourceModel\NodeType\CmsPage');
+        $this->_init(\Snowdog\Menu\Model\ResourceModel\NodeType\CmsPage::class);
         parent::_construct();
     }
 

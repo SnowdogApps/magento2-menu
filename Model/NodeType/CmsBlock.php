@@ -17,7 +17,7 @@ class CmsBlock extends AbstractNode
      */
     protected function _construct()
     {
-        $this->_init('Snowdog\Menu\Model\ResourceModel\NodeType\CmsBlock');
+        $this->_init(\Snowdog\Menu\Model\ResourceModel\NodeType\CmsBlock::class);
         parent::_construct();
     }
 

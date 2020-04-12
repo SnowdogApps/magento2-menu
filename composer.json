@@ -27,7 +27,7 @@
     "magento/magento-coding-standard": "^5.0"
   },
   "scripts": {
-    "test": "vendor/bin/phpcs --colors --standard=Magento2 --exclude=Magento2.Security.XssTemplate --ignore=vendor --extensions=php,phtml *",
+    "test": "vendor/bin/phpcs -s --colors --standard=Magento2 --exclude=Magento2.Security.XssTemplate --ignore=vendor --extensions=php,phtml *",
     "post-install-cmd": "([ $COMPOSER_DEV_MODE -eq 0 ] || vendor/bin/phpcs --config-set installed_paths ../../magento/magento-coding-standard/)",
     "post-update-cmd": "([ $COMPOSER_DEV_MODE -eq 0 ] || vendor/bin/phpcs --config-set installed_paths ../../magento/magento-coding-standard/)"
   }
