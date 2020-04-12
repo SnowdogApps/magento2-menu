@@ -30,7 +30,16 @@
 <script>
     define(['Vue'], function(Vue) {
         Vue.component('custom_url', {
-            props: ['config', 'item'],
+            props: {
+                config: {
+                    type: Object,
+                    required: true
+                },
+                item: {
+                    type: Object,
+                    required: true
+                }
+            },
             template: template
         });
     });

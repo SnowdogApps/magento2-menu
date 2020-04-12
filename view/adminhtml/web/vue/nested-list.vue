@@ -117,17 +117,44 @@
     define(['Vue'], function(Vue) {
         Vue.component('snowdog-nested-list', {
             name: 'List',
-            props: [
-                'item',
-                'list',
-                'index',
-                'selected',
-                'selectedItem',
-                'delete',
-                'append',
-                'drop',
-                'config'
-            ],
+            props: {
+                item: {
+                    type: Object,
+                    required: true
+                },
+                list: {
+                    type: Array,
+                    required: true
+                },
+                index: {
+                    type: Number,
+                    required: true
+                },
+                selected: {
+                    type: Function,
+                    required: true
+                },
+                selectedItem: {
+                    type: Object,
+                    required: true
+                },
+                delete: {
+                    type: Function,
+                    required: true
+                },
+                append: {
+                    type: Function,
+                    required: true
+                },
+                drop: {
+                    type: Function,
+                    required: true
+                },
+                config: {
+                    type: Object,
+                    required: true
+                },
+            },
             data: function() {
                 return {
                     editItem: false,

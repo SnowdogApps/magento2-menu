@@ -33,13 +33,28 @@
 <script>
     define(['Vue'], function(Vue) {
         Vue.component('auto-complete', {
-            props: [
-                'label',
-                'description',
-                'options',
-                'item',
-                'config'
-            ],
+            props: {
+                label: {
+                    type: String,
+                    required: true
+                },
+                description: {
+                    type: String,
+                    required: true
+                },
+                options: {
+                    type: Array,
+                    required: true
+                },
+                item: {
+                    type: Object,
+                    required: true
+                },
+                config: {
+                    type: Object,
+                    required: true
+                },
+            },
             computed: {
                 selected: {
                     get() {

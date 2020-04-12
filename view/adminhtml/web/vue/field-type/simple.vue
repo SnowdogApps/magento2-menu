@@ -22,7 +22,24 @@
 <script>
     define(['Vue'], function(Vue) {
         Vue.component('simple-field', {
-            props: ['label', 'id', 'type', 'value'],
+            props: {
+                label: {
+                    type: String,
+                    required: true
+                },
+                id: {
+                    type: String,
+                    required: true
+                },
+                type: {
+                    type: String,
+                    required: true
+                },
+                value: {
+                    type: String,
+                    required: true
+                }
+            },
             data: function() {
                 return {
                     fieldId: ''

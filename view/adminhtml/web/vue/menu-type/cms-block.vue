@@ -13,7 +13,16 @@
 <script>
     define(['Vue'], function(Vue) {
         Vue.component('cms_block', {
-            props: ['config', 'item'],
+            props: {
+                config: {
+                    type: Object,
+                    required: true
+                },
+                item: {
+                    type: Object,
+                    required: true
+                }
+            },
             template: template
         });
     });

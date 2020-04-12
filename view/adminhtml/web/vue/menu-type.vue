@@ -45,7 +45,16 @@
 <script>
     define(['Vue'], function(Vue) {
         Vue.component('snowdog-menu-type', {
-            props: ['item', 'config'],
+            props: {
+                list: {
+                    type: Object,
+                    required: true
+                },
+                config: {
+                    type: Object,
+                    required: true
+                }
+            },
             data: function() {
                 return {
                     draft: {},

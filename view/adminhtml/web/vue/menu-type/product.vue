@@ -12,7 +12,16 @@
 <script>
     define(['Vue'], function(Vue) {
         Vue.component('product', {
-            props: ['config', 'item'],
+            props: {
+                config: {
+                    type: Object,
+                    required: true
+                },
+                item: {
+                    type: Object,
+                    required: true
+                }
+            },
             template: template
         });
     });
