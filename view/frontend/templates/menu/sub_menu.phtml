@@ -13,7 +13,7 @@
         'data-menu' => 'menu-' . $parentNode->getNodeId()
     ];
     ?>
-    <ul<?= $block->buildAttrFromArray($wrapperAttributes) ?>>
+    <ul <?= $block->buildAttrFromArray($wrapperAttributes) ?>>
         <?php if ($block->isViewAllLinkAllowed($parentNode->getType())): ?>
             <?php
                 $viewAllAttributes = [
@@ -24,10 +24,11 @@
                     ]
                 ];
             ?>
-            <li<?= $block->buildAttrFromArray($viewAllAttributes) ?>>
-                <?php echo $block->renderViewAllLink($parentNode) ?>
+            <li <?= $block->buildAttrFromArray($viewAllAttributes) ?>>
+                <?= $block->renderViewAllLink($parentNode) ?>
             </li>
         <?php endif ?>
+
         <?php foreach ($block->getSubmenuNodes() as $node): ?>
             <?php
                 $childrenLevel = $node->getLevel() + 1;
@@ -49,9 +50,9 @@
                     $nodeAttributes['class'][] = $node->getClasses();
                 }
             ?>
-            <li<?= $block->buildAttrFromArray($nodeAttributes) ?>>
-                <?php echo $block->renderMenuNode($node) ?>
-                <?php echo $block->renderSubmenu($children, $node, $childrenLevel) ?>
+            <li <?= $block->buildAttrFromArray($nodeAttributes) ?>>
+                <?= $block->renderMenuNode($node) ?>
+                <?= $block->renderSubmenu($children, $node, $childrenLevel) ?>
             </li>
         <?php endforeach ?>
     </ul>

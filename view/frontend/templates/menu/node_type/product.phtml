@@ -20,9 +20,11 @@ if ($block->isCurrentProduct($nodeId)) {
     $classLink .= ' current';
 }
 ?>
+
 <a
     href="<?= $productUrl ?>"
-    class="<?= $classLink ?>"<?= $dataAttribute ?>
+    class="<?= $classLink ?>"
+    <?= $dataAttribute ?>
 >
     <?= $title ?>
 </a>
