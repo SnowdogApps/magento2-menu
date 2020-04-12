@@ -2,9 +2,11 @@
     <div class="panel panel--open">
         <div class="panel__heading">
             <div class="panel__collapse" />
+
             <div class="panel__heading-text">
                 <span>{{ config.translation.nodes }}</span>
             </div>
+
             <div>
                 <button
                     class="panel__buttom panel__buttom--append"
@@ -13,6 +15,7 @@
                 />
             </div>
         </div>
+
         <div class="panel__body">
             <vddl-list
                 class="panel__body--list"
@@ -20,7 +23,6 @@
                 effect-allowed="move"
                 :external-sources="true"
                 :drop="handleDrop"
-                :config="config"
             >
                 <template v-if="list.length > 0">
                     <snowdog-nested-list
@@ -37,6 +39,7 @@
                         :config="config"
                     />
                 </template>
+
                 <div
                     v-else
                     class="panel__empty-text"
@@ -49,11 +52,13 @@
                     />
                     {{ config.translation.createFirstNode }}
                 </div>
+
                 <vddl-placeholder>
                     <div class="vddl-placeholder__inner" />
                 </vddl-placeholder>
             </vddl-list>
         </div>
+
         <input
             type="hidden"
             name="serialized_nodes"

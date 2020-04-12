@@ -9,10 +9,7 @@
         :wrapper="list"
         :class="{'selected': selectedItem === item}"
     >
-        <div
-            class="panel padding"
-            :class="{ 'panel--open': !collapsed }"
-        >
+        <div class="panel">
             <div class="panel__heading">
                 <div
                     class="panel__collapse"

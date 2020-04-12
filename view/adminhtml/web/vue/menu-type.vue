@@ -1,19 +1,5 @@
 <template>
     <fieldset class="admin__fieldset fieldset-wide">
-        <simple-field
-            id="node_name"
-            v-model="item.title"
-            :label="config.translation.nodeName"
-            type="textarea"
-        />
-
-        <simple-field
-            id="node_classes"
-            v-model="item.classes"
-            :label="config.translation.nodeClasses"
-            type="text"
-        />
-
         <div class="admin__field field field-title">
             <label
                 class="label admin__field-label"
@@ -33,6 +19,20 @@
                 />
             </div>
         </div>
+
+        <simple-field
+            id="node_name"
+            v-model="item.title"
+            :label="config.translation.nodeName"
+            type="textarea"
+        />
+
+        <simple-field
+            id="node_classes"
+            v-model="item.classes"
+            :label="config.translation.nodeClasses"
+            type="text"
+        />
 
         <component
             :is="item['type']"
