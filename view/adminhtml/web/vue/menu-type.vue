@@ -46,7 +46,7 @@
     define(['Vue'], function(Vue) {
         Vue.component('snowdog-menu-type', {
             props: {
-                list: {
+                item: {
                     type: Object,
                     required: true
                 },

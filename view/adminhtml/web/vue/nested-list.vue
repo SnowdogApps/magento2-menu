@@ -135,8 +135,8 @@
                     required: true
                 },
                 selectedItem: {
-                    type: Object,
-                    required: true
+                    type: [Object, Boolean],
+                    default: false
                 },
                 delete: {
                     type: Function,

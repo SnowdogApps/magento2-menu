@@ -77,7 +77,7 @@
             },
             data: function() {
                 return {
-                    selectedItem: null
+                    selectedItem: false
                 };
             },
             computed: {
