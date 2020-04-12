@@ -6,16 +6,15 @@
             :item="item"
             :options="config.fieldData.category.snowMenuAutoCompleteField.options"
             :config="config"
-        >
-        </auto-complete>
+        />
     </div>
 </template>
 
 <script>
     define(['Vue'], function(Vue) {
         Vue.component('category', {
-            template: template,
-            props: ['config', 'item']
+            props: ['config', 'item'],
+            template: template
         });
     });
 </script>

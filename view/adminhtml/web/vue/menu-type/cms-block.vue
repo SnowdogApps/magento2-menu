@@ -6,16 +6,15 @@
             :item="item"
             :options="config.fieldData.cms_block.snowMenuAutoCompleteField.options"
             :config="config"
-        >
-        </auto-complete>
+        />
     </div>
 </template>
 
 <script>
     define(['Vue'], function(Vue) {
         Vue.component('cms_block', {
-            template: template,
-            props: ['config', 'item']
+            props: ['config', 'item'],
+            template: template
         });
     });
 </script>

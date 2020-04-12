@@ -1,20 +1,18 @@
 <template>
     <fieldset class="admin__fieldset fieldset-wide">
         <simple-field
-            :label="config.translation.nodeName"
             id="node_name"
-            type="textarea"
             v-model="item.title"
-        >
-        </simple-field>
+            :label="config.translation.nodeName"
+            type="textarea"
+        />
 
         <simple-field
-            :label="config.translation.nodeClasses"
             id="node_classes"
-            type="text"
             v-model="item.classes"
-        >
-        </simple-field>
+            :label="config.translation.nodeClasses"
+            type="text"
+        />
 
         <div class="admin__field field field-title">
             <label
@@ -27,13 +25,12 @@
             <div class="admin__field-control control">
                 <v-select
                     :value="item.type"
-                    @input="changeType"
                     :options="options"
                     :placeholder="config.translation.selectNodeType"
-                    :getOptionLabel="getOptionLabel"
+                    :get-option-label="getOptionLabel"
                     :searchable="false"
-                >
-                </v-select>
+                    @input="changeType"
+                />
             </div>
         </div>
 
@@ -41,14 +38,13 @@
             :is="item['type']"
             :item="item"
             :config="config"
-        ></component>
+        />
     </fieldset>
 </template>
 
 <script>
     define(['Vue'], function(Vue) {
         Vue.component('snowdog-menu-type', {
-            template: template,
             props: ['item', 'config'],
             data: function() {
                 return {
@@ -94,7 +90,8 @@
                     }
                     return option;
                 }
-            }
+            },
+            template: template
         });
     });
 </script>

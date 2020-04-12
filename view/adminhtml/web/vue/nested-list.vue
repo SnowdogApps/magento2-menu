@@ -7,7 +7,7 @@
         :delete="deleteEvent"
         :append="appendEvent"
         :wrapper="list"
-        v-bind:class="{'selected': selectedItem === item}"
+        :class="{'selected': selectedItem === item}"
     >
         <div
             class="panel padding"
@@ -22,8 +22,7 @@
                         'panel__collapse--none': item.columns.length == 0,
                     }"
                     @click.prevent="collapsed = !collapsed"
-                >
-                </div>
+                />
 
                 <div
                     class="panel__heading-text"
@@ -32,8 +31,8 @@
                     {{ item.title }}
 
                     <span
-                        class="panel__heading-type"
                         v-if="getNodeType(item.type)"
+                        class="panel__heading-type"
                     >
                         {{ getNodeType(item.type) }}
                     </span>
@@ -41,25 +40,22 @@
 
                 <div>
                     <button
-                        @click.prevent="editNode"
                         class="panel__buttom panel__buttom--edit"
                         :title="config.translation.edit"
-                    >
-                    </button>
+                        @click.prevent="editNode"
+                    />
 
                     <button
-                        @click.prevent="appendEvent(list, index)"
                         class="panel__buttom panel__buttom--append"
                         :title="config.translation.append"
-                    >
-                    </button>
+                        @click.prevent="appendEvent(list, index)"
+                    />
 
                     <button
-                        @click.prevent="deleteEvent(list, index)"
                         class="panel__buttom panel__buttom--delete"
                         :title="config.translation.delete"
-                    >
-                    </button>
+                        @click.prevent="deleteEvent(list, index)"
+                    />
                 </div>
             </div>
 
@@ -75,8 +71,7 @@
                             <snowdog-menu-type
                                 :item.sync="item"
                                 :config="config"
-                            >
-                            </snowdog-menu-type>
+                            />
                         </vddl-nodrag>
                     </template>
 
@@ -93,23 +88,24 @@
                             :append="append"
                             :drop="drop"
                             :config="config"
-                        >
-                        </list>
+                        />
                     </template>
 
-                    <div v-else class="panel__empty-text">
+                    <div
+                        v-else
+                        class="panel__empty-text"
+                    >
                         {{ config.translation.click }}
                         <button
-                            @click.prevent="appendEvent(list, index)"
                             class="panel__buttom panel__buttom--append"
                             :title="config.translation.append"
-                        >
-                        </button>
+                            @click.prevent="appendEvent(list, index)"
+                        />
                         {{ config.translation.createSubNode }}
                     </div>
 
                     <vddl-placeholder>
-                        <div class="vddl-placeholder__inner"></div>
+                        <div class="vddl-placeholder__inner" />
                     </vddl-placeholder>
                 </vddl-list>
             </div>
@@ -120,8 +116,7 @@
 <script>
     define(['Vue'], function(Vue) {
         Vue.component('snowdog-nested-list', {
-            template: template,
-            name: 'list',
+            name: 'List',
             props: [
                 'item',
                 'list',
@@ -169,7 +164,8 @@
                     this.editItem = !this.editItem;
                     this.collapsed = !this.editItem;
                 }
-            }
+            },
+            template: template
         });
     });
 </script>

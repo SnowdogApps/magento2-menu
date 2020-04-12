@@ -9,8 +9,7 @@
                 v-model="selected"
                 :options="options"
                 :placeholder="placeHolder"
-            >
-            </v-select>
+            />
         </div>
 
         <div class="selected-option">
@@ -34,7 +33,6 @@
 <script>
     define(['Vue'], function(Vue) {
         Vue.component('auto-complete', {
-            template: template,
             props: [
                 'label',
                 'description',
@@ -62,7 +60,8 @@
                 placeHolder: function() {
                     return this.config.translation.pleaseSelect + ' ' + this.label.toLocaleLowerCase();
                 }
-            }
+            },
+            template: template
         });
     });
 </script>

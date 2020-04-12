@@ -1,17 +1,16 @@
 <template>
     <div class="panel panel--open">
         <div class="panel__heading">
-            <div class="panel__collapse"></div>
+            <div class="panel__collapse" />
             <div class="panel__heading-text">
                 <span>{{ config.translation.nodes }}</span>
             </div>
             <div>
                 <button
-                    @click.prevent="addNode(list)"
                     class="panel__buttom panel__buttom--append"
                     :title="config.translation.append"
-                >
-                </button>
+                    @click.prevent="addNode(list)"
+                />
             </div>
         </div>
         <div class="panel__body">
@@ -36,21 +35,22 @@
                         :append="addNode"
                         :drop="handleDrop"
                         :config="config"
-                    >
-                    </snowdog-nested-list>
+                    />
                 </template>
-                <div v-else class="panel__empty-text">
+                <div
+                    v-else
+                    class="panel__empty-text"
+                >
                     {{ config.translation.click }}
                     <button
-                        @click.prevent="addNode(list)"
                         class="panel__buttom panel__buttom--append"
                         :title="config.translation.append"
-                    >
-                    </button>
+                        @click.prevent="addNode(list)"
+                    />
                     {{ config.translation.createFirstNode }}
                 </div>
                 <vddl-placeholder>
-                    <div class="vddl-placeholder__inner"></div>
+                    <div class="vddl-placeholder__inner" />
                 </vddl-placeholder>
             </vddl-list>
         </div>
@@ -58,19 +58,23 @@
             type="hidden"
             name="serialized_nodes"
             :value="jsonList"
-        />
+        >
     </div>
 </template>
 
 <script>
     define(['Vue'], function(Vue) {
         Vue.component('snowdog-menu', {
-            template: template,
             props: ['list', 'config'],
             data: function() {
                 return {
                     selectedItem: null
                 };
+            },
+            computed: {
+                jsonList: function() {
+                    return JSON.stringify(this.list);
+                }
             },
             methods: {
                 setSelectedNode: function(item) {
@@ -93,11 +97,7 @@
                     data.list.splice(data.index, 0, data.item);
                 }
             },
-            computed: {
-                jsonList: function() {
-                    return JSON.stringify(this.list);
-                }
-            }
+            template: template
         });
     });
 </script>
