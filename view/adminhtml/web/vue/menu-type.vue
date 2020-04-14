@@ -7,6 +7,13 @@
             v-model="item.title"
         >
         </simple-field>
+        <checkbox
+            :label="isNodeActiveLabel"
+            id="is_active"
+            :item="item"
+            :value="item.is_active"
+        >
+        </checkbox>
         <simple-field
             :label="config.translation.nodeClasses"
             id="node_classes"
@@ -38,13 +45,14 @@
 </template>
 
 <script>
-define(["Vue"], function(Vue) {
+define(["Vue", 'mage/translate'], function(Vue, $t) {
     Vue.component("snowdog-menu-type", {
         template: template,
         props: ['item', 'config'],
         data: function() {
             return {
                 draft: {},
+                isNodeActiveLabel: $t('Enabled')
             }
         },
         computed: {
