@@ -7,6 +7,9 @@ class Collection extends AbstractCollection
 {
     protected function _construct()
     {
-        $this->_init('Snowdog\Menu\Model\Menu', 'Snowdog\Menu\Model\ResourceModel\Menu');
+        $this->_init(
+            \Snowdog\Menu\Model\Menu::class,
+            \Snowdog\Menu\Model\ResourceModel\Menu::class
+        );
     }
 }

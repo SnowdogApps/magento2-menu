@@ -1,0 +1,24 @@
+name: Backend
+on: push
+jobs:
+  backend-lint:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+
+    - uses: shivammathur/setup-php@v2
+      with:
+        php-version: '7.3'
+
+    - name: Add composer repositories
+      env:
+        USERNAME: ${{ secrets.COMPOSER_MAGENTO_USERNAME }}
+        PASSWORD: ${{ secrets.COMPOSER_MAGENTO_PASSWORD }}
+      run: composer config repositories.magento composer https://$USERNAME:$PASSWORD@repo.magento.com/
+
+    - name: Install dependencies
+      run: composer install --prefer-dist --no-progress --no-suggest
+
+    - name: Run tests
+      run: composer run-script test

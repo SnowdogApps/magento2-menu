@@ -3,7 +3,10 @@
     <?php $menuClass = $block->getMenu()->getCssClass() ?>
 
     <div class="<?= $menuClass ?>__mobile">
-        <svg title="icon-arrow-down" class="<?= $menuClass ?>__mobile-icon">
+        <svg
+            title="icon-arrow-down"
+            class="<?= $menuClass ?>__mobile-icon"
+        >
             <use xlink:href="<?= $block->getViewFileUrl('images/icon-sprite.svg#icon-mobile-menu') ?>"></use>
         </svg>
     </div>
@@ -13,15 +16,15 @@
             <?php foreach ($block->getNodes() as $node): ?>
                 <?php
                     $childrenLevel = $node->getLevel() + 1;
-                    $children = $this->getNodes($childrenLevel, $node);
+                    $children = $block->getNodes($childrenLevel, $node);
                     $node->setIsParent((bool) $children);
                     $parentClass = $children ? ' ' . $menuClass . '__item--parent' : '';
                     $additionalClasses = $node->getClasses() ? ' ' . $node->getClasses() : '';
                     $itemClasses = $parentClass . $additionalClasses;
                 ?>
-                <li class="<?= $menuClass ?>__item<?= $itemClasses ?>">
-                    <?php echo $block->renderMenuNode($node) ?>
-                    <?php echo $block->renderSubmenu($children, $node, $childrenLevel) ?>
+                <li class="<?= $menuClass ?>__item <?= $itemClasses ?>">
+                    <?= $block->renderMenuNode($node) ?>
+                    <?= $block->renderSubmenu($children, $node, $childrenLevel) ?>
                 </li>
             <?php endforeach ?>
         </ul>

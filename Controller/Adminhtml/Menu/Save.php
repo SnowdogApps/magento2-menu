@@ -73,7 +73,6 @@ class Save extends Action
         $this->productRepository = $productRepository;
     }
 
-
     /**
      * Dispatch request
      *
@@ -226,6 +225,8 @@ class Save extends Action
             foreach ($nodes as $node) {
                 $node['parent'] = $parent;
                 $convertedTree[] = $node;
+                // TODO: Refactor this code, to not merge arrays inside forEach
+                // phpcs:ignore Magento2.Performance.ForeachArrayMerge.ForeachArrayMerge
                 $convertedTree = array_merge($convertedTree, $this->_convertTree($node['columns'], $node['id']));
             }
         }

@@ -4,7 +4,7 @@ namespace Snowdog\Menu\Api;
 use Snowdog\Menu\Api\Data\MenuInterface;
 use Magento\Framework\Api\SearchCriteriaInterface;
 
-interface MenuRepositoryInterface 
+interface MenuRepositoryInterface
 {
     /**
      * @param \Snowdog\Menu\Api\Data\MenuInterface $page

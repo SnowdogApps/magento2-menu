@@ -16,7 +16,7 @@ class Menu extends AbstractModel implements MenuInterface, IdentityInterface
 
     protected function _construct()
     {
-        $this->_init('Snowdog\Menu\Model\ResourceModel\Menu');
+        $this->_init(\Snowdog\Menu\Model\ResourceModel\Menu::class);
     }
 
     public function getIdentities()

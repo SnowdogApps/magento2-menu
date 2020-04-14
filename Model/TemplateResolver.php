@@ -26,7 +26,6 @@ class TemplateResolver
         $this->validator = $validator;
     }
 
-
     /**
      * @param Template $block
      * @param string $menuId
