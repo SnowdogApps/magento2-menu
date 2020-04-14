@@ -14,6 +14,8 @@ use Magento\Cms\Api\Data\BlockInterface;
 use Magento\Framework\App\ResourceConnection;
 use Magento\Framework\EntityManager\MetadataPool;
 use Magento\Store\Model\Store;
+use Magento\Cms\Api\BlockRepositoryInterface;
+use Magento\Framework\Api\SearchCriteriaBuilder;
 
 class CmsBlock extends AbstractNode
 {
@@ -24,9 +26,13 @@ class CmsBlock extends AbstractNode
 
     public function __construct(
         ResourceConnection $resource,
+        BlockRepositoryInterface $blockRepository,
+        SearchCriteriaBuilder $searchCriteriaBuilder,
         MetadataPool $metadataPool
     ) {
         $this->metadataPool = $metadataPool;
+        $this->blockRepository = $blockRepository;
+        $this->searchCriteriaBuilder = $searchCriteriaBuilder;
         parent::__construct($resource);
     }
 
@@ -35,14 +41,8 @@ class CmsBlock extends AbstractNode
      */
     public function fetchConfigData()
     {
-        $connection = $this->getConnection('read');
-
-        $select = $connection->select()->from(
-            $this->getTable('cms_block'),
-            ['title', 'identifier']
-        );
-
-        return $connection->fetchPairs($select);
+        $searchCriteria = $this->searchCriteriaBuilder->create();
+        return $this->blockRepository->getList($searchCriteria)->getItems();
     }
 
     /**
