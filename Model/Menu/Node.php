@@ -11,7 +11,7 @@ class Node extends AbstractModel implements NodeInterface, IdentityInterface
 
     protected function _construct()
     {
-        $this->_init('Snowdog\Menu\Model\ResourceModel\Menu\Node');
+        $this->_init(\Snowdog\Menu\Model\ResourceModel\Menu\Node::class);
     }
 
     /**

@@ -54,11 +54,13 @@ class CmsBlock extends AbstractNode
         CmsBlockModel $cmsBlockModel,
         FilterProvider $filterProvider,
         TemplateResolver $templateResolver,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         $data = []
     ) {
         parent::__construct($context, $templateResolver, $data);
         $this->filterProvider = $filterProvider;
         $this->_cmsBlockModel = $cmsBlockModel;
+        $this->storesList = $storeManager->getStores();
     }
 
     /**
@@ -66,9 +68,23 @@ class CmsBlock extends AbstractNode
      */
     public function getJsonConfig()
     {
-        $data = $this->_cmsBlockModel->fetchConfigData();
+        $options = $this->_cmsBlockModel->fetchConfigData();
 
-        return $data;
+        $options = array_map(function ($block) {
+            $block['store'] = array_map(function ($id) {
+                return $this->storesList[$id]['name'];
+            }, $block['store']);
+
+            return $block;
+        }, $options);
+
+        return [
+            'snowMenuAutoCompleteField' => [
+                'type'    => 'cms_block',
+                'options' => array_values($options),
+                'message' => __('CMS Block not found'),
+            ]
+        ];
     }
 
     /**

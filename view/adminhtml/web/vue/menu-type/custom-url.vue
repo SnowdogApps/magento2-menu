@@ -1,12 +1,12 @@
 <template>
-    <div class="admin__field field">
+    <div class="admin__field field field-title">
         <simple-field
-            :label="config.translation.customURL"
             id="custom_url"
-            type="text"
             v-model="item.content"
-        >
-        </simple-field>
+            :label="config.translation.customURL"
+            type="text"
+        />
+
         <div class="admin__field field field-title">
             <label
                 class="label admin__field-label"
@@ -14,25 +14,35 @@
             >
                 {{ config.translation.targetLabel }}
             </label>
+
             <div class="admin__field-control control">
                 <input
+                    id="snowmenu_custom_target"
+                    v-model="item.target"
                     class="checkbox"
                     type="checkbox"
-                    id="snowmenu_custom_target"
                     true-value="1"
                     false-value="0"
-                    v-model="item.target"
-                />
+                >
             </div>
         </div>
     </div>
 </template>
 
 <script>
-define(["Vue"], function(Vue) {
-    Vue.component("custom_url", {
-        template: template,
-        props: ['config', 'item']
+    define(['Vue'], function(Vue) {
+        Vue.component('custom_url', {
+            props: {
+                config: {
+                    type: Object,
+                    required: true
+                },
+                item: {
+                    type: Object,
+                    required: true
+                }
+            },
+            template: template
+        });
     });
-});
 </script>

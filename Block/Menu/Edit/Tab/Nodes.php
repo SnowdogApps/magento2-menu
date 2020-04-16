@@ -109,7 +109,7 @@ class Nodes extends Template implements TabInterface
 
     private function renderNodeList($level, $parent, $data)
     {
-        if (is_null($parent)) {
+        if ($parent === null) {
             $parent = 0;
         }
         if (empty($data[$level])) {
@@ -128,7 +128,7 @@ class Nodes extends Template implements TabInterface
                 'target' => $node->getTarget(),
                 'id' => $node->getId(),
                 'title' => $node->getTitle(),
-                'columns' => $this->renderNodeList($level + 1, $node->getId(), $data) ? $this->renderNodeList($level + 1, $node->getId(), $data) : []
+                'columns' => $this->renderNodeList($level + 1, $node->getId(), $data) ?: []
             ];
         }
         return $menu;

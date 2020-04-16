@@ -149,7 +149,7 @@ class UpgradeSchema implements UpgradeSchemaInterface
                 'type' => Table::TYPE_SMALLINT,
                 'length' => 5,
                 'nullable' => false,
-                'primary' => true, 
+                'primary' => true,
                 'unsigned' => true,
                 'comment' => 'Store ID'
             ]
@@ -157,9 +157,9 @@ class UpgradeSchema implements UpgradeSchemaInterface
 
         $setup->getConnection()->addForeignKey(
             $setup->getFkName(
-                'snowmenu_node', 
-                'menu_id', 
-                'snowmenu_menu', 
+                'snowmenu_node',
+                'menu_id',
+                'snowmenu_menu',
                 'menu_id'
             ),
             $nodeTable,
@@ -171,9 +171,9 @@ class UpgradeSchema implements UpgradeSchemaInterface
 
         $setup->getConnection()->addForeignKey(
             $setup->getFkName(
-                'snowmenu_store', 
-                'menu_id', 
-                'snowmenu_menu', 
+                'snowmenu_store',
+                'menu_id',
+                'snowmenu_menu',
                 'menu_id'
             ),
             $storeTable,
@@ -185,9 +185,9 @@ class UpgradeSchema implements UpgradeSchemaInterface
 
         $setup->getConnection()->addForeignKey(
             $setup->getFkName(
-                'snowmenu_store', 
-                'store_id', 
-                'store', 
+                'snowmenu_store',
+                'store_id',
+                'store',
                 'store_id'
             ),
             $storeTable,

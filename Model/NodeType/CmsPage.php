@@ -17,7 +17,7 @@ class CmsPage extends AbstractNode
      */
     protected function _construct()
     {
-        $this->_init('Snowdog\Menu\Model\ResourceModel\NodeType\CmsPage');
+        $this->_init(\Snowdog\Menu\Model\ResourceModel\NodeType\CmsPage::class);
         parent::_construct();
     }
 
@@ -28,27 +28,22 @@ class CmsPage extends AbstractNode
     {
         $this->profiler->start(__METHOD__);
 
-        $options = $this->getResource()->fetchConfigData();
-        $fieldOptions = [];
-
-        foreach ($options as $label => $value) {
-            $fieldOptions[] = [
-                'label' => $label,
-                'value' => $value
+        $options = array_map(function ($page) {
+            return [
+                'label' => $page->getTitle(),
+                'value' => $page->getIdentifier(),
+                'store' => array_filter(
+                    $page->getStoreId(),
+                    function ($id) {
+                        return (int)$id !== 0;
+                    }
+                )
             ];
-        }
-
-        $data = [
-            'snowMenuAutoCompleteField' => [
-                'type' => 'cms_page',
-                'options' => $fieldOptions,
-                'message' => __('CMS Page not found'),
-            ],
-        ];
+        }, $this->getResource()->fetchConfigData());
 
         $this->profiler->stop(__METHOD__);
 
-        return $data;
+        return $options;
     }
 
     /**
@@ -70,7 +65,6 @@ class CmsPage extends AbstractNode
         $resource = $this->getResource();
         $pageIds = $resource->getPageIds($storeId, $pagesCodes);
         $pageUrls = $resource->fetchData($storeId, $pageIds);
-
 
         $this->profiler->stop(__METHOD__);
 
