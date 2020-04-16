@@ -23,7 +23,7 @@ class Product extends AbstractNode
      */
     protected function _construct()
     {
-        $this->_init('Snowdog\Menu\Model\ResourceModel\NodeType\Product');
+        $this->_init(\Snowdog\Menu\Model\ResourceModel\NodeType\Product::class);
         parent::_construct();
     }
 
@@ -54,7 +54,7 @@ class Product extends AbstractNode
             $localNodes[$node->getId()] = $node;
             $productIds[] = (int)$node->getContent();
         }
-        
+
         $resource = $this->getResource();
         $productImages = $resource->fetchImageData($storeId, $productIds);
         $productUrls = $resource->fetchData($storeId, $productIds);

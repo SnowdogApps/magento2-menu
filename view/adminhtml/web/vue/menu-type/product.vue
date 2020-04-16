@@ -1,19 +1,26 @@
 <template>
-    <div class="admin__field field">
-        <simple-field
-            :label="config.translation.productId"
-            id="snowmenu_node_product"
-            type="textarea"
-            v-model="item.content"
-        >
-        </simple-field>
-    </div>
+    <simple-field
+        id="snowmenu_node_product"
+        v-model="item.content"
+        :label="config.translation.productId"
+        type="textarea"
+    />
 </template>
+
 <script>
-define(["Vue"], function(Vue) {
-    Vue.component("product", {
-        template: template,
-        props: ['config', 'item']
+    define(['Vue'], function(Vue) {
+        Vue.component('product', {
+            props: {
+                config: {
+                    type: Object,
+                    required: true
+                },
+                item: {
+                    type: Object,
+                    required: true
+                }
+            },
+            template: template
+        });
     });
-});
 </script>

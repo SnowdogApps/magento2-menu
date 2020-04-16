@@ -50,7 +50,6 @@ class Delete extends Action
         $this->searchCriteriaBuilderFactory = $searchCriteriaBuilderFactory;
     }
 
-
     /**
      * Dispatch request
      *

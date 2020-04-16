@@ -1,0 +1,39 @@
+.panel .v-select{
+    .open-indicator,
+    .dropdown-toggle .clear {
+        top: 0;
+        bottom: 0;
+        margin: auto;
+    }
+
+    .open-indicator {
+        height: 14px;
+    }
+
+    .vs__search {
+        border: none;
+    }
+
+    .vs--single.vs--open .vs__selected {
+        position: relative;
+    }
+
+    .vs__dropdown-option {
+        display: flex;
+        justify-content: space-between;
+
+        &--highlight {
+            .vs__dropdown-option__details {
+                color: #ddd;
+            }
+        }
+
+        &__details {
+            font-size: 12px;
+            color: #888;
+            max-width: 200px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+    }
+}

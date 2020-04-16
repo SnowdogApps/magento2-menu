@@ -28,7 +28,6 @@ class Edit extends Action
         $this->registry = $registry;
     }
 
-
     /**
      * Dispatch request
      *
