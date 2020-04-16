@@ -83,7 +83,6 @@ class Main extends Generic implements TabInterface
         }
     }
 
-
     /**
      * Return Tab label
      *

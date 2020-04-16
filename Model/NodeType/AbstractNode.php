@@ -49,6 +49,7 @@ abstract class AbstractNode implements NodeTypeInterface
      *
      * @return void
      */
+    // phpcs:ignore Magento2.CodeAnalysis.EmptyBlock.DetectedFunction
     protected function _construct()
     {
     }

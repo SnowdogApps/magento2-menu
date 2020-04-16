@@ -32,7 +32,7 @@ class Category extends AbstractNode
      */
     protected function _construct()
     {
-        $this->_init('Snowdog\Menu\Model\ResourceModel\NodeType\Category');
+        $this->_init(\Snowdog\Menu\Model\ResourceModel\NodeType\Category::class);
         parent::_construct();
     }
 
@@ -75,7 +75,7 @@ class Category extends AbstractNode
             $label[] = $row['name'];
             $labels[$row[$identifierField]] = $label;
         }
-        
+
         $fieldOptions = [];
         foreach ($labels as $id => $label) {
             $fieldOptions[] = [

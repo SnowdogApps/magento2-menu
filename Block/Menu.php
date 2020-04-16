@@ -8,6 +8,7 @@ use Magento\Framework\App\Cache\Type\Block;
 use Magento\Framework\DataObject;
 use Magento\Framework\View\Element\Template;
 use Magento\Framework\Event\Manager as EventManager;
+use Magento\Framework\Escaper;
 use Snowdog\Menu\Api\MenuRepositoryInterface;
 use Snowdog\Menu\Api\NodeRepositoryInterface;
 use Snowdog\Menu\Model\NodeTypeProvider;
@@ -67,6 +68,7 @@ class Menu extends Template implements DataObject\IdentityInterface
         SearchCriteriaFactory $searchCriteriaFactory,
         FilterGroupBuilder $filterGroupBuilder,
         TemplateResolver $templateResolver,
+        Escaper $escaper,
         array $data = []
     ) {
         parent::__construct($context, $data);
@@ -77,6 +79,7 @@ class Menu extends Template implements DataObject\IdentityInterface
         $this->filterGroupBuilder = $filterGroupBuilder;
         $this->eventManager = $eventManager;
         $this->templateResolver = $templateResolver;
+        $this->escaper = $escaper;
         $this->submenuTemplate = $this->getMenuTemplate(
             'Snowdog_Menu::menu/sub_menu.phtml'
         );
@@ -321,7 +324,7 @@ class Menu extends Template implements DataObject\IdentityInterface
                 $data = implode(' ', $data);
             }
 
-            $attributes[] = $attribute . '="' . htmlspecialchars($data) . '"';
+            $attributes[] = $attribute . '="' . $this->escaper->escapeHtml($data) . '"';
         }
 
         return $attributes ? ' ' . implode(' ', $attributes) : '';
@@ -335,7 +338,7 @@ class Menu extends Template implements DataObject\IdentityInterface
     {
         $menu = $this->getMenu();
 
-        if (is_null($menu)) {
+        if ($menu === null) {
             return $defaultClass;
         }
 

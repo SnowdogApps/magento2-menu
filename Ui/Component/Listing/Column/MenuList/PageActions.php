@@ -26,5 +26,4 @@ class PageActions extends Column
 
         return $dataSource;
     }
-
 }

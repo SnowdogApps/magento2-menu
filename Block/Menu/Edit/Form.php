@@ -33,6 +33,4 @@ class Form extends Generic
         }
         return $this;
     }
-
-
 }
