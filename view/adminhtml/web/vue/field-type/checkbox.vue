@@ -11,7 +11,7 @@
                 class="input-text admin__control-text"
                 :id="fieldId"
                 type="checkbox"
-                v-model.number="checkboxValue"
+                v-model="checkboxValue"
             />
         </div>
     </div>
@@ -24,15 +24,15 @@ define(["Vue"], function(Vue) {
         data: function() {
             return {
                 fieldId: '',
-                checkboxValue: this.value
+                checkboxValue: this.value === '1' ? true : false
             }
         },
         mounted: function() {
             this.fieldId = 'snowmenu_' + this.id + '_' + this._uid;
         },
         watch: {
-          checkboxValue: function(newValue, oldValue) {
-            this.item.is_active = newValue ? '1' : '0'
+          checkboxValue: function(newValue) {
+            this.item.is_active = newValue
           }
         }
    });
