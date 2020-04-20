@@ -39,9 +39,7 @@ class NodeRepository implements NodeRepositoryInterface
     }
 
     /**
-     * @param NodeInterface $object
-     * @return NodeInterface
-     * @throws CouldNotSaveException
+     * @inheritdoc
      */
     public function save(NodeInterface $object)
     {
@@ -54,9 +52,7 @@ class NodeRepository implements NodeRepositoryInterface
     }
 
     /**
-     * @param int $id
-     * @return Node
-     * @throws NoSuchEntityException
+     * @inheritdoc
      */
     public function getById($id)
     {
@@ -69,9 +65,7 @@ class NodeRepository implements NodeRepositoryInterface
     }
 
     /**
-     * @param NodeInterface $object
-     * @return bool
-     * @throws CouldNotDeleteException
+     * @inheritdoc
      */
     public function delete(NodeInterface $object)
     {
@@ -84,10 +78,7 @@ class NodeRepository implements NodeRepositoryInterface
     }
 
     /**
-     * @param int $id
-     * @return bool
-     * @throws CouldNotDeleteException
-     * @throws NoSuchEntityException
+     * @inheritdoc
      */
     public function deleteById($id)
     {
@@ -95,8 +86,7 @@ class NodeRepository implements NodeRepositoryInterface
     }
 
     /**
-     * @param SearchCriteriaInterface $criteria
-     * @return SearchResultsInterface
+     * @inheritdoc
      */
     public function getList(SearchCriteriaInterface $criteria)
     {
@@ -138,8 +128,7 @@ class NodeRepository implements NodeRepositoryInterface
     }
 
     /**
-     * @param int $menuId
-     * @return NodeInterface[]
+     * @inheritdoc
      */
     public function getByMenu($menuId)
     {
@@ -153,8 +142,7 @@ class NodeRepository implements NodeRepositoryInterface
     }
 
     /**
-     * @param string $identifier
-     * @return NodeInterface[]
+     * @inheritdoc
      */
     public function getByIdentifier($identifier)
     {
