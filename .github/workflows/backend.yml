@@ -1,5 +1,5 @@
 name: Backend
-on: push
+on: [push, pull_request]
 jobs:
   backend-lint:
     runs-on: ubuntu-latest
