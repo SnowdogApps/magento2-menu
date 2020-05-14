@@ -6,6 +6,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [2.11.1] - 2020-05-15
+- Fixed array_filter() error for cmsBlock, cmsPage nodes, if opening edit-menu-page from admin panel (#106)
+
 ## [2.11.0] - 2020-04-14
 ### Added
 - Static code analysis tools
