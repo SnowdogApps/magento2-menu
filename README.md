@@ -60,3 +60,12 @@ Newly created block with additional method should be added via `di.xml` defining
  * `/rest/V1/menus`: retrieves available menus
  * `/rest/V1/nodes`: retrieves nodes by menuId
  
+## Frontend
+We are not providing any CSS or JS, only basic HTML, which means this module is not out of box supported by any theme, you always need to write some custom code to get expected results or pick some ready to use theme / extenstion, built on top of this module.
+
+### Themes:
+- [Snowdog Alpaca theme](https://github.com/SnowdogApps/magento2-alpaca-theme)
+
+### Extenstions:
+- [RedChamps Luma theme support](https://github.com/redchamps/snowdog-menu-luma-support)
+ 
