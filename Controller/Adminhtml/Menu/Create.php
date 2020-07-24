@@ -8,6 +8,7 @@ use Magento\Framework\Controller\ResultFactory;
 
 class Create extends Action
 {
+    public const ADMIN_RESOURCE = 'Snowdog_Menu::menus';
 
     /**
      * Dispatch request
@@ -21,10 +22,5 @@ class Create extends Action
         $result->setActiveMenu('Snowdog_Menu::menus');
         $result->getConfig()->getTitle()->prepend(__('Create new menu'));
         return $result;
-    }
-
-    protected function _isAllowed()
-    {
-        return $this->_authorization->isAllowed('Snowdog_Menu::menus');
     }
 }

@@ -13,6 +13,8 @@ use Snowdog\Menu\Api\NodeRepositoryInterface;
 
 class Delete extends Action
 {
+    public const ADMIN_RESOURCE = 'Snowdog_Menu::menus';
+
     /**
      * @var MenuRepositoryInterface
      */
@@ -58,25 +60,11 @@ class Delete extends Action
      */
     public function execute()
     {
-        $id = $this->getRequest()->getParam('id');
-
         try {
+            $id = $this->getRequestMenuId();
             $menu = $this->menuRepository->getById($id);
             $this->menuRepository->deleteById($id);
 
-            $filterBuilder = $this->filterBuilderFactory->create();
-            $filter = $filterBuilder->setField('menu_id')->setValue($id)->setConditionType('eq')->create();
-
-            $filterGroupBuilder = $this->filterGroupBuilderFactory->create();
-            $filterGroup = $filterGroupBuilder->addFilter($filter)->create();
-
-            $searchCriteriaBuilder = $this->searchCriteriaBuilderFactory->create();
-            $searchCriteria = $searchCriteriaBuilder->setFilterGroups([$filterGroup])->create();
-
-            $nodes = $this->nodeRepository->getList($searchCriteria);
-            foreach ($nodes->getItems() as $node) {
-                $this->nodeRepository->delete($node);
-            }
             $this->messageManager->addSuccessMessage(__("Menu %1 and it's nodes removed", $menu->getTitle()));
         } catch (CouldNotDeleteException $e) {
             $this->messageManager->addErrorMessage($e->getMessage());
@@ -87,8 +75,19 @@ class Delete extends Action
         return $redirect;
     }
 
-    protected function _isAllowed()
+    /**
+     * Returns Menu ID provided with the Request
+     *
+     * @return int
+     */
+    private function getRequestMenuId(): int
     {
-        return $this->_authorization->isAllowed('Snowdog_Menu::menus');
+        $id = $this->getRequest()->getParam('id');
+
+        if (!$id) {
+            throw new \InvalidArgumentException('The request does not contain Menu ID');
+        }
+
+        return (int)$id;
     }
 }
