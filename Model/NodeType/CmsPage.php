@@ -33,7 +33,7 @@ class CmsPage extends AbstractNode
                 'label' => $page->getTitle(),
                 'value' => $page->getIdentifier(),
                 'store' => array_filter(
-                    $page->getStoreId(),
+                    (array)$page->getStoreId(),
                     function ($id) {
                         return (int)$id !== 0;
                     }
