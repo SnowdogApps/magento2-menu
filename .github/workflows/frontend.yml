@@ -1,5 +1,5 @@
 name: Frontend
-on: push
+on: [push, pull_request]
 jobs:
   frontend-lint:
     runs-on: ubuntu-latest
