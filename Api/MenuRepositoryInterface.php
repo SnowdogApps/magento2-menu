@@ -1,14 +1,25 @@
 <?php
 namespace Snowdog\Menu\Api;
 
-use Snowdog\Menu\Api\Data\MenuInterface;
 use Magento\Framework\Api\SearchCriteriaInterface;
+use Magento\Framework\Exception\CouldNotDeleteException;
+use Magento\Framework\Exception\NoSuchEntityException;
+use Snowdog\Menu\Api\Data\MenuInterface;
 
 interface MenuRepositoryInterface
 {
     /**
+     * @param string $identifier
+     * @param int $storeId
+     * @return \Snowdog\Menu\Model\Menu
+     * @throws NoSuchEntityException
+     */
+    public function get($identifier, $storeId);
+
+    /**
      * @param \Snowdog\Menu\Api\Data\MenuInterface $page
      * @return \Snowdog\Menu\Api\Data\MenuInterface
+     * @throws \Magento\Framework\Exception\AlreadyExistsException
      */
     public function save(MenuInterface $page);
 
@@ -34,15 +45,12 @@ interface MenuRepositoryInterface
     public function delete(MenuInterface $page);
 
     /**
+     * Removes Menu with all nodes belonging to it
+     *
      * @param int $id
      * @return bool
+     * @throws CouldNotDeleteException
+     * @throws NoSuchEntityException
      */
     public function deleteById($id);
-
-    /**
-     * @param string $identifier
-     * @param int $storeId
-     * @return \Snowdog\Menu\Model\Menu
-     */
-    public function get($identifier, $storeId);
 }
