@@ -13,16 +13,19 @@ jobs:
         uses: actions/checkout@v1
         with:
           fetch-depth: 1
+
       - name: Add composer repositories
-          env:
-            USERNAME: ${{ secrets.COMPOSER_MAGENTO_USERNAME }}
-            PASSWORD: ${{ secrets.COMPOSER_MAGENTO_PASSWORD }}
-          run: composer config repositories.magento composer https://$USERNAME:$PASSWORD@repo.magento.com/
+        env:
+          USERNAME: ${{ secrets.COMPOSER_MAGENTO_USERNAME }}
+          PASSWORD: ${{ secrets.COMPOSER_MAGENTO_PASSWORD }}
+        run: composer config repositories.magento composer https://$USERNAME:$PASSWORD@repo.magento.com/
+
       - name: Initialize config
         id: config
         run: |
           echo "::set-output name=working-directory::${PWD/$GITHUB_WORKSPACE/}"
           echo "::set-output name=composer-cache-dir::$(composer config cache-files-dir)"
+
       - name: Retrieve composer cache
         uses: actions/cache@v2
         with:
