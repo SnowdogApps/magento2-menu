@@ -38,6 +38,6 @@ jobs:
 
       - uses: mediotype/phpcs-action@v2
         with:
-          enable_warnings: true     # This is required for magento-coding-standards to function
+          enable_warnings: true # This is required for magento-coding-standards to function
           only_changed_files: true
-          phpcs_bin_path: ${{ github.workspace }}${{ steps.config.outputs.working-directory }}/vendor/bin/phpcs --standard=Magento2
+          phpcs_bin_path: ./vendor/bin/phpcs --standard=Magento2 --exclude=Magento2.Security.XssTemplate --extensions=php,phtml
