@@ -41,3 +41,7 @@ jobs:
           enable_warnings: true # This is required for magento-coding-standards to function
           only_changed_files: false # Required to run checks on push events too
           phpcs_bin_path: vendor/bin/phpcs --standard=Magento2 --exclude=Magento2.Security.XssTemplate --ignore=vendor --extensions=php,phtml *
+       
+      # Temporary solution since the solution above is not perfect yet      
+      - name: Run tests
+        run: composer run-script test
