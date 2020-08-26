@@ -33,7 +33,7 @@ class CmsBlock extends AbstractNode
                 'label' => $block->getTitle(),
                 'value' => $block->getIdentifier(),
                 'store' => array_filter(
-                    $block->getStoreId(),
+                    (array)$block->getStoreId(),
                     function ($id) {
                         return (int)$id !== 0;
                     }
