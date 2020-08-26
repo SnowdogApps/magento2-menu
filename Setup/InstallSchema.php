@@ -6,6 +6,7 @@ use Magento\Framework\Setup\InstallSchemaInterface;
 use Magento\Framework\Setup\ModuleContextInterface;
 use Magento\Framework\Setup\SchemaSetupInterface;
 
+
 class InstallSchema implements InstallSchemaInterface
 {
     public function install(
@@ -141,13 +142,7 @@ class InstallSchema implements InstallSchemaInterface
             null,
             ['nullable' => false, 'primary' => true, 'unsigned' => true,],
             'Menu ID'
-        )->addColumn(
-            'store_id',
-            Table::TYPE_INTEGER,
-            null,
-            ['nullable' => false, 'primary' => true, 'unsigned' => true,],
-            'Store ID'
-        );
+        )->addColumn('store_id',Table::TYPE_INTEGER,null,['nullable' => false, 'primary' => true, 'unsigned' => true,],'Store ID');
         $installer->getConnection()->createTable($table);
 
         $installer->endSetup();
