@@ -59,6 +59,11 @@ class Menu extends Template implements DataObject\IdentityInterface
      */
     protected $_template = 'Snowdog_Menu::menu.phtml';
 
+    /**
+     * @var string
+     */
+    protected $baseSubmenuTemplate = 'Snowdog_Menu::menu/sub_menu.phtml';
+
     public function __construct(
         Template\Context $context,
         EventManager $eventManager,
@@ -80,9 +85,7 @@ class Menu extends Template implements DataObject\IdentityInterface
         $this->eventManager = $eventManager;
         $this->templateResolver = $templateResolver;
         $this->escaper = $escaper;
-        $this->submenuTemplate = $this->getMenuTemplate(
-            'Snowdog_Menu::menu/sub_menu.phtml'
-        );
+        $this->submenuTemplate = $this->getMenuTemplate($this->baseSubmenuTemplate);
         $this->setTemplate($this->getMenuTemplate($this->_template));
     }
 
@@ -302,7 +305,7 @@ class Menu extends Template implements DataObject\IdentityInterface
         if (!isset($this->nodes[$level])) {
             return [];
         }
-        $parentId = $parent['node_id'] ?: 0;
+        $parentId = $parent !== null ? $parent['node_id'] : 0;
         if (!isset($this->nodes[$level][$parentId])) {
             return [];
         }

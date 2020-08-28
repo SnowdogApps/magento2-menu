@@ -7,50 +7,59 @@ use Magento\Catalog\Model\ProductRepository;
 use Magento\Framework\Api\FilterBuilderFactory;
 use Magento\Framework\Api\Search\FilterGroupBuilderFactory;
 use Magento\Framework\Api\SearchCriteriaBuilderFactory;
+use Magento\Framework\App\ObjectManager;
 use Magento\Framework\App\ResponseInterface;
 use Magento\Framework\Exception\NoSuchEntityException;
-use Magento\Framework\Message\ManagerInterface;
 use Snowdog\Menu\Api\MenuRepositoryInterface;
 use Snowdog\Menu\Api\NodeRepositoryInterface;
+use Snowdog\Menu\Model\Menu;
 use Snowdog\Menu\Model\Menu\NodeFactory;
 use Snowdog\Menu\Model\MenuFactory;
+use Snowdog\Menu\Service\MenuHydrator;
 
 class Save extends Action
 {
-    /**
-     * @var MenuRepositoryInterface
-     */
+    public const ADMIN_RESOURCE = 'Snowdog_Menu::menus';
+
+    /** @var MenuRepositoryInterface */
     private $menuRepository;
-    /**
-     * @var NodeRepositoryInterface
-     */
+
+    /**  @var NodeRepositoryInterface */
     private $nodeRepository;
-    /**
-     * @var FilterBuilderFactory
-     */
+
+    /** @var FilterBuilderFactory */
     private $filterBuilderFactory;
-    /**
-     * @var FilterGroupBuilderFactory
-     */
+
+    /** @var FilterGroupBuilderFactory */
     private $filterGroupBuilderFactory;
-    /**
-     * @var SearchCriteriaBuilderFactory
-     */
+
+    /** @var SearchCriteriaBuilderFactory */
     private $searchCriteriaBuilderFactory;
-    /**
-     * @var NodeFactory
-     */
+
+    /** @var NodeFactory */
     private $nodeFactory;
-    /**
-     * @var MenuFactory
-     */
+
+    /** @var MenuFactory */
     private $menuFactory;
 
-    /**
-     * @var ProductRepository
-     */
+    /** @var ProductRepository */
     private $productRepository;
 
+    /** @var MenuHydrator */
+    private $hydrator;
+
+    /**
+     * @param Action\Context $context
+     * @param MenuRepositoryInterface $menuRepository
+     * @param NodeRepositoryInterface $nodeRepository
+     * @param FilterBuilderFactory $filterBuilderFactory
+     * @param FilterGroupBuilderFactory $filterGroupBuilderFactory
+     * @param SearchCriteriaBuilderFactory $searchCriteriaBuilderFactory
+     * @param NodeFactory $nodeFactory
+     * @param MenuFactory $menuFactory
+     * @param ProductRepository $productRepository
+     * @param MenuHydrator|null $hydrator
+     */
     public function __construct(
         Action\Context $context,
         MenuRepositoryInterface $menuRepository,
@@ -60,7 +69,8 @@ class Save extends Action
         SearchCriteriaBuilderFactory $searchCriteriaBuilderFactory,
         NodeFactory $nodeFactory,
         MenuFactory $menuFactory,
-        ProductRepository $productRepository
+        ProductRepository $productRepository,
+        MenuHydrator $hydrator = null
     ) {
         parent::__construct($context);
         $this->menuRepository = $menuRepository;
@@ -71,6 +81,8 @@ class Save extends Action
         $this->nodeFactory = $nodeFactory;
         $this->menuFactory = $menuFactory;
         $this->productRepository = $productRepository;
+        // Backwards compatible class loader
+        $this->hydrator = $hydrator ?? ObjectManager::getInstance()->get(MenuHydrator::class);
     }
 
     /**
@@ -81,23 +93,11 @@ class Save extends Action
      */
     public function execute()
     {
-        $menuId = $this->getRequest()->getParam('id');
+        $menu = $this->getCurrentMenu();
 
-        if ($menuId) {
-            $menu = $this->menuRepository->getById($menuId);
-        } else {
-            $menu = $this->menuFactory->create();
-        }
-
-        $menu->setTitle($this->getRequest()->getParam('title'));
-        $menu->setIdentifier($this->getRequest()->getParam('identifier'));
-        $menu->setCssClass($this->getRequest()->getParam('css_class'));
         $menu->setIsActive(1);
+        $this->hydrator->mapRequest($menu, $this->getRequest());
         $menu = $this->menuRepository->save($menu);
-
-        if (!$menuId) {
-            $menuId = $menu->getId();
-        }
 
         $menu->saveStores($this->getRequest()->getParam('stores'));
         $nodes = $this->getRequest()->getParam('serialized_nodes');
@@ -108,7 +108,10 @@ class Save extends Action
 
             if (!empty($nodes)) {
                 $filterBuilder = $this->filterBuilderFactory->create();
-                $filter = $filterBuilder->setField('menu_id')->setValue($menuId)->setConditionType('eq')->create();
+                $filter = $filterBuilder->setField('menu_id')
+                    ->setValue($menu->getMenuId())
+                    ->setConditionType('eq')
+                    ->create();
 
                 $filterGroupBuilder = $this->filterGroupBuilderFactory->create();
                 $filterGroup = $filterGroupBuilder->addFilter($filter)->create();
@@ -140,7 +143,7 @@ class Save extends Action
                         $nodeMap[$nodeId] = $existingNodes[$nodeId];
                     } else {
                         $nodeObject = $this->nodeFactory->create();
-                        $nodeObject->setMenuId($menuId);
+                        $nodeObject->setMenuId($menu->getMenuId());
                         $nodeObject = $this->nodeRepository->save($nodeObject);
                         $nodeMap[$nodeId] = $nodeObject;
                     }
@@ -189,7 +192,7 @@ class Save extends Action
                         $nodeObject->setTarget($node['target']);
                     }
 
-                    $nodeObject->setMenuId($menuId);
+                    $nodeObject->setMenuId($menu->getMenuId());
                     $nodeObject->setTitle($node['title']);
                     $nodeObject->setIsActive((int) ($node['is_active'] ?? 0));
                     $nodeObject->setLevel($level);
@@ -206,15 +209,10 @@ class Save extends Action
         $redirect->setPath('*/*/index');
 
         if ($this->getRequest()->getParam('back')) {
-            $redirect->setPath('*/*/edit', ['id' => $menu->getId(), '_current' => true]);
+            $redirect->setPath('*/*/edit', ['id' => $menu->getMenuId(), '_current' => true]);
         }
 
         return $redirect;
-    }
-
-    protected function _isAllowed()
-    {
-        return $this->_authorization->isAllowed('Snowdog_Menu::menus');
     }
 
     protected function _convertTree($nodes, $parent)
@@ -248,5 +246,21 @@ class Save extends Action
         }
 
         return true;
+    }
+
+    /**
+     * Returns menu model based on the Request (requested with `id` or fresh instance)
+     *
+     * @return Menu
+     */
+    private function getCurrentMenu(): Menu
+    {
+        $menuId = $this->getRequest()->getParam('id');
+
+        if ($menuId) {
+            return $this->menuRepository->getById($menuId);
+        }
+
+        return $this->menuFactory->create();
     }
 }

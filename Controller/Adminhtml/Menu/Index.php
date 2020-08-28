@@ -1,29 +1,20 @@
 <?php
+declare(strict_types=1);
+
 namespace Snowdog\Menu\Controller\Adminhtml\Menu;
 
 use Magento\Backend\App\Action;
-use Magento\Backend\App\Action\Context;
-use Magento\Framework\View\Result\PageFactory;
+use Magento\Framework\Controller\ResultFactory;
 
 class Index extends Action
 {
-    protected $resultPageFactory;
+    public const ADMIN_RESOURCE = 'Snowdog_Menu::menus';
 
-    public function __construct(
-        Context $context,
-        PageFactory $resultPageFactory
-    ) {
-        $this->resultPageFactory = $resultPageFactory;
-        return parent::__construct($context);
-    }
-
+    /**
+     * @inheritDoc
+     */
     public function execute()
     {
-        return $this->resultPageFactory->create();
-    }
-
-    protected function _isAllowed()
-    {
-        return $this->_authorization->isAllowed('Snowdog_Menu::menus');
+        return $this->resultFactory->create(ResultFactory::TYPE_PAGE);
     }
 }
