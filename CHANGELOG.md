@@ -6,6 +6,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+### Changed
+- Index page title (#69078)
+
 ## [2.12.0] - 2020-08-24
 ### Added
 - PHP 7.4 support (#118)
