@@ -16,6 +16,8 @@ use Exception;
 
 /**
  * Class MassDelete
+ *
+ * This action deletes multiple menus
  */
 class MassDelete extends Action implements HttpPostActionInterface
 {

@@ -17,6 +17,8 @@ use Magento\Framework\Exception\NotFoundException;
 
 /**
  * Class Delete
+ *
+ * This action deletes single menu
  */
 class Delete extends Action
 {

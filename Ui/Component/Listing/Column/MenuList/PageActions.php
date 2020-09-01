@@ -11,6 +11,8 @@ use Magento\Framework\UrlInterface;
 
 /**
  * Class PageActions
+ *
+ * Adds action buttons into actions column
  */
 class PageActions extends Column
 {
