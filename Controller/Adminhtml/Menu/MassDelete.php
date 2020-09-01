@@ -14,6 +14,9 @@ use Magento\Backend\Model\View\Result\Redirect;
 use Magento\Framework\Exception\LocalizedException;
 use Exception;
 
+/**
+ * Class MassDelete
+ */
 class MassDelete extends Action implements HttpPostActionInterface
 {
     /**
