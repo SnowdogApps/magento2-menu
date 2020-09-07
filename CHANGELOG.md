@@ -6,6 +6,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+### Changed
+- Index page title (#69078)
+
 ### Added
 - Functionality to enable/disable specific menu node (#85, DEV-65561)
 
