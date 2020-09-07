@@ -194,7 +194,7 @@ class Save extends Action
 
                     $nodeObject->setMenuId($menu->getMenuId());
                     $nodeObject->setTitle($node['title']);
-                    $nodeObject->setIsActive(1);
+                    $nodeObject->setIsActive((int) ($node['is_active'] ?? 0));
                     $nodeObject->setLevel($level);
                     $nodeObject->setPosition($position);
 
