@@ -1,5 +1,13 @@
 <template>
     <fieldset class="admin__fieldset fieldset-wide">
+        <checkbox
+            :label="isNodeActiveLabel"
+            id="is_active"
+            :item="item"
+            :value="item.is_active"
+        >
+        </checkbox>
+
         <div class="admin__field field field-title">
             <label
                 class="label admin__field-label"
@@ -43,7 +51,7 @@
 </template>
 
 <script>
-    define(['Vue'], function(Vue) {
+    define(['Vue', 'mage/translate'], function(Vue, $t) {
         Vue.component('snowdog-menu-type', {
             props: {
                 item: {
@@ -58,6 +66,7 @@
             data: function() {
                 return {
                     draft: {},
+                    isNodeActiveLabel: $t('Enabled')
                 }
             },
             computed: {
