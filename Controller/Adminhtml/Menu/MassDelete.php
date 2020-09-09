@@ -9,9 +9,11 @@ use Magento\Backend\App\Action;
 use Magento\Backend\App\Action\Context;
 use Magento\Ui\Component\MassAction\Filter;
 use Snowdog\Menu\Model\ResourceModel\Menu\CollectionFactory;
+use Snowdog\Menu\Api\MenuRepositoryInterface;
 use Magento\Framework\Controller\ResultFactory;
 use Magento\Backend\Model\View\Result\Redirect;
 use Magento\Framework\Exception\LocalizedException;
+use Magento\Framework\Data\Collection\AbstractDb;
 use Exception;
 
 /**
@@ -39,17 +41,25 @@ class MassDelete extends Action implements HttpPostActionInterface
     protected $collectionFactory;
 
     /**
+     * @var MenuRepositoryInterface
+     */
+    protected $menuRepository;
+
+    /**
      * @param Context $context
      * @param Filter $filter
      * @param CollectionFactory $collectionFactory
+     * @param MenuRepositoryInterface $menuRepository
      */
     public function __construct(
         Context $context,
         Filter $filter,
-        CollectionFactory $collectionFactory
+        CollectionFactory $collectionFactory,
+        MenuRepositoryInterface $menuRepository
     ) {
         $this->filter = $filter;
         $this->collectionFactory = $collectionFactory;
+        $this->menuRepository = $menuRepository;
         parent::__construct($context);
     }
 
@@ -61,11 +71,11 @@ class MassDelete extends Action implements HttpPostActionInterface
      */
     public function execute()
     {
-        $collection = $this->filter->getCollection($this->collectionFactory->create());
+        $collection = $this->getMenuCollection();
         $collectionSize = $collection->getSize();
 
         foreach ($collection as $menu) {
-            $menu->delete();
+            $this->menuRepository->delete($menu);
         }
 
         $this->messageManager->addSuccessMessage(__('A total of %1 record(s) have been deleted.', $collectionSize));
@@ -74,5 +84,14 @@ class MassDelete extends Action implements HttpPostActionInterface
         $resultRedirect = $this->resultFactory->create(ResultFactory::TYPE_REDIRECT);
 
         return $resultRedirect->setPath('*/*/');
+    }
+
+    /**
+     * @return AbstractDb
+     * @throws LocalizedException
+     */
+    private function getMenuCollection(): AbstractDb
+    {
+        return $this->filter->getCollection($this->collectionFactory->create());
     }
 }
