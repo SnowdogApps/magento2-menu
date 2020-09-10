@@ -57,9 +57,9 @@ class MenuRepository implements MenuRepositoryInterface
     public function save(MenuInterface $menu)
     {
         try {
-            $hasObjectDataChanged = $object->hasDataChanges();
+            $hasMenuDataChanged = $menu->hasDataChanges();
             $this->menuResourceModel->save($menu);
-            $this->cache->invalidatePageCache($hasObjectDataChanged);
+            $this->cache->invalidatePageCache($hasMenuDataChanged);
         } catch (\Exception $e) {
             throw new CouldNotSaveException($e->getMessage());
         }
