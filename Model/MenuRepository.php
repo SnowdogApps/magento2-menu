@@ -26,7 +26,7 @@ class MenuRepository implements MenuRepositoryInterface
     /** @var ResourceModel\Menu */
     private $menuResourceModel;
 
-    /** @var Cache */
+    /** @var Menu\Cache */
     private $cache;
 
     /**
