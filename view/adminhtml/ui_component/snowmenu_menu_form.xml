@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<form xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd">
+    <argument name="data" xsi:type="array">
+        <item name="js_config" xsi:type="array">
+            <item name="provider" xsi:type="string">snowmenu_menu_form.menu_form_data_source</item>
+            <item name="deps" xsi:type="string">snowmenu_menu_form.menu_form_data_source</item>
+        </item>
+        <item name="label" xsi:type="string" translate="true">Menu</item>
+        <item name="config" xsi:type="array">
+            <item name="dataScope" xsi:type="string">data</item>
+            <item name="namespace" xsi:type="string">snowmenu_menu_form</item>
+        </item>
+    </argument>
+    <settings>
+        <buttons>
+            <button name="back" class="Snowdog\Menu\Block\Adminhtml\Button\Back"/>
+            <button name="delete" class="Snowdog\Menu\Block\Adminhtml\Button\Delete"/>
+            <button name="reset" class="Snowdog\Menu\Block\Adminhtml\Button\Reset"/>
+            <button name="save_and_continue" class="Snowdog\Menu\Block\Adminhtml\Button\SaveAndContinue"/>
+            <button name="save" class="Snowdog\Menu\Block\Adminhtml\Button\Save"/>
+        </buttons>
+        <layout>
+            <navContainerName>left</navContainerName>
+            <type>tabs</type>
+        </layout>
+        <deps>
+            <dep>snowmenu_menu_form.menu_form_data_source</dep>
+        </deps>
+    </settings>
+    <dataSource name="menu_form_data_source">
+        <argument name="dataProvider" xsi:type="configurableObject">
+            <argument name="class" xsi:type="string">Snowdog\Menu\Model\DataProvider</argument>
+            <argument name="name" xsi:type="string">menu_form_data_source</argument>
+            <argument name="primaryFieldName" xsi:type="string">menu_id</argument>
+            <argument name="requestFieldName" xsi:type="string">id</argument>
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="submit_url" xsi:type="url" path="snowmenu/menu/save"/>
+                </item>
+            </argument>
+        </argument>
+        <argument name="data" xsi:type="array">
+            <item name="js_config" xsi:type="array">
+                <item name="component" xsi:type="string">Magento_Ui/js/form/provider</item>
+            </item>
+        </argument>
+    </dataSource>
+    <fieldset name="menu">
+        <settings>
+            <label translate="true">Main information</label>
+        </settings>
+        <field name="is_active">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="dataType" xsi:type="string">boolean</item>
+                    <item name="label" xsi:type="string" translate="true">Enable Menu</item>
+                    <item name="formElement" xsi:type="string">checkbox</item>
+                    <item name="source" xsi:type="string">menu</item>
+                    <item name="prefer" xsi:type="string">toggle</item>
+                    <item name="dataScope" xsi:type="string">is_active</item>
+                    <item name="valueMap" xsi:type="array">
+                        <item name="true" xsi:type="string">1</item>
+                        <item name="false" xsi:type="string">0</item>
+                    </item>
+                </item>
+            </argument>
+        </field>
+        <field name="title">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="dataType" xsi:type="string">text</item>
+                    <item name="label" xsi:type="string" translate="true">Title</item>
+                    <item name="formElement" xsi:type="string">input</item>
+                    <item name="source" xsi:type="string">menu</item>
+                    <item name="dataScope" xsi:type="string">title</item>
+                    <item name="required" xsi:type="boolean">true</item>
+                </item>
+            </argument>
+        </field>
+        <field name="identifier">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="dataType" xsi:type="string">text</item>
+                    <item name="label" xsi:type="string" translate="true">Identifier</item>
+                    <item name="formElement" xsi:type="string">input</item>
+                    <item name="source" xsi:type="string">menu</item>
+                    <item name="dataScope" xsi:type="string">identifier</item>
+                    <item name="required" xsi:type="boolean">true</item>
+                </item>
+            </argument>
+        </field>
+        <field name="css_class">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="dataType" xsi:type="string">text</item>
+                    <item name="label" xsi:type="string" translate="true">Menu Main CSS Class</item>
+                    <item name="formElement" xsi:type="string">input</item>
+                    <item name="source" xsi:type="string">menu</item>
+                    <item name="dataScope" xsi:type="string">css_class</item>
+                    <item name="required" xsi:type="boolean">true</item>
+                </item>
+            </argument>
+        </field>
+        <field name="stores[]">
+            <argument name="data" xsi:type="array">
+                <item name="options" xsi:type="object">Snowdog\Menu\Ui\Component\Listing\Column\Stores</item>
+                <item name="config" xsi:type="array">
+                    <item name="dataType" xsi:type="string">int</item>
+                    <item name="label" xsi:type="string" translate="true">Store View</item>
+                    <item name="formElement" xsi:type="string">multiselect</item>
+                    <item name="source" xsi:type="string">menu</item>
+                    <item name="dataScope" xsi:type="string">stores</item>
+                    <item name="required" xsi:type="boolean">true</item>
+                </item>
+            </argument>
+        </field>
+    </fieldset>
+    <fieldset name="nodes">
+        <settings>
+            <label translate="true">Nodes</label>
+        </settings>
+        <container name="nodes">
+            <htmlContent name="nodes">
+                <argument name="block" xsi:type="object">Snowdog\Menu\Block\Menu\Edit\Tab\Nodes</argument>
+            </htmlContent>
+        </container>
+    </fieldset>
+</form>

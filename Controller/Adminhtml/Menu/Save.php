@@ -95,11 +95,11 @@ class Save extends Action
     {
         $menu = $this->getCurrentMenu();
 
-        $menu->setIsActive(1);
         $this->hydrator->mapRequest($menu, $this->getRequest());
         $menu = $this->menuRepository->save($menu);
 
-        $menu->saveStores($this->getRequest()->getParam('stores'));
+        $requestData = $this->getRequest()->getParam('menu');
+        $menu->saveStores($requestData['stores']);
         $nodes = $this->getRequest()->getParam('serialized_nodes');
 
         if (!empty($nodes)) {
@@ -255,10 +255,10 @@ class Save extends Action
      */
     private function getCurrentMenu(): Menu
     {
-        $menuId = $this->getRequest()->getParam('id');
+        $menu = $this->getRequest()->getParam('menu');
 
-        if ($menuId) {
-            return $this->menuRepository->getById($menuId);
+        if (isset($menu['menu_id'])) {
+            return $this->menuRepository->getById($menu['menu_id']);
         }
 
         return $this->menuFactory->create();

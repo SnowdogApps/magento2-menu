@@ -5,21 +5,7 @@
 >
     <body>
         <referenceContainer name="content">
-            <block class="Snowdog\Menu\Block\Menu\Edit"/>
-        </referenceContainer>
-        <referenceContainer name="left">
-            <block class="Snowdog\Menu\Block\Menu\Edit\Tabs" name="snowmenu_edit_tabs">
-                <block class="Snowdog\Menu\Block\Menu\Edit\Tab\Main" name="snowmenu_edit_tab_main"/>
-                <block class="Snowdog\Menu\Block\Menu\Edit\Tab\Nodes" name="snowmenu_edit_tab_node"/>
-                <action method="addTab">
-                    <argument name="name" xsi:type="string">main_section</argument>
-                    <argument name="block" xsi:type="string">snowmenu_edit_tab_main</argument>
-                </action>
-                <action method="addTab">
-                    <argument name="name" xsi:type="string">nodes</argument>
-                    <argument name="block" xsi:type="string">snowmenu_edit_tab_node</argument>
-                </action>
-            </block>
+            <uiComponent name="snowmenu_menu_form"/>
         </referenceContainer>
     </body>
 </page>
