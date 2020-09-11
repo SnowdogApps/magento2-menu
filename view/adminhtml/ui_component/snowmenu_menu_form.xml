@@ -10,6 +10,7 @@
             <item name="dataScope" xsi:type="string">data</item>
             <item name="namespace" xsi:type="string">snowmenu_menu_form</item>
         </item>
+        <item name="template" xsi:type="string">templates/form/collapsible</item>
     </argument>
     <settings>
         <buttons>
@@ -19,10 +20,6 @@
             <button name="save_and_continue" class="Snowdog\Menu\Block\Adminhtml\Button\SaveAndContinue"/>
             <button name="save" class="Snowdog\Menu\Block\Adminhtml\Button\Save"/>
         </buttons>
-        <layout>
-            <navContainerName>left</navContainerName>
-            <type>tabs</type>
-        </layout>
         <deps>
             <dep>snowmenu_menu_form.menu_form_data_source</dep>
         </deps>
