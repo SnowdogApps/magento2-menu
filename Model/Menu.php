@@ -1,8 +1,12 @@
 <?php
 namespace Snowdog\Menu\Model;
 
+use Magento\Framework\Data\Collection\AbstractDb;
 use Magento\Framework\DataObject\IdentityInterface;
 use Magento\Framework\Model\AbstractModel;
+use Magento\Framework\Model\Context;
+use Magento\Framework\Model\ResourceModel\AbstractResource;
+use Magento\Framework\Registry;
 use Snowdog\Menu\Api\Data\MenuInterface;
 
 /**
@@ -13,6 +17,30 @@ class Menu extends AbstractModel implements MenuInterface, IdentityInterface
     const CACHE_TAG = 'snowdog_menu_menu';
 
     protected $_cacheTag = self::CACHE_TAG;
+
+    /**
+     * @var Menu\Cache
+     */
+    private $cache;
+
+    public function __construct(
+        Context $context,
+        Registry $registry,
+        Menu\Cache $cache,
+        AbstractResource $resource = null,
+        AbstractDb $resourceCollection = null,
+        array $data = []
+    ) {
+        $this->cache = $cache;
+
+        parent::__construct(
+            $context,
+            $registry,
+            $resource,
+            $resourceCollection,
+            $data
+        );
+    }
 
     protected function _construct()
     {
@@ -48,6 +76,7 @@ class Menu extends AbstractModel implements MenuInterface, IdentityInterface
             $connection->insert($table, ['menu_id' => $this->getId(), 'store_id' => $store]);
         }
         $connection->commit();
+        $this->cache->invalidatePageCache();
     }
 
     /**
