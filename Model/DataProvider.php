@@ -33,7 +33,7 @@ class DataProvider extends AbstractDataProvider
         /** @var Menu $menu */
         foreach ($items as $menu) {
             $menu->addData(['stores' => $menu->getStores()]);
-            $this->loadedData[$menu->getMenuId()] = $menu->getData();
+            $this->loadedData[$menu->getMenuId()]['menu'] = $menu->getData();
         }
 
         return $this->loadedData;
