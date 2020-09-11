@@ -95,7 +95,7 @@ class Save extends Action
     {
         $menu = $this->getCurrentMenu();
 
-        $menu->setIsActive(1);
+        $menu->setIsActive('1');
         $this->hydrator->mapRequest($menu, $this->getRequest());
         $menu = $this->menuRepository->save($menu);
 
@@ -194,9 +194,9 @@ class Save extends Action
 
                     $nodeObject->setMenuId($menu->getMenuId());
                     $nodeObject->setTitle($node['title']);
-                    $nodeObject->setIsActive((int) ($node['is_active'] ?? 0));
-                    $nodeObject->setLevel($level);
-                    $nodeObject->setPosition($position);
+                    $nodeObject->setIsActive($node['is_active'] ?? '0');
+                    $nodeObject->setLevel((string) $level);
+                    $nodeObject->setPosition((string) $position);
 
                     $this->nodeRepository->save($nodeObject);
 
