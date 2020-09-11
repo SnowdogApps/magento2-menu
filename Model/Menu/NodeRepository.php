@@ -51,9 +51,9 @@ class NodeRepository implements NodeRepositoryInterface
     public function save(NodeInterface $object)
     {
         try {
-            $hasObjectDataChanged = $object->hasDataChanges();
+            $isPageCacheClearable = $object->hasDataChanges();
             $object->save();
-            $this->cache->invalidatePageCache($hasObjectDataChanged);
+            $this->cache->invalidatePageCache($isPageCacheClearable);
         } catch (Exception $e) {
             throw new CouldNotSaveException($e->getMessage());
         }
