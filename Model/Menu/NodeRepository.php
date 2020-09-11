@@ -80,6 +80,7 @@ class NodeRepository implements NodeRepositoryInterface
     {
         try {
             $object->delete();
+            $this->cache->invalidatePageCache();
         } catch (Exception $exception) {
             throw new CouldNotDeleteException(__($exception->getMessage()));
         }

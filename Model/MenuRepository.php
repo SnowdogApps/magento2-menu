@@ -90,6 +90,7 @@ class MenuRepository implements MenuRepositoryInterface
     {
         try {
             $this->menuResourceModel->delete($menu);
+            $this->cache->invalidatePageCache();
         } catch (\Exception $exception) {
             throw new CouldNotDeleteException(__($exception->getMessage()));
         }
