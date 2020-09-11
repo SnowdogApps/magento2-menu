@@ -27,7 +27,7 @@ class Cache
      */
     public function invalidatePageCache($isClearable = true)
     {
-        if ($isClearable && $this->isPageCacheInvalidated) {
+        if ($isClearable && !$this->isPageCacheInvalidated) {
             $this->cacheTypeList->invalidate(PageCacheType::TYPE_IDENTIFIER);
             $this->isPageCacheInvalidated = true;
         }
