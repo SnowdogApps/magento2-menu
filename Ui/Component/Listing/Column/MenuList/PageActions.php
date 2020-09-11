@@ -10,16 +10,22 @@ class PageActions extends Column
         if (isset($dataSource["data"]["items"])) {
             foreach ($dataSource["data"]["items"] as & $item) {
                 $name = $this->getData("name");
-                $id = "X";
-                if (isset($item["menu_id"])) {
-                    $id = $item["menu_id"];
-                }
+                $id = $item["menu_id"] ?? "X";
                 $item[$name]["view"] = [
                     "href"  => $this->getContext()->getUrl(
                         "snowmenu/menu/edit",
                         ["id" => $id]
                     ),
                     "label" => __("Edit"),
+                ];
+
+                $isActive = (int) $item['is_active'] === 1;
+                $item[$name]['change_status'] = [
+                    'href' => $this->getContext()->getUrl(
+                        'snowmenu/menu/status',
+                        ['id' => $id, 'is_active' => !$isActive]
+                    ),
+                    'label' => __($isActive ? 'Disable' : 'Enable'),
                 ];
             }
         }

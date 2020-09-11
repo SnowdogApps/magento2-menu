@@ -36,6 +36,29 @@
             </item>
         </argument>
     </dataSource>
+    <listingToolbar name="listing_top">
+        <paging name="listing_paging"/>
+        <massaction name="listing_massaction">
+            <action name="enable">
+                <argument name="data" xsi:type="array">
+                    <item name="config" xsi:type="array">
+                        <item name="type" xsi:type="string">enable</item>
+                        <item name="label" translate="true" xsi:type="string">Enable</item>
+                        <item name="url" xsi:type="url" path="snowmenu/menu/massEnable/"/>
+                    </item>
+                </argument>
+            </action>
+            <action name="disable">
+                <argument name="data" xsi:type="array">
+                    <item name="config" xsi:type="array">
+                        <item name="type" xsi:type="string">disable</item>
+                        <item name="label" translate="true" xsi:type="string">Disable</item>
+                        <item name="url" xsi:type="url" path="snowmenu/menu/massDisable"/>
+                    </item>
+                </argument>
+            </action>
+        </massaction>
+    </listingToolbar>
     <columns name="snowmenu_menu_list_columns">
         <selectionsColumn name="ids">
             <argument name="data" xsi:type="array">
@@ -80,7 +103,6 @@
                     <item name="filter" xsi:type="string">select</item>
                     <item name="component" xsi:type="string">Magento_Ui/js/grid/columns/select</item>
                     <item name="dataType" xsi:type="string">select</item>
-                    <item name="sorting" xsi:type="string">asc</item>
                     <item name="resizeEnabled" xsi:type="boolean">false</item>
                     <item name="resizeDefaultWidth" xsi:type="string">55</item>
                     <item name="label" xsi:type="string" translate="true">Status</item>
@@ -93,11 +115,11 @@
                     <item name="resizeEnabled" xsi:type="boolean">false</item>
                     <item name="resizeDefaultWidth" xsi:type="string">107</item>
                     <item name="indexField" xsi:type="string">menu_id</item>
+                    <item name="component" xsi:type="string">Magento_Ui/js/grid/columns/actions</item>
+                    <item name="dataType" xsi:type="string">actions</item>
+                    <item name="label" xsi:type="string" translate="true">Action</item>
                 </item>
             </argument>
         </actionsColumn>
     </columns>
-    <listingToolbar name="listing_top">
-        <paging name="listing_paging"/>
-    </listingToolbar>
 </listing>
