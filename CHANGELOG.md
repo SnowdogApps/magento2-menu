@@ -13,6 +13,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Functionality to enable/disable specific menu node (#85, DEV-65561)
 - Invalidate page cache on menu save (#70191)
 
+### Fixed
+- Prevent menu stores save if there are no stores changes
+
 ## [2.12.0] - 2020-08-24
 ### Added
 - PHP 7.4 support (#118)

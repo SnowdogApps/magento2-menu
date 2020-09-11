@@ -36,6 +36,10 @@ class Menu extends AbstractModel implements MenuInterface, IdentityInterface
 
     public function saveStores(array $stores)
     {
+        if ($stores == $this->getStores()) {
+            return;
+        }
+
         $connection = $this->getResource()->getConnection();
         $connection->beginTransaction();
         $table = $this->getResource()->getTable('snowmenu_store');
