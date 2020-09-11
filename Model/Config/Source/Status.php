@@ -13,5 +13,4 @@ class Status implements OptionSourceInterface
             ['label' => __('Enabled'), 'value' => '1'],
         ];
     }
-
 }

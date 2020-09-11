@@ -2,9 +2,8 @@
 
 namespace Snowdog\Menu\Controller\Adminhtml\Menu;
 
+use Exception;
 use Magento\Backend\App\Action;
-use Magento\Customer\Controller\Adminhtml\Index\AbstractMassAction;
-use Magento\Framework\App\ResponseInterface;
 use Magento\Ui\Component\MassAction\Filter;
 use Snowdog\Menu\Api\MenuRepositoryInterface;
 use Snowdog\Menu\Model\ResourceModel\Menu\Collection;
@@ -19,9 +18,12 @@ abstract class MassActionAbstract extends Action
     private $filter;
     private $collectionFactory;
 
-    public function __construct(Action\Context $context, Filter $filter, CollectionFactory $collectionFactory,
-        MenuRepositoryInterface $menuRepository)
-    {
+    public function __construct(
+        Action\Context $context,
+        Filter $filter,
+        CollectionFactory $collectionFactory,
+        MenuRepositoryInterface $menuRepository
+    ) {
         parent::__construct($context);
         $this->filter = $filter;
         $this->collectionFactory = $collectionFactory;
@@ -33,8 +35,8 @@ abstract class MassActionAbstract extends Action
         try {
             $collection = $this->filter->getCollection($this->collectionFactory->create());
             $this->process($collection);
-        } catch (\Exception $e) {
-
+        } catch (Exception $e) {
+            $this->messageManager->addErrorMessage($e->getMessage());
         }
 
         $redirect = $this->resultRedirectFactory->create();
