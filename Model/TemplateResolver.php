@@ -72,12 +72,14 @@ class TemplateResolver
      * @param Template $block
      * @param string $menuId
      * @param string $template
+     * @param int|null $nodeId
      * @return string
      */
-    public function getMenuTemplate($block, $menuId, $template)
+    public function getMenuTemplate($block, $menuId, $template, $nodeId = null)
     {
-        if (isset($this->templateMap[$menuId . '-' . $template])) {
-            return $this->templateMap[$menuId . '-' . $template];
+        $mapId = $menuId . '-' . ($nodeId ? $nodeId . '-' : '') . $template;
+        if (isset($this->templateMap[$mapId])) {
+            return $this->templateMap[$mapId];
         }
 
         $templateArr = explode('::', $template);
@@ -94,10 +96,10 @@ class TemplateResolver
         }
 
         if (!$this->validator->isValid($block->getTemplateFile($newTemplate))) {
-            return $this->setTemplateMap($menuId, $template, $template);
+            return $this->setTemplateMap($menuId, $template, $template, $nodeId);
         }
 
-        return $this->setTemplateMap($menuId, $newTemplate, $template);
+        return $this->setTemplateMap($menuId, $newTemplate, $template, $nodeId);
     }
 
     /**
@@ -151,11 +153,13 @@ class TemplateResolver
      * @param string $menuId
      * @param string $template
      * @param string $oldTemplate
+     * @param int|null $nodeId
      * @return string
      */
-    private function setTemplateMap($menuId, $template, $oldTemplate)
+    private function setTemplateMap($menuId, $template, $oldTemplate, $nodeId = null)
     {
-        return $this->templateMap[$menuId . '-' . $oldTemplate] = $template;
+        $mapId = $menuId . '-' . ($nodeId ? $nodeId . '-' : '') . $oldTemplate;
+        return $this->templateMap[$mapId] = $template;
     }
 
     /**
