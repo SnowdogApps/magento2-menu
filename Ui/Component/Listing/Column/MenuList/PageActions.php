@@ -60,37 +60,56 @@ class PageActions extends Column
             foreach ($dataSource['data']['items'] as & $item) {
                 if (isset($item['menu_id'])) {
                     $name = $this->getData('name');
+                    $menuId = (int) $item['menu_id'];
                     $item[$name] = [
-                        'edit' => [
-                            'href' => $this->urlBuilder->getUrl(
-                                static::URL_PATH_EDIT,
-                                [
-                                    'id' => $item['menu_id'],
-                                ]
-                            ),
-                            'label' => __('Edit'),
-                            '__disableTmpl' => true,
-                        ],
-                        'delete' => [
-                            'href' => $this->urlBuilder->getUrl(
-                                static::URL_PATH_DELETE,
-                                [
-                                    'id' => $item['menu_id'],
-                                ]
-                            ),
-                            'label' => __('Delete'),
-                            'confirm' => [
-                                'title' => __('Delete'),
-                                'message' => __('Are you sure you want to delete this menu?'),
-                            ],
-                            'post' => true,
-                            '__disableTmpl' => true,
-                        ],
+                        'edit' => $this->getEditButton($menuId),
+                        'delete' => $this->getDeleteButton($menuId),
                     ];
                 }
             }
         }
 
         return $dataSource;
+    }
+
+    /**
+     * @param int $menuId
+     * @return array
+     */
+    private function getEditButton(int $menuId): array
+    {
+        return [
+            'href' => $this->urlBuilder->getUrl(
+                static::URL_PATH_EDIT,
+                [
+                    'id' => $menuId,
+                ]
+            ),
+            'label' => __('Edit'),
+            '__disableTmpl' => true,
+        ];
+    }
+
+    /**
+     * @param int $menuId
+     * @return array
+     */
+    private function getDeleteButton(int $menuId): array
+    {
+        return [
+            'href' => $this->urlBuilder->getUrl(
+                static::URL_PATH_DELETE,
+                [
+                    'id' => $menuId,
+                ]
+            ),
+            'label' => __('Delete'),
+            'confirm' => [
+                'title' => __('Delete'),
+                'message' => __('Are you sure you want to delete this menu?'),
+            ],
+            'post' => true,
+            '__disableTmpl' => true,
+        ];
     }
 }

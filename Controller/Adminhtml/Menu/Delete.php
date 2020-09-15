@@ -90,7 +90,7 @@ class Delete extends Action
 
         try {
             $menu = $this->menuRepository->getById($menuId);
-            $this->menuRepository->deleteById($menuId);
+            $this->menuRepository->delete($menu);
 
             $filterBuilder = $this->filterBuilderFactory->create();
             $filter = $filterBuilder->setField('menu_id')
