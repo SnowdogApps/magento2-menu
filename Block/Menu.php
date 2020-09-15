@@ -377,13 +377,17 @@ class Menu extends Template implements DataObject\IdentityInterface
     private function getSubmenuBlock($nodes, $parentNode, $level = 0)
     {
         $block = clone $this;
+        $submenuTemplate = $parentNode->getSubmenuTemplate();
+        $submenuTemplate = $submenuTemplate
+            ? 'Snowdog_Menu::' . $this->getMenu()->getIdentifier() . "/menu/custom/sub_menu/${submenutTemplate}.phtml"
+            : $this->submenuTemplate;
 
         $block->setSubmenuNodes($nodes)
             ->setParentNode($parentNode)
             ->setLevel($level);
 
         $block->setTemplateContext($block);
-        $block->setTemplate($this->submenuTemplate);
+        $block->setTemplate($submenuTemplate);
 
         return $block;
     }
