@@ -45,9 +45,9 @@ class TemplateResolver
     private $rulePool;
 
     /**
-     * @var null
+     * @var array
      */
-    private $templateDir = null;
+    private $templateDir = [];
 
     /**
      * @var array
@@ -131,19 +131,30 @@ class TemplateResolver
             return $this->templateList[$noteType];
         }
 
-        $templateDir = $this->getTemplateDir() . $noteType . DIRECTORY_SEPARATOR;
-        if ($this->driverFile->isExists($templateDir)) {
-            $files = $this->driverFile->readDirectory($templateDir);
+        foreach ($this->getTemplateDir() as $themeDir) {
+            $themeDir .= $noteType . DIRECTORY_SEPARATOR;
+            if (!$this->driverFile->isExists($themeDir)) {
+                continue;
+            }
+
+            $files = $this->driverFile->readDirectory($themeDir);
             foreach ($files as $file) {
-                if ($this->driverFile->isFile($file)) {
-                    $extension = strtolower(pathinfo($file, PATHINFO_EXTENSION));
-                    if (in_array($extension, ['phtml'])) {
-                        $fileName = str_replace([$templateDir, '.' . $extension], '', $file);
-                        $result[] = ['id' => $fileName];
-                    }
+                if (!$this->driverFile->isFile($file)) {
+                    continue;
+                }
+
+                $extension = strtolower(pathinfo($file, PATHINFO_EXTENSION));
+                if (!in_array($extension, ['phtml'])) {
+                    continue;
+                }
+
+                $fileName = str_replace([$themeDir, '.' . $extension], '', $file);
+                if (!in_array($fileName, array_column($result, 'id'))) {
+                    $result[] = ['id' => $fileName];
                 }
             }
         }
+
         $this->templateList[$noteType] = $result;
 
         return $this->templateList[$noteType];
@@ -163,12 +174,12 @@ class TemplateResolver
     }
 
     /**
-     * @return string
+     * @return array
      * @throws NoSuchEntityException
      */
     private function getTemplateDir()
     {
-        if (!is_null($this->templateDir)) {
+        if ($this->templateDir) {
             return $this->templateDir;
         }
 
@@ -176,20 +187,21 @@ class TemplateResolver
         $params = ['module' => self::MODULE_NAME, 'area' => 'frontend'];
         $this->assetRepo->updateDesignParams($params);
         $fallbackType = $this->rulePool->getRule(RulePool::TYPE_FILE);
+
         $params = [
             'area' => $params['area'],
             'theme' => $params['themeModel'],
             'locale' => $params['locale'],
             'module_name' => $params['module']
         ];
+
         $menuIdentifier = $this->getMenuIdentifier();
         $customTemplatePath = '/templates/' . $menuIdentifier . '/menu/custom/';
-        $this->templateDir = '';
+
         foreach ($fallbackType->getPatternDirs($params) as $dir) {
             $templateDir = $dir . $customTemplatePath;
             if ($this->driverFile->isExists($templateDir)) {
-                $this->templateDir = $templateDir;
-                break;
+                $this->templateDir[] = $templateDir;
             }
         }
 
