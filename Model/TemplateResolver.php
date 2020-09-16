@@ -10,6 +10,7 @@ use Magento\Framework\Registry;
 use Magento\Framework\View\Element\Template;
 use Magento\Framework\View\Element\Template\File\Validator;
 use Magento\Framework\Filesystem\Driver\File as DriverFile;
+use Magento\Framework\Filesystem\Io\File as IoFile;
 use Magento\Framework\View\Asset\Repository as AssetRepository;
 use Magento\Framework\View\Design\Fallback\RulePool;
 use Magento\Framework\Exception\FileSystemException;
@@ -28,6 +29,11 @@ class TemplateResolver
      * @var DriverFile
      */
     private $driverFile;
+
+    /**
+     * @var IoFile
+     */
+    private $ioFile;
 
     /**
      * @var Registry
@@ -57,12 +63,14 @@ class TemplateResolver
     public function __construct(
         Validator $validator,
         DriverFile $driverFile,
+        IoFile $ioFile,
         Registry $registry,
         AssetRepository $assetRepo,
         RulePool $rulePool
     ) {
         $this->validator = $validator;
         $this->driverFile = $driverFile;
+        $this->ioFile = $ioFile;
         $this->registry = $registry;
         $this->assetRepo = $assetRepo;
         $this->rulePool = $rulePool;
@@ -143,7 +151,7 @@ class TemplateResolver
                     continue;
                 }
 
-                $extension = strtolower(pathinfo($file, PATHINFO_EXTENSION));
+                $extension = strtolower($this->ioFile->getPathInfo($file)['extension']);
                 if (!in_array($extension, ['phtml'])) {
                     continue;
                 }
