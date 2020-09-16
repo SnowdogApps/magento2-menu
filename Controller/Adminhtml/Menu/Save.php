@@ -192,13 +192,13 @@ class Save extends Action
                         $nodeObject->setTarget($node['target']);
                     }
 
-                    $nodeTemplate = NULL;
+                    $nodeTemplate = null;
                     if (isset($node['node_template']) && $node['type'] != $node['node_template']) {
                         $nodeTemplate = $node['node_template'];
                     }
                     $nodeObject->setNodeTemplate($nodeTemplate);
 
-                    $submenuTemplate = NULL;
+                    $submenuTemplate = null;
                     if (isset($node['submenu_template']) && $node['submenu_template'] != 'sub_menu') {
                         $submenuTemplate = $node['submenu_template'];
                     }
