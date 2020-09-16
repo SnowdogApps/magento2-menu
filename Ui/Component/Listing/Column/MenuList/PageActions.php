@@ -10,7 +10,7 @@ class PageActions extends Column
         if (isset($dataSource["data"]["items"])) {
             foreach ($dataSource["data"]["items"] as & $item) {
                 $name = $this->getData("name");
-                $id = $item["menu_id"] ?? "X";
+                $id = (int) $item["menu_id"];
                 $item[$name]["view"] = [
                     "href"  => $this->getContext()->getUrl(
                         "snowmenu/menu/edit",
