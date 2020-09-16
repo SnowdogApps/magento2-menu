@@ -58,14 +58,8 @@ class CmsPage extends AbstractNode
      */
     public function fetchConfigData()
     {
-        $connection = $this->getConnection('read');
-
-        $select = $connection->select()->from(
-            $this->getTable('cms_page'),
-            ['title', 'identifier']
-        );
-
-        return $connection->fetchPairs($select);
+        $searchCriteria = $this->searchCriteriaBuilder->create();
+        return $this->pageRepository->getList($searchCriteria)->getItems();
     }
 
     /**

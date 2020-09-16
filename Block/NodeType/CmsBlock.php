@@ -59,11 +59,13 @@ class CmsBlock extends AbstractNode
         CmsBlockModel $cmsBlockModel,
         FilterProvider $filterProvider,
         TemplateResolver $templateResolver,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         $data = []
     ) {
         parent::__construct($context, $templateResolver, $data);
         $this->filterProvider = $filterProvider;
         $this->_cmsBlockModel = $cmsBlockModel;
+        $this->storesList = $storeManager->getStores();
     }
 
     /**
@@ -71,9 +73,35 @@ class CmsBlock extends AbstractNode
      */
     public function getJsonConfig()
     {
-        $data = $this->_cmsBlockModel->fetchConfigData();
+        $options = $this->_cmsBlockModel->fetchConfigData();
 
-        return $data;
+        $options = array_map(function ($block) {
+            $block['store'] = array_map(function ($id) {
+                return $this->storesList[$id]['name'];
+            }, $block['store']);
+
+            return $block;
+        }, $options);
+
+        return [
+            'snowMenuAutoCompleteField' => [
+                'type'    => 'cms_block',
+                'options' => array_values($options),
+                'message' => __('CMS Block not found'),
+            ],
+            'snowMenuNodeCustomTemplates' => [
+                'type'    => 'cms_block',
+                'defaultTemplate' => 'cms_block',
+                'options' => $this->templateResolver->getCustomTemplateOptions('cms_block'),
+                'message' => __('Template not found'),
+            ],
+            'snowMenuSubmenuCustomTemplates' => [
+                'type'    => 'cms_block',
+                'defaultTemplate' => 'sub_menu',
+                'options' => $this->templateResolver->getCustomTemplateOptions('sub_menu'),
+                'message' => __('Template not found'),
+            ]
+        ];
     }
 
     /**

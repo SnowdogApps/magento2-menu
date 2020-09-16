@@ -11,29 +11,20 @@
 namespace Snowdog\Menu\Model\NodeType;
 
 use Magento\Framework\Profiler;
-use Snowdog\Menu\Model\TemplateResolver;
 
 class CmsBlock extends AbstractNode
 {
-    /**
-     * @var TemplateResolver
-     */
-    private $templateResolver;
-
     /**
      * @inheritDoc
      */
     protected function _construct()
     {
-        $this->_init('Snowdog\Menu\Model\ResourceModel\NodeType\CmsBlock');
+        $this->_init(\Snowdog\Menu\Model\ResourceModel\NodeType\CmsBlock::class);
         parent::_construct();
     }
 
-    public function __construct(
-        Profiler $profiler,
-        TemplateResolver $templateResolver
-    ) {
-        $this->templateResolver = $templateResolver;
+    public function __construct(Profiler $profiler)
+    {
         parent::__construct($profiler);
     }
 
@@ -44,40 +35,22 @@ class CmsBlock extends AbstractNode
     {
         $this->profiler->start(__METHOD__);
 
-        $options = $this->getResource()->fetchConfigData();
-
-        $fieldOptions = [];
-
-        foreach ($options as $label => $value) {
-            $fieldOptions[] = [
-                'label' => $label,
-                'value' => $value
+        $options = array_map(function ($block) {
+            return [
+                'label' => $block->getTitle(),
+                'value' => $block->getIdentifier(),
+                'store' => array_filter(
+                    (array)$block->getStoreId(),
+                    function ($id) {
+                        return (int)$id !== 0;
+                    }
+                )
             ];
-        }
-
-        $data = [
-            'snowMenuAutoCompleteField' => [
-                'type'    => 'cms_block',
-                'options' => $fieldOptions,
-                'message' => __('CMS Block not found'),
-            ],
-            'snowMenuNodeCustomTemplates' => [
-                'type'    => 'cms_block',
-                'defaultTemplate' => 'cms_block',
-                'options' => $this->templateResolver->getCustomTemplateOptions('cms_block'),
-                'message' => __('Template not found'),
-            ],
-            'snowMenuSubmenuCustomTemplates' => [
-                'type'    => 'cms_block',
-                'defaultTemplate' => 'sub_menu',
-                'options' => $this->templateResolver->getCustomTemplateOptions('sub_menu'),
-                'message' => __('Template not found'),
-            ],
-        ];
+        }, $this->getResource()->fetchConfigData());
 
         $this->profiler->stop(__METHOD__);
 
-        return $data;
+        return $options;
     }
 
     /**

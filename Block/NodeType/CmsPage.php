@@ -59,11 +59,13 @@ class CmsPage extends AbstractNode
         PageInterface $page,
         CmsPageModel $cmsPageModel,
         TemplateResolver $templateResolver,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         $data = []
     ) {
         parent::__construct($context, $templateResolver, $data);
         $this->_cmsPageModel = $cmsPageModel;
         $this->page = $page;
+        $this->storesList = $storeManager->getStores();
     }
 
     /**
@@ -86,9 +88,33 @@ class CmsPage extends AbstractNode
      */
     public function getJsonConfig()
     {
-        $data = $this->_cmsPageModel->fetchConfigData();
+        $options = $this->_cmsPageModel->fetchConfigData();
 
-        return $data;
+        $options = array_map(function ($page) {
+            $page['store'] = array_map(function ($id) {
+                return $this->storesList[$id]['name'];
+            }, $page['store']);
+
+            return $page;
+        }, $options);
+
+        return [
+            'snowMenuAutoCompleteField' => [
+                'type' => 'cms_page',
+                'options' => array_values($options),
+                'message' => __('CMS Page not found'),
+            ],
+            'snowMenuNodeCustomTemplates' => [
+                'defaultTemplate' => 'cms_page',
+                'options' => $this->templateResolver->getCustomTemplateOptions('cms_page'),
+                'message' => __('Template not found'),
+            ],
+            'snowMenuSubmenuCustomTemplates' => [
+                'defaultTemplate' => 'sub_menu',
+                'options' => $this->templateResolver->getCustomTemplateOptions('sub_menu'),
+                'message' => __('Template not found'),
+            ]
+        ];
     }
 
     /**

@@ -6,6 +6,48 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+### Changed
+- Index page title (#69078)
+
+### Added
+- Functionality to enable/disable specific menu node (#85, DEV-65561)
+
+## [2.12.0] - 2020-08-24
+### Added
+- PHP 7.4 support (#118)
+- Magento 2.4 support (#119)
+
+### Changed
+- Move submenu template path to protected variable (#109)
+
+## [2.11.1] - 2020-05-15
+### Fixed
+- `array_filter()` error for `cmsBlock`, `cmsPage` nodes, if opening `edit-menu-page` from admin panel (#106)
+
+## [2.11.0] - 2020-04-14
+### Added
+- Static code analysis tools
+- Showing store scope in CMS block and page selects
+
+### Changed
+- Updated UI
+- Updated frontend dependencies
+- PHP code formatted to match PHPCS Magento coding standard rules
+- Vue components props update to match ESlint Vue Recommended rules
+
+## [2.10.2] - 2020-04-12
+### Fixed
+- Overflow for main container - #100
+
+## [2.10.1] - 2020-03-23
+### Fixed
+- Nodes are deleted and recreated every time a menu is saved (#97)
+- Typo in a layout file (#96)
+
+## [2.10.1] - 2020-03-23
+### Fixed
+- Nodes are deleted and recreated every time a menu is saved (#97)
+- Typo in a layout file (#96)
 
 ## [2.10.0] - 2019-05-29
 ### Added

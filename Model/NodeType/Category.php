@@ -38,7 +38,7 @@ class Category extends AbstractNode
      */
     protected function _construct()
     {
-        $this->_init('Snowdog\Menu\Model\ResourceModel\NodeType\Category');
+        $this->_init(\Snowdog\Menu\Model\ResourceModel\NodeType\Category::class);
         parent::_construct();
     }
 

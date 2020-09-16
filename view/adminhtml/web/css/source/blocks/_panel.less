@@ -1,12 +1,7 @@
 .panel {
-    overflow: hidden;
     border-radius: 8px;
     border: 1px solid @color-gray90;
     margin-bottom: 15px;
-
-    &--open {
-        overflow: visible;
-    }
 
     &__heading {
         display: flex;
@@ -24,6 +19,7 @@
             background-color: @color-white-fog;
         }
     }
+
     &__body {
         min-height: @snow-menu__item-height;
 
@@ -158,5 +154,11 @@
     .admin__fieldset {
         padding-bottom: 0;
         border-bottom: 1px solid #eee;
+        .input-text[type=checkbox].admin__control-text {
+            width: 16px;
+            height: 16px;
+            min-width: 0;
+            margin: 0;
+        }
     }
 }

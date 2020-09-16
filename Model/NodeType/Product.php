@@ -29,7 +29,7 @@ class Product extends AbstractNode
      */
     protected function _construct()
     {
-        $this->_init('Snowdog\Menu\Model\ResourceModel\NodeType\Product');
+        $this->_init(\Snowdog\Menu\Model\ResourceModel\NodeType\Product::class);
         parent::_construct();
     }
 

@@ -1,4 +1,6 @@
-[![Packagist](https://img.shields.io/packagist/v/snowdog/module-menu.svg)](https://packagist.org/packages/snowdog/module-menu) [![Packagist](https://img.shields.io/packagist/dt/snowdog/module-menu.svg)](https://packagist.org/packages/snowdog/module-menu)
+[![Packagist](https://img.shields.io/packagist/v/snowdog/module-menu?style=for-the-badge)](https://packagist.org/packages/snowdog/module-menu)
+[![Packagist](https://img.shields.io/packagist/dt/snowdog/module-menu?style=for-the-badge)](https://packagist.org/packages/snowdog/module-menu)
+[![Packagist](https://img.shields.io/packagist/dm/snowdog/module-menu?style=for-the-badge)](https://packagist.org/packages/snowdog/module-menu)
 
 # Magento 2 Menu
 Provides powerful menu editor to replace category based menus in Magento 2.
@@ -59,4 +61,13 @@ Newly created block with additional method should be added via `di.xml` defining
    
  * `/rest/V1/menus`: retrieves available menus
  * `/rest/V1/nodes`: retrieves nodes by menuId
+ 
+## Frontend
+We are not providing any CSS or JS, only basic HTML, which means this module is not out of box supported by any theme, you always need to write some custom code to get expected results or pick some ready to use theme / extenstion, built on top of this module.
+
+### Themes:
+- [Snowdog Alpaca theme](https://github.com/SnowdogApps/magento2-alpaca-theme)
+
+### Extenstions:
+- [RedChamps Luma theme support](https://github.com/redchamps/snowdog-menu-luma-support)
  

@@ -8,6 +8,7 @@ use Magento\Framework\App\Cache\Type\Block;
 use Magento\Framework\DataObject;
 use Magento\Framework\View\Element\Template;
 use Magento\Framework\Event\Manager as EventManager;
+use Magento\Framework\Escaper;
 use Snowdog\Menu\Api\MenuRepositoryInterface;
 use Snowdog\Menu\Api\NodeRepositoryInterface;
 use Snowdog\Menu\Model\NodeTypeProvider;
@@ -58,6 +59,11 @@ class Menu extends Template implements DataObject\IdentityInterface
      */
     protected $_template = 'Snowdog_Menu::menu.phtml';
 
+    /**
+     * @var string
+     */
+    protected $baseSubmenuTemplate = 'Snowdog_Menu::menu/sub_menu.phtml';
+
     public function __construct(
         Template\Context $context,
         EventManager $eventManager,
@@ -67,6 +73,7 @@ class Menu extends Template implements DataObject\IdentityInterface
         SearchCriteriaFactory $searchCriteriaFactory,
         FilterGroupBuilder $filterGroupBuilder,
         TemplateResolver $templateResolver,
+        Escaper $escaper,
         array $data = []
     ) {
         parent::__construct($context, $data);
@@ -77,9 +84,8 @@ class Menu extends Template implements DataObject\IdentityInterface
         $this->filterGroupBuilder = $filterGroupBuilder;
         $this->eventManager = $eventManager;
         $this->templateResolver = $templateResolver;
-        $this->submenuTemplate = $this->getMenuTemplate(
-            'Snowdog_Menu::menu/sub_menu.phtml'
-        );
+        $this->escaper = $escaper;
+        $this->submenuTemplate = $this->getMenuTemplate($this->baseSubmenuTemplate);
         $this->setTemplate($this->getMenuTemplate($this->_template));
     }
 
@@ -299,7 +305,7 @@ class Menu extends Template implements DataObject\IdentityInterface
         if (!isset($this->nodes[$level])) {
             return [];
         }
-        $parentId = $parent['node_id'] ?: 0;
+        $parentId = $parent !== null ? $parent['node_id'] : 0;
         if (!isset($this->nodes[$level][$parentId])) {
             return [];
         }
@@ -321,7 +327,7 @@ class Menu extends Template implements DataObject\IdentityInterface
                 $data = implode(' ', $data);
             }
 
-            $attributes[] = $attribute . '="' . htmlspecialchars($data) . '"';
+            $attributes[] = $attribute . '="' . $this->escaper->escapeHtml($data) . '"';
         }
 
         return $attributes ? ' ' . implode(' ', $attributes) : '';
@@ -335,7 +341,7 @@ class Menu extends Template implements DataObject\IdentityInterface
     {
         $menu = $this->getMenu();
 
-        if (is_null($menu)) {
+        if ($menu === null) {
             return $defaultClass;
         }
 
@@ -379,7 +385,7 @@ class Menu extends Template implements DataObject\IdentityInterface
         $block = clone $this;
         $submenuTemplate = $parentNode->getSubmenuTemplate();
         $submenuTemplate = $submenuTemplate
-            ? 'Snowdog_Menu::' . $this->getMenu()->getIdentifier() . "/menu/custom/sub_menu/${submenutTemplate}.phtml"
+            ? 'Snowdog_Menu::' . $this->getMenu()->getIdentifier() . "/menu/custom/sub_menu/${submenuTemplate}.phtml"
             : $this->submenuTemplate;
 
         $block->setSubmenuNodes($nodes)
@@ -398,6 +404,10 @@ class Menu extends Template implements DataObject\IdentityInterface
         $result = [];
         $types = [];
         foreach ($nodes as $node) {
+            if (!$node->getIsActive()) {
+                continue;
+            }
+
             $level = $node->getLevel();
             $parent = $node->getParentId() ?: 0;
             if (!isset($result[$level])) {
