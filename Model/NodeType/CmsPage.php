@@ -10,8 +10,6 @@
 
 namespace Snowdog\Menu\Model\NodeType;
 
-use Magento\Framework\Profiler;
-
 class CmsPage extends AbstractNode
 {
     /**
@@ -21,11 +19,6 @@ class CmsPage extends AbstractNode
     {
         $this->_init(\Snowdog\Menu\Model\ResourceModel\NodeType\CmsPage::class);
         parent::_construct();
-    }
-
-    public function __construct(Profiler $profiler)
-    {
-        parent::__construct($profiler);
     }
 
     /**
