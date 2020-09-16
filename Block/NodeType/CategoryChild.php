@@ -4,7 +4,7 @@ namespace Snowdog\Menu\Block\NodeType;
 
 use Magento\Framework\View\Element\Template\Context;
 use Magento\Framework\Registry;
-use Magento\Catalog\Model\CategoryFactory;
+use Magento\Catalog\Api\CategoryRepositoryInterface;
 use Snowdog\Menu\Model\TemplateResolver;
 use Snowdog\Menu\Model\NodeType\Category as ModelCategory;
 
@@ -18,7 +18,7 @@ class CategoryChild extends Category
      * @var string
      */
     protected $nodeType = 'category_child';
-    protected $categoryFactory;
+    protected $categoryRepository;
 
     /**
      * Category constructor.
@@ -27,7 +27,7 @@ class CategoryChild extends Category
      * @param Registry $coreRegistry
      * @param ModelCategory $categoryModel
      * @param TemplateResolver $templateResolver
-     * @param CategoryFactory $categoryFactory
+     * @param CategoryRepositoryInterface $categoryRepository
      * @param array $data
      */
     public function __construct(
@@ -35,11 +35,11 @@ class CategoryChild extends Category
         Registry $coreRegistry,
         ModelCategory $categoryModel,
         TemplateResolver $templateResolver,
-        CategoryFactory $categoryFactory,
+        CategoryRepositoryInterface $categoryRepository,
         array $data = []
     ) {
         parent::__construct($context, $coreRegistry, $categoryModel, $templateResolver, $data);
-        $this->categoryFactory = $categoryFactory;
+        $this->categoryRepository = $categoryRepository;
     }
 
     /**
@@ -57,6 +57,7 @@ class CategoryChild extends Category
         if ($category) {
             $info[] = 'category-child_' . $category->getId();
         }
+
         return $info;
     }
 
@@ -76,7 +77,7 @@ class CategoryChild extends Category
     public function getVisibleChildren()
     {
         $categoryId = $this->getContent();
-        $category = $this->categoryFactory->create()->load($categoryId);
+        $category = $this->categoryRepository->get($categoryId);
         $visibleChildren = array();
         $children = $category->getChildrenCategories();
         if (is_object($children)) {
@@ -89,6 +90,7 @@ class CategoryChild extends Category
                 $visibleChildren[] = $child;
             }
         }
+
         return $visibleChildren;
     }
 }
