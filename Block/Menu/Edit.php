@@ -12,5 +12,24 @@ class Edit extends Container
         $this->_controller = 'menu';
         $this->_mode = 'edit';
         parent::_construct();
+
+        $this->buttonList->remove('save');
+
+        $this->buttonList->add(
+            'save',
+            [
+                'label' => __('Save'),
+                'class' => 'save primary',
+                'data_attribute' => [
+                    'mage-init' => [
+                        'button' => [
+                            'event' => 'saveAndContinueEdit',
+                            'target' => '#edit_form'
+                        ]
+                    ]
+                ]
+            ],
+            -100
+        );
     }
 }

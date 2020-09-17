@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Changed
 - Index page title (#69078)
+- Make menu admin edit form primary save button redirect back to edit page (#69112)
 
 ### Added
 - Functionality to enable/disable specific menu node (#85, DEV-65561)
