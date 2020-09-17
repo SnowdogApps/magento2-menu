@@ -20,6 +20,7 @@ use Snowdog\Menu\Service\MenuHydrator;
 class Save extends Action
 {
     public const ADMIN_RESOURCE = 'Snowdog_Menu::menus';
+    const EDIT_REDIRECTS = ['edit', 'continue', 'duplicate'];
 
     /** @var MenuRepositoryInterface */
     private $menuRepository;
@@ -205,14 +206,7 @@ class Save extends Action
             }
         }
 
-        $redirect = $this->resultRedirectFactory->create();
-        $redirect->setPath('*/*/index');
-
-        if ($this->getRequest()->getParam('back')) {
-            $redirect->setPath('*/*/edit', ['id' => $menu->getMenuId(), '_current' => true]);
-        }
-
-        return $redirect;
+        return $this->processRedirect($menu->getMenuId());
     }
 
     protected function _convertTree($nodes, $parent)
@@ -246,6 +240,32 @@ class Save extends Action
         }
 
         return true;
+    }
+
+    /**
+     * @param int|null $menuId
+     * @return \Magento\Framework\Controller\ResultInterface
+     */
+    private function processRedirect($menuId = null)
+    {
+        $resultRedirect = $this->resultRedirectFactory->create();
+        $redirect = $this->getRequest()->getParam('back');
+
+        $pathAction = '';
+        $pathParams = [];
+
+        if ($redirect === 'duplicate') {
+            // TODO: Menu duplication request goes here.
+            // Or it can be moved with the "if" statement outside and before this method,
+            // where the duplicate menu ID will be passed as an argument to this method.
+        }
+
+        if (in_array($redirect, self::EDIT_REDIRECTS)) {
+            $pathAction = 'edit';
+            $pathParams = ['id' => $menuId, '_current' => true];
+        }
+
+        return $resultRedirect->setPath("*/*/${pathAction}", $pathParams);
     }
 
     /**
