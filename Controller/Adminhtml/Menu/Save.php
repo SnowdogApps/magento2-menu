@@ -254,11 +254,12 @@ class Save extends Action
         $pathAction = '';
         $pathParams = [];
 
-        if ($redirect === 'duplicate') {
+        // TODO: Handle menu duplication.
+        // if ($redirect === 'duplicate') {
             // TODO: Menu duplication request goes here.
             // Or it can be moved with the "if" statement outside and before this method,
             // where the duplicate menu ID will be passed as an argument to this method.
-        }
+        // }
 
         if (in_array($redirect, self::EDIT_REDIRECTS)) {
             $pathAction = 'edit';
