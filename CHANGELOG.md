@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Added
 - Functionality to enable/disable specific menu node (#85, DEV-65561)
+- `Save & Duplicate` and `Save & Close` buttons to menu admin edit form (#69112)
 
 ### Removed
 - Menu admin edit form save and continue edit button (#69112)
