@@ -18,6 +18,9 @@ class CategoryChild extends Category
      * @var string
      */
     protected $nodeType = 'category_child';
+    /**
+     * @var CategoryRepositoryInterface
+     */
     protected $categoryRepository;
 
     /**
