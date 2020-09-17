@@ -14,7 +14,7 @@
                 <template v-slot:option="option">
                     {{ option.label }}
 
-                    <template v-if="option.store.length > 0">
+                    <template v-if="option.store">
                         <span class="vs__dropdown-option__details">
                             {{ option.store.join(', ') }}
                         </span>
