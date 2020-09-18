@@ -1,15 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<form xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd">
+<form xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd">
     <argument name="data" xsi:type="array">
         <item name="js_config" xsi:type="array">
-            <item name="provider" xsi:type="string">snowmenu_menu_form.menu_form_data_source</item>
-            <item name="deps" xsi:type="string">snowmenu_menu_form.menu_form_data_source</item>
+            <item name="provider" xsi:type="string">snowmenu_menu_form.data_source</item>
         </item>
         <item name="label" xsi:type="string" translate="true">Menu</item>
-        <item name="config" xsi:type="array">
-            <item name="dataScope" xsi:type="string">data</item>
-            <item name="namespace" xsi:type="string">snowmenu_menu_form</item>
-        </item>
+        <item name="template" xsi:type="string">templates/form/collapsible</item>
     </argument>
     <settings>
         <buttons>
@@ -19,108 +16,139 @@
             <button name="save_and_continue" class="Snowdog\Menu\Block\Adminhtml\Button\SaveAndContinue"/>
             <button name="save" class="Snowdog\Menu\Block\Adminhtml\Button\Save"/>
         </buttons>
-        <layout>
-            <navContainerName>left</navContainerName>
-            <type>tabs</type>
-        </layout>
+        <namespace>snowmenu_menu_form</namespace>
+        <dataScope>data</dataScope>
         <deps>
-            <dep>snowmenu_menu_form.menu_form_data_source</dep>
+            <dep>snowmenu_menu_form.data_source</dep>
         </deps>
     </settings>
-    <dataSource name="menu_form_data_source">
-        <argument name="dataProvider" xsi:type="configurableObject">
-            <argument name="class" xsi:type="string">Snowdog\Menu\Ui\DataProvider\Menu\Form\MenuDataProvider</argument>
-            <argument name="name" xsi:type="string">menu_form_data_source</argument>
-            <argument name="primaryFieldName" xsi:type="string">menu_id</argument>
-            <argument name="requestFieldName" xsi:type="string">id</argument>
-            <argument name="data" xsi:type="array">
-                <item name="config" xsi:type="array">
-                    <item name="submit_url" xsi:type="url" path="snowmenu/menu/save"/>
-                </item>
-            </argument>
-        </argument>
+    <dataSource name="data_source">
         <argument name="data" xsi:type="array">
             <item name="js_config" xsi:type="array">
                 <item name="component" xsi:type="string">Magento_Ui/js/form/provider</item>
             </item>
         </argument>
+        <settings>
+            <submitUrl path="snowmenu/menu/save"/>
+        </settings>
+        <dataProvider class="Snowdog\Menu\Ui\DataProvider\Menu\Form\MenuDataProvider" name="data_source">
+            <settings>
+                <requestFieldName>menu_id</requestFieldName>
+                <primaryFieldName>menu_id</primaryFieldName>
+            </settings>
+        </dataProvider>
     </dataSource>
-    <fieldset name="menu">
+    <fieldset name="menu" sortOrder="10">
         <settings>
             <label translate="true">Main information</label>
         </settings>
-        <field name="is_active">
+        <field name="menu_id" formElement="input">
             <argument name="data" xsi:type="array">
                 <item name="config" xsi:type="array">
-                    <item name="dataType" xsi:type="string">boolean</item>
-                    <item name="label" xsi:type="string" translate="true">Enable Menu</item>
-                    <item name="formElement" xsi:type="string">checkbox</item>
                     <item name="source" xsi:type="string">menu</item>
-                    <item name="prefer" xsi:type="string">toggle</item>
-                    <item name="dataScope" xsi:type="string">is_active</item>
-                    <item name="valueMap" xsi:type="array">
-                        <item name="false" xsi:type="string">0</item>
-                        <item name="true" xsi:type="string">1</item>
-                    </item>
                 </item>
             </argument>
+            <settings>
+                <dataType>text</dataType>
+                <visible>false</visible>
+                <dataScope>menu_id</dataScope>
+            </settings>
         </field>
-        <field name="title">
+        <field name="is_active" sortOrder="10" formElement="checkbox">
             <argument name="data" xsi:type="array">
                 <item name="config" xsi:type="array">
-                    <item name="dataType" xsi:type="string">text</item>
-                    <item name="label" xsi:type="string" translate="true">Title</item>
-                    <item name="formElement" xsi:type="string">input</item>
                     <item name="source" xsi:type="string">menu</item>
-                    <item name="dataScope" xsi:type="string">title</item>
-                    <item name="validation" xsi:type="array">
-                        <item name="required-entry" xsi:type="boolean">true</item>
-                    </item>
+                    <item name="default" xsi:type="number">1</item>
                 </item>
             </argument>
+            <settings>
+                <dataType>boolean</dataType>
+                <label translate="true">Enable menu</label>
+                <dataScope>is_active</dataScope>
+            </settings>
+            <formElements>
+                <checkbox>
+                    <settings>
+                        <valueMap>
+                            <map name="false" xsi:type="number">0</map>
+                            <map name="true" xsi:type="number">1</map>
+                        </valueMap>
+                        <prefer>toggle</prefer>
+                    </settings>
+                </checkbox>
+            </formElements>
         </field>
-        <field name="identifier">
+        <field name="title" sortOrder="20" formElement="input">
             <argument name="data" xsi:type="array">
                 <item name="config" xsi:type="array">
-                    <item name="dataType" xsi:type="string">text</item>
-                    <item name="label" xsi:type="string" translate="true">Identifier</item>
-                    <item name="formElement" xsi:type="string">input</item>
                     <item name="source" xsi:type="string">menu</item>
-                    <item name="dataScope" xsi:type="string">identifier</item>
-                    <item name="validation" xsi:type="array">
-                        <item name="required-entry" xsi:type="boolean">true</item>
-                    </item>
                 </item>
             </argument>
+            <settings>
+                <validation>
+                    <rule name="required-entry" xsi:type="boolean">true</rule>
+                </validation>
+                <dataType>text</dataType>
+                <label translate="true">Menu Title</label>
+                <dataScope>title</dataScope>
+            </settings>
         </field>
-        <field name="css_class">
+        <field name="identifier" formElement="input">
             <argument name="data" xsi:type="array">
                 <item name="config" xsi:type="array">
-                    <item name="dataType" xsi:type="string">text</item>
-                    <item name="label" xsi:type="string" translate="true">Menu Main CSS Class</item>
-                    <item name="formElement" xsi:type="string">input</item>
                     <item name="source" xsi:type="string">menu</item>
-                    <item name="dataScope" xsi:type="string">css_class</item>
-                    <item name="validation" xsi:type="array">
-                        <item name="required-entry" xsi:type="boolean">true</item>
-                    </item>
                 </item>
             </argument>
+            <settings>
+                <validation>
+                    <rule name="required-entry" xsi:type="boolean">true</rule>
+                </validation>
+                <dataType>text</dataType>
+                <label translate="true">Identifier</label>
+                <dataScope>identifier</dataScope>
+            </settings>
         </field>
-        <field name="stores[]">
+        <field name="css_class" formElement="input">
             <argument name="data" xsi:type="array">
-                <item name="options" xsi:type="object">Snowdog\Menu\Ui\Component\Listing\Column\Stores</item>
                 <item name="config" xsi:type="array">
-                    <item name="dataType" xsi:type="string">int</item>
-                    <item name="label" xsi:type="string" translate="true">Store View</item>
-                    <item name="formElement" xsi:type="string">multiselect</item>
                     <item name="source" xsi:type="string">menu</item>
-                    <item name="dataScope" xsi:type="string">stores</item>
-                    <item name="validation" xsi:type="array">
-                        <item name="required-entry" xsi:type="boolean">true</item>
-                    </item>
                 </item>
             </argument>
+            <settings>
+                <validation>
+                    <rule name="required-entry" xsi:type="boolean">false</rule>
+                </validation>
+                <dataType>text</dataType>
+                <label translate="true">Menu Main CSS Class</label>
+                <dataScope>css_class</dataScope>
+            </settings>
+        </field>
+        <field name="stores[]" formElement="multiselect" class="Magento\Store\Ui\Component\Form\Field\StoreView">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="source" xsi:type="string">menu</item>
+                    <item name="default" xsi:type="number">0</item>
+                </item>
+            </argument>
+            <settings>
+                <validation>
+                    <rule name="required-entry" xsi:type="boolean">true</rule>
+                </validation>
+                <dataType>int</dataType>
+                <tooltip>
+                    <link>https://docs.magento.com/m2/ce/user_guide/configuration/scope.html</link>
+                    <description>What is this?</description>
+                </tooltip>
+                <label translate="true">Store View</label>
+                <dataScope>stores</dataScope>
+            </settings>
+            <formElements>
+                <multiselect>
+                    <settings>
+                        <options class="Snowdog\Menu\Ui\Component\Listing\Column\Stores"/>
+                    </settings>
+                </multiselect>
+            </formElements>
         </field>
     </fieldset>
     <fieldset name="nodes">

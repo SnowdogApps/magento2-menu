@@ -6,7 +6,11 @@ namespace Snowdog\Menu\Ui\DataProvider\Menu\Form;
 
 use Magento\Ui\DataProvider\AbstractDataProvider;
 use Snowdog\Menu\Model\ResourceModel\Menu\CollectionFactory;
+use Snowdog\Menu\Model\Menu;
 
+/**
+ * Class MenuDataProvider
+ */
 class MenuDataProvider extends AbstractDataProvider
 {
     /** @var array */
@@ -21,7 +25,13 @@ class MenuDataProvider extends AbstractDataProvider
         array $data = []
     ) {
         $this->collection = $collectionFactory->create();
-        parent::__construct($name, $primaryFieldName, $requestFieldName, $meta, $data);
+        parent::__construct(
+            $name,
+            $primaryFieldName,
+            $requestFieldName,
+            $meta,
+            $data
+        );
     }
 
     public function getData(): array
@@ -31,11 +41,10 @@ class MenuDataProvider extends AbstractDataProvider
         }
 
         $items = $this->collection->getItems();
-
         /** @var Menu $menu */
         foreach ($items as $menu) {
             $menu->addData(['stores' => $menu->getStores()]);
-            $this->loadedData[$menu->getMenuId()]['menu'] = $menu->getData();
+            $this->loadedData[$menu->getId()] = $menu->getData();
         }
 
         return $this->loadedData;

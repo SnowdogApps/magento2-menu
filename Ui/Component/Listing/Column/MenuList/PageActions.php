@@ -14,7 +14,7 @@ class PageActions extends Column
                 $item[$name]["view"] = [
                     "href"  => $this->getContext()->getUrl(
                         "snowmenu/menu/edit",
-                        ["id" => $id]
+                        ["menu_id" => $id]
                     ),
                     "label" => __("Edit"),
                 ];

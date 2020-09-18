@@ -1,29 +1,39 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Snowdog\Menu\Ui\Component\Listing\Column;
 
-use Magento\Framework\Data\OptionSourceInterface;
-use Magento\Store\Model\StoreManagerInterface;
+use Magento\Store\Ui\Component\Listing\Column\Store\Options as StoreOptions;
 
-class Stores implements OptionSourceInterface
+/**
+ * Class Stores
+ */
+class Stores extends StoreOptions
 {
-    private $storeManager;
-
-    public function __construct(StoreManagerInterface $storeManager)
+    /**
+     * All Store Views value
+     */
+    const ALL_STORE_VIEWS = '0';
+    
+    /**
+     * Get options
+     *
+     * @return array
+     */
+    public function toOptionArray(): array
     {
-        $this->storeManager = $storeManager;
-    }
-
-    public function toOptionArray()
-    {
-        $values = [];
-        foreach ($this->storeManager->getStores(false) as $storeId => $store) {
-            $values[] = [
-                'label' => $store->getName(),
-                'value' => $storeId,
-            ];
+        if ($this->options !== null) {
+            return $this->options;
         }
 
-        return $values;
+        $this->currentOptions['All Store Views']['label'] = __('All Store Views');
+        $this->currentOptions['All Store Views']['value'] = self::ALL_STORE_VIEWS;
+
+        $this->generateCurrentOptions();
+
+        $this->options = array_values($this->currentOptions);
+
+        return $this->options;
     }
 }
