@@ -22,5 +22,7 @@
     <type name="Snowdog\Menu\Model\ResourceModel\Menu">
         <plugin name="snowdog_menu_invalidate_page_cache_after_save"
                 type="Snowdog\Menu\Plugin\Model\ResourceModel\Menu\AroundSave\InvalidatePageCache"/>
+        <plugin name="snowdog_menu_invalidate_page_cache_after_delete"
+                type="Snowdog\Menu\Plugin\Model\ResourceModel\Menu\AfterDelete\InvalidatePageCache"/>
     </type>
 </config>
