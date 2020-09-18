@@ -28,21 +28,14 @@ class NodeRepository implements NodeRepositoryInterface
      */
     protected $collectionFactory;
 
-    /**
-     * @var Cache
-     */
-    private $cache;
-
     public function __construct(
         NodeFactory $objectFactory,
         CollectionFactory $collectionFactory,
-        SearchResultsInterfaceFactory $searchResultsFactory,
-        Cache $cache
+        SearchResultsInterfaceFactory $searchResultsFactory
     ) {
         $this->objectFactory = $objectFactory;
         $this->collectionFactory = $collectionFactory;
         $this->searchResultsFactory = $searchResultsFactory;
-        $this->cache = $cache;
     }
 
     /**
