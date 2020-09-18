@@ -1,11 +1,13 @@
 <?php
 
-namespace Snowdog\Menu\Model;
+declare(strict_types=1);
+
+namespace Snowdog\Menu\Ui\DataProvider\Menu\Form;
 
 use Magento\Ui\DataProvider\AbstractDataProvider;
 use Snowdog\Menu\Model\ResourceModel\Menu\CollectionFactory;
 
-class DataProvider extends AbstractDataProvider
+class MenuDataProvider extends AbstractDataProvider
 {
     /** @var array */
     private $loadedData = [];

@@ -29,7 +29,7 @@
     </settings>
     <dataSource name="menu_form_data_source">
         <argument name="dataProvider" xsi:type="configurableObject">
-            <argument name="class" xsi:type="string">Snowdog\Menu\Model\DataProvider</argument>
+            <argument name="class" xsi:type="string">Snowdog\Menu\Ui\DataProvider\Menu\Form\MenuDataProvider</argument>
             <argument name="name" xsi:type="string">menu_form_data_source</argument>
             <argument name="primaryFieldName" xsi:type="string">menu_id</argument>
             <argument name="requestFieldName" xsi:type="string">id</argument>
