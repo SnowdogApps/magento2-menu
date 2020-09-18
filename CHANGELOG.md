@@ -16,7 +16,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Fixed
 - Prevent menu stores save if there are no stores changes (#70191)
 - Prevent unnecessary menu data save due to data values types changes (#70191)
-- Prevent unnecessary menu data save due to enabled object data changes flag in menu repositories get list methods (#70191)
+- Prevent unnecessary menu data save due to enabled object data changes flag in menu node repository get list method (#70191)
 
 ## [2.12.0] - 2020-08-24
 ### Added
