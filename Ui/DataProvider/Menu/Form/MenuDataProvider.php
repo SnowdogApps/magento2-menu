@@ -8,9 +8,6 @@ use Magento\Ui\DataProvider\AbstractDataProvider;
 use Snowdog\Menu\Model\ResourceModel\Menu\CollectionFactory;
 use Snowdog\Menu\Model\Menu;
 
-/**
- * Class MenuDataProvider
- */
 class MenuDataProvider extends AbstractDataProvider
 {
     /** @var array */

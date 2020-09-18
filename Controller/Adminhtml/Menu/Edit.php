@@ -16,9 +16,6 @@ use Magento\Framework\Controller\ResultInterface;
 use Magento\Backend\Model\View\Result\Redirect;
 use Magento\Backend\Model\View\Result\Page;
 
-/**
- * Class Edit
- */
 class Edit extends AbstractMenu implements HttpGetActionInterface
 {
     const REGISTRY_CODE = 'snowmenu_menu';

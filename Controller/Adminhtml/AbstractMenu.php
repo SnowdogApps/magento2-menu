@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Snowdog\Menu\Controller\Adminhtml;
 
 use Magento\Backend\App\Action;
-use Magento\Backend\App\Action\Context;
 use Magento\Backend\Model\View\Result\Page;
 
 abstract class AbstractMenu extends Action
@@ -16,20 +15,11 @@ abstract class AbstractMenu extends Action
      * @see _isAllowed()
      */
     const ADMIN_RESOURCE = 'Snowdog_Menu::menus';
-    
+
     /**
      * Menu ID key
      */
     const ID = 'menu_id';
-
-    /**
-     * @param Context $context
-     */
-    public function __construct(
-        Context $context
-    ) {
-        parent::__construct($context);
-    }
 
     /**
      * @param Page $resultPage

@@ -6,16 +6,13 @@ namespace Snowdog\Menu\Ui\Component\Listing\Column;
 
 use Magento\Store\Ui\Component\Listing\Column\Store\Options as StoreOptions;
 
-/**
- * Class Stores
- */
 class Stores extends StoreOptions
 {
     /**
      * All Store Views value
      */
     const ALL_STORE_VIEWS = '0';
-    
+
     /**
      * Get options
      *
