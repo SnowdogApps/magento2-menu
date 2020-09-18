@@ -79,7 +79,7 @@ class MassDelete extends Action implements HttpPostActionInterface
             try {
                 $this->menuRepository->delete($menu);
             } catch (CouldNotDeleteException $exception) {
-                $collectionSize -= 1;
+                --$collectionSize;
             }
         }
 
