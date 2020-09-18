@@ -1,30 +1,45 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Snowdog\Menu\Controller\Adminhtml\Menu;
 
-use Magento\Backend\App\Action;
-use Magento\Framework\App\ResponseInterface;
-use Magento\Framework\Controller\ResultFactory;
+use Snowdog\Menu\Controller\Adminhtml\AbstractMenu;
+use Magento\Framework\App\Action\HttpGetActionInterface;
+use Magento\Backend\App\Action\Context;
+use Magento\Backend\Model\View\Result\ForwardFactory;
+use Magento\Framework\Controller\Result\Forward;
+use Magento\Framework\Controller\ResultInterface;
 
-class Create extends Action
+class Create extends AbstractMenu implements HttpGetActionInterface
 {
+    /**
+     * @var ForwardFactory
+     */
+    protected $resultForwardFactory;
 
     /**
-     * Dispatch request
-     *
-     * @return \Magento\Framework\Controller\ResultInterface|ResponseInterface
-     * @throws \Magento\Framework\Exception\NotFoundException
+     * @param Context $context
+     * @param ForwardFactory $resultForwardFactory
+     */
+    public function __construct(
+        Context $context,
+        ForwardFactory $resultForwardFactory
+    ) {
+        $this->resultForwardFactory = $resultForwardFactory;
+        parent::__construct(
+            $context
+        );
+    }
+
+    /**
+     * @return ResultInterface
      */
     public function execute()
     {
-        $result = $this->resultFactory->create(ResultFactory::TYPE_PAGE);
-        $result->setActiveMenu('Snowdog_Menu::menus');
-        $result->getConfig()->getTitle()->prepend(__('Create new menu'));
-        return $result;
-    }
+        /** @var Forward $resultForward */
+        $resultForward = $this->resultForwardFactory->create();
 
-    protected function _isAllowed()
-    {
-        return $this->_authorization->isAllowed('Snowdog_Menu::menus');
+        return $resultForward->forward('edit');
     }
 }

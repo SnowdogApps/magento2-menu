@@ -1,8 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Snowdog\Menu\Controller\Adminhtml\Menu;
 
-use Magento\Backend\App\Action;
+use Magento\Framework\App\Action\HttpPostActionInterface;
+use Snowdog\Menu\Controller\Adminhtml\AbstractMenu;
+use Magento\Backend\App\Action\Context;
 use Magento\Catalog\Model\ProductRepository;
 use Magento\Framework\Api\FilterBuilderFactory;
 use Magento\Framework\Api\Search\FilterGroupBuilderFactory;
@@ -16,11 +20,11 @@ use Snowdog\Menu\Model\Menu;
 use Snowdog\Menu\Model\Menu\NodeFactory;
 use Snowdog\Menu\Model\MenuFactory;
 use Snowdog\Menu\Service\MenuHydrator;
+use Magento\Framework\Controller\ResultInterface;
+use Magento\Framework\Exception\NotFoundException;
 
-class Save extends Action
+class Save extends AbstractMenu implements HttpPostActionInterface
 {
-    public const ADMIN_RESOURCE = 'Snowdog_Menu::menus';
-
     /** @var MenuRepositoryInterface */
     private $menuRepository;
 
@@ -49,7 +53,7 @@ class Save extends Action
     private $hydrator;
 
     /**
-     * @param Action\Context $context
+     * @param Context $context
      * @param MenuRepositoryInterface $menuRepository
      * @param NodeRepositoryInterface $nodeRepository
      * @param FilterBuilderFactory $filterBuilderFactory
@@ -61,7 +65,7 @@ class Save extends Action
      * @param MenuHydrator|null $hydrator
      */
     public function __construct(
-        Action\Context $context,
+        Context $context,
         MenuRepositoryInterface $menuRepository,
         NodeRepositoryInterface $nodeRepository,
         FilterBuilderFactory $filterBuilderFactory,
@@ -72,7 +76,6 @@ class Save extends Action
         ProductRepository $productRepository,
         MenuHydrator $hydrator = null
     ) {
-        parent::__construct($context);
         $this->menuRepository = $menuRepository;
         $this->nodeRepository = $nodeRepository;
         $this->filterBuilderFactory = $filterBuilderFactory;
@@ -83,13 +86,14 @@ class Save extends Action
         $this->productRepository = $productRepository;
         // Backwards compatible class loader
         $this->hydrator = $hydrator ?? ObjectManager::getInstance()->get(MenuHydrator::class);
+        parent::__construct(
+            $context
+        );
     }
 
     /**
-     * Dispatch request
-     *
-     * @return \Magento\Framework\Controller\ResultInterface|ResponseInterface
-     * @throws \Magento\Framework\Exception\NotFoundException
+     * @return ResultInterface|ResponseInterface
+     * @throws NotFoundException
      */
     public function execute()
     {
@@ -98,8 +102,7 @@ class Save extends Action
         $this->hydrator->mapRequest($menu, $this->getRequest());
         $menu = $this->menuRepository->save($menu);
 
-        $requestData = $this->getRequest()->getParam('menu');
-        $menu->saveStores($requestData['stores']);
+        $menu->saveStores($this->getRequest()->getParam('stores'));
         $nodes = $this->getRequest()->getParam('serialized_nodes');
 
         if (!empty($nodes)) {
@@ -209,13 +212,21 @@ class Save extends Action
         $redirect->setPath('*/*/index');
 
         if ($this->getRequest()->getParam('back')) {
-            $redirect->setPath('*/*/edit', ['id' => $menu->getMenuId(), '_current' => true]);
+            $redirect->setPath('*/*/edit', [
+                self::ID => $menu->getMenuId(),
+                '_current' => true
+            ]);
         }
 
         return $redirect;
     }
 
-    protected function _convertTree($nodes, $parent)
+    /**
+     * @param array $nodes
+     * @param $parent
+     * @return array
+     */
+    protected function _convertTree(array $nodes, $parent): array
     {
         $convertedTree = [];
 
@@ -236,7 +247,7 @@ class Save extends Action
      * @param array $node
      * @return bool
      */
-    private function validateProductNode(array $node)
+    private function validateProductNode(array $node): bool
     {
         try {
             $this->productRepository->getById($node['content']);
@@ -249,16 +260,20 @@ class Save extends Action
     }
 
     /**
-     * Returns menu model based on the Request (requested with `id` or fresh instance)
+     * Returns menu model based on the Request (requested with `menu_id` or fresh instance)
      *
      * @return Menu
      */
     private function getCurrentMenu(): Menu
     {
-        $menu = $this->getRequest()->getParam('menu');
+        $menuId = (int) $this->getRequest()->getParam(self::ID);
 
-        if (isset($menu['menu_id'])) {
-            return $this->menuRepository->getById($menu['menu_id']);
+        if ($menuId) {
+            try {
+                return $this->menuRepository->getById($menuId);
+            } catch (NoSuchEntityException $exception) {
+                return $this->menuFactory->create();
+            }
         }
 
         return $this->menuFactory->create();

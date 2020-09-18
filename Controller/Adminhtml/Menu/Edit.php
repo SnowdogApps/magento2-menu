@@ -1,58 +1,103 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Snowdog\Menu\Controller\Adminhtml\Menu;
 
-use Magento\Backend\App\Action;
-use Magento\Framework\App\ResponseInterface;
-use Magento\Framework\Controller\ResultFactory;
-use Magento\Framework\Exception\NoSuchEntityException;
+use Snowdog\Menu\Controller\Adminhtml\AbstractMenu;
+use Magento\Framework\App\Action\HttpGetActionInterface;
+use Magento\Backend\App\Action\Context;
 use Magento\Framework\Registry;
+use Magento\Framework\View\Result\PageFactory;
 use Snowdog\Menu\Api\MenuRepositoryInterface;
+use Snowdog\Menu\Model\MenuFactory;
+use Magento\Framework\Exception\NoSuchEntityException;
+use Magento\Framework\Controller\ResultInterface;
+use Magento\Backend\Model\View\Result\Redirect;
+use Magento\Backend\Model\View\Result\Page;
 
-class Edit extends Action
+/**
+ * Class Edit
+ */
+class Edit extends AbstractMenu implements HttpGetActionInterface
 {
     const REGISTRY_CODE = 'snowmenu_menu';
+
     /**
      * @var MenuRepositoryInterface
      */
     private $menuRepository;
+
+    /**
+     * @var PageFactory
+     */
+    private $resultPageFactory;
+
+    /**
+     * @var MenuFactory
+     */
+    private $menuFactory;
+
     /**
      * @var Registry
      */
-    private $registry;
+    private $coreRegistry;
 
-    public function __construct(Action\Context $context, MenuRepositoryInterface $menuRepository, Registry $registry)
-    {
-        parent::__construct($context);
+    /**
+     * @param Context $context
+     * @param Registry $coreRegistry
+     * @param PageFactory $resultPageFactory
+     * @param MenuRepositoryInterface $menuRepository
+     * @param MenuFactory $menuFactory
+     */
+    public function __construct(
+        Context $context,
+        Registry $coreRegistry,
+        PageFactory $resultPageFactory,
+        MenuRepositoryInterface $menuRepository,
+        MenuFactory $menuFactory
+    ) {
+        $this->resultPageFactory = $resultPageFactory;
         $this->menuRepository = $menuRepository;
-        $this->registry = $registry;
+        $this->menuFactory = $menuFactory;
+        $this->coreRegistry = $coreRegistry;
+        parent::__construct(
+            $context
+        );
     }
 
     /**
-     * Dispatch request
-     *
-     * @return \Magento\Framework\Controller\ResultInterface|ResponseInterface
-     * @throws \Magento\Framework\Exception\NotFoundException
+     * @SuppressWarnings(PHPMD.NPathComplexity)
      */
-    public function execute()
+    public function execute(): ResultInterface
     {
-        $id = $this->getRequest()->getParam('id');
-        try {
-            $model = $this->menuRepository->getById($id);
-            $this->registry->register(self::REGISTRY_CODE, $model);
-            $result = $this->resultFactory->create(ResultFactory::TYPE_PAGE);
-            $result->setActiveMenu('Snowdog_Menu::menus');
-            $result->getConfig()->getTitle()->prepend(__('Edit Menu %1', $model->getTitle()));
-            return $result;
-        } catch (NoSuchEntityException $e) {
-            $result = $this->resultRedirectFactory->create();
-            $result->setPath('*/*/index');
-            return $result;
-        }
-    }
+        $menuId = (int) $this->getRequest()->getParam(self::ID);
 
-    protected function _isAllowed()
-    {
-        return $this->_authorization->isAllowed('Snowdog_Menu::menus');
+        if ($menuId) {
+            try {
+                $model = $this->menuRepository->getById($menuId);
+            } catch (NoSuchEntityException $exception) {
+                $this->messageManager->addErrorMessage(__('This menu no longer exists.'));
+                /** @var Redirect $resultRedirect */
+                $resultRedirect = $this->resultRedirectFactory->create();
+
+                return $resultRedirect->setPath('*/*/index');
+            }
+        } else {
+            $model = $this->menuFactory->create();
+        }
+
+        $this->coreRegistry->register(self::REGISTRY_CODE, $model);
+
+        /** @var Page $resultPage */
+        $resultPage = $this->resultPageFactory->create();
+        $this->initPage($resultPage)->addBreadcrumb(
+            $menuId ? __('Edit Menu %1', $model->getTitle()) : __('New Menu'),
+            $menuId ? __('Edit Menu %1', $model->getTitle()) : __('New Menu')
+        );
+        $resultPage->getConfig()->getTitle()->prepend(__('Menus'));
+        $resultPage->getConfig()->getTitle()->prepend($model->getId() ? $model->getTitle() : __('New Menu'));
+
+        return $resultPage;
     }
 }
