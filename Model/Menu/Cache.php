@@ -4,6 +4,7 @@ namespace Snowdog\Menu\Model\Menu;
 
 use Magento\Framework\App\Cache\TypeListInterface as CacheTypeList;
 use Magento\PageCache\Model\Cache\Type as PageCacheType;
+use Magento\PageCache\Model\Config as PageCacheConfig;
 
 class Cache
 {
@@ -13,13 +14,20 @@ class Cache
     private $cacheTypeList;
 
     /**
+     * @var PageCacheConfig
+     */
+    private $config;
+
+
+    /**
      * @var bool
      */
     private $isPageCacheInvalidated = false;
 
-    public function __construct(CacheTypeList $cacheTypeList)
+    public function __construct(CacheTypeList $cacheTypeList, PageCacheConfig $config)
     {
         $this->cacheTypeList = $cacheTypeList;
+        $this->config = $config;
     }
 
     /**
@@ -27,7 +35,7 @@ class Cache
      */
     public function invalidatePageCache($isClearable = true)
     {
-        if ($isClearable && !$this->isPageCacheInvalidated) {
+        if ($isClearable && !$this->isPageCacheInvalidated && $this->config->isEnabled()) {
             $this->cacheTypeList->invalidate(PageCacheType::TYPE_IDENTIFIER);
             $this->isPageCacheInvalidated = true;
         }
