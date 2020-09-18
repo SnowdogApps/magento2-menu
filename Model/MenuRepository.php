@@ -26,27 +26,21 @@ class MenuRepository implements MenuRepositoryInterface
     /** @var ResourceModel\Menu */
     private $menuResourceModel;
 
-    /** @var Menu\Cache */
-    private $cache;
-
     /**
      * @param MenuFactory $menuFactory
      * @param CollectionFactory $menuCollectionFactory
      * @param MenuSearchResultsInterfaceFactory $menuSearchResults
-     * @param Menu\Cache $cache
      * @param ResourceModel\Menu|null $menuResourceModel
      */
     public function __construct(
         MenuFactory $menuFactory,
         CollectionFactory $menuCollectionFactory,
         MenuSearchResultsInterfaceFactory $menuSearchResults,
-        Menu\Cache $cache,
         ResourceModel\Menu $menuResourceModel = null
     ) {
         $this->menuFactory = $menuFactory;
         $this->collectionFactory = $menuCollectionFactory;
         $this->menuSearchResultsFactory = $menuSearchResults;
-        $this->cache = $cache;
         $this->menuResourceModel = $menuResourceModel
             ?? ObjectManager::getInstance()->get(ResourceModel\Menu::class); // Backwards-compatible class loader
     }
