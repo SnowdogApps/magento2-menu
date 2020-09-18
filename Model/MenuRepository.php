@@ -57,9 +57,7 @@ class MenuRepository implements MenuRepositoryInterface
     public function save(MenuInterface $menu)
     {
         try {
-            $isPageCacheClearable = $menu->hasDataChanges();
             $this->menuResourceModel->save($menu);
-            $this->cache->invalidatePageCache($isPageCacheClearable);
         } catch (\Exception $e) {
             throw new CouldNotSaveException($e->getMessage());
         }
