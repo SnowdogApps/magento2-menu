@@ -7,6 +7,7 @@ namespace Snowdog\Menu\Controller\Adminhtml\Menu;
 use Magento\Framework\App\Action\HttpPostActionInterface;
 use Magento\Backend\App\Action;
 use Magento\Backend\App\Action\Context;
+use Magento\Framework\Exception\CouldNotDeleteException;
 use Magento\Ui\Component\MassAction\Filter;
 use Snowdog\Menu\Model\ResourceModel\Menu\CollectionFactory;
 use Snowdog\Menu\Api\MenuRepositoryInterface;
@@ -75,7 +76,11 @@ class MassDelete extends Action implements HttpPostActionInterface
         $collectionSize = $collection->getSize();
 
         foreach ($collection as $menu) {
-            $this->menuRepository->delete($menu);
+            try {
+                $this->menuRepository->delete($menu);
+            } catch (CouldNotDeleteException $exception) {
+                $collectionSize -= 1;
+            }
         }
 
         $this->messageManager->addSuccessMessage(__('A total of %1 record(s) have been deleted.', $collectionSize));

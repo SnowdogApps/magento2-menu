@@ -10,6 +10,7 @@ use Magento\Framework\Api\Search\FilterGroupBuilderFactory;
 use Magento\Framework\Api\SearchCriteriaBuilderFactory;
 use Magento\Framework\App\ResponseInterface;
 use Magento\Framework\Exception\CouldNotDeleteException;
+use Magento\Framework\Exception\NoSuchEntityException;
 use Snowdog\Menu\Api\MenuRepositoryInterface;
 use Snowdog\Menu\Api\NodeRepositoryInterface;
 use Magento\Framework\Controller\ResultInterface;
@@ -109,8 +110,10 @@ class Delete extends Action
                 $this->nodeRepository->delete($node);
             }
             $this->messageManager->addSuccessMessage(__('Menu %1 and it\'s nodes removed', $menu->getTitle()));
-        } catch (CouldNotDeleteException $e) {
-            $this->messageManager->addErrorMessage($e->getMessage());
+        } catch (NoSuchEntityException $exception) {
+            $this->messageManager->addErrorMessage($exception->getMessage());
+        } catch (CouldNotDeleteException $exception) {
+            $this->messageManager->addErrorMessage($exception->getMessage());
         }
 
         $redirect = $this->resultRedirectFactory->create();
