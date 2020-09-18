@@ -18,7 +18,6 @@ class Cache
      */
     private $config;
 
-
     /**
      * @var bool
      */
