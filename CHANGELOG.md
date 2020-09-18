@@ -14,7 +14,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Invalidate page cache on menu changes (#70191)
 
 ### Fixed
-- Prevent menu stores save if there are no stores changes (#70191)
+- Prevent menu stores save if there are no store changes (#70191)
 - Prevent unnecessary menu data save due to data values types changes (#70191)
 - Prevent unnecessary menu nodes data save due to enabled object data changes flag in menu node repository get list method items (#70191)
 
