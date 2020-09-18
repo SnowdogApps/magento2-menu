@@ -18,4 +18,9 @@
             </argument>
         </arguments>
     </type>
+
+    <type name="Snowdog\Menu\Model\ResourceModel\Menu">
+        <plugin name="snowdog_menu_invalidate_page_cache_after_save"
+                type="Snowdog\Menu\Plugin\Model\ResourceModel\Menu\AroundSave\InvalidatePageCache"/>
+    </type>
 </config>
