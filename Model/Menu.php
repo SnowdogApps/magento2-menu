@@ -18,30 +18,6 @@ class Menu extends AbstractModel implements MenuInterface, IdentityInterface
 
     protected $_cacheTag = self::CACHE_TAG;
 
-    /**
-     * @var Menu\Cache
-     */
-    private $cache;
-
-    public function __construct(
-        Context $context,
-        Registry $registry,
-        Menu\Cache $cache,
-        AbstractResource $resource = null,
-        AbstractDb $resourceCollection = null,
-        array $data = []
-    ) {
-        $this->cache = $cache;
-
-        parent::__construct(
-            $context,
-            $registry,
-            $resource,
-            $resourceCollection,
-            $data
-        );
-    }
-
     protected function _construct()
     {
         $this->_init(\Snowdog\Menu\Model\ResourceModel\Menu::class);
