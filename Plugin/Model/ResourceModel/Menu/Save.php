@@ -18,7 +18,6 @@ class Save
     }
 
     /**
-     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      * @return \Magento\Framework\Model\ResourceModel\Db\AbstractDb
      */
     public function saveAndInvalidatePageCache(AbstractModel $model, callable $proceed)
