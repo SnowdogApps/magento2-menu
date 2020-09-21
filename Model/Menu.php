@@ -76,7 +76,6 @@ class Menu extends AbstractModel implements MenuInterface, IdentityInterface
             $connection->insert($table, ['menu_id' => $this->getId(), 'store_id' => $store]);
         }
         $connection->commit();
-        $this->cache->invalidatePageCache();
     }
 
     /**
