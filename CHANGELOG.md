@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Changed
 - Index page title (#69078)
+- Change menu model stores save method return type to boolean (#70191)
 
 ### Added
 - Functionality to enable/disable specific menu node (#85, DEV-65561)

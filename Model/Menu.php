@@ -41,7 +41,7 @@ class Menu extends AbstractModel implements MenuInterface, IdentityInterface
     public function saveStores(array $stores)
     {
         if ($stores == $this->getStores()) {
-            return;
+            return false;
         }
 
         $connection = $this->getResource()->getConnection();
@@ -52,6 +52,8 @@ class Menu extends AbstractModel implements MenuInterface, IdentityInterface
             $connection->insert($table, ['menu_id' => $this->getId(), 'store_id' => $store]);
         }
         $connection->commit();
+
+        return true;
     }
 
     /**
