@@ -38,6 +38,9 @@ class Menu extends AbstractModel implements MenuInterface, IdentityInterface
         return $connection->fetchCol($select);
     }
 
+    /**
+     * @return bool
+     */
     public function saveStores(array $stores)
     {
         if ($stores == $this->getStores()) {
