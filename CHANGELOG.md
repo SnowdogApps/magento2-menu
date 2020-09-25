@@ -12,6 +12,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 - Functionality to enable/disable specific menu node (#85, DEV-65561)
 
+### Removed
+- An unnecessary `if` statement in menu admin controller save action `_convertTree` method (#71279)
+
 ### Fixed
 - A menu save issue that prevents deleting all nodes of a menu (#71279)
 
