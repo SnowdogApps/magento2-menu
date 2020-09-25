@@ -11,7 +11,7 @@ use Snowdog\Menu\Model\Menu;
 class MenuDataProvider extends AbstractDataProvider
 {
     /** @var array */
-    private $loadedData = [];
+    private $loadedData;
 
     public function __construct(
         $name,
@@ -21,7 +21,7 @@ class MenuDataProvider extends AbstractDataProvider
         array $meta = [],
         array $data = []
     ) {
-        $this->collection = $collectionFactory->create();
+        $this->collection = $collectionFactory->create()->addStoresData();
         parent::__construct(
             $name,
             $primaryFieldName,
@@ -33,14 +33,13 @@ class MenuDataProvider extends AbstractDataProvider
 
     public function getData(): array
     {
-        if (!empty($this->loadedData)) {
+        if ($this->loadedData !== null) {
             return $this->loadedData;
         }
 
         $items = $this->collection->getItems();
         /** @var Menu $menu */
         foreach ($items as $menu) {
-            $menu->addData(['stores' => $menu->getStores()]);
             $this->loadedData[$menu->getId()] = $menu->getData();
         }
 
