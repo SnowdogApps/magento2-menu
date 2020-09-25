@@ -102,107 +102,102 @@ class Save extends Action
         $menu->saveStores($this->getRequest()->getParam('stores'));
         $nodes = $this->getRequest()->getParam('serialized_nodes');
 
-        if (!empty($nodes)) {
-            $nodes = json_decode($nodes, true);
-            $nodes = $this->_convertTree($nodes, '#');
+        $filterBuilder = $this->filterBuilderFactory->create();
+        $filter = $filterBuilder->setField('menu_id')
+            ->setValue($menu->getMenuId())
+            ->setConditionType('eq')
+            ->create();
 
-            if (!empty($nodes)) {
-                $filterBuilder = $this->filterBuilderFactory->create();
-                $filter = $filterBuilder->setField('menu_id')
-                    ->setValue($menu->getMenuId())
-                    ->setConditionType('eq')
-                    ->create();
+        $filterGroupBuilder = $this->filterGroupBuilderFactory->create();
+        $filterGroup = $filterGroupBuilder->addFilter($filter)->create();
 
-                $filterGroupBuilder = $this->filterGroupBuilderFactory->create();
-                $filterGroup = $filterGroupBuilder->addFilter($filter)->create();
+        $searchCriteriaBuilder = $this->searchCriteriaBuilderFactory->create();
+        $searchCriteria = $searchCriteriaBuilder->setFilterGroups([$filterGroup])->create();
 
-                $searchCriteriaBuilder = $this->searchCriteriaBuilderFactory->create();
-                $searchCriteria = $searchCriteriaBuilder->setFilterGroups([$filterGroup])->create();
+        $oldNodes = $this->nodeRepository->getList($searchCriteria)->getItems();
 
-                $oldNodes = $this->nodeRepository->getList($searchCriteria)->getItems();
+        $existingNodes = [];
 
-                $existingNodes = [];
+        foreach ($oldNodes as $node) {
+            $existingNodes[$node->getId()] = $node;
+        }
 
-                foreach ($oldNodes as $node) {
-                    $existingNodes[$node->getId()] = $node;
-                }
+        $nodesToDelete = [];
 
-                $nodesToDelete = [];
+        foreach ($existingNodes as $nodeId => $noe) {
+            $nodesToDelete[$nodeId] = true;
+        }
 
-                foreach ($existingNodes as $nodeId => $noe) {
-                    $nodesToDelete[$nodeId] = true;
-                }
+        $nodes = $nodes ? json_decode($nodes, true) : [];
+        $nodes = $this->_convertTree($nodes, '#');
+        $nodeMap = [];
 
-                $nodeMap = [];
+        foreach ($nodes as $node) {
+            $nodeId = $node['id'];
 
-                foreach ($nodes as $node) {
-                    $nodeId = $node['id'];
-
-                    if (in_array($nodeId, array_keys($existingNodes))) {
-                        unset($nodesToDelete[$nodeId]);
-                        $nodeMap[$nodeId] = $existingNodes[$nodeId];
-                    } else {
-                        $nodeObject = $this->nodeFactory->create();
-                        $nodeObject->setMenuId($menu->getMenuId());
-                        $nodeObject = $this->nodeRepository->save($nodeObject);
-                        $nodeMap[$nodeId] = $nodeObject;
-                    }
-                }
-
-                foreach (array_keys($nodesToDelete) as $nodeId) {
-                    $this->nodeRepository->deleteById($nodeId);
-                }
-
-                $path = ['#' => 0];
-
-                foreach ($nodes as $node) {
-                    if ($node['type'] == 'product' && !$this->validateProductNode($node)) {
-                        continue;
-                    }
-
-                    $nodeObject = $nodeMap[$node['id']];
-                    $parents = array_keys($path);
-                    $parent = array_pop($parents);
-
-                    while ($parent != $node['parent']) {
-                        array_pop($path);
-                        $parent = array_pop($parents);
-                    }
-
-                    $level = count($path) - 1;
-                    $position = $path[$node['parent']]++;
-
-                    if ($node['parent'] == '#') {
-                        $nodeObject->setParentId(null);
-                    } else {
-                        $nodeObject->setParentId($nodeMap[$node['parent']]->getId());
-                    }
-
-                    $nodeObject->setType($node['type']);
-
-                    if (isset($node['classes'])) {
-                        $nodeObject->setClasses($node['classes']);
-                    }
-
-                    if (isset($node['content'])) {
-                        $nodeObject->setContent($node['content']);
-                    }
-
-                    if (isset($node['target'])) {
-                        $nodeObject->setTarget($node['target']);
-                    }
-
-                    $nodeObject->setMenuId($menu->getMenuId());
-                    $nodeObject->setTitle($node['title']);
-                    $nodeObject->setIsActive((int) ($node['is_active'] ?? 0));
-                    $nodeObject->setLevel($level);
-                    $nodeObject->setPosition($position);
-
-                    $this->nodeRepository->save($nodeObject);
-
-                    $path[$node['id']] = 0;
-                }
+            if (in_array($nodeId, array_keys($existingNodes))) {
+                unset($nodesToDelete[$nodeId]);
+                $nodeMap[$nodeId] = $existingNodes[$nodeId];
+            } else {
+                $nodeObject = $this->nodeFactory->create();
+                $nodeObject->setMenuId($menu->getMenuId());
+                $nodeObject = $this->nodeRepository->save($nodeObject);
+                $nodeMap[$nodeId] = $nodeObject;
             }
+        }
+
+        foreach (array_keys($nodesToDelete) as $nodeId) {
+            $this->nodeRepository->deleteById($nodeId);
+        }
+
+        $path = ['#' => 0];
+
+        foreach ($nodes as $node) {
+            if ($node['type'] == 'product' && !$this->validateProductNode($node)) {
+                continue;
+            }
+
+            $nodeObject = $nodeMap[$node['id']];
+            $parents = array_keys($path);
+            $parent = array_pop($parents);
+
+            while ($parent != $node['parent']) {
+                array_pop($path);
+                $parent = array_pop($parents);
+            }
+
+            $level = count($path) - 1;
+            $position = $path[$node['parent']]++;
+
+            if ($node['parent'] == '#') {
+                $nodeObject->setParentId(null);
+            } else {
+                $nodeObject->setParentId($nodeMap[$node['parent']]->getId());
+            }
+
+            $nodeObject->setType($node['type']);
+
+            if (isset($node['classes'])) {
+                $nodeObject->setClasses($node['classes']);
+            }
+
+            if (isset($node['content'])) {
+                $nodeObject->setContent($node['content']);
+            }
+
+            if (isset($node['target'])) {
+                $nodeObject->setTarget($node['target']);
+            }
+
+            $nodeObject->setMenuId($menu->getMenuId());
+            $nodeObject->setTitle($node['title']);
+            $nodeObject->setIsActive((int) ($node['is_active'] ?? 0));
+            $nodeObject->setLevel($level);
+            $nodeObject->setPosition($position);
+
+            $this->nodeRepository->save($nodeObject);
+
+            $path[$node['id']] = 0;
         }
 
         $redirect = $this->resultRedirectFactory->create();
