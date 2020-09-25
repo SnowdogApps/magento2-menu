@@ -44,7 +44,7 @@
                     <item name="config" xsi:type="array">
                         <item name="type" xsi:type="string">enable</item>
                         <item name="label" translate="true" xsi:type="string">Enable</item>
-                        <item name="url" xsi:type="url" path="snowmenu/menu/massEnable/"/>
+                        <item name="url" xsi:type="url" path="snowmenu/menu/massEnable"/>
                     </item>
                 </argument>
             </action>
