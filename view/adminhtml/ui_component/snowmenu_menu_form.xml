@@ -145,7 +145,7 @@
             <formElements>
                 <multiselect>
                     <settings>
-                        <options class="Snowdog\Menu\Ui\Component\Listing\Column\Stores"/>
+                        <options class="Magento\Search\Ui\Component\Listing\Column\Store\Options"/>
                     </settings>
                 </multiselect>
             </formElements>
