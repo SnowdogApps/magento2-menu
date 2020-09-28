@@ -64,7 +64,7 @@ class Edit extends MenuAction implements HttpGetActionInterface
     }
 
     /**
-     * @SuppressWarnings(PHPMD.NPathComplexity)
+     * @return ResultInterface
      */
     public function execute(): ResultInterface
     {
