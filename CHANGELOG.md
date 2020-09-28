@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Changed
 - Index page title (#69078)
+- Imported menu model to API data interface in menu admin controller save action (#71279)
 
 ### Added
 - Functionality to enable/disable specific menu node (#85, DEV-65561)

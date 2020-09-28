@@ -10,9 +10,9 @@ use Magento\Framework\Api\SearchCriteriaBuilderFactory;
 use Magento\Framework\App\ObjectManager;
 use Magento\Framework\App\ResponseInterface;
 use Magento\Framework\Exception\NoSuchEntityException;
+use Snowdog\Menu\Api\Data\MenuInterface;
 use Snowdog\Menu\Api\MenuRepositoryInterface;
 use Snowdog\Menu\Api\NodeRepositoryInterface;
-use Snowdog\Menu\Model\Menu;
 use Snowdog\Menu\Model\Menu\NodeFactory;
 use Snowdog\Menu\Model\MenuFactory;
 use Snowdog\Menu\Service\MenuHydrator;
@@ -244,9 +244,9 @@ class Save extends Action
     /**
      * Returns menu model based on the Request (requested with `id` or fresh instance)
      *
-     * @return Menu
+     * @return MenuInterface
      */
-    private function getCurrentMenu(): Menu
+    private function getCurrentMenu(): MenuInterface
     {
         $menuId = $this->getRequest()->getParam('id');
 
