@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Snowdog\Menu\Controller\Adminhtml\Menu;
 
-use Snowdog\Menu\Controller\Adminhtml\AbstractMenu;
+use Snowdog\Menu\Controller\Adminhtml\MenuAction;
 use Magento\Framework\App\Action\HttpGetActionInterface;
 use Magento\Backend\App\Action\Context;
 use Magento\Framework\Registry;
@@ -16,7 +16,7 @@ use Magento\Framework\Controller\ResultInterface;
 use Magento\Backend\Model\View\Result\Redirect;
 use Magento\Backend\Model\View\Result\Page;
 
-class Edit extends AbstractMenu implements HttpGetActionInterface
+class Edit extends MenuAction implements HttpGetActionInterface
 {
     const REGISTRY_CODE = 'snowmenu_menu';
 

@@ -7,7 +7,7 @@ namespace Snowdog\Menu\Controller\Adminhtml;
 use Magento\Backend\App\Action;
 use Magento\Backend\Model\View\Result\Page;
 
-abstract class AbstractMenu extends Action
+abstract class MenuAction extends Action
 {
     /**
      * Authorization level of a basic admin session

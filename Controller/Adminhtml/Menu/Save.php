@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Snowdog\Menu\Controller\Adminhtml\Menu;
 
 use Magento\Framework\App\Action\HttpPostActionInterface;
-use Snowdog\Menu\Controller\Adminhtml\AbstractMenu;
+use Snowdog\Menu\Controller\Adminhtml\MenuAction;
 use Magento\Backend\App\Action\Context;
 use Magento\Catalog\Model\ProductRepository;
 use Magento\Framework\Api\FilterBuilderFactory;
@@ -23,7 +23,7 @@ use Snowdog\Menu\Service\MenuHydrator;
 use Magento\Framework\Controller\ResultInterface;
 use Magento\Framework\Exception\NotFoundException;
 
-class Save extends AbstractMenu implements HttpPostActionInterface
+class Save extends MenuAction implements HttpPostActionInterface
 {
     /** @var MenuRepositoryInterface */
     private $menuRepository;
