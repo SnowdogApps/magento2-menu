@@ -102,28 +102,12 @@ class Save extends Action
         $menu->saveStores($this->getRequest()->getParam('stores'));
         $nodes = $this->getRequest()->getParam('serialized_nodes');
 
-        $filterBuilder = $this->filterBuilderFactory->create();
-        $filter = $filterBuilder->setField('menu_id')
-            ->setValue($menu->getMenuId())
-            ->setConditionType('eq')
-            ->create();
-
-        $filterGroupBuilder = $this->filterGroupBuilderFactory->create();
-        $filterGroup = $filterGroupBuilder->addFilter($filter)->create();
-
-        $searchCriteriaBuilder = $this->searchCriteriaBuilderFactory->create();
-        $searchCriteria = $searchCriteriaBuilder->setFilterGroups([$filterGroup])->create();
-
-        $oldNodes = $this->nodeRepository->getList($searchCriteria)->getItems();
-
         $existingNodes = [];
-
-        foreach ($oldNodes as $node) {
+        foreach ($this->getCurrentNodes($menu) as $node) {
             $existingNodes[$node->getId()] = $node;
         }
 
         $nodesToDelete = [];
-
         foreach ($existingNodes as $nodeId => $node) {
             $nodesToDelete[$nodeId] = true;
         }
@@ -208,6 +192,26 @@ class Save extends Action
         }
 
         return $redirect;
+    }
+
+    /**
+     * @return array
+     */
+    private function getCurrentNodes(MenuInterface $menu)
+    {
+        $filterBuilder = $this->filterBuilderFactory->create();
+        $filter = $filterBuilder->setField('menu_id')
+            ->setValue($menu->getMenuId())
+            ->setConditionType('eq')
+            ->create();
+
+        $filterGroupBuilder = $this->filterGroupBuilderFactory->create();
+        $filterGroup = $filterGroupBuilder->addFilter($filter)->create();
+
+        $searchCriteriaBuilder = $this->searchCriteriaBuilderFactory->create();
+        $searchCriteria = $searchCriteriaBuilder->setFilterGroups([$filterGroup])->create();
+
+        return $this->nodeRepository->getList($searchCriteria)->getItems();
     }
 
     protected function _convertTree($nodes, $parent)
