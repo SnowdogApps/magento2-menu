@@ -92,9 +92,8 @@ class Edit extends MenuAction implements HttpGetActionInterface
             $menuId ? __('Edit Menu %1', $model->getTitle()) : __('New Menu'),
             $menuId ? __('Edit Menu %1', $model->getTitle()) : __('New Menu')
         );
-        $pageConfigTitle = $resultPage->getConfig()->getTitle();
-        $pageConfigTitle->prepend(__('Menus'));
-        $pageConfigTitle->prepend($model->getId() ? $model->getTitle() : __('New Menu'));
+        $resultPage->getConfig()->getTitle()->prepend(__('Menus'));
+        $resultPage->getConfig()->getTitle()->prepend($model->getId() ? $model->getTitle() : __('New Menu'));
 
         return $resultPage;
     }
