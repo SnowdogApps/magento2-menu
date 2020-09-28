@@ -21,7 +21,7 @@ class Menu extends AbstractModel implements MenuInterface, IdentityInterface
 
     public function getIdentities()
     {
-        return [self::CACHE_TAG . '_' . $this->getId()];
+        return [self::CACHE_TAG . '_' . $this->getId(), self::CACHE_TAG];
     }
 
     public function getStores()
