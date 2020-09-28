@@ -17,6 +17,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Fixed
 - A menu save issue that prevents deleting all nodes of a menu (#71279)
+- Correct a misspelled variable in menu admin controller save action `execute` method (#71279)
 
 ## [2.12.0] - 2020-08-24
 ### Added

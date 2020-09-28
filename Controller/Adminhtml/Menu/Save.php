@@ -124,7 +124,7 @@ class Save extends Action
 
         $nodesToDelete = [];
 
-        foreach ($existingNodes as $nodeId => $noe) {
+        foreach ($existingNodes as $nodeId => $node) {
             $nodesToDelete[$nodeId] = true;
         }
 
