@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Index page title (#69078)
 - Change imported menu model to API data interface in menu admin controller save action (#71279)
 - Move menu admin controller save action `execute` method current nodes list code to a separate method (#71279)
+- Replace existing nodes `in_array` check with `isset` in menu admin controller save action `execute` method (#71279)
 
 ### Added
 - Functionality to enable/disable specific menu node (#85, DEV-65561)

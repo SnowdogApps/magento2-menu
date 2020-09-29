@@ -119,7 +119,7 @@ class Save extends Action
         foreach ($nodes as $node) {
             $nodeId = $node['id'];
 
-            if (in_array($nodeId, array_keys($existingNodes))) {
+            if (isset($existingNodes[$nodeId])) {
                 unset($nodesToDelete[$nodeId]);
                 $nodeMap[$nodeId] = $existingNodes[$nodeId];
             } else {
