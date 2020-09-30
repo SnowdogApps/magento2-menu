@@ -6,6 +6,24 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+### Changed
+- Index page title (#69078)
+
+### Added
+- Functionality to enable/disable specific menu node (#85, DEV-65561)
+
+## [2.12.0] - 2020-08-24
+### Added
+- PHP 7.4 support (#118)
+- Magento 2.4 support (#119)
+
+### Changed
+- Move submenu template path to protected variable (#109)
+
+## [2.11.1] - 2020-05-15
+### Fixed
+- `array_filter()` error for `cmsBlock`, `cmsPage` nodes, if opening `edit-menu-page` from admin panel (#106)
+
 ## [2.11.0] - 2020-04-14
 ### Added
 - Static code analysis tools

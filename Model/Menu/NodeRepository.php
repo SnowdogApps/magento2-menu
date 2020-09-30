@@ -1,4 +1,5 @@
 <?php
+
 namespace Snowdog\Menu\Model\Menu;
 
 use Exception;
@@ -7,6 +8,7 @@ use Magento\Framework\Exception\CouldNotSaveException;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\Exception\CouldNotDeleteException;
 use Magento\Framework\Api\SearchResultsInterfaceFactory;
+use Magento\Framework\Api\SearchResultsInterface;
 use Magento\Framework\Model\ResourceModel\Db\Collection\AbstractCollection;
 use Snowdog\Menu\Api\Data\NodeInterface;
 use Snowdog\Menu\Api\NodeRepositoryInterface;
@@ -16,7 +18,14 @@ use Magento\Framework\Api\SortOrder;
 
 class NodeRepository implements NodeRepositoryInterface
 {
+    /**
+     * @var NodeFactory
+     */
     protected $objectFactory;
+
+    /**
+     * @var CollectionFactory
+     */
     protected $collectionFactory;
 
     public function __construct(
@@ -29,6 +38,9 @@ class NodeRepository implements NodeRepositoryInterface
         $this->searchResultsFactory = $searchResultsFactory;
     }
 
+    /**
+     * @inheritdoc
+     */
     public function save(NodeInterface $object)
     {
         try {
@@ -39,6 +51,9 @@ class NodeRepository implements NodeRepositoryInterface
         return $object;
     }
 
+    /**
+     * @inheritdoc
+     */
     public function getById($id)
     {
         $object = $this->objectFactory->create();
@@ -49,6 +64,9 @@ class NodeRepository implements NodeRepositoryInterface
         return $object;
     }
 
+    /**
+     * @inheritdoc
+     */
     public function delete(NodeInterface $object)
     {
         try {
@@ -59,11 +77,17 @@ class NodeRepository implements NodeRepositoryInterface
         return true;
     }
 
+    /**
+     * @inheritdoc
+     */
     public function deleteById($id)
     {
         return $this->delete($this->getById($id));
     }
 
+    /**
+     * @inheritdoc
+     */
     public function getList(SearchCriteriaInterface $criteria)
     {
         $searchResults = $this->searchResultsFactory->create();
@@ -99,29 +123,36 @@ class NodeRepository implements NodeRepositoryInterface
             $objects[] = $objectModel;
         }
         $searchResults->setItems($objects);
+
         return $searchResults;
     }
 
+    /**
+     * @inheritdoc
+     */
     public function getByMenu($menuId)
     {
         $collection = $this->collectionFactory->create();
         $collection->addFilter('menu_id', $menuId);
-        $collection->addFilter('is_active', 1);
         $collection->addOrder('level', AbstractCollection::SORT_ORDER_ASC);
         $collection->addOrder('parent_id', AbstractCollection::SORT_ORDER_ASC);
         $collection->addOrder('position', AbstractCollection::SORT_ORDER_ASC);
+
         return $collection->getItems();
     }
 
+    /**
+     * @inheritdoc
+     */
     public function getByIdentifier($identifier)
     {
         $collection = $this->collectionFactory->create();
-        $collection->addFilter('main_table.is_active', 1);
         $collection->addOrder('level', AbstractCollection::SORT_ORDER_ASC);
         $collection->addOrder('parent_id', AbstractCollection::SORT_ORDER_ASC);
         $collection->addOrder('position', AbstractCollection::SORT_ORDER_ASC);
         $collection->join(['menu' => 'snowmenu_menu'], 'main_table.menu_id = menu.menu_id', 'identifier');
         $collection->addFilter('identifier', $identifier);
+
         return $collection->getItems();
     }
 }
