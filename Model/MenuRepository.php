@@ -41,6 +41,7 @@ class MenuRepository implements MenuRepositoryInterface
      * @param MenuSearchResultsInterfaceFactory $menuSearchResults
      * @param ResourceModel\Menu|null $menuResourceModel
      * @param NodeCollectionFactory|null $nodeCollectionFactory
+     * @param ResourceModel\Menu\Node|null $nodeResourceModel
      */
     public function __construct(
         MenuFactory $menuFactory,
