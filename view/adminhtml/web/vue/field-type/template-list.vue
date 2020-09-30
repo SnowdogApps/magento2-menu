@@ -7,12 +7,11 @@
             :label="label[templateType]"
             :description="description[templateType]"
             :item="item"
-            :itemKey="itemKey"
+            :item-key="itemKey"
             :options="options"
-            :defaultOptionValue="defaultOptionValue"
+            :default-option-value="defaultOptionValue"
             :config="config"
-        >
-        </auto-complete>
+        />
     </div>
     <div
         v-else
@@ -23,7 +22,6 @@
 <script>
 define(['Vue', 'mage/translate'], function(Vue, $t) {
     Vue.component("template-list", {
-        template: template,
         props: ['config', 'item', 'itemKey', 'templateType', 'typeId'],
         data: function () {
             return {
@@ -66,7 +64,8 @@ define(['Vue', 'mage/translate'], function(Vue, $t) {
             isVisible () {
                 return this.options.length > 1
             }
-        }
+        },
+        template: template
     });
 });
 </script>

@@ -1,17 +1,16 @@
 <template>
     <fieldset class="admin__fieldset fieldset-wide">
         <checkbox
-            :label="isNodeActiveLabel"
             id="is_active"
+            :label="isNodeActiveLabel"
             :item="item"
             :value="item.is_active"
-        >
-        </checkbox>
+        />
 
         <div class="admin__field field field-title">
             <label
                 class="label admin__field-label"
-                for="node_template"
+                for="node_type"
             >
                 {{ config.translation.nodeType }}
             </label>
@@ -27,36 +26,10 @@
                 />
             </div>
         </div>
-<<<<<<< HEAD
+
         <h2>
             {{ additionalLabel }}
         </h2>
-        <component :is="item['type']" :item="item" :config="config"></component>
-        <h2>
-            {{ templatesLabel }}
-        </h2>
-        <template v-if="isTemplateSectionVisible">
-            <component
-                is="template-list"
-                :item="item"
-                :typeId="templateList['node']"
-                itemKey="node_template"
-                templateType="node"
-                :config="config"
-            ></component>
-            <component
-                is="template-list"
-                :item="item"
-                :typeId="templateList['submenu']"
-                templateType="submenu"
-                :config="config"
-                itemKey="submenu_template"
-            ></component>
-        </template>
-        <template v-else>
-            <p>{{ noTemplatesMessage }}</p>
-        </template>
-=======
 
         <component
             :is="item['type']"
@@ -77,71 +50,34 @@
             :label="config.translation.nodeClasses"
             type="text"
         />
->>>>>>> develop
+
+        <h2>
+            {{ templatesLabel }}
+        </h2>
+
+        <template v-if="isTemplateSectionVisible">
+            <template-list
+                :item="item"
+                :type-id="templateList['node']"
+                item-key="node_template"
+                template-type="node"
+                :config="config"
+            />
+            <template-list
+                :item="item"
+                :type-id="templateList['submenu']"
+                template-type="submenu"
+                :config="config"
+                item-key="submenu_template"
+            />
+        </template>
+        <template v-else>
+            <p>{{ noTemplatesMessage }}</p>
+        </template>
     </fieldset>
 </template>
 
 <script>
-<<<<<<< HEAD
-define(["Vue", "mage/translate"], function(Vue, $t) {
-    Vue.component("snowdog-menu-type", {
-        template: template,
-        props: ['item', 'config'],
-        data: function() {
-            return {
-                draft: {},
-                additionalLabel: $t('Additional type options'),
-                noTemplatesMessage: $t('There is no custom templates defined in theme for this type of node.'),
-                templatesLabel: $t('Templates'),
-                templateList: {
-                  'node': 'snowMenuNodeCustomTemplates',
-                  'submenu': 'snowMenuSubmenuCustomTemplates',
-                }
-            }
-        },
-        computed: {
-            isTemplateSectionVisible: function() {
-                var nodeId = this.templateList['node'],
-                    submenuId = this.templateList['submenu'],
-                    typeData = this.config.fieldData[this.item['type']];
-
-                if (typeData[nodeId] || typeData[submenuId]) {
-                    return typeData[nodeId].options.length > 1 || typeData[submenuId].options.length > 1;
-                }
-
-                return false;
-            },
-            options: function() {
-                var list = [];
-                for (type in this.config.nodeTypes) {
-                    list.push({
-                        label: this.config.nodeTypes[type],
-                        value: type
-                    })
-                }
-                return list;
-            },
-            templateOptions: function() {
-                return this.templateOptionsData[this.item['type']] || [];
-            }
-        },
-        methods: {
-            changeType: function(selected) {
-                if (selected && typeof selected === 'object') {
-                    var type  = this.item.type,
-                        value = selected.value;
-                    if (type) {
-                        this.draft[type] = {
-                            content: this.item['content']
-                        };
-                    }
-                    if (this.draft[value]) {
-                        this.item['content'] = this.draft[value].content;
-                    } else {
-                        this.item['content'] = null;
-                    }
-                    this.item['type'] = value;
-=======
     define(['Vue', 'mage/translate'], function(Vue, $t) {
         Vue.component('snowdog-menu-type', {
             props: {
@@ -157,11 +93,28 @@ define(["Vue", "mage/translate"], function(Vue, $t) {
             data: function() {
                 return {
                     draft: {},
-                    isNodeActiveLabel: $t('Enabled')
->>>>>>> develop
+                    additionalLabel: $t('Additional type options'),
+                    isNodeActiveLabel: $t('Enabled'),
+                    noTemplatesMessage: $t('There is no custom defined templates defined in theme for this node type'),
+                    templatesLabel: $t('Templates'),
+                    templateList: {
+                      'node': 'snowMenuNodeCustomTemplates',
+                      'submenu': 'snowMenuSubmenuCustomTemplates',
+                    }
                 }
             },
             computed: {
+                isTemplateSectionVisible: function() {
+                    var nodeId = this.templateList['node'],
+                        submenuId = this.templateList['submenu'],
+                        typeData = this.config.fieldData[this.item['type']];
+
+                    if (typeData[nodeId] || typeData[submenuId]) {
+                        return typeData[nodeId].options.length > 0 || typeData[submenuId].options.length > 0;
+                    }
+
+                    return false;
+                },
                 options: function() {
                     var list = [];
                     for (type in this.config.nodeTypes) {
@@ -171,6 +124,9 @@ define(["Vue", "mage/translate"], function(Vue, $t) {
                         })
                     }
                     return list;
+                },
+                templateOptions: function() {
+                    return this.templateOptionsData[this.item['type']] || [];
                 }
             },
             methods: {

@@ -90,18 +90,6 @@
                     return JSON.stringify(this.list);
                 }
             },
-<<<<<<< HEAD
-            addNode: function(target) {
-                target.push({
-                    'type': 'category',
-                    'title': this.config.translation.addNode,
-                    "id": new Date().getTime(),
-                    "content": null,
-                    "node_template": null,
-                    "submenu_template": null,
-                    "columns": []
-                });
-=======
             methods: {
                 setSelectedNode: function(item) {
                     this.selectedItem = item;
@@ -109,20 +97,21 @@
                 removeNode: function(list, index) {
                     list.splice(index, 1);
                 },
-                addNode: function(target) {
-                    target.push({
-                        'type': 'category',
-                        'title': this.config.translation.addNode,
-                        'id': new Date().getTime(),
-                        'content': null,
-                        'columns': []
-                    });
-                },
+               addNode: function(target) {
+                   target.push({
+                       'type': 'category',
+                       'title': this.config.translation.addNode,
+                       "id": new Date().getTime(),
+                       "content": null,
+                       "node_template": null,
+                       "submenu_template": null,
+                       "columns": []
+                   });
+               },
                 handleDrop(data) {
                     data.item.id = new Date().getTime();
                     data.list.splice(data.index, 0, data.item);
                 }
->>>>>>> develop
             },
             template: template
         });
