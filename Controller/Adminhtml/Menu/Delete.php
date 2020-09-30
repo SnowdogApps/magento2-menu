@@ -1,15 +1,14 @@
 <?php
+declare(strict_types=1);
 
 namespace Snowdog\Menu\Controller\Adminhtml\Menu;
 
 use Magento\Backend\App\Action;
-use Magento\Framework\Api\FilterBuilderFactory;
-use Magento\Framework\Api\Search\FilterGroupBuilderFactory;
-use Magento\Framework\Api\SearchCriteriaBuilderFactory;
 use Magento\Framework\App\ResponseInterface;
+use Magento\Framework\Controller\ResultInterface;
 use Magento\Framework\Exception\CouldNotDeleteException;
+use Magento\Framework\Exception\NotFoundException;
 use Snowdog\Menu\Api\MenuRepositoryInterface;
-use Snowdog\Menu\Api\NodeRepositoryInterface;
 
 class Delete extends Action
 {
@@ -19,44 +18,20 @@ class Delete extends Action
      * @var MenuRepositoryInterface
      */
     private $menuRepository;
-    /**
-     * @var NodeRepositoryInterface
-     */
-    private $nodeRepository;
-    /**
-     * @var FilterBuilderFactory
-     */
-    private $filterBuilderFactory;
-    /**
-     * @var FilterGroupBuilderFactory
-     */
-    private $filterGroupBuilderFactory;
-    /**
-     * @var SearchCriteriaBuilderFactory
-     */
-    private $searchCriteriaBuilderFactory;
 
     public function __construct(
         Action\Context $context,
-        MenuRepositoryInterface $menuRepository,
-        NodeRepositoryInterface $nodeRepository,
-        FilterBuilderFactory $filterBuilderFactory,
-        FilterGroupBuilderFactory $filterGroupBuilderFactory,
-        SearchCriteriaBuilderFactory $searchCriteriaBuilderFactory
+        MenuRepositoryInterface $menuRepository
     ) {
         parent::__construct($context);
         $this->menuRepository = $menuRepository;
-        $this->nodeRepository = $nodeRepository;
-        $this->filterBuilderFactory = $filterBuilderFactory;
-        $this->filterGroupBuilderFactory = $filterGroupBuilderFactory;
-        $this->searchCriteriaBuilderFactory = $searchCriteriaBuilderFactory;
     }
 
     /**
      * Dispatch request
      *
-     * @return \Magento\Framework\Controller\ResultInterface|ResponseInterface
-     * @throws \Magento\Framework\Exception\NotFoundException
+     * @return ResultInterface|ResponseInterface
+     * @throws NotFoundException
      */
     public function execute()
     {
@@ -82,12 +57,12 @@ class Delete extends Action
      */
     private function getRequestMenuId(): int
     {
-        $id = $this->getRequest()->getParam('id');
+        $id = (int)$this->getRequest()->getParam('id');
 
         if (!$id) {
             throw new \InvalidArgumentException('The request does not contain Menu ID');
         }
 
-        return (int)$id;
+        return $id;
     }
 }
