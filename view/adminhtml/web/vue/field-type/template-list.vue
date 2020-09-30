@@ -22,7 +22,28 @@
 <script>
 define(['Vue', 'mage/translate'], function(Vue, $t) {
     Vue.component("template-list", {
-        props: ['config', 'item', 'itemKey', 'templateType', 'typeId'],
+        props: {
+          config: {
+            type: Object,
+            required: true
+          },
+          item: {
+            type: Object,
+            required: true
+          },
+          itemKey: {
+            type: String,
+            required: true
+          },
+          templateType: {
+            type: String,
+            required: true
+          },
+          typeId: {
+            type: String,
+            required: true
+          }
+        },
         data: function () {
             return {
                 label: {
