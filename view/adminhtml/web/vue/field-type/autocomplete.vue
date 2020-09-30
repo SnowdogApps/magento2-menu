@@ -69,9 +69,6 @@
                             if (optionValue === this.item[this.itemKey]) {
                                 selectedOption = this.options[i];
                             }
-                            if (optionValue === this.defaultOptionValue) {
-                                this.defaultSelectedOption = this.options[i];
-                            }
                         }
 
                         if (!selectedOption) {
@@ -91,6 +88,15 @@
                 },
                 placeholder: function() {
                     return this.config.translation.pleaseSelect + ' ' + this.label.toLocaleLowerCase();
+                }
+            },
+            created() {
+                var optionValue;
+                for (var i = 0; i < this.options.length; i++) {
+                    optionValue = this.options[i].value.toString();
+                    if (optionValue === this.defaultOptionValue) {
+                        this.defaultSelectedOption = this.options[i];
+                    }
                 }
             },
             template: template
