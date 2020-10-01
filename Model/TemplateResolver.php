@@ -152,7 +152,7 @@ class TemplateResolver
                 }
 
                 $extension = strtolower($this->ioFile->getPathInfo($file)['extension']);
-                if (!in_array($extension, ['phtml'])) {
+                if ($extension !== 'phtml') {
                     continue;
                 }
 
