@@ -4,6 +4,18 @@ $fieldData = [];
 foreach ($block->getNodeForms() as $form) {
     $fieldData[$form->getNodeType()] = $form->getJsonConfig();
 }
+
+// TODO: backend - create method to return array of nodes components
+// https://github.com/SnowdogApps/magento2-menu/issues/69#issuecomment-443500749
+$vueComponents = [
+    "vue!Snowdog_Menu/vue/menu-type/category",
+    "vue!Snowdog_Menu/vue/menu-type/cms-page",
+    "vue!Snowdog_Menu/vue/menu-type/cms-block",
+    "vue!Snowdog_Menu/vue/menu-type/custom-url",
+    "vue!Snowdog_Menu/vue/menu-type/product",
+    "vue!Snowdog_Menu/vue/menu-type/wrapper",
+];
+
 ?>
 
 <div id="snowdog_menu">
@@ -27,6 +39,7 @@ foreach ($block->getNodeForms() as $form) {
     {
         "*": {
             "menuNodes": {
+                "vueComponents": <?= json_encode($vueComponents) ?>,
                 "data": {
                     "list"  : <?= json_encode($block->renderNodes()) ?>,
                     "config": {
