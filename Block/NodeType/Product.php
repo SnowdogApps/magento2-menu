@@ -116,13 +116,13 @@ class Product extends AbstractNode
     {
         $storeId = $this->_storeManager->getStore()->getId();
 
-        [
+        list(
             $this->nodes,
             $this->productUrls,
             $this->productPrices,
             $this->productImages,
             $this->productTitles
-        ] = $this->productModel->fetchData($nodes, $storeId);
+        ) = $this->productModel->fetchData($nodes, $storeId);
     }
 
     /**
@@ -190,7 +190,7 @@ class Product extends AbstractNode
     }
 
     /**
-     * @param $nodeId
+     * @param int|null $nodeId
      * @param string|null $width
      * @param string|null $height
      * @return string|null

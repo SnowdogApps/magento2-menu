@@ -67,14 +67,7 @@ class Image extends AbstractHelper
      */
     public function resize(string $image, $width = null, $height = null): ?string
     {
-        $path = self::DIRECTORY;
-        if ($width !== null) {
-            $path .= DIRECTORY_SEPARATOR . $width . 'x';
-            if ($height !== null) {
-                $path .= $height ;
-            }
-        }
-
+        $path = $this->getPath($width, $height);
         $absoluteImagePath = $this->mediaDirectory->getAbsolutePath(self::CATALOG_PRODUCT_DIR) . $image;
         $resizedImagePath = $this->mediaDirectory->getAbsolutePath($path) . $image;
 
@@ -93,12 +86,7 @@ class Image extends AbstractHelper
             $imageFactory->save($resizedImagePath);
         }
 
-        $resizedImage = $this->storeManager->getStore()
-                ->getBaseUrl(UrlInterface::URL_TYPE_MEDIA)
-            . $path
-            . $image;
-
-        return $resizedImage;
+        return $this->getMediaUrl() . $path . $image;
     }
 
     /**
@@ -109,10 +97,36 @@ class Image extends AbstractHelper
      */
     private function fileExists(string $filename): bool
     {
-        if ($this->mediaDirectory->isFile($filename)) {
-            return true;
+        return $this->mediaDirectory->isFile($filename);
+    }
+
+    /**
+     * @param string|null $width
+     * @param string|null $height
+     * @return string
+     */
+    private function getPath($width = null, $height = null): string
+    {
+        $path = self::DIRECTORY;
+        if ($width !== null) {
+            $path .= DIRECTORY_SEPARATOR . $width . 'x';
+            if ($height !== null) {
+                $path .= $height ;
+            }
         }
 
-        return false;
+        return $path;
+    }
+
+    /**
+     * @return string
+     */
+    private function getMediaUrl(): string
+    {
+        try {
+            return $this->storeManager->getStore()->getBaseUrl(UrlInterface::URL_TYPE_MEDIA);
+        } catch (NoSuchEntityException $exception) {
+            return '';
+        }
     }
 }
