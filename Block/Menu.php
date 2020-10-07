@@ -369,7 +369,7 @@ class Menu extends Template implements DataObject\IdentityInterface
             ->setMenuClass($this->getMenu()->getCssClass())
             ->setMenuCode($this->getData('menu'))
             ->setTarget($node->getTarget())
-            ->setExtraData($node->getExtraData());
+            ->setAdditionalData($node->getAdditionalData());
 
         return $nodeBlock;
     }
