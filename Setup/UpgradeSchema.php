@@ -44,6 +44,10 @@ class UpgradeSchema implements UpgradeSchemaInterface
             $this->addForeignKeys($setup);
         }
 
+        if (version_compare($context->getVersion(), '0.2.5', '<')) {
+            $this->addNodeImageField($setup);
+        }
+
         $setup->endSetup();
     }
 
@@ -196,5 +200,25 @@ class UpgradeSchema implements UpgradeSchemaInterface
             'store_id',
             Table::ACTION_CASCADE
         );
+    }
+
+    /**
+     * @param SchemaSetupInterface $setup
+     * @return $this
+     */
+    private function addNodeImageField(SchemaSetupInterface $setup)
+    {
+        $setup->getConnection()->addColumn(
+            $setup->getTable('snowmenu_node'),
+            'image',
+            [
+                'type' => Table::TYPE_TEXT,
+                'nullable' => true,
+                'after' => 'target',
+                'comment' => 'Image'
+            ]
+        );
+
+        return $this;
     }
 }

@@ -185,6 +185,22 @@ class Node extends AbstractModel implements NodeInterface, IdentityInterface
     /**
      * @inheritdoc
      */
+    public function getImage()
+    {
+        return $this->_getData(NodeInterface::IMAGE);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function setImage($image)
+    {
+        return $this->setData(NodeInterface::IMAGE, $image);
+    }
+
+    /**
+     * @inheritdoc
+     */
     public function getCreationTime()
     {
         return $this->_getData(NodeInterface::CREATION_TIME);
