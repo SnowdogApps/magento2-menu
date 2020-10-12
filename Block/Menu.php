@@ -96,7 +96,11 @@ class Menu extends Template implements DataObject\IdentityInterface
      */
     public function getIdentities()
     {
-        return [\Snowdog\Menu\Model\Menu::CACHE_TAG, Block::CACHE_TAG];
+        return [
+            \Snowdog\Menu\Model\Menu::CACHE_TAG . '_' . $this->loadMenu()->getId(),
+            Block::CACHE_TAG,
+            \Snowdog\Menu\Model\Menu::CACHE_TAG
+        ];
     }
 
     protected function getCacheLifetime()
@@ -400,6 +404,10 @@ class Menu extends Template implements DataObject\IdentityInterface
         $result = [];
         $types = [];
         foreach ($nodes as $node) {
+            if (!$node->getIsActive()) {
+                continue;
+            }
+
             $level = $node->getLevel();
             $parent = $node->getParentId() ?: 0;
             if (!isset($result[$level])) {
