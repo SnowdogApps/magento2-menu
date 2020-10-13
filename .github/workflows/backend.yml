@@ -8,7 +8,8 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
-      - run: git status
+      - name: Check status
+        run: git status
 
       - uses: shivammathur/setup-php@v2
         with:
@@ -38,7 +39,8 @@ jobs:
         with:
           fetch-depth: 1
 
-      - run: git status
+      - name: Check status
+        run: git status
 
       - name: Add composer repositories
         env:
