@@ -19,6 +19,7 @@ interface NodeInterface
     const CREATION_TIME = 'creation_time';
     const UPDATE_TIME = 'update_time';
     const IS_ACTIVE = 'is_active';
+    const ADDITIONAL_DATA = 'additional_data';
 
     /**
      * Get node id
@@ -214,4 +215,19 @@ interface NodeInterface
      * @return $this
      */
     public function setIsActive($isActive);
+
+    /**
+     * Get additional data
+     *
+     * @return array
+     */
+    public function getAdditionalData();
+
+    /**
+     * Set additional data
+     *
+     * @param array $data
+     * @return $this
+     */
+    public function setAdditionalData($data);
 }
