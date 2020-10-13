@@ -9,15 +9,15 @@ class VueProvider
     /**
      * @var array
      */
-    private $providers;
+    private $components;
 
     /**
-     * @param array $providers
+     * @param array $components
      */
     public function __construct(
-        array $providers = []
+        array $components = []
     ) {
-        $this->providers = $providers;
+        $this->components = $components;
     }
 
     /**
@@ -26,8 +26,8 @@ class VueProvider
     public function getComponents(): array
     {
         $data = [];
-        foreach ($this->providers as $vueComponent) {
-            $data[] = sprintf('vue!Snowdog_Menu/vue/menu-type/%s', $vueComponent);
+        foreach ($this->components as $component) {
+            $data[] = sprintf('vue!Snowdog_Menu/vue/menu-type/%s', $component);
         }
 
         return $data;

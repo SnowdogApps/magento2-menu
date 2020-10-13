@@ -42,6 +42,21 @@ Backend block will be directly injected into menu editor.
 Menu editor is using Vue.js so you need to create a new vue component that has node type code as name in `view/adminhtml/web/vue/menu-type` and load it in `view/adminhtml/templates/menu/nodes.phtml`
 (See `view/adminhtml/web/vue/menu-type/category.vue` for reference)
 
+Add new vue component via `di.xml`
+
+```xml
+<?xml version="1.0" encoding="UTF-8" ?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <type name="Snowdog\Menu\Model\VueProvider">
+        <arguments>
+            <argument name="components" xsi:type="array">
+                <item name="component_name" xsi:type="string">component_name</item>
+            </argument>
+        </arguments>
+    </type>
+</config>
+```
+
 Newly created block with additional method should be added via `di.xml` defining block instance and node type code (code will be stored in database).
 
 ```xml

@@ -22,7 +22,7 @@
     </type>
     <type name="Snowdog\Menu\Model\VueProvider">
         <arguments>
-            <argument name="providers" xsi:type="array">
+            <argument name="components" xsi:type="array">
                 <item name="category" xsi:type="string">category</item>
                 <item name="product" xsi:type="string">product</item>
                 <item name="cms_page" xsi:type="string">cms-page</item>
