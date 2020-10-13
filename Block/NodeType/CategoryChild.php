@@ -81,7 +81,7 @@ class CategoryChild extends Category
     {
         $categoryId = $this->getContent();
         $category = $this->categoryRepository->get($categoryId);
-        $visibleChildren = array();
+        $visibleChildren = [];
         $children = $category->getChildrenCategories();
         if (is_object($children)) {
             $children->clear();
