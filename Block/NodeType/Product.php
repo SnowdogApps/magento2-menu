@@ -89,7 +89,7 @@ class Product extends AbstractNode
     }
 
     /**
-     * @return string
+     * @inheritDoc
      */
     public function getJsonConfig()
     {

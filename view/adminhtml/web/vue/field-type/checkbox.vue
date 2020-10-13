@@ -8,18 +8,17 @@
         </label>
         <div class="admin__field-control control">
             <input
-                class="input-text admin__control-text"
                 :id="fieldId"
-                type="checkbox"
                 v-model="checkboxValue"
-            />
+                class="input-text admin__control-text"
+                type="checkbox"
+            >
         </div>
     </div>
 </template>
 <script>
 define(["Vue"], function(Vue) {
     Vue.component("checkbox", {
-        template: template,
         props: ['label', 'id', 'value', 'item'],
         data: function() {
             return {
@@ -27,14 +26,15 @@ define(["Vue"], function(Vue) {
                 checkboxValue: this.value === '1' ? true : false
             }
         },
-        mounted: function() {
-            this.fieldId = 'snowmenu_' + this.id + '_' + this._uid;
-        },
         watch: {
           checkboxValue: function(newValue) {
             this.item.is_active = newValue
           }
-        }
+        },
+        mounted: function() {
+            this.fieldId = 'snowmenu_' + this.id + '_' + this._uid;
+        },
+        template: template
    });
 });
 </script>

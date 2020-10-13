@@ -79,7 +79,7 @@ class CmsPage extends AbstractNode
     }
 
     /**
-     * @return string
+     * @inheritDoc
      */
     public function getJsonConfig()
     {
