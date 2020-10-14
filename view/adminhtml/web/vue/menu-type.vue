@@ -1,12 +1,11 @@
 <template>
     <fieldset class="admin__fieldset fieldset-wide">
         <checkbox
-            :label="isNodeActiveLabel"
             id="is_active"
+            :label="isNodeActiveLabel"
             :item="item"
             :value="item.is_active"
-        >
-        </checkbox>
+        />
 
         <div class="admin__field field field-title">
             <label
