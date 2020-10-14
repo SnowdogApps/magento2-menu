@@ -6,6 +6,8 @@ namespace Snowdog\Menu\Model;
 
 class VueProvider
 {
+    const COMPONENT_PATH = 'vue!Snowdog_Menu/vue/menu-type/%s';
+
     /**
      * @var array
      */
@@ -27,7 +29,7 @@ class VueProvider
     {
         $data = [];
         foreach ($this->components as $component) {
-            $data[] = sprintf('vue!Snowdog_Menu/vue/menu-type/%s', $component);
+            $data[] = sprintf(self::COMPONENT_PATH, $component);
         }
 
         return $data;
