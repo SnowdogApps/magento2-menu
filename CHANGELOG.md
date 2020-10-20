@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [Unreleased]
 ### Added
 - Node model additional data setter and getter methods (#94)
+- A method to retrieve menu by identifier to menu repository (#70197)
 
 ### Changed
 - Index page title (#69078)

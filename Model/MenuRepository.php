@@ -78,6 +78,23 @@ class MenuRepository implements MenuRepositoryInterface
     /**
      * @inheritDoc
      */
+    public function getByIdentifier($identifier)
+    {
+        $menuModel = $this->menuFactory->create();
+        $this->menuResourceModel->load($menuModel, $identifier, MenuInterface::IDENTIFIER);
+
+        if (!$menuModel->getId()) {
+            throw new NoSuchEntityException(
+                __('Menu with identifier "%1" does not exist.', $identifier)
+            );
+        }
+
+        return $menuModel;
+    }
+
+    /**
+     * @inheritDoc
+     */
     public function delete(MenuInterface $menu)
     {
         try {
