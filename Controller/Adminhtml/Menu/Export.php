@@ -50,7 +50,7 @@ class Export extends Action
     {
         $menuId = $this->getRequest()->getParam('id');
 
-        try{
+        try {
             return $this->httpFileFactory->create(
                 "menu-${menuId}.csv",
                 $this->exportProcessor->generateCsvDownloadFile($menuId),
