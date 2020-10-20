@@ -69,7 +69,7 @@ class ExportProcessor
     {
         $data = $this->getExportData($menuId);
         $file = self::EXPORT_DIR . DIRECTORY_SEPARATOR
-            . $data[MenuInterface::IDENTIFIER] . '-' . md5(microtime()) . '.csv';
+            . $data[MenuInterface::IDENTIFIER] . '-' . hash('sha256', microtime()) . '.csv';
 
         $this->directory->create(self::EXPORT_DIR);
 
