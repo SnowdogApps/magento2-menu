@@ -64,23 +64,14 @@ class Category extends AbstractNode
         $identifierField = $metadata->getIdentifierField();
 
         $data = $this->getResource()->fetchConfigData();
-        $labels = [];
-
-        foreach ($data as $row) {
-            if (isset($labels[$row['parent_id']])) {
-                $label = $labels[$row['parent_id']];
-            } else {
-                $label = [];
-            }
-            $label[] = $row['name'];
-            $labels[$row[$identifierField]] = $label;
-        }
 
         $fieldOptions = [];
-        foreach ($labels as $id => $label) {
+        foreach ($data as $row) {
             $fieldOptions[] = [
-                'label' => $label = implode(' > ', $label),
-                'value' => $id
+                'value' => $row[$identifierField],
+                'label' => $row['name'],
+                'level' => $row['level'],
+                'parent_id' => $row['parent_id']
             ];
         }
 
