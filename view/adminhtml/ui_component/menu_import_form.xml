@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd">
+    <argument name="data" xsi:type="array">
+        <item name="js_config" xsi:type="array">
+            <item name="provider" xsi:type="string">menu_import_form.menu_import_form_data_source</item>
+        </item>
+        <item name="label" xsi:type="string" translate="true">Import</item>
+        <item name="template" xsi:type="string">templates/form/collapsible</item>
+    </argument>
+
+    <settings>
+        <buttons>
+            <button name="import" class="Snowdog\Menu\Block\Menu\Import\Button\Import"/>
+            <button name="back" class="Snowdog\Menu\Block\Menu\Import\Button\Back"/>
+        </buttons>
+        <namespace>menu_import_form</namespace>
+        <deps>
+            <dep>menu_import_form.menu_import_form_data_source</dep>
+        </deps>
+    </settings>
+
+    <dataSource name="block_form_data_source">
+        <argument name="data" xsi:type="array">
+            <item name="js_config" xsi:type="array">
+                <item name="component" xsi:type="string">Magento_Ui/js/form/provider</item>
+            </item>
+        </argument>
+        <settings>
+            <submitUrl path="snowmenu/menu/importpost"/>
+        </settings>
+        <dataProvider class="Snowdog\Menu\Model\Menu\Import\DataProvider" name="menu_import_form_data_source">
+            <settings>
+                <requestFieldName>menu_id</requestFieldName>
+                <primaryFieldName>menu_id</primaryFieldName>
+            </settings>
+        </dataProvider>
+    </dataSource>
+
+    <fieldset name="import">
+        <settings>
+            <label/>
+        </settings>
+        <field name="import_file">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="label" xsi:type="string">Select File to Import</item>
+                    <item name="formElement" xsi:type="string">file</item>
+                </item>
+            </argument>
+        </field>
+    </fieldset>
+</form>
