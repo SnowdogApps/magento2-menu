@@ -1,12 +1,11 @@
 <template>
     <fieldset class="admin__fieldset fieldset-wide">
         <checkbox
-            :label="isNodeActiveLabel"
             id="is_active"
+            :label="isNodeActiveLabel"
             :item="item"
             :value="item.is_active"
-        >
-        </checkbox>
+        />
 
         <div class="admin__field field field-title">
             <label
@@ -47,6 +46,13 @@
             :label="config.translation.nodeClasses"
             type="text"
         />
+
+        <image-upload
+            v-if="showImage"
+            id="image"
+            :item="item"
+            :labels="fileUploadLabels"
+        />
     </fieldset>
 </template>
 
@@ -66,7 +72,13 @@
             data: function() {
                 return {
                     draft: {},
-                    isNodeActiveLabel: $t('Enabled')
+                    isNodeActiveLabel: $t('Enabled'),
+                    fileUploadLabels: {
+                        field: $t('Image'),
+                        uploadAction: $t('Choose image'),
+                        cancelAction: $t('Cancel'),
+                        saveAction: $t('Save')
+                    }
                 }
             },
             computed: {
@@ -79,6 +91,10 @@
                         })
                     }
                     return list;
+                },
+                showImage: function() {
+                    return this.item.type !== 'cms_page'
+                        && this.item.type !== 'wrapper';
                 }
             },
             methods: {
