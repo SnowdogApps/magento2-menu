@@ -54,7 +54,7 @@ UI initialization starts in `view/adminhtml/templates/menu/nodes.phtml` where we
 $vueComponents = $block->getVueComponents();
 ```
 
-```javascript
+```js
 <script type="text/x-magento-init">
     {
         "*": {
@@ -90,7 +90,7 @@ Then in `view/adminhtml/web/vue/menu-type/` we add `component-file-name.vue` ex.
 
 In new vue file we register our component (`component_name` ex. `cms_block`) and we add our logic we need. 
 
-```javascript
+```vue
 <template>
     ...
 </template>
@@ -142,7 +142,7 @@ When saving menu changes we send form post request that contains several fields 
 >
 ```
 
-```javascript
+```js
 computed: {
     jsonList: function() {
         return JSON.stringify(this.list);
@@ -150,15 +150,14 @@ computed: {
 }
 ```
 
-Currently `list, item` objects are passed from `App.vue` to child components.
-As they are objects,  they are passed by reference so editing it updates also value
-of `serialized_nodes`
+The `list` and `item` objects are passed from `App.vue` to child components.
+As they are objects,  they are passed by reference, so editing it in child components, updates the value of `serialized_nodes` in `App.vue`.
 
-This is not an ideal way, and we plan to refactor it in the future version of the module.
+This is not an ideal way of mutating data, and we plan to refactor it.
 
-For now look at `menu-type.vue` where you can find
+For now look at `menu-type.vue` you can find
 
-```
+```vue
 <component
     :is="item['type']"
     :item="item"
@@ -168,13 +167,7 @@ For now look at `menu-type.vue` where you can find
 
 This loads dynamically a component of a chosen type of node. For example for a node type: `cms_block` -> `cms-block.vue` 
 
-Cms block component uses `autocomplete.vue` component with prop item `:item="item"`.
-When you look at `autocomplete.vue` you can see that any changes that should be saved in a database are assigned to proper property of item object.  
-
-```javascript
-this.item.content = option.value.toString();
-```
-
+Cms block node type component uses `autocomplete.vue` input type component with prop item `:item="item"`, once user made some change, the data are propagated up to the root, `App.vue` compoonent and saved, stringifies and saved in a hidden input. 
 
 ## Available endpoints: 
    
