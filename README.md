@@ -48,15 +48,12 @@ Menu UI in admin panel is build with Vue.js.
 Every node type has its own vue component located inside `view/adminhtml/web/vue/menu-type` directory.
 (See `view/adminhtml/web/vue/menu-type/category.vue` or `view/adminhtml/web/vue/menu-type/cms-block.vue` examples for a reference)
 
-UI initialization starts in `view/adminhtml/templates/menu/nodes.phtml` where we
-initialize `menu.js` and we pass list of paths of vue components that are assigned to each node type using
-`"vueComponents"` property (see two fragments of code from `nodes.phtml` below).
+UI initialization starts in `view/adminhtml/templates/menu/nodes.phtml` where we initialize `menu.js` and we pass list of paths of Vue components that are assigned to each node type using `"vueComponents"` property (see two fragments of code from `nodes.phtml` below).
 
 ```php
-// ...
 $vueComponents = $block->getVueComponents();
-/// ...
 ```
+
 ```javascript
 <script type="text/x-magento-init">
     {
@@ -70,7 +67,7 @@ $vueComponents = $block->getVueComponents();
 </script>
 ```
 
-So to show new node in UI we need to add new vue component via `di.xml`
+To show new node in UI we need to add new Vue component via `di.xml`
 
 ```xml
 <?xml version="1.0" encoding="UTF-8" ?>
@@ -91,8 +88,7 @@ Where we need to define
 
 Then in `view/adminhtml/web/vue/menu-type/` we add `component-file-name.vue` ex. `cms-block.vue`
 
-In new vue file we register our component (`component_name` ex. `cms_block`) and
-we add our logic we need. 
+In new vue file we register our component (`component_name` ex. `cms_block`) and we add our logic we need. 
 
 ```javascript
 <template>
