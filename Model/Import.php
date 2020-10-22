@@ -2,9 +2,9 @@
 
 namespace Snowdog\Menu\Model;
 
-use Magento\ImportExport\Model\Import as ParentClass;
+use Magento\ImportExport\Model\Import as ParentModel;
 
-class Import extends ParentClass
+class Import extends ParentModel
 {
     const ENTITY = 'snowdog_menu';
 
