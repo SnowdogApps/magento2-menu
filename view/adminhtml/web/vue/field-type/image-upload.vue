@@ -9,12 +9,12 @@
 
         <div class="admin__field-control control">
             <div
-                v-if="this.item.image"
+                v-if="this.item.imageUrl"
                 class="upload-file__current-area"
             >
                 <img
                     class="upload-file__image image-upload__image--current"
-                    :src="this.item.image"
+                    :src="this.item.imageUrl"
                 >
             </div>
             <div
@@ -138,8 +138,9 @@
                         contentType: false,
                         processData: false,
                         success: function (response) {
-                          if (response.imageUrl) {
-                              this.item.image = response.imageUrl
+                          if (response.file) {
+                              this.item.image = response.file
+                              this.item.imageUrl = response.url
                           }
                         }.bind(this),
                         error: function() {
