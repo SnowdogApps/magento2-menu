@@ -89,7 +89,7 @@ class ExportProcessor
      * @param int $menuId
      * @return array
      */
-    public function getExportData($menuId)
+    private function getExportData($menuId)
     {
         $menu = $this->menuRepository->getById($menuId);
         $stores = $menu->getStores();
