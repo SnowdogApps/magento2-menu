@@ -8,6 +8,7 @@ use Magento\Cms\Model\Wysiwyg\Config;
 use Magento\Framework\Registry;
 use Snowdog\Menu\Api\NodeRepositoryInterface;
 use Snowdog\Menu\Controller\Adminhtml\Menu\Edit;
+use Snowdog\Menu\Model\Menu\Node\Image;
 use Snowdog\Menu\Model\NodeTypeProvider;
 
 class Nodes extends Template implements TabInterface
@@ -22,6 +23,10 @@ class Nodes extends Template implements TabInterface
      */
     private $nodeRepository;
     /**
+     * @var Image
+     */
+    private $image;
+    /**
      * @var NodeTypeProvider
      */
     private $nodeTypeProvider;
@@ -29,6 +34,7 @@ class Nodes extends Template implements TabInterface
     public function __construct(
         Template\Context $context,
         NodeRepositoryInterface $nodeRepository,
+        Image $image,
         NodeTypeProvider $nodeTypeProvider,
         Registry $registry,
         array $data = []
@@ -37,6 +43,7 @@ class Nodes extends Template implements TabInterface
         $this->registry = $registry;
         $this->nodeRepository = $nodeRepository;
         $this->nodeTypeProvider = $nodeTypeProvider;
+        $this->image = $image;
     }
 
     public function renderNodes()
@@ -129,6 +136,7 @@ class Nodes extends Template implements TabInterface
                 'id' => $node->getId(),
                 'title' => $node->getTitle(),
                 'image' => $node->getImage(),
+                'imageUrl' => $node->getImage() ? $this->image->getUrl($node->getImage()) : null,
                 'columns' => $this->renderNodeList($level + 1, $node->getId(), $data) ?: []
             ];
         }
