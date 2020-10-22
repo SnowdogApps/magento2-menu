@@ -13,6 +13,11 @@
                 <item name="class" xsi:type="string">primary</item>
                 <item name="url" xsi:type="string">*/*/create</item>
             </item>
+            <item name="import" xsi:type="array">
+                <item name="name" xsi:type="string">import</item>
+                <item name="label" xsi:type="string" translate="true">Import menu</item>
+                <item name="url" xsi:type="string">*/*/import</item>
+            </item>
         </item>
     </argument>
     <dataSource name="snowmenu_menu_list_data_source">
