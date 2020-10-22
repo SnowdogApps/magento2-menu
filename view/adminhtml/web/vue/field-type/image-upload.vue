@@ -133,7 +133,7 @@
                     formData.append('form_key', window.FORM_KEY);
 
                     $.ajax({
-                        url: require.toUrl('/snowmenu/upload/image'),
+                        url: this.$root.config.imageUploadUrl,
                         data: formData,
                         type: 'POST',
                         contentType: false,
