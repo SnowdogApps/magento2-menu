@@ -14,6 +14,7 @@ use Snowdog\Menu\Api\MenuRepositoryInterface;
 use Snowdog\Menu\Api\NodeRepositoryInterface;
 use Snowdog\Menu\Model\Menu;
 use Snowdog\Menu\Model\Menu\NodeFactory;
+use Snowdog\Menu\Model\Menu\Node\Image as NodeImage;
 use Snowdog\Menu\Model\MenuFactory;
 use Snowdog\Menu\Service\MenuHydrator;
 
@@ -42,6 +43,9 @@ class Save extends Action
     /** @var MenuFactory */
     private $menuFactory;
 
+    /** @var NodeImage */
+    private $nodeImage;
+
     /** @var ProductRepository */
     private $productRepository;
 
@@ -57,6 +61,7 @@ class Save extends Action
      * @param SearchCriteriaBuilderFactory $searchCriteriaBuilderFactory
      * @param NodeFactory $nodeFactory
      * @param MenuFactory $menuFactory
+     * @param NodeImage $nodeImage
      * @param ProductRepository $productRepository
      * @param MenuHydrator|null $hydrator
      */
@@ -69,6 +74,7 @@ class Save extends Action
         SearchCriteriaBuilderFactory $searchCriteriaBuilderFactory,
         NodeFactory $nodeFactory,
         MenuFactory $menuFactory,
+        NodeImage $nodeImage,
         ProductRepository $productRepository,
         MenuHydrator $hydrator = null
     ) {
@@ -80,6 +86,7 @@ class Save extends Action
         $this->searchCriteriaBuilderFactory = $searchCriteriaBuilderFactory;
         $this->nodeFactory = $nodeFactory;
         $this->menuFactory = $menuFactory;
+        $this->nodeImage = $nodeImage;
         $this->productRepository = $productRepository;
         // Backwards compatible class loader
         $this->hydrator = $hydrator ?? ObjectManager::getInstance()->get(MenuHydrator::class);
@@ -197,6 +204,12 @@ class Save extends Action
                     $nodeObject->setIsActive((int) ($node['is_active'] ?? 0));
                     $nodeObject->setLevel($level);
                     $nodeObject->setPosition($position);
+
+                    if ($nodeObject->getImage() && empty($node['image'])) {
+                        $this->nodeImage->delete($nodeObject->getImage());
+                    }
+
+                    $nodeObject->setImage($node['image'] ?? null);
 
                     $this->nodeRepository->save($nodeObject);
 
