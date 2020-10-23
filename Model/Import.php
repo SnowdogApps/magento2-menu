@@ -21,7 +21,7 @@ class Import extends ParentModel
      *
      * [Backward Compatibility Note]:
      * This method is redefined in order to support some old Magento releases that do not have it.
-     * (Releases that are older than 2.1.15, and releases from 2.0.0 to 2.2.6.)
+     * (Releases that are older than 2.1.16, and releases from 2.0.0 to 2.2.6.)
      *
      * TODO: Once those Magento releases are no longer supported, then this method could be removed.
      *
