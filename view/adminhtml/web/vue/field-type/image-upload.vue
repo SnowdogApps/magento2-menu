@@ -128,7 +128,7 @@
                     this.fileIsUploading = true;
 
                     var formData = new FormData();
-                    formData.append('image', this.file);
+                    formData.append(this.$root.config.imageUploadFileId, this.file);
                     formData.append('current_image', this.item.image || '');
                     formData.append('form_key', window.FORM_KEY);
 
