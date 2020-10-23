@@ -50,10 +50,11 @@ foreach ($block->getNodeForms() as $form) {
                 data: {
                     list  : <?= json_encode($block->renderNodes()) ?>,
                     config: {
-                        fieldData     : <?= json_encode($fieldData) ?>,
-                        nodeTypes     : <?= json_encode($block->getNodeLabels()) ?>,
-                        imageUploadUrl: '<?= $block->getImageUploadUrl() ?>',
-                        translation   : {
+                        fieldData        : <?= json_encode($fieldData) ?>,
+                        nodeTypes        : <?= json_encode($block->getNodeLabels()) ?>,
+                        imageUploadUrl   : '<?= $block->getImageUploadUrl() ?>',
+                        imageUploadFileId: '<?= $block->getImageUploadFileId() ?>',
+                        translation      : {
                             nodes          : "<?= __('Nodes') ?>",
                             click          : "<?= __('Click') ?>",
                             createFirstNode: "<?= __('to create your first node.') ?>",
