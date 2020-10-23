@@ -34,6 +34,6 @@ class Back implements ButtonProviderInterface
      */
     private function getBackUrl()
     {
-        return $this->context->getUrlBuilder()->getUrl('*/*/');
+        return $this->context->getUrlBuilder()->getUrl('*/*');
     }
 }
