@@ -75,6 +75,14 @@ class Image
     }
 
     /**
+     * @return string
+     */
+    public function getUploadFileId()
+    {
+        return self::UPLOAD_FILE_ID;
+    }
+
+    /**
      * @param string $file
      */
     public function delete($file)
