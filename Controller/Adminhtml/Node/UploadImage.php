@@ -4,6 +4,7 @@ namespace Snowdog\Menu\Controller\Adminhtml\Node;
 
 use Magento\Backend\App\Action;
 use Magento\Framework\Controller\Result\JsonFactory as JsonResultFactory;
+use Psr\Log\LoggerInterface;
 use Snowdog\Menu\Model\Menu\Node\Image;
 
 class UploadImage extends Action
@@ -19,6 +20,11 @@ class UploadImage extends Action
     private $jsonResultFactory;
 
     /**
+     * @var LoggerInterface
+     */
+    private $logger;
+
+    /**
      * @var Image
      */
     private $image;
@@ -26,9 +32,11 @@ class UploadImage extends Action
     public function __construct(
         Action\Context $context,
         JsonResultFactory $jsonResultFactory,
+        LoggerInterface $logger,
         Image $image
     ) {
         $this->jsonResultFactory = $jsonResultFactory;
+        $this->logger = $logger;
         $this->image = $image;
 
         parent::__construct($context);
@@ -49,7 +57,8 @@ class UploadImage extends Action
 
             $result = $this->image->upload();
         } catch (\Exception $exception) {
-            $result = ['error' => $exception->getMessage(), 'errorcode' => $exception->getCode()];
+            $this->logger->critical($exception);
+            $result = ['error' => __('Menu node image upload failed.')];
         }
 
         $jsonResult->setData($result);
