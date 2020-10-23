@@ -122,6 +122,14 @@ class Nodes extends Template implements TabInterface
         return $this->getUrl('snowmenu/node/uploadimage');
     }
 
+    /**
+     * @return string
+     */
+    public function getImageUploadFileId()
+    {
+        return $this->image->getUploadFileId();
+    }
+
     private function renderNodeList($level, $parent, $data)
     {
         if ($parent === null) {
