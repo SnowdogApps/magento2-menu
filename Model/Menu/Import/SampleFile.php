@@ -110,7 +110,7 @@ class SampleFile
         $nodeData = [NodeInterface::TYPE => '<' . implode('|', $nodeTypes) . '>'];
 
         $data = $this->getFieldsData(
-            $this->nodeResource->getFields(), 
+            $this->nodeResource->getFields(),
             self::NODE_EXCLUDED_FIELDS,
             $nodeData
         );
