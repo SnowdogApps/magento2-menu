@@ -74,20 +74,9 @@ class ImportProcessor
      */
     public function importCsv()
     {
-        $menuData = $this->uploadFileAndGetData();
-        $stores = $menuData[ExportProcessor::STORES_CSV_FIELD];
-        $nodes = $menuData[ExportProcessor::NODES_CSV_FIELD];
-
-        unset($menuData[ExportProcessor::STORES_CSV_FIELD], $menuData[ExportProcessor::NODES_CSV_FIELD]);
-
-        $menu = $this->menuFactory->create();
-        $menuData[MenuInterface::IDENTIFIER] = $this->getNewMenuIdentifier(
-            $menuData[MenuInterface::IDENTIFIER]
-        );
-
-        $menu->setData($menuData);
-        $this->menuRepository->save($menu);
-        $menu->saveStores($stores);
+        $data = $this->uploadFileAndGetData();
+        $menu = $this->createMenu($data);
+        $nodes = $data[ExportProcessor::NODES_CSV_FIELD];
 
         foreach ($nodes as &$node) {
             $node[NodeInterface::MENU_ID] = $menu->getId();
@@ -96,6 +85,24 @@ class ImportProcessor
         $this->nodeResource->insertMultiple($nodes);
 
         return $menu->getIdentifier();
+    }
+
+    /**
+     * @return MenuInterface
+     */
+    private function createMenu(array $data)
+    {
+        $stores = $data[ExportProcessor::STORES_CSV_FIELD];
+        unset($data[ExportProcessor::STORES_CSV_FIELD], $data[ExportProcessor::NODES_CSV_FIELD]);
+
+        $menu = $this->menuFactory->create();
+        $menuData[MenuInterface::IDENTIFIER] = $this->getNewMenuIdentifier($data[MenuInterface::IDENTIFIER]);
+
+        $menu->setData($menuData);
+        $this->menuRepository->save($menu);
+        $menu->saveStores($stores);
+
+        return $menu;
     }
 
     /**
