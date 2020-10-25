@@ -8,7 +8,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 - Node model additional data setter and getter methods (#94)
 - A menu repository method that retrieves menu by identifier (#70197)
-- A menu node resource model method that bulk inserts menu records (#70197)
 - Menu CSV import/export feature (#70197)
 
 ### Changed
