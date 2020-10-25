@@ -99,9 +99,9 @@ class ImportProcessor
         unset($data[ExportProcessor::STORES_CSV_FIELD], $data[ExportProcessor::NODES_CSV_FIELD]);
 
         $menu = $this->menuFactory->create();
-        $menuData[MenuInterface::IDENTIFIER] = $this->getNewMenuIdentifier($data[MenuInterface::IDENTIFIER]);
+        $data[MenuInterface::IDENTIFIER] = $this->getNewMenuIdentifier($data[MenuInterface::IDENTIFIER]);
 
-        $menu->setData($menuData);
+        $menu->setData($data);
         $this->menuRepository->save($menu);
         $menu->saveStores($stores);
 
