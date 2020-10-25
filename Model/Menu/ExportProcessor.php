@@ -134,7 +134,7 @@ class ExportProcessor
 
         foreach ($nodes as $key => $node) {
             $nodesData[$key] = $node->getData();
-            unset($nodesData[$key][NodeInterface::NODE_ID], $nodesData[$key][NodeInterface::MENU_ID]);
+            unset($nodesData[$key][NodeInterface::MENU_ID]);
         }
 
         return $nodesData;
