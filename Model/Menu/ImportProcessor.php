@@ -85,7 +85,8 @@ class ImportProcessor
             $menuData[MenuInterface::IDENTIFIER]
         );
 
-        $menu->setData($menuData)->save();
+        $menu->setData($menuData);
+        $this->menuRepository->save($menu);
         $menu->saveStores($stores);
 
         foreach ($nodes as &$node) {
