@@ -10,19 +10,19 @@ use Snowdog\Menu\Api\Data\MenuInterface;
 use Snowdog\Menu\Api\Data\NodeInterface;
 use Snowdog\Menu\Api\MenuRepositoryInterface;
 use Snowdog\Menu\Api\NodeRepositoryInterface;
+use Snowdog\Menu\Model\ResourceModel\Menu as MenuResource;
 
 class ExportProcessor
 {
     const EXPORT_DIR = 'importexport';
     const STORES_CSV_FIELD = 'stores';
     const NODES_CSV_FIELD = 'nodes';
-    const CSV_HEADERS = [
-        MenuInterface::TITLE,
-        MenuInterface::IDENTIFIER,
-        MenuInterface::CSS_CLASS,
-        MenuInterface::CREATION_TIME,
-        MenuInterface::UPDATE_TIME,
-        MenuInterface::IS_ACTIVE,
+
+    const MENU_EXCLUDED_FIELDS = [
+        MenuInterface::MENU_ID
+    ];
+
+    const MENU_RELATION_TABLES_FIELDS = [
         self::STORES_CSV_FIELD,
         self::NODES_CSV_FIELD
     ];
@@ -47,18 +47,25 @@ class ExportProcessor
      */
     private $nodeRepository;
 
+    /**
+     * @var MenuResource
+     */
+    private $menuResource;
+
     public function __construct(
         SearchCriteriaBuilder $searchCriteriaBuilder,
         Filesystem $filesystem,
         SerializerInterface $serializer,
         MenuRepositoryInterface $menuRepository,
-        NodeRepositoryInterface $nodeRepository
+        NodeRepositoryInterface $nodeRepository,
+        MenuResource $menuResource
     ) {
         $this->searchCriteriaBuilder = $searchCriteriaBuilder;
         $this->directory = $filesystem->getDirectoryWrite(DirectoryList::VAR_DIR);
         $this->serializer = $serializer;
         $this->menuRepository = $menuRepository;
         $this->nodeRepository = $nodeRepository;
+        $this->menuResource = $menuResource;
     }
 
     /**
@@ -73,9 +80,10 @@ class ExportProcessor
 
     /**
      * @param string $fileId
+     * @param array|null $csvHeaders
      * @return array
      */
-    public function generateCsvDownloadFile($fileId, array $data, array $csvHeaders = self::CSV_HEADERS)
+    public function generateCsvDownloadFile($fileId, array $data, $csvHeaders = null)
     {
         $this->directory->create(self::EXPORT_DIR);
 
@@ -83,7 +91,7 @@ class ExportProcessor
         $stream = $this->directory->openFile($file, 'w+');
         $stream->lock();
 
-        $stream->writeCsv($csvHeaders);
+        $stream->writeCsv($csvHeaders ?: $this->getMenuFields());
         $stream->writeCsv($data);
 
         $stream->unlock();
@@ -130,6 +138,24 @@ class ExportProcessor
         }
 
         return $nodesData;
+    }
+
+    /**
+     * @SuppressWarnings(PHPMD.UnusedLocalVariable)
+     * @return array
+     */
+    private function getMenuFields()
+    {
+        $fields = [];
+        $excludedFields = array_flip(self::MENU_EXCLUDED_FIELDS);
+        
+        foreach ($this->menuResource->getFields() as $field => $config) {
+            if (!isset($excludedFields[$field])) {
+                $fields[] = $field;
+            }
+        }
+
+        return array_merge($fields, self::MENU_RELATION_TABLES_FIELDS);
     }
 
     /**
