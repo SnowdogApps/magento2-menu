@@ -65,18 +65,25 @@ class ExportProcessor
      * @param int $menuId
      * @return array
      */
-    public function generateCsvDownloadFile($menuId)
+    public function getExportFileDownloadContent($menuId)
     {
         $data = $this->getExportData($menuId);
-        $file = self::EXPORT_DIR . DIRECTORY_SEPARATOR
-            . $data[MenuInterface::IDENTIFIER] . '-' . hash('sha256', microtime()) . '.csv';
+        return $this->generateCsvDownloadFile($data[MenuInterface::IDENTIFIER], $data);
+    }
 
+    /**
+     * @param string $fileId
+     * @return array
+     */
+    public function generateCsvDownloadFile($fileId, array $data, array $csvHeaders = self::CSV_HEADERS)
+    {
         $this->directory->create(self::EXPORT_DIR);
 
+        $file = $this->getDownloadFile($fileId);
         $stream = $this->directory->openFile($file, 'w+');
         $stream->lock();
 
-        $stream->writeCsv(self::CSV_HEADERS);
+        $stream->writeCsv($csvHeaders);
         $stream->writeCsv($data);
 
         $stream->unlock();
@@ -123,5 +130,14 @@ class ExportProcessor
         }
 
         return $nodesData;
+    }
+
+    /**
+     * @param string $fileId
+     * @return string
+     */
+    private function getDownloadFile($fileId)
+    {
+        return self::EXPORT_DIR . DIRECTORY_SEPARATOR . $fileId . '-' . hash('sha256', microtime()) . '.csv';
     }
 }

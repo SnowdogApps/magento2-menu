@@ -53,7 +53,7 @@ class Export extends Action
         try {
             return $this->httpFileFactory->create(
                 "menu-${menuId}.csv",
-                $this->exportProcessor->generateCsvDownloadFile($menuId),
+                $this->exportProcessor->getExportFileDownloadContent($menuId),
                 DirectoryList::VAR_DIR
             );
         } catch (\Exception $exception) {
