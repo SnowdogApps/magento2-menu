@@ -76,13 +76,8 @@ class ImportProcessor
     {
         $data = $this->uploadFileAndGetData();
         $menu = $this->createMenu($data);
-        $nodes = $data[ExportProcessor::NODES_CSV_FIELD];
 
-        foreach ($nodes as &$node) {
-            $node[NodeInterface::MENU_ID] = $menu->getId();
-        }
-
-        $this->nodeResource->insertMultiple($nodes);
+        $this->createNodes($data[ExportProcessor::NODES_CSV_FIELD], $menu->getId());
 
         return $menu->getIdentifier();
     }
@@ -103,6 +98,18 @@ class ImportProcessor
         $menu->saveStores($stores);
 
         return $menu;
+    }
+
+    /**
+     * @param int $menuId
+     */
+    private function createNodes(array $nodes, $menuId)
+    {
+        foreach ($nodes as &$node) {
+            $node[NodeInterface::MENU_ID] = $menuId;
+        }
+
+        $this->nodeResource->insertMultiple($nodes);
     }
 
     /**
