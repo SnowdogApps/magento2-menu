@@ -75,8 +75,8 @@ class ImportProcessor
     public function importCsv()
     {
         $menuData = $this->uploadFileAndGetData();
-        $stores = explode(',', $menuData[ExportProcessor::STORES_CSV_FIELD]);
-        $nodes = $this->getNodesJsonData($menuData[ExportProcessor::NODES_CSV_FIELD]);
+        $stores = $menuData[ExportProcessor::STORES_CSV_FIELD];
+        $nodes = $menuData[ExportProcessor::NODES_CSV_FIELD];
 
         unset($menuData[ExportProcessor::STORES_CSV_FIELD], $menuData[ExportProcessor::NODES_CSV_FIELD]);
 
@@ -171,6 +171,9 @@ class ImportProcessor
 
         $this->validateImportData($data);
         $import->deleteImportFile();
+
+        $data[ExportProcessor::STORES_CSV_FIELD] = explode(',', $data[ExportProcessor::STORES_CSV_FIELD]);
+        $data[ExportProcessor::NODES_CSV_FIELD] = $this->getNodesJsonData($data[ExportProcessor::NODES_CSV_FIELD]);
 
         return $data;
     }
