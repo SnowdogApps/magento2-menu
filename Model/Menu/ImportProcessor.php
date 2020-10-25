@@ -9,9 +9,10 @@ use Magento\Framework\Serialize\SerializerInterface;
 use Snowdog\Menu\Api\Data\MenuInterface;
 use Snowdog\Menu\Api\Data\MenuInterfaceFactory;
 use Snowdog\Menu\Api\Data\NodeInterface;
+use Snowdog\Menu\Api\Data\NodeInterfaceFactory;
 use Snowdog\Menu\Api\MenuRepositoryInterface;
+use Snowdog\Menu\Api\NodeRepositoryInterface;
 use Snowdog\Menu\Model\ImportFactory;
-use Snowdog\Menu\Model\ResourceModel\Menu\Node as NodeResource;
 
 class ImportProcessor
 {
@@ -39,34 +40,41 @@ class ImportProcessor
     private $menuFactory;
 
     /**
+     * @var NodeInterfaceFactory
+     */
+    private $nodeFactory;
+
+    /**
      * @var MenuRepositoryInterface
      */
     private $menuRepository;
+
+    /**
+     * @var NodeRepositoryInterface
+     */
+    private $nodeRepository;
 
     /**
      * @var ImportFactory
      */
     private $importFactory;
 
-    /**
-     * @var NodeResource
-     */
-    private $nodeResource;
-
     public function __construct(
         SearchCriteriaBuilder $searchCriteriaBuilder,
         SerializerInterface $serializer,
         MenuInterfaceFactory $menuFactory,
+        NodeInterfaceFactory $nodeFactory,
         MenuRepositoryInterface $menuRepository,
-        ImportFactory $importFactory,
-        NodeResource $nodeResource
+        NodeRepositoryInterface $nodeRepository,
+        ImportFactory $importFactory
     ) {
         $this->searchCriteriaBuilder = $searchCriteriaBuilder;
         $this->serializer = $serializer;
         $this->menuFactory = $menuFactory;
+        $this->nodeFactory = $nodeFactory;
         $this->menuRepository = $menuRepository;
+        $this->nodeRepository = $nodeRepository;
         $this->importFactory = $importFactory;
-        $this->nodeResource = $nodeResource;
     }
 
     /**
@@ -105,11 +113,22 @@ class ImportProcessor
      */
     private function createNodes(array $nodes, $menuId)
     {
-        foreach ($nodes as &$node) {
-            $node[NodeInterface::MENU_ID] = $menuId;
-        }
+        $newNodesIds = [];
 
-        $this->nodeResource->insertMultiple($nodes);
+        foreach ($nodes as $nodeData) {
+            $node = $this->nodeFactory->create();
+
+            $newNodeData = $nodeData;
+            $newNodeData[NodeInterface::MENU_ID] = $menuId;
+            $newNodeData[NodeInterface::PARENT_ID] = $newNodesIds[$nodeData[NodeInterface::PARENT_ID]] ?? null;
+
+            unset($newNodeData[NodeInterface::NODE_ID]);
+
+            $node->setData($newNodeData);
+            $this->nodeRepository->save($node);
+
+            $newNodesIds[$nodeData[NodeInterface::NODE_ID]] = $node->getId();
+        }
     }
 
     /**
