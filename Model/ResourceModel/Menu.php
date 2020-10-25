@@ -9,4 +9,12 @@ class Menu extends AbstractDb
     {
         $this->_init('snowmenu_menu', 'menu_id');
     }
+
+    /**
+     * @return array
+     */
+    public function getFields()
+    {
+        return $this->getConnection()->describeTable($this->getMainTable());
+    }
 }

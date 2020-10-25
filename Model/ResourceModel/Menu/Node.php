@@ -9,4 +9,12 @@ class Node extends AbstractDb
     {
         $this->_init('snowmenu_node', 'node_id');
     }
+
+    /**
+     * @return array
+     */
+    public function getFields()
+    {
+        return $this->getConnection()->describeTable($this->getMainTable());
+    }
 }
