@@ -80,7 +80,7 @@ class SampleFile
         $data = $this->getMenuData();
 
         $data[ExportProcessor::STORES_CSV_FIELD] = $this->getStoresData();
-        $data[ExportProcessor::NODES_CSV_FIELD] = $this->getNodeData();
+        $data[ExportProcessor::NODES_CSV_FIELD] = $this->getNodesData();
 
         return $data;
     }
@@ -104,7 +104,7 @@ class SampleFile
     /**
      * @return string
      */
-    private function getNodeData()
+    private function getNodesData()
     {
         $nodeTypes = array_keys($this->nodeTypeProvider->getLabels());
         $nodeData = [NodeInterface::TYPE => 'available types: <' . implode(' | ', $nodeTypes) . '>'];
