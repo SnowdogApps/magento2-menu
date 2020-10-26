@@ -3,7 +3,6 @@
 namespace Snowdog\Menu\Model\Menu\Import;
 
 use Magento\Framework\Serialize\SerializerInterface;
-use Magento\Store\Model\StoreManagerInterface;
 use Snowdog\Menu\Api\Data\MenuInterface;
 use Snowdog\Menu\Api\Data\NodeInterface;
 use Snowdog\Menu\Model\Menu\ExportProcessor;
@@ -31,11 +30,6 @@ class SampleFile
     private $serializer;
 
     /**
-     * @var StoreManagerInterface
-     */
-    private $storeManager;
-
-    /**
      * @var ExportProcessor
      */
     private $exportProcessor;
@@ -57,14 +51,12 @@ class SampleFile
 
     public function __construct(
         SerializerInterface $serializer,
-        StoreManagerInterface $storeManager,
         ExportProcessor $exportProcessor,
         NodeTypeProvider $nodeTypeProvider,
         MenuResource $menuResource,
         NodeResource $nodeResource
     ) {
         $this->serializer = $serializer;
-        $this->storeManager = $storeManager;
         $this->exportProcessor = $exportProcessor;
         $this->nodeTypeProvider = $nodeTypeProvider;
         $this->menuResource = $menuResource;
@@ -147,12 +139,6 @@ class SampleFile
      */
     private function getStores()
     {
-        $stores = array_keys($this->storeManager->getStores(false));
-
-        if (count($stores) === 1) {
-            $stores[] = $stores[0] + 1;
-        }
-
-        return implode(',', $stores);
+        return '<comma separated integer store IDs>';
     }
 }
