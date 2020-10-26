@@ -15,6 +15,8 @@ class Export extends Action
      */
     const ADMIN_RESOURCE = 'Snowdog_Menu::menus';
 
+    const FILE_NAME = 'menu-{menu_id}.csv';
+
     /**
      * @var HttpFileFactory
      */
@@ -52,7 +54,7 @@ class Export extends Action
 
         try {
             return $this->httpFileFactory->create(
-                "menu-${menuId}.csv",
+                strtr(self::FILE_NAME, ['{menu_id}' => $menuId]),
                 $this->exportProcessor->getExportFileDownloadContent($menuId),
                 DirectoryList::VAR_DIR
             );
