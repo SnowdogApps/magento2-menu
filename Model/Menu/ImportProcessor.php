@@ -165,10 +165,9 @@ class ImportProcessor
     }
 
     /**
-     * @param array $data
      * @throws ValidatorException
      */
-    private function validateImportData($data)
+    private function validateImportData(array $data)
     {
         $missingFields = [];
 
