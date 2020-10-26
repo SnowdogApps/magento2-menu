@@ -107,7 +107,7 @@ class SampleFile
     private function getNodeData()
     {
         $nodeTypes = array_keys($this->nodeTypeProvider->getLabels());
-        $nodeData = [NodeInterface::TYPE => 'possible values: <' . implode('|', $nodeTypes) . '>'];
+        $nodeData = [NodeInterface::TYPE => 'available types: <' . implode(' | ', $nodeTypes) . '>'];
 
         $data = $this->getFieldsData(
             $this->nodeResource->getFields(),
