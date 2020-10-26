@@ -79,7 +79,7 @@ class SampleFile
     {
         $data = $this->getMenuData();
 
-        $data[ExportProcessor::STORES_CSV_FIELD] = $this->getStores();
+        $data[ExportProcessor::STORES_CSV_FIELD] = $this->getStoresData();
         $data[ExportProcessor::NODES_CSV_FIELD] = $this->getNodeData();
 
         return $data;
@@ -91,6 +91,14 @@ class SampleFile
     private function getMenuData()
     {
         return $this->getFieldsData($this->menuResource->getFields(), self::MENU_EXCLUDED_FIELDS);
+    }
+
+    /**
+     * @return string
+     */
+    private function getStoresData()
+    {
+        return '<comma separated integer store IDs>';
     }
 
     /**
@@ -132,13 +140,5 @@ class SampleFile
         }
 
         return $fieldsData;
-    }
-
-    /**
-     * @return string
-     */
-    private function getStores()
-    {
-        return '<comma separated integer store IDs>';
     }
 }
