@@ -15,6 +15,8 @@ class DownloadImportSample extends Action
      */
     const ADMIN_RESOURCE = 'Snowdog_Menu::menus';
 
+    const FILE_NAME = 'menu-sample.csv';
+
     /**
      * @var HttpFileFactory
      */
@@ -50,7 +52,7 @@ class DownloadImportSample extends Action
     {
         try {
             return $this->httpFileFactory->create(
-                'menu-sample.csv',
+                self::FILE_NAME,
                 $this->importSampleFile->getFileDownloadContent(),
                 DirectoryList::VAR_DIR
             );
