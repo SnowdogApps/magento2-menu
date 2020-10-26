@@ -47,7 +47,7 @@
                     <item name="notice" xsi:type="string" translate="true">File must be saved in UTF-8 encoding for proper import</item>
                     <item name="tooltip" xsi:type="array">
                         <item name="link" xsi:type="url" path="snowmenu/menu/downloadimportsample"/>
-                        <item name="description" xsi:type="string" translate="true">Click the tooltip (?) to download sample file</item>
+                        <item name="description" xsi:type="string" translate="true">Click the tooltip (?) to download a sample import file</item>
                     </item>
                     <item name="formElement" xsi:type="string">file</item>
                 </item>
