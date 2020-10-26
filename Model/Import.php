@@ -29,7 +29,7 @@ class Import extends ParentModel
      */
     public function uploadFileAndGetSource()
     {
-        if (method_exists($this, 'uploadFileAndGetSource')) {
+        if (method_exists(ParentModel::class, 'uploadFileAndGetSource')) {
             return parent::uploadFileAndGetSource();
         }
 
