@@ -136,19 +136,7 @@ class SampleFile
                 continue;
             }
 
-            if ($description['DEFAULT']) {
-                $fieldsData[$field] = $description['DEFAULT'];
-                continue;
-            }
-
-            if (strpos($description['DATA_TYPE'], 'int') !== false) {
-                $fieldsData[$field] = '<integer>';
-                continue;
-            }
-
-            if ($description['DATA_TYPE'] === 'varchar' || $description['DATA_TYPE'] === 'text') {
-                $fieldsData[$field] = '<string>';
-            }
+            $fieldsData[$field] = '<' . $description['DATA_TYPE'] . '>';
         }
 
         return $fieldsData;
