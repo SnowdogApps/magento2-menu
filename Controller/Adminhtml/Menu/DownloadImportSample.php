@@ -50,7 +50,7 @@ class DownloadImportSample extends Action
     {
         try {
             return $this->httpFileFactory->create(
-                "menu-sample.csv",
+                'menu-sample.csv',
                 $this->importSampleFile->getFileDownloadContent(),
                 DirectoryList::VAR_DIR
             );
