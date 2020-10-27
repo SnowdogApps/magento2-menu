@@ -22,7 +22,7 @@ class PageActions extends Column
                     "label" => __("Edit"),
                 ];
                 $item[$name]["export"] = [
-                    "href"  => $this->getContext()->getUrl(
+                    "href" => $this->getContext()->getUrl(
                         "snowmenu/menu/export",
                         ["id" => $id]
                     ),
