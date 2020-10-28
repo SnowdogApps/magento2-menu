@@ -64,7 +64,7 @@ class CmsBlock extends AbstractNode
     }
 
     /**
-     * @return string
+     * @inheritDoc
      */
     public function getJsonConfig()
     {
