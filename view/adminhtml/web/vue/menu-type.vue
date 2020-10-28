@@ -41,7 +41,7 @@
             id="node_name"
             v-model="item.title"
             :label="config.translation.nodeName"
-            type="textarea"
+            type="text"
         />
 
         <simple-field

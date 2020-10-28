@@ -19,6 +19,7 @@
 <script>
 define(["Vue"], function(Vue) {
     Vue.component("checkbox", {
+<<<<<<< HEAD
         props: {
             label: {
                 type: String,
@@ -37,6 +38,9 @@ define(["Vue"], function(Vue) {
                 required: true
             }
         },
+=======
+        props: ['label', 'id', 'value', 'item'],
+>>>>>>> develop
         data: function() {
             return {
                 fieldId: '',

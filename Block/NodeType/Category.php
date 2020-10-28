@@ -94,7 +94,7 @@ class Category extends AbstractNode
     }
 
     /**
-     * @return string
+     * @inheritDoc
      */
     public function getJsonConfig()
     {
