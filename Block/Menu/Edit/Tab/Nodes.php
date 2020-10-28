@@ -9,34 +9,45 @@ use Magento\Framework\Registry;
 use Snowdog\Menu\Api\NodeRepositoryInterface;
 use Snowdog\Menu\Controller\Adminhtml\Menu\Edit;
 use Snowdog\Menu\Model\NodeTypeProvider;
+use Snowdog\Menu\Model\VueProvider;
 
 class Nodes extends Template implements TabInterface
 {
     protected $_template = 'menu/nodes.phtml';
+
     /**
      * @var Registry
      */
     private $registry;
+
     /**
      * @var NodeRepositoryInterface
      */
     private $nodeRepository;
+
     /**
      * @var NodeTypeProvider
      */
     private $nodeTypeProvider;
+
+    /**
+     * @var VueProvider
+     */
+    private $vueProvider;
 
     public function __construct(
         Template\Context $context,
         NodeRepositoryInterface $nodeRepository,
         NodeTypeProvider $nodeTypeProvider,
         Registry $registry,
+        VueProvider $vueProvider,
         array $data = []
     ) {
         parent::__construct($context, $data);
         $this->registry = $registry;
         $this->nodeRepository = $nodeRepository;
         $this->nodeTypeProvider = $nodeTypeProvider;
+        $this->vueProvider = $vueProvider;
     }
 
     public function renderNodes()
@@ -142,5 +153,13 @@ class Nodes extends Template implements TabInterface
     public function getNodeLabels()
     {
         return $this->nodeTypeProvider->getLabels();
+    }
+
+    /**
+     * @return array
+     */
+    public function getVueComponents(): array
+    {
+        return $this->vueProvider->getComponents();
     }
 }
