@@ -26,61 +26,6 @@ $vueComponents = $block->getVueComponents();
     </snowdog-menu>
 </div>
 
-<<<<<<< HEAD
-<script>
-    require(
-        [
-            "Vue",
-            "Vddl",
-            "vue-select",
-            "vue!Snowdog_Menu/vue/app",
-            "vue!Snowdog_Menu/vue/nested-list",
-            "vue!Snowdog_Menu/vue/menu-type",
-            "vue!Snowdog_Menu/vue/menu-type/category",
-            "vue!Snowdog_Menu/vue/menu-type/cms-page",
-            "vue!Snowdog_Menu/vue/menu-type/cms-block",
-            "vue!Snowdog_Menu/vue/menu-type/custom-url",
-            "vue!Snowdog_Menu/vue/menu-type/product",
-            "vue!Snowdog_Menu/vue/menu-type/wrapper",
-            "vue!Snowdog_Menu/vue/field-type/simple",
-            "vue!Snowdog_Menu/vue/field-type/checkbox",
-            "vue!Snowdog_Menu/vue/field-type/autocomplete",
-            "vue!Snowdog_Menu/vue/field-type/template-list"
-        ], function(Vue, Vddl, vueSelect) {
-            Vue.use(Vddl);
-            Vue.component('v-select', vueSelect.VueSelect);
-            var app = new Vue({
-                el  : "#snowdog_menu",
-                data: {
-                    list  : <?= json_encode($block->renderNodes()) ?>,
-                    config: {
-                        fieldData  : <?= json_encode($fieldData) ?>,
-                        nodeTypes  : <?= json_encode($block->getNodeLabels()) ?>,
-                        translation: {
-                            nodes          : "<?= __('Nodes') ?>",
-                            click          : "<?= __('Click') ?>",
-                            createFirstNode: "<?= __('to create your first node.') ?>",
-                            createSubNode  : "<?= __('to create sub node or drag and drop other nodes here.') ?>",
-                            append         : "<?= __('Append') ?>",
-                            edit           : "<?= __('Edit') ?>",
-                            delete         : "<?= __('Delete') ?>",
-                            addNode        : "<?= __('New node') ?>",
-                            nodeType       : "<?= __('Node Type') ?>",
-                            nodeName       : "<?= __('Node name') ?>",
-                            nodeClasses    : "<?= __('Node CSS classes') ?>",
-                            selectNodeType : "<?= __('Select Node Type') ?>",
-                            pleaseSelect   : "<?= __('Please select a') ?>",
-                            targetLabel    : "<?= __('Node target blank') ?>",
-                            category       : "<?= __('Category') ?>",
-                            categoryId     : "<?= __('Category ID') ?>",
-                            block          : "<?= __('Block') ?>",
-                            blockId        : "<?= __('Block ID') ?>",
-                            page           : "<?= __('Page') ?>",
-                            pageId         : "<?= __('Page URL key') ?>",
-                            customURL      : "<?= __('Custom URL') ?>",
-                            product        : "<?= __('Product') ?>",
-                            productId      : "<?= __('Product ID') ?>"
-=======
 <script type="text/x-magento-init">
     {
         "*": {
@@ -115,7 +60,6 @@ $vueComponents = $block->getVueComponents();
                             "customURL"      : "<?= __('Custom URL') ?>",
                             "product"        : "<?= __('Product') ?>",
                             "productId"      : "<?= __('Product ID') ?>"
->>>>>>> develop
                         }
                     }
                 }

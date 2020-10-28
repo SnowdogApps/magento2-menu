@@ -7,7 +7,8 @@ define([
     "vue!Snowdog_Menu/vue/menu-type",
     "vue!Snowdog_Menu/vue/field-type/simple",
     "vue!Snowdog_Menu/vue/field-type/checkbox",
-    "vue!Snowdog_Menu/vue/field-type/autocomplete"
+    "vue!Snowdog_Menu/vue/field-type/autocomplete",
+    "vue!Snowdog_Menu/vue/field-type/template-list"
 ], function(Vue, Vddl, vueSelect) {
 
     return function(config) {
