@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Snowdog\Menu\Block\NodeType;
 
 use Magento\Framework\Registry;
@@ -8,6 +10,8 @@ use Snowdog\Menu\Model\TemplateResolver;
 use Magento\Framework\View\Element\Template\Context;
 use Snowdog\Menu\Model\NodeType\Product as ModelProduct;
 use Magento\Framework\Pricing\Helper\Data as PricingHelper;
+use Snowdog\Menu\Helper\Image as ImageHelper;
+use Magento\Framework\Exception\NoSuchEntityException;
 
 class Product extends AbstractNode
 {
@@ -66,18 +70,25 @@ class Product extends AbstractNode
      */
     private $priceHelper;
 
+    /**
+     * @var ImageHelper
+     */
+    private $imageHelper;
+
     public function __construct(
         Context $context,
         Registry $coreRegistry,
         ModelProduct $productModel,
         TemplateResolver $templateResolver,
         PricingHelper $priceHelper,
+        ImageHelper $imageHelper,
         array $data = []
     ) {
         parent::__construct($context, $templateResolver, $data);
         $this->coreRegistry = $coreRegistry;
         $this->productModel = $productModel;
         $this->priceHelper = $priceHelper;
+        $this->imageHelper = $imageHelper;
     }
 
     /**
@@ -89,7 +100,7 @@ class Product extends AbstractNode
     }
 
     /**
-     * @return string
+     * @inheritDoc
      */
     public function getJsonConfig()
     {
@@ -176,6 +187,27 @@ class Product extends AbstractNode
         }
 
         return $this->getMediaUrl('catalog/product' . $image);
+    }
+
+    /**
+     * @param int|null $nodeId
+     * @param string|null $width
+     * @param string|null $height
+     * @return string|null
+     */
+    public function getResizedProductImage($nodeId, $width = null, $height = null): ?string
+    {
+        $image = $this->getProductData($this->productImages, $nodeId);
+
+        if (!$image) {
+            return null;
+        }
+
+        try {
+            return $this->imageHelper->resize($image, $width, $height);
+        } catch (NoSuchEntityException $exception) {
+            return null;
+        }
     }
 
     /**
