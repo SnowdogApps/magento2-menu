@@ -10,9 +10,19 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Changed
 - Index page title (#69078)
+- Change imported menu model to API data interface in menu admin controller save action (#71279)
+- Move menu admin controller save action `execute` method current nodes list code to a separate method (#71279)
+- Replace existing nodes `in_array` check with `isset` in menu admin controller save action `execute` method (#71279)
 
 ### Added
 - Functionality to enable/disable specific menu node (#85, DEV-65561)
+
+### Removed
+- An unnecessary `if` statement in menu admin controller save action `_convertTree` method (#71279)
+
+### Fixed
+- A menu save issue that prevents deleting all nodes of a menu (#71279)
+- Correct a misspelled variable in menu admin controller save action `execute` method (#71279)
 
 ## [2.12.0] - 2020-08-24
 ### Added
