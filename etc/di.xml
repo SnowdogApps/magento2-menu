@@ -20,6 +20,24 @@
             </argument>
         </arguments>
     </type>
+
+    <type name="Snowdog\Menu\Model\Menu">
+        <plugin name="snowdog_menu_stores_invalidate_page_cache_after_save"
+                type="Snowdog\Menu\Plugin\Model\Menu\AfterSaveStores\InvalidatePageCache"/>
+    </type>
+    <type name="Snowdog\Menu\Model\ResourceModel\Menu">
+        <plugin name="snowdog_menu_invalidate_page_cache_after_save"
+                type="Snowdog\Menu\Plugin\Model\ResourceModel\Menu\AroundSave\InvalidatePageCache"/>
+        <plugin name="snowdog_menu_invalidate_page_cache_after_delete"
+                type="Snowdog\Menu\Plugin\Model\ResourceModel\Menu\AfterDelete\InvalidatePageCache"/>
+    </type>
+    <type name="Snowdog\Menu\Model\ResourceModel\Menu\Node">
+        <plugin name="snowdog_menu_node_invalidate_page_cache_after_save"
+                type="Snowdog\Menu\Plugin\Model\ResourceModel\Menu\Node\AroundSave\InvalidatePageCache"/>
+        <plugin name="snowdog_menu_node_invalidate_page_cache_after_delete"
+                type="Snowdog\Menu\Plugin\Model\ResourceModel\Menu\Node\AfterDelete\InvalidatePageCache"/>
+    </type>
+
     <type name="Snowdog\Menu\Model\VueProvider">
         <arguments>
             <argument name="components" xsi:type="array">
