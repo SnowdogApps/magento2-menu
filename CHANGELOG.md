@@ -12,6 +12,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Index page title (#69078)
 - Change menu model stores save method return type to boolean (#70191)
 - Bump GitHub backend workflow `MCS Check` checkout repository actions to v2 (#70191)
+- Change imported menu model to API data interface in menu admin controller save action (#71279)
+- Move menu admin controller save action `execute` method current nodes list code to a separate method (#71279)
+- Replace existing nodes `in_array` check with `isset` in menu admin controller save action `execute` method (#71279)
 
 ### Added
 - Functionality to enable/disable specific menu node (#85, DEV-65561)
@@ -21,6 +24,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Prevent menu stores save if there are no store changes (#70191)
 - Prevent unnecessary menu data save due to data values types changes (#70191)
 - Prevent unnecessary menu nodes data save due to enabled object data changes flag in menu node repository get list method items (#70191)
+
+### Removed
+- An unnecessary `if` statement in menu admin controller save action `_convertTree` method (#71279)
+
+### Fixed
+- A menu save issue that prevents deleting all nodes of a menu (#71279)
+- Correct a misspelled variable in menu admin controller save action `execute` method (#71279)
 
 ## [2.12.0] - 2020-08-24
 ### Added
