@@ -4,6 +4,7 @@ namespace Snowdog\Menu\Controller\Adminhtml\Menu;
 
 use Magento\Backend\App\Action;
 use Magento\Framework\Exception\ValidatorException;
+use Magento\Store\Model\StoreManagerInterface;
 use Psr\Log\LoggerInterface;
 use Snowdog\Menu\Model\Menu\ImportProcessor;
 
@@ -13,6 +14,11 @@ class ImportPost extends Action
      * @inheritDoc
      */
     const ADMIN_RESOURCE = 'Snowdog_Menu::menus';
+
+    /**
+     * @var StoreManagerInterface
+     */
+    private $storeManager;
 
     /**
      * @var LoggerInterface
@@ -26,9 +32,11 @@ class ImportPost extends Action
 
     public function __construct(
         Action\Context $context,
+        StoreManagerInterface $storeManager,
         LoggerInterface $logger,
         ImportProcessor $importProcessor
     ) {
+        $this->storeManager = $storeManager;
         $this->logger = $logger;
         $this->importProcessor = $importProcessor;
 
@@ -54,6 +62,12 @@ class ImportPost extends Action
             $this->messageManager->addErrorMessage(__('An error occurred while importing menu.'));
         }
 
-        return $resultRedirect->setUrl($this->_redirect->getRefererUrl());
+        $refererUrl = $this->_redirect->getRefererUrl();
+
+        if ($refererUrl === $this->storeManager->getStore()->getBaseUrl()) {
+            return $resultRedirect->setPath('*/*');
+        }
+
+        return $resultRedirect->setUrl($refererUrl);
     }
 }
