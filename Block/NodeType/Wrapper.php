@@ -17,6 +17,11 @@ class Wrapper extends AbstractNode
     /**
      * @var string
      */
+    protected $customTemplateFolder = 'menu/custom/wrapper/';
+
+    /**
+     * @var string
+     */
     protected $nodeType = 'wrapper';
 
     /**

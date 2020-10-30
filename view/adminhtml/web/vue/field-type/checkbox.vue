@@ -19,7 +19,24 @@
 <script>
 define(["Vue"], function(Vue) {
     Vue.component("checkbox", {
-        props: ['label', 'id', 'value', 'item'],
+        props: {
+            label: {
+                type: String,
+                required: true
+            },
+            id: {
+                type: String,
+                required: true
+            },
+            value: {
+                type: [Number, String],
+                required: true
+            },
+            item: {
+                type: Object,
+                required: true
+            }
+        },
         data: function() {
             return {
                 fieldId: '',

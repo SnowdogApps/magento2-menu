@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [Unreleased]
 ### Added
 - Node model additional data setter and getter methods (#94)
+- Functionality to enable/disable specific menu node (#85, DEV-65561)
+- Invalidate page cache on menu changes (#70191)
 
 ### Changed
 - Index page title (#69078)
@@ -16,21 +18,15 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Move menu admin controller save action `execute` method current nodes list code to a separate method (#71279)
 - Replace existing nodes `in_array` check with `isset` in menu admin controller save action `execute` method (#71279)
 
-### Added
-- Functionality to enable/disable specific menu node (#85, DEV-65561)
-- Invalidate page cache on menu changes (#70191)
-
 ### Fixed
 - Prevent menu stores save if there are no store changes (#70191)
 - Prevent unnecessary menu data save due to data values types changes (#70191)
 - Prevent unnecessary menu nodes data save due to enabled object data changes flag in menu node repository get list method items (#70191)
+- A menu save issue that prevents deleting all nodes of a menu (#71279)
+- Correct a misspelled variable in menu admin controller save action `execute` method (#71279)
 
 ### Removed
 - An unnecessary `if` statement in menu admin controller save action `_convertTree` method (#71279)
-
-### Fixed
-- A menu save issue that prevents deleting all nodes of a menu (#71279)
-- Correct a misspelled variable in menu admin controller save action `execute` method (#71279)
 
 ## [2.12.0] - 2020-08-24
 ### Added

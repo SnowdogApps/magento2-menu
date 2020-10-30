@@ -137,9 +137,13 @@ class Nodes extends Template implements TabInterface
                 'content' => $node->getContent(),
                 'classes' => $node->getClasses(),
                 'target' => $node->getTarget(),
+                'node_template' => $node->getNodeTemplate(),
+                'submenu_template' => $node->getSubmenuTemplate(),
                 'id' => $node->getId(),
                 'title' => $node->getTitle(),
-                'columns' => $this->renderNodeList($level + 1, $node->getId(), $data) ?: []
+                'columns' => $this->renderNodeList($level + 1, $node->getId(), $data)
+                    ? $this->renderNodeList($level + 1, $node->getId(), $data)
+                    : []
             ];
         }
         return $menu;

@@ -173,6 +173,18 @@ class Save extends Action
                 $nodeObject->setTarget($node['target']);
             }
 
+            $nodeTemplate = null;
+            if (isset($node['node_template']) && $node['type'] != $node['node_template']) {
+                $nodeTemplate = $node['node_template'];
+            }
+            $nodeObject->setNodeTemplate($nodeTemplate);
+
+            $submenuTemplate = null;
+            if (isset($node['submenu_template']) && $node['submenu_template'] != 'sub_menu') {
+                $submenuTemplate = $node['submenu_template'];
+            }
+            $nodeObject->setSubmenuTemplate($submenuTemplate);
+
             $nodeObject->setMenuId($menu->getMenuId());
             $nodeObject->setTitle($node['title']);
             $nodeObject->setIsActive($node['is_active'] ?? '0');

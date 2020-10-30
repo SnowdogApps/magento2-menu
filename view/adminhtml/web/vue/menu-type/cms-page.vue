@@ -3,6 +3,7 @@
         :label="config.translation.page"
         :description="config.translation.pageId"
         :item="item"
+        item-key="content"
         :options="config.fieldData.cms_page.snowMenuAutoCompleteField.options"
         :config="config"
     />
