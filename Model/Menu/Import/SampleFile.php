@@ -106,8 +106,7 @@ class SampleFile
      */
     private function getNodesData()
     {
-        $nodeTypes = array_keys($this->nodeTypeProvider->getLabels());
-        $nodeData = [NodeInterface::TYPE => 'available types: <' . implode(' | ', $nodeTypes) . '>'];
+        $nodeData = [NodeInterface::TYPE => $this->getNodeTypeDefaultValue()];
 
         $data = $this->getFieldsData(
             $this->nodeResource->getFields(),
@@ -116,6 +115,15 @@ class SampleFile
         );
 
         return $this->serializer->serialize([$data]);
+    }
+
+    /**
+     * @return string
+     */
+    private function getNodeTypeDefaultValue()
+    {
+        $nodeTypes = array_keys($this->nodeTypeProvider->getLabels());
+        return 'available types: <' . implode(' | ', $nodeTypes) . '>';
     }
 
     /**
