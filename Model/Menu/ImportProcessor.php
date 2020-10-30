@@ -127,7 +127,9 @@ class ImportProcessor
             $node->setData($newNodeData);
             $this->nodeRepository->save($node);
 
-            $newNodesIds[$nodeData[NodeInterface::NODE_ID]] = $node->getId();
+            if (isset($nodeData[NodeInterface::NODE_ID])) {
+                $newNodesIds[$nodeData[NodeInterface::NODE_ID]] = $node->getId();
+            }
         }
     }
 
