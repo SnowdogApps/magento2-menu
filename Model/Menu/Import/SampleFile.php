@@ -24,6 +24,7 @@ class SampleFile
         NodeInterface::UPDATE_TIME
     ];
 
+    const STORES_DATA = '<comma separated integer store IDs>';
     const NODE_ID_DEFAULT_VALUE = '<an integer value that is only required for nodes that have children>';
 
     const NODE_DEFAULT_DATA = [
@@ -88,7 +89,7 @@ class SampleFile
     {
         $data = $this->getMenuData();
 
-        $data[ExportProcessor::STORES_CSV_FIELD] = $this->getStoresData();
+        $data[ExportProcessor::STORES_CSV_FIELD] = self::STORES_DATA;
         $data[ExportProcessor::NODES_CSV_FIELD] = $this->getNodesData();
 
         return $data;
@@ -100,14 +101,6 @@ class SampleFile
     private function getMenuData()
     {
         return $this->getFieldsData($this->menuResource->getFields(), self::MENU_EXCLUDED_FIELDS);
-    }
-
-    /**
-     * @return string
-     */
-    private function getStoresData()
-    {
-        return '<comma separated integer store IDs>';
     }
 
     /**
