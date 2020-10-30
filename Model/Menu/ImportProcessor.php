@@ -4,7 +4,6 @@ namespace Snowdog\Menu\Model\Menu;
 
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Exception\ValidatorException;
-use Snowdog\Menu\Api\Data\MenuInterface;
 use Snowdog\Menu\Model\ImportFactory;
 use Snowdog\Menu\Model\Menu\ImportProcessor\Menu as MenuImportProcessor;
 use Snowdog\Menu\Model\Menu\ImportProcessor\Node as NodeImportProcessor;
@@ -50,7 +49,7 @@ class ImportProcessor
     }
 
     /**
-     * @return MenuInterface
+     * @return \Snowdog\Menu\Api\Data\MenuInterface
      */
     private function createMenu(array $data)
     {
