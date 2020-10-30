@@ -206,11 +206,14 @@ class ImportProcessor
         $source->rewind();
         $data = $source->current();
 
+        if (isset($data[ExportProcessor::NODES_CSV_FIELD])) {
+            $data[ExportProcessor::NODES_CSV_FIELD] = $this->getNodesJsonData($data[ExportProcessor::NODES_CSV_FIELD]);
+        }
+
         $this->validateImportData($data);
         $import->deleteImportFile();
 
         $data[ExportProcessor::STORES_CSV_FIELD] = explode(',', $data[ExportProcessor::STORES_CSV_FIELD]);
-        $data[ExportProcessor::NODES_CSV_FIELD] = $this->getNodesJsonData($data[ExportProcessor::NODES_CSV_FIELD]);
 
         return $data;
     }
