@@ -24,6 +24,15 @@ class SampleFile
         NodeInterface::UPDATE_TIME
     ];
 
+    const NODE_ID_DEFAULT_VALUE = '<an integer value that is only required for nodes that have children>';
+
+    const NODE_DEFAULT_DATA = [
+        NodeInterface::TYPE => '<available types: <{types}>',
+        NodeInterface::NODE_ID => self::NODE_ID_DEFAULT_VALUE,
+        NodeInterface::PARENT_ID => self::NODE_ID_DEFAULT_VALUE,
+        NodeInterface::LEVEL => '<an integer value that must be greater than 0 for child nodes>'
+    ];
+
     /**
      * @var SerializerInterface
      */
@@ -106,12 +115,13 @@ class SampleFile
      */
     private function getNodesData()
     {
-        $nodeData = [NodeInterface::TYPE => $this->getNodeTypeDefaultValue()];
+        $defaultData = self::NODE_DEFAULT_DATA;
+        $defaultData[NodeInterface::TYPE] = $this->getNodeTypeDefaultValue();
 
         $data = $this->getFieldsData(
             $this->nodeResource->getFields(),
             self::NODE_EXCLUDED_FIELDS,
-            $nodeData
+            $defaultData
         );
 
         return $this->serializer->serialize([$data]);
@@ -123,7 +133,11 @@ class SampleFile
     private function getNodeTypeDefaultValue()
     {
         $nodeTypes = array_keys($this->nodeTypeProvider->getLabels());
-        return 'available types: <' . implode(' | ', $nodeTypes) . '>';
+
+        return strtr(
+            self::NODE_DEFAULT_DATA[NodeInterface::TYPE],
+            ['{types}' => implode(' | ', $nodeTypes)]
+        );
     }
 
     /**
