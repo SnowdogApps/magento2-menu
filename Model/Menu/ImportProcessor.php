@@ -120,7 +120,10 @@ class ImportProcessor
 
             $newNodeData = $nodeData;
             $newNodeData[NodeInterface::MENU_ID] = $menuId;
-            $newNodeData[NodeInterface::PARENT_ID] = $newNodesIds[$nodeData[NodeInterface::PARENT_ID]] ?? null;
+
+            if (isset($nodeData[NodeInterface::PARENT_ID])) {
+                $newNodeData[NodeInterface::PARENT_ID] = $newNodesIds[$nodeData[NodeInterface::PARENT_ID]] ?? null;
+            }
 
             unset($newNodeData[NodeInterface::NODE_ID]);
 
