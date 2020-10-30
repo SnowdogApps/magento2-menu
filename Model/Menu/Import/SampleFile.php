@@ -25,12 +25,11 @@ class SampleFile
     ];
 
     const STORES_DATA = '<comma separated integer store IDs>';
-    const NODE_ID_DEFAULT_VALUE = '<an integer value that is only required for nodes that have children>';
 
     const NODE_DEFAULT_DATA = [
         NodeInterface::TYPE => '<available types: <{types}>',
-        NodeInterface::NODE_ID => self::NODE_ID_DEFAULT_VALUE,
-        NodeInterface::PARENT_ID => self::NODE_ID_DEFAULT_VALUE,
+        NodeInterface::NODE_ID => '<an optional integer value that is only required for nodes that have children>',
+        NodeInterface::PARENT_ID => '<an optional integer value that is only required for nodes that have parents>',
         NodeInterface::LEVEL => '<an integer value that must be greater than 0 for child nodes>'
     ];
 
