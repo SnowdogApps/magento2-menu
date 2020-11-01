@@ -74,7 +74,7 @@ class Menu
 
         if ($missingFields) {
             throw new ValidatorException(
-                __('The following menu required import fields are missing: %1.', implode(', ', $missingFields))
+                __('The following menu required import fields are missing: "%1".', implode('", "', $missingFields))
             );
         }
     }
