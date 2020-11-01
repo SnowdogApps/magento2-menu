@@ -87,15 +87,15 @@ class Node
             if ($missingFields) {
                 throw new ValidatorException(
                     __(
-                        'The following node %1 required import fields are missing: %2.',
+                        'The following node "%1" required import fields are missing: "%2".',
                         $nodeNumber,
-                        implode(', ', $missingFields)
+                        implode('", "', $missingFields)
                     )
                 );
             }
 
             if (!in_array($node[NodeInterface::TYPE], $nodeTypes)) {
-                throw new ValidatorException(__('Node $1 type is invalid.', $nodeNumber));
+                throw new ValidatorException(__('Node "%1" type is invalid.', $nodeNumber));
             }
         }
     }
