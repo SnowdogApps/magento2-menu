@@ -76,8 +76,6 @@ class Node
 
         foreach ($data as $nodeNumber => $node) {
             $missingFields = [];
-            $nodeNumber++;
-
             foreach (self::REQUIRED_FIELDS as $field) {
                 if (empty($node[$field])) {
                     $missingFields[] = $field;
@@ -88,14 +86,14 @@ class Node
                 throw new ValidatorException(
                     __(
                         'The following node "%1" required import fields are missing: "%2".',
-                        $nodeNumber,
+                        $nodeNumber + 1,
                         implode('", "', $missingFields)
                     )
                 );
             }
 
             if (!in_array($node[NodeInterface::TYPE], $nodeTypes)) {
-                throw new ValidatorException(__('Node "%1" type is invalid.', $nodeNumber));
+                throw new ValidatorException(__('Node "%1" type is invalid.', $nodeNumber + 1));
             }
         }
     }
