@@ -86,17 +86,23 @@ class Menu
     private function getNewMenuIdentifier($identifier)
     {
         $menus = $this->getMenuListByIdentifier($identifier);
-        $identifiers = [];
+        if (!$menus) {
+            return $identifier;
+        }
 
+        $identifiers = [];
         foreach ($menus as $menu) {
             $identifiers[$menu->getIdentifier()] = $menu->getId();
         }
 
-        while (isset($identifiers[$identifier])) {
-            $identifier .= '-1';
+        $idNumber = 1;
+        $newIdentifier = $identifier . '-' . $idNumber;
+
+        while (isset($identifiers[$newIdentifier])) {
+            $newIdentifier = $identifier . '-' . ++$idNumber;
         }
 
-        return $identifier;
+        return $newIdentifier;
     }
 
     /**
