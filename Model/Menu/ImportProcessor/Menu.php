@@ -99,7 +99,7 @@ class Menu
         $newIdentifier = $identifier . '-' . $idNumber;
 
         while (isset($identifiers[$newIdentifier])) {
-            $newIdentifier = $identifier . '-' . ++$idNumber;
+            $newIdentifier = $identifier . '-' . (++$idNumber);
         }
 
         return $newIdentifier;
