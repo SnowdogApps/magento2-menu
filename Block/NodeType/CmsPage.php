@@ -17,6 +17,11 @@ class CmsPage extends AbstractNode
     /**
      * @var string
      */
+    protected $customTemplateFolder = 'menu/custom/cms_page/';
+
+    /**
+     * @var string
+     */
     protected $nodeType = 'cms_page';
     /**
      * @var array
@@ -98,6 +103,16 @@ class CmsPage extends AbstractNode
                 'type' => 'cms_page',
                 'options' => array_values($options),
                 'message' => __('CMS Page not found'),
+            ],
+            'snowMenuNodeCustomTemplates' => [
+                'defaultTemplate' => 'cms_page',
+                'options' => $this->templateResolver->getCustomTemplateOptions('cms_page'),
+                'message' => __('Template not found'),
+            ],
+            'snowMenuSubmenuCustomTemplates' => [
+                'defaultTemplate' => 'sub_menu',
+                'options' => $this->templateResolver->getCustomTemplateOptions('sub_menu'),
+                'message' => __('Template not found'),
             ]
         ];
     }

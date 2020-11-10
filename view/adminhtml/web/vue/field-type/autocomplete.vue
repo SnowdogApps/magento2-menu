@@ -49,26 +49,54 @@
                     type: Object,
                     required: true
                 },
+                itemKey: {
+                    type: String,
+                    required: true
+                },
+                defaultOptionValue: {
+                    type: String,
+                    default: 'default'
+                }
             },
             computed: {
                 selected: {
                     get() {
-                        selectedOption = '';
+                        var selectedOption = '',
+                            optionValue;
+
                         for (var i = 0; i < this.options.length; i++) {
-                            if (this.options[i].value.toString() === this.item.content) {
+                            optionValue = this.options[i].value.toString();
+                            if (optionValue === this.item[this.itemKey]) {
                                 selectedOption = this.options[i];
                             }
                         }
+
+                        if (!selectedOption) {
+                            selectedOption = this.defaultSelectedOption;
+                        }
+
                         return selectedOption;
                     },
                     set(option) {
-                        if (typeof option === 'object') {
-                            this.item.content = option.value.toString();
+                        if (option && typeof option === 'object') {
+                            this.item[this.itemKey] = option.value.toString();
+                        }
+                        else {
+                          this.item[this.itemKey] = this.defaultSelectedOption ? this.defaultSelectedOption.value.toString() : '';
                         }
                     }
                 },
                 placeholder: function() {
                     return this.config.translation.pleaseSelect + ' ' + this.label.toLocaleLowerCase();
+                }
+            },
+            created() {
+                var optionValue;
+                for (var i = 0; i < this.options.length; i++) {
+                    optionValue = this.options[i].value.toString();
+                    if (optionValue === this.defaultOptionValue) {
+                        this.defaultSelectedOption = this.options[i];
+                    }
                 }
             },
             template: template

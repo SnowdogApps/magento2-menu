@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Snowdog\Menu\Controller\Adminhtml\Menu;
 
 use Magento\Backend\App\Action;
@@ -8,32 +10,59 @@ use Magento\Framework\Api\Search\FilterGroupBuilderFactory;
 use Magento\Framework\Api\SearchCriteriaBuilderFactory;
 use Magento\Framework\App\ResponseInterface;
 use Magento\Framework\Exception\CouldNotDeleteException;
+use Magento\Framework\Exception\NoSuchEntityException;
 use Snowdog\Menu\Api\MenuRepositoryInterface;
 use Snowdog\Menu\Api\NodeRepositoryInterface;
+use Magento\Framework\Controller\ResultInterface;
+use Magento\Framework\Exception\NotFoundException;
 
+/**
+ * Class Delete
+ *
+ * This action deletes single menu
+ */
 class Delete extends Action
 {
+    /**
+     * Authorization level of a basic admin session
+     *
+     * @see _isAllowed()
+     */
+    const ADMIN_RESOURCE = 'Snowdog_Menu::menus';
+
     /**
      * @var MenuRepositoryInterface
      */
     private $menuRepository;
+
     /**
      * @var NodeRepositoryInterface
      */
     private $nodeRepository;
+
     /**
      * @var FilterBuilderFactory
      */
     private $filterBuilderFactory;
+
     /**
      * @var FilterGroupBuilderFactory
      */
     private $filterGroupBuilderFactory;
+
     /**
      * @var SearchCriteriaBuilderFactory
      */
     private $searchCriteriaBuilderFactory;
 
+    /**
+     * @param Action\Context $context
+     * @param MenuRepositoryInterface $menuRepository
+     * @param NodeRepositoryInterface $nodeRepository
+     * @param FilterBuilderFactory $filterBuilderFactory
+     * @param FilterGroupBuilderFactory $filterGroupBuilderFactory
+     * @param SearchCriteriaBuilderFactory $searchCriteriaBuilderFactory
+     */
     public function __construct(
         Action\Context $context,
         MenuRepositoryInterface $menuRepository,
@@ -53,19 +82,22 @@ class Delete extends Action
     /**
      * Dispatch request
      *
-     * @return \Magento\Framework\Controller\ResultInterface|ResponseInterface
-     * @throws \Magento\Framework\Exception\NotFoundException
+     * @return ResultInterface|ResponseInterface
+     * @throws NotFoundException
      */
     public function execute()
     {
-        $id = $this->getRequest()->getParam('id');
+        $menuId = (int) $this->getRequest()->getParam('id');
 
         try {
-            $menu = $this->menuRepository->getById($id);
-            $this->menuRepository->deleteById($id);
+            $menu = $this->menuRepository->getById($menuId);
+            $this->menuRepository->delete($menu);
 
             $filterBuilder = $this->filterBuilderFactory->create();
-            $filter = $filterBuilder->setField('menu_id')->setValue($id)->setConditionType('eq')->create();
+            $filter = $filterBuilder->setField('menu_id')
+                ->setValue($menuId)
+                ->setConditionType('eq')
+                ->create();
 
             $filterGroupBuilder = $this->filterGroupBuilderFactory->create();
             $filterGroup = $filterGroupBuilder->addFilter($filter)->create();
@@ -77,18 +109,16 @@ class Delete extends Action
             foreach ($nodes->getItems() as $node) {
                 $this->nodeRepository->delete($node);
             }
-            $this->messageManager->addSuccessMessage(__("Menu %1 and it's nodes removed", $menu->getTitle()));
-        } catch (CouldNotDeleteException $e) {
-            $this->messageManager->addErrorMessage($e->getMessage());
+            $this->messageManager->addSuccessMessage(__('Menu %1 and it\'s nodes removed', $menu->getTitle()));
+        } catch (NoSuchEntityException $exception) {
+            $this->messageManager->addErrorMessage($exception->getMessage());
+        } catch (CouldNotDeleteException $exception) {
+            $this->messageManager->addErrorMessage($exception->getMessage());
         }
 
         $redirect = $this->resultRedirectFactory->create();
         $redirect->setPath('*/*/index');
-        return $redirect;
-    }
 
-    protected function _isAllowed()
-    {
-        return $this->_authorization->isAllowed('Snowdog_Menu::menus');
+        return $redirect;
     }
 }
