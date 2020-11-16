@@ -3,6 +3,7 @@
         :label="config.translation.block"
         :description="config.translation.blockId"
         :item="item"
+        item-key="content"
         :options="config.fieldData.cms_block.snowMenuAutoCompleteField.options"
         :config="config"
     />

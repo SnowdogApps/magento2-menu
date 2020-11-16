@@ -1,66 +1,97 @@
 <?php
 namespace Snowdog\Menu\Model;
 
-use Snowdog\Menu\Api\MenuRepositoryInterface;
-use Snowdog\Menu\Api\Data\MenuInterface;
-use Snowdog\Menu\Model\ResourceModel\Menu\CollectionFactory;
-use Snowdog\Menu\Api\Data\MenuSearchResultsInterfaceFactory;
-
 use Magento\Framework\Api\SearchCriteriaInterface;
+use Magento\Framework\Api\SortOrder;
+use Magento\Framework\App\ObjectManager;
+use Magento\Framework\Exception\CouldNotDeleteException;
 use Magento\Framework\Exception\CouldNotSaveException;
 use Magento\Framework\Exception\NoSuchEntityException;
-use Magento\Framework\Exception\CouldNotDeleteException;
+use Snowdog\Menu\Api\Data\MenuInterface;
+use Snowdog\Menu\Api\Data\MenuSearchResultsInterfaceFactory;
+use Snowdog\Menu\Api\MenuRepositoryInterface;
+use Snowdog\Menu\Model\ResourceModel\Menu\CollectionFactory;
 
 class MenuRepository implements MenuRepositoryInterface
 {
-    protected $objectFactory;
+    /** @var MenuFactory */
+    protected $menuFactory;
+
+    /** @var CollectionFactory */
     protected $collectionFactory;
 
-    /**
-     * @var MenuSearchResultsInterfaceFactory
-     */
+    /** @var MenuSearchResultsInterfaceFactory */
     private $menuSearchResultsFactory;
 
+    /** @var ResourceModel\Menu */
+    private $menuResourceModel;
+
+    /**
+     * @param MenuFactory $menuFactory
+     * @param CollectionFactory $menuCollectionFactory
+     * @param MenuSearchResultsInterfaceFactory $menuSearchResults
+     * @param ResourceModel\Menu|null $menuResourceModel
+     */
     public function __construct(
-        MenuFactory $objectFactory,
-        CollectionFactory $collectionFactory,
-        MenuSearchResultsInterfaceFactory $menuSearchResults
+        MenuFactory $menuFactory,
+        CollectionFactory $menuCollectionFactory,
+        MenuSearchResultsInterfaceFactory $menuSearchResults,
+        ResourceModel\Menu $menuResourceModel = null
     ) {
-        $this->objectFactory = $objectFactory;
-        $this->collectionFactory = $collectionFactory;
+        $this->menuFactory = $menuFactory;
+        $this->collectionFactory = $menuCollectionFactory;
         $this->menuSearchResultsFactory = $menuSearchResults;
+        $this->menuResourceModel = $menuResourceModel
+            ?? ObjectManager::getInstance()->get(ResourceModel\Menu::class); // Backwards-compatible class loader
     }
 
-    public function save(MenuInterface $object)
+    /**
+     * @inheritDoc
+     */
+    public function save(MenuInterface $menu)
     {
         try {
-            $object->save();
-        } catch (Exception $e) {
+            $this->menuResourceModel->save($menu);
+        } catch (\Exception $e) {
             throw new CouldNotSaveException($e->getMessage());
         }
-        return $object;
+        return $menu;
     }
 
+    /**
+     * @inheritDoc
+     */
     public function getById($id)
     {
-        $object = $this->objectFactory->create();
-        $object->load($id);
-        if (!$object->getId()) {
-            throw new NoSuchEntityException(__('Object with id "%1" does not exist.', $id));
+        $menuModel = $this->menuFactory->create();
+        $this->menuResourceModel->load($menuModel, $id);
+
+        if (!$menuModel->getId()) {
+            throw new NoSuchEntityException(
+                __('Menu with ID "%1" does not exist.', $id)
+            );
         }
-        return $object;
+
+        return $menuModel;
     }
 
-    public function delete(MenuInterface $object)
+    /**
+     * @inheritDoc
+     */
+    public function delete(MenuInterface $menu)
     {
         try {
-            $object->delete();
-        } catch (Exception $exception) {
+            $this->menuResourceModel->delete($menu);
+        } catch (\Exception $exception) {
             throw new CouldNotDeleteException(__($exception->getMessage()));
         }
+
         return true;
     }
 
+    /**
+     * @inheritDoc
+     */
     public function deleteById($id)
     {
         return $this->delete($this->getById($id));
@@ -97,6 +128,7 @@ class MenuRepository implements MenuRepositoryInterface
                 );
             }
         }
+
         $collection->setCurPage($criteria->getCurrentPage());
         $collection->setPageSize($criteria->getPageSize());
         $objects = [];

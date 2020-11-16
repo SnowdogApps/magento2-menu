@@ -5,6 +5,7 @@ namespace Snowdog\Menu\Model\NodeType;
 use Magento\Customer\Model\Session;
 use Magento\Framework\Profiler;
 use Magento\Store\Model\StoreManagerInterface;
+use Snowdog\Menu\Model\TemplateResolver;
 
 class Product extends AbstractNode
 {
@@ -19,6 +20,11 @@ class Product extends AbstractNode
     protected $customerSession;
 
     /**
+     * @var TemplateResolver
+     */
+    private $templateResolver;
+
+    /**
      * @inheritDoc
      */
     protected function _construct()
@@ -30,10 +36,12 @@ class Product extends AbstractNode
     public function __construct(
         Profiler $profiler,
         StoreManagerInterface $storeManager,
-        Session $customerSession
+        Session $customerSession,
+        TemplateResolver $templateResolver
     ) {
         $this->storeManager = $storeManager;
         $this->customerSession = $customerSession;
+        $this->templateResolver = $templateResolver;
         parent::__construct($profiler);
     }
 
@@ -69,5 +77,30 @@ class Product extends AbstractNode
             $productImages,
             $productTitles
         ];
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function fetchConfigData()
+    {
+        $this->profiler->start(__METHOD__);
+
+        $data = [
+            'snowMenuNodeCustomTemplates' => [
+                'defaultTemplate' => 'product',
+                'options' => $this->templateResolver->getCustomTemplateOptions('product'),
+                'message' => __('Template not found'),
+            ],
+            'snowMenuSubmenuCustomTemplates' => [
+                'defaultTemplate' => 'sub_menu',
+                'options' => $this->templateResolver->getCustomTemplateOptions('sub_menu'),
+                'message' => __('Template not found'),
+            ],
+        ];
+
+        $this->profiler->stop(__METHOD__);
+
+        return $data;
     }
 }

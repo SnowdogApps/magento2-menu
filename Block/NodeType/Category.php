@@ -17,6 +17,11 @@ class Category extends AbstractNode
     /**
      * @var string
      */
+    protected $customTemplateFolder = 'menu/custom/category/';
+
+    /**
+     * @var string
+     */
     protected $nodeType = 'category';
     /**
      * @var array
@@ -89,7 +94,7 @@ class Category extends AbstractNode
     }
 
     /**
-     * @return string
+     * @inheritDoc
      */
     public function getJsonConfig()
     {
