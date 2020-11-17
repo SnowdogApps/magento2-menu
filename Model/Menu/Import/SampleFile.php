@@ -26,6 +26,9 @@ class SampleFile
 
     const STORES_DATA = '<comma separated integer store IDs>';
 
+    const BOOLEAN_TYPES = ['smallint', 'tinyint'];
+    const BOOLEAN_FIELD_DEFAULT_VALUE = 'valid values: <1 | 0>';
+
     const NODE_DEFAULT_DATA = [
         NodeInterface::TYPE => 'available types: <{types}>',
         NodeInterface::NODE_ID => '<an optional integer value that is only required for nodes that have children>',
@@ -142,6 +145,11 @@ class SampleFile
 
         foreach ($fields as $field => $description) {
             if (isset($excludedFields[$field])) {
+                continue;
+            }
+
+            if (in_array($description['DATA_TYPE'], self::BOOLEAN_TYPES)) {
+                $fieldsData[$field] = self::BOOLEAN_FIELD_DEFAULT_VALUE;
                 continue;
             }
 
