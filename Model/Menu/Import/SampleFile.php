@@ -26,14 +26,14 @@ class SampleFile
         NodeInterface::UPDATE_TIME
     ];
 
-    const STORES_DATA = '<comma separated integer store IDs>';
+    const STORES_DATA = ['<An integer store ID>', '<Another store ID>'];
 
     const BOOLEAN_TYPES = ['smallint', 'tinyint'];
-    const BOOLEAN_FIELD_DEFAULT_VALUE = 'valid values: <1 | 0>';
+    const BOOLEAN_FIELD_DEFAULT_VALUE = 'Valid values: <1 | 0>';
 
     const NODE_DEFAULT_DATA = [
-        NodeInterface::TYPE => 'available types: <{types}>',
-        NodeInterface::CONTENT => '<category ID | product SKU | CMS page/block identifier | URL>',
+        NodeInterface::TYPE => 'Available types: <{types}>',
+        NodeInterface::CONTENT => '<Category ID | Product SKU | CMS page/block identifier | URL>',
         NodeInterface::TARGET => 'URL HTML anchor target. ' . self::BOOLEAN_FIELD_DEFAULT_VALUE
     ];
 
