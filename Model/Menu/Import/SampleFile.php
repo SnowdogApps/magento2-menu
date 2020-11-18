@@ -75,7 +75,7 @@ class SampleFile
     public function getFileDownloadContent()
     {
         $data = $this->getSampleData();
-        return $this->exportProcessor->generateDownloadFile('sample', $data, array_keys($data));
+        return $this->exportProcessor->generateDownloadFile('sample', $data);
     }
 
     /**
