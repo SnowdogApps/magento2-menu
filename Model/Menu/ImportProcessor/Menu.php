@@ -50,9 +50,8 @@ class Menu
     public function createMenu(array $data, array $stores)
     {
         $menu = $this->menuFactory->create();
-        $data[MenuInterface::IDENTIFIER] = $this->getNewMenuIdentifier($data[MenuInterface::IDENTIFIER]);
 
-        $menu->setData($data);
+        $menu->setData($this->getProcessedMenuData($data));
         $this->menuRepository->save($menu);
         $menu->saveStores($stores);
 
@@ -116,5 +115,19 @@ class Menu
             ->create();
 
         return $this->menuRepository->getList($searchCriteria)->getItems();
+    }
+
+    /**
+     * @return array
+     */
+    private function getProcessedMenuData(array $data)
+    {
+        $data[MenuInterface::IDENTIFIER] = $this->getNewMenuIdentifier($data[MenuInterface::IDENTIFIER]);
+
+        if (isset($data[MenuInterface::IS_ACTIVE])) {
+            $data[MenuInterface::IS_ACTIVE] = (bool) $data[MenuInterface::IS_ACTIVE];
+        }
+
+        return $data;
     }
 }
