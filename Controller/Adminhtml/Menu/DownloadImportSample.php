@@ -15,7 +15,7 @@ class DownloadImportSample extends Action
      */
     const ADMIN_RESOURCE = 'Snowdog_Menu::menus';
 
-    const FILE_NAME = 'menu-sample.csv';
+    const FILE_NAME = 'menu-sample.yaml';
 
     /**
      * @var HttpFileFactory

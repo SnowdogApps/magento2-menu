@@ -15,7 +15,7 @@ class Export extends Action
      */
     const ADMIN_RESOURCE = 'Snowdog_Menu::menus';
 
-    const FILE_NAME = 'menu-{menu_id}.csv';
+    const FILE_NAME = 'menu-{menu_id}.yaml';
 
     /**
      * @var HttpFileFactory
