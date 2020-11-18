@@ -4,16 +4,17 @@ namespace Snowdog\Menu\Model\Menu;
 
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Exception\ValidatorException;
-use Snowdog\Menu\Model\ImportFactory;
+use Snowdog\Menu\Api\Data\MenuInterface;
+use Snowdog\Menu\Model\ImportSourceFactory;
 use Snowdog\Menu\Model\Menu\ImportProcessor\Menu as MenuImportProcessor;
 use Snowdog\Menu\Model\Menu\ImportProcessor\Node as NodeImportProcessor;
 
 class ImportProcessor
 {
     /**
-     * @var ImportFactory
+     * @var ImportSourceFactory
      */
-    private $importFactory;
+    private $importSourceFactory;
 
     /**
      * @var MenuImportProcessor
@@ -26,11 +27,11 @@ class ImportProcessor
     private $nodeImportProcessor;
 
     public function __construct(
-        ImportFactory $importFactory,
+        ImportSourceFactory $importSourceFactory,
         MenuImportProcessor $menuImportProcessor,
         NodeImportProcessor $nodeImportProcessor
     ) {
-        $this->importFactory = $importFactory;
+        $this->importSourceFactory = $importSourceFactory;
         $this->menuImportProcessor = $menuImportProcessor;
         $this->nodeImportProcessor = $nodeImportProcessor;
     }
@@ -38,23 +39,23 @@ class ImportProcessor
     /**
      * @return string
      */
-    public function importCsv()
+    public function importFile()
     {
         $data = $this->uploadFileAndGetData();
         $menu = $this->createMenu($data);
 
-        $this->nodeImportProcessor->createNodes($data[ExportProcessor::NODES_CSV_FIELD], $menu->getId());
+        $this->nodeImportProcessor->createNodes($data[ExportProcessor::NODES_FIELD], $menu->getId());
 
         return $menu->getIdentifier();
     }
 
     /**
-     * @return \Snowdog\Menu\Api\Data\MenuInterface
+     * @return MenuInterface
      */
     private function createMenu(array $data)
     {
-        $stores = $data[ExportProcessor::STORES_CSV_FIELD];
-        unset($data[ExportProcessor::STORES_CSV_FIELD], $data[ExportProcessor::NODES_CSV_FIELD]);
+        $stores = $data[ExportProcessor::STORES_FIELD];
+        unset($data[ExportProcessor::STORES_FIELD], $data[ExportProcessor::NODES_FIELD]);
 
         return $this->menuImportProcessor->createMenu($data, $stores);
     }
@@ -65,29 +66,18 @@ class ImportProcessor
      */
     private function uploadFileAndGetData()
     {
-        $import = $this->importFactory->create();
-
         try {
-            $source = $import->uploadFileAndGetSource();
+            $importSource = $this->importSourceFactory->create();
+            $data = $importSource->uploadFileAndGetData();
         } catch (LocalizedException $exception) {
             throw new ValidatorException(__($exception->getMessage()));
         }
 
-        $source->rewind();
-        $data = $source->current();
-
-        if (isset($data[ExportProcessor::NODES_CSV_FIELD])) {
-            $data[ExportProcessor::NODES_CSV_FIELD] = $this->nodeImportProcessor->getNodesJsonData(
-                $data[ExportProcessor::NODES_CSV_FIELD]
-            );
-
-            $this->nodeImportProcessor->validateImportData($data[ExportProcessor::NODES_CSV_FIELD]);
-        }
-
         $this->menuImportProcessor->validateImportData($data);
-        $import->deleteImportFile();
 
-        $data[ExportProcessor::STORES_CSV_FIELD] = explode(',', $data[ExportProcessor::STORES_CSV_FIELD]);
+        if (isset($data[ExportProcessor::NODES_FIELD])) {
+            $this->nodeImportProcessor->validateImportData($data[ExportProcessor::NODES_FIELD]);
+        }
 
         return $data;
     }

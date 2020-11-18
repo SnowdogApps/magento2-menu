@@ -51,7 +51,7 @@ class ImportPost extends Action
         $resultRedirect = $this->resultRedirectFactory->create();
 
         try {
-            $menu = $this->importProcessor->importCsv();
+            $menu = $this->importProcessor->importFile();
             $this->messageManager->addSuccessMessage(__('Menu "%1" has been successfully imported.', $menu));
 
             return $resultRedirect->setPath('*/*');
