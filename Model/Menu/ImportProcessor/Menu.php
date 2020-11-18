@@ -16,7 +16,7 @@ class Menu
         MenuInterface::IDENTIFIER,
         MenuInterface::CSS_CLASS,
         MenuInterface::IS_ACTIVE,
-        ExportProcessor::STORES_CSV_FIELD
+        ExportProcessor::STORES_FIELD
     ];
 
     /**
