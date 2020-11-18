@@ -2,7 +2,6 @@
 
 namespace Snowdog\Menu\Model\Menu\Import;
 
-use Magento\Framework\Serialize\SerializerInterface;
 use Snowdog\Menu\Api\Data\MenuInterface;
 use Snowdog\Menu\Api\Data\NodeInterface;
 use Snowdog\Menu\Model\Menu\ExportProcessor;
@@ -19,7 +18,10 @@ class SampleFile
     ];
 
     const NODE_EXCLUDED_FIELDS = [
+        NodeInterface::NODE_ID,
         NodeInterface::MENU_ID,
+        NodeInterface::PARENT_ID,
+        NodeInterface::LEVEL,
         NodeInterface::CREATION_TIME,
         NodeInterface::UPDATE_TIME
     ];
@@ -31,16 +33,8 @@ class SampleFile
 
     const NODE_DEFAULT_DATA = [
         NodeInterface::TYPE => 'available types: <{types}>',
-        NodeInterface::NODE_ID => '<an optional integer value that is only required for nodes that have children>',
-        NodeInterface::PARENT_ID => '<an optional integer value that is only required for nodes that have parents>',
-        NodeInterface::LEVEL => '<an integer value that must be greater than 0 for child nodes>',
         NodeInterface::TARGET => 'URL HTML anchor target. ' . self::BOOLEAN_FIELD_DEFAULT_VALUE
     ];
-
-    /**
-     * @var SerializerInterface
-     */
-    private $serializer;
 
     /**
      * @var ExportProcessor
@@ -63,13 +57,11 @@ class SampleFile
     private $nodeResource;
 
     public function __construct(
-        SerializerInterface $serializer,
         ExportProcessor $exportProcessor,
         NodeTypeProvider $nodeTypeProvider,
         MenuResource $menuResource,
         NodeResource $nodeResource
     ) {
-        $this->serializer = $serializer;
         $this->exportProcessor = $exportProcessor;
         $this->nodeTypeProvider = $nodeTypeProvider;
         $this->menuResource = $menuResource;
@@ -82,7 +74,7 @@ class SampleFile
     public function getFileDownloadContent()
     {
         $data = $this->getSampleData();
-        return $this->exportProcessor->generateCsvDownloadFile('sample', $data, array_keys($data));
+        return $this->exportProcessor->generateDownloadFile('sample', $data, array_keys($data));
     }
 
     /**
@@ -92,8 +84,8 @@ class SampleFile
     {
         $data = $this->getMenuData();
 
-        $data[ExportProcessor::STORES_CSV_FIELD] = self::STORES_DATA;
-        $data[ExportProcessor::NODES_CSV_FIELD] = $this->getNodesData();
+        $data[ExportProcessor::STORES_FIELD] = self::STORES_DATA;
+        $data[ExportProcessor::NODES_FIELD] = $this->getNodesData();
 
         return $data;
     }
@@ -114,13 +106,17 @@ class SampleFile
         $defaultData = self::NODE_DEFAULT_DATA;
         $defaultData[NodeInterface::TYPE] = $this->getNodeTypeDefaultValue();
 
-        $data = $this->getFieldsData(
+        $node = $this->getFieldsData(
             $this->nodeResource->getFields(),
             self::NODE_EXCLUDED_FIELDS,
             $defaultData
         );
 
-        return $this->serializer->serialize([$data]);
+        $node2 = $node;
+        $node[ExportProcessor::NODES_FIELD] = [$node, $node];
+        $data = [$node, $node2];
+
+        return $data;
     }
 
     /**
