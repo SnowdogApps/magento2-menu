@@ -101,7 +101,7 @@ class Validator
         }
 
         if (!$isValid) {
-             throw new ValidatorException(
+            throw new ValidatorException(
                 __(
                     'Node "%1" %2 identifier "%3" is invalid.',
                     $this->getTreeTraceLabel($treeTrace, $nodeNumber),
