@@ -86,7 +86,7 @@ class Validator
      * @param int $nodeNumber
      * @throws ValidatorException
      */
-    private function validateCatalogNode(array $node, $nodeNumber, array $treeTrace) 
+    private function validateCatalogNode(array $node, $nodeNumber, array $treeTrace)
     {
         $isValid = true;
 
@@ -103,7 +103,7 @@ class Validator
         if (!$isValid) {
              throw new ValidatorException(
                 __(
-                    'Node "%1" %2 identifier "%3" is invalid.', 
+                    'Node "%1" %2 identifier "%3" is invalid.',
                     $this->getTreeTraceLabel($treeTrace, $nodeNumber),
                     $node[NodeInterface::TYPE],
                     $node[NodeInterface::CONTENT]
