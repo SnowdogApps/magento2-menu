@@ -5,37 +5,35 @@ namespace Snowdog\Menu\Model\Menu;
 use Magento\Framework\Api\SearchCriteriaBuilder;
 use Magento\Framework\App\Filesystem\DirectoryList;
 use Magento\Framework\Filesystem;
-use Magento\Framework\Serialize\SerializerInterface;
 use Snowdog\Menu\Api\Data\MenuInterface;
 use Snowdog\Menu\Api\Data\NodeInterface;
 use Snowdog\Menu\Api\MenuRepositoryInterface;
 use Snowdog\Menu\Api\NodeRepositoryInterface;
-use Snowdog\Menu\Model\ResourceModel\Menu as MenuResource;
+use Symfony\Component\Yaml\Yaml;
 
 class ExportProcessor
 {
     const EXPORT_DIR = 'importexport';
-    const STORES_CSV_FIELD = 'stores';
-    const NODES_CSV_FIELD = 'nodes';
+
+    const YAML_INLINE_LEVEL = 10;
+    const YAML_INDENTATION = 2;
+
+    const STORES_FIELD = 'stores';
+    const NODES_FIELD = 'nodes';
 
     const MENU_EXCLUDED_FIELDS = [
         MenuInterface::MENU_ID
     ];
 
     const MENU_RELATION_TABLES_FIELDS = [
-        self::STORES_CSV_FIELD,
-        self::NODES_CSV_FIELD
+        self::STORES_FIELD,
+        self::NODES_FIELD
     ];
 
     /**
      * @var SearchCriteriaBuilder
      */
     private $searchCriteriaBuilder;
-
-    /**
-     * @var SerializerInterface
-     */
-    private $serializer;
 
     /**
      * @var MenuRepositoryInterface
@@ -47,25 +45,16 @@ class ExportProcessor
      */
     private $nodeRepository;
 
-    /**
-     * @var MenuResource
-     */
-    private $menuResource;
-
     public function __construct(
         SearchCriteriaBuilder $searchCriteriaBuilder,
         Filesystem $filesystem,
-        SerializerInterface $serializer,
         MenuRepositoryInterface $menuRepository,
-        NodeRepositoryInterface $nodeRepository,
-        MenuResource $menuResource
+        NodeRepositoryInterface $nodeRepository
     ) {
         $this->searchCriteriaBuilder = $searchCriteriaBuilder;
         $this->directory = $filesystem->getDirectoryWrite(DirectoryList::VAR_DIR);
-        $this->serializer = $serializer;
         $this->menuRepository = $menuRepository;
         $this->nodeRepository = $nodeRepository;
-        $this->menuResource = $menuResource;
     }
 
     /**
@@ -75,24 +64,23 @@ class ExportProcessor
     public function getExportFileDownloadContent($menuId)
     {
         $data = $this->getExportData($menuId);
-        return $this->generateCsvDownloadFile($data[MenuInterface::IDENTIFIER], $data);
+        return $this->generateDownloadFile($data[MenuInterface::IDENTIFIER], $data);
     }
 
     /**
      * @param string $fileId
-     * @param array|null $csvHeaders
      * @return array
      */
-    public function generateCsvDownloadFile($fileId, array $data, $csvHeaders = null)
+    public function generateDownloadFile($fileId, array $data)
     {
-        $this->directory->create(self::EXPORT_DIR);
-
+        $data = Yaml::dump($data, self::YAML_INLINE_LEVEL, self::YAML_INDENTATION);
         $file = $this->getDownloadFile($fileId);
+
+        $this->directory->create(self::EXPORT_DIR);
         $stream = $this->directory->openFile($file, 'w+');
         $stream->lock();
 
-        $stream->writeCsv($csvHeaders ?: $this->getMenuFields());
-        $stream->writeCsv($data);
+        $stream->write($data);
 
         $stream->unlock();
         $stream->close();
@@ -111,8 +99,8 @@ class ExportProcessor
         $data = $menu->getData();
         $nodes = $this->getMenuNodeList($menuId);
 
-        $data[self::STORES_CSV_FIELD] = implode(',', $stores);
-        $data[self::NODES_CSV_FIELD] = $nodes ? $this->serializer->serialize($nodes) : null;
+        $data[self::STORES_FIELD] = $stores;
+        $data[self::NODES_FIELD] = $nodes ?: null;
 
         unset($data[MenuInterface::MENU_ID]);
 
@@ -131,31 +119,57 @@ class ExportProcessor
 
         $nodes = $this->nodeRepository->getList($searchCriteria)->getItems();
         $nodesData = [];
+        $childNodesClusters = [];
 
-        foreach ($nodes as $key => $node) {
-            $nodesData[$key] = $node->getData();
-            unset($nodesData[$key][NodeInterface::MENU_ID]);
-        }
+        foreach ($nodes as $node) {
+            $nodeId = $node->getId();
+            $parentId = $node->getParentId();
+            $nodeData = $node->getData();
 
-        return $nodesData;
-    }
+            unset(
+                $nodeData[NodeInterface::MENU_ID],
+                $nodeData[NodeInterface::NODE_ID],
+                $nodeData[NodeInterface::PARENT_ID],
+                $nodeData[NodeInterface::LEVEL]
+            );
 
-    /**
-     * @SuppressWarnings(PHPMD.UnusedLocalVariable)
-     * @return array
-     */
-    private function getMenuFields()
-    {
-        $fields = [];
-        $excludedFields = array_flip(self::MENU_EXCLUDED_FIELDS);
-        
-        foreach ($this->menuResource->getFields() as $field => $config) {
-            if (!isset($excludedFields[$field])) {
-                $fields[] = $field;
+            if (!$parentId) {
+                $nodesData[$nodeId] = $nodeData;
+                continue;
+            }
+
+            $childNodesClusters[$nodeId] = $nodeData;
+
+            if (isset($nodesData[$parentId])) {
+                $nodesData[$parentId][self::NODES_FIELD][$nodeId] = &$childNodesClusters[$nodeId];
+                continue;
+            }
+
+            if (isset($childNodesClusters[$parentId])) {
+                $childNodesClusters[$parentId][self::NODES_FIELD][$nodeId] = &$childNodesClusters[$nodeId];
+                continue;
             }
         }
 
-        return array_merge($fields, self::MENU_RELATION_TABLES_FIELDS);
+        return $this->reindexNodesList($nodesData);
+    }
+
+    /**
+     * @return array
+     */
+    private function reindexNodesList(array $nodes)
+    {
+        $data = [];
+
+        foreach ($nodes as $node) {
+            if (isset($node[self::NODES_FIELD])) {
+                $node[self::NODES_FIELD] = $this->reindexNodesList($node[self::NODES_FIELD]);
+            }
+
+            $data[] = $node;
+        }
+
+        return $data;
     }
 
     /**
@@ -164,6 +178,6 @@ class ExportProcessor
      */
     private function getDownloadFile($fileId)
     {
-        return self::EXPORT_DIR . DIRECTORY_SEPARATOR . $fileId . '-' . hash('sha256', microtime()) . '.csv';
+        return self::EXPORT_DIR . DIRECTORY_SEPARATOR . $fileId . '-' . hash('sha256', microtime()) . '.yaml';
     }
 }
