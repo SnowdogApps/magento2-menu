@@ -118,7 +118,8 @@ class Validator
      */
     private function getTreeTrace(array $treeTrace, $nodeNumber)
     {
-        return [...$treeTrace, $nodeNumber + 1];
+        $treeTrace[] = $nodeNumber + 1;
+        return $treeTrace;
     }
 
     /**
