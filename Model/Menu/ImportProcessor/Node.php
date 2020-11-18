@@ -35,16 +35,23 @@ class Node
      */
     private $nodeTypeProvider;
 
+    /**
+     * @var Node\Catalog
+     */
+    private $nodeCatalog;
+
     public function __construct(
         SerializerInterface $serializer,
         NodeInterfaceFactory $nodeFactory,
         NodeRepositoryInterface $nodeRepository,
-        NodeTypeProvider $nodeTypeProvider
+        NodeTypeProvider $nodeTypeProvider,
+        Node\Catalog $nodeCatalog
     ) {
         $this->serializer = $serializer;
         $this->nodeFactory = $nodeFactory;
         $this->nodeRepository = $nodeRepository;
         $this->nodeTypeProvider = $nodeTypeProvider;
+        $this->nodeCatalog = $nodeCatalog;
     }
 
     /**
@@ -126,6 +133,14 @@ class Node
 
         if (empty($data[NodeInterface::PARENT_ID])) {
             $data[NodeInterface::LEVEL] = 0;
+        }
+
+        switch ($data[NodeInterface::TYPE]) {
+            case Node\Catalog::PRODUCT_NODE_TYPE:
+                $product = $this->nodeCatalog->getProduct($data[NodeInterface::CONTENT]);
+                $data[NodeInterface::CONTENT] = $product->getId();
+
+                break;
         }
 
         if (isset($data[NodeInterface::TARGET])) {
