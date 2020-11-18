@@ -120,6 +120,7 @@ class NodeRepository implements NodeRepositoryInterface
         $collection->setPageSize($criteria->getPageSize());
         $objects = [];
         foreach ($collection as $objectModel) {
+            $objectModel->setHasDataChanges(false);
             $objects[] = $objectModel;
         }
         $searchResults->setItems($objects);

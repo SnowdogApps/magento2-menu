@@ -10,18 +10,22 @@ use Snowdog\Menu\Api\NodeRepositoryInterface;
 use Snowdog\Menu\Controller\Adminhtml\Menu\Edit;
 use Snowdog\Menu\Model\Menu\Node\Image;
 use Snowdog\Menu\Model\NodeTypeProvider;
+use Snowdog\Menu\Model\VueProvider;
 
 class Nodes extends Template implements TabInterface
 {
     protected $_template = 'menu/nodes.phtml';
+
     /**
      * @var Registry
      */
     private $registry;
+
     /**
      * @var NodeRepositoryInterface
      */
     private $nodeRepository;
+
     /**
      * @var Image
      */
@@ -31,12 +35,18 @@ class Nodes extends Template implements TabInterface
      */
     private $nodeTypeProvider;
 
+    /**
+     * @var VueProvider
+     */
+    private $vueProvider;
+
     public function __construct(
         Template\Context $context,
         NodeRepositoryInterface $nodeRepository,
         Image $image,
         NodeTypeProvider $nodeTypeProvider,
         Registry $registry,
+        VueProvider $vueProvider,
         array $data = []
     ) {
         parent::__construct($context, $data);
@@ -44,6 +54,7 @@ class Nodes extends Template implements TabInterface
         $this->nodeRepository = $nodeRepository;
         $this->nodeTypeProvider = $nodeTypeProvider;
         $this->image = $image;
+        $this->vueProvider = $vueProvider;
     }
 
     public function renderNodes()
@@ -149,6 +160,8 @@ class Nodes extends Template implements TabInterface
                 'content' => $node->getContent(),
                 'classes' => $node->getClasses(),
                 'target' => $node->getTarget(),
+                'node_template' => $node->getNodeTemplate(),
+                'submenu_template' => $node->getSubmenuTemplate(),
                 'id' => $node->getId(),
                 'title' => $node->getTitle(),
                 'image' => $node->getImage(),
@@ -167,5 +180,13 @@ class Nodes extends Template implements TabInterface
     public function getNodeLabels()
     {
         return $this->nodeTypeProvider->getLabels();
+    }
+
+    /**
+     * @return array
+     */
+    public function getVueComponents(): array
+    {
+        return $this->vueProvider->getComponents();
     }
 }

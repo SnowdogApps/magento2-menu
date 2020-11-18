@@ -29,6 +29,11 @@ abstract class AbstractNode extends Template implements NodeTypeInterface
     /**
      * @var string
      */
+    protected $customTemplateFolder;
+
+    /**
+     * @var string
+     */
     protected $nodeType;
     /**
      * Main node attributes
@@ -140,12 +145,21 @@ abstract class AbstractNode extends Template implements NodeTypeInterface
     /**
      * @return string
      */
+    public function getCustomTemplateFolder()
+    {
+        return $this->customTemplateFolder;
+    }
+
+    /**
+     * @return string
+     */
     protected function _toHtml()
     {
         $template = $this->templateResolver->getMenuTemplate(
             $this,
             $this->getMenuCode(),
-            $this->defaultTemplate
+            $this->defaultTemplate,
+            $this->getId()
         );
         $this->setTemplate($template);
 

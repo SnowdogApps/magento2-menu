@@ -21,6 +21,7 @@ class Form extends Generic
         }
 
         $this->setForm($form);
+
         return $this;
     }
 

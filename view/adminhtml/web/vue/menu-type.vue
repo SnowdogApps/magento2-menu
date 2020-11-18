@@ -27,6 +27,10 @@
             </div>
         </div>
 
+        <h2>
+            {{ additionalLabel }}
+        </h2>
+
         <component
             :is="item['type']"
             :item="item"
@@ -37,7 +41,7 @@
             id="node_name"
             v-model="item.title"
             :label="config.translation.nodeName"
-            type="textarea"
+            type="text"
         />
 
         <simple-field
@@ -47,12 +51,38 @@
             type="text"
         />
 
+<<<<<<< HEAD
         <image-upload
             v-if="showImage"
             id="image"
             :item="item"
             :labels="fileUploadLabels"
         />
+=======
+        <h2>
+            {{ templatesLabel }}
+        </h2>
+
+        <template v-if="isTemplateSectionVisible">
+            <template-list
+                :item="item"
+                :type-id="templateList['node']"
+                item-key="node_template"
+                template-type="node"
+                :config="config"
+            />
+            <template-list
+                :item="item"
+                :type-id="templateList['submenu']"
+                template-type="submenu"
+                :config="config"
+                item-key="submenu_template"
+            />
+        </template>
+        <template v-else>
+            <p>{{ noTemplatesMessage }}</p>
+        </template>
+>>>>>>> develop
     </fieldset>
 </template>
 
@@ -72,16 +102,37 @@
             data: function() {
                 return {
                     draft: {},
+<<<<<<< HEAD
                     isNodeActiveLabel: $t('Enabled'),
                     fileUploadLabels: {
                         field: $t('Image'),
                         uploadAction: $t('Choose image'),
                         cancelAction: $t('Cancel'),
                         saveAction: $t('Save')
+=======
+                    additionalLabel: $t('Additional type options'),
+                    isNodeActiveLabel: $t('Enabled'),
+                    noTemplatesMessage: $t('There is no custom defined templates defined in theme for this node type'),
+                    templatesLabel: $t('Templates'),
+                    templateList: {
+                      'node': 'snowMenuNodeCustomTemplates',
+                      'submenu': 'snowMenuSubmenuCustomTemplates',
+>>>>>>> develop
                     }
                 }
             },
             computed: {
+                isTemplateSectionVisible: function() {
+                    var nodeId = this.templateList['node'],
+                        submenuId = this.templateList['submenu'],
+                        typeData = this.config.fieldData[this.item['type']];
+
+                    if (typeData[nodeId] || typeData[submenuId]) {
+                        return typeData[nodeId].options.length > 0 || typeData[submenuId].options.length > 0;
+                    }
+
+                    return false;
+                },
                 options: function() {
                     var list = [];
                     for (type in this.config.nodeTypes) {
@@ -92,9 +143,14 @@
                     }
                     return list;
                 },
+<<<<<<< HEAD
                 showImage: function() {
                     return this.item.type !== 'cms_page'
                         && this.item.type !== 'wrapper';
+=======
+                templateOptions: function() {
+                    return this.templateOptionsData[this.item['type']] || [];
+>>>>>>> develop
                 }
             },
             methods: {

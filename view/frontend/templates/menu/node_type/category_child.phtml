@@ -1,0 +1,14 @@
+<?php
+/** @var Snowdog\Menu\Block\NodeType\CategoryChild $block */
+$visibleChildren = $block->getVisibleChildren();
+?>
+
+<div class="category-child-list">
+  <?php foreach ($visibleChildren as $child): ?>
+    <div class="category-child-list__item">
+      <a href="<?= $child->getUrl() ?>">
+        <?= $child->getName() ?>
+      </a>
+    </div>
+  <?php endforeach ?>
+</div>
