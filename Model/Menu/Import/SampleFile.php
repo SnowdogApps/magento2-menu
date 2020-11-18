@@ -33,7 +33,8 @@ class SampleFile
         NodeInterface::TYPE => 'available types: <{types}>',
         NodeInterface::NODE_ID => '<an optional integer value that is only required for nodes that have children>',
         NodeInterface::PARENT_ID => '<an optional integer value that is only required for nodes that have parents>',
-        NodeInterface::LEVEL => '<an integer value that must be greater than 0 for child nodes>'
+        NodeInterface::LEVEL => '<an integer value that must be greater than 0 for child nodes>',
+        NodeInterface::TARGET => 'URL HTML anchor target. ' . self::BOOLEAN_FIELD_DEFAULT_VALUE
     ];
 
     /**
