@@ -44,7 +44,7 @@
             <argument name="data" xsi:type="array">
                 <item name="config" xsi:type="array">
                     <item name="label" xsi:type="string" translate="true">Select File to Import</item>
-                    <item name="notice" xsi:type="string" translate="true">File must be saved in UTF-8 encoding for proper import</item>
+                    <item name="notice" xsi:type="string" translate="true">File must be saved in UTF-8 encoding for proper import. Allowed file types: YAML.</item>
                     <item name="tooltip" xsi:type="array">
                         <item name="link" xsi:type="url" path="snowmenu/menu/downloadimportsample"/>
                         <item name="description" xsi:type="string" translate="true">Click the tooltip (?) to download a sample import file</item>
