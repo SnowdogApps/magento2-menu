@@ -12,6 +12,8 @@ class Catalog
     const CHILD_CATEGORY_NODE_TYPE = 'category_child';
     const PRODUCT_NODE_TYPE = 'product';
 
+    const ROOT_CATEGORY_ID = 1;
+
     /**
      * @var CategoryRepositoryInterface
      */
@@ -66,6 +68,10 @@ class Catalog
      */
     public function getCategory($categoryId)
     {
+        if ($categoryId == self::ROOT_CATEGORY_ID) {
+            return null;
+        }
+
         if (isset($this->cachedCategories[$categoryId])) {
             return $this->cachedCategories[$categoryId];
         }
