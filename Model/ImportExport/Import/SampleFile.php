@@ -1,10 +1,10 @@
 <?php
 
-namespace Snowdog\Menu\Model\Menu\Import;
+namespace Snowdog\Menu\Model\ImportExport\Import;
 
 use Snowdog\Menu\Api\Data\MenuInterface;
 use Snowdog\Menu\Api\Data\NodeInterface;
-use Snowdog\Menu\Model\Menu\ExportProcessor;
+use Snowdog\Menu\Model\ImportExport\ExportProcessor;
 use Snowdog\Menu\Model\NodeTypeProvider;
 use Snowdog\Menu\Model\ResourceModel\Menu as MenuResource;
 use Snowdog\Menu\Model\ResourceModel\Menu\Node as NodeResource;

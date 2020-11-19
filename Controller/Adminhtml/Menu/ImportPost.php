@@ -6,7 +6,7 @@ use Magento\Backend\App\Action;
 use Magento\Framework\Exception\ValidatorException;
 use Magento\Store\Model\StoreManagerInterface;
 use Psr\Log\LoggerInterface;
-use Snowdog\Menu\Model\Menu\ImportProcessor;
+use Snowdog\Menu\Model\ImportExport\ImportProcessor;
 
 class ImportPost extends Action
 {

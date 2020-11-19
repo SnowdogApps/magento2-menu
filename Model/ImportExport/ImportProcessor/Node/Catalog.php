@@ -1,6 +1,6 @@
 <?php
 
-namespace Snowdog\Menu\Model\Menu\ImportProcessor\Node;
+namespace Snowdog\Menu\Model\ImportExport\ImportProcessor\Node;
 
 use Magento\Catalog\Api\CategoryRepositoryInterface;
 use Magento\Catalog\Api\ProductRepositoryInterface;

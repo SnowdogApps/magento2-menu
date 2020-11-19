@@ -1,6 +1,6 @@
 <?php
 
-namespace Snowdog\Menu\Model;
+namespace Snowdog\Menu\Model\ImportExport;
 
 use Magento\Framework\App\Filesystem\DirectoryList;
 use Magento\Framework\Exception\FileSystemException;

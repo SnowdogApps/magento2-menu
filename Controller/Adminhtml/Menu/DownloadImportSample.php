@@ -6,7 +6,7 @@ use Magento\Backend\App\Action;
 use Magento\Framework\App\Filesystem\DirectoryList;
 use Magento\Framework\App\Response\Http\FileFactory as HttpFileFactory;
 use Psr\Log\LoggerInterface;
-use Snowdog\Menu\Model\Menu\Import\SampleFile as ImportSampleFile;
+use Snowdog\Menu\Model\ImportExport\Import\SampleFile as ImportSampleFile;
 
 class DownloadImportSample extends Action
 {

@@ -1,6 +1,6 @@
 <?php
 
-namespace Snowdog\Menu\Model\Menu\Import;
+namespace Snowdog\Menu\Model\ImportExport\Import;
 
 use Magento\Ui\DataProvider\Modifier\PoolInterface;
 use Magento\Ui\DataProvider\ModifierPoolDataProvider;

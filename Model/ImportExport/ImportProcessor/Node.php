@@ -1,11 +1,11 @@
 <?php
 
-namespace Snowdog\Menu\Model\Menu\ImportProcessor;
+namespace Snowdog\Menu\Model\ImportExport\ImportProcessor;
 
 use Snowdog\Menu\Api\Data\NodeInterface;
 use Snowdog\Menu\Api\Data\NodeInterfaceFactory;
 use Snowdog\Menu\Api\NodeRepositoryInterface;
-use Snowdog\Menu\Model\Menu\ExportProcessor;
+use Snowdog\Menu\Model\ImportExport\ExportProcessor;
 
 class Node
 {

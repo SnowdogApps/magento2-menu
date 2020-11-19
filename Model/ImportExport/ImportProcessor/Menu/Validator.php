@@ -1,10 +1,10 @@
 <?php
 
-namespace Snowdog\Menu\Model\Menu\ImportProcessor\Menu;
+namespace Snowdog\Menu\Model\ImportExport\ImportProcessor\Menu;
 
 use Magento\Framework\Exception\ValidatorException;
 use Snowdog\Menu\Api\Data\MenuInterface;
-use Snowdog\Menu\Model\Menu\ExportProcessor;
+use Snowdog\Menu\Model\ImportExport\ExportProcessor;
 
 class Validator
 {

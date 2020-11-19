@@ -1,6 +1,6 @@
 <?php
 
-namespace Snowdog\Menu\Model\Menu;
+namespace Snowdog\Menu\Model\ImportExport;
 
 use Magento\Framework\Api\SearchCriteriaBuilder;
 use Magento\Framework\App\Filesystem\DirectoryList;

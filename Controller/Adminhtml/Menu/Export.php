@@ -6,7 +6,7 @@ use Magento\Backend\App\Action;
 use Magento\Framework\App\Filesystem\DirectoryList;
 use Magento\Framework\App\Response\Http\FileFactory as HttpFileFactory;
 use Psr\Log\LoggerInterface;
-use Snowdog\Menu\Model\Menu\ExportProcessor;
+use Snowdog\Menu\Model\ImportExport\ExportProcessor;
 
 class Export extends Action
 {

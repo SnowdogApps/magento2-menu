@@ -1,6 +1,6 @@
 <?php
 
-namespace Snowdog\Menu\Model\Menu\ImportProcessor\Menu;
+namespace Snowdog\Menu\Model\ImportExport\ImportProcessor\Menu;
 
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Store\Api\StoreRepositoryInterface;

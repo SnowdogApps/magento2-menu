@@ -28,7 +28,7 @@
         <settings>
             <submitUrl path="snowmenu/menu/importpost"/>
         </settings>
-        <dataProvider class="Snowdog\Menu\Model\Menu\Import\DataProvider" name="menu_import_form_data_source">
+        <dataProvider class="Snowdog\Menu\Model\ImportExport\Import\DataProvider" name="menu_import_form_data_source">
             <settings>
                 <requestFieldName>menu_id</requestFieldName>
                 <primaryFieldName>menu_id</primaryFieldName>

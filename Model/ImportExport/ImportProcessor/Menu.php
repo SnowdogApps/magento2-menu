@@ -1,6 +1,6 @@
 <?php
 
-namespace Snowdog\Menu\Model\Menu\ImportProcessor;
+namespace Snowdog\Menu\Model\ImportExport\ImportProcessor;
 
 use Magento\Framework\Api\SearchCriteriaBuilder;
 use Snowdog\Menu\Api\Data\MenuInterface;

@@ -1,13 +1,10 @@
 <?php
 
-namespace Snowdog\Menu\Model\Menu;
+namespace Snowdog\Menu\Model\ImportExport;
 
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Exception\ValidatorException;
 use Snowdog\Menu\Api\Data\MenuInterface;
-use Snowdog\Menu\Model\ImportSourceFactory;
-use Snowdog\Menu\Model\Menu\ImportProcessor\Menu as MenuImportProcessor;
-use Snowdog\Menu\Model\Menu\ImportProcessor\Node as NodeImportProcessor;
 
 class ImportProcessor
 {
@@ -17,19 +14,19 @@ class ImportProcessor
     private $importSourceFactory;
 
     /**
-     * @var MenuImportProcessor
+     * @var ImportProcessor\Menu
      */
     private $menuImportProcessor;
 
     /**
-     * @var NodeImportProcessor
+     * @var ImportProcessor\Node
      */
     private $nodeImportProcessor;
 
     public function __construct(
         ImportSourceFactory $importSourceFactory,
-        MenuImportProcessor $menuImportProcessor,
-        NodeImportProcessor $nodeImportProcessor
+        ImportProcessor\Menu $menuImportProcessor,
+        ImportProcessor\Node $nodeImportProcessor
     ) {
         $this->importSourceFactory = $importSourceFactory;
         $this->menuImportProcessor = $menuImportProcessor;
