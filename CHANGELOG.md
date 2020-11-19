@@ -9,7 +9,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Node model additional data setter and getter methods (#94)
 - A menu repository method that retrieves menu by identifier (#70197)
 - DB table columns listing method to menu and node resource models (#70197)
-- Menu CSV import/export feature (#70197)
+- Menu YAML import/export feature (#70197)
 - Functionality to enable/disable specific menu node (#85, DEV-65561)
 - Invalidate page cache on menu changes (#70191)
 
