@@ -35,7 +35,7 @@ class Store
         try {
             $store = $this->storeRepository->get($storeCode);
             $this->cachedStores[$storeCode] = $store;
-        } catch (NoSuchEntityException$exception) {
+        } catch (NoSuchEntityException $exception) {
             $store = null;
         }
 
