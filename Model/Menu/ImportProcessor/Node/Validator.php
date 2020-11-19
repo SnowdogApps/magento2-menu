@@ -26,9 +26,6 @@ class Validator
         $this->nodeTypeProvider = $nodeTypeProvider;
     }
 
-    /**
-     * @throws ValidatorException
-     */
     public function validate(array $data, array $treeTrace = [])
     {
         $nodeTypes = array_keys($this->nodeTypeProvider->getLabels());
