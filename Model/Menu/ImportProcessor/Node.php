@@ -55,8 +55,8 @@ class Node
             $node->setData($data);
             $this->nodeRepository->save($node);
 
-            if (isset($nodes[ExportProcessor::NODES_FIELD])) {
-                $this->createNodes($nodes[ExportProcessor::NODES_FIELD], $menuId, $nodesLevel + 1, $node->getId());
+            if (isset($nodeData[ExportProcessor::NODES_FIELD])) {
+                $this->createNodes($nodeData[ExportProcessor::NODES_FIELD], $menuId, $nodesLevel + 1, $node->getId());
             }
         }
     }
