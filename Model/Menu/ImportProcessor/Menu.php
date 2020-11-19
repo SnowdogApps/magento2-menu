@@ -25,6 +25,11 @@ class Menu
     private $menuRepository;
 
     /**
+     * @var Menu\Store
+     */
+    private $store;
+
+    /**
      * @var Menu\Validator
      */
     private $validator;
@@ -33,11 +38,13 @@ class Menu
         SearchCriteriaBuilder $searchCriteriaBuilder,
         MenuInterfaceFactory $menuFactory,
         MenuRepositoryInterface $menuRepository,
+        Menu\Store $store,
         Menu\Validator $validator
     ) {
         $this->searchCriteriaBuilder = $searchCriteriaBuilder;
         $this->menuFactory = $menuFactory;
         $this->menuRepository = $menuRepository;
+        $this->store = $store;
         $this->validator = $validator;
     }
 
@@ -50,7 +57,7 @@ class Menu
 
         $menu->setData($this->getProcessedMenuData($data));
         $this->menuRepository->save($menu);
-        $menu->saveStores($stores);
+        $menu->saveStores($this->getStoreIds($stores));
 
         return $menu;
     }
@@ -111,5 +118,19 @@ class Menu
         }
 
         return $data;
+    }
+
+    /**
+     * @return array
+     */
+    private function getStoreIds(array $storeCodes)
+    {
+        $storeIds = [];
+
+        foreach ($storeCodes as $storeCode) {
+            $storeIds[] = $this->store->get($storeCode)->getId();
+        }
+
+        return $storeIds;
     }
 }
