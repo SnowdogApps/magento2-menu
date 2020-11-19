@@ -14,6 +14,11 @@ class Validator
     ];
 
     /**
+     * @var Catalog
+     */
+    private $nodeCatalog;
+
+    /**
      * @var NodeTypeProvider
      */
     private $nodeTypeProvider;
