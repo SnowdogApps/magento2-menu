@@ -146,13 +146,13 @@ class SampleFile
                 continue;
             }
 
-            if (in_array($description['DATA_TYPE'], self::BOOLEAN_TYPES)) {
-                $fieldsData[$field] = self::BOOLEAN_FIELD_DEFAULT_VALUE;
+            if (array_key_exists($field, $defaultData)) {
+                $fieldsData[$field] = $defaultData[$field];
                 continue;
             }
 
-            if (array_key_exists($field, $defaultData)) {
-                $fieldsData[$field] = $defaultData[$field];
+            if (in_array($description['DATA_TYPE'], self::BOOLEAN_TYPES)) {
+                $fieldsData[$field] = self::BOOLEAN_FIELD_DEFAULT_VALUE;
                 continue;
             }
 
