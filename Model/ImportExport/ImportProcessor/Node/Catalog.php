@@ -55,7 +55,7 @@ class Catalog
         try {
             $product = $this->productRepository->get($sku);
             $this->cachedProducts[$sku] = $product;
-        } catch (NoSuchEntityException$exception) {
+        } catch (NoSuchEntityException $exception) {
             $product = null;
         }
 
