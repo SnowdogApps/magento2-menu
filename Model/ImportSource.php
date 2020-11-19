@@ -95,12 +95,9 @@ class ImportSource
 
         if (!$fileTransferAdapter->isValid(ImportModel::FIELD_NAME_SOURCE_FILE)) {
             $errors = $fileTransferAdapter->getErrors();
-
-            if ($errors[0] === \Zend_Validate_File_Upload::INI_SIZE) {
-                $errorMessage = $this->importExportHelper->getMaxUploadSizeMessage();
-            } else {
-                $errorMessage = __('The file was not uploaded.');
-            }
+            $errorMessage = $errors[0] === \Zend_Validate_File_Upload::INI_SIZE
+                ? $this->importExportHelper->getMaxUploadSizeMessage()
+                : __('The file was not uploaded.');
 
             throw new LocalizedException($errorMessage);
         }
