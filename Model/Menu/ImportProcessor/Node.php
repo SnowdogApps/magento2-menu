@@ -94,6 +94,8 @@ class Node
             $data[NodeInterface::IS_ACTIVE] = (bool) $data[NodeInterface::IS_ACTIVE];
         }
 
+        unset($data[ExportProcessor::NODES_FIELD]);
+
         return $data;
     }
 }
