@@ -26,7 +26,7 @@ class SampleFile
         NodeInterface::UPDATE_TIME
     ];
 
-    const STORES_DATA = ['<An integer store ID>', '<Another store ID>'];
+    const STORES_DATA = ['<A store code/ID>', '<Another store code/ID>'];
 
     const BOOLEAN_TYPES = ['smallint', 'tinyint'];
     const BOOLEAN_FIELD_DEFAULT_VALUE = 'Valid values: <1 | 0>';
