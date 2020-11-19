@@ -45,16 +45,23 @@ class ExportProcessor
      */
     private $nodeRepository;
 
+    /**
+     * @var ImportProcessor\Menu\Store
+     */
+    private $store;
+
     public function __construct(
         SearchCriteriaBuilder $searchCriteriaBuilder,
         Filesystem $filesystem,
         MenuRepositoryInterface $menuRepository,
-        NodeRepositoryInterface $nodeRepository
+        NodeRepositoryInterface $nodeRepository,
+        ImportProcessor\Menu\Store $store
     ) {
         $this->searchCriteriaBuilder = $searchCriteriaBuilder;
         $this->directory = $filesystem->getDirectoryWrite(DirectoryList::VAR_DIR);
         $this->menuRepository = $menuRepository;
         $this->nodeRepository = $nodeRepository;
+        $this->store = $store;
     }
 
     /**
@@ -95,11 +102,10 @@ class ExportProcessor
     private function getExportData($menuId)
     {
         $menu = $this->menuRepository->getById($menuId);
-        $stores = $menu->getStores();
         $data = $menu->getData();
         $nodes = $this->getMenuNodeList($menuId);
 
-        $data[self::STORES_FIELD] = $stores;
+        $data[self::STORES_FIELD] = $this->getStoreCodes($menu->getStores());
         $data[self::NODES_FIELD] = $nodes ?: null;
 
         unset($data[MenuInterface::MENU_ID]);
@@ -170,6 +176,20 @@ class ExportProcessor
         }
 
         return $data;
+    }
+
+    /**
+     * @return array
+     */
+    private function getStoreCodes(array $stores)
+    {
+        $storeCodes = [];
+
+        foreach ($stores as $storeId) {
+            $storeCodes[] = $this->store->get($storeId)->getCode();
+        }
+
+        return $storeCodes;
     }
 
     /**
