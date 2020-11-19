@@ -19,15 +19,19 @@ class Validator
     private $nodeCatalog;
 
     /**
+     * @var Cms
+     */
+    private $nodeCms;
+
+    /**
      * @var NodeTypeProvider
      */
     private $nodeTypeProvider;
 
-    public function __construct(
-        Catalog $nodeCatalog,
-        NodeTypeProvider $nodeTypeProvider
-    ) {
+    public function __construct(Catalog $nodeCatalog, Cms $nodeCms, NodeTypeProvider $nodeTypeProvider)
+    {
         $this->nodeCatalog = $nodeCatalog;
+        $this->nodeCms = $nodeCms;
         $this->nodeTypeProvider = $nodeTypeProvider;
     }
 
@@ -38,7 +42,7 @@ class Validator
         foreach ($data as $nodeNumber => $node) {
             $this->validateRequiredFields($node, $nodeNumber, $treeTrace);
             $this->validateNodeTypes($node, $nodeTypes, $nodeNumber, $treeTrace);
-            $this->validateCatalogNode($node, $nodeNumber, $treeTrace);
+            $this->validateNodeTypeContent($node, $nodeNumber, $treeTrace);
 
             if (isset($node[ExportProcessor::NODES_FIELD])) {
                 $this->validate($node[ExportProcessor::NODES_FIELD], $this->getTreeTrace($treeTrace, $nodeNumber));
@@ -88,7 +92,7 @@ class Validator
      * @param int $nodeNumber
      * @throws ValidatorException
      */
-    private function validateCatalogNode(array $node, $nodeNumber, array $treeTrace)
+    private function validateNodeTypeContent(array $node, $nodeNumber, array $treeTrace)
     {
         $isValid = true;
 
@@ -99,6 +103,12 @@ class Validator
             case Catalog::CATEGORY_NODE_TYPE:
             case Catalog::CHILD_CATEGORY_NODE_TYPE:
                 $isValid = $this->nodeCatalog->getCategory($node[NodeInterface::CONTENT]);
+                break;
+            case Cms::BLOCK_NODE_TYPE:
+                $isValid = $this->nodeCms->getBlock($node[NodeInterface::CONTENT]);
+                break;
+            case Cms::PAGE_NODE_TYPE:
+                $isValid = $this->nodeCms->getPage($node[NodeInterface::CONTENT]);
                 break;
         }
 
