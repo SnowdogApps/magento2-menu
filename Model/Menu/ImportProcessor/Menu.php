@@ -3,22 +3,12 @@
 namespace Snowdog\Menu\Model\Menu\ImportProcessor;
 
 use Magento\Framework\Api\SearchCriteriaBuilder;
-use Magento\Framework\Exception\ValidatorException;
 use Snowdog\Menu\Api\Data\MenuInterface;
 use Snowdog\Menu\Api\Data\MenuInterfaceFactory;
 use Snowdog\Menu\Api\MenuRepositoryInterface;
-use Snowdog\Menu\Model\Menu\ExportProcessor;
 
 class Menu
 {
-    const REQUIRED_FIELDS = [
-        MenuInterface::TITLE,
-        MenuInterface::IDENTIFIER,
-        MenuInterface::CSS_CLASS,
-        MenuInterface::IS_ACTIVE,
-        ExportProcessor::STORES_FIELD
-    ];
-
     /**
      * @var SearchCriteriaBuilder
      */
@@ -34,14 +24,21 @@ class Menu
      */
     private $menuRepository;
 
+    /**
+     * @var Menu\Validator
+     */
+    private $validator;
+
     public function __construct(
         SearchCriteriaBuilder $searchCriteriaBuilder,
         MenuInterfaceFactory $menuFactory,
-        MenuRepositoryInterface $menuRepository
+        MenuRepositoryInterface $menuRepository,
+        Menu\Validator $validator
     ) {
         $this->searchCriteriaBuilder = $searchCriteriaBuilder;
         $this->menuFactory = $menuFactory;
         $this->menuRepository = $menuRepository;
+        $this->validator = $validator;
     }
 
     /**
@@ -58,24 +55,9 @@ class Menu
         return $menu;
     }
 
-    /**
-     * @throws ValidatorException
-     */
     public function validateImportData(array $data)
     {
-        $missingFields = [];
-
-        foreach (self::REQUIRED_FIELDS as $field) {
-            if (empty($data[$field])) {
-                $missingFields[] = $field;
-            }
-        }
-
-        if ($missingFields) {
-            throw new ValidatorException(
-                __('The following menu required import fields are missing: "%1".', implode('", "', $missingFields))
-            );
-        }
+        $this->validator->validate($data);
     }
 
     /**
