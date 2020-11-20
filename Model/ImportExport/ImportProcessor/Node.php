@@ -25,6 +25,11 @@ class Node
     private $nodeCatalog;
 
     /**
+     * @var Node\Cms
+     */
+    private $nodeCms;
+
+    /**
      * @var Node\Validator
      */
     private $validator;
@@ -33,11 +38,13 @@ class Node
         NodeInterfaceFactory $nodeFactory,
         NodeRepositoryInterface $nodeRepository,
         Node\Catalog $nodeCatalog,
+        Node\Cms $nodeCms,
         Node\Validator $validator
     ) {
         $this->nodeFactory = $nodeFactory;
         $this->nodeRepository = $nodeRepository;
         $this->nodeCatalog = $nodeCatalog;
+        $this->nodeCms = $nodeCms;
         $this->validator = $validator;
     }
 
@@ -78,13 +85,10 @@ class Node
         $data[NodeInterface::PARENT_ID] = $parentId;
         $data[NodeInterface::LEVEL] = $nodesLevel;
 
-        switch ($data[NodeInterface::TYPE]) {
-            case Node\Catalog::PRODUCT_NODE_TYPE:
-                $product = $this->nodeCatalog->getProduct($data[NodeInterface::CONTENT]);
-                $data[NodeInterface::CONTENT] = $product->getId();
-
-                break;
-        }
+        $data[NodeInterface::CONTENT] = $this->getNodeTypeContent(
+            $data[NodeInterface::TYPE],
+            $data[NodeInterface::CONTENT]
+        );
 
         if (isset($data[NodeInterface::TARGET])) {
             $data[NodeInterface::TARGET] = (bool) $data[NodeInterface::TARGET];
@@ -97,5 +101,33 @@ class Node
         unset($data[ExportProcessor::NODES_FIELD]);
 
         return $data;
+    }
+
+    /**
+     * @param string $type
+     * @param string|int $content
+     * @return string|int
+     */
+    private function getNodeTypeContent($type, $content)
+    {
+        switch ($type) {
+            case Node\Catalog::PRODUCT_NODE_TYPE:
+                $product = $this->nodeCatalog->getProduct($content);
+                $content = $product->getId();
+
+                break;
+            case Node\Cms::BLOCK_NODE_TYPE:
+                $block = $this->nodeCms->getBlock($content);
+                $content = $block->getIdentifier();
+
+                break;
+            case Node\Cms::PAGE_NODE_TYPE:
+                $page = $this->nodeCms->getPage($content);
+                $content = $page->getIdentifier();
+
+                break;
+        }
+
+        return $content;
     }
 }
