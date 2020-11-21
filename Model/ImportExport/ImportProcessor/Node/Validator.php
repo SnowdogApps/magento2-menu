@@ -16,22 +16,22 @@ class Validator
     /**
      * @var Catalog
      */
-    private $nodeCatalog;
+    private $catalog;
 
     /**
      * @var Cms
      */
-    private $nodeCms;
+    private $cms;
 
     /**
      * @var NodeTypeProvider
      */
     private $nodeTypeProvider;
 
-    public function __construct(Catalog $nodeCatalog, Cms $nodeCms, NodeTypeProvider $nodeTypeProvider)
+    public function __construct(Catalog $catalog, Cms $cms, NodeTypeProvider $nodeTypeProvider)
     {
-        $this->nodeCatalog = $nodeCatalog;
-        $this->nodeCms = $nodeCms;
+        $this->catalog = $catalog;
+        $this->cms = $cms;
         $this->nodeTypeProvider = $nodeTypeProvider;
     }
 
@@ -98,17 +98,17 @@ class Validator
 
         switch ($node[NodeInterface::TYPE]) {
             case Catalog::PRODUCT_NODE_TYPE:
-                $isValid = $this->nodeCatalog->getProduct($node[NodeInterface::CONTENT]);
+                $isValid = $this->catalog->getProduct($node[NodeInterface::CONTENT]);
                 break;
             case Catalog::CATEGORY_NODE_TYPE:
             case Catalog::CHILD_CATEGORY_NODE_TYPE:
-                $isValid = $this->nodeCatalog->getCategory($node[NodeInterface::CONTENT]);
+                $isValid = $this->catalog->getCategory($node[NodeInterface::CONTENT]);
                 break;
             case Cms::BLOCK_NODE_TYPE:
-                $isValid = $this->nodeCms->getBlock($node[NodeInterface::CONTENT]);
+                $isValid = $this->cms->getBlock($node[NodeInterface::CONTENT]);
                 break;
             case Cms::PAGE_NODE_TYPE:
-                $isValid = $this->nodeCms->getPage($node[NodeInterface::CONTENT]);
+                $isValid = $this->cms->getPage($node[NodeInterface::CONTENT]);
                 break;
         }
 
