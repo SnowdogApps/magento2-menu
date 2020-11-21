@@ -78,9 +78,13 @@ class ExportProcessor
     {
         $menu = $this->menuRepository->getById($menuId);
         $data = $menu->getData();
+        $nodes = $this->getMenuNodeList($menuId);
 
         $data[self::STORES_FIELD] = $this->getStoreCodes($menu->getStores());
-        $data[self::NODES_FIELD] = $this->getMenuNodeList($menuId) ?: null;
+
+        if ($nodes) {
+            $data[self::NODES_FIELD] = $nodes;
+        }
 
         unset($data[MenuInterface::MENU_ID]);
 
