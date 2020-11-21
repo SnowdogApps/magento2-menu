@@ -41,7 +41,9 @@ class ImportProcessor
         $data = $this->uploadFileAndGetData();
         $menu = $this->createMenu($data);
 
-        $this->nodeImportProcessor->createNodes($data[ExportProcessor::NODES_FIELD], $menu->getId());
+        if (isset($data[ExportProcessor::NODES_FIELD])) {
+            $this->nodeImportProcessor->createNodes($data[ExportProcessor::NODES_FIELD], $menu->getId());
+        }
 
         return $menu->getIdentifier();
     }
