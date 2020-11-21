@@ -22,12 +22,12 @@ class Node
     /**
      * @var Node\Catalog
      */
-    private $nodeCatalog;
+    private $catalog;
 
     /**
      * @var Node\Cms
      */
-    private $nodeCms;
+    private $cms;
 
     /**
      * @var Node\Validator
@@ -37,14 +37,14 @@ class Node
     public function __construct(
         NodeInterfaceFactory $nodeFactory,
         NodeRepositoryInterface $nodeRepository,
-        Node\Catalog $nodeCatalog,
-        Node\Cms $nodeCms,
+        Node\Catalog $catalog,
+        Node\Cms $cms,
         Node\Validator $validator
     ) {
         $this->nodeFactory = $nodeFactory;
         $this->nodeRepository = $nodeRepository;
-        $this->nodeCatalog = $nodeCatalog;
-        $this->nodeCms = $nodeCms;
+        $this->catalog = $catalog;
+        $this->cms = $cms;
         $this->validator = $validator;
     }
 
@@ -112,17 +112,17 @@ class Node
     {
         switch ($type) {
             case Node\Catalog::PRODUCT_NODE_TYPE:
-                $product = $this->nodeCatalog->getProduct($content);
+                $product = $this->catalog->getProduct($content);
                 $content = $product->getId();
 
                 break;
             case Node\Cms::BLOCK_NODE_TYPE:
-                $block = $this->nodeCms->getBlock($content);
+                $block = $this->cms->getBlock($content);
                 $content = $block->getIdentifier();
 
                 break;
             case Node\Cms::PAGE_NODE_TYPE:
-                $page = $this->nodeCms->getPage($content);
+                $page = $this->cms->getPage($content);
                 $content = $page->getIdentifier();
 
                 break;
