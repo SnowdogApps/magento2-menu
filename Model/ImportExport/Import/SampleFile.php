@@ -33,7 +33,7 @@ class SampleFile
 
     const NODE_DEFAULT_DATA = [
         NodeInterface::TYPE => 'Available types: <{types}>',
-        NodeInterface::CONTENT => '<Category ID | Product SKU | CMS page/block identifier | URL>',
+        NodeInterface::CONTENT => 'Examples: <Category ID | Product SKU | CMS page/block identifier/ID | URL>',
         NodeInterface::TARGET => 'URL HTML anchor target. ' . self::BOOLEAN_FIELD_DEFAULT_VALUE
     ];
 
