@@ -68,10 +68,11 @@ class Catalog
      */
     public function getCategory($categoryId)
     {
-        if ($categoryId == self::ROOT_CATEGORY_ID) {
+        if (!ctype_digit((string) $categoryId) || $categoryId <= self::ROOT_CATEGORY_ID) {
             return null;
         }
 
+        $categoryId = (int) $categoryId;
         if (isset($this->cachedCategories[$categoryId])) {
             return $this->cachedCategories[$categoryId];
         }
