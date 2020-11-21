@@ -111,7 +111,7 @@ class Node
     private function getNodeTypeContent($type, $content)
     {
         switch ($type) {
-            case Node\Catalog::PRODUCT_NODE_TYPE:
+            case Node\Type\Catalog::PRODUCT_NODE_TYPE:
                 $product = $this->catalog->getProduct($content);
                 $content = $product->getId();
 
