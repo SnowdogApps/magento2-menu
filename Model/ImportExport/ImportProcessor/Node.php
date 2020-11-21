@@ -105,8 +105,8 @@ class Node
 
     /**
      * @param string $type
-     * @param string|int $content
-     * @return string|int
+     * @param mixed $content
+     * @return mixed
      */
     private function getNodeTypeContent($type, $content)
     {
