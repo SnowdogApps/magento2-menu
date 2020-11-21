@@ -9,9 +9,9 @@ use Snowdog\Menu\Api\Data\MenuInterface;
 class ImportProcessor
 {
     /**
-     * @var ImportSourceFactory
+     * @var ImportSource
      */
-    private $importSourceFactory;
+    private $importSource;
 
     /**
      * @var ImportProcessor\Menu
@@ -24,11 +24,11 @@ class ImportProcessor
     private $nodeImportProcessor;
 
     public function __construct(
-        ImportSourceFactory $importSourceFactory,
+        ImportSource $importSource,
         ImportProcessor\Menu $menuImportProcessor,
         ImportProcessor\Node $nodeImportProcessor
     ) {
-        $this->importSourceFactory = $importSourceFactory;
+        $this->importSource = $importSource;
         $this->menuImportProcessor = $menuImportProcessor;
         $this->nodeImportProcessor = $nodeImportProcessor;
     }
@@ -64,8 +64,7 @@ class ImportProcessor
     private function uploadFileAndGetData()
     {
         try {
-            $importSource = $this->importSourceFactory->create();
-            $data = $importSource->uploadFileAndGetData();
+            $data = $this->importSource->uploadFileAndGetData();
         } catch (LocalizedException $exception) {
             throw new ValidatorException(__($exception->getMessage()));
         }
