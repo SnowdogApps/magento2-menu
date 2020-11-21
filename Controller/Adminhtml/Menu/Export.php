@@ -3,8 +3,6 @@
 namespace Snowdog\Menu\Controller\Adminhtml\Menu;
 
 use Magento\Backend\App\Action;
-use Magento\Framework\App\Filesystem\DirectoryList;
-use Magento\Framework\App\Response\Http\FileFactory as HttpFileFactory;
 use Psr\Log\LoggerInterface;
 use Snowdog\Menu\Model\ImportExport\ExportProcessor;
 
@@ -14,13 +12,6 @@ class Export extends Action
      * @inheritDoc
      */
     const ADMIN_RESOURCE = 'Snowdog_Menu::menus';
-
-    const FILE_NAME = 'menu-{menu_id}.yaml';
-
-    /**
-     * @var HttpFileFactory
-     */
-    private $httpFileFactory;
 
     /**
      * @var LoggerInterface
@@ -34,11 +25,9 @@ class Export extends Action
 
     public function __construct(
         Action\Context $context,
-        HttpFileFactory $httpFileFactory,
         LoggerInterface $logger,
         ExportProcessor $exportProcessor
     ) {
-        $this->httpFileFactory = $httpFileFactory;
         $this->logger = $logger;
         $this->exportProcessor = $exportProcessor;
 
@@ -53,11 +42,7 @@ class Export extends Action
         $menuId = $this->getRequest()->getParam('id');
 
         try {
-            return $this->httpFileFactory->create(
-                strtr(self::FILE_NAME, ['{menu_id}' => $menuId]),
-                $this->exportProcessor->getExportFileDownloadContent($menuId),
-                DirectoryList::VAR_DIR
-            );
+            return $this->exportProcessor->getDownloadFile($menuId);
         } catch (\Exception $exception) {
             $this->logger->critical($exception);
             $this->messageManager->addErrorMessage(
