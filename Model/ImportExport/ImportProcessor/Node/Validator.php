@@ -5,7 +5,6 @@ namespace Snowdog\Menu\Model\ImportExport\ImportProcessor\Node;
 use Magento\Framework\Exception\ValidatorException;
 use Snowdog\Menu\Api\Data\NodeInterface;
 use Snowdog\Menu\Model\ImportExport\ExportProcessor;
-use Snowdog\Menu\Model\NodeTypeProvider;
 
 class Validator
 {
@@ -16,25 +15,13 @@ class Validator
     ];
 
     /**
-     * @var Catalog
+     * @var Validator\NodeType
      */
-    private $catalog;
+    private $nodeTypeValidator;
 
-    /**
-     * @var Cms
-     */
-    private $cms;
-
-    /**
-     * @var NodeTypeProvider
-     */
-    private $nodeTypeProvider;
-
-    public function __construct(Catalog $catalog, Cms $cms, NodeTypeProvider $nodeTypeProvider)
+    public function __construct(Validator\NodeType $nodeTypeValidator)
     {
-        $this->catalog = $catalog;
-        $this->cms = $cms;
-        $this->nodeTypeProvider = $nodeTypeProvider;
+        $this->nodeTypeValidator = $nodeTypeValidator;
     }
 
     /**
@@ -42,11 +29,9 @@ class Validator
      */
     public function validate(array $data, array $treeTrace = [])
     {
-        $nodeTypes = array_keys($this->nodeTypeProvider->getLabels());
-
         foreach ($data as $nodeNumber => $node) {
             try {
-                $this->runValidationTasks($node, $nodeTypes);
+                $this->runValidationTasks($node);
             } catch (ValidatorException $exception) {
                 $treeTrace[] = $nodeNumber + 1;
 
@@ -62,10 +47,10 @@ class Validator
         }
     }
 
-    private function runValidationTasks(array $node, array $nodeTypes)
+    private function runValidationTasks(array $node)
     {
         $this->validateRequiredFields($node);
-        $this->validateNodeType($node, $nodeTypes);
+        $this->nodeTypeValidator->validate($node);
     }
 
     /**
@@ -87,55 +72,6 @@ class Validator
                     'The following node "%%1" required import fields are missing: "%2".',
                     self::ERROR_TREE_TRACE_BREADCRUMBS,
                     implode('", "', $missingFields)
-                )
-            );
-        }
-    }
-
-    /**
-     * @throws ValidatorException
-     */
-    private function validateNodeType(array $node, array $nodeTypes)
-    {
-        if (!in_array($node[NodeInterface::TYPE], $nodeTypes)) {
-            throw new ValidatorException(
-                __('Node "%%1" type is invalid.', self::ERROR_TREE_TRACE_BREADCRUMBS)
-            );
-        }
-
-        $this->validateNodeTypeContent($node);
-    }
-
-    /**
-     * @throws ValidatorException
-     */
-    private function validateNodeTypeContent(array $node)
-    {
-        $isValid = true;
-
-        switch ($node[NodeInterface::TYPE]) {
-            case Catalog::PRODUCT_NODE_TYPE:
-                $isValid = $this->catalog->getProduct($node[NodeInterface::CONTENT]);
-                break;
-            case Catalog::CATEGORY_NODE_TYPE:
-            case Catalog::CHILD_CATEGORY_NODE_TYPE:
-                $isValid = $this->catalog->getCategory($node[NodeInterface::CONTENT]);
-                break;
-            case Cms::BLOCK_NODE_TYPE:
-                $isValid = $this->cms->getBlock($node[NodeInterface::CONTENT]);
-                break;
-            case Cms::PAGE_NODE_TYPE:
-                $isValid = $this->cms->getPage($node[NodeInterface::CONTENT]);
-                break;
-        }
-
-        if (!$isValid) {
-            throw new ValidatorException(
-                __(
-                    'Node "%%1" %2 identifier "%3" is invalid.',
-                    self::ERROR_TREE_TRACE_BREADCRUMBS,
-                    $node[NodeInterface::TYPE],
-                    $node[NodeInterface::CONTENT]
                 )
             );
         }
