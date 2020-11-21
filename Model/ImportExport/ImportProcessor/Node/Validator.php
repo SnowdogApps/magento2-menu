@@ -9,6 +9,8 @@ use Snowdog\Menu\Model\NodeTypeProvider;
 
 class Validator
 {
+    const ERROR_TREE_TRACE_BREADCRUMBS = 'tree_trace_breadcrumbs';
+
     const REQUIRED_FIELDS = [
         NodeInterface::TYPE
     ];
@@ -35,25 +37,41 @@ class Validator
         $this->nodeTypeProvider = $nodeTypeProvider;
     }
 
+    /**
+     * @throws ValidatorException
+     */
     public function validate(array $data, array $treeTrace = [])
     {
         $nodeTypes = array_keys($this->nodeTypeProvider->getLabels());
 
         foreach ($data as $nodeNumber => $node) {
-            $this->validateRequiredFields($node, $nodeNumber, $treeTrace);
-            $this->validateNodeType($node, $nodeTypes, $nodeNumber, $treeTrace);
+            try {
+                $this->runValidationTasks($node, $nodeTypes);
+            } catch (ValidatorException $exception) {
+                $treeTrace[] = $nodeNumber + 1;
+
+                throw new ValidatorException(
+                    __($exception->getMessage(), [self::ERROR_TREE_TRACE_BREADCRUMBS => implode(' > ', $treeTrace)])
+                );
+            }
 
             if (isset($node[ExportProcessor::NODES_FIELD])) {
-                $this->validate($node[ExportProcessor::NODES_FIELD], $this->getTreeTrace($treeTrace, $nodeNumber));
+                $treeTrace[] = $nodeNumber + 1;
+                $this->validate($node[ExportProcessor::NODES_FIELD], $treeTrace);
             }
         }
     }
 
+    private function runValidationTasks(array $node, array $nodeTypes)
+    {
+        $this->validateRequiredFields($node);
+        $this->validateNodeType($node, $nodeTypes);
+    }
+
     /**
-     * @param int $nodeNumber
      * @throws ValidatorException
      */
-    private function validateRequiredFields(array $node, $nodeNumber, array $treeTrace)
+    private function validateRequiredFields(array $node)
     {
         $missingFields = [];
 
@@ -66,8 +84,8 @@ class Validator
         if ($missingFields) {
             throw new ValidatorException(
                 __(
-                    'The following node "%1" required import fields are missing: "%2".',
-                    $this->getTreeTraceLabel($treeTrace, $nodeNumber),
+                    'The following node "%%1" required import fields are missing: "%2".',
+                    self::ERROR_TREE_TRACE_BREADCRUMBS,
                     implode('", "', $missingFields)
                 )
             );
@@ -75,25 +93,23 @@ class Validator
     }
 
     /**
-     * @param int $nodeNumber
      * @throws ValidatorException
      */
-    private function validateNodeType(array $node, array $nodeTypes, $nodeNumber, array $treeTrace)
+    private function validateNodeType(array $node, array $nodeTypes)
     {
         if (!in_array($node[NodeInterface::TYPE], $nodeTypes)) {
             throw new ValidatorException(
-                __('Node "%1" type is invalid.', $this->getTreeTraceLabel($treeTrace, $nodeNumber))
+                __('Node "%%1" type is invalid.', self::ERROR_TREE_TRACE_BREADCRUMBS)
             );
         }
 
-        $this->validateNodeTypeContent($node, $nodeNumber, $treeTrace);
+        $this->validateNodeTypeContent($node);
     }
 
     /**
-     * @param int $nodeNumber
      * @throws ValidatorException
      */
-    private function validateNodeTypeContent(array $node, $nodeNumber, array $treeTrace)
+    private function validateNodeTypeContent(array $node)
     {
         $isValid = true;
 
@@ -116,31 +132,12 @@ class Validator
         if (!$isValid) {
             throw new ValidatorException(
                 __(
-                    'Node "%1" %2 identifier "%3" is invalid.',
-                    $this->getTreeTraceLabel($treeTrace, $nodeNumber),
+                    'Node "%%1" %2 identifier "%3" is invalid.',
+                    self::ERROR_TREE_TRACE_BREADCRUMBS,
                     $node[NodeInterface::TYPE],
                     $node[NodeInterface::CONTENT]
                 )
             );
         }
-    }
-
-    /**
-     * @param int $nodeNumber
-     * @return array
-     */
-    private function getTreeTrace(array $treeTrace, $nodeNumber)
-    {
-        $treeTrace[] = $nodeNumber + 1;
-        return $treeTrace;
-    }
-
-    /**
-     * @param int $nodeNumber
-     * @return string
-     */
-    private function getTreeTraceLabel(array $treeTrace, $nodeNumber)
-    {
-        return implode(' > ', $this->getTreeTrace($treeTrace, $nodeNumber));
     }
 }
