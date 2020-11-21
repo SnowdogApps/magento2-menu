@@ -20,12 +20,12 @@ class Node
     private $nodeRepository;
 
     /**
-     * @var Node\Catalog
+     * @var Node\Type\Catalog
      */
     private $catalog;
 
     /**
-     * @var Node\Cms
+     * @var Node\Type\Cms
      */
     private $cms;
 
@@ -37,8 +37,8 @@ class Node
     public function __construct(
         NodeInterfaceFactory $nodeFactory,
         NodeRepositoryInterface $nodeRepository,
-        Node\Catalog $catalog,
-        Node\Cms $cms,
+        Node\Type\Catalog $catalog,
+        Node\Type\Cms $cms,
         Node\Validator $validator
     ) {
         $this->nodeFactory = $nodeFactory;
@@ -116,12 +116,12 @@ class Node
                 $content = $product->getId();
 
                 break;
-            case Node\Cms::BLOCK_NODE_TYPE:
+            case Node\Type\Cms::BLOCK_NODE_TYPE:
                 $block = $this->cms->getBlock($content);
                 $content = $block->getIdentifier();
 
                 break;
-            case Node\Cms::PAGE_NODE_TYPE:
+            case Node\Type\Cms::PAGE_NODE_TYPE:
                 $page = $this->cms->getPage($content);
                 $content = $page->getIdentifier();
 

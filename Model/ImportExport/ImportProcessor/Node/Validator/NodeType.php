@@ -4,8 +4,8 @@ namespace Snowdog\Menu\Model\ImportExport\ImportProcessor\Node\Validator;
 
 use Magento\Framework\Exception\ValidatorException;
 use Snowdog\Menu\Api\Data\NodeInterface;
-use Snowdog\Menu\Model\ImportExport\ImportProcessor\Node\Catalog;
-use Snowdog\Menu\Model\ImportExport\ImportProcessor\Node\Cms;
+use Snowdog\Menu\Model\ImportExport\ImportProcessor\Node\Type\Catalog;
+use Snowdog\Menu\Model\ImportExport\ImportProcessor\Node\Type\Cms;
 use Snowdog\Menu\Model\ImportExport\ImportProcessor\Node\Validator;
 use Snowdog\Menu\Model\NodeTypeProvider;
 
