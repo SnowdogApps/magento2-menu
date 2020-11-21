@@ -41,8 +41,7 @@ class Validator
 
         foreach ($data as $nodeNumber => $node) {
             $this->validateRequiredFields($node, $nodeNumber, $treeTrace);
-            $this->validateNodeTypes($node, $nodeTypes, $nodeNumber, $treeTrace);
-            $this->validateNodeTypeContent($node, $nodeNumber, $treeTrace);
+            $this->validateNodeType($node, $nodeTypes, $nodeNumber, $treeTrace);
 
             if (isset($node[ExportProcessor::NODES_FIELD])) {
                 $this->validate($node[ExportProcessor::NODES_FIELD], $this->getTreeTrace($treeTrace, $nodeNumber));
@@ -79,13 +78,15 @@ class Validator
      * @param int $nodeNumber
      * @throws ValidatorException
      */
-    private function validateNodeTypes(array $node, array $nodeTypes, $nodeNumber, array $treeTrace)
+    private function validateNodeType(array $node, array $nodeTypes, $nodeNumber, array $treeTrace)
     {
         if (!in_array($node[NodeInterface::TYPE], $nodeTypes)) {
             throw new ValidatorException(
                 __('Node "%1" type is invalid.', $this->getTreeTraceLabel($treeTrace, $nodeNumber))
             );
         }
+
+        $this->validateNodeTypeContent($node, $nodeNumber, $treeTrace);
     }
 
     /**
