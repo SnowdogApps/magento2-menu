@@ -3,10 +3,8 @@
 namespace Snowdog\Menu\Controller\Adminhtml\Menu;
 
 use Magento\Backend\App\Action;
-use Magento\Framework\App\Filesystem\DirectoryList;
-use Magento\Framework\App\Response\Http\FileFactory as HttpFileFactory;
 use Psr\Log\LoggerInterface;
-use Snowdog\Menu\Model\ImportExport\Import\SampleFile as ImportSampleFile;
+use Snowdog\Menu\Model\ImportExport\Import\SampleFile;
 
 class DownloadImportSample extends Action
 {
@@ -15,32 +13,20 @@ class DownloadImportSample extends Action
      */
     const ADMIN_RESOURCE = 'Snowdog_Menu::menus';
 
-    const FILE_NAME = 'menu-sample.yaml';
-
-    /**
-     * @var HttpFileFactory
-     */
-    private $httpFileFactory;
-
     /**
      * @var LoggerInterface
      */
     private $logger;
 
     /**
-     * @var ImportSampleFile
+     * @var SampleFile
      */
-    private $importSampleFile;
+    private $sampleFile;
 
-    public function __construct(
-        Action\Context $context,
-        HttpFileFactory $httpFileFactory,
-        LoggerInterface $logger,
-        ImportSampleFile $importSampleFile
-    ) {
-        $this->httpFileFactory = $httpFileFactory;
+    public function __construct(Action\Context $context, LoggerInterface $logger, SampleFile $sampleFile)
+    {
         $this->logger = $logger;
-        $this->importSampleFile = $importSampleFile;
+        $this->sampleFile = $sampleFile;
 
         parent::__construct($context);
     }
@@ -51,11 +37,7 @@ class DownloadImportSample extends Action
     public function execute()
     {
         try {
-            return $this->httpFileFactory->create(
-                self::FILE_NAME,
-                $this->importSampleFile->getFileDownloadContent(),
-                DirectoryList::VAR_DIR
-            );
+            return $this->sampleFile->getDownloadFile();
         } catch (\Exception $exception) {
             $this->logger->critical($exception);
             $this->messageManager->addErrorMessage(

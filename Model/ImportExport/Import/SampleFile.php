@@ -4,6 +4,7 @@ namespace Snowdog\Menu\Model\ImportExport\Import;
 
 use Snowdog\Menu\Api\Data\MenuInterface;
 use Snowdog\Menu\Api\Data\NodeInterface;
+use Snowdog\Menu\Model\ImportExport\ExportFile;
 use Snowdog\Menu\Model\ImportExport\ExportProcessor;
 use Snowdog\Menu\Model\NodeTypeProvider;
 use Snowdog\Menu\Model\ResourceModel\Menu as MenuResource;
@@ -38,9 +39,9 @@ class SampleFile
     ];
 
     /**
-     * @var ExportProcessor
+     * @var ExportFile
      */
-    private $exportProcessor;
+    private $exportFile;
 
     /**
      * @var NodeTypeProvider
@@ -58,24 +59,23 @@ class SampleFile
     private $nodeResource;
 
     public function __construct(
-        ExportProcessor $exportProcessor,
+        ExportFile $exportFile,
         NodeTypeProvider $nodeTypeProvider,
         MenuResource $menuResource,
         NodeResource $nodeResource
     ) {
-        $this->exportProcessor = $exportProcessor;
+        $this->exportFile = $exportFile;
         $this->nodeTypeProvider = $nodeTypeProvider;
         $this->menuResource = $menuResource;
         $this->nodeResource = $nodeResource;
     }
 
     /**
-     * @return array
+     * @return \Magento\Framework\App\ResponseInterface
      */
-    public function getFileDownloadContent()
+    public function getDownloadFile()
     {
-        $data = $this->getSampleData();
-        return $this->exportProcessor->generateDownloadFile('sample', $data);
+        return $this->exportFile->generateDownloadFile('sample', $this->getSampleData());
     }
 
     /**
