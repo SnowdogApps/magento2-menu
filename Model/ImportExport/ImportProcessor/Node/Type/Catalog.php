@@ -27,12 +27,12 @@ class Catalog
     /**
      * @var array
      */
-    private $cachedProducts = [];
+    private $cachedCategories = [];
 
     /**
      * @var array
      */
-    private $cachedCategories = [];
+    private $cachedProducts = [];
 
     public function __construct(
         CategoryRepositoryInterface $categoryRepository,
@@ -40,26 +40,6 @@ class Catalog
     ) {
         $this->categoryRepository = $categoryRepository;
         $this->productRepository = $productRepository;
-    }
-
-    /**
-     * @param string $sku
-     * @return \Magento\Catalog\Api\Data\ProductInterface|null
-     */
-    public function getProduct($sku)
-    {
-        if (isset($this->cachedProducts[$sku])) {
-            return $this->cachedProducts[$sku];
-        }
-
-        try {
-            $product = $this->productRepository->get($sku);
-            $this->cachedProducts[$sku] = $product;
-        } catch (NoSuchEntityException $exception) {
-            $product = null;
-        }
-
-        return $product;
     }
 
     /**
@@ -85,5 +65,25 @@ class Catalog
         }
 
         return $category;
+    }
+
+    /**
+     * @param string $sku
+     * @return \Magento\Catalog\Api\Data\ProductInterface|null
+     */
+    public function getProduct($sku)
+    {
+        if (isset($this->cachedProducts[$sku])) {
+            return $this->cachedProducts[$sku];
+        }
+
+        try {
+            $product = $this->productRepository->get($sku);
+            $this->cachedProducts[$sku] = $product;
+        } catch (NoSuchEntityException $exception) {
+            $product = null;
+        }
+
+        return $product;
     }
 }
