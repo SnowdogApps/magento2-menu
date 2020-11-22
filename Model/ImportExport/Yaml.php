@@ -23,7 +23,7 @@ class Yaml
         try {
             return YamlComponent::parse($data);
         } catch (ParseException $exception) {
-            throw new ValidatorException(__('Invalid YAML format: %1', $exception->getMessage()));
+            throw new ValidatorException(__('Unable to parse the YAML string: %1', $exception->getMessage()));
         }
     }
 
