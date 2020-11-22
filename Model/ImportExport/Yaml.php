@@ -3,6 +3,7 @@
 namespace Snowdog\Menu\Model\ImportExport;
 
 use Magento\Framework\Exception\ValidatorException;
+use Symfony\Component\Yaml\Exception\ParseException;
 use Symfony\Component\Yaml\Yaml as YamlComponent;
 
 class Yaml
@@ -21,7 +22,7 @@ class Yaml
     {
         try {
             return YamlComponent::parse($data);
-        } catch (\Exception $exception) {
+        } catch (ParseException $exception) {
             throw new ValidatorException(__('Invalid YAML format: %1', $exception->getMessage()));
         }
     }
