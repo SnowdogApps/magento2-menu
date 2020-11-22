@@ -6,6 +6,8 @@ use Snowdog\Menu\Api\Data\NodeInterface;
 use Snowdog\Menu\Api\Data\NodeInterfaceFactory;
 use Snowdog\Menu\Api\NodeRepositoryInterface;
 use Snowdog\Menu\Model\ImportExport\ExportProcessor;
+use Snowdog\Menu\Model\ImportExport\ImportProcessor\Node\Type\Catalog;
+use Snowdog\Menu\Model\ImportExport\ImportProcessor\Node\Type\Cms;
 
 class Node
 {
@@ -20,12 +22,12 @@ class Node
     private $nodeRepository;
 
     /**
-     * @var Node\Type\Catalog
+     * @var Catalog
      */
     private $catalog;
 
     /**
-     * @var Node\Type\Cms
+     * @var Cms
      */
     private $cms;
 
@@ -37,8 +39,8 @@ class Node
     public function __construct(
         NodeInterfaceFactory $nodeFactory,
         NodeRepositoryInterface $nodeRepository,
-        Node\Type\Catalog $catalog,
-        Node\Type\Cms $cms,
+        Catalog $catalog,
+        Cms $cms,
         Node\Validator $validator
     ) {
         $this->nodeFactory = $nodeFactory;
@@ -111,17 +113,17 @@ class Node
     private function getNodeTypeContent($type, $content)
     {
         switch ($type) {
-            case Node\Type\Catalog::PRODUCT_NODE_TYPE:
+            case Catalog::PRODUCT_NODE_TYPE:
                 $product = $this->catalog->getProduct($content);
                 $content = $product->getId();
 
                 break;
-            case Node\Type\Cms::BLOCK_NODE_TYPE:
+            case Cms::BLOCK_NODE_TYPE:
                 $block = $this->cms->getBlock($content);
                 $content = $block->getIdentifier();
 
                 break;
-            case Node\Type\Cms::PAGE_NODE_TYPE:
+            case Cms::PAGE_NODE_TYPE:
                 $page = $this->cms->getPage($content);
                 $content = $page->getIdentifier();
 
