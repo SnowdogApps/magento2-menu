@@ -11,7 +11,7 @@ class Yaml
     const INLINE_LEVEL = 10;
     const INDENTATION = 2;
 
-    const EXTENSIONS = ['yaml', 'yml'];
+    const FILE_EXTENSIONS = ['yaml', 'yml'];
 
     /**
      * @param string $data

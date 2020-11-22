@@ -108,7 +108,7 @@ class ImportSource
         }
 
         $uploader = $this->uploaderFactory->create(['fileId' => ImportModel::FIELD_NAME_SOURCE_FILE]);
-        $uploader->setAllowedExtensions(Yaml::EXTENSIONS);
+        $uploader->setAllowedExtensions(Yaml::FILE_EXTENSIONS);
         $uploader->skipDbProcessing(true);
 
         $workingDir = $this->import->getWorkingDir();
