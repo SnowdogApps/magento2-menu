@@ -12,12 +12,10 @@ use Magento\Framework\Validation\ValidationException;
 use Magento\ImportExport\Helper\Data as ImportExportHelper;
 use Magento\ImportExport\Model\Import as ImportModel;
 use Magento\MediaStorage\Model\File\UploaderFactory;
-use Symfony\Component\Yaml\Yaml;
 
 class ImportSource
 {
     const ENTITY = 'snowdog_menu';
-    const ALLOWED_EXTENSIONS = ['yaml', 'yml'];
 
     /**
      * @var \Magento\Framework\Filesystem\Directory\WriteInterface
@@ -44,18 +42,25 @@ class ImportSource
      */
     private $uploaderFactory;
 
+    /**
+     * @var Yaml
+     */
+    private $yaml;
+
     public function __construct(
         Filesystem $filesystem,
         FileTransferFactory $fileTransferFactory,
         ImportExportHelper $importExportHelper,
         ImportModel $import,
-        UploaderFactory $uploaderFactory
+        UploaderFactory $uploaderFactory,
+        Yaml $yaml
     ) {
         $this->varDirectory = $filesystem->getDirectoryWrite(DirectoryList::VAR_DIR);
         $this->fileTransferFactory = $fileTransferFactory;
         $this->importExportHelper = $importExportHelper;
         $this->import = $import;
         $this->uploaderFactory = $uploaderFactory;
+        $this->yaml = $yaml;
     }
 
     /**
@@ -81,7 +86,7 @@ class ImportSource
         $stream->close();
         $this->varDirectory->delete($sourceFilePath);
 
-        return $this->parseYamlData($data);
+        return $this->yaml->parse($data);
     }
 
     /**
@@ -103,7 +108,7 @@ class ImportSource
         }
 
         $uploader = $this->uploaderFactory->create(['fileId' => ImportModel::FIELD_NAME_SOURCE_FILE]);
-        $uploader->setAllowedExtensions(self::ALLOWED_EXTENSIONS);
+        $uploader->setAllowedExtensions(Yaml::EXTENSIONS);
         $uploader->skipDbProcessing(true);
 
         $workingDir = $this->import->getWorkingDir();
@@ -118,19 +123,5 @@ class ImportSource
         }
 
         return $result['path'] . $result['file'];
-    }
-
-    /**
-     * @param string $data
-     * @throws ValidatorException
-     * @return array
-     */
-    private function parseYamlData($data)
-    {
-        try {
-            return Yaml::parse($data);
-        } catch (\Exception $exception) {
-            throw new ValidatorException(__('Invalid YAML format: %1', $exception->getMessage()));
-        }
     }
 }
