@@ -5,27 +5,28 @@ namespace Snowdog\Menu\Model\ImportExport;
 use Magento\Framework\App\Filesystem\DirectoryList;
 use Magento\Framework\App\Response\Http\FileFactory as HttpFileFactory;
 use Magento\Framework\Filesystem;
-use Symfony\Component\Yaml\Yaml;
 
 class ExportFile
 {
     const EXPORT_DIR = 'importexport';
-
     const FILE_EXTENSION = 'yaml';
     const DOWNLOAD_FILE_NAME = 'menu';
-
-    const YAML_INLINE_LEVEL = 10;
-    const YAML_INDENTATION = 2;
 
     /**
      * @var \Magento\Framework\Filesystem\Directory\WriteInterface
      */
     private $varDirectory;
 
-    public function __construct(HttpFileFactory $httpFileFactory, Filesystem $filesystem)
+    /**
+     * @var Yaml
+     */
+    private $yaml;
+
+    public function __construct(HttpFileFactory $httpFileFactory, Filesystem $filesystem, Yaml $yaml)
     {
         $this->httpFileFactory = $httpFileFactory;
         $this->varDirectory = $filesystem->getDirectoryWrite(DirectoryList::VAR_DIR);
+        $this->yaml = $yaml;
     }
 
     /**
@@ -40,7 +41,7 @@ class ExportFile
         $stream = $this->varDirectory->openFile($file, 'w+');
         $stream->lock();
 
-        $stream->write($this->getYaml($data));
+        $stream->write($this->yaml->dump($data));
 
         $stream->unlock();
         $stream->close();
@@ -50,14 +51,6 @@ class ExportFile
             ['type' => 'filename', 'value' => $file, 'rm' => true],
             DirectoryList::VAR_DIR
         );
-    }
-
-    /**
-     * @return string
-     */
-    private function getYaml(array $data)
-    {
-        return Yaml::dump($data, self::YAML_INLINE_LEVEL, self::YAML_INDENTATION);
     }
 
     /**
