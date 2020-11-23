@@ -4,7 +4,7 @@ namespace Snowdog\Menu\Model\ImportExport\Processor\Import\Menu;
 
 use Magento\Framework\Exception\ValidatorException;
 use Snowdog\Menu\Api\Data\MenuInterface;
-use Snowdog\Menu\Model\ImportExport\Processor\Export;
+use Snowdog\Menu\Model\ImportExport\Processor\ExtendedFields;
 
 class Validator
 {
@@ -13,7 +13,7 @@ class Validator
         MenuInterface::IDENTIFIER,
         MenuInterface::CSS_CLASS,
         MenuInterface::IS_ACTIVE,
-        Export::STORES_FIELD
+        ExtendedFields::STORES
     ];
 
     /**
@@ -29,7 +29,7 @@ class Validator
     public function validate(array $data)
     {
         $this->validateRequiredFields($data);
-        $this->validateStores($data[Export::STORES_FIELD]);
+        $this->validateStores($data[ExtendedFields::STORES]);
     }
 
     /**

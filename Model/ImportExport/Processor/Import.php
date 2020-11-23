@@ -42,8 +42,8 @@ class Import
         $data = $this->uploadFileAndGetData();
         $menu = $this->createMenu($data);
 
-        if (isset($data[Export::NODES_FIELD])) {
-            $this->nodeProcessor->createNodes($data[Export::NODES_FIELD], $menu->getId());
+        if (isset($data[ExtendedFields::NODES])) {
+            $this->nodeProcessor->createNodes($data[ExtendedFields::NODES], $menu->getId());
         }
 
         return $menu->getIdentifier();
@@ -54,8 +54,8 @@ class Import
      */
     private function createMenu(array $data)
     {
-        $stores = $data[Export::STORES_FIELD];
-        unset($data[Export::STORES_FIELD], $data[Export::NODES_FIELD]);
+        $stores = $data[ExtendedFields::STORES];
+        unset($data[ExtendedFields::STORES], $data[ExtendedFields::NODES]);
 
         return $this->menuProcessor->createMenu($data, $stores);
     }
@@ -74,8 +74,8 @@ class Import
 
         $this->menuProcessor->validateImportData($data);
 
-        if (isset($data[Export::NODES_FIELD])) {
-            $this->nodeProcessor->validateImportData($data[Export::NODES_FIELD]);
+        if (isset($data[ExtendedFields::NODES])) {
+            $this->nodeProcessor->validateImportData($data[ExtendedFields::NODES]);
         }
 
         return $data;

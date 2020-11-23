@@ -5,7 +5,7 @@ namespace Snowdog\Menu\Model\ImportExport\Import;
 use Snowdog\Menu\Api\Data\MenuInterface;
 use Snowdog\Menu\Api\Data\NodeInterface;
 use Snowdog\Menu\Model\ImportExport\ExportFile;
-use Snowdog\Menu\Model\ImportExport\Processor\Export;
+use Snowdog\Menu\Model\ImportExport\Processor\ExtendedFields;
 use Snowdog\Menu\Model\NodeTypeProvider;
 use Snowdog\Menu\Model\ResourceModel\Menu as MenuResource;
 use Snowdog\Menu\Model\ResourceModel\Menu\Node as NodeResource;
@@ -85,8 +85,8 @@ class SampleFile
     {
         $data = $this->getMenuData();
 
-        $data[Export::STORES_FIELD] = self::STORES_DATA;
-        $data[Export::NODES_FIELD] = $this->getNodesData();
+        $data[ExtendedFields::STORES] = self::STORES_DATA;
+        $data[ExtendedFields::NODES] = $this->getNodesData();
 
         return $data;
     }
@@ -114,7 +114,7 @@ class SampleFile
         );
 
         $node2 = $node;
-        $node[Export::NODES_FIELD] = [$node, $node];
+        $node[ExtendedFields::NODES] = [$node, $node];
         $data = [$node, $node2];
 
         return $data;

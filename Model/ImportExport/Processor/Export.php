@@ -11,16 +11,8 @@ use Snowdog\Menu\Model\ImportExport\ExportFile;
 
 class Export
 {
-    const STORES_FIELD = 'stores';
-    const NODES_FIELD = 'nodes';
-
     const MENU_EXCLUDED_FIELDS = [
         MenuInterface::MENU_ID
-    ];
-
-    const MENU_RELATION_TABLES_FIELDS = [
-        self::STORES_FIELD,
-        self::NODES_FIELD
     ];
 
     /**
@@ -81,10 +73,10 @@ class Export
         $data = $menu->getData();
         $nodes = $this->getMenuNodeList($menuId);
 
-        $data[self::STORES_FIELD] = $this->getStoreCodes($menu->getStores());
+        $data[ExtendedFields::STORES] = $this->getStoreCodes($menu->getStores());
 
         if ($nodes) {
-            $data[self::NODES_FIELD] = $nodes;
+            $data[ExtendedFields::NODES] = $nodes;
         }
 
         unset($data[MenuInterface::MENU_ID]);
@@ -126,12 +118,12 @@ class Export
             $childNodesClusters[$nodeId] = $nodeData;
 
             if (isset($nodesData[$parentId])) {
-                $nodesData[$parentId][self::NODES_FIELD][$nodeId] = &$childNodesClusters[$nodeId];
+                $nodesData[$parentId][ExtendedFields::NODES][$nodeId] = &$childNodesClusters[$nodeId];
                 continue;
             }
 
             if (isset($childNodesClusters[$parentId])) {
-                $childNodesClusters[$parentId][self::NODES_FIELD][$nodeId] = &$childNodesClusters[$nodeId];
+                $childNodesClusters[$parentId][ExtendedFields::NODES][$nodeId] = &$childNodesClusters[$nodeId];
                 continue;
             }
         }
@@ -147,8 +139,8 @@ class Export
         $data = [];
 
         foreach ($nodes as $node) {
-            if (isset($node[self::NODES_FIELD])) {
-                $node[self::NODES_FIELD] = $this->reindexNodesList($node[self::NODES_FIELD]);
+            if (isset($node[ExtendedFields::NODES])) {
+                $node[ExtendedFields::NODES] = $this->reindexNodesList($node[ExtendedFields::NODES]);
             }
 
             $data[] = $node;

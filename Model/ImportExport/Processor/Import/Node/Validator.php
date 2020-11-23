@@ -4,7 +4,7 @@ namespace Snowdog\Menu\Model\ImportExport\Processor\Import\Node;
 
 use Magento\Framework\Exception\ValidatorException;
 use Snowdog\Menu\Api\Data\NodeInterface;
-use Snowdog\Menu\Model\ImportExport\Processor\Export;
+use Snowdog\Menu\Model\ImportExport\Processor\ExtendedFields;
 
 class Validator
 {
@@ -40,9 +40,9 @@ class Validator
                 );
             }
 
-            if (isset($node[Export::NODES_FIELD])) {
+            if (isset($node[ExtendedFields::NODES])) {
                 $treeTrace[] = $nodeNumber + 1;
-                $this->validate($node[Export::NODES_FIELD], $treeTrace);
+                $this->validate($node[ExtendedFields::NODES], $treeTrace);
             }
         }
     }
