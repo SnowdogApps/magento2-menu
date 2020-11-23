@@ -13,6 +13,11 @@ class ExportFile
     const DOWNLOAD_FILE_NAME = 'menu';
 
     /**
+     * @var HttpFileFactory
+     */
+    private $httpFileFactory;
+
+    /**
      * @var \Magento\Framework\Filesystem\Directory\WriteInterface
      */
     private $varDirectory;
