@@ -5,6 +5,7 @@ namespace Snowdog\Menu\Model\ImportExport\Processor\Import\Menu;
 use Magento\Framework\Exception\ValidatorException;
 use Snowdog\Menu\Api\Data\MenuInterface;
 use Snowdog\Menu\Model\ImportExport\Processor\ExtendedFields;
+use Snowdog\Menu\Model\ImportExport\Processor\Store;
 
 class Validator
 {

@@ -36,7 +36,7 @@ class Export
     private $exportFile;
 
     /**
-     * @var Import\Menu\Store
+     * @var Store
      */
     private $store;
 
@@ -45,7 +45,7 @@ class Export
         MenuRepositoryInterface $menuRepository,
         NodeRepositoryInterface $nodeRepository,
         ExportFile $exportFile,
-        Import\Menu\Store $store
+        Store $store
     ) {
         $this->searchCriteriaBuilder = $searchCriteriaBuilder;
         $this->menuRepository = $menuRepository;
