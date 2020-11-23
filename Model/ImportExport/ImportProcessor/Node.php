@@ -2,12 +2,9 @@
 
 namespace Snowdog\Menu\Model\ImportExport\ImportProcessor;
 
-use Snowdog\Menu\Api\Data\NodeInterface;
 use Snowdog\Menu\Api\Data\NodeInterfaceFactory;
 use Snowdog\Menu\Api\NodeRepositoryInterface;
 use Snowdog\Menu\Model\ImportExport\ExportProcessor;
-use Snowdog\Menu\Model\ImportExport\ImportProcessor\Node\Type\Catalog;
-use Snowdog\Menu\Model\ImportExport\ImportProcessor\Node\Type\Cms;
 
 class Node
 {
@@ -22,14 +19,9 @@ class Node
     private $nodeRepository;
 
     /**
-     * @var Catalog
+     * @var Node\DataProcessor
      */
-    private $catalog;
-
-    /**
-     * @var Cms
-     */
-    private $cms;
+    private $dataProcessor;
 
     /**
      * @var Node\Validator
@@ -39,14 +31,12 @@ class Node
     public function __construct(
         NodeInterfaceFactory $nodeFactory,
         NodeRepositoryInterface $nodeRepository,
-        Catalog $catalog,
-        Cms $cms,
+        Node\DataProcessor $dataProcessor,
         Node\Validator $validator
     ) {
         $this->nodeFactory = $nodeFactory;
         $this->nodeRepository = $nodeRepository;
-        $this->catalog = $catalog;
-        $this->cms = $cms;
+        $this->dataProcessor = $dataProcessor;
         $this->validator = $validator;
     }
 
@@ -59,7 +49,7 @@ class Node
     {
         foreach ($nodes as $nodeData) {
             $node = $this->nodeFactory->create();
-            $data = $this->getProcessedNodeData($nodeData, $menuId, $nodesLevel, $parentNode);
+            $data = $this->dataProcessor->get($nodeData, $menuId, $nodesLevel, $parentNode);
 
             $node->setData($data);
             $this->nodeRepository->save($node);
@@ -73,63 +63,5 @@ class Node
     public function validateImportData(array $data)
     {
         $this->validator->validate($data);
-    }
-
-    /**
-     * @param int $menuId
-     * @param int $nodesLevel
-     * @param int|null $parentId
-     * @return array
-     */
-    private function getProcessedNodeData(array $data, $menuId, $nodesLevel = 0, $parentId = null)
-    {
-        $data[NodeInterface::MENU_ID] = $menuId;
-        $data[NodeInterface::PARENT_ID] = $parentId;
-        $data[NodeInterface::LEVEL] = $nodesLevel;
-
-        $data[NodeInterface::CONTENT] = $this->getNodeTypeContent(
-            $data[NodeInterface::TYPE],
-            $data[NodeInterface::CONTENT]
-        );
-
-        if (isset($data[NodeInterface::TARGET])) {
-            $data[NodeInterface::TARGET] = (bool) $data[NodeInterface::TARGET];
-        }
-
-        if (isset($data[NodeInterface::IS_ACTIVE])) {
-            $data[NodeInterface::IS_ACTIVE] = (bool) $data[NodeInterface::IS_ACTIVE];
-        }
-
-        unset($data[ExportProcessor::NODES_FIELD]);
-
-        return $data;
-    }
-
-    /**
-     * @param string $type
-     * @param mixed $content
-     * @return mixed
-     */
-    private function getNodeTypeContent($type, $content)
-    {
-        switch ($type) {
-            case Catalog::PRODUCT_NODE_TYPE:
-                $product = $this->catalog->getProduct($content);
-                $content = $product->getId();
-
-                break;
-            case Cms::BLOCK_NODE_TYPE:
-                $block = $this->cms->getBlock($content);
-                $content = $block->getIdentifier();
-
-                break;
-            case Cms::PAGE_NODE_TYPE:
-                $page = $this->cms->getPage($content);
-                $content = $page->getIdentifier();
-
-                break;
-        }
-
-        return $content;
     }
 }
