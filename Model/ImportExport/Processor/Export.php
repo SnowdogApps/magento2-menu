@@ -3,27 +3,16 @@
 namespace Snowdog\Menu\Model\ImportExport\Processor;
 
 use Magento\Framework\Api\SearchCriteriaBuilder;
-use Snowdog\Menu\Api\Data\MenuInterface;
 use Snowdog\Menu\Api\Data\NodeInterface;
-use Snowdog\Menu\Api\MenuRepositoryInterface;
 use Snowdog\Menu\Api\NodeRepositoryInterface;
 use Snowdog\Menu\Model\ImportExport\ExportFile;
 
 class Export
 {
-    const MENU_EXCLUDED_FIELDS = [
-        MenuInterface::MENU_ID
-    ];
-
     /**
      * @var SearchCriteriaBuilder
      */
     private $searchCriteriaBuilder;
-
-    /**
-     * @var MenuRepositoryInterface
-     */
-    private $menuRepository;
 
     /**
      * @var NodeRepositoryInterface
@@ -36,22 +25,20 @@ class Export
     private $exportFile;
 
     /**
-     * @var Store
+     * @var Export\Menu
      */
-    private $store;
+    private $menu;
 
     public function __construct(
         SearchCriteriaBuilder $searchCriteriaBuilder,
-        MenuRepositoryInterface $menuRepository,
         NodeRepositoryInterface $nodeRepository,
         ExportFile $exportFile,
-        Store $store
+        Export\Menu $menu
     ) {
         $this->searchCriteriaBuilder = $searchCriteriaBuilder;
-        $this->menuRepository = $menuRepository;
         $this->nodeRepository = $nodeRepository;
         $this->exportFile = $exportFile;
-        $this->store = $store;
+        $this->menu = $menu;
     }
 
     /**
@@ -69,17 +56,12 @@ class Export
      */
     private function getExportData($menuId)
     {
-        $menu = $this->menuRepository->getById($menuId);
-        $data = $menu->getData();
+        $data = $this->menu->getData($menuId);
         $nodes = $this->getMenuNodeList($menuId);
-
-        $data[ExtendedFields::STORES] = $this->getStoreCodes($menu->getStores());
 
         if ($nodes) {
             $data[ExtendedFields::NODES] = $nodes;
         }
-
-        unset($data[MenuInterface::MENU_ID]);
 
         return $data;
     }
@@ -147,19 +129,5 @@ class Export
         }
 
         return $data;
-    }
-
-    /**
-     * @return array
-     */
-    private function getStoreCodes(array $stores)
-    {
-        $storeCodes = [];
-
-        foreach ($stores as $storeId) {
-            $storeCodes[] = $this->store->get($storeId)->getCode();
-        }
-
-        return $storeCodes;
     }
 }
