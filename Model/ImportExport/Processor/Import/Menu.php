@@ -19,6 +19,11 @@ class Menu
     private $menuRepository;
 
     /**
+     * @var Menu\DataProcessor
+     */
+    private $dataProcessor;
+
+    /**
      * @var Menu\Validator
      */
     private $validator;
