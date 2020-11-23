@@ -55,7 +55,10 @@ class Import
     private function createMenu(array $data)
     {
         $stores = $data[ExtendedFields::STORES];
-        unset($data[ExtendedFields::STORES], $data[ExtendedFields::NODES]);
+
+        foreach (ExtendedFields::FIELDS as $extendedField) {
+            unset($data[$extendedField]);
+        }
 
         return $this->menuProcessor->createMenu($data, $stores);
     }
