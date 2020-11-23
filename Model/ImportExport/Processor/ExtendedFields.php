@@ -9,4 +9,9 @@ class ExtendedFields
 {
     const STORES = 'stores';
     const NODES = 'nodes';
+
+    const FIELDS = [
+        self::STORES,
+        self::NODES,
+    ];
 }
