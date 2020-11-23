@@ -1,6 +1,6 @@
 <?php
 
-namespace Snowdog\Menu\Model\ImportExport\ImportProcessor\FieldProcessor;
+namespace Snowdog\Menu\Model\ImportExport\Processor\Import\FieldProcessor;
 
 class Boolean
 {

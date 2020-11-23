@@ -1,9 +1,9 @@
 <?php
 
-namespace Snowdog\Menu\Model\ImportExport\ImportProcessor\Menu;
+namespace Snowdog\Menu\Model\ImportExport\Processor\Import\Menu;
 
 use Snowdog\Menu\Api\Data\MenuInterface;
-use Snowdog\Menu\Model\ImportExport\ImportProcessor\FieldProcessor\Boolean as BooleanField;
+use Snowdog\Menu\Model\ImportExport\Processor\Import\FieldProcessor\Boolean as BooleanField;
 
 class DataProcessor
 {

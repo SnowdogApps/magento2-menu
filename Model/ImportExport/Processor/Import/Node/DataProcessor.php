@@ -1,10 +1,10 @@
 <?php
 
-namespace Snowdog\Menu\Model\ImportExport\ImportProcessor\Node;
+namespace Snowdog\Menu\Model\ImportExport\Processor\Import\Node;
 
 use Snowdog\Menu\Api\Data\NodeInterface;
-use Snowdog\Menu\Model\ImportExport\ExportProcessor;
-use Snowdog\Menu\Model\ImportExport\ImportProcessor\FieldProcessor\Boolean as BooleanField;
+use Snowdog\Menu\Model\ImportExport\Processor\Export;
+use Snowdog\Menu\Model\ImportExport\Processor\Import\FieldProcessor\Boolean as BooleanField;
 
 class DataProcessor
 {
@@ -49,7 +49,7 @@ class DataProcessor
             $data[NodeInterface::IS_ACTIVE] = $this->booleanField->getValue($data[NodeInterface::IS_ACTIVE]);
         }
 
-        unset($data[ExportProcessor::NODES_FIELD]);
+        unset($data[Export::NODES_FIELD]);
 
         return $data;
     }

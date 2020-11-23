@@ -1,14 +1,15 @@
 <?php
 
-namespace Snowdog\Menu\Model\ImportExport;
+namespace Snowdog\Menu\Model\ImportExport\Processor;
 
 use Magento\Framework\Api\SearchCriteriaBuilder;
 use Snowdog\Menu\Api\Data\MenuInterface;
 use Snowdog\Menu\Api\Data\NodeInterface;
 use Snowdog\Menu\Api\MenuRepositoryInterface;
 use Snowdog\Menu\Api\NodeRepositoryInterface;
+use Snowdog\Menu\Model\ImportExport\ExportFile;
 
-class ExportProcessor
+class Export
 {
     const STORES_FIELD = 'stores';
     const NODES_FIELD = 'nodes';
@@ -43,7 +44,7 @@ class ExportProcessor
     private $exportFile;
 
     /**
-     * @var ImportProcessor\Menu\Store
+     * @var Import\Menu\Store
      */
     private $store;
 
@@ -52,7 +53,7 @@ class ExportProcessor
         MenuRepositoryInterface $menuRepository,
         NodeRepositoryInterface $nodeRepository,
         ExportFile $exportFile,
-        ImportProcessor\Menu\Store $store
+        Import\Menu\Store $store
     ) {
         $this->searchCriteriaBuilder = $searchCriteriaBuilder;
         $this->menuRepository = $menuRepository;

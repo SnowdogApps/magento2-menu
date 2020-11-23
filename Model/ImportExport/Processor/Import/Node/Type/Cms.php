@@ -1,6 +1,6 @@
 <?php
 
-namespace Snowdog\Menu\Model\ImportExport\ImportProcessor\Node\Type;
+namespace Snowdog\Menu\Model\ImportExport\Processor\Import\Node\Type;
 
 use Magento\Cms\Api\BlockRepositoryInterface;
 use Magento\Cms\Api\PageRepositoryInterface;

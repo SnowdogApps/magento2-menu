@@ -1,12 +1,13 @@
 <?php
 
-namespace Snowdog\Menu\Model\ImportExport;
+namespace Snowdog\Menu\Model\ImportExport\Processor;
 
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Exception\ValidatorException;
 use Snowdog\Menu\Api\Data\MenuInterface;
+use Snowdog\Menu\Model\ImportExport\ImportSource;
 
-class ImportProcessor
+class Import
 {
     /**
      * @var ImportSource
@@ -14,23 +15,23 @@ class ImportProcessor
     private $importSource;
 
     /**
-     * @var ImportProcessor\Menu
+     * @var Import\Menu
      */
-    private $menuImportProcessor;
+    private $menuProcessor;
 
     /**
-     * @var ImportProcessor\Node
+     * @var Import\Node
      */
-    private $nodeImportProcessor;
+    private $nodeProcessor;
 
     public function __construct(
         ImportSource $importSource,
-        ImportProcessor\Menu $menuImportProcessor,
-        ImportProcessor\Node $nodeImportProcessor
+        Import\Menu $menuProcessor,
+        Import\Node $nodeProcessor
     ) {
         $this->importSource = $importSource;
-        $this->menuImportProcessor = $menuImportProcessor;
-        $this->nodeImportProcessor = $nodeImportProcessor;
+        $this->menuProcessor = $menuProcessor;
+        $this->nodeProcessor = $nodeProcessor;
     }
 
     /**
@@ -41,8 +42,8 @@ class ImportProcessor
         $data = $this->uploadFileAndGetData();
         $menu = $this->createMenu($data);
 
-        if (isset($data[ExportProcessor::NODES_FIELD])) {
-            $this->nodeImportProcessor->createNodes($data[ExportProcessor::NODES_FIELD], $menu->getId());
+        if (isset($data[Export::NODES_FIELD])) {
+            $this->nodeProcessor->createNodes($data[Export::NODES_FIELD], $menu->getId());
         }
 
         return $menu->getIdentifier();
@@ -53,10 +54,10 @@ class ImportProcessor
      */
     private function createMenu(array $data)
     {
-        $stores = $data[ExportProcessor::STORES_FIELD];
-        unset($data[ExportProcessor::STORES_FIELD], $data[ExportProcessor::NODES_FIELD]);
+        $stores = $data[Export::STORES_FIELD];
+        unset($data[Export::STORES_FIELD], $data[Export::NODES_FIELD]);
 
-        return $this->menuImportProcessor->createMenu($data, $stores);
+        return $this->menuProcessor->createMenu($data, $stores);
     }
 
     /**
@@ -71,10 +72,10 @@ class ImportProcessor
             throw new ValidatorException(__($exception->getMessage()));
         }
 
-        $this->menuImportProcessor->validateImportData($data);
+        $this->menuProcessor->validateImportData($data);
 
-        if (isset($data[ExportProcessor::NODES_FIELD])) {
-            $this->nodeImportProcessor->validateImportData($data[ExportProcessor::NODES_FIELD]);
+        if (isset($data[Export::NODES_FIELD])) {
+            $this->nodeProcessor->validateImportData($data[Export::NODES_FIELD]);
         }
 
         return $data;

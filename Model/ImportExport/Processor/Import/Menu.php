@@ -1,6 +1,6 @@
 <?php
 
-namespace Snowdog\Menu\Model\ImportExport\ImportProcessor;
+namespace Snowdog\Menu\Model\ImportExport\Processor\Import;
 
 use Snowdog\Menu\Api\Data\MenuInterface;
 use Snowdog\Menu\Api\Data\MenuInterfaceFactory;

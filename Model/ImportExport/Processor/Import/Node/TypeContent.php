@@ -1,9 +1,9 @@
 <?php
 
-namespace Snowdog\Menu\Model\ImportExport\ImportProcessor\Node;
+namespace Snowdog\Menu\Model\ImportExport\Processor\Import\Node;
 
-use Snowdog\Menu\Model\ImportExport\ImportProcessor\Node\Type\Catalog;
-use Snowdog\Menu\Model\ImportExport\ImportProcessor\Node\Type\Cms;
+use Snowdog\Menu\Model\ImportExport\Processor\Import\Node\Type\Catalog;
+use Snowdog\Menu\Model\ImportExport\Processor\Import\Node\Type\Cms;
 
 class TypeContent
 {

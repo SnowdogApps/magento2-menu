@@ -1,10 +1,10 @@
 <?php
 
-namespace Snowdog\Menu\Model\ImportExport\ImportProcessor;
+namespace Snowdog\Menu\Model\ImportExport\Processor\Import;
 
 use Snowdog\Menu\Api\Data\NodeInterfaceFactory;
 use Snowdog\Menu\Api\NodeRepositoryInterface;
-use Snowdog\Menu\Model\ImportExport\ExportProcessor;
+use Snowdog\Menu\Model\ImportExport\Processor\Export;
 
 class Node
 {
@@ -54,8 +54,8 @@ class Node
             $node->setData($data);
             $this->nodeRepository->save($node);
 
-            if (isset($nodeData[ExportProcessor::NODES_FIELD])) {
-                $this->createNodes($nodeData[ExportProcessor::NODES_FIELD], $menuId, $nodesLevel + 1, $node->getId());
+            if (isset($nodeData[Export::NODES_FIELD])) {
+                $this->createNodes($nodeData[Export::NODES_FIELD], $menuId, $nodesLevel + 1, $node->getId());
             }
         }
     }
