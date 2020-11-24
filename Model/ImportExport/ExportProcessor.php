@@ -1,10 +1,8 @@
 <?php
 
-namespace Snowdog\Menu\Model\ImportExport\Processor;
+namespace Snowdog\Menu\Model\ImportExport;
 
-use Snowdog\Menu\Model\ImportExport\ExportFile;
-
-class Export
+class ExportProcessor
 {
     /**
      * @var ExportFile
@@ -12,17 +10,20 @@ class Export
     private $exportFile;
 
     /**
-     * @var Export\Menu
+     * @var Processor\Export\Menu
      */
     private $menu;
 
     /**
-     * @var Export\Node
+     * @var Processor\Export\Node
      */
     private $node;
 
-    public function __construct(ExportFile $exportFile, Export\Menu $menu, Export\Node $node)
-    {
+    public function __construct(
+        ExportFile $exportFile,
+        Processor\Export\Menu $menu,
+        Processor\Export\Node $node
+    ) {
         $this->exportFile = $exportFile;
         $this->menu = $menu;
         $this->node = $node;
@@ -47,7 +48,7 @@ class Export
         $nodes = $this->node->getList($menuId);
 
         if ($nodes) {
-            $data[ExtendedFields::NODES] = $nodes;
+            $data[Processor\ExtendedFields::NODES] = $nodes;
         }
 
         return $data;

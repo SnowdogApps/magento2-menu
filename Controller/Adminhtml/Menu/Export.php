@@ -4,7 +4,7 @@ namespace Snowdog\Menu\Controller\Adminhtml\Menu;
 
 use Magento\Backend\App\Action;
 use Psr\Log\LoggerInterface;
-use Snowdog\Menu\Model\ImportExport\Processor\Export as ExportProcessor;
+use Snowdog\Menu\Model\ImportExport\ExportProcessor;
 
 class Export extends Action
 {
