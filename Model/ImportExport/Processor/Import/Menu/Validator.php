@@ -58,10 +58,18 @@ class Validator
      */
     private function validateStores(array $stores)
     {
+        $invalidStores = [];
+
         foreach ($stores as $store) {
             if (!$this->store->get($store)) {
-                throw new ValidatorException(__('Store code/ID "%1" is invalid.', $store));
+                $invalidStores[] = $store;
             }
+        }
+
+        if ($invalidStores) {
+            throw new ValidatorException(
+                __('The following Store codes/IDs are invalid: "%1".', implode('", "', $invalidStores))
+            );
         }
     }
 }
