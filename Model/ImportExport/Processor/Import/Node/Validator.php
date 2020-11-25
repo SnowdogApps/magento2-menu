@@ -33,16 +33,13 @@ class Validator
             try {
                 $this->runValidationTasks($node);
             } catch (ValidatorException $exception) {
-                $treeTrace[] = $nodeNumber + 1;
-
                 throw new ValidatorException(
-                    __($exception->getMessage(), [self::ERROR_TREE_TRACE_BREADCRUMBS => implode(' > ', $treeTrace)])
+                    $this->getTreeTracedExceptionMessage($exception, $this->getTreeTrace($treeTrace, $nodeNumber))
                 );
             }
 
             if (isset($node[ExtendedFields::NODES])) {
-                $treeTrace[] = $nodeNumber + 1;
-                $this->validate($node[ExtendedFields::NODES], $treeTrace);
+                $this->validate($node[ExtendedFields::NODES], $this->getTreeTrace($treeTrace, $nodeNumber));
             }
         }
     }
@@ -75,5 +72,34 @@ class Validator
                 )
             );
         }
+    }
+
+    /**
+     * @param int $nodeNumber
+     * @return array
+     */
+    private function getTreeTrace(array $treeTrace, $nodeNumber)
+    {
+        $treeTrace[] = $nodeNumber + 1;
+        return $treeTrace;
+    }
+
+    /**
+     * @return string
+     */
+    private function getTreeTraceBreadcrumbs(array $treeTrace)
+    {
+        return implode(' > ', $treeTrace);
+    }
+
+    /**
+     * @return string
+     */
+    private function getTreeTracedExceptionMessage(\Exception $exception, array $treeTrace)
+    {
+        return __(
+            $exception->getMessage(),
+            [self::ERROR_TREE_TRACE_BREADCRUMBS => $this->getTreeTraceBreadcrumbs($treeTrace)]
+        );
     }
 }
