@@ -36,7 +36,7 @@ class Validator
     /**
      * @throws ValidatorException
      */
-    public function validateRequiredFields(array $data)
+    private function validateRequiredFields(array $data)
     {
         $missingFields = [];
 
