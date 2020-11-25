@@ -8,7 +8,7 @@ use Snowdog\Menu\Model\ImportExport\Processor\ExtendedFields;
 
 class Validator
 {
-    const ERROR_TREE_TRACE_BREADCRUMBS = 'tree_trace_breadcrumbs';
+    const TREE_TRACE_BREADCRUMBS_ERROR_PLACEHOLDER = 'tree_trace_breadcrumbs';
 
     const REQUIRED_FIELDS = [
         NodeInterface::TYPE
@@ -67,7 +67,7 @@ class Validator
             throw new ValidatorException(
                 __(
                     'The following node "%%1" required import fields are missing: "%2".',
-                    self::ERROR_TREE_TRACE_BREADCRUMBS,
+                    self::TREE_TRACE_BREADCRUMBS_ERROR_PLACEHOLDER,
                     implode('", "', $missingFields)
                 )
             );
@@ -99,7 +99,7 @@ class Validator
     {
         return __(
             $exception->getMessage(),
-            [self::ERROR_TREE_TRACE_BREADCRUMBS => $this->getTreeTraceBreadcrumbs($treeTrace)]
+            [self::TREE_TRACE_BREADCRUMBS_ERROR_PLACEHOLDER => $this->getTreeTraceBreadcrumbs($treeTrace)]
         );
     }
 }
