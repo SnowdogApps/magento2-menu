@@ -52,7 +52,7 @@ class NodeType
     {
         if (!in_array($type, $this->getNodeTypes())) {
             throw new ValidatorException(
-                __('Node "%%1" type is invalid.', Validator::TREE_TRACE_BREADCRUMBS_ERROR_PLACEHOLDER)
+                __('Node "%%1" type "%2" is invalid.', Validator::TREE_TRACE_BREADCRUMBS_ERROR_PLACEHOLDER, $type)
             );
         }
     }
