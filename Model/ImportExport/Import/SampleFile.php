@@ -100,7 +100,7 @@ class SampleFile
     }
 
     /**
-     * @return string
+     * @return array
      */
     private function getNodesData()
     {
