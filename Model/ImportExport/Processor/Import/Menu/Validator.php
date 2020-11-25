@@ -68,7 +68,7 @@ class Validator
 
         if ($invalidStores) {
             throw new ValidatorException(
-                __('The following Store codes/IDs are invalid: "%1".', implode('", "', $invalidStores))
+                __('The following store codes/IDs are invalid: "%1".', implode('", "', $invalidStores))
             );
         }
     }
