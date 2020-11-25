@@ -40,6 +40,10 @@ class NodeType
 
     public function validate(array $node)
     {
+        if (empty($node[NodeInterface::TYPE])) {
+            return;
+        }
+
         $this->validateType($node[NodeInterface::TYPE]);
         $this->validateNodeTypeContent($node);
     }

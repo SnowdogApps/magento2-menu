@@ -5,6 +5,7 @@ namespace Snowdog\Menu\Model\ImportExport\Processor\Import\Node;
 use Magento\Framework\Exception\ValidatorException;
 use Snowdog\Menu\Api\Data\NodeInterface;
 use Snowdog\Menu\Model\ImportExport\Processor\ExtendedFields;
+use Snowdog\Menu\Model\ImportExport\Processor\Import\Validator\AggregateError;
 
 class Validator
 {
@@ -19,9 +20,15 @@ class Validator
      */
     private $nodeTypeValidator;
 
-    public function __construct(Validator\NodeType $nodeTypeValidator)
+    /**
+     * @var AggregateError
+     */
+    private $aggregateError;
+
+    public function __construct(Validator\NodeType $nodeTypeValidator, AggregateError $aggregateError)
     {
         $this->nodeTypeValidator = $nodeTypeValidator;
+        $this->aggregateError = $aggregateError;
     }
 
     /**
@@ -31,9 +38,9 @@ class Validator
     {
         foreach ($data as $nodeNumber => $node) {
             try {
-                $this->runValidationTasks($node);
+                $this->runValidationTasks($node, $nodeNumber, $treeTrace);
             } catch (ValidatorException $exception) {
-                throw new ValidatorException(
+                $this->aggregateError->addError(
                     $this->getTreeTracedExceptionMessage($exception, $this->getTreeTrace($treeTrace, $nodeNumber))
                 );
             }
@@ -44,16 +51,19 @@ class Validator
         }
     }
 
-    private function runValidationTasks(array $node)
+    /**
+     * @param int $nodeNumber
+     */
+    private function runValidationTasks(array $node, $nodeNumber, array $treeTrace)
     {
-        $this->validateRequiredFields($node);
+        $this->validateRequiredFields($node, $nodeNumber, $treeTrace);
         $this->nodeTypeValidator->validate($node);
     }
 
     /**
-     * @throws ValidatorException
+     * @param int $nodeNumber
      */
-    private function validateRequiredFields(array $node)
+    private function validateRequiredFields(array $node, $nodeNumber, array $treeTrace)
     {
         $missingFields = [];
 
@@ -64,10 +74,10 @@ class Validator
         }
 
         if ($missingFields) {
-            throw new ValidatorException(
+            $this->aggregateError->addError(
                 __(
-                    'The following node "%%1" required import fields are missing: "%2".',
-                    self::TREE_TRACE_BREADCRUMBS_ERROR_PLACEHOLDER,
+                    'The following node "%1" required import fields are missing: "%2".',
+                    $this->getTreeTraceBreadcrumbs($this->getTreeTrace($treeTrace, $nodeNumber)),
                     implode('", "', $missingFields)
                 )
             );

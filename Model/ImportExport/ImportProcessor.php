@@ -5,6 +5,7 @@ namespace Snowdog\Menu\Model\ImportExport;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Exception\ValidatorException;
 use Snowdog\Menu\Api\Data\MenuInterface;
+use Snowdog\Menu\Model\ImportExport\Exception\ImportValidationException;
 use Snowdog\Menu\Model\ImportExport\Processor\ExtendedFields;
 
 class ImportProcessor
@@ -24,14 +25,21 @@ class ImportProcessor
      */
     private $nodeProcessor;
 
+    /**
+     * @var Processor\Import\Validator\AggregateError
+     */
+    private $aggregateError;
+
     public function __construct(
         ImportSource $importSource,
         Processor\Import\Menu $menuProcessor,
-        Processor\Import\Node $nodeProcessor
+        Processor\Import\Node $nodeProcessor,
+        Processor\Import\Validator\AggregateError $aggregateError
     ) {
         $this->importSource = $importSource;
         $this->menuProcessor = $menuProcessor;
         $this->nodeProcessor = $nodeProcessor;
+        $this->aggregateError = $aggregateError;
     }
 
     /**
@@ -47,6 +55,11 @@ class ImportProcessor
         }
 
         return $menu->getIdentifier();
+    }
+
+    public function flushErrors()
+    {
+        $this->aggregateError->flush();
     }
 
     /**
@@ -75,12 +88,24 @@ class ImportProcessor
             throw new ValidatorException(__($exception->getMessage()));
         }
 
+        $this->validateData($data);
+
+        return $data;
+    }
+
+    /**
+     * @throws ImportValidationException
+     */
+    private function validateData(array $data)
+    {
         $this->menuProcessor->validateImportData($data);
 
         if (isset($data[ExtendedFields::NODES])) {
             $this->nodeProcessor->validateImportData($data[ExtendedFields::NODES]);
         }
 
-        return $data;
+        if ($this->aggregateError->isFlushable()) {
+            throw new ImportValidationException();
+        }
     }
 }
