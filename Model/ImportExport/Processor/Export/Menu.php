@@ -35,7 +35,7 @@ class Menu
      */
     public function getData($menuId)
     {
-        $menu = $this->menuRepository->getById($menuId); // Will throw an exception if menu is not found.
+        $menu = $this->menuRepository->getById($menuId);
         $data = $menu->getData();
 
         foreach (self::EXCLUDED_FIELDS as $excludedField) {
