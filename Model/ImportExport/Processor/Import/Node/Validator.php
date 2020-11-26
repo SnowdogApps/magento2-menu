@@ -9,8 +9,6 @@ use Snowdog\Menu\Model\ImportExport\Processor\Import\Validator\AggregateError;
 
 class Validator
 {
-    const TREE_TRACE_BREADCRUMBS_ERROR_PLACEHOLDER = 'tree_trace_breadcrumbs';
-
     const REQUIRED_FIELDS = [
         NodeInterface::TYPE
     ];
@@ -21,13 +19,22 @@ class Validator
     private $nodeTypeValidator;
 
     /**
+     * @var Validator\TreeTrace
+     */
+    private $treeTrace;
+
+    /**
      * @var AggregateError
      */
     private $aggregateError;
 
-    public function __construct(Validator\NodeType $nodeTypeValidator, AggregateError $aggregateError)
-    {
+    public function __construct(
+        Validator\NodeType $nodeTypeValidator,
+        Validator\TreeTrace $treeTrace,
+        AggregateError $aggregateError
+    ) {
         $this->nodeTypeValidator = $nodeTypeValidator;
+        $this->treeTrace = $treeTrace;
         $this->aggregateError = $aggregateError;
     }
 
@@ -40,13 +47,11 @@ class Validator
             try {
                 $this->runValidationTasks($node, $nodeNumber, $treeTrace);
             } catch (ValidatorException $exception) {
-                $this->aggregateError->addError(
-                    $this->getTreeTracedExceptionMessage($exception, $this->getTreeTrace($treeTrace, $nodeNumber))
-                );
+                $this->aggregateError->addError($exception->getMessage());
             }
 
             if (isset($node[ExtendedFields::NODES])) {
-                $this->validate($node[ExtendedFields::NODES], $this->getTreeTrace($treeTrace, $nodeNumber));
+                $this->validate($node[ExtendedFields::NODES], $this->treeTrace->get($treeTrace, $nodeNumber));
             }
         }
     }
@@ -57,7 +62,7 @@ class Validator
     private function runValidationTasks(array $node, $nodeNumber, array $treeTrace)
     {
         $this->validateRequiredFields($node, $nodeNumber, $treeTrace);
-        $this->nodeTypeValidator->validate($node);
+        $this->nodeTypeValidator->validate($node, $nodeNumber, $treeTrace);
     }
 
     /**
@@ -77,39 +82,10 @@ class Validator
             $this->aggregateError->addError(
                 __(
                     'The following node "%1" required import fields are missing: "%2".',
-                    $this->getTreeTraceBreadcrumbs($this->getTreeTrace($treeTrace, $nodeNumber)),
+                    $this->treeTrace->getBreadcrumbs($treeTrace, $nodeNumber),
                     implode('", "', $missingFields)
                 )
             );
         }
-    }
-
-    /**
-     * @param int $nodeNumber
-     * @return array
-     */
-    private function getTreeTrace(array $treeTrace, $nodeNumber)
-    {
-        $treeTrace[] = $nodeNumber + 1;
-        return $treeTrace;
-    }
-
-    /**
-     * @return string
-     */
-    private function getTreeTraceBreadcrumbs(array $treeTrace)
-    {
-        return implode(' > ', $treeTrace);
-    }
-
-    /**
-     * @return string
-     */
-    private function getTreeTracedExceptionMessage(\Exception $exception, array $treeTrace)
-    {
-        return __(
-            $exception->getMessage(),
-            [self::TREE_TRACE_BREADCRUMBS_ERROR_PLACEHOLDER => $this->getTreeTraceBreadcrumbs($treeTrace)]
-        );
     }
 }

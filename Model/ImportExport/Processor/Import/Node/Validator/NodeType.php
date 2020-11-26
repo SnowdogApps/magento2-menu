@@ -6,7 +6,7 @@ use Magento\Framework\Exception\ValidatorException;
 use Snowdog\Menu\Api\Data\NodeInterface;
 use Snowdog\Menu\Model\ImportExport\Processor\Import\Node\Type\Catalog;
 use Snowdog\Menu\Model\ImportExport\Processor\Import\Node\Type\Cms;
-use Snowdog\Menu\Model\ImportExport\Processor\Import\Node\Validator;
+use Snowdog\Menu\Model\ImportExport\Processor\Import\Validator\AggregateError;
 use Snowdog\Menu\Model\NodeTypeProvider;
 
 class NodeType
@@ -22,6 +22,16 @@ class NodeType
     private $cms;
 
     /**
+     * @var TreeTrace
+     */
+    private $treeTrace;
+
+    /**
+     * @var AggregateError
+     */
+    private $aggregateError;
+
+    /**
      * @var NodeTypeProvider
      */
     private $nodeTypeProvider;
@@ -31,40 +41,53 @@ class NodeType
      */
     private $nodeTypes = [];
 
-    public function __construct(Catalog $catalog, Cms $cms, NodeTypeProvider $nodeTypeProvider)
-    {
+    public function __construct(
+        Catalog $catalog,
+        Cms $cms,
+        TreeTrace $treeTrace,
+        AggregateError $aggregateError,
+        NodeTypeProvider $nodeTypeProvider
+    ) {
         $this->catalog = $catalog;
         $this->cms = $cms;
+        $this->treeTrace = $treeTrace;
+        $this->aggregateError = $aggregateError;
         $this->nodeTypeProvider = $nodeTypeProvider;
     }
 
-    public function validate(array $node)
+    /**
+     * @param int $nodeNumber
+     */
+    public function validate(array $node, $nodeNumber, array $treeTrace)
     {
         if (empty($node[NodeInterface::TYPE])) {
             return;
         }
 
-        $this->validateType($node[NodeInterface::TYPE]);
-        $this->validateNodeTypeContent($node);
+        $this->validateType($node[NodeInterface::TYPE], $nodeNumber, $treeTrace);
+        $this->validateNodeTypeContent($node, $nodeNumber, $treeTrace);
     }
 
     /**
      * @param string $type
+     * @param int $nodeNumber
      * @throws ValidatorException
      */
-    private function validateType($type)
+    private function validateType($type, $nodeNumber, array $treeTrace)
     {
         if (!in_array($type, $this->getNodeTypes())) {
+            $treeTraceBreadcrumbs = $this->treeTrace->getBreadcrumbs($treeTrace, $nodeNumber);
+
             throw new ValidatorException(
-                __('Node "%%1" type "%2" is invalid.', Validator::TREE_TRACE_BREADCRUMBS_ERROR_PLACEHOLDER, $type)
+                __('Node "%1" type "%2" is invalid.', $treeTraceBreadcrumbs, $type)
             );
         }
     }
 
     /**
-     * @throws ValidatorException
+     * @param int $nodeNumber
      */
-    private function validateNodeTypeContent(array $node)
+    private function validateNodeTypeContent(array $node, $nodeNumber, array $treeTrace)
     {
         $isValid = true;
 
@@ -85,10 +108,10 @@ class NodeType
         }
 
         if (!$isValid) {
-            throw new ValidatorException(
+            $this->aggregateError->addError(
                 __(
-                    'Node "%%1" %2 identifier "%3" is invalid.',
-                    Validator::TREE_TRACE_BREADCRUMBS_ERROR_PLACEHOLDER,
+                    'Node "%1" %2 identifier "%3" is invalid.',
+                    $this->treeTrace->getBreadcrumbs($treeTrace, $nodeNumber),
                     $node[NodeInterface::TYPE],
                     $node[NodeInterface::CONTENT]
                 )
