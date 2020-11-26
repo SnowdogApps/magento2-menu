@@ -4,7 +4,6 @@ namespace Snowdog\Menu\Model\ImportExport;
 
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Exception\ValidatorException;
-use Snowdog\Menu\Api\Data\MenuInterface;
 use Snowdog\Menu\Model\ImportExport\Processor\ExtendedFields;
 use Snowdog\Menu\Model\ImportExport\Processor\Import\Validator\ValidationAggregateError;
 
@@ -58,7 +57,7 @@ class ImportProcessor
     }
 
     /**
-     * @return MenuInterface
+     * @return \Snowdog\Menu\Api\Data\MenuInterface
      */
     private function createMenu(array $data)
     {
