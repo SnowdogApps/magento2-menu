@@ -4,8 +4,8 @@ namespace Snowdog\Menu\Model\ImportExport\Processor\Import\Menu;
 
 use Snowdog\Menu\Api\Data\MenuInterface;
 use Snowdog\Menu\Model\ImportExport\Processor\ExtendedFields;
-use Snowdog\Menu\Model\ImportExport\Processor\Store;
 use Snowdog\Menu\Model\ImportExport\Processor\Import\Validator\ValidationAggregateError;
+use Snowdog\Menu\Model\ImportExport\Processor\Store;
 
 class Validator
 {
@@ -18,19 +18,19 @@ class Validator
     ];
 
     /**
-     * @var Store
-     */
-    private $store;
-
-    /**
      * @var ValidationAggregateError
      */
     private $validationAggregateError;
 
-    public function __construct(Store $store, ValidationAggregateError $validationAggregateError)
+    /**
+     * @var Store
+     */
+    private $store;
+
+    public function __construct(ValidationAggregateError $validationAggregateError, Store $store)
     {
-        $this->store = $store;
         $this->validationAggregateError = $validationAggregateError;
+        $this->store = $store;
     }
 
     public function validate(array $data)
