@@ -87,7 +87,7 @@ class NodeType
                 __('Node "%1" type "%2" is invalid.', $treeTraceBreadcrumbs, $type)
             );
 
-            throw $this->validationAggregateError;
+            throw $this->validationAggregateError; // Terminate the node type validation task.
         }
     }
 
