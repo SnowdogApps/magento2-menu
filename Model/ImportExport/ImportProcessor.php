@@ -5,8 +5,8 @@ namespace Snowdog\Menu\Model\ImportExport;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Exception\ValidatorException;
 use Snowdog\Menu\Api\Data\MenuInterface;
-use Snowdog\Menu\Model\ImportExport\Exception\ImportValidationException;
 use Snowdog\Menu\Model\ImportExport\Processor\ExtendedFields;
+use Snowdog\Menu\Model\ImportExport\Processor\Import\Validator\ValidationAggregateError;
 
 class ImportProcessor
 {
@@ -26,20 +26,20 @@ class ImportProcessor
     private $nodeProcessor;
 
     /**
-     * @var Processor\Import\Validator\AggregateError
+     * @var ValidationAggregateError
      */
-    private $aggregateError;
+    private $validationAggregateError;
 
     public function __construct(
         ImportSource $importSource,
         Processor\Import\Menu $menuProcessor,
         Processor\Import\Node $nodeProcessor,
-        Processor\Import\Validator\AggregateError $aggregateError
+        ValidationAggregateError $validationAggregateError
     ) {
         $this->importSource = $importSource;
         $this->menuProcessor = $menuProcessor;
         $this->nodeProcessor = $nodeProcessor;
-        $this->aggregateError = $aggregateError;
+        $this->validationAggregateError = $validationAggregateError;
     }
 
     /**
@@ -55,11 +55,6 @@ class ImportProcessor
         }
 
         return $menu->getIdentifier();
-    }
-
-    public function flushErrors()
-    {
-        $this->aggregateError->flush();
     }
 
     /**
@@ -94,7 +89,7 @@ class ImportProcessor
     }
 
     /**
-     * @throws ImportValidationException
+     * @throws ValidationAggregateError
      */
     private function validateData(array $data)
     {
@@ -104,8 +99,8 @@ class ImportProcessor
             $this->nodeProcessor->validateImportData($data[ExtendedFields::NODES]);
         }
 
-        if ($this->aggregateError->isFlushable()) {
-            throw new ImportValidationException();
+        if ($this->validationAggregateError->isFlushable()) {
+            throw $this->validationAggregateError;
         }
     }
 }

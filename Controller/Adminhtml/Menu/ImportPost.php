@@ -6,7 +6,7 @@ use Magento\Backend\App\Action;
 use Magento\Framework\Exception\ValidatorException;
 use Magento\Store\Model\StoreManagerInterface;
 use Psr\Log\LoggerInterface;
-use Snowdog\Menu\Model\ImportExport\Exception\ImportValidationException;
+use Snowdog\Menu\Model\ImportExport\Processor\Import\Validator\ValidationAggregateError;
 use Snowdog\Menu\Model\ImportExport\ImportProcessor;
 
 class ImportPost extends Action
@@ -56,8 +56,8 @@ class ImportPost extends Action
             $this->messageManager->addSuccessMessage(__('Menu "%1" has been successfully imported.', $menu));
 
             return $resultRedirect->setPath('*/*');
-        } catch (ImportValidationException $exception) {
-            $this->importProcessor->flushErrors();
+        } catch (ValidationAggregateError $exception) {
+            $exception->flush();
         } catch (ValidatorException $exception) {
             $this->messageManager->addErrorMessage($exception->getMessage());
         } catch (\Exception $exception) {

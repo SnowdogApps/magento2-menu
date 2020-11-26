@@ -2,10 +2,9 @@
 
 namespace Snowdog\Menu\Model\ImportExport\Processor\Import\Node;
 
-use Magento\Framework\Exception\ValidatorException;
 use Snowdog\Menu\Api\Data\NodeInterface;
 use Snowdog\Menu\Model\ImportExport\Processor\ExtendedFields;
-use Snowdog\Menu\Model\ImportExport\Processor\Import\Validator\AggregateError;
+use Snowdog\Menu\Model\ImportExport\Processor\Import\Validator\ValidationAggregateError;
 
 class Validator
 {
@@ -24,31 +23,24 @@ class Validator
     private $treeTrace;
 
     /**
-     * @var AggregateError
+     * @var ValidationAggregateError
      */
-    private $aggregateError;
+    private $validationAggregateError;
 
     public function __construct(
         Validator\NodeType $nodeTypeValidator,
         Validator\TreeTrace $treeTrace,
-        AggregateError $aggregateError
+        ValidationAggregateError $validationAggregateError
     ) {
         $this->nodeTypeValidator = $nodeTypeValidator;
         $this->treeTrace = $treeTrace;
-        $this->aggregateError = $aggregateError;
+        $this->validationAggregateError = $validationAggregateError;
     }
 
-    /**
-     * @throws ValidatorException
-     */
     public function validate(array $data, array $treeTrace = [])
     {
         foreach ($data as $nodeNumber => $node) {
-            try {
-                $this->runValidationTasks($node, $nodeNumber, $treeTrace);
-            } catch (ValidatorException $exception) {
-                $this->aggregateError->addError($exception->getMessage());
-            }
+            $this->runValidationTasks($node, $nodeNumber, $treeTrace);
 
             if (isset($node[ExtendedFields::NODES])) {
                 $this->validate($node[ExtendedFields::NODES], $this->treeTrace->get($treeTrace, $nodeNumber));
@@ -79,7 +71,7 @@ class Validator
         }
 
         if ($missingFields) {
-            $this->aggregateError->addError(
+            $this->validationAggregateError->addError(
                 __(
                     'The following node "%1" required import fields are missing: "%2".',
                     $this->treeTrace->getBreadcrumbs($treeTrace, $nodeNumber),

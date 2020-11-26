@@ -5,7 +5,7 @@ namespace Snowdog\Menu\Model\ImportExport\Processor\Import\Menu;
 use Snowdog\Menu\Api\Data\MenuInterface;
 use Snowdog\Menu\Model\ImportExport\Processor\ExtendedFields;
 use Snowdog\Menu\Model\ImportExport\Processor\Store;
-use Snowdog\Menu\Model\ImportExport\Processor\Import\Validator\AggregateError;
+use Snowdog\Menu\Model\ImportExport\Processor\Import\Validator\ValidationAggregateError;
 
 class Validator
 {
@@ -23,14 +23,14 @@ class Validator
     private $store;
 
     /**
-     * @var AggregateError
+     * @var ValidationAggregateError
      */
-    private $aggregateError;
+    private $validationAggregateError;
 
-    public function __construct(Store $store, AggregateError $aggregateError)
+    public function __construct(Store $store, ValidationAggregateError $validationAggregateError)
     {
         $this->store = $store;
-        $this->aggregateError = $aggregateError;
+        $this->validationAggregateError = $validationAggregateError;
     }
 
     public function validate(array $data)
@@ -53,7 +53,7 @@ class Validator
         }
 
         if ($missingFields) {
-            $this->aggregateError->addError(
+            $this->validationAggregateError->addError(
                 __('The following menu required import fields are missing: "%1".', implode('", "', $missingFields))
             );
         }
@@ -70,7 +70,7 @@ class Validator
         }
 
         if ($invalidStores) {
-            $this->aggregateError->addError(
+            $this->validationAggregateError->addError(
                 __('The following store codes/IDs are invalid: "%1".', implode('", "', $invalidStores))
             );
         }
