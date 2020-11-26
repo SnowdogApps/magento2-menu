@@ -2,7 +2,6 @@
 
 namespace Snowdog\Menu\Model\ImportExport\Processor\Import;
 
-use Snowdog\Menu\Api\Data\MenuInterface;
 use Snowdog\Menu\Api\Data\MenuInterfaceFactory;
 use Snowdog\Menu\Api\MenuRepositoryInterface;
 
@@ -41,7 +40,7 @@ class Menu
     }
 
     /**
-     * @return MenuInterface
+     * @return \Snowdog\Menu\Api\Data\MenuInterface
      */
     public function createMenu(array $data, array $stores)
     {
