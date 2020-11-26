@@ -92,6 +92,7 @@ class ImportSource
     /**
      * @throws LocalizedException
      * @throws ValidatorException
+     * @SuppressWarnings(PHPMD.UnusedLocalVariable)
      * @return string
      */
     private function uploadSource()

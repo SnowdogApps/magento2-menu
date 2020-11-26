@@ -41,6 +41,7 @@ class Cms
 
     /**
      * @param string $identifier
+     * @SuppressWarnings(PHPMD.UnusedLocalVariable)
      * @return \Magento\Cms\Api\Data\BlockInterface|null
      */
     public function getBlock($identifier)
@@ -61,6 +62,7 @@ class Cms
 
     /**
      * @param string $identifier
+     * @SuppressWarnings(PHPMD.UnusedLocalVariable)
      * @return \Magento\Cms\Api\Data\PageInterface|null
      */
     public function getPage($identifier)

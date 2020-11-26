@@ -44,6 +44,7 @@ class Catalog
 
     /**
      * @param int $categoryId
+     * @SuppressWarnings(PHPMD.UnusedLocalVariable)
      * @return \Magento\Catalog\Api\Data\CategoryInterface|null
      */
     public function getCategory($categoryId)
@@ -69,6 +70,7 @@ class Catalog
 
     /**
      * @param string $sku
+     * @SuppressWarnings(PHPMD.UnusedLocalVariable)
      * @return \Magento\Catalog\Api\Data\ProductInterface|null
      */
     public function getProduct($sku)

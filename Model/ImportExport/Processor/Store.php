@@ -24,6 +24,7 @@ class Store
 
     /**
      * @param string $storeCode
+     * @SuppressWarnings(PHPMD.UnusedLocalVariable)
      * @return \Magento\Store\Api\Data\StoreInterface|null
      */
     public function get($storeCode)
