@@ -6,8 +6,8 @@ use Magento\Backend\App\Action;
 use Magento\Framework\Exception\ValidatorException;
 use Magento\Store\Model\StoreManagerInterface;
 use Psr\Log\LoggerInterface;
-use Snowdog\Menu\Model\ImportExport\Processor\Import\Validator\ValidationAggregateError;
 use Snowdog\Menu\Model\ImportExport\ImportProcessor;
+use Snowdog\Menu\Model\ImportExport\Processor\Import\Validator\ValidationAggregateError;
 
 class ImportPost extends Action
 {
