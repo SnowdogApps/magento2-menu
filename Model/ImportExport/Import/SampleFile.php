@@ -113,6 +113,7 @@ class SampleFile
             $defaultData
         );
 
+        // Create a tree of nodes.
         $node2 = $node;
         $node[ExtendedFields::NODES] = [$node, $node];
         $data = [$node, $node2];
