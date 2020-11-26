@@ -5,7 +5,6 @@ namespace Snowdog\Menu\Model\ImportExport;
 use Magento\Framework\App\Filesystem\DirectoryList;
 use Magento\Framework\Exception\FileSystemException;
 use Magento\Framework\Exception\LocalizedException;
-use Magento\Framework\Exception\ValidatorException;
 use Magento\Framework\Filesystem;
 use Magento\Framework\HTTP\Adapter\FileTransferFactory;
 use Magento\Framework\Validation\ValidationException;
@@ -91,7 +90,6 @@ class ImportSource
 
     /**
      * @throws LocalizedException
-     * @throws ValidatorException
      * @SuppressWarnings(PHPMD.UnusedLocalVariable)
      * @return string
      */
@@ -119,7 +117,7 @@ class ImportSource
             $fileName = self::ENTITY . '-' . hash('sha256', microtime()) . '.' . $uploader->getFileExtension();
             $result = $uploader->save($workingDir, $fileName);
         } catch (ValidationException $exception) {
-            throw new ValidatorException(__($exception->getMessage()));
+            throw new LocalizedException(__($exception->getMessage()));
         } catch (\Exception $exception) {
             throw new LocalizedException(__('The file cannot be uploaded.'));
         }
