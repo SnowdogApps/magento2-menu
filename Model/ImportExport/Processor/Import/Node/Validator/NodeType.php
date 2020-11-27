@@ -55,33 +55,33 @@ class NodeType
     }
 
     /**
-     * @param int $nodeNumber
+     * @param int $nodeId
      * @SuppressWarnings(PHPMD.UnusedLocalVariable)
      */
-    public function validate(array $node, $nodeNumber, array $treeTrace)
+    public function validate(array $node, $nodeId, array $treeTrace)
     {
         if (empty($node[NodeInterface::TYPE])) {
             return;
         }
 
         try {
-            $this->validateType($node[NodeInterface::TYPE], $nodeNumber, $treeTrace);
+            $this->validateType($node[NodeInterface::TYPE], $nodeId, $treeTrace);
         } catch (ValidationAggregateError $exception) {
             return;
         }
 
-        $this->validateNodeTypeContent($node, $nodeNumber, $treeTrace);
+        $this->validateNodeTypeContent($node, $nodeId, $treeTrace);
     }
 
     /**
      * @param string $type
-     * @param int $nodeNumber
+     * @param int $nodeId
      * @throws ValidationAggregateError
      */
-    private function validateType($type, $nodeNumber, array $treeTrace)
+    private function validateType($type, $nodeId, array $treeTrace)
     {
         if (!in_array($type, $this->getNodeTypes())) {
-            $treeTraceBreadcrumbs = $this->treeTrace->getBreadcrumbs($treeTrace, $nodeNumber);
+            $treeTraceBreadcrumbs = $this->treeTrace->getBreadcrumbs($treeTrace, $nodeId);
 
             $this->validationAggregateError->addError(
                 __('Node "%1" type "%2" is invalid.', $treeTraceBreadcrumbs, $type)
@@ -92,9 +92,9 @@ class NodeType
     }
 
     /**
-     * @param int $nodeNumber
+     * @param int $nodeId
      */
-    private function validateNodeTypeContent(array $node, $nodeNumber, array $treeTrace)
+    private function validateNodeTypeContent(array $node, $nodeId, array $treeTrace)
     {
         $isValid = true;
 
@@ -118,7 +118,7 @@ class NodeType
             $this->validationAggregateError->addError(
                 __(
                     'Node "%1" %2 identifier "%3" is invalid.',
-                    $this->treeTrace->getBreadcrumbs($treeTrace, $nodeNumber),
+                    $this->treeTrace->getBreadcrumbs($treeTrace, $nodeId),
                     $node[NodeInterface::TYPE],
                     $node[NodeInterface::CONTENT]
                 )

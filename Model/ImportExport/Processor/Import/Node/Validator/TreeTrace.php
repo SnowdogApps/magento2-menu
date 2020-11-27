@@ -5,23 +5,23 @@ namespace Snowdog\Menu\Model\ImportExport\Processor\Import\Node\Validator;
 class TreeTrace
 {
     /**
-     * @param int $nodeNumber
+     * @param int $nodeId
      * @return array
      */
-    public function get(array $treeTrace, $nodeNumber)
+    public function get(array $treeTrace, $nodeId)
     {
-        $treeTrace[] = $nodeNumber + 1;
+        $treeTrace[] = $nodeId + 1;
         return $treeTrace;
     }
 
     /**
-     * @param int|null $nodeNumber
+     * @param int|null $nodeId
      * @return string
      */
-    public function getBreadcrumbs(array $treeTrace, $nodeNumber = null)
+    public function getBreadcrumbs(array $treeTrace, $nodeId = null)
     {
-        if ($nodeNumber !== null) {
-            $treeTrace = $this->get($treeTrace, $nodeNumber);
+        if ($nodeId !== null) {
+            $treeTrace = $this->get($treeTrace, $nodeId);
         }
 
         return implode(' > ', $treeTrace);

@@ -39,28 +39,28 @@ class Validator
 
     public function validate(array $data, array $treeTrace = [])
     {
-        foreach ($data as $nodeNumber => $node) {
-            $this->runValidationTasks($node, $nodeNumber, $treeTrace);
+        foreach ($data as $nodeId => $node) {
+            $this->runValidationTasks($node, $nodeId, $treeTrace);
 
             if (isset($node[ExtendedFields::NODES])) {
-                $this->validate($node[ExtendedFields::NODES], $this->treeTrace->get($treeTrace, $nodeNumber));
+                $this->validate($node[ExtendedFields::NODES], $this->treeTrace->get($treeTrace, $nodeId));
             }
         }
     }
 
     /**
-     * @param int $nodeNumber
+     * @param int $nodeId
      */
-    private function runValidationTasks(array $node, $nodeNumber, array $treeTrace)
+    private function runValidationTasks(array $node, $nodeId, array $treeTrace)
     {
-        $this->validateRequiredFields($node, $nodeNumber, $treeTrace);
-        $this->nodeTypeValidator->validate($node, $nodeNumber, $treeTrace);
+        $this->validateRequiredFields($node, $nodeId, $treeTrace);
+        $this->nodeTypeValidator->validate($node, $nodeId, $treeTrace);
     }
 
     /**
-     * @param int $nodeNumber
+     * @param int $nodeId
      */
-    private function validateRequiredFields(array $node, $nodeNumber, array $treeTrace)
+    private function validateRequiredFields(array $node, $nodeId, array $treeTrace)
     {
         $missingFields = [];
 
@@ -74,7 +74,7 @@ class Validator
             $this->validationAggregateError->addError(
                 __(
                     'The following node "%1" required import fields are missing: "%2".',
-                    $this->treeTrace->getBreadcrumbs($treeTrace, $nodeNumber),
+                    $this->treeTrace->getBreadcrumbs($treeTrace, $nodeId),
                     implode('", "', $missingFields)
                 )
             );
