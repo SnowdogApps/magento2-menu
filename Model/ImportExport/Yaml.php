@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Snowdog\Menu\Model\ImportExport;
 
 use Magento\Framework\Exception\ValidatorException;
@@ -15,11 +17,9 @@ class Yaml
     const FILE_EXTENSIONS = ['yaml', 'yml'];
 
     /**
-     * @param string $data
      * @throws ValidatorException
-     * @return array
      */
-    public function parse($data)
+    public function parse(string $data): array
     {
         try {
             return YamlComponent::parse($data);
@@ -28,18 +28,12 @@ class Yaml
         }
     }
 
-    /**
-     * @return string
-     */
-    public function dump(array $data)
+    public function dump(array $data): string
     {
         return YamlComponent::dump($data, self::INLINE_LEVEL, self::INDENTATION);
     }
 
-    /**
-     * @return bool
-     */
-    public function isHashArray(array $data)
+    public function isHashArray(array $data): bool
     {
         return YamlInline::isHash($data);
     }

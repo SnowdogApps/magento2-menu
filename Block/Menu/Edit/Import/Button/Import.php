@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Snowdog\Menu\Block\Menu\Edit\Import\Button;
 
 use Magento\Framework\View\Element\UiComponent\Control\ButtonProviderInterface;

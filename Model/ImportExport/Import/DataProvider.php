@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Snowdog\Menu\Model\ImportExport\Import;
 
 use Magento\Ui\DataProvider\Modifier\PoolInterface;
@@ -8,15 +10,10 @@ use Snowdog\Menu\Model\ResourceModel\Menu\CollectionFactory;
 
 class DataProvider extends ModifierPoolDataProvider
 {
-    /**
-     * @param string $name
-     * @param string $primaryFieldName
-     * @param string $requestFieldName
-     */
     public function __construct(
-        $name,
-        $primaryFieldName,
-        $requestFieldName,
+        string $name,
+        string $primaryFieldName,
+        string $requestFieldName,
         CollectionFactory $collectionFactory,
         array $meta = [],
         array $data = [],

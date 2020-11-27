@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Snowdog\Menu\Model\ImportExport\Processor\Import\Validator;
 
 use Magento\Framework\Message\ManagerInterface as MessageManagerInterface;
@@ -24,22 +26,19 @@ class ValidationAggregateError extends \Exception
     /**
      * @param string|\Magento\Framework\Phrase $error
      */
-    public function addError($error)
+    public function addError($error): void
     {
         $this->errors[] = $error;
     }
 
-    public function flush()
+    public function flush(): void
     {
         foreach ($this->errors as $error) {
             $this->messageManager->addErrorMessage($error);
         }
     }
 
-    /**
-     * @return bool
-     */
-    public function isFlushable()
+    public function isFlushable(): bool
     {
         return (bool) $this->errors;
     }

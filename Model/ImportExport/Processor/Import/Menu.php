@@ -1,7 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Snowdog\Menu\Model\ImportExport\Processor\Import;
 
+use Snowdog\Menu\Api\Data\MenuInterface;
 use Snowdog\Menu\Api\Data\MenuInterfaceFactory;
 use Snowdog\Menu\Api\MenuRepositoryInterface;
 
@@ -39,10 +42,7 @@ class Menu
         $this->validator = $validator;
     }
 
-    /**
-     * @return \Snowdog\Menu\Api\Data\MenuInterface
-     */
-    public function createMenu(array $data, array $stores)
+    public function createMenu(array $data, array $stores): MenuInterface
     {
         $menu = $this->menuFactory->create();
 
@@ -53,7 +53,7 @@ class Menu
         return $menu;
     }
 
-    public function validateImportData(array $data)
+    public function validateImportData(array $data): void
     {
         $this->validator->validate($data);
     }

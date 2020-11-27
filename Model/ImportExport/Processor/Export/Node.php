@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Snowdog\Menu\Model\ImportExport\Processor\Export;
 
 use Magento\Framework\Api\SearchCriteriaBuilder;
@@ -34,11 +36,7 @@ class Node
         $this->nodeRepository = $nodeRepository;
     }
 
-    /**
-     * @param int $menuId
-     * @return array
-     */
-    public function getList($menuId)
+    public function getList(int $menuId): array
     {
         $searchCriteria = $this->searchCriteriaBuilder
             ->addFilter(NodeInterface::MENU_ID, $menuId)
@@ -76,17 +74,14 @@ class Node
         return $this->reindexNodesList($nodesData);
     }
 
-    private function removeNodeExcludedFields(array &$data)
+    private function removeNodeExcludedFields(array &$data): void
     {
         foreach (self::EXCLUDED_FIELDS as $excludedField) {
             unset($data[$excludedField]);
         }
     }
 
-    /**
-     * @return array
-     */
-    private function reindexNodesList(array $nodes)
+    private function reindexNodesList(array $nodes): array
     {
         $data = [];
 

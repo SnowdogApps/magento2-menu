@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Snowdog\Menu\Model\ImportExport\Processor\Import\Node;
 
 use Snowdog\Menu\Model\ImportExport\Processor\Import\Node\Type\Catalog;
@@ -24,25 +26,24 @@ class TypeContent
     }
 
     /**
-     * @param string $type
      * @param mixed $content
      * @return mixed
      */
-    public function get($type, $content)
+    public function get(string $type, $content)
     {
         switch ($type) {
             case Catalog::PRODUCT_NODE_TYPE:
-                $product = $this->catalog->getProduct($content);
-                $content = $product->getId();
+                $product = $this->catalog->getProduct((string) $content);
+                $content = (int) $product->getId();
 
                 break;
             case Cms::BLOCK_NODE_TYPE:
-                $block = $this->cms->getBlock($content);
+                $block = $this->cms->getBlock((string) $content);
                 $content = $block->getIdentifier();
 
                 break;
             case Cms::PAGE_NODE_TYPE:
-                $page = $this->cms->getPage($content);
+                $page = $this->cms->getPage((string) $content);
                 $content = $page->getIdentifier();
 
                 break;

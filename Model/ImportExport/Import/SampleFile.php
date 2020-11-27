@@ -1,7 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Snowdog\Menu\Model\ImportExport\Import;
 
+use Magento\Framework\App\ResponseInterface;
 use Snowdog\Menu\Api\Data\MenuInterface;
 use Snowdog\Menu\Api\Data\NodeInterface;
 use Snowdog\Menu\Model\ImportExport\ExportFile;
@@ -70,18 +73,12 @@ class SampleFile
         $this->nodeResource = $nodeResource;
     }
 
-    /**
-     * @return \Magento\Framework\App\ResponseInterface
-     */
-    public function getDownloadFile()
+    public function getDownloadFile(): ResponseInterface
     {
         return $this->exportFile->generateDownloadFile('sample', $this->getSampleData());
     }
 
-    /**
-     * @return array
-     */
-    private function getSampleData()
+    private function getSampleData(): array
     {
         $data = $this->getMenuData();
 
@@ -91,18 +88,12 @@ class SampleFile
         return $data;
     }
 
-    /**
-     * @return array
-     */
-    private function getMenuData()
+    private function getMenuData(): array
     {
         return $this->getFieldsData($this->menuResource->getFields(), self::MENU_EXCLUDED_FIELDS);
     }
 
-    /**
-     * @return array
-     */
-    private function getNodesData()
+    private function getNodesData(): array
     {
         $defaultData = self::NODE_DEFAULT_DATA;
         $defaultData[NodeInterface::TYPE] = $this->getNodeTypeDefaultValue();
@@ -121,10 +112,7 @@ class SampleFile
         return $data;
     }
 
-    /**
-     * @return string
-     */
-    private function getNodeTypeDefaultValue()
+    private function getNodeTypeDefaultValue(): string
     {
         $nodeTypes = array_keys($this->nodeTypeProvider->getLabels());
 
@@ -134,10 +122,7 @@ class SampleFile
         );
     }
 
-    /**
-     * @return array
-     */
-    private function getFieldsData(array $fields, array $excludedFields = [], array $defaultData = [])
+    private function getFieldsData(array $fields, array $excludedFields = [], array $defaultData = []): array
     {
         $fieldsData = [];
         $excludedFields = array_flip($excludedFields);

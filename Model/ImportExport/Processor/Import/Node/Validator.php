@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Snowdog\Menu\Model\ImportExport\Processor\Import\Node;
 
 use Snowdog\Menu\Api\Data\NodeInterface;
@@ -40,7 +42,7 @@ class Validator
         $this->yaml = $yaml;
     }
 
-    public function validate(array $data, array $treeTrace = [])
+    public function validate(array $data, array $treeTrace = []): void
     {
         if ($this->yaml->isHashArray($data)) {
             $this->treeTrace->disableNodeIdAddend();
@@ -56,18 +58,18 @@ class Validator
     }
 
     /**
-     * @param int $nodeId
+     * @param int|string $nodeId
      */
-    private function runValidationTasks(array $node, $nodeId, array $treeTrace)
+    private function runValidationTasks(array $node, $nodeId, array $treeTrace): void
     {
         $this->validateRequiredFields($node, $nodeId, $treeTrace);
         $this->nodeTypeValidator->validate($node, $nodeId, $treeTrace);
     }
 
     /**
-     * @param int $nodeId
+     * @param int|string $nodeId
      */
-    private function validateRequiredFields(array $node, $nodeId, array $treeTrace)
+    private function validateRequiredFields(array $node, $nodeId, array $treeTrace): void
     {
         $missingFields = [];
 

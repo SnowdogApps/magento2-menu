@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Snowdog\Menu\Model\ImportExport\Processor\Import;
 
 use Snowdog\Menu\Api\Data\NodeInterfaceFactory;
@@ -40,12 +42,7 @@ class Node
         $this->validator = $validator;
     }
 
-    /**
-     * @param int $menuId
-     * @param int $nodesLevel
-     * @param int|null $parentNode
-     */
-    public function createNodes(array $nodes, $menuId, $nodesLevel = 0, $parentNode = null)
+    public function createNodes(array $nodes, int $menuId, int $nodesLevel = 0, ?int $parentNode = null): void
     {
         foreach ($nodes as $nodeData) {
             $node = $this->nodeFactory->create();
@@ -55,12 +52,13 @@ class Node
             $this->nodeRepository->save($node);
 
             if (isset($nodeData[ExtendedFields::NODES])) {
-                $this->createNodes($nodeData[ExtendedFields::NODES], $menuId, $nodesLevel + 1, $node->getId());
+                $nodeId = $node->getId() ? (int) $node->getId() : null;
+                $this->createNodes($nodeData[ExtendedFields::NODES], $menuId, $nodesLevel + 1, $nodeId);
             }
         }
     }
 
-    public function validateImportData(array $data)
+    public function validateImportData(array $data): void
     {
         $this->validator->validate($data);
     }

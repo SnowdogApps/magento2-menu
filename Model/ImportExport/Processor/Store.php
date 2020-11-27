@@ -1,8 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Snowdog\Menu\Model\ImportExport\Processor;
 
 use Magento\Framework\Exception\NoSuchEntityException;
+use Magento\Store\Api\Data\StoreInterface;
 use Magento\Store\Api\StoreRepositoryInterface;
 
 class Store
@@ -25,9 +28,8 @@ class Store
     /**
      * @param string|int $storeCode
      * @SuppressWarnings(PHPMD.UnusedLocalVariable)
-     * @return \Magento\Store\Api\Data\StoreInterface|null
      */
-    public function get($storeCode)
+    public function get($storeCode): ?StoreInterface
     {
         if (isset($this->cachedStores[$storeCode])) {
             return $this->cachedStores[$storeCode];

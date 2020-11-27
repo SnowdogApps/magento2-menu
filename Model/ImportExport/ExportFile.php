@@ -1,9 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Snowdog\Menu\Model\ImportExport;
 
 use Magento\Framework\App\Filesystem\DirectoryList;
 use Magento\Framework\App\Response\Http\FileFactory as HttpFileFactory;
+use Magento\Framework\App\ResponseInterface;
 use Magento\Framework\Filesystem;
 
 class ExportFile
@@ -34,11 +37,7 @@ class ExportFile
         $this->yaml = $yaml;
     }
 
-    /**
-     * @param string $fileId
-     * @return \Magento\Framework\App\ResponseInterface
-     */
-    public function generateDownloadFile($fileId, array $data)
+    public function generateDownloadFile(string $fileId, array $data): ResponseInterface
     {
         $file = $this->getFile($fileId);
 
@@ -58,11 +57,7 @@ class ExportFile
         );
     }
 
-    /**
-     * @param string $fileId
-     * @return string
-     */
-    private function getFile($fileId)
+    private function getFile(string $fileId): string
     {
         return self::EXPORT_DIR . DIRECTORY_SEPARATOR
             . ImportSource::ENTITY . '-' . $fileId . '-' . hash('sha256', microtime())

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Snowdog\Menu\Controller\Adminhtml\Menu;
 
 use Magento\Backend\App\Action;
@@ -42,7 +44,7 @@ class Export extends Action
         $menuId = $this->getRequest()->getParam('id');
 
         try {
-            return $this->exportProcessor->getDownloadFile($menuId);
+            return $this->exportProcessor->getDownloadFile((int) $menuId);
         } catch (\Exception $exception) {
             $this->logger->critical($exception);
             $this->messageManager->addErrorMessage(

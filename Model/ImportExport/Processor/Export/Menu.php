@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Snowdog\Menu\Model\ImportExport\Processor\Export;
 
 use Snowdog\Menu\Api\Data\MenuInterface;
@@ -29,11 +31,7 @@ class Menu
         $this->store = $store;
     }
 
-    /**
-     * @param int $menuId
-     * @return array
-     */
-    public function getData($menuId)
+    public function getData(int $menuId): array
     {
         $menu = $this->menuRepository->getById($menuId);
         $data = $menu->getData();
@@ -47,10 +45,7 @@ class Menu
         return $data;
     }
 
-    /**
-     * @return array
-     */
-    private function getStoreCodes(array $stores)
+    private function getStoreCodes(array $stores): array
     {
         $storeCodes = [];
 

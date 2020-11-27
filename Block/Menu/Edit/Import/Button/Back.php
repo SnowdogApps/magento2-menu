@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Snowdog\Menu\Block\Menu\Edit\Import\Button;
 
 use Magento\Backend\Block\Widget\Context;
@@ -29,10 +31,7 @@ class Back implements ButtonProviderInterface
         ];
     }
 
-    /**
-     * @return string
-     */
-    private function getBackUrl()
+    private function getBackUrl(): string
     {
         return $this->context->getUrlBuilder()->getUrl('*/*');
     }

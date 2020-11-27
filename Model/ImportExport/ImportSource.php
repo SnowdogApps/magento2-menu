@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Snowdog\Menu\Model\ImportExport;
 
 use Magento\Framework\App\Filesystem\DirectoryList;
@@ -64,9 +66,8 @@ class ImportSource
 
     /**
      * @throws LogicException
-     * @return array
      */
-    public function uploadFileAndGetData()
+    public function uploadFileAndGetData(): array
     {
         $sourceFile = $this->uploadSource();
         $sourceFilePath = $this->varDirectory->getRelativePath($sourceFile);
@@ -91,9 +92,8 @@ class ImportSource
     /**
      * @throws LocalizedException
      * @SuppressWarnings(PHPMD.UnusedLocalVariable)
-     * @return string
      */
-    private function uploadSource()
+    private function uploadSource(): string
     {
         $fileTransferAdapter = $this->fileTransferFactory->create();
 

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Snowdog\Menu\Model\ImportExport\Processor\Import\Menu;
 
 use Snowdog\Menu\Api\Data\MenuInterface;
@@ -33,7 +35,7 @@ class Validator
         $this->store = $store;
     }
 
-    public function validate(array $data)
+    public function validate(array $data): void
     {
         $this->validateRequiredFields($data);
 
@@ -42,7 +44,7 @@ class Validator
         }
     }
 
-    private function validateRequiredFields(array $data)
+    private function validateRequiredFields(array $data): void
     {
         $missingFields = [];
 
@@ -59,7 +61,7 @@ class Validator
         }
     }
 
-    private function validateStores(array $stores)
+    private function validateStores(array $stores): void
     {
         $invalidStores = [];
 

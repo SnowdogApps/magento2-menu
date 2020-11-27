@@ -1,8 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Snowdog\Menu\Model\ImportExport\Processor\Import\Node\Type;
 
+use Magento\Catalog\Api\Data\CategoryInterface;
 use Magento\Catalog\Api\CategoryRepositoryInterface;
+use Magento\Catalog\Api\Data\ProductInterface;
 use Magento\Catalog\Api\ProductRepositoryInterface;
 use Magento\Framework\Exception\NoSuchEntityException;
 
@@ -43,11 +47,9 @@ class Catalog
     }
 
     /**
-     * @param int $categoryId
      * @SuppressWarnings(PHPMD.UnusedLocalVariable)
-     * @return \Magento\Catalog\Api\Data\CategoryInterface|null
      */
-    public function getCategory($categoryId)
+    public function getCategory(int $categoryId): ?CategoryInterface
     {
         if (!ctype_digit((string) $categoryId) || $categoryId <= self::ROOT_CATEGORY_ID) {
             return null;
@@ -69,11 +71,9 @@ class Catalog
     }
 
     /**
-     * @param string $sku
      * @SuppressWarnings(PHPMD.UnusedLocalVariable)
-     * @return \Magento\Catalog\Api\Data\ProductInterface|null
      */
-    public function getProduct($sku)
+    public function getProduct(string $sku): ?ProductInterface
     {
         if (isset($this->cachedProducts[$sku])) {
             return $this->cachedProducts[$sku];

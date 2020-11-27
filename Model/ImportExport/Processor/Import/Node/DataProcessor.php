@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Snowdog\Menu\Model\ImportExport\Processor\Import\Node;
 
 use Snowdog\Menu\Api\Data\NodeInterface;
@@ -24,13 +26,7 @@ class DataProcessor
         $this->typeContent = $typeContent;
     }
 
-    /**
-     * @param int $menuId
-     * @param int $nodesLevel
-     * @param int|null $parentId
-     * @return array
-     */
-    public function get(array $data, $menuId, $nodesLevel = 0, $parentId = null)
+    public function get(array $data, int $menuId, int $nodesLevel = 0, ?int $parentId = null): array
     {
         $data[NodeInterface::MENU_ID] = $menuId;
         $data[NodeInterface::PARENT_ID] = $parentId;
@@ -38,7 +34,7 @@ class DataProcessor
 
         if (isset($data[NodeInterface::CONTENT]) && $data[NodeInterface::CONTENT] !== '') {
             $data[NodeInterface::CONTENT] = $this->typeContent->get(
-                $data[NodeInterface::TYPE],
+                (string) $data[NodeInterface::TYPE],
                 $data[NodeInterface::CONTENT]
             );
         }

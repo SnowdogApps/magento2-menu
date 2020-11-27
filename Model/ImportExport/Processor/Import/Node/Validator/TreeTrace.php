@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Snowdog\Menu\Model\ImportExport\Processor\Import\Node\Validator;
 
 class TreeTrace
@@ -11,9 +13,8 @@ class TreeTrace
 
     /**
      * @param int|string $nodeId
-     * @return array
      */
-    public function get(array $treeTrace, $nodeId)
+    public function get(array $treeTrace, $nodeId): array
     {
         if ($this->nodeIdAddend) {
             $nodeId = (int) $nodeId + $this->nodeIdAddend;
@@ -25,10 +26,9 @@ class TreeTrace
     }
 
     /**
-     * @param int|null $nodeId
-     * @return string
+     * @param int|string|null $nodeId
      */
-    public function getBreadcrumbs(array $treeTrace, $nodeId = null)
+    public function getBreadcrumbs(array $treeTrace, $nodeId = null): string
     {
         if ($nodeId !== null) {
             $treeTrace = $this->get($treeTrace, $nodeId);
@@ -37,7 +37,7 @@ class TreeTrace
         return implode(' > ', $treeTrace);
     }
 
-    public function disableNodeIdAddend()
+    public function disableNodeIdAddend(): void
     {
         $this->nodeIdAddend = 0;
     }

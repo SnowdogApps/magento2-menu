@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Snowdog\Menu\Model\ImportExport\Processor\Import\FieldProcessor;
 
 class Boolean
@@ -8,9 +10,8 @@ class Boolean
 
     /**
      * @param mixed $data
-     * @return bool
      */
-    public function getValue($data)
+    public function getValue($data): bool
     {
         $data = strtolower((string) $data);
         return in_array($data, self::TRUE_VALUES);

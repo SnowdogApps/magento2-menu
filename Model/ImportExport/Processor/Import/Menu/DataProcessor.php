@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Snowdog\Menu\Model\ImportExport\Processor\Import\Menu;
 
 use Snowdog\Menu\Api\Data\MenuInterface;
@@ -30,12 +32,11 @@ class DataProcessor
         $this->identifier = $identifier;
     }
 
-    /**
-     * @return array
-     */
-    public function getMenuData(array $data)
+    public function getMenuData(array $data): array
     {
-        $data[MenuInterface::IDENTIFIER] = $this->identifier->getNewIdentifier($data[MenuInterface::IDENTIFIER]);
+        $data[MenuInterface::IDENTIFIER] = $this->identifier->getNewIdentifier(
+            (string) $data[MenuInterface::IDENTIFIER]
+        );
 
         if (isset($data[MenuInterface::IS_ACTIVE])) {
             $data[MenuInterface::IS_ACTIVE] = $this->booleanField->getValue($data[MenuInterface::IS_ACTIVE]);
@@ -44,15 +45,12 @@ class DataProcessor
         return $data;
     }
 
-    /**
-     * @return array
-     */
-    public function getStoreIds(array $storeCodes)
+    public function getStoreIds(array $storeCodes): array
     {
         $storeIds = [];
 
         foreach ($storeCodes as $storeCode) {
-            $storeIds[] = $this->store->get($storeCode)->getId();
+            $storeIds[] = (int) $this->store->get($storeCode)->getId();
         }
 
         return $storeIds;

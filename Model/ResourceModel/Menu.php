@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 namespace Snowdog\Menu\Model\ResourceModel;
 
 use Magento\Framework\Model\ResourceModel\Db\AbstractDb;
@@ -10,10 +13,7 @@ class Menu extends AbstractDb
         $this->_init('snowmenu_menu', 'menu_id');
     }
 
-    /**
-     * @return array
-     */
-    public function getFields()
+    public function getFields(): array
     {
         return $this->getConnection()->describeTable($this->getMainTable());
     }

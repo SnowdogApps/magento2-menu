@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Snowdog\Menu\Model\ImportExport\Processor\Import\Node\Validator;
 
 use Snowdog\Menu\Api\Data\NodeInterface;
@@ -55,10 +57,10 @@ class NodeType
     }
 
     /**
-     * @param int $nodeId
+     * @param int|string $nodeId
      * @SuppressWarnings(PHPMD.UnusedLocalVariable)
      */
-    public function validate(array $node, $nodeId, array $treeTrace)
+    public function validate(array $node, $nodeId, array $treeTrace): void
     {
         if (!isset($node[NodeInterface::TYPE]) || $node[NodeInterface::TYPE] === '') {
             return;
@@ -74,11 +76,10 @@ class NodeType
     }
 
     /**
-     * @param string $type
-     * @param int $nodeId
+     * @param int|string $nodeId
      * @throws ValidationAggregateError
      */
-    private function validateType($type, $nodeId, array $treeTrace)
+    private function validateType(string $type, $nodeId, array $treeTrace): void
     {
         if (!in_array($type, $this->getNodeTypes())) {
             $treeTraceBreadcrumbs = $this->treeTrace->getBreadcrumbs($treeTrace, $nodeId);
@@ -92,9 +93,9 @@ class NodeType
     }
 
     /**
-     * @param int $nodeId
+     * @param int|string $nodeId
      */
-    private function validateNodeTypeContent(array $node, $nodeId, array $treeTrace)
+    private function validateNodeTypeContent(array $node, $nodeId, array $treeTrace): void
     {
         if (!isset($node[NodeInterface::CONTENT]) || $node[NodeInterface::CONTENT] === '') {
             return;
@@ -104,17 +105,17 @@ class NodeType
 
         switch ($node[NodeInterface::TYPE]) {
             case Catalog::PRODUCT_NODE_TYPE:
-                $isValid = $this->catalog->getProduct($node[NodeInterface::CONTENT]);
+                $isValid = $this->catalog->getProduct((string) $node[NodeInterface::CONTENT]);
                 break;
             case Catalog::CATEGORY_NODE_TYPE:
             case Catalog::CHILD_CATEGORY_NODE_TYPE:
-                $isValid = $this->catalog->getCategory($node[NodeInterface::CONTENT]);
+                $isValid = $this->catalog->getCategory((int) $node[NodeInterface::CONTENT]);
                 break;
             case Cms::BLOCK_NODE_TYPE:
-                $isValid = $this->cms->getBlock($node[NodeInterface::CONTENT]);
+                $isValid = $this->cms->getBlock((string) $node[NodeInterface::CONTENT]);
                 break;
             case Cms::PAGE_NODE_TYPE:
-                $isValid = $this->cms->getPage($node[NodeInterface::CONTENT]);
+                $isValid = $this->cms->getPage((string) $node[NodeInterface::CONTENT]);
                 break;
         }
 
@@ -130,10 +131,7 @@ class NodeType
         }
     }
 
-    /**
-     * @return array
-     */
-    private function getNodeTypes()
+    private function getNodeTypes(): array
     {
         if (!$this->nodeTypes) {
             $this->nodeTypes = array_keys($this->nodeTypeProvider->getLabels());

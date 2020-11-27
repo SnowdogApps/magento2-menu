@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Snowdog\Menu\Model\ImportExport\Processor\Import\Menu;
 
 use Magento\Framework\Api\SearchCriteriaBuilder;
@@ -26,11 +28,7 @@ class Identifier
         $this->menuRepository = $menuRepository;
     }
 
-    /**
-     * @param string $identifier
-     * @return string
-     */
-    public function getNewIdentifier($identifier)
+    public function getNewIdentifier(string $identifier): string
     {
         $menus = $this->getMenuListByIdentifier($identifier);
         if (!$menus) {
@@ -52,11 +50,7 @@ class Identifier
         return $newIdentifier;
     }
 
-    /**
-     * @param string $identifier
-     * @return array
-     */
-    private function getMenuListByIdentifier($identifier)
+    private function getMenuListByIdentifier(string $identifier): array
     {
         $searchCriteria = $this->searchCriteriaBuilder
             ->addFilter(MenuInterface::IDENTIFIER, "${identifier}%", 'like')

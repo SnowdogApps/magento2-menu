@@ -1,9 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Snowdog\Menu\Model\ImportExport;
 
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Exception\ValidatorException;
+use Snowdog\Menu\Api\Data\MenuInterface;
 use Snowdog\Menu\Model\ImportExport\Processor\ExtendedFields;
 use Snowdog\Menu\Model\ImportExport\Processor\Import\Validator\ValidationAggregateError;
 
@@ -41,25 +44,19 @@ class ImportProcessor
         $this->validationAggregateError = $validationAggregateError;
     }
 
-    /**
-     * @return string
-     */
-    public function importFile()
+    public function importFile(): string
     {
         $data = $this->uploadFileAndGetData();
         $menu = $this->createMenu($data);
 
         if (isset($data[ExtendedFields::NODES])) {
-            $this->nodeProcessor->createNodes($data[ExtendedFields::NODES], $menu->getId());
+            $this->nodeProcessor->createNodes($data[ExtendedFields::NODES], (int) $menu->getId());
         }
 
         return $menu->getIdentifier();
     }
 
-    /**
-     * @return \Snowdog\Menu\Api\Data\MenuInterface
-     */
-    private function createMenu(array $data)
+    private function createMenu(array $data): MenuInterface
     {
         $stores = $data[ExtendedFields::STORES];
 
@@ -72,9 +69,8 @@ class ImportProcessor
 
     /**
      * @throws ValidatorException
-     * @return array
      */
-    private function uploadFileAndGetData()
+    private function uploadFileAndGetData(): array
     {
         try {
             $data = $this->importSource->uploadFileAndGetData();
@@ -90,7 +86,7 @@ class ImportProcessor
     /**
      * @throws ValidationAggregateError
      */
-    private function validateData(array $data)
+    private function validateData(array $data): void
     {
         $this->menuProcessor->validateImportData($data);
 
