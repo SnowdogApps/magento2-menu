@@ -51,6 +51,7 @@ class Export extends Action
         }
 
         $resultRedirect = $this->resultRedirectFactory->create();
+
         return $resultRedirect->setPath('*/*');
     }
 }

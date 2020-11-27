@@ -46,6 +46,7 @@ class DownloadImportSample extends Action
         }
 
         $resultRedirect = $this->resultRedirectFactory->create();
+
         return $resultRedirect->setPath('*/*');
     }
 }
