@@ -42,11 +42,11 @@ class Node
         $this->validator = $validator;
     }
 
-    public function createNodes(array $nodes, int $menuId, int $nodesLevel = 0, ?int $parentNode = null): void
+    public function createNodes(array $nodes, int $menuId, int $nodesLevel = 0, ?int $parentId = null): void
     {
         foreach ($nodes as $nodeData) {
             $node = $this->nodeFactory->create();
-            $data = $this->dataProcessor->get($nodeData, $menuId, $nodesLevel, $parentNode);
+            $data = $this->dataProcessor->get($nodeData, $menuId, $nodesLevel, $parentId);
 
             $node->setData($data);
             $this->nodeRepository->save($node);
