@@ -35,7 +35,7 @@ class ExportProcessor
 
     public function getDownloadFile(int $menuId): ResponseInterface
     {
-        return $this->exportFile->generateDownloadFile($menuId, $this->getExportData($menuId));
+        return $this->exportFile->generateDownloadFile((string) $menuId, $this->getExportData($menuId));
     }
 
     private function getExportData(int $menuId): array
