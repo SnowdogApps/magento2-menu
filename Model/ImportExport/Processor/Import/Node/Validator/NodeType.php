@@ -60,7 +60,7 @@ class NodeType
      */
     public function validate(array $node, $nodeId, array $treeTrace)
     {
-        if (empty($node[NodeInterface::TYPE])) {
+        if (!isset($node[NodeInterface::TYPE]) || $node[NodeInterface::TYPE] === '') {
             return;
         }
 

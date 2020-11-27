@@ -72,7 +72,7 @@ class Validator
         $missingFields = [];
 
         foreach (self::REQUIRED_FIELDS as $field) {
-            if (empty($node[$field])) {
+            if (!isset($node[$field]) || $node[$field] === '') {
                 $missingFields[] = $field;
             }
         }
