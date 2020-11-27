@@ -5,13 +5,14 @@ declare(strict_types=1);
 namespace Snowdog\Menu\Controller\Adminhtml\Menu;
 
 use Magento\Backend\App\Action;
+use Magento\Framework\App\Action\HttpPostActionInterface;
 use Magento\Framework\Exception\ValidatorException;
 use Magento\Store\Model\StoreManagerInterface;
 use Psr\Log\LoggerInterface;
 use Snowdog\Menu\Model\ImportExport\ImportProcessor;
 use Snowdog\Menu\Model\ImportExport\Processor\Import\Validator\ValidationAggregateError;
 
-class ImportPost extends Action
+class ImportPost extends Action implements HttpPostActionInterface
 {
     /**
      * @inheritDoc

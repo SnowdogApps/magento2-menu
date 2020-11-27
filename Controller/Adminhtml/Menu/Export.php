@@ -5,10 +5,11 @@ declare(strict_types=1);
 namespace Snowdog\Menu\Controller\Adminhtml\Menu;
 
 use Magento\Backend\App\Action;
+use Magento\Framework\App\Action\HttpGetActionInterface;
 use Psr\Log\LoggerInterface;
 use Snowdog\Menu\Model\ImportExport\ExportProcessor;
 
-class Export extends Action
+class Export extends Action implements HttpGetActionInterface
 {
     /**
      * @inheritDoc
