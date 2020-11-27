@@ -105,6 +105,7 @@
                         field: $t('Image'),
                         uploadAction: $t('Choose image'),
                         cancelAction: $t('Cancel'),
+                        removeAction: $t('Remove'),
                         saveAction: $t('Save')
                     },
                     additionalLabel: $t('Additional type options'),

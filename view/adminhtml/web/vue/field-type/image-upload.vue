@@ -7,16 +7,23 @@
             {{ labels.field }}
         </label>
 
-        <div class="admin__field-control control">
+        <div class="admin__field-control control image-upload__wrapper">
             <div
-                v-if="this.item.imageUrl"
+                v-if="item.imageUrl"
                 class="upload-file__current-area"
             >
                 <img
                     class="upload-file__image image-upload__image--current"
-                    :src="this.item.imageUrl"
+                    :src="item.imageUrl"
                 >
             </div>
+            <button
+                v-if="item.imageUrl"
+                class="primary image-upload__remove"
+                @click="removeItemImage"
+            >
+                {{ labels.removeAction }}
+            </button>
             <div
                 class="image-upload__dropzone"
                 :class="{'image-upload__dropzone--dragging': isDragging}"
@@ -57,11 +64,10 @@
                     </div>
                 </div>
                 <div
-                    v-if="!this.previewImage && !fileIsUploading"
+                    v-if="!previewImage && !fileIsUploading"
                     class="image-upload__upload-area"
                 >
                     <button
-                        class="remove"
                         @click="chooseFile"
                     >
                         {{ labels.uploadAction }}
@@ -124,6 +130,10 @@
                 this.fieldId = 'snowmenu_' + this.id + '_' + this._uid;
             },
             methods: {
+                setItemImage: function(file, url) {
+                  this.item.image = file;
+                  this.item.imageUrl = url;
+                },
                 uploadFileToServer: function() {
                     this.fileIsUploading = true;
 
@@ -140,8 +150,7 @@
                         processData: false,
                         success: function (response) {
                           if (response.file) {
-                              this.item.image = response.file
-                              this.item.imageUrl = response.url
+                            this.setItemImage(response.file, response.url);
                           }
                         }.bind(this),
                         error: function() {
@@ -152,6 +161,11 @@
                           this.removeNewFile();
                         }.bind(this)
                     });
+                },
+
+                removeItemImage: function(e) {
+                  e.preventDefault();
+                  this.setItemImage('', '');
                 },
 
                 removeNewFileAction: function(e) {
