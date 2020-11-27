@@ -5,6 +5,7 @@ namespace Snowdog\Menu\Model\ImportExport\Processor\Import\Node;
 use Snowdog\Menu\Api\Data\NodeInterface;
 use Snowdog\Menu\Model\ImportExport\Processor\ExtendedFields;
 use Snowdog\Menu\Model\ImportExport\Processor\Import\Validator\ValidationAggregateError;
+use Snowdog\Menu\Model\ImportExport\Yaml;
 
 class Validator
 {
@@ -30,15 +31,21 @@ class Validator
     public function __construct(
         Validator\NodeType $nodeTypeValidator,
         Validator\TreeTrace $treeTrace,
-        ValidationAggregateError $validationAggregateError
+        ValidationAggregateError $validationAggregateError,
+        Yaml $yaml
     ) {
         $this->nodeTypeValidator = $nodeTypeValidator;
         $this->treeTrace = $treeTrace;
         $this->validationAggregateError = $validationAggregateError;
+        $this->yaml = $yaml;
     }
 
     public function validate(array $data, array $treeTrace = [])
     {
+        if ($this->yaml->isHashArray($data)) {
+            $this->treeTrace->disableNodeIdAddend();
+        }
+
         foreach ($data as $nodeId => $node) {
             $this->runValidationTasks($node, $nodeId, $treeTrace);
 
