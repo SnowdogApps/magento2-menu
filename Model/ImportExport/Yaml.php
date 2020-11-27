@@ -4,6 +4,7 @@ namespace Snowdog\Menu\Model\ImportExport;
 
 use Magento\Framework\Exception\ValidatorException;
 use Symfony\Component\Yaml\Exception\ParseException;
+use Symfony\Component\Yaml\Inline as YamlInline;
 use Symfony\Component\Yaml\Yaml as YamlComponent;
 
 class Yaml
@@ -33,5 +34,13 @@ class Yaml
     public function dump(array $data)
     {
         return YamlComponent::dump($data, self::INLINE_LEVEL, self::INDENTATION);
+    }
+
+    /**
+     * @return bool
+     */
+    public function isHashArray(array $data)
+    {
+        return YamlInline::isHash($data);
     }
 }
