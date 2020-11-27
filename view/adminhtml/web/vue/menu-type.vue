@@ -51,14 +51,13 @@
             type="text"
         />
 
-<<<<<<< HEAD
         <image-upload
             v-if="showImage"
             id="image"
             :item="item"
             :labels="fileUploadLabels"
         />
-=======
+
         <h2>
             {{ templatesLabel }}
         </h2>
@@ -82,7 +81,6 @@
         <template v-else>
             <p>{{ noTemplatesMessage }}</p>
         </template>
->>>>>>> develop
     </fieldset>
 </template>
 
@@ -102,22 +100,19 @@
             data: function() {
                 return {
                     draft: {},
-<<<<<<< HEAD
                     isNodeActiveLabel: $t('Enabled'),
                     fileUploadLabels: {
                         field: $t('Image'),
                         uploadAction: $t('Choose image'),
                         cancelAction: $t('Cancel'),
                         saveAction: $t('Save')
-=======
+                    },
                     additionalLabel: $t('Additional type options'),
-                    isNodeActiveLabel: $t('Enabled'),
                     noTemplatesMessage: $t('There is no custom defined templates defined in theme for this node type'),
                     templatesLabel: $t('Templates'),
                     templateList: {
                       'node': 'snowMenuNodeCustomTemplates',
                       'submenu': 'snowMenuSubmenuCustomTemplates',
->>>>>>> develop
                     }
                 }
             },
@@ -143,14 +138,12 @@
                     }
                     return list;
                 },
-<<<<<<< HEAD
+                templateOptions: function() {
+                    return this.templateOptionsData[this.item['type']] || [];
+                },
                 showImage: function() {
                     return this.item.type !== 'cms_page'
                         && this.item.type !== 'wrapper';
-=======
-                templateOptions: function() {
-                    return this.templateOptionsData[this.item['type']] || [];
->>>>>>> develop
                 }
             },
             methods: {

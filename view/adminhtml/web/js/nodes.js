@@ -3,12 +3,13 @@ define([
     "Vddl",
     "vue-select",
     "vue!Snowdog_Menu/vue/app",
-    "vue!Snowdog_Menu/vue/nested-list",
-    "vue!Snowdog_Menu/vue/menu-type",
-    "vue!Snowdog_Menu/vue/field-type/simple",
-    "vue!Snowdog_Menu/vue/field-type/checkbox",
     "vue!Snowdog_Menu/vue/field-type/autocomplete",
-    "vue!Snowdog_Menu/vue/field-type/template-list"
+    "vue!Snowdog_Menu/vue/field-type/checkbox",
+    "vue!Snowdog_Menu/vue/field-type/image-upload",
+    "vue!Snowdog_Menu/vue/field-type/simple",
+    "vue!Snowdog_Menu/vue/field-type/template-list",
+    "vue!Snowdog_Menu/vue/menu-type",
+    "vue!Snowdog_Menu/vue/nested-list"
 ], function(Vue, Vddl, vueSelect) {
 
     return function(config) {
