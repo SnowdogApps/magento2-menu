@@ -43,6 +43,7 @@ class Node
             ->create();
 
         $nodes = $this->nodeRepository->getList($searchCriteria)->getItems();
+
         $nodesData = [];
         $childNodesClusters = [];
 
