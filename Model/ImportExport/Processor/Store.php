@@ -23,7 +23,7 @@ class Store
     }
 
     /**
-     * @param string $storeCode
+     * @param string|int $storeCode
      * @SuppressWarnings(PHPMD.UnusedLocalVariable)
      * @return \Magento\Store\Api\Data\StoreInterface|null
      */
