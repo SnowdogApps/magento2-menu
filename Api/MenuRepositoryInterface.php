@@ -30,13 +30,6 @@ interface MenuRepositoryInterface
     public function getById($id);
 
     /**
-     * @param string $identifier
-     * @throws \Magento\Framework\Exception\NoSuchEntityException
-     * @return \Snowdog\Menu\Api\Data\MenuInterface
-     */
-    public function getByIdentifier($identifier);
-
-    /**
      * Returns menus list
      *
      * @api
