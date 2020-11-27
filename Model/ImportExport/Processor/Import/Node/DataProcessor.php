@@ -36,10 +36,12 @@ class DataProcessor
         $data[NodeInterface::PARENT_ID] = $parentId;
         $data[NodeInterface::LEVEL] = $nodesLevel;
 
-        $data[NodeInterface::CONTENT] = $this->typeContent->get(
-            $data[NodeInterface::TYPE],
-            $data[NodeInterface::CONTENT]
-        );
+        if (isset($data[NodeInterface::CONTENT]) && $data[NodeInterface::CONTENT] !== '') {
+            $data[NodeInterface::CONTENT] = $this->typeContent->get(
+                $data[NodeInterface::TYPE],
+                $data[NodeInterface::CONTENT]
+            );
+        }
 
         if (isset($data[NodeInterface::TARGET])) {
             $data[NodeInterface::TARGET] = $this->booleanField->getValue($data[NodeInterface::TARGET]);

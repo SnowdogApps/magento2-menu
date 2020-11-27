@@ -96,6 +96,10 @@ class NodeType
      */
     private function validateNodeTypeContent(array $node, $nodeId, array $treeTrace)
     {
+        if (!isset($node[NodeInterface::CONTENT]) || $node[NodeInterface::CONTENT] === '') {
+            return;
+        }
+
         $isValid = true;
 
         switch ($node[NodeInterface::TYPE]) {
