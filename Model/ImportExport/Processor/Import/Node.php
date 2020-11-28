@@ -7,6 +7,7 @@ namespace Snowdog\Menu\Model\ImportExport\Processor\Import;
 use Snowdog\Menu\Api\Data\NodeInterfaceFactory;
 use Snowdog\Menu\Api\NodeRepositoryInterface;
 use Snowdog\Menu\Model\ImportExport\Processor\ExtendedFields;
+use Snowdog\Menu\Model\ImportExport\Yaml;
 
 class Node
 {
@@ -30,16 +31,30 @@ class Node
      */
     private $validator;
 
+    /**
+     * @var Node\Validator\TreeTrace
+     */
+    private $treeTrace;
+
+    /**
+     * @var Yaml
+     */
+    private $yaml;
+
     public function __construct(
         NodeInterfaceFactory $nodeFactory,
         NodeRepositoryInterface $nodeRepository,
         Node\DataProcessor $dataProcessor,
-        Node\Validator $validator
+        Node\Validator $validator,
+        Node\Validator\TreeTrace $treeTrace,
+        Yaml $yaml
     ) {
         $this->nodeFactory = $nodeFactory;
         $this->nodeRepository = $nodeRepository;
         $this->dataProcessor = $dataProcessor;
         $this->validator = $validator;
+        $this->treeTrace = $treeTrace;
+        $this->yaml = $yaml;
     }
 
     public function createNodes(array $nodes, int $menuId, int $nodesLevel = 0, ?int $parentId = null): void
@@ -60,6 +75,10 @@ class Node
 
     public function validateImportData(array $data): void
     {
+        if ($this->yaml->isHashArray($data)) {
+            $this->treeTrace->disableNodeIdAddend();
+        }
+
         $this->validator->validate($data);
     }
 }
