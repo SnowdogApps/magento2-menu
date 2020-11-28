@@ -47,9 +47,10 @@ class Catalog
     }
 
     /**
+     * @param int $categoryId
      * @SuppressWarnings(PHPMD.UnusedLocalVariable)
      */
-    public function getCategory(int $categoryId): ?CategoryInterface
+    public function getCategory($categoryId): ?CategoryInterface
     {
         if (!ctype_digit((string) $categoryId) || $categoryId <= self::ROOT_CATEGORY_ID) {
             return null;
@@ -72,9 +73,10 @@ class Catalog
     }
 
     /**
+     * @param string $sku
      * @SuppressWarnings(PHPMD.UnusedLocalVariable)
      */
-    public function getProduct(string $sku): ?ProductInterface
+    public function getProduct($sku): ?ProductInterface
     {
         if (isset($this->cachedProducts[$sku])) {
             return $this->cachedProducts[$sku];
