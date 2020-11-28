@@ -105,17 +105,17 @@ class NodeType
 
         switch ($node[NodeInterface::TYPE]) {
             case Catalog::PRODUCT_NODE_TYPE:
-                $isValid = $this->catalog->getProduct((string) $node[NodeInterface::CONTENT]);
+                $isValid = $this->catalog->getProduct($node[NodeInterface::CONTENT]);
                 break;
             case Catalog::CATEGORY_NODE_TYPE:
             case Catalog::CHILD_CATEGORY_NODE_TYPE:
-                $isValid = $this->catalog->getCategory((int) $node[NodeInterface::CONTENT]);
+                $isValid = $this->catalog->getCategory($node[NodeInterface::CONTENT]);
                 break;
             case Cms::BLOCK_NODE_TYPE:
-                $isValid = $this->cms->getBlock((string) $node[NodeInterface::CONTENT]);
+                $isValid = $this->cms->getBlock($node[NodeInterface::CONTENT]);
                 break;
             case Cms::PAGE_NODE_TYPE:
-                $isValid = $this->cms->getPage((string) $node[NodeInterface::CONTENT]);
+                $isValid = $this->cms->getPage($node[NodeInterface::CONTENT]);
                 break;
         }
 
