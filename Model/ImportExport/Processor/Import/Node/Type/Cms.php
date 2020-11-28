@@ -54,10 +54,11 @@ class Cms
 
         try {
             $block = $this->blockRepository->getById($identifier);
-            $this->cachedBlocks[$identifier] = $block;
         } catch (NoSuchEntityException $exception) {
             $block = null;
         }
+
+        $this->cachedBlocks[$identifier] = $block;
 
         return $block;
     }
@@ -73,10 +74,11 @@ class Cms
 
         try {
             $page = $this->pageRepository->getById($identifier);
-            $this->cachedPages[$identifier] = $page;
         } catch (NoSuchEntityException $exception) {
             $page = null;
         }
+
+        $this->cachedPages[$identifier] = $page;
 
         return $page;
     }
