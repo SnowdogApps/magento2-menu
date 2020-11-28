@@ -62,10 +62,11 @@ class Catalog
 
         try {
             $category = $this->categoryRepository->get($categoryId);
-            $this->cachedCategories[$categoryId] = $category;
         } catch (NoSuchEntityException $exception) {
             $category = null;
         }
+
+        $this->cachedCategories[$categoryId] = $category;
 
         return $category;
     }
@@ -81,10 +82,11 @@ class Catalog
 
         try {
             $product = $this->productRepository->get($sku);
-            $this->cachedProducts[$sku] = $product;
         } catch (NoSuchEntityException $exception) {
             $product = null;
         }
+
+        $this->cachedProducts[$sku] = $product;
 
         return $product;
     }
