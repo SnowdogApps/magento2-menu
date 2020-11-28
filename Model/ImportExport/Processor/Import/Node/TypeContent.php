@@ -33,17 +33,17 @@ class TypeContent
     {
         switch ($type) {
             case Catalog::PRODUCT_NODE_TYPE:
-                $product = $this->catalog->getProduct((string) $content);
+                $product = $this->catalog->getProduct($content);
                 $content = (int) $product->getId();
 
                 break;
             case Cms::BLOCK_NODE_TYPE:
-                $block = $this->cms->getBlock((string) $content);
+                $block = $this->cms->getBlock($content);
                 $content = $block->getIdentifier();
 
                 break;
             case Cms::PAGE_NODE_TYPE:
-                $page = $this->cms->getPage((string) $content);
+                $page = $this->cms->getPage($content);
                 $content = $page->getIdentifier();
 
                 break;
