@@ -44,9 +44,10 @@ class Cms
     }
 
     /**
+     * @param string $identifier
      * @SuppressWarnings(PHPMD.UnusedLocalVariable)
      */
-    public function getBlock(string $identifier): ?BlockInterface
+    public function getBlock($identifier): ?BlockInterface
     {
         if (isset($this->cachedBlocks[$identifier])) {
             return $this->cachedBlocks[$identifier];
@@ -64,9 +65,10 @@ class Cms
     }
 
     /**
+     * @param string $identifier
      * @SuppressWarnings(PHPMD.UnusedLocalVariable)
      */
-    public function getPage(string $identifier): ?PageInterface
+    public function getPage($identifier): ?PageInterface
     {
         if (isset($this->cachedPages[$identifier])) {
             return $this->cachedPages[$identifier];
