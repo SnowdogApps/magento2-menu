@@ -47,6 +47,7 @@ class DataProcessor
 
     public function getStoreIds(array $storeCodes): array
     {
+        $storeCodes = array_unique($storeCodes);
         $storeIds = [];
 
         foreach ($storeCodes as $storeCode) {
