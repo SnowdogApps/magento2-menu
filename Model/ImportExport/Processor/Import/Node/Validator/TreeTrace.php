@@ -17,7 +17,7 @@ class TreeTrace
     public function get(array $treeTrace, $nodeId): array
     {
         if ($this->nodeIdAddend) {
-            $nodeId = (int) $nodeId + $this->nodeIdAddend;
+            $nodeId = ((int) $nodeId) + $this->nodeIdAddend;
         }
 
         $treeTrace[] = $nodeId;
