@@ -4,15 +4,8 @@ declare(strict_types=1);
 
 namespace Snowdog\Menu\Model\ImportExport;
 
-use Magento\Framework\App\ResponseInterface;
-
 class ExportProcessor
 {
-    /**
-     * @var ExportFile
-     */
-    private $exportFile;
-
     /**
      * @var Processor\Export\Menu
      */
@@ -23,22 +16,13 @@ class ExportProcessor
      */
     private $node;
 
-    public function __construct(
-        ExportFile $exportFile,
-        Processor\Export\Menu $menu,
-        Processor\Export\Node $node
-    ) {
-        $this->exportFile = $exportFile;
+    public function __construct(Processor\Export\Menu $menu, Processor\Export\Node $node)
+    {
         $this->menu = $menu;
         $this->node = $node;
     }
 
-    public function getDownloadFile(int $menuId): ResponseInterface
-    {
-        return $this->exportFile->generateDownloadFile((string) $menuId, $this->getExportData($menuId));
-    }
-
-    private function getExportData(int $menuId): array
+    public function getExportData(int $menuId): array
     {
         $data = $this->menu->getData($menuId);
         $nodes = $this->node->getList($menuId);
