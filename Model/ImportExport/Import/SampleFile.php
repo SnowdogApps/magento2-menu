@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Snowdog\Menu\Model\ImportExport\Import;
 
-use Magento\Framework\App\ResponseInterface;
 use Snowdog\Menu\Api\Data\MenuInterface;
 use Snowdog\Menu\Api\Data\NodeInterface;
 use Snowdog\Menu\Model\ImportExport\ExportFile;
@@ -15,6 +14,8 @@ use Snowdog\Menu\Model\ResourceModel\Menu\Node as NodeResource;
 
 class SampleFile
 {
+    const DOWNLOAD_FILE_ID = 'sample';
+
     const MENU_EXCLUDED_FIELDS = [
         MenuInterface::MENU_ID,
         MenuInterface::CREATION_TIME,
@@ -73,12 +74,7 @@ class SampleFile
         $this->nodeResource = $nodeResource;
     }
 
-    public function getDownloadFile(): ResponseInterface
-    {
-        return $this->exportFile->generateDownloadFile('sample', $this->getSampleData());
-    }
-
-    private function getSampleData(): array
+    public function getSampleData(): array
     {
         $data = $this->getMenuData();
 

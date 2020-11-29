@@ -7,6 +7,7 @@ namespace Snowdog\Menu\Controller\Adminhtml\Menu;
 use Magento\Backend\App\Action;
 use Magento\Framework\App\Action\HttpGetActionInterface;
 use Psr\Log\LoggerInterface;
+use Snowdog\Menu\Model\ImportExport\ExportFile;
 use Snowdog\Menu\Model\ImportExport\Import\SampleFile;
 
 class DownloadImportSample extends Action implements HttpGetActionInterface
@@ -22,13 +23,23 @@ class DownloadImportSample extends Action implements HttpGetActionInterface
     private $logger;
 
     /**
+     * @var ExportFile
+     */
+    private $exportFile;
+
+    /**
      * @var SampleFile
      */
     private $sampleFile;
 
-    public function __construct(Action\Context $context, LoggerInterface $logger, SampleFile $sampleFile)
-    {
+    public function __construct(
+        Action\Context $context,
+        LoggerInterface $logger,
+        ExportFile $exportFile,
+        SampleFile $sampleFile
+    ) {
         $this->logger = $logger;
+        $this->exportFile = $exportFile;
         $this->sampleFile = $sampleFile;
 
         parent::__construct($context);
@@ -40,7 +51,10 @@ class DownloadImportSample extends Action implements HttpGetActionInterface
     public function execute()
     {
         try {
-            return $this->sampleFile->getDownloadFile();
+            return $this->exportFile->generateDownloadFile(
+                SampleFile::DOWNLOAD_FILE_ID,
+                $this->sampleFile->getSampleData()
+            );
         } catch (\Exception $exception) {
             $this->logger->critical($exception);
             $this->messageManager->addErrorMessage(
