@@ -6,6 +6,9 @@ namespace Snowdog\Menu\Model\ImportExport\Processor\Import\Node\Validator;
 
 class TreeTrace
 {
+    /**
+     * A value that gets added to keys of arrays that their indices start from 0.
+     */
     const ZERO_BASED_ARRAY_INDEXING_KEY_ADDENED = 1;
 
     /**
