@@ -31,11 +31,16 @@ class ValidationAggregateError extends \Exception
         $this->errors[] = $error;
     }
 
-    public function flush(): void
+    public function flush(): array
     {
         foreach ($this->errors as $error) {
             $this->messageManager->addErrorMessage($error);
         }
+
+        $errors = $this->errors;
+        $this->errors = [];
+
+        return $errors;
     }
 
     public function isFlushable(): bool
