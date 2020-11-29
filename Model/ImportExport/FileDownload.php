@@ -9,7 +9,7 @@ use Magento\Framework\App\Response\Http\FileFactory as HttpFileFactory;
 use Magento\Framework\App\ResponseInterface;
 use Magento\Framework\Filesystem;
 
-class ExportFile
+class FileDownload
 {
     const EXPORT_DIR = 'importexport';
     const FILE_EXTENSION = 'yaml';
@@ -39,10 +39,10 @@ class ExportFile
 
     public function generateDownloadFile(string $fileId, array $data): ResponseInterface
     {
-        $file = $this->getFile($fileId);
+        $filePath = $this->getFilePath($fileId);
 
         $this->varDirectory->create(self::EXPORT_DIR);
-        $stream = $this->varDirectory->openFile($file, 'w+');
+        $stream = $this->varDirectory->openFile($filePath, 'w+');
         $stream->lock();
 
         $stream->write($this->yaml->dump($data));
@@ -52,12 +52,12 @@ class ExportFile
 
         return $this->httpFileFactory->create(
             self::DOWNLOAD_FILE_NAME . '-' . $fileId . '.' . self::FILE_EXTENSION,
-            ['type' => 'filename', 'value' => $file, 'rm' => true],
+            ['type' => 'filename', 'value' => $filePath, 'rm' => true],
             DirectoryList::VAR_DIR
         );
     }
 
-    private function getFile(string $fileId): string
+    private function getFilePath(string $fileId): string
     {
         return self::EXPORT_DIR . DIRECTORY_SEPARATOR
             . ImportSource::ENTITY . '-' . $fileId . '-' . hash('sha256', microtime())
