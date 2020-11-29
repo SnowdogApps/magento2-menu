@@ -6,13 +6,12 @@ namespace Snowdog\Menu\Model\ImportExport\Import;
 
 use Snowdog\Menu\Api\Data\MenuInterface;
 use Snowdog\Menu\Api\Data\NodeInterface;
-use Snowdog\Menu\Model\ImportExport\ExportFile;
 use Snowdog\Menu\Model\ImportExport\Processor\ExtendedFields;
 use Snowdog\Menu\Model\NodeTypeProvider;
 use Snowdog\Menu\Model\ResourceModel\Menu as MenuResource;
 use Snowdog\Menu\Model\ResourceModel\Menu\Node as NodeResource;
 
-class SampleFile
+class SampleData
 {
     const DOWNLOAD_FILE_ID = 'sample';
 
@@ -43,11 +42,6 @@ class SampleFile
     ];
 
     /**
-     * @var ExportFile
-     */
-    private $exportFile;
-
-    /**
      * @var NodeTypeProvider
      */
     private $nodeTypeProvider;
@@ -63,12 +57,10 @@ class SampleFile
     private $nodeResource;
 
     public function __construct(
-        ExportFile $exportFile,
         NodeTypeProvider $nodeTypeProvider,
         MenuResource $menuResource,
         NodeResource $nodeResource
     ) {
-        $this->exportFile = $exportFile;
         $this->nodeTypeProvider = $nodeTypeProvider;
         $this->menuResource = $menuResource;
         $this->nodeResource = $nodeResource;
