@@ -6,10 +6,12 @@ namespace Snowdog\Menu\Model\ImportExport\Processor\Import\Node\Validator;
 
 class TreeTrace
 {
+    const ZERO_BASED_ARRAY_INDEXING_KEY_ADDENED = 1;
+
     /**
      * @return int
      */
-    private $nodeIdAddend = 1;
+    private $nodeIdAddend = self::ZERO_BASED_ARRAY_INDEXING_KEY_ADDENED;
 
     /**
      * @param int|string $nodeId
