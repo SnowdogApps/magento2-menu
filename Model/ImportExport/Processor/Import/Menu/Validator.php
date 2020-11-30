@@ -63,6 +63,7 @@ class Validator
 
     private function validateStores(array $stores): void
     {
+        $stores = array_unique($stores);
         $invalidStores = [];
 
         foreach ($stores as $store) {
