@@ -94,7 +94,7 @@ class ImportProcessor
             $this->nodeProcessor->validateImportData($data[ExtendedFields::NODES]);
         }
 
-        if ($this->validationAggregateError->isFlushable()) {
+        if ($this->validationAggregateError->getErrors()) {
             throw $this->validationAggregateError;
         }
     }

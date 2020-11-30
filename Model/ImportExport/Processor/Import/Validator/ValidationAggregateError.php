@@ -31,6 +31,11 @@ class ValidationAggregateError extends \Exception
         $this->errors[] = $error;
     }
 
+    public function getErrors(): array
+    {
+        return $this->errors;
+    }
+
     public function flush(): array
     {
         foreach ($this->errors as $error) {
@@ -41,10 +46,5 @@ class ValidationAggregateError extends \Exception
         $this->errors = [];
 
         return $errors;
-    }
-
-    public function isFlushable(): bool
-    {
-        return (bool) $this->errors;
     }
 }
