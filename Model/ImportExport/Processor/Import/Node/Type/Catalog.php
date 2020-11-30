@@ -78,10 +78,6 @@ class Catalog
      */
     public function getProduct($sku): ?ProductInterface
     {
-        if ($sku === null || $sku === '') {
-            return null;
-        }
-
         if (isset($this->cachedProducts[$sku])) {
             return $this->cachedProducts[$sku];
         }
