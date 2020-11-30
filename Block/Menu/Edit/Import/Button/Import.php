@@ -16,6 +16,7 @@ class Import implements ButtonProviderInterface
         return [
             'label' => __('Import'),
             'class' => 'save primary',
+            'on_click' => '',
             'data_attribute' => [
                 'mage-init' => [
                     'buttonAdapter' => [
