@@ -6,7 +6,7 @@ namespace Snowdog\Menu\Model\ImportExport;
 
 use Magento\Framework\App\Filesystem\DirectoryList;
 use Magento\Framework\Exception\FileSystemException;
-use Magento\Framework\Exception\LocalizedException;
+use Magento\Framework\Exception\ValidatorException;
 use Magento\Framework\Filesystem;
 use Magento\Framework\HTTP\Adapter\FileTransferFactory;
 use Magento\Framework\Validation\ValidationException;
@@ -14,7 +14,7 @@ use Magento\ImportExport\Helper\Data as ImportExportHelper;
 use Magento\ImportExport\Model\Import as ImportModel;
 use Magento\MediaStorage\Model\File\UploaderFactory;
 
-class ImportSource
+class FileUpload
 {
     const ENTITY = 'snowdog_menu';
 
@@ -90,7 +90,7 @@ class ImportSource
     }
 
     /**
-     * @throws LocalizedException
+     * @throws ValidatorException
      * @SuppressWarnings(PHPMD.UnusedLocalVariable)
      */
     private function uploadSource(): string
@@ -104,7 +104,7 @@ class ImportSource
                 ? $this->importExportHelper->getMaxUploadSizeMessage()
                 : __('The file was not uploaded.');
 
-            throw new LocalizedException($errorMessage);
+            throw new ValidatorException($errorMessage);
         }
 
         $uploader = $this->uploaderFactory->create(['fileId' => ImportModel::FIELD_NAME_SOURCE_FILE]);
@@ -117,9 +117,9 @@ class ImportSource
             $fileName = self::ENTITY . '-' . hash('sha256', microtime()) . '.' . $uploader->getFileExtension();
             $result = $uploader->save($workingDir, $fileName);
         } catch (ValidationException $exception) {
-            throw new LocalizedException(__($exception->getMessage()));
+            throw new ValidatorException(__($exception->getMessage()));
         } catch (\Exception $exception) {
-            throw new LocalizedException(__('The file cannot be uploaded.'));
+            throw new ValidatorException(__('The file cannot be uploaded.'));
         }
 
         return $result['path'] . $result['file'];

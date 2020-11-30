@@ -60,7 +60,7 @@ class FileDownload
     private function getFilePath(string $fileId): string
     {
         return self::EXPORT_DIR . DIRECTORY_SEPARATOR
-            . ImportSource::ENTITY . '-' . $fileId . '-' . hash('sha256', microtime())
+            . FileUpload::ENTITY . '-' . $fileId . '-' . hash('sha256', microtime())
             . '.' . self::FILE_EXTENSION;
     }
 }

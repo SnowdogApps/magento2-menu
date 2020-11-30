@@ -4,19 +4,12 @@ declare(strict_types=1);
 
 namespace Snowdog\Menu\Model\ImportExport;
 
-use Magento\Framework\Exception\LocalizedException;
-use Magento\Framework\Exception\ValidatorException;
 use Snowdog\Menu\Api\Data\MenuInterface;
 use Snowdog\Menu\Model\ImportExport\Processor\ExtendedFields;
 use Snowdog\Menu\Model\ImportExport\Processor\Import\Validator\ValidationAggregateError;
 
 class ImportProcessor
 {
-    /**
-     * @var ImportSource
-     */
-    private $importSource;
-
     /**
      * @var Processor\Import\Menu
      */
@@ -33,20 +26,19 @@ class ImportProcessor
     private $validationAggregateError;
 
     public function __construct(
-        ImportSource $importSource,
         Processor\Import\Menu $menuProcessor,
         Processor\Import\Node $nodeProcessor,
         ValidationAggregateError $validationAggregateError
     ) {
-        $this->importSource = $importSource;
         $this->menuProcessor = $menuProcessor;
         $this->nodeProcessor = $nodeProcessor;
         $this->validationAggregateError = $validationAggregateError;
     }
 
-    public function importFile(): string
+    public function importData(array $data): string
     {
-        $data = $this->uploadFileAndGetData();
+        $this->validateData($data);
+
         $menu = $this->createMenu($data);
 
         if (isset($data[ExtendedFields::NODES])) {
@@ -65,22 +57,6 @@ class ImportProcessor
         }
 
         return $this->menuProcessor->createMenu($data, $stores);
-    }
-
-    /**
-     * @throws ValidatorException
-     */
-    private function uploadFileAndGetData(): array
-    {
-        try {
-            $data = $this->importSource->uploadFileAndGetData();
-        } catch (LocalizedException $exception) {
-            throw new ValidatorException(__($exception->getMessage()));
-        }
-
-        $this->validateData($data);
-
-        return $data;
     }
 
     /**
