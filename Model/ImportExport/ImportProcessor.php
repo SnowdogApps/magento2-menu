@@ -38,7 +38,6 @@ class ImportProcessor
     public function importData(array $data): string
     {
         $this->validateData($data);
-
         $menu = $this->createMenu($data);
 
         if (isset($data[ExtendedFields::NODES])) {
