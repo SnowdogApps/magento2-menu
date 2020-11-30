@@ -49,10 +49,6 @@ class Cms
      */
     public function getBlock($identifier): ?BlockInterface
     {
-        if ($identifier === null || $identifier === '') {
-            return null;
-        }
-
         if (isset($this->cachedBlocks[$identifier])) {
             return $this->cachedBlocks[$identifier];
         }
@@ -74,10 +70,6 @@ class Cms
      */
     public function getPage($identifier): ?PageInterface
     {
-        if ($identifier === null || $identifier === '') {
-            return null;
-        }
-
         if (isset($this->cachedPages[$identifier])) {
             return $this->cachedPages[$identifier];
         }
