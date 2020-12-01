@@ -115,14 +115,23 @@ class Save extends Action
         $nodes = $nodes ? json_decode($nodes, true) : [];
         $nodes = $this->_convertTree($nodes, '#');
         $nodeMap = [];
+        $invalidNodes = [];
 
         foreach ($nodes as $node) {
             $nodeId = $node['id'];
+
+            if ($node['type'] === 'product' && !$this->validateProductNode($node)) {
+                $invalidNodes[$nodeId] = $node;
+            }
 
             if (isset($existingNodes[$nodeId])) {
                 unset($nodesToDelete[$nodeId]);
                 $nodeMap[$nodeId] = $existingNodes[$nodeId];
             } else {
+                if (isset($invalidNodes[$nodeId])) {
+                    continue;
+                }
+
                 $nodeObject = $this->nodeFactory->create();
                 $nodeObject->setMenuId($menu->getMenuId());
                 $nodeObject = $this->nodeRepository->save($nodeObject);
@@ -137,7 +146,7 @@ class Save extends Action
         $path = ['#' => 0];
 
         foreach ($nodes as $node) {
-            if ($node['type'] == 'product' && !$this->validateProductNode($node)) {
+            if (isset($invalidNodes[$node['id']])) {
                 continue;
             }
 
