@@ -3,18 +3,17 @@
 namespace Snowdog\Menu\Controller\Adminhtml\Menu;
 
 use Magento\Backend\App\Action;
-use Magento\Catalog\Model\ProductRepository;
 use Magento\Framework\Api\FilterBuilderFactory;
 use Magento\Framework\Api\Search\FilterGroupBuilderFactory;
 use Magento\Framework\Api\SearchCriteriaBuilderFactory;
 use Magento\Framework\App\ObjectManager;
 use Magento\Framework\App\ResponseInterface;
-use Magento\Framework\Exception\NoSuchEntityException;
 use Snowdog\Menu\Api\Data\MenuInterface;
 use Snowdog\Menu\Api\MenuRepositoryInterface;
 use Snowdog\Menu\Api\NodeRepositoryInterface;
 use Snowdog\Menu\Model\Menu\NodeFactory;
 use Snowdog\Menu\Model\MenuFactory;
+use Snowdog\Menu\Model\Menu\Node\Validator as NodeValidator;
 use Snowdog\Menu\Service\MenuHydrator;
 
 class Save extends Action
@@ -42,8 +41,8 @@ class Save extends Action
     /** @var MenuFactory */
     private $menuFactory;
 
-    /** @var ProductRepository */
-    private $productRepository;
+    /** @var NodeValidator */
+    private $nodeValidator;
 
     /** @var MenuHydrator */
     private $hydrator;
@@ -57,7 +56,7 @@ class Save extends Action
      * @param SearchCriteriaBuilderFactory $searchCriteriaBuilderFactory
      * @param NodeFactory $nodeFactory
      * @param MenuFactory $menuFactory
-     * @param ProductRepository $productRepository
+     * @param NodeValidator $nodeValidator
      * @param MenuHydrator|null $hydrator
      */
     public function __construct(
@@ -69,7 +68,7 @@ class Save extends Action
         SearchCriteriaBuilderFactory $searchCriteriaBuilderFactory,
         NodeFactory $nodeFactory,
         MenuFactory $menuFactory,
-        ProductRepository $productRepository,
+        NodeValidator $nodeValidator,
         MenuHydrator $hydrator = null
     ) {
         parent::__construct($context);
@@ -80,7 +79,7 @@ class Save extends Action
         $this->searchCriteriaBuilderFactory = $searchCriteriaBuilderFactory;
         $this->nodeFactory = $nodeFactory;
         $this->menuFactory = $menuFactory;
-        $this->productRepository = $productRepository;
+        $this->nodeValidator = $nodeValidator;
         // Backwards compatible class loader
         $this->hydrator = $hydrator ?? ObjectManager::getInstance()->get(MenuHydrator::class);
     }
@@ -120,7 +119,7 @@ class Save extends Action
         foreach ($nodes as $node) {
             $nodeId = $node['id'];
 
-            if ($node['type'] === 'product' && !$this->validateProductNode($node)) {
+            if (!$this->nodeValidator->validate($node)) {
                 $invalidNodes[$nodeId] = $node;
             }
 
@@ -248,30 +247,6 @@ class Save extends Action
         }
 
         return $convertedTree;
-    }
-
-    /**
-     * @param array $node
-     * @return bool
-     */
-    private function validateProductNode(array $node)
-    {
-        try {
-            $this->productRepository->getById($node['content']);
-        } catch (NoSuchEntityException $e) {
-            if (!isset($node['content']) || $node['content'] === '') {
-                $this->messageManager->addErrorMessage(__('Node catalog product ID is required.'));
-                return false;
-            }
-
-            $this->messageManager->addErrorMessage(
-                __('Node catalog product ID "%1" is invalid.', $node['content'])
-            );
-
-            return false;
-        }
-
-        return true;
     }
 
     /**
