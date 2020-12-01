@@ -259,7 +259,15 @@ class Save extends Action
         try {
             $this->productRepository->getById($node['content']);
         } catch (NoSuchEntityException $e) {
-            $this->messageManager->addErrorMessage(__('Product does not exist'));
+            if (!isset($node['content']) || $node['content'] === '') {
+                $this->messageManager->addErrorMessage(__('Node catalog product ID is required.'));
+                return false;
+            }
+
+            $this->messageManager->addErrorMessage(
+                __('Node catalog product ID "%1" is invalid.', $node['content'])
+            );
+
             return false;
         }
 

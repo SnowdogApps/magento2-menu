@@ -5,6 +5,9 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+### Changed
+- Improve node product validation error message in menu admin controller save action (#73442)
+
 ### Fixed
 - Prevent creating nodes with invalid product IDs. (#73442)
 
