@@ -9,7 +9,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Improve node product validation error message in menu admin controller save action (#73442)
 
 ### Fixed
-- Prevent creating nodes with invalid product IDs. (#73442)
+- Prevent creating nodes with invalid product IDs (#73442)
 
 ## [2.13.0] - 2020-11-16
 ### Added
