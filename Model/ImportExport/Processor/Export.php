@@ -2,21 +2,21 @@
 
 declare(strict_types=1);
 
-namespace Snowdog\Menu\Model\ImportExport;
+namespace Snowdog\Menu\Model\ImportExport\Processor;
 
-class ExportProcessor
+class Export
 {
     /**
-     * @var Processor\Export\Menu
+     * @var Export\Menu
      */
     private $menu;
 
     /**
-     * @var Processor\Export\Node
+     * @var Export\Node
      */
     private $node;
 
-    public function __construct(Processor\Export\Menu $menu, Processor\Export\Node $node)
+    public function __construct(Export\Menu $menu, Export\Node $node)
     {
         $this->menu = $menu;
         $this->node = $node;
@@ -28,7 +28,7 @@ class ExportProcessor
         $nodes = $this->node->getList($menuId);
 
         if ($nodes) {
-            $data[Processor\ExtendedFields::NODES] = $nodes;
+            $data[ExtendedFields::NODES] = $nodes;
         }
 
         return $data;

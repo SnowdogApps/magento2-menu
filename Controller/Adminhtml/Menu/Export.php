@@ -9,7 +9,7 @@ use Magento\Backend\App\Action;
 use Magento\Framework\App\Action\HttpGetActionInterface;
 use Psr\Log\LoggerInterface;
 use Snowdog\Menu\Model\ImportExport\File\Download as FileDownload;
-use Snowdog\Menu\Model\ImportExport\ExportProcessor;
+use Snowdog\Menu\Model\ImportExport\Processor\Export as ExportProcessor;
 
 class Export extends Action implements HttpGetActionInterface
 {
