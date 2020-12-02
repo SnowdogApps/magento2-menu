@@ -18,6 +18,7 @@ class Yaml
 
     /**
      * @throws ValidatorException
+     * @SuppressWarnings(PHPMD.StaticAccess)
      */
     public function parse(string $data): array
     {
@@ -28,11 +29,17 @@ class Yaml
         }
     }
 
+    /**
+     * @SuppressWarnings(PHPMD.StaticAccess)
+     */
     public function dump(array $data): string
     {
         return YamlComponent::dump($data, self::INLINE_LEVEL, self::INDENTATION);
     }
 
+    /**
+     * @SuppressWarnings(PHPMD.StaticAccess)
+     */
     public function isHashArray(array $data): bool
     {
         return YamlInline::isHash($data);
