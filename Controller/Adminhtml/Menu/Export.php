@@ -8,7 +8,7 @@ use Exception;
 use Magento\Backend\App\Action;
 use Magento\Framework\App\Action\HttpGetActionInterface;
 use Psr\Log\LoggerInterface;
-use Snowdog\Menu\Model\ImportExport\FileDownload;
+use Snowdog\Menu\Model\ImportExport\File\Download as FileDownload;
 use Snowdog\Menu\Model\ImportExport\ExportProcessor;
 
 class Export extends Action implements HttpGetActionInterface

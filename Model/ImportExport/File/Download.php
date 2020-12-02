@@ -2,14 +2,15 @@
 
 declare(strict_types=1);
 
-namespace Snowdog\Menu\Model\ImportExport;
+namespace Snowdog\Menu\Model\ImportExport\File;
 
 use Magento\Framework\App\Filesystem\DirectoryList;
 use Magento\Framework\App\Response\Http\FileFactory as HttpFileFactory;
 use Magento\Framework\App\ResponseInterface;
 use Magento\Framework\Filesystem;
+use Snowdog\Menu\Model\ImportExport\Yaml;
 
-class FileDownload
+class Download
 {
     const EXPORT_DIR = 'importexport';
     const FILE_EXTENSION = 'yaml';
@@ -60,7 +61,7 @@ class FileDownload
     private function getFilePath(string $fileId): string
     {
         return self::EXPORT_DIR . DIRECTORY_SEPARATOR
-            . File\Upload\Source::ENTITY . '-' . $fileId . '-' . hash('sha256', microtime())
+            . Upload\Source::ENTITY . '-' . $fileId . '-' . hash('sha256', microtime())
             . '.' . self::FILE_EXTENSION;
     }
 }
