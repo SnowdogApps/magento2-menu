@@ -9,7 +9,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Node validation classes (#73442)
 
 ### Changed
-- Improve node product validation error message in menu admin controller save action (#73442)
+- Improve node product validation error message on menu save (#73442)
 
 ### Fixed
 - Prevent creating nodes with invalid product IDs (#73442)
