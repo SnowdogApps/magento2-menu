@@ -16,6 +16,9 @@ use Magento\ImportExport\Helper\Data as ImportExportHelper;
 use Magento\ImportExport\Model\Import as ImportModel;
 use Magento\MediaStorage\Model\File\UploaderFactory;
 
+/**
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
+ */
 class FileUpload
 {
     const ENTITY = 'snowdog_menu';
