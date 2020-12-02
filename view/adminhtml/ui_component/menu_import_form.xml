@@ -26,7 +26,7 @@
             </item>
         </argument>
         <settings>
-            <submitUrl path="snowmenu/menu/importpost"/>
+            <submitUrl path="*/*/importpost"/>
         </settings>
         <dataProvider class="Snowdog\Menu\Model\ImportExport\Import\DataProvider" name="menu_import_form_data_source">
             <settings>
@@ -46,7 +46,7 @@
                     <item name="label" xsi:type="string" translate="true">Select File to Import</item>
                     <item name="notice" xsi:type="string" translate="true">File must be saved in UTF-8 encoding for proper import. Allowed file types: YAML.</item>
                     <item name="tooltip" xsi:type="array">
-                        <item name="link" xsi:type="url" path="snowmenu/menu/downloadimportsample"/>
+                        <item name="link" xsi:type="url" path="*/*/downloadimportsample"/>
                         <item name="description" xsi:type="string" translate="true">Click the tooltip (?) to download a sample import file</item>
                     </item>
                     <item name="formElement" xsi:type="string">file</item>
