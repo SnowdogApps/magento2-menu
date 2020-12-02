@@ -2,21 +2,20 @@
 
 declare(strict_types=1);
 
-namespace Snowdog\Menu\Model\ImportExport;
+namespace Snowdog\Menu\Model\ImportExport\Processor;
 
 use Snowdog\Menu\Api\Data\MenuInterface;
-use Snowdog\Menu\Model\ImportExport\Processor\ExtendedFields;
 use Snowdog\Menu\Model\ImportExport\Processor\Import\Validator\ValidationAggregateError;
 
-class ImportProcessor
+class Import
 {
     /**
-     * @var Processor\Import\Menu
+     * @var Import\Menu
      */
     private $menuProcessor;
 
     /**
-     * @var Processor\Import\Node
+     * @var Import\Node
      */
     private $nodeProcessor;
 
@@ -26,8 +25,8 @@ class ImportProcessor
     private $validationAggregateError;
 
     public function __construct(
-        Processor\Import\Menu $menuProcessor,
-        Processor\Import\Node $nodeProcessor,
+        Import\Menu $menuProcessor,
+        Import\Node $nodeProcessor,
         ValidationAggregateError $validationAggregateError
     ) {
         $this->menuProcessor = $menuProcessor;

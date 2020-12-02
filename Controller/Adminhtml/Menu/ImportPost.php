@@ -11,7 +11,7 @@ use Magento\Framework\Exception\ValidatorException;
 use Magento\Store\Model\StoreManagerInterface;
 use Psr\Log\LoggerInterface;
 use Snowdog\Menu\Model\ImportExport\File\Upload as FileUpload;
-use Snowdog\Menu\Model\ImportExport\ImportProcessor;
+use Snowdog\Menu\Model\ImportExport\Processor\Import as ImportProcessor;
 use Snowdog\Menu\Model\ImportExport\Processor\Import\Validator\ValidationAggregateError;
 
 class ImportPost extends Action implements HttpPostActionInterface
