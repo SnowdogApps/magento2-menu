@@ -4,9 +4,10 @@ declare(strict_types=1);
 
 namespace Snowdog\Menu\Model\ImportExport\Processor\Import\Validator;
 
+use Exception;
 use Magento\Framework\Message\ManagerInterface as MessageManagerInterface;
 
-class ValidationAggregateError extends \Exception
+class ValidationAggregateError extends Exception
 {
     /**
      * @var MessageManagerInterface

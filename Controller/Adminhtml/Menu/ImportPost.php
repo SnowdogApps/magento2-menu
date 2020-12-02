@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Snowdog\Menu\Controller\Adminhtml\Menu;
 
+use Exception;
 use Magento\Backend\App\Action;
 use Magento\Framework\App\Action\HttpPostActionInterface;
 use Magento\Framework\Exception\ValidatorException;
@@ -68,7 +69,7 @@ class ImportPost extends Action implements HttpPostActionInterface
             $exception->flush();
         } catch (ValidatorException $exception) {
             $this->messageManager->addErrorMessage($exception->getMessage());
-        } catch (\Exception $exception) {
+        } catch (Exception $exception) {
             $this->logger->critical($exception);
             $this->messageManager->addErrorMessage(__('An error occurred while importing menu.'));
         }

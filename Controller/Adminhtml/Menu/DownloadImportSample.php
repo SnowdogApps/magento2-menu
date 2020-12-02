@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Snowdog\Menu\Controller\Adminhtml\Menu;
 
+use Exception;
 use Magento\Backend\App\Action;
 use Magento\Framework\App\Action\HttpGetActionInterface;
 use Psr\Log\LoggerInterface;
@@ -55,7 +56,7 @@ class DownloadImportSample extends Action implements HttpGetActionInterface
                 SampleData::DOWNLOAD_FILE_ID,
                 $this->sampleData->getSampleData()
             );
-        } catch (\Exception $exception) {
+        } catch (Exception $exception) {
             $this->logger->critical($exception);
             $this->messageManager->addErrorMessage(
                 __('An error occurred while generating menu import sample file.')

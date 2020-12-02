@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Snowdog\Menu\Model\ImportExport;
 
+use Exception;
+use LogicException;
 use Magento\Framework\App\Filesystem\DirectoryList;
 use Magento\Framework\Exception\FileSystemException;
 use Magento\Framework\Exception\ValidatorException;
@@ -75,7 +77,7 @@ class FileUpload
         try {
             $stream = $this->varDirectory->openFile($sourceFilePath, 'r');
         } catch (FileSystemException $exception) {
-            throw new \LogicException(__('Unable to open uploaded file.'));
+            throw new LogicException(__('Unable to open uploaded file.'));
         }
 
         $data = '';
@@ -118,7 +120,7 @@ class FileUpload
             $result = $uploader->save($workingDir, $fileName);
         } catch (ValidationException $exception) {
             throw new ValidatorException(__($exception->getMessage()));
-        } catch (\Exception $exception) {
+        } catch (Exception $exception) {
             throw new ValidatorException(__('The file cannot be uploaded.'));
         }
 

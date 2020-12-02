@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Snowdog\Menu\Controller\Adminhtml\Menu;
 
+use Exception;
 use Magento\Backend\App\Action;
 use Magento\Framework\App\Action\HttpGetActionInterface;
 use Psr\Log\LoggerInterface;
@@ -57,7 +58,7 @@ class Export extends Action implements HttpGetActionInterface
                 $menuId,
                 $this->exportProcessor->getExportData((int) $menuId)
             );
-        } catch (\Exception $exception) {
+        } catch (Exception $exception) {
             $this->logger->critical($exception);
             $this->messageManager->addErrorMessage(
                 __('An error occurred while exporting menu %1.', $menuId)
