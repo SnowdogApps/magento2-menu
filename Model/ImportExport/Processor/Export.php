@@ -6,6 +6,7 @@ namespace Snowdog\Menu\Model\ImportExport\Processor;
 
 use Snowdog\Menu\Model\ImportExport\Processor\Export\Menu;
 use Snowdog\Menu\Model\ImportExport\Processor\Export\Node;
+use Snowdog\Menu\Model\ImportExport\Processor\ExtendedFields;
 
 class Export
 {
