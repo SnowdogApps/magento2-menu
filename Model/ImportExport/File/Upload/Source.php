@@ -11,7 +11,7 @@ use Magento\Framework\Validation\ValidationException;
 use Magento\ImportExport\Helper\Data as ImportExportHelper;
 use Magento\ImportExport\Model\Import as ImportModel;
 use Magento\MediaStorage\Model\File\UploaderFactory;
-use Snowdog\Menu\Model\ImportExport\Yaml;
+use Snowdog\Menu\Model\ImportExport\File\Yaml;
 use Zend_Validate_File_Upload;
 
 class Source

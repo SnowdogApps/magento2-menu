@@ -9,7 +9,7 @@ use Magento\Framework\App\Response\Http\FileFactory as HttpFileFactory;
 use Magento\Framework\App\ResponseInterface;
 use Magento\Framework\Filesystem;
 use Snowdog\Menu\Model\ImportExport\File\Upload\Source as UploadSource;
-use Snowdog\Menu\Model\ImportExport\Yaml;
+use Snowdog\Menu\Model\ImportExport\File\Yaml;
 
 class Download
 {

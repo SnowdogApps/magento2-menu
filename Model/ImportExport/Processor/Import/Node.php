@@ -10,7 +10,7 @@ use Snowdog\Menu\Model\ImportExport\Processor\Import\Node\DataProcessor;
 use Snowdog\Menu\Model\ImportExport\Processor\Import\Node\Validator;
 use Snowdog\Menu\Model\ImportExport\Processor\Import\Node\Validator\TreeTrace;
 use Snowdog\Menu\Model\ImportExport\Processor\ExtendedFields;
-use Snowdog\Menu\Model\ImportExport\Yaml;
+use Snowdog\Menu\Model\ImportExport\File\Yaml;
 
 class Node
 {

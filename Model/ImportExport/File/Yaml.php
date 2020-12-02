@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Snowdog\Menu\Model\ImportExport;
+namespace Snowdog\Menu\Model\ImportExport\File;
 
 use Magento\Framework\Exception\ValidatorException;
 use Symfony\Component\Yaml\Exception\ParseException;

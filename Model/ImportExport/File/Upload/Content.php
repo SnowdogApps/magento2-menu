@@ -8,7 +8,7 @@ use LogicException;
 use Magento\Framework\App\Filesystem\DirectoryList;
 use Magento\Framework\Exception\FileSystemException;
 use Magento\Framework\Filesystem;
-use Snowdog\Menu\Model\ImportExport\Yaml;
+use Snowdog\Menu\Model\ImportExport\File\Yaml;
 
 class Content
 {
