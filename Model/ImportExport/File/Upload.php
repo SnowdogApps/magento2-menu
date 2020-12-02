@@ -22,9 +22,6 @@ class Upload
         $this->uploadSource = $uploadSource;
     }
 
-    /**
-     * @throws LogicException
-     */
     public function uploadFileAndGetData(): array
     {
         return $this->uploadContent->get($this->uploadSource->upload());
