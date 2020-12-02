@@ -6,6 +6,8 @@ namespace Snowdog\Menu\Model\ImportExport\Processor\Import\Node;
 
 use Snowdog\Menu\Api\Data\NodeInterface;
 use Snowdog\Menu\Model\ImportExport\Processor\ExtendedFields;
+use Snowdog\Menu\Model\ImportExport\Processor\Import\Node\Validator\NodeType as NodeTypeValidator;
+use Snowdog\Menu\Model\ImportExport\Processor\Import\Node\Validator\TreeTrace;
 use Snowdog\Menu\Model\ImportExport\Processor\Import\Validator\ValidationAggregateError;
 
 class Validator
@@ -15,12 +17,12 @@ class Validator
     ];
 
     /**
-     * @var Validator\NodeType
+     * @var NodeTypeValidator
      */
     private $nodeTypeValidator;
 
     /**
-     * @var Validator\TreeTrace
+     * @var TreeTrace
      */
     private $treeTrace;
 
@@ -30,8 +32,8 @@ class Validator
     private $validationAggregateError;
 
     public function __construct(
-        Validator\NodeType $nodeTypeValidator,
-        Validator\TreeTrace $treeTrace,
+        NodeTypeValidator $nodeTypeValidator,
+        TreeTrace $treeTrace,
         ValidationAggregateError $validationAggregateError
     ) {
         $this->nodeTypeValidator = $nodeTypeValidator;

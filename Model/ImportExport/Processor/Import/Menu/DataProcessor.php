@@ -7,6 +7,7 @@ namespace Snowdog\Menu\Model\ImportExport\Processor\Import\Menu;
 use Snowdog\Menu\Api\Data\MenuInterface;
 use Snowdog\Menu\Model\ImportExport\Processor\Import\FieldProcessor\Boolean as BooleanField;
 use Snowdog\Menu\Model\ImportExport\Processor\Store;
+use Snowdog\Menu\Model\ImportExport\Processor\Import\Menu\Identifier;
 
 class DataProcessor
 {

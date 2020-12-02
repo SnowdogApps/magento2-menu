@@ -8,6 +8,7 @@ use Magento\Framework\App\Filesystem\DirectoryList;
 use Magento\Framework\App\Response\Http\FileFactory as HttpFileFactory;
 use Magento\Framework\App\ResponseInterface;
 use Magento\Framework\Filesystem;
+use Snowdog\Menu\Model\ImportExport\File\Upload\Source as UploadSource;
 use Snowdog\Menu\Model\ImportExport\Yaml;
 
 class Download
@@ -61,7 +62,7 @@ class Download
     private function getFilePath(string $fileId): string
     {
         return self::EXPORT_DIR . DIRECTORY_SEPARATOR
-            . Upload\Source::ENTITY . '-' . $fileId . '-' . hash('sha256', microtime())
+            . UploadSource::ENTITY . '-' . $fileId . '-' . hash('sha256', microtime())
             . '.' . self::FILE_EXTENSION;
     }
 }

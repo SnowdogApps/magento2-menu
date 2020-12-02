@@ -6,6 +6,7 @@ namespace Snowdog\Menu\Controller\Adminhtml\Menu;
 
 use Exception;
 use Magento\Backend\App\Action;
+use Magento\Backend\App\Action\Context;
 use Magento\Framework\App\Action\HttpPostActionInterface;
 use Magento\Framework\Exception\ValidatorException;
 use Magento\Store\Model\StoreManagerInterface;
@@ -37,7 +38,7 @@ class ImportPost extends Action implements HttpPostActionInterface
     private $importProcessor;
 
     public function __construct(
-        Action\Context $context,
+        Context $context,
         StoreManagerInterface $storeManager,
         LoggerInterface $logger,
         FileUpload $fileUpload,

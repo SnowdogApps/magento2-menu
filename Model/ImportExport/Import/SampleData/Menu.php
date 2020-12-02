@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Snowdog\Menu\Model\ImportExport\Import\SampleData;
 
 use Snowdog\Menu\Api\Data\MenuInterface;
+use Snowdog\Menu\Model\ImportExport\Import\SampleData\Processor;
 use Snowdog\Menu\Model\ResourceModel\Menu as MenuResource;
 
 class Menu

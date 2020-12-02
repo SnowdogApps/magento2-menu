@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Snowdog\Menu\Model\ImportExport\Import\SampleData;
 
 use Snowdog\Menu\Api\Data\NodeInterface;
+use Snowdog\Menu\Model\ImportExport\Import\SampleData\Processor;
 use Snowdog\Menu\Model\ImportExport\Processor\ExtendedFields;
 use Snowdog\Menu\Model\NodeTypeProvider;
 use Snowdog\Menu\Model\ResourceModel\Menu\Node as NodeResource;

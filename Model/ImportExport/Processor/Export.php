@@ -4,19 +4,22 @@ declare(strict_types=1);
 
 namespace Snowdog\Menu\Model\ImportExport\Processor;
 
+use Snowdog\Menu\Model\ImportExport\Processor\Export\Menu;
+use Snowdog\Menu\Model\ImportExport\Processor\Export\Node;
+
 class Export
 {
     /**
-     * @var Export\Menu
+     * @var Menu
      */
     private $menu;
 
     /**
-     * @var Export\Node
+     * @var Node
      */
     private $node;
 
-    public function __construct(Export\Menu $menu, Export\Node $node)
+    public function __construct(Menu $menu, Node $node)
     {
         $this->menu = $menu;
         $this->node = $node;

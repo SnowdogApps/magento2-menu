@@ -7,6 +7,7 @@ namespace Snowdog\Menu\Model\ImportExport\Processor\Import\Node\Validator;
 use Snowdog\Menu\Api\Data\NodeInterface;
 use Snowdog\Menu\Model\ImportExport\Processor\Import\Node\Type\Catalog;
 use Snowdog\Menu\Model\ImportExport\Processor\Import\Node\Type\Cms;
+use Snowdog\Menu\Model\ImportExport\Processor\Import\Node\Validator\TreeTrace;
 use Snowdog\Menu\Model\ImportExport\Processor\Import\Validator\ValidationAggregateError;
 use Snowdog\Menu\Model\NodeTypeProvider;
 

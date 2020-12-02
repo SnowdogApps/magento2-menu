@@ -6,6 +6,9 @@ namespace Snowdog\Menu\Model\ImportExport\Processor\Import;
 
 use Snowdog\Menu\Api\Data\NodeInterfaceFactory;
 use Snowdog\Menu\Api\NodeRepositoryInterface;
+use Snowdog\Menu\Model\ImportExport\Processor\Import\Node\DataProcessor;
+use Snowdog\Menu\Model\ImportExport\Processor\Import\Node\Validator;
+use Snowdog\Menu\Model\ImportExport\Processor\Import\Node\Validator\TreeTrace;
 use Snowdog\Menu\Model\ImportExport\Processor\ExtendedFields;
 use Snowdog\Menu\Model\ImportExport\Yaml;
 
@@ -22,17 +25,17 @@ class Node
     private $nodeRepository;
 
     /**
-     * @var Node\DataProcessor
+     * @var DataProcessor
      */
     private $dataProcessor;
 
     /**
-     * @var Node\Validator
+     * @var Validator
      */
     private $validator;
 
     /**
-     * @var Node\Validator\TreeTrace
+     * @var TreeTrace
      */
     private $treeTrace;
 
@@ -44,9 +47,9 @@ class Node
     public function __construct(
         NodeInterfaceFactory $nodeFactory,
         NodeRepositoryInterface $nodeRepository,
-        Node\DataProcessor $dataProcessor,
-        Node\Validator $validator,
-        Node\Validator\TreeTrace $treeTrace,
+        DataProcessor $dataProcessor,
+        Validator $validator,
+        TreeTrace $treeTrace,
         Yaml $yaml
     ) {
         $this->nodeFactory = $nodeFactory;

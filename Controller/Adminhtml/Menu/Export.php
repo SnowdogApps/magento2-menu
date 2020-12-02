@@ -6,6 +6,7 @@ namespace Snowdog\Menu\Controller\Adminhtml\Menu;
 
 use Exception;
 use Magento\Backend\App\Action;
+use Magento\Backend\App\Action\Context;
 use Magento\Framework\App\Action\HttpGetActionInterface;
 use Psr\Log\LoggerInterface;
 use Snowdog\Menu\Model\ImportExport\File\Download as FileDownload;
@@ -34,7 +35,7 @@ class Export extends Action implements HttpGetActionInterface
     private $exportProcessor;
 
     public function __construct(
-        Action\Context $context,
+        Context $context,
         LoggerInterface $logger,
         FileDownload $fileDownload,
         ExportProcessor $exportProcessor

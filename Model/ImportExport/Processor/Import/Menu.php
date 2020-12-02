@@ -7,6 +7,8 @@ namespace Snowdog\Menu\Model\ImportExport\Processor\Import;
 use Snowdog\Menu\Api\Data\MenuInterface;
 use Snowdog\Menu\Api\Data\MenuInterfaceFactory;
 use Snowdog\Menu\Api\MenuRepositoryInterface;
+use Snowdog\Menu\Model\ImportExport\Processor\Import\Menu\DataProcessor;
+use Snowdog\Menu\Model\ImportExport\Processor\Import\Menu\Validator;
 
 class Menu
 {
@@ -21,20 +23,20 @@ class Menu
     private $menuRepository;
 
     /**
-     * @var Menu\DataProcessor
+     * @var DataProcessor
      */
     private $dataProcessor;
 
     /**
-     * @var Menu\Validator
+     * @var Validator
      */
     private $validator;
 
     public function __construct(
         MenuInterfaceFactory $menuFactory,
         MenuRepositoryInterface $menuRepository,
-        Menu\DataProcessor $dataProcessor,
-        Menu\Validator $validator
+        DataProcessor $dataProcessor,
+        Validator $validator
     ) {
         $this->menuFactory = $menuFactory;
         $this->menuRepository = $menuRepository;

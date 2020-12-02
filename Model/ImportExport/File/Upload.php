@@ -4,19 +4,22 @@ declare(strict_types=1);
 
 namespace Snowdog\Menu\Model\ImportExport\File;
 
+use Snowdog\Menu\Model\ImportExport\File\Upload\Content;
+use Snowdog\Menu\Model\ImportExport\File\Upload\Source;
+
 class Upload
 {
     /**
-     * @var Upload\Content
+     * @var Content
      */
     private $content;
 
     /**
-     * @var Upload\Source
+     * @var Source
      */
     private $source;
 
-    public function __construct(Upload\Content $content, Upload\Source $source)
+    public function __construct(Content $content, Source $source)
     {
         $this->content = $content;
         $this->source = $source;
