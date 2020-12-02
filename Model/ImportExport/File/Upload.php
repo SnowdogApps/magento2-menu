@@ -9,21 +9,21 @@ class Upload
     /**
      * @var Upload\Content
      */
-    private $uploadContent;
+    private $content;
 
     /**
      * @var Upload\Source
      */
-    private $uploadSource;
+    private $source;
 
-    public function __construct(Upload\Content $uploadContent, Upload\Source $uploadSource)
+    public function __construct(Upload\Content $content, Upload\Source $source)
     {
-        $this->uploadContent = $uploadContent;
-        $this->uploadSource = $uploadSource;
+        $this->content = $content;
+        $this->source = $source;
     }
 
     public function uploadFileAndGetData(): array
     {
-        return $this->uploadContent->get($this->uploadSource->upload());
+        return $this->content->get($this->source->upload());
     }
 }
