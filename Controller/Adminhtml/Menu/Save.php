@@ -8,6 +8,7 @@ use Magento\Framework\Api\Search\FilterGroupBuilderFactory;
 use Magento\Framework\Api\SearchCriteriaBuilderFactory;
 use Magento\Framework\App\ObjectManager;
 use Magento\Framework\App\ResponseInterface;
+use Magento\Framework\Exception\ValidatorException;
 use Snowdog\Menu\Api\Data\MenuInterface;
 use Snowdog\Menu\Api\MenuRepositoryInterface;
 use Snowdog\Menu\Api\NodeRepositoryInterface;
@@ -119,7 +120,7 @@ class Save extends Action
         foreach ($nodes as $node) {
             $nodeId = $node['id'];
 
-            if (!$this->nodeValidator->validate($node)) {
+            if (!$this->validateNode($node)) {
                 $invalidNodes[$nodeId] = $node;
             }
 
@@ -263,5 +264,18 @@ class Save extends Action
         }
 
         return $this->menuFactory->create();
+    }
+
+    private function validateNode(array $node): bool
+    {
+        try {
+            $this->nodeValidator->validate($node);
+            $result = true;
+        } catch (ValidatorException $exception) {
+            $this->messageManager->addErrorMessage($exception->getMessage());
+            $result = false;
+        }
+
+        return $result;
     }
 }

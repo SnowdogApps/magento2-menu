@@ -16,16 +16,12 @@ class Validator
         $this->product = $product;
     }
 
-    public function validate(array $node): bool
+    public function validate(array $node): void
     {
-        $isValid = true;
-
         switch ($node['type']) {
             case 'product':
-                $isValid = $this->product->validate($node);
+                $this->product->validate($node);
                 break;
         }
-
-        return $isValid;
     }
 }

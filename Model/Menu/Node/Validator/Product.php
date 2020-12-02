@@ -8,7 +8,6 @@ use Magento\Catalog\Api\Data\ProductInterface;
 use Magento\Catalog\Api\ProductRepositoryInterface;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\Exception\ValidatorException;
-use Magento\Framework\Message\ManagerInterface as MessageManagerInterface;
 
 class Product
 {
@@ -17,30 +16,14 @@ class Product
      */
     private $productRepository;
 
-    /**
-     * @var MessageManagerInterface
-     */
-    private $messageManager;
-
-    public function __construct(
-        ProductRepositoryInterface $productRepository,
-        MessageManagerInterface $messageManager
-    ) {
+    public function __construct(ProductRepositoryInterface $productRepository)
+    {
         $this->productRepository = $productRepository;
-        $this->messageManager = $messageManager;
     }
 
-    public function validate(array $node): bool
+    public function validate(array $node): void
     {
-        try {
-            $this->validateProductId($node);
-            $result = true;
-        } catch (ValidatorException $exception) {
-            $this->messageManager->addErrorMessage($exception->getMessage());
-            $result = false;
-        }
-
-        return $result;
+        $this->validateProductId($node);
     }
 
     /**
