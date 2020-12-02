@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Snowdog\Menu\Controller\Adminhtml\Menu;
 
 use Magento\Backend\App\Action;
+use Magento\Backend\App\Action\Context;
 use Magento\Framework\App\Action\HttpGetActionInterface;
 use Magento\Framework\Controller\ResultFactory;
 use Magento\ImportExport\Helper\Data as ImportExportHelper;
@@ -21,7 +22,7 @@ class Import extends Action implements HttpGetActionInterface
      */
     private $importExportHelper;
 
-    public function __construct(Action\Context $context, ImportExportHelper $importExportHelper)
+    public function __construct(Context $context, ImportExportHelper $importExportHelper)
     {
         $this->importExportHelper = $importExportHelper;
         parent::__construct($context);
