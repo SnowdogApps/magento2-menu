@@ -6,11 +6,12 @@ namespace Snowdog\Menu\Controller\Adminhtml\Node;
 
 use Magento\Backend\App\Action;
 use Magento\Backend\App\Action\Context;
+use Magento\Framework\App\Action\HttpPostActionInterface;
 use Magento\Framework\Controller\Result\JsonFactory as JsonResultFactory;
 use Psr\Log\LoggerInterface;
 use Snowdog\Menu\Model\Menu\Node\Image;
 
-class UploadImage extends Action
+class UploadImage extends Action implements HttpPostActionInterface
 {
     /**
      * @inheritDoc
