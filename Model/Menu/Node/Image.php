@@ -38,14 +38,14 @@ class Image
     private $storeManager;
 
     public function __construct(
-        UploaderFactory $uploaderFactory,
         Filesystem $filesystem,
         ImageAdapterFactory $imageAdapterFactory,
+        UploaderFactory $uploaderFactory,
         StoreManagerInterface $storeManager
     ) {
-        $this->uploaderFactory = $uploaderFactory;
         $this->filesystem = $filesystem;
         $this->imageAdapterFactory = $imageAdapterFactory;
+        $this->uploaderFactory = $uploaderFactory;
         $this->storeManager = $storeManager;
     }
 
