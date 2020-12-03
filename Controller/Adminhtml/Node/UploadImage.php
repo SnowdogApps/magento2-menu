@@ -66,6 +66,7 @@ class UploadImage extends Action implements HttpPostActionInterface
         }
 
         $jsonResult->setData($result);
+
         return $jsonResult;
     }
 }
