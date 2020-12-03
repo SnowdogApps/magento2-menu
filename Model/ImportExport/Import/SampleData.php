@@ -28,7 +28,7 @@ class SampleData
         $this->node = $node;
     }
 
-    public function getSampleData(): array
+    public function get(): array
     {
         $data = $this->menu->getData();
         $data[ExtendedFields::NODES] = $this->node->getData();

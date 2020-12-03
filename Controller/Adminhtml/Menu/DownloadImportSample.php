@@ -55,7 +55,7 @@ class DownloadImportSample extends Action implements HttpGetActionInterface
         try {
             return $this->fileDownload->generateDownloadFile(
                 SampleData::DOWNLOAD_FILE_ID,
-                $this->sampleData->getSampleData()
+                $this->sampleData->get()
             );
         } catch (Exception $exception) {
             $this->logger->critical($exception);
