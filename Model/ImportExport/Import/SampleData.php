@@ -31,8 +31,6 @@ class SampleData
     public function getSampleData(): array
     {
         $data = $this->menu->getData();
-
-        $data[ExtendedFields::STORES] = Menu::STORES_DATA;
         $data[ExtendedFields::NODES] = $this->node->getData();
 
         return $data;

@@ -6,6 +6,7 @@ namespace Snowdog\Menu\Model\ImportExport\Import\SampleData;
 
 use Snowdog\Menu\Api\Data\MenuInterface;
 use Snowdog\Menu\Model\ImportExport\Import\SampleData\Processor;
+use Snowdog\Menu\Model\ImportExport\Processor\ExtendedFields;
 use Snowdog\Menu\Model\ResourceModel\Menu as MenuResource;
 
 class Menu
@@ -36,6 +37,9 @@ class Menu
 
     public function getData(): array
     {
-        return $this->processor->getFieldsData($this->menuResource->getFields(), self::EXCLUDED_FIELDS);
+        $data = $this->processor->getFieldsData($this->menuResource->getFields(), self::EXCLUDED_FIELDS);
+        $data[ExtendedFields::STORES] = self::STORES_DATA;
+
+        return $data;
     }
 }
