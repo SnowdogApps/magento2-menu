@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Snowdog\Menu\Model\Menu\Node;
 
 use Magento\Framework\App\Filesystem\DirectoryList;
@@ -47,10 +49,7 @@ class Image
         $this->storeManager = $storeManager;
     }
 
-    /**
-     * @return array
-     */
-    public function upload()
+    public function upload(): array
     {
         $uploader = $this->uploaderFactory->create(['fileId' => self::UPLOAD_FILE_ID]);
         $imageAdapter = $this->imageAdapterFactory->create();
@@ -65,36 +64,23 @@ class Image
         return ['file' => $result['file'], 'url' => $this->getUrl($result['file'])];
     }
 
-    /**
-     * @param string $file
-     * @return string
-     */
-    public function getUrl($file)
+    public function getUrl(string $file): string
     {
         return $this->storeManager->getStore()->getBaseUrl(UrlInterface::URL_TYPE_MEDIA) . self::PATH . $file;
     }
 
-    /**
-     * @return string
-     */
-    public function getUploadFileId()
+    public function getUploadFileId(): string
     {
         return self::UPLOAD_FILE_ID;
     }
 
-    /**
-     * @param string $file
-     */
-    public function delete($file)
+    public function delete(string $file): void
     {
         $mediaDirectory = $this->filesystem->getDirectoryWrite(DirectoryList::MEDIA);
         $mediaDirectory->delete(self::PATH . $file);
     }
 
-    /**
-     * @return string
-     */
-    private function getAbsolutePath()
+    private function getAbsolutePath(): string
     {
         $mediaDirectory = $this->filesystem->getDirectoryRead(DirectoryList::MEDIA);
         return $mediaDirectory->getAbsolutePath(self::PATH);
