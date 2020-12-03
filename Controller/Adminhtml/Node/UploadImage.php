@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Snowdog\Menu\Controller\Adminhtml\Node;
 
 use Magento\Backend\App\Action;
+use Magento\Backend\App\Action\Context;
 use Magento\Framework\Controller\Result\JsonFactory as JsonResultFactory;
 use Psr\Log\LoggerInterface;
 use Snowdog\Menu\Model\Menu\Node\Image;
@@ -32,7 +33,7 @@ class UploadImage extends Action
     private $image;
 
     public function __construct(
-        Action\Context $context,
+        Context $context,
         JsonResultFactory $jsonResultFactory,
         LoggerInterface $logger,
         Image $image
