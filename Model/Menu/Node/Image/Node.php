@@ -43,7 +43,7 @@ class Node
         try {
             $node = $this->nodeRepository->getById($nodeId);
         } catch (NoSuchEntityException $exception) {
-            // Normally, this error should never be happen.
+            // Normally, this error should never happen.
             // But if it somehow does happen, then there is possibly an issue on JS side that should be fixed.
             $this->logger->critical($exception);
             return;
@@ -53,7 +53,7 @@ class Node
             $node->setImage($image);
             $this->nodeRepository->save($node);
         } catch (CouldNotSaveException $exception) {
-            // Normally, this error should never be happen.
+            // Normally, this error should never happen.
             // But if it somehow does happen, then there is possibly an issue on server-side that should be fixed.
             $this->logger->critical($exception);
         }
