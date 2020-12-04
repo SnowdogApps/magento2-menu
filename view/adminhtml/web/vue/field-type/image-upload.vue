@@ -167,8 +167,28 @@
                 },
 
                 removeItemImage: function(e) {
-                  e.preventDefault();
-                  this.setItemImage('', '');
+                    e.preventDefault();
+
+                    if (!this.item.image) {
+                        return;
+                    }
+
+                    const formData = new FormData();
+
+                    formData.append('image', this.item.image);
+                    formData.append('node_id', this.item.is_stored ? this.item.id : '');
+                    formData.append('form_key', window.FORM_KEY);
+
+                    $.ajax({
+                        url: this.$root.config.imageDeleteUrl,
+                        data: formData,
+                        type: 'POST',
+                        contentType: false,
+                        processData: false,
+                        complete: function() {
+                            this.setItemImage('', '');
+                        }.bind(this)
+                    });
                 },
 
                 removeNewFileAction: function(e) {

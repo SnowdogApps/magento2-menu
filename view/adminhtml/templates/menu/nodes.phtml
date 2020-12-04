@@ -37,6 +37,7 @@ $vueComponents = $block->getVueComponents();
                         "fieldData"        : <?= json_encode($fieldData) ?>,
                         "nodeTypes"        : <?= json_encode($block->getNodeLabels()) ?>,
                         "imageUploadUrl"   : "<?= $block->getImageUploadUrl() ?>",
+                        "imageDeleteUrl"   : "<?= $block->getImageDeleteUrl() ?>",
                         "imageUploadFileId": "<?= $block->getImageUploadFileId() ?>",
                         "translation": {
                             "nodes"          : "<?= __('Nodes') ?>",

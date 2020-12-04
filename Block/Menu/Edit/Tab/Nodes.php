@@ -136,6 +136,14 @@ class Nodes extends Template implements TabInterface
     /**
      * @return string
      */
+    public function getImageDeleteUrl()
+    {
+        return $this->getUrl('snowmenu/node/deleteimage');
+    }
+
+    /**
+     * @return string
+     */
     public function getImageUploadFileId()
     {
         return $this->imageFile->getUploadFileId();
