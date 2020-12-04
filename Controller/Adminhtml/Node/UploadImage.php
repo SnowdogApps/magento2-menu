@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Snowdog\Menu\Controller\Adminhtml\Node;
 
+use Exception;
 use Magento\Backend\App\Action;
 use Magento\Backend\App\Action\Context;
 use Magento\Framework\App\Action\HttpPostActionInterface;
@@ -60,7 +61,7 @@ class UploadImage extends Action implements HttpPostActionInterface
             }
 
             $result = $this->image->upload();
-        } catch (\Exception $exception) {
+        } catch (Exception $exception) {
             $this->logger->critical($exception);
             $result = ['error' => __('Menu node image upload failed.')];
         }
