@@ -54,7 +54,7 @@ class Node
             $this->nodeRepository->save($node);
         } catch (CouldNotSaveException $exception) {
             // Normally, this error should never be happen.
-            // But if it somehow does happen, then there is possibly an issue on server-side/backend that should be fixed.
+            // But if it somehow does happen, then there is possibly an issue on server-side that should be fixed.
             $this->logger->critical($exception);
         }
     }
