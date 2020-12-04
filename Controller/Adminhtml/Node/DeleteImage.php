@@ -66,12 +66,13 @@ class DeleteImage extends Action implements HttpPostActionInterface
         $image = $request->getPost('image');
         $nodeId = $request->getPost('node_id');
 
-        if ($nodeId) {
-            $this->imageNode->updateNodeImage((int) $nodeId, null);
-        }
-
         try {
             $this->imageFile->delete($image);
+
+            if ($nodeId) {
+                $this->imageNode->updateNodeImage((int) $nodeId, null);
+            }
+
             $result = ['status' => 1];
         } catch (FileSystemException $exception) {
             $this->logger->critical($exception);
