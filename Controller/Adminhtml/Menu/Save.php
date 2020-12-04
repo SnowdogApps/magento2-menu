@@ -15,6 +15,7 @@ use Snowdog\Menu\Api\MenuRepositoryInterface;
 use Snowdog\Menu\Api\NodeRepositoryInterface;
 use Snowdog\Menu\Model\Menu\NodeFactory;
 use Snowdog\Menu\Model\Menu\Node\Image\File as NodeImageFile;
+use Snowdog\Menu\Model\Menu\Node\Image\Node as ImageNode;
 use Snowdog\Menu\Model\MenuFactory;
 use Snowdog\Menu\Service\MenuHydrator;
 
@@ -46,6 +47,9 @@ class Save extends Action
     /** @var NodeImageFile */
     private $nodeImageFile;
 
+    /** @var ImageNode */
+    private $imageNode;
+
     /** @var ProductRepository */
     private $productRepository;
 
@@ -62,6 +66,7 @@ class Save extends Action
      * @param NodeFactory $nodeFactory
      * @param MenuFactory $menuFactory
      * @param NodeImageFile $nodeImageFile
+     * @param ImageNode $imageNode
      * @param ProductRepository $productRepository
      * @param MenuHydrator|null $hydrator
      */
@@ -75,6 +80,7 @@ class Save extends Action
         NodeFactory $nodeFactory,
         MenuFactory $menuFactory,
         NodeImageFile $nodeImageFile,
+        ImageNode $imageNode,
         ProductRepository $productRepository,
         MenuHydrator $hydrator = null
     ) {
@@ -87,6 +93,7 @@ class Save extends Action
         $this->nodeFactory = $nodeFactory;
         $this->menuFactory = $menuFactory;
         $this->nodeImageFile = $nodeImageFile;
+        $this->imageNode = $imageNode;
         $this->productRepository = $productRepository;
         // Backwards compatible class loader
         $this->hydrator = $hydrator ?? ObjectManager::getInstance()->get(MenuHydrator::class);
@@ -137,8 +144,15 @@ class Save extends Action
             }
         }
 
-        foreach (array_keys($nodesToDelete) as $nodeId) {
+        $nodesToDeleteIds = array_keys($nodesToDelete);
+        $nodesToDeleteImages = $this->imageNode->getNodeListImages($nodesToDeleteIds);
+
+        foreach ($nodesToDeleteIds as $nodeId) {
             $this->nodeRepository->deleteById($nodeId);
+
+            if (isset($nodesToDeleteImages[$nodeId])) {
+                $this->nodeImageFile->delete($nodesToDeleteImages[$nodeId]);
+            }
         }
 
         $path = ['#' => 0];
