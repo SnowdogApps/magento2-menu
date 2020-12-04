@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Snowdog\Menu\Model\Menu\Node;
+namespace Snowdog\Menu\Model\Menu\Node\Image;
 
 use Magento\Framework\App\Filesystem\DirectoryList;
 use Magento\Framework\Filesystem;
@@ -11,7 +11,7 @@ use Magento\Framework\UrlInterface;
 use Magento\MediaStorage\Model\File\UploaderFactory;
 use Magento\Store\Model\StoreManagerInterface;
 
-class Image
+class File
 {
     const UPLOAD_FILE_ID = 'image';
     const ALLOWED_EXTENSIONS = ['jpg', 'jpeg', 'gif', 'png'];

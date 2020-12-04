@@ -8,7 +8,7 @@ use Magento\Cms\Model\Wysiwyg\Config;
 use Magento\Framework\Registry;
 use Snowdog\Menu\Api\NodeRepositoryInterface;
 use Snowdog\Menu\Controller\Adminhtml\Menu\Edit;
-use Snowdog\Menu\Model\Menu\Node\Image;
+use Snowdog\Menu\Model\Menu\Node\Image\File as ImageFile;
 use Snowdog\Menu\Model\NodeTypeProvider;
 use Snowdog\Menu\Model\VueProvider;
 
@@ -27,9 +27,9 @@ class Nodes extends Template implements TabInterface
     private $nodeRepository;
 
     /**
-     * @var Image
+     * @var ImageFile
      */
-    private $image;
+    private $imageFile;
     /**
      * @var NodeTypeProvider
      */
@@ -43,7 +43,7 @@ class Nodes extends Template implements TabInterface
     public function __construct(
         Template\Context $context,
         NodeRepositoryInterface $nodeRepository,
-        Image $image,
+        ImageFile $imageFile,
         NodeTypeProvider $nodeTypeProvider,
         Registry $registry,
         VueProvider $vueProvider,
@@ -53,7 +53,7 @@ class Nodes extends Template implements TabInterface
         $this->registry = $registry;
         $this->nodeRepository = $nodeRepository;
         $this->nodeTypeProvider = $nodeTypeProvider;
-        $this->image = $image;
+        $this->imageFile = $imageFile;
         $this->vueProvider = $vueProvider;
     }
 
@@ -138,7 +138,7 @@ class Nodes extends Template implements TabInterface
      */
     public function getImageUploadFileId()
     {
-        return $this->image->getUploadFileId();
+        return $this->imageFile->getUploadFileId();
     }
 
     private function renderNodeList($level, $parent, $data)
@@ -165,7 +165,7 @@ class Nodes extends Template implements TabInterface
                 'id' => $node->getId(),
                 'title' => $node->getTitle(),
                 'image' => $node->getImage(),
-                'imageUrl' => $node->getImage() ? $this->image->getUrl($node->getImage()) : null,
+                'imageUrl' => $node->getImage() ? $this->imageFile->getUrl($node->getImage()) : null,
                 'columns' => $this->renderNodeList($level + 1, $node->getId(), $data) ?: []
             ];
         }

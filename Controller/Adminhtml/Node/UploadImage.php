@@ -10,7 +10,7 @@ use Magento\Backend\App\Action\Context;
 use Magento\Framework\App\Action\HttpPostActionInterface;
 use Magento\Framework\Controller\Result\JsonFactory as JsonResultFactory;
 use Psr\Log\LoggerInterface;
-use Snowdog\Menu\Model\Menu\Node\Image;
+use Snowdog\Menu\Model\Menu\Node\Image\File as ImageFile;
 
 class UploadImage extends Action implements HttpPostActionInterface
 {
@@ -30,19 +30,19 @@ class UploadImage extends Action implements HttpPostActionInterface
     private $logger;
 
     /**
-     * @var Image
+     * @var ImageFile
      */
-    private $image;
+    private $imageFile;
 
     public function __construct(
         Context $context,
         JsonResultFactory $jsonResultFactory,
         LoggerInterface $logger,
-        Image $image
+        ImageFile $imageFile
     ) {
         $this->jsonResultFactory = $jsonResultFactory;
         $this->logger = $logger;
-        $this->image = $image;
+        $this->imageFile = $imageFile;
 
         parent::__construct($context);
     }
@@ -57,10 +57,10 @@ class UploadImage extends Action implements HttpPostActionInterface
 
         try {
             if ($currentImage) {
-                $this->image->delete($currentImage);
+                $this->imageFile->delete($currentImage);
             }
 
-            $result = $this->image->upload();
+            $result = $this->imageFile->upload();
         } catch (Exception $exception) {
             $this->logger->critical($exception);
             $result = ['error' => __('Menu node image upload failed.')];
