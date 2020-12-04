@@ -38,9 +38,6 @@ class Node
         $this->nodeRepository = $nodeRepository;
     }
 
-    /**
-     * @SuppressWarnings(PHPMD.UnusedLocalVariable)
-     */
     public function updateNodeImage(int $nodeId, ?string $image): void
     {
         try {
