@@ -142,6 +142,7 @@
                     var formData = new FormData();
                     formData.append(this.$root.config.imageUploadFileId, this.file);
                     formData.append('current_image', this.item.image || '');
+                    formData.append('node_id', this.item.is_stored ? this.item.id : '');
                     formData.append('form_key', window.FORM_KEY);
 
                     $.ajax({

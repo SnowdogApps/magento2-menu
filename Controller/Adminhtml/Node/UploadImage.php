@@ -11,6 +11,7 @@ use Magento\Framework\App\Action\HttpPostActionInterface;
 use Magento\Framework\Controller\Result\JsonFactory as JsonResultFactory;
 use Psr\Log\LoggerInterface;
 use Snowdog\Menu\Model\Menu\Node\Image\File as ImageFile;
+use Snowdog\Menu\Model\Menu\Node\Image\Node as ImageNode;
 
 class UploadImage extends Action implements HttpPostActionInterface
 {
@@ -34,15 +35,22 @@ class UploadImage extends Action implements HttpPostActionInterface
      */
     private $imageFile;
 
+    /**
+     * @var ImageNode
+     */
+    private $imageNode;
+
     public function __construct(
         Context $context,
         JsonResultFactory $jsonResultFactory,
         LoggerInterface $logger,
-        ImageFile $imageFile
+        ImageFile $imageFile,
+        ImageNode $imageNode
     ) {
         $this->jsonResultFactory = $jsonResultFactory;
         $this->logger = $logger;
         $this->imageFile = $imageFile;
+        $this->imageNode = $imageNode;
 
         parent::__construct($context);
     }
@@ -53,7 +61,10 @@ class UploadImage extends Action implements HttpPostActionInterface
     public function execute()
     {
         $jsonResult = $this->jsonResultFactory->create();
-        $currentImage = $this->getRequest()->getPost('current_image');
+        $request = $this->getRequest();
+
+        $currentImage = $request->getPost('current_image');
+        $nodeId = $request->getPost('node_id');
 
         try {
             if ($currentImage) {
@@ -61,6 +72,10 @@ class UploadImage extends Action implements HttpPostActionInterface
             }
 
             $result = $this->imageFile->upload();
+
+            if ($nodeId) {
+                $this->imageNode->updateNodeImage((int) $nodeId, $result['file']);
+            }
         } catch (Exception $exception) {
             $this->logger->critical($exception);
             $result = ['error' => __('Menu node image upload failed.')];
