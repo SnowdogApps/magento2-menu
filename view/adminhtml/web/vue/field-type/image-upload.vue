@@ -9,16 +9,16 @@
 
         <div class="admin__field-control control image-upload__wrapper">
             <div
-                v-if="item.imageUrl"
+                v-if="itemImageUrlPreview"
                 class="upload-file__current-area"
             >
                 <img
                     class="upload-file__image image-upload__image--current"
-                    :src="item.imageUrl"
+                    :src="itemImageUrlPreview"
                 >
             </div>
             <button
-                v-if="item.imageUrl"
+                v-if="itemImageUrlPreview"
                 class="primary image-upload__remove"
                 @click="removeItemImage"
             >
@@ -121,6 +121,7 @@
                     selectedFile: '',
                     file: '',
                     previewImage: '',
+                    itemImageUrlPreview: this.item.imageUrl,
                     fileIsUploading: false,
                     fileIsUploadingLabel: $t('Uploading file ...'),
                     uploadError: ''
@@ -133,6 +134,7 @@
                 setItemImage: function(file, url) {
                   this.item.image = file;
                   this.item.imageUrl = url;
+                  this.itemImageUrlPreview = url;
                 },
                 uploadFileToServer: function() {
                     this.fileIsUploading = true;
