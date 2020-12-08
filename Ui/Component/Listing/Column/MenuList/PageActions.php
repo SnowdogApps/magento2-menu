@@ -119,7 +119,8 @@ class PageActions extends Column
     {
         return [
             'href' => $this->urlBuilder->getUrl(static::URL_PATH_EXPORT, ['id' => $menuId]),
-            'label' => __('Export')
+            'label' => __('Export'),
+            '__disableTmpl' => true
         ];
     }
 }
