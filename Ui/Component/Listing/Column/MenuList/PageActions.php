@@ -118,7 +118,7 @@ class PageActions extends Column
     private function getExportButton(int $menuId): array
     {
         return [
-            'href' => $this->urlBuilder->getUrl(static::URL_PATH_EXPORT, ['id' => $menuId]),
+            'href' => $this->urlBuilder->getUrl(self::URL_PATH_EXPORT, ['id' => $menuId]),
             'label' => __('Export'),
             '__disableTmpl' => true
         ];
