@@ -21,6 +21,7 @@ class PageActions extends Column
      */
     const URL_PATH_EDIT = 'snowmenu/menu/edit';
     const URL_PATH_DELETE = 'snowmenu/menu/delete';
+    const URL_PATH_EXPORT = 'snowmenu/menu/export';
 
     /**
      * @var UrlInterface
@@ -65,9 +66,9 @@ class PageActions extends Column
                         'edit' => $this->getEditButton($menuId),
                         'delete' => $this->getDeleteButton($menuId),
                         'export' => [
-                            'href' => $this->getContext()->getUrl(
-                                'snowmenu/menu/export',
-                                ['id'=> $menuId]
+                            'href' => $this->urlBuilder->getUrl(
+                                static::URL_PATH_EXPORT,
+                                ['id' => $menuId]
                             ),
                             'label' => __('Export')
                         ]
