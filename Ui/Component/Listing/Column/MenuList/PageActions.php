@@ -65,13 +65,7 @@ class PageActions extends Column
                     $item[$name] = [
                         'edit' => $this->getEditButton($menuId),
                         'delete' => $this->getDeleteButton($menuId),
-                        'export' => [
-                            'href' => $this->urlBuilder->getUrl(
-                                static::URL_PATH_EXPORT,
-                                ['id' => $menuId]
-                            ),
-                            'label' => __('Export')
-                        ]
+                        'export' => $this->getExportButton($menuId)
                     ];
                 }
             }
@@ -118,6 +112,14 @@ class PageActions extends Column
             ],
             'post' => true,
             '__disableTmpl' => true,
+        ];
+    }
+
+    private function getExportButton(int $menuId): array
+    {
+        return [
+            'href' => $this->urlBuilder->getUrl(static::URL_PATH_EXPORT, ['id' => $menuId]),
+            'label' => __('Export')
         ];
     }
 }
