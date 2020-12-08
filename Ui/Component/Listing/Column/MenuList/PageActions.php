@@ -65,11 +65,11 @@ class PageActions extends Column
                         'edit' => $this->getEditButton($menuId),
                         'delete' => $this->getDeleteButton($menuId),
                         'export' => [
-                            "href" => $this->getContext()->getUrl(
-                                "snowmenu/menu/export",
-                                ["id" => $menuId]
+                            'href' => $this->getContext()->getUrl(
+                                'snowmenu/menu/export',
+                                ['id'=> $menuId]
                             ),
-                            "label" => __("Export")
+                            'label' => __('Export')
                         ]
                     ];
                 }
