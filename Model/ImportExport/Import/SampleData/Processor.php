@@ -19,8 +19,10 @@ class Processor
                 continue;
             }
 
+            $optionalFieldLabel = $description['NULLABLE'] ? ' [optional]' : '';
+
             if (array_key_exists($field, $defaultData)) {
-                $fieldsData[$field] = $defaultData[$field];
+                $fieldsData[$field] = $defaultData[$field] . $optionalFieldLabel;
                 continue;
             }
 
@@ -29,7 +31,7 @@ class Processor
                 continue;
             }
 
-            $fieldsData[$field] = '<' . $description['DATA_TYPE'] . '>';
+            $fieldsData[$field] = '<' . $description['DATA_TYPE'] . '>' . $optionalFieldLabel;
         }
 
         return $fieldsData;
