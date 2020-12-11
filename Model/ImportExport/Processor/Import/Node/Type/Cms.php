@@ -12,9 +12,6 @@ use Magento\Framework\Exception\NoSuchEntityException;
 
 class Cms
 {
-    const BLOCK_NODE_TYPE = 'cms_block';
-    const PAGE_NODE_TYPE = 'cms_page';
-
     /**
      * @var BlockRepositoryInterface
      */

@@ -12,10 +12,6 @@ use Magento\Framework\Exception\NoSuchEntityException;
 
 class Catalog
 {
-    const CATEGORY_NODE_TYPE = 'category';
-    const CHILD_CATEGORY_NODE_TYPE = 'category_child';
-    const PRODUCT_NODE_TYPE = 'product';
-
     const ROOT_CATEGORY_ID = 1;
 
     /**

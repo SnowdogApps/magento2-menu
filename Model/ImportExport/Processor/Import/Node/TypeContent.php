@@ -6,6 +6,7 @@ namespace Snowdog\Menu\Model\ImportExport\Processor\Import\Node;
 
 use Snowdog\Menu\Model\ImportExport\Processor\Import\Node\Type\Catalog;
 use Snowdog\Menu\Model\ImportExport\Processor\Import\Node\Type\Cms;
+use Snowdog\Menu\Model\ImportExport\Processor\NodeTypes;
 
 class TypeContent
 {
@@ -32,17 +33,17 @@ class TypeContent
     public function get(string $type, $content)
     {
         switch ($type) {
-            case Catalog::PRODUCT_NODE_TYPE:
+            case NodeTypes::PRODUCT:
                 $product = $this->catalog->getProduct($content);
                 $content = (int) $product->getId();
 
                 break;
-            case Cms::BLOCK_NODE_TYPE:
+            case NodeTypes::CMS_BLOCK:
                 $block = $this->cms->getBlock($content);
                 $content = $block->getIdentifier();
 
                 break;
-            case Cms::PAGE_NODE_TYPE:
+            case NodeTypes::CMS_PAGE:
                 $page = $this->cms->getPage($content);
                 $content = $page->getIdentifier();
 

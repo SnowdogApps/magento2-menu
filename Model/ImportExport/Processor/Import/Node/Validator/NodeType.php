@@ -9,6 +9,7 @@ use Snowdog\Menu\Model\ImportExport\Processor\Import\Node\Type\Catalog;
 use Snowdog\Menu\Model\ImportExport\Processor\Import\Node\Type\Cms;
 use Snowdog\Menu\Model\ImportExport\Processor\Import\Node\Validator\TreeTrace;
 use Snowdog\Menu\Model\ImportExport\Processor\Import\Validator\ValidationAggregateError;
+use Snowdog\Menu\Model\ImportExport\Processor\NodeTypes;
 use Snowdog\Menu\Model\NodeTypeProvider;
 
 class NodeType
@@ -105,17 +106,17 @@ class NodeType
         $isValid = true;
 
         switch ($node[NodeInterface::TYPE]) {
-            case Catalog::PRODUCT_NODE_TYPE:
+            case NodeTypes::PRODUCT:
                 $isValid = $this->catalog->getProduct($node[NodeInterface::CONTENT]);
                 break;
-            case Catalog::CATEGORY_NODE_TYPE:
-            case Catalog::CHILD_CATEGORY_NODE_TYPE:
+            case NodeTypes::CATEGORY:
+            case NodeTypes::CHILD_CATEGORY:
                 $isValid = $this->catalog->getCategory($node[NodeInterface::CONTENT]);
                 break;
-            case Cms::BLOCK_NODE_TYPE:
+            case NodeTypes::CMS_BLOCK:
                 $isValid = $this->cms->getBlock($node[NodeInterface::CONTENT]);
                 break;
-            case Cms::PAGE_NODE_TYPE:
+            case NodeTypes::CMS_PAGE:
                 $isValid = $this->cms->getPage($node[NodeInterface::CONTENT]);
                 break;
         }
