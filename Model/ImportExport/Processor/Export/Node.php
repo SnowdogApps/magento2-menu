@@ -7,6 +7,7 @@ namespace Snowdog\Menu\Model\ImportExport\Processor\Export;
 use Magento\Framework\Api\SearchCriteriaBuilder;
 use Snowdog\Menu\Api\Data\NodeInterface;
 use Snowdog\Menu\Api\NodeRepositoryInterface;
+use Snowdog\Menu\Model\ImportExport\Processor\Export\Node\DataProcessor;
 use Snowdog\Menu\Model\ImportExport\Processor\ExtendedFields;
 
 class Node
@@ -28,12 +29,19 @@ class Node
      */
     private $nodeRepository;
 
+    /**
+     * @var DataProcessor
+     */
+    private $dataProcessor;
+
     public function __construct(
         SearchCriteriaBuilder $searchCriteriaBuilder,
-        NodeRepositoryInterface $nodeRepository
+        NodeRepositoryInterface $nodeRepository,
+        DataProcessor $dataProcessor
     ) {
         $this->searchCriteriaBuilder = $searchCriteriaBuilder;
         $this->nodeRepository = $nodeRepository;
+        $this->dataProcessor = $dataProcessor;
     }
 
     public function getList(int $menuId): array
@@ -50,7 +58,7 @@ class Node
         foreach ($nodes as $node) {
             $nodeId = $node->getId();
             $parentId = $node->getParentId();
-            $nodeData = $node->getData();
+            $nodeData = $this->dataProcessor->get($node->getData());
 
             $this->removeNodeExcludedFields($nodeData);
 
