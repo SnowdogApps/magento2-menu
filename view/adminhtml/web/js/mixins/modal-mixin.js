@@ -52,6 +52,23 @@ define([
                   },
                   error: function (result) {
                     alertModal.closeModal(true)
+                    importModal.closeModal()
+
+                    alert({
+                      title: 'Error ' + result.status,
+                      content: $.mage.__(result.statusText),
+                      modalClass: 'confirm',
+                      buttons: [
+                        {
+                          text: $.mage.__('OK'),
+                          class: 'action-primary action-accept',
+
+                          click: function () {
+                            this.closeModal(true)
+                          }
+                        }
+                      ]
+                    })
                   }
                 })
               }
