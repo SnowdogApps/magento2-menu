@@ -7,5 +7,12 @@ var config = {
     },
     shim: {
         'Vue': { 'exports': 'Vue' }
-    }
+    },
+    config: {
+        mixins: {
+          "Magento_Ui/js/modal/modal-component": {
+            "Snowdog_Menu/js/mixins/modal-mixin": true
+          }
+        }
+    },
 };

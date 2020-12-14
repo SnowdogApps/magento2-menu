@@ -29,6 +29,7 @@ foreach ($block->getNodeForms() as $form) {
             "Vue",
             "Vddl",
             "vue-select",
+            'uiRegistry',
             "vue!Snowdog_Menu/vue/app",
             "vue!Snowdog_Menu/vue/nested-list",
             "vue!Snowdog_Menu/vue/menu-type",
@@ -41,7 +42,7 @@ foreach ($block->getNodeForms() as $form) {
             "vue!Snowdog_Menu/vue/field-type/simple",
             "vue!Snowdog_Menu/vue/field-type/checkbox",
             "vue!Snowdog_Menu/vue/field-type/autocomplete"
-        ], function(Vue, Vddl, vueSelect) {
+        ], function(Vue, Vddl, vueSelect, registry) {
             Vue.use(Vddl);
             Vue.component('v-select', vueSelect.VueSelect);
             var app = new Vue({
@@ -79,5 +80,7 @@ foreach ($block->getNodeForms() as $form) {
                     }
                 }
             });
+
+            registry.set('vueApp', app)
         });
 </script>
