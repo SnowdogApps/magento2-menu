@@ -9,6 +9,8 @@ class Processor
     const BOOLEAN_TYPES = ['smallint', 'tinyint'];
     const BOOLEAN_FIELD_DEFAULT_VALUE = 'Valid values: <1 | 0>';
 
+    const OPTIONAL_FIELD_LABEL = '[optional]';
+
     public function getFieldsData(array $fields, array $excludedFields = [], array $defaultData = []): array
     {
         $fieldsData = [];
@@ -19,7 +21,7 @@ class Processor
                 continue;
             }
 
-            $optionalFieldLabel = $description['NULLABLE'] ? ' [optional]' : '';
+            $optionalFieldLabel = $description['NULLABLE'] ? ' ' . self::OPTIONAL_FIELD_LABEL : '';
 
             if (array_key_exists($field, $defaultData)) {
                 $fieldsData[$field] = $defaultData[$field] . $optionalFieldLabel;
