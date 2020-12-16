@@ -24,6 +24,6 @@ class Description
             $details[] = '[Default: ' . $fieldDescription['DEFAULT'] . ']';
         }
 
-        return $details ? ' - ' . implode(' - ', $details) : '';
+        return $details ? implode(' - ', $details) : '';
     }
 }
