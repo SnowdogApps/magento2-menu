@@ -16,26 +16,29 @@ class Processor
         $fieldsData = [];
         $excludedFields = array_flip($excludedFields);
 
-        foreach ($fields as $field => $description) {
-            if (isset($excludedFields[$field])) {
-                continue;
+        foreach ($fields as $field => $fieldDescription) {
+            if (!isset($excludedFields[$field])) {
+                $fieldsData[$field] = $this->getFieldData($field, $fieldDescription, $defaultData);
             }
-
-            $optionalFieldLabel = $description['NULLABLE'] ? ' ' . self::OPTIONAL_FIELD_LABEL : '';
-
-            if (array_key_exists($field, $defaultData)) {
-                $fieldsData[$field] = $defaultData[$field] . $optionalFieldLabel;
-                continue;
-            }
-
-            if (in_array($description['DATA_TYPE'], self::BOOLEAN_TYPES)) {
-                $fieldsData[$field] = self::BOOLEAN_FIELD_DEFAULT_VALUE;
-                continue;
-            }
-
-            $fieldsData[$field] = '<' . $description['DATA_TYPE'] . '>' . $optionalFieldLabel;
         }
 
         return $fieldsData;
     }
+
+    private function getFieldData(string $field, array $fieldDescription, array $defaultData = []): string
+    {
+        switch (true) {
+            case array_key_exists($field, $defaultData):
+                $data = (string) $defaultData[$field];
+                break;
+            case in_array($fieldDescription['DATA_TYPE'], self::BOOLEAN_TYPES):
+                $data = self::BOOLEAN_FIELD_DEFAULT_VALUE;
+                break;
+            default:
+                $data = '[type: ' . $fieldDescription['DATA_TYPE'] . ']';
+        }
+
+        return $data;
+    }
+
 }
