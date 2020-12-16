@@ -9,7 +9,6 @@ use Magento\Backend\App\Action;
 use Magento\Backend\App\Action\Context;
 use Magento\Framework\App\Action\HttpPostActionInterface;
 use Magento\Framework\Exception\ValidatorException;
-use Magento\Store\Model\StoreManagerInterface;
 use Psr\Log\LoggerInterface;
 use Snowdog\Menu\Model\ImportExport\File\Upload as FileUpload;
 use Snowdog\Menu\Model\ImportExport\Processor\Import as ImportProcessor;
@@ -23,11 +22,6 @@ class ImportPost extends Action implements HttpPostActionInterface
     const ADMIN_RESOURCE = 'Snowdog_Menu::menus';
 
     /**
-     * @var StoreManagerInterface
-     */
-    private $storeManager;
-
-    /**
      * @var LoggerInterface
      */
     private $logger;
@@ -39,12 +33,10 @@ class ImportPost extends Action implements HttpPostActionInterface
 
     public function __construct(
         Context $context,
-        StoreManagerInterface $storeManager,
         LoggerInterface $logger,
         FileUpload $fileUpload,
         ImportProcessor $importProcessor
     ) {
-        $this->storeManager = $storeManager;
         $this->logger = $logger;
         $this->fileUpload = $fileUpload;
         $this->importProcessor = $importProcessor;
@@ -75,12 +67,6 @@ class ImportPost extends Action implements HttpPostActionInterface
             $this->messageManager->addErrorMessage(__('An error occurred while importing menu.'));
         }
 
-        $refererUrl = $this->_redirect->getRefererUrl();
-
-        if ($refererUrl === $this->storeManager->getStore()->getBaseUrl()) {
-            return $resultRedirect->setPath('*/*');
-        }
-
-        return $resultRedirect->setUrl($refererUrl);
+        return $resultRedirect->setPath('*/*/import');
     }
 }
