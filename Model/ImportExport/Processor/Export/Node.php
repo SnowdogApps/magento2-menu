@@ -16,7 +16,8 @@ class Node
         NodeInterface::MENU_ID,
         NodeInterface::NODE_ID,
         NodeInterface::PARENT_ID,
-        NodeInterface::LEVEL
+        NodeInterface::LEVEL,
+        NodeInterface::POSITION
     ];
 
     /**
