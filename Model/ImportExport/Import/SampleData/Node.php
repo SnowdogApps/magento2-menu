@@ -54,11 +54,14 @@ class Node
             $this->nodeDefaultData->get()
         );
 
-        // Create a tree of nodes.
+        return $this->getNodesTree($node);
+    }
+
+    private function getNodesTree(array $node): array
+    {
         $node2 = $node;
         $node[ExtendedFields::NODES] = [$node, $node];
-        $data = [$node, $node2];
-
-        return $data;
+        
+        return [$node, $node2];
     }
 }
