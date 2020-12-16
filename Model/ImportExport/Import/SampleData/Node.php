@@ -17,6 +17,7 @@ class Node
         NodeInterface::MENU_ID,
         NodeInterface::PARENT_ID,
         NodeInterface::LEVEL,
+        NodeInterface::POSITION,
         NodeInterface::CREATION_TIME,
         NodeInterface::UPDATE_TIME
     ];
