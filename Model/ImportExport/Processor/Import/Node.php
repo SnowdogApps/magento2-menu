@@ -60,18 +60,23 @@ class Node
         $this->yaml = $yaml;
     }
 
-    public function createNodes(array $nodes, int $menuId, int $nodesLevel = 0, ?int $parentId = null): void
-    {
+    public function createNodes(
+        array $nodes,
+        int $menuId,
+        int $nodesLevel = 0,
+        int $position = 0,
+        ?int $parentId = null
+    ): void {
         foreach ($nodes as $nodeData) {
             $node = $this->nodeFactory->create();
-            $data = $this->dataProcessor->get($nodeData, $menuId, $nodesLevel, $parentId);
+            $data = $this->dataProcessor->get($nodeData, $menuId, $nodesLevel, $position++, $parentId);
 
             $node->setData($data);
             $this->nodeRepository->save($node);
 
             if (isset($nodeData[ExtendedFields::NODES])) {
                 $nodeId = $node->getId() ? (int) $node->getId() : null;
-                $this->createNodes($nodeData[ExtendedFields::NODES], $menuId, $nodesLevel + 1, $nodeId);
+                $this->createNodes($nodeData[ExtendedFields::NODES], $menuId, ($nodesLevel + 1), 0, $nodeId);
             }
         }
     }
