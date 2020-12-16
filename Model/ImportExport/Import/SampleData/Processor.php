@@ -9,7 +9,7 @@ class Processor
     const BOOLEAN_TYPES = ['smallint', 'tinyint'];
     const BOOLEAN_FIELD_DEFAULT_VALUE = 'Valid values: <1 | 0>';
 
-    const OPTIONAL_FIELD_LABEL = '[optional]';
+    const OPTIONAL_FIELD_LABEL = '[Optional]';
     const TIMESTAMP_DEFAULT_VALUE = 'current_timestamp()';
 
     public function getFieldsData(array $fields, array $excludedFields = [], array $defaultData = []): array
@@ -36,7 +36,7 @@ class Processor
                 $data = self::BOOLEAN_FIELD_DEFAULT_VALUE;
                 break;
             default:
-                $data = '[type: ' . $fieldDescription['DATA_TYPE'] . ']';
+                $data = '[Type: ' . $fieldDescription['DATA_TYPE'] . ']';
         }
 
         return $data . $this->getFieldDetails($fieldDescription);
@@ -54,7 +54,7 @@ class Processor
             && $fieldDescription['DEFAULT'] !== ''
             && $fieldDescription['DEFAULT'] !== self::TIMESTAMP_DEFAULT_VALUE
         ) {
-            $details[] = '[default: ' . $fieldDescription['DEFAULT'] . ']';
+            $details[] = '[Default: ' . $fieldDescription['DEFAULT'] . ']';
         }
 
         return $details ? ' - ' . implode(' - ', $details) : '';
