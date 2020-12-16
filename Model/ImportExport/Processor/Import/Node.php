@@ -63,20 +63,20 @@ class Node
     public function createNodes(
         array $nodes,
         int $menuId,
-        int $nodesLevel = 0,
+        int $level = 0,
         int $position = 0,
         ?int $parentId = null
     ): void {
         foreach ($nodes as $nodeData) {
             $node = $this->nodeFactory->create();
-            $data = $this->dataProcessor->get($nodeData, $menuId, $nodesLevel, $position++, $parentId);
+            $data = $this->dataProcessor->get($nodeData, $menuId, $level, $position++, $parentId);
 
             $node->setData($data);
             $this->nodeRepository->save($node);
 
             if (isset($nodeData[ExtendedFields::NODES])) {
                 $nodeId = $node->getId() ? (int) $node->getId() : null;
-                $this->createNodes($nodeData[ExtendedFields::NODES], $menuId, ($nodesLevel + 1), 0, $nodeId);
+                $this->createNodes($nodeData[ExtendedFields::NODES], $menuId, ($level + 1), 0, $nodeId);
             }
         }
     }
