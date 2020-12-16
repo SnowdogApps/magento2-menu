@@ -27,6 +27,6 @@ class Upload
 
     public function uploadFileAndGetData(): array
     {
-        return $this->content->get($this->source->upload());
+        return $this->content->flush($this->source->upload());
     }
 }

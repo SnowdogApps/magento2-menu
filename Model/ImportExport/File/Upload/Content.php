@@ -31,7 +31,7 @@ class Content
     /**
      * @throws LogicException
      */
-    public function get(string $sourceFile): array
+    public function flush(string $sourceFile): array
     {
         $sourceFilePath = $this->varDirectory->getRelativePath($sourceFile);
 
