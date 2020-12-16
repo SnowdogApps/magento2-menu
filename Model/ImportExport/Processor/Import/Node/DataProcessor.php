@@ -30,13 +30,13 @@ class DataProcessor
     public function get(
         array $data,
         int $menuId,
-        int $nodesLevel = 0,
+        int $level = 0,
         int $position = 0,
         ?int $parentId = null
     ): array {
         $data[NodeInterface::MENU_ID] = $menuId;
         $data[NodeInterface::PARENT_ID] = $parentId;
-        $data[NodeInterface::LEVEL] = $nodesLevel;
+        $data[NodeInterface::LEVEL] = $level;
         $data[NodeInterface::POSITION] = $position;
 
         if (isset($data[NodeInterface::CONTENT]) && $data[NodeInterface::CONTENT] !== '') {
