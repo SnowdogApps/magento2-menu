@@ -32,6 +32,6 @@ class Field
             'description' => $this->descriptionProcessor->getDescription($fieldDescription)
         ];
 
-        return implode('', $data);
+        return implode(' - ', array_filter($data));
     }
 }
