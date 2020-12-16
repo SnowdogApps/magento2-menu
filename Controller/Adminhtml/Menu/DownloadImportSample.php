@@ -66,6 +66,6 @@ class DownloadImportSample extends Action implements HttpGetActionInterface
 
         $resultRedirect = $this->resultRedirectFactory->create();
 
-        return $resultRedirect->setPath('*/*');
+        return $resultRedirect->setPath('*/*/import');
     }
 }
