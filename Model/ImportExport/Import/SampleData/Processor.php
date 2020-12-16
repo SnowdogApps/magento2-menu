@@ -10,6 +10,7 @@ class Processor
     const BOOLEAN_FIELD_DEFAULT_VALUE = 'Valid values: <1 | 0>';
 
     const OPTIONAL_FIELD_LABEL = '[optional]';
+    const TIMESTAMP_DEFAULT_VALUE = 'current_timestamp()';
 
     public function getFieldsData(array $fields, array $excludedFields = [], array $defaultData = []): array
     {
@@ -38,7 +39,24 @@ class Processor
                 $data = '[type: ' . $fieldDescription['DATA_TYPE'] . ']';
         }
 
-        return $data;
+        return $data . $this->getFieldDetails($fieldDescription);
     }
 
+    private function getFieldDetails(array $fieldDescription): string
+    {
+        $details = [];
+
+        if ($fieldDescription['NULLABLE']) {
+            $details[] = self::OPTIONAL_FIELD_LABEL;
+        }
+
+        if (isset($fieldDescription['DEFAULT'])
+            && $fieldDescription['DEFAULT'] !== ''
+            && $fieldDescription['DEFAULT'] !== self::TIMESTAMP_DEFAULT_VALUE
+        ) {
+            $details[] = '[default: ' . $fieldDescription['DEFAULT'] . ']';
+        }
+
+        return $details ? ' - ' . implode(' - ', $details) : '';
+    }
 }
