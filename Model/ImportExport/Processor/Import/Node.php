@@ -69,7 +69,7 @@ class Node
     ): void {
         foreach ($nodes as $nodeData) {
             $node = $this->nodeFactory->create();
-            $data = $this->dataProcessor->get($nodeData, $menuId, $level, $position++, $parentId);
+            $data = $this->dataProcessor->getData($nodeData, $menuId, $level, $position++, $parentId);
 
             $node->setData($data);
             $this->nodeRepository->save($node);

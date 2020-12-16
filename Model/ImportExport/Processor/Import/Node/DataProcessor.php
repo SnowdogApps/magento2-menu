@@ -27,7 +27,7 @@ class DataProcessor
         $this->typeContent = $typeContent;
     }
 
-    public function get(
+    public function getData(
         array $data,
         int $menuId,
         int $level = 0,
