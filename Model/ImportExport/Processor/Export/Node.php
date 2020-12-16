@@ -59,7 +59,7 @@ class Node
         foreach ($nodes as $node) {
             $nodeId = $node->getId();
             $parentId = $node->getParentId();
-            $nodeData = $this->dataProcessor->get($node->getData());
+            $nodeData = $this->dataProcessor->getData($node->getData());
 
             $this->removeNodeExcludedFields($nodeData);
 

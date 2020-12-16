@@ -19,7 +19,7 @@ class DataProcessor
         $this->typeContent = $typeContent;
     }
 
-    public function get(array $data): array
+    public function getData(array $data): array
     {
         $data[NodeInterface::CONTENT] = $this->typeContent->get(
             $data[NodeInterface::TYPE],
