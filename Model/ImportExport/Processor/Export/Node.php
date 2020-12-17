@@ -86,7 +86,7 @@ class Node
             }
         }
 
-        return $this->reindexNodesList($tree);
+        return $this->reindexTreeNodes($tree);
     }
 
     private function removeNodeExcludedFields(array &$data): void
@@ -96,13 +96,13 @@ class Node
         }
     }
 
-    private function reindexNodesList(array $nodes): array
+    private function reindexTreeNodes(array $nodes): array
     {
         $data = [];
 
         foreach ($nodes as $node) {
             if (isset($node[ExtendedFields::NODES])) {
-                $node[ExtendedFields::NODES] = $this->reindexNodesList($node[ExtendedFields::NODES]);
+                $node[ExtendedFields::NODES] = $this->reindexTreeNodes($node[ExtendedFields::NODES]);
             }
 
             $data[] = $node;
