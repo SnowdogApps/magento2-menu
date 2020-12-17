@@ -58,7 +58,7 @@ class Node
 
     private function getNodesTree(array $nodes): array
     {
-        $nodesData = [];
+        $tree = [];
         $childNodesClusters = [];
 
         foreach ($nodes as $node) {
@@ -69,14 +69,14 @@ class Node
             $this->removeNodeExcludedFields($nodeData);
 
             if (!$parentId) {
-                $nodesData[$nodeId] = $nodeData;
+                $tree[$nodeId] = $nodeData;
                 continue;
             }
 
             $childNodesClusters[$nodeId] = $nodeData;
 
-            if (isset($nodesData[$parentId])) {
-                $nodesData[$parentId][ExtendedFields::NODES][$nodeId] = &$childNodesClusters[$nodeId];
+            if (isset($tree[$parentId])) {
+                $tree[$parentId][ExtendedFields::NODES][$nodeId] = &$childNodesClusters[$nodeId];
                 continue;
             }
 
@@ -86,7 +86,7 @@ class Node
             }
         }
 
-        return $this->reindexNodesList($nodesData);
+        return $this->reindexNodesList($tree);
     }
 
     private function removeNodeExcludedFields(array &$data): void
