@@ -62,16 +62,16 @@ class Tree
 
     private function reindexTreeNodes(array $nodes): array
     {
-        $data = [];
+        $tree = [];
 
         foreach ($nodes as $node) {
             if (isset($node[ExtendedFields::NODES])) {
                 $node[ExtendedFields::NODES] = $this->reindexTreeNodes($node[ExtendedFields::NODES]);
             }
 
-            $data[] = $node;
+            $tree[] = $node;
         }
 
-        return $data;
+        return $tree;
     }
 }
