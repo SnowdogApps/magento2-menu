@@ -53,6 +53,11 @@ class Node
 
         $nodes = $this->nodeRepository->getList($searchCriteria)->getItems();
 
+        return $this->getNodesTree($nodes);
+    }
+
+    private function getNodesTree(array $nodes): array
+    {
         $nodesData = [];
         $childNodesClusters = [];
 
