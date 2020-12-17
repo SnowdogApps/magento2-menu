@@ -4,14 +4,16 @@ declare(strict_types=1);
 
 namespace Snowdog\Menu\Model\Menu\Node;
 
+use Snowdog\Menu\Model\Menu\Node\Validator\Product as ProductValidator;
+
 class Validator
 {
     /**
-     * @var Validator\Product
+     * @var ProductValidator
      */
     private $product;
 
-    public function __construct(Validator\Product $product)
+    public function __construct(ProductValidator $product)
     {
         $this->product = $product;
     }
