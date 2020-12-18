@@ -63,9 +63,9 @@ class Source
         $uploader->skipDbProcessing(true);
 
         $workingDir = $this->import->getWorkingDir();
+        $fileName = self::ENTITY . '-' . hash('sha256', microtime()) . '.' . $uploader->getFileExtension();
 
         try {
-            $fileName = self::ENTITY . '-' . hash('sha256', microtime()) . '.' . $uploader->getFileExtension();
             $result = $uploader->save($workingDir, $fileName);
         } catch (ValidationException $exception) {
             throw new ValidatorException(__($exception->getMessage()));
