@@ -3,7 +3,7 @@
         :label="config.translation.categoryChild"
         :description="config.translation.categoryId"
         :item="item"
-        item-key="content"
+        :item-key="'content'"
         :options="config.fieldData.category_child.snowMenuAutoCompleteField.options"
         :config="config"
     />
