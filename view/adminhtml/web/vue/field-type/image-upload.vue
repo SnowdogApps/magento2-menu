@@ -4,25 +4,25 @@
             class="label admin__field-label"
             :for="fieldId"
         >
-            {{ labels.field }}
+            {{ labelField }}
         </label>
 
         <div class="admin__field-control control image-upload__wrapper">
             <div
-                v-if="itemImageUrlPreview"
+                v-if="item.imageUrl"
                 class="upload-file__current-area"
             >
                 <img
                     class="upload-file__image image-upload__image--current"
-                    :src="itemImageUrlPreview"
+                    :src="item.imageUrl"
                 >
             </div>
             <button
-                v-if="itemImageUrlPreview"
+                v-if="item.imageUrl"
                 class="primary image-upload__remove"
                 @click="removeItemImage"
             >
-                {{ labels.removeAction }}
+                {{ labelRemoveAction }}
             </button>
             <div
                 class="image-upload__dropzone"
@@ -53,13 +53,13 @@
                             class="secondary"
                             @click="removeNewFile"
                         >
-                            {{ labels.cancelAction }}
+                            {{ labelCancelAction }}
                         </button>
                         <button
                             class="primary"
-                            @click="saveFile"
+                            @click="uploadFileToServer"
                         >
-                            {{ labels.saveAction }}
+                            {{ labelSaveAction }}
                         </button>
                     </div>
                 </div>
@@ -67,10 +67,8 @@
                     v-if="!previewImage && !fileIsUploading"
                     class="image-upload__upload-area"
                 >
-                    <button
-                        @click="chooseFile"
-                    >
-                        {{ labels.uploadAction }}
+                    <button @click="chooseFile">
+                        {{ item.imageUrl ? labelChangeAction : labelUploadAction }}
                     </button>
                     <div
                         v-if="uploadError"
@@ -83,7 +81,7 @@
                     v-if="fileIsUploading"
                     class="fileIsUploading"
                 >
-                    {{ fileIsUploadingLabel }}
+                    {{ labelFileIsUploading }}
                 </div>
             </div>
         </div>
@@ -101,10 +99,6 @@
 
         Vue.component('image-upload', {
             props: {
-                labels: {
-                    type: Object,
-                    required: true
-                },
                 id: {
                     type: String,
                     required: true
@@ -121,10 +115,16 @@
                     selectedFile: '',
                     file: '',
                     previewImage: '',
-                    itemImageUrlPreview: this.item.imageUrl,
                     fileIsUploading: false,
-                    fileIsUploadingLabel: $t('Uploading file ...'),
-                    uploadError: ''
+
+                    uploadError: '',
+                    labelField: $t('Image'),
+                    labelUploadAction: $t('Choose image'),
+                    labelChangeAction: $t('Change image'),
+                    labelCancelAction: $t('Cancel'),
+                    labelRemoveAction: $t('Remove'),
+                    labelSaveAction: $t('Save'),
+                    labelFileIsUploading: $t('Uploading file ...'),
                 }
             },
             mounted: function() {
@@ -134,7 +134,6 @@
                 setItemImage: function(file, url) {
                   this.item.image = file;
                   this.item.imageUrl = url;
-                  this.itemImageUrlPreview = url;
                 },
                 uploadFileToServer: function() {
                     this.fileIsUploading = true;
@@ -191,11 +190,6 @@
                     });
                 },
 
-                removeNewFileAction: function(e) {
-                    e.preventDefault();
-                    this.removeNewFile();
-                },
-
                 removeNewFile: function() {
                     this.$refs.fileUpload.value = '';
                     this.previewImage = '';
@@ -203,10 +197,6 @@
 
                 assignImage: function(e) {
                     this.previewImage = e.target.result;
-                },
-
-                saveFile: function() {
-                    this.uploadFileToServer();
                 },
 
                 previewUploadImage: function(file) {

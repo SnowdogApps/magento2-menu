@@ -55,7 +55,6 @@
             v-if="showImage"
             id="image"
             :item="item"
-            :labels="fileUploadLabels"
         />
 
         <h2>
@@ -101,13 +100,6 @@
                 return {
                     draft: {},
                     isNodeActiveLabel: $t('Enabled'),
-                    fileUploadLabels: {
-                        field: $t('Image'),
-                        uploadAction: $t('Choose image'),
-                        cancelAction: $t('Cancel'),
-                        removeAction: $t('Remove'),
-                        saveAction: $t('Save')
-                    },
                     additionalLabel: $t('Additional type options'),
                     noTemplatesMessage: $t('There is no custom defined templates defined in theme for this node type'),
                     templatesLabel: $t('Templates'),
