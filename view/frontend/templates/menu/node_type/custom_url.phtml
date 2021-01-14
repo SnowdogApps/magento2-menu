@@ -2,6 +2,7 @@
 <?php
 $attributes = [];
 $class = $block->getMenuClass();
+$imageUrl = $block->getImageUrl();
 if ($block->getIsViewAllLink()) {
     $title = __('View All');
     $classLink = $class . '__inner-link';
@@ -25,3 +26,9 @@ if ($block->getTarget()) {
 >
     <?= $title ?>
 </a>
+<?php if($imageUrl): ?>
+    <img
+        src="<?= $block->escapeUrl($imageUrl); ?>"
+        alt=""
+    />
+<?php endif; ?>
