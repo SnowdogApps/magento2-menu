@@ -21,6 +21,6 @@ class AbstractButton
 
     protected function getMenuId()
     {
-        return $this->context->getRequest()->getParam('id');
+        return $this->context->getRequest()->getParam('menu_id');
     }
 }

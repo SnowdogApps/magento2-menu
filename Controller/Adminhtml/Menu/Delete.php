@@ -80,6 +80,10 @@ class Delete extends MenuAction
     {
         try {
             $menu = $this->getCurrentMenu();
+            if (!$menu->getMenuId()) {
+                throw new CouldNotDeleteException(__('Menu does not exist'));
+            }
+
             $this->menuRepository->delete($menu);
 
             $filterBuilder = $this->filterBuilderFactory->create();
