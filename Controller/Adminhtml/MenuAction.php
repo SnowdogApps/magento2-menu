@@ -5,7 +5,12 @@ declare(strict_types=1);
 namespace Snowdog\Menu\Controller\Adminhtml;
 
 use Magento\Backend\App\Action;
+use Magento\Backend\App\Action\Context;
 use Magento\Backend\Model\View\Result\Page;
+use Magento\Framework\Exception\NoSuchEntityException;
+use Snowdog\Menu\Api\MenuRepositoryInterface;
+use Snowdog\Menu\Model\Menu;
+use Snowdog\Menu\Model\MenuFactory;
 
 abstract class MenuAction extends Action
 {
@@ -22,6 +27,26 @@ abstract class MenuAction extends Action
     const ID = 'menu_id';
 
     /**
+     * @var MenuRepositoryInterface
+     */
+    protected $menuRepository;
+
+    /**
+     * @var MenuFactory
+     */
+    protected $menuFactory;
+
+    public function __construct(
+        Context $context,
+        MenuRepositoryInterface $menuRepository,
+        MenuFactory $menuFactory
+    ) {
+        parent::__construct($context);
+        $this->menuRepository = $menuRepository;
+        $this->menuFactory = $menuFactory;
+    }
+
+    /**
      * @param Page $resultPage
      * @return Page
      */
@@ -32,5 +57,25 @@ abstract class MenuAction extends Action
             ->addBreadcrumb(__('Menu'), __('Menu'));
 
         return $resultPage;
+    }
+
+    /**
+     * Returns menu model based on the Request (requested with `menu_id` or fresh instance)
+     *
+     * @return Menu
+     */
+    protected function getCurrentMenu(): Menu
+    {
+        $menuId = (int) $this->getRequest()->getParam(self::ID);
+
+        if ($menuId) {
+            try {
+                return $this->menuRepository->getById($menuId);
+            } catch (NoSuchEntityException $exception) {
+                return $this->menuFactory->create();
+            }
+        }
+
+        return $this->menuFactory->create();
     }
 }

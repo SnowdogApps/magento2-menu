@@ -2,37 +2,11 @@
 
 namespace Snowdog\Menu\Controller\Adminhtml\Menu;
 
-use Magento\Backend\App\Action;
 use Magento\Framework\App\ResponseInterface;
-use Snowdog\Menu\Api\MenuRepositoryInterface;
-use Snowdog\Menu\Model\Menu;
-use Snowdog\Menu\Model\MenuFactory;
+use Snowdog\Menu\Controller\Adminhtml\MenuAction;
 
-class Status extends Action
+class Status extends MenuAction
 {
-    public const ADMIN_RESOURCE = 'Snowdog_Menu::menus';
-
-    /** @var MenuRepositoryInterface */
-    private $menuRepository;
-
-    /** @var MenuFactory */
-    private $menuFactory;
-
-    /**
-     * @param Action\Context $context
-     * @param MenuRepositoryInterface $menuRepository
-     * @param MenuFactory $menuFactory
-     */
-    public function __construct(
-        Action\Context $context,
-        MenuRepositoryInterface $menuRepository,
-        MenuFactory $menuFactory
-    ) {
-        parent::__construct($context);
-        $this->menuRepository = $menuRepository;
-        $this->menuFactory = $menuFactory;
-    }
-
     /**
      * Dispatch request
      *
@@ -50,21 +24,5 @@ class Status extends Action
         $redirect->setPath('*/*/index');
 
         return $redirect;
-    }
-
-    /**
-     * Returns menu model based on the Request (requested with `id` or fresh instance)
-     *
-     * @return Menu
-     */
-    private function getCurrentMenu(): Menu
-    {
-        $menuId = $this->getRequest()->getParam('id');
-
-        if ($menuId) {
-            return $this->menuRepository->getById($menuId);
-        }
-
-        return $this->menuFactory->create();
     }
 }

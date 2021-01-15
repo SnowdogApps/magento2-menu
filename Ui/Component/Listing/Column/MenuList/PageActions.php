@@ -23,7 +23,7 @@ class PageActions extends Column
                 $item[$name]['change_status'] = [
                     'href' => $this->getContext()->getUrl(
                         'snowmenu/menu/status',
-                        ['id' => $id, 'is_active' => !$isActive]
+                        ['menu_id' => $id, 'is_active' => !$isActive]
                     ),
                     'label' => __($isActive ? 'Disable' : 'Enable'),
                 ];

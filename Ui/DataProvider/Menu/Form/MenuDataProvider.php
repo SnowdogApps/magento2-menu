@@ -11,7 +11,7 @@ use Snowdog\Menu\Model\Menu;
 class MenuDataProvider extends AbstractDataProvider
 {
     /** @var array */
-    private $loadedData;
+    private $loadedData = array();
 
     public function __construct(
         $name,
@@ -33,7 +33,7 @@ class MenuDataProvider extends AbstractDataProvider
 
     public function getData(): array
     {
-        if ($this->loadedData !== null) {
+        if (!empty($this->loadedData)) {
             return $this->loadedData;
         }
 

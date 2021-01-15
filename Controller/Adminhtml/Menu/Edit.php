@@ -21,19 +21,9 @@ class Edit extends MenuAction implements HttpGetActionInterface
     const REGISTRY_CODE = 'snowmenu_menu';
 
     /**
-     * @var MenuRepositoryInterface
-     */
-    private $menuRepository;
-
-    /**
      * @var PageFactory
      */
     private $resultPageFactory;
-
-    /**
-     * @var MenuFactory
-     */
-    private $menuFactory;
 
     /**
      * @var Registry
@@ -55,12 +45,8 @@ class Edit extends MenuAction implements HttpGetActionInterface
         MenuFactory $menuFactory
     ) {
         $this->resultPageFactory = $resultPageFactory;
-        $this->menuRepository = $menuRepository;
-        $this->menuFactory = $menuFactory;
         $this->coreRegistry = $coreRegistry;
-        parent::__construct(
-            $context
-        );
+        parent::__construct($context, $menuRepository, $menuFactory);
     }
 
     /**

@@ -16,7 +16,6 @@ use Magento\Framework\App\ResponseInterface;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Snowdog\Menu\Api\MenuRepositoryInterface;
 use Snowdog\Menu\Api\NodeRepositoryInterface;
-use Snowdog\Menu\Model\Menu;
 use Snowdog\Menu\Model\Menu\NodeFactory;
 use Snowdog\Menu\Model\MenuFactory;
 use Snowdog\Menu\Service\MenuHydrator;
@@ -25,9 +24,6 @@ use Magento\Framework\Exception\NotFoundException;
 
 class Save extends MenuAction implements HttpPostActionInterface
 {
-    /** @var MenuRepositoryInterface */
-    private $menuRepository;
-
     /**  @var NodeRepositoryInterface */
     private $nodeRepository;
 
@@ -42,9 +38,6 @@ class Save extends MenuAction implements HttpPostActionInterface
 
     /** @var NodeFactory */
     private $nodeFactory;
-
-    /** @var MenuFactory */
-    private $menuFactory;
 
     /** @var ProductRepository */
     private $productRepository;
@@ -76,19 +69,15 @@ class Save extends MenuAction implements HttpPostActionInterface
         ProductRepository $productRepository,
         MenuHydrator $hydrator = null
     ) {
-        $this->menuRepository = $menuRepository;
         $this->nodeRepository = $nodeRepository;
         $this->filterBuilderFactory = $filterBuilderFactory;
         $this->filterGroupBuilderFactory = $filterGroupBuilderFactory;
         $this->searchCriteriaBuilderFactory = $searchCriteriaBuilderFactory;
         $this->nodeFactory = $nodeFactory;
-        $this->menuFactory = $menuFactory;
         $this->productRepository = $productRepository;
         // Backwards compatible class loader
         $this->hydrator = $hydrator ?? ObjectManager::getInstance()->get(MenuHydrator::class);
-        parent::__construct(
-            $context
-        );
+        parent::__construct($context, $menuRepository, $menuFactory);
     }
 
     /**
@@ -257,25 +246,5 @@ class Save extends MenuAction implements HttpPostActionInterface
         }
 
         return true;
-    }
-
-    /**
-     * Returns menu model based on the Request (requested with `menu_id` or fresh instance)
-     *
-     * @return Menu
-     */
-    private function getCurrentMenu(): Menu
-    {
-        $menuId = (int) $this->getRequest()->getParam(self::ID);
-
-        if ($menuId) {
-            try {
-                return $this->menuRepository->getById($menuId);
-            } catch (NoSuchEntityException $exception) {
-                return $this->menuFactory->create();
-            }
-        }
-
-        return $this->menuFactory->create();
     }
 }
