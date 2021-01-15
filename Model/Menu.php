@@ -34,8 +34,15 @@ class Menu extends AbstractModel implements MenuInterface, IdentityInterface
         return $connection->fetchCol($select);
     }
 
+    /**
+     * @return bool
+     */
     public function saveStores(array $stores)
     {
+        if ($stores == $this->getStores()) {
+            return false;
+        }
+
         $connection = $this->getResource()->getConnection();
         $connection->beginTransaction();
         $table = $this->getResource()->getTable('snowmenu_store');
@@ -44,6 +51,8 @@ class Menu extends AbstractModel implements MenuInterface, IdentityInterface
             $connection->insert($table, ['menu_id' => $this->getId(), 'store_id' => $store]);
         }
         $connection->commit();
+
+        return true;
     }
 
     /**

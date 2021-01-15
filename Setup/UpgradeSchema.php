@@ -44,6 +44,10 @@ class UpgradeSchema implements UpgradeSchemaInterface
             $this->addForeignKeys($setup);
         }
 
+        if (version_compare($context->getVersion(), '0.2.4', '<')) {
+            $this->addTemplateFields($setup);
+        }
+
         $setup->endSetup();
     }
 
@@ -196,5 +200,38 @@ class UpgradeSchema implements UpgradeSchemaInterface
             'store_id',
             Table::ACTION_CASCADE
         );
+    }
+
+    /**
+     * @param SchemaSetupInterface $setup
+     * @return $this
+     */
+    private function addTemplateFields(SchemaSetupInterface $setup)
+    {
+        $setup->getConnection()->addColumn(
+            $setup->getTable('snowmenu_node'),
+            'submenu_template',
+            [
+                'type' => Table::TYPE_TEXT,
+                'length' => 255,
+                'nullable' => true,
+                'after' => 'target',
+                'comment' => 'Submenu Template',
+            ]
+        );
+
+        $setup->getConnection()->addColumn(
+            $setup->getTable('snowmenu_node'),
+            'node_template',
+            [
+                'type' => Table::TYPE_TEXT,
+                'length' => 255,
+                'nullable' => true,
+                'after' => 'target',
+                'comment' => 'Node Template',
+            ]
+        );
+
+        return $this;
     }
 }

@@ -37,7 +37,19 @@
         </argument>
     </dataSource>
     <listingToolbar name="listing_top">
-        <paging name="listing_paging"/>
+        <massaction name="listing_massaction">
+            <action name="delete">
+                <settings>
+                    <confirm>
+                        <message translate="true">Are you sure you want to delete selected items?</message>
+                        <title translate="true">Delete items</title>
+                    </confirm>
+                    <url path="*/*/massDelete"/>
+                    <type>delete</type>
+                    <label translate="true">Delete</label>
+                </settings>
+            </action>
+        </massaction>
         <massaction name="listing_massaction">
             <action name="enable">
                 <argument name="data" xsi:type="array">
@@ -58,6 +70,7 @@
                 </argument>
             </action>
         </massaction>
+        <paging name="listing_paging"/>
     </listingToolbar>
     <columns name="snowmenu_menu_list_columns">
         <selectionsColumn name="ids">
