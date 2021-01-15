@@ -8,8 +8,8 @@ use Magento\Backend\App\Action;
 use Magento\Backend\App\Action\Context;
 use Magento\Backend\Model\View\Result\Page;
 use Magento\Framework\Exception\NoSuchEntityException;
+use Snowdog\Menu\Api\Data\MenuInterface;
 use Snowdog\Menu\Api\MenuRepositoryInterface;
-use Snowdog\Menu\Model\Menu;
 use Snowdog\Menu\Model\MenuFactory;
 
 abstract class MenuAction extends Action
@@ -62,9 +62,9 @@ abstract class MenuAction extends Action
     /**
      * Returns menu model based on the Request (requested with `menu_id` or fresh instance)
      *
-     * @return Menu
+     * @return MenuInterface
      */
-    protected function getCurrentMenu(): Menu
+    protected function getCurrentMenu(): MenuInterface
     {
         $menuId = (int) $this->getRequest()->getParam(self::ID);
 

@@ -11,7 +11,6 @@ use Magento\Framework\Registry;
 use Magento\Framework\View\Result\PageFactory;
 use Snowdog\Menu\Api\MenuRepositoryInterface;
 use Snowdog\Menu\Model\MenuFactory;
-use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\Controller\ResultInterface;
 use Magento\Backend\Model\View\Result\Redirect;
 use Magento\Backend\Model\View\Result\Page;
@@ -55,31 +54,26 @@ class Edit extends MenuAction implements HttpGetActionInterface
     public function execute(): ResultInterface
     {
         $menuId = (int) $this->getRequest()->getParam(self::ID);
+        $menu = $this->getCurrentMenu();
 
-        if ($menuId) {
-            try {
-                $model = $this->menuRepository->getById($menuId);
-            } catch (NoSuchEntityException $exception) {
-                $this->messageManager->addErrorMessage(__('This menu no longer exists.'));
-                /** @var Redirect $resultRedirect */
-                $resultRedirect = $this->resultRedirectFactory->create();
+        if ($menuId && !$menu->getMenuId()) {
+            $this->messageManager->addErrorMessage(__('This menu no longer exists.'));
+            /** @var Redirect $resultRedirect */
+            $resultRedirect = $this->resultRedirectFactory->create();
 
-                return $resultRedirect->setPath('*/*/index');
-            }
-        } else {
-            $model = $this->menuFactory->create();
+            return $resultRedirect->setPath('*/*/index');
         }
 
-        $this->coreRegistry->register(self::REGISTRY_CODE, $model);
+        $this->coreRegistry->register(self::REGISTRY_CODE, $menu);
 
         /** @var Page $resultPage */
         $resultPage = $this->resultPageFactory->create();
         $this->initPage($resultPage)->addBreadcrumb(
-            $menuId ? __('Edit Menu %1', $model->getTitle()) : __('New Menu'),
-            $menuId ? __('Edit Menu %1', $model->getTitle()) : __('New Menu')
+            $menuId ? __('Edit Menu %1', $menu->getTitle()) : __('New Menu'),
+            $menuId ? __('Edit Menu %1', $menu->getTitle()) : __('New Menu')
         );
         $resultPage->getConfig()->getTitle()->prepend(__('Menus'));
-        $resultPage->getConfig()->getTitle()->prepend($model->getId() ? $model->getTitle() : __('New Menu'));
+        $resultPage->getConfig()->getTitle()->prepend($menu->getId() ? $menu->getTitle() : __('New Menu'));
 
         return $resultPage;
     }
