@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [Unreleased]
 ### Added
 - Node validation classes (#73442)
+- Nodes custom templates documentation (#74567)
 
 ### Changed
 - Improve node product validation error message on menu save (#73442)

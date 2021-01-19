@@ -169,6 +169,39 @@ This loads dynamically a component of a chosen type of node. For example for a n
 
 Cms block node type component uses `autocomplete.vue` input type component with prop item `:item="item"`, once user made some change, the data are propagated up to the root, `App.vue` compoonent and saved, stringifies and saved in a hidden input. 
 
+## Nodes Custom Templates
+This feature allows you to add custom templates to each menu node type and submenu, and to switch between them in menu admin edit page.  
+The custom templates override the default ones that are provided by the module.
+
+### Adding Templates
+- First, you have to create a directory inside your theme files that will contain the custom templates with the following structure:
+```
+Snowdog_Menu  
+  └─ templates
+    └─ {menu_identifier}
+      └─ menu
+          └─ custom
+              └─ {custom_templates_directories} ...
+```
+
+- Then you should create the custom templates container directories under the `custom` directory (`{custom_templates_directories}`).  
+The templates container directory name can be either a node type of `sub_menu`.
+
+### Configuring Templates
+After adding your custom templates, you can select the templates that you want to use for your menu nodes in menu admin edit page.  
+The `Node template` field is node type custom templates list.  
+And the `Submenu template` field will contain the list of submenu templates.  
+(Submenu template applies to the child nodes of a node.)
+
+### Available node types
+- category
+- product
+- cms_page
+- cms_block
+- custom_url
+- category_child
+- wrapper
+
 ## Available endpoints: 
    
  * `/rest/V1/menus`: retrieves available menus
