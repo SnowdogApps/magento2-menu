@@ -182,8 +182,8 @@ Snowdog_Menu
   └─ templates
     └─ {menu_identifier}
       └─ menu
-          └─ custom
-              └─ {custom_templates_directories}
+        └─ custom
+          └─ {custom_templates_directories}
 ```
 
 - `{menu_identifier}` is the identifier that you enter when you create a menu on menu admin page.
