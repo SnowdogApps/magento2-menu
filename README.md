@@ -196,14 +196,14 @@ In menu admin edit page, the `Node template` field will contain a list of availa
 And the `Submenu template` field will contain a list of available submenu templates.  
 (Submenu template applies to the child nodes of a node.)
 
-### Available Node Types
-- category
-- product
-- cms_page
-- cms_block
-- custom_url
-- category_child
-- wrapper
+## Available Node Types
+- `category`
+- `product`
+- `cms_page`
+- `cms_block`
+- `custom_url`
+- `category_child`
+- `wrapper`
 
 ## Available endpoints: 
    
