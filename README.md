@@ -190,7 +190,8 @@ Snowdog_Menu
 - `{custom_templates_directories}` is a list of container directories for the custom templates.
 - The name of the custom templates container directory can be either a node type (Check [Available Node Types](#available-node-types)) or `sub_menu`.
 - Once the custom templates container directories are ready, you have to add the custom template `PHTML` files to them.
-- After that, you can proceed to your menu admin edit page to select the custom templates that you want to use for your nodes. (Check [Configuring Nodes Custom Templates](#configuring-nodes-custom-templates).)
+- After that, you can proceed to your menu admin edit page to select the custom templates that you want to use for your nodes.  
+(Check [Configuring Nodes Custom Templates](#configuring-nodes-custom-templates).)
 
 ### Configuring Nodes Custom Templates
 After adding your custom templates, you can select the templates that you want to use for your menu nodes in menu admin edit page.
