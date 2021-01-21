@@ -6,27 +6,45 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 ### Added
-- Node model additional data setter and getter methods (#94)
+- Node validation classes (#73442)
 - DB table columns listing method to menu and node resource models (#70197)
 - Menu YAML import/export feature (#70197)
-- Functionality to enable/disable specific menu node (#85, DEV-65561)
-- Invalidate page cache on menu changes (#70191)
 
 ### Changed
-- Index page title (#69078)
-- Change menu model stores save method return type to boolean (#70191)
-- Bump GitHub backend workflow `MCS Check` checkout repository actions to v2 (#70191)
-- Change imported menu model to API data interface in menu admin controller save action (#71279)
-- Move menu admin controller save action `execute` method current nodes list code to a separate method (#71279)
-- Replace existing nodes `in_array` check with `isset` in menu admin controller save action `execute` method (#71279)
+- Improve node product validation error message on menu save (#73442)
 - Make menu CSS class field optional in menu admin edit page (#70197)
 
 ### Fixed
-- Prevent menu stores save if there are no store changes (#70191)
-- Prevent unnecessary menu data save due to data values types changes (#70191)
-- Prevent unnecessary menu nodes data save due to enabled object data changes flag in menu node repository get list method items (#70191)
+- Prevent creating nodes with invalid product IDs (#73442)
+
+## [2.13.0] - 2020-11-16
+### Added
+- Node model additional data setter and getter methods (#94, #69088)
+- Functionality to enable/disable specific menu node (#85, #65561)
+- Functionality to remove specific menu node from menus list view, using Actions or Select dropdown (#69083)
+- Possibility to set a template for "node" and "submenu" template per node (#84, #65549)
+- Invalidate page cache on menu changes (#115, #70191)
+- Image helper to resize product image (#95, #70199)
+
+### Changed
+- Index page title in admin panel (#69078)
+- Change menu model stores save method return type to boolean (#115, #70191)
+- Bump GitHub backend workflow `MCS Check` checkout repository actions to v2 (#115, #70191)
+- Change imported menu model to API data interface in menu admin controller save action (#71279)
+- Move menu admin controller save action `execute` method current nodes list code to a separate method (#71279)
+- Replace existing nodes `in_array` check with `isset` in menu admin controller save action `execute` method (#71279)
+- Documentation to clarify how to add a new node type (#69, #69072)
+- Render some of vue components list on server side to improve process of adding a new node type (#69, #69072)
+
+### Fixed
+- Prevent menu stores save if there are no store changes (#115, #70191)
+- Prevent unnecessary menu data save due to data values types changes (#115, #70191)
+- Prevent unnecessary menu nodes data save due to enabled object data changes flag in menu node repository get list method items (#115, #70191)
 - A menu save issue that prevents deleting all nodes of a menu (#71279)
 - Correct a misspelled variable in menu admin controller save action `execute` method (#71279)
+- Issue with flush cache after model is saved (#135, #71585)
+- Phpdoc for getJsonConfig method (#134, #71576)
+- Menu save issue that prevents deleting all nodes of a menu (#71279)
 
 ### Removed
 - An unnecessary `if` statement in menu admin controller save action `_convertTree` method (#71279)
