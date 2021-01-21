@@ -170,7 +170,8 @@ This loads dynamically a component of a chosen type of node. For example for a n
 Cms block node type component uses `autocomplete.vue` input type component with prop item `:item="item"`, once user made some change, the data are propagated up to the root, `App.vue` compoonent and saved, stringifies and saved in a hidden input. 
 
 ## Nodes Custom Templates
-This feature allows you to add custom templates to each menu node type and node submenu. And it allows to select the custom templates in menu admin edit page.  
+This feature allows you to add custom templates to each menu node type and node submenu.  
+And it allows to select the custom templates in menu admin edit page.  
 The custom templates override the default ones that are provided by the module.
 
 ### Adding Templates
