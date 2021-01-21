@@ -188,7 +188,7 @@ Snowdog_Menu
 
 - `{menu_identifier}` is the identifier that you enter when you create a menu on menu admin page.
 - `{custom_templates_directories}` is a list of container directories for the custom template files.
-- The templates container directory name can be either a node type (Check [Available Node Types](#available-node-types)) or `sub_menu`.
+- The name of the custom templates container directory can be either a node type (Check [Available Node Types](#available-node-types)) or `sub_menu`.
 
 ### Configuring Templates
 After adding your custom templates, you can select the templates that you want to use for your menu nodes in menu admin edit page.  
