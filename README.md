@@ -171,7 +171,8 @@ Cms block node type component uses `autocomplete.vue` input type component with 
 
 ## Nodes Custom Templates
 This feature allows you to add custom templates to each menu node type and node submenu.  
-And it allows to select the custom templates in menu admin edit page.  
+And it allows to select the custom templates in menu admin edit page.
+
 The custom templates override the default ones that are provided by the module.
 
 ### Adding Templates
