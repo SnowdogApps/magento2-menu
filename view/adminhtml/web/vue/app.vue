@@ -104,7 +104,7 @@
                        'id': new Date().getTime(),
                        'content': null,
                        'image': this.selectedItem.image,
-                       'image_alt': '',
+                       'image_alt': this.selectedItem.imageAlt,
                        'node_template': null,
                        'submenu_template': null,
                        'columns': []

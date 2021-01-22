@@ -59,8 +59,8 @@
 
         <simple-field
             v-if="showImage"
-            id="alt_image"
-            v-model="item.imgAlt"
+            id="image_alt"
+            v-model="item.imageAlt"
             :label="config.translation.imageAlt"
             type="text"
         />
