@@ -57,6 +57,14 @@
             :item="item"
         />
 
+        <simple-field
+            v-if="showImage"
+            id="alt_image"
+            v-model="item.imgAlt"
+            :label="config.translation.imageAlt"
+            type="text"
+        />
+
         <h2>
             {{ templatesLabel }}
         </h2>

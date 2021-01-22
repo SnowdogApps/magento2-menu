@@ -101,12 +101,13 @@
                    target.push({
                        'type': 'category',
                        'title': this.config.translation.addNode,
-                       "id": new Date().getTime(),
-                       "content": null,
-                       "image": this.selectedItem.image,
-                       "node_template": null,
-                       "submenu_template": null,
-                       "columns": []
+                       'id': new Date().getTime(),
+                       'content': null,
+                       'image': this.selectedItem.image,
+                       'image_alt': '',
+                       'node_template': null,
+                       'submenu_template': null,
+                       'columns': []
                    });
                },
                 handleDrop(data) {
