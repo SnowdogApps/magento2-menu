@@ -35,6 +35,9 @@ class Wrapper extends AbstractNode
         $this->profiler->start(__METHOD__);
 
         $data = [
+            'snowMenuSimpleField' => [
+                'type' => 'wrapper'
+            ],
             'snowMenuNodeCustomTemplates' => [
                 'defaultTemplate' => 'wrapper',
                 'options' => $this->templateResolver->getCustomTemplateOptions('wrapper'),

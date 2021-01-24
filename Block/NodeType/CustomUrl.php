@@ -58,11 +58,8 @@ class CustomUrl extends AbstractNode
      */
     public function getJsonConfig()
     {
-        $data = [
-            "snowMenuSimpleField" => [
-                "type" => "custom_url"
-            ]
-        ];
+        $data =  $this->_customUrlModel->fetchConfigData();
+
         return $data;
     }
 

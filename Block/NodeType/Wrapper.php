@@ -50,11 +50,9 @@ class Wrapper extends AbstractNode
      */
     public function getJsonConfig()
     {
-        return [
-            "snowMenuSimpleField" => [
-                "type" => "wrapper"
-            ]
-        ];
+        $data = $this->wrapperModel->fetchConfigData();
+
+        return $data;
     }
 
     /**
