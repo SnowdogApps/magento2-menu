@@ -9,16 +9,16 @@
 
         <div class="admin__field-control control image-upload__wrapper">
             <div
-                v-if="item.imageUrl"
+                v-if="item.image_url"
                 class="upload-file__current-area"
             >
                 <img
                     class="upload-file__image image-upload__image--current"
-                    :src="item.imageUrl"
+                    :src="item.image_url"
                 >
             </div>
             <button
-                v-if="item.imageUrl"
+                v-if="item.image_url"
                 class="primary image-upload__remove"
                 @click="removeItemImage"
             >
@@ -68,7 +68,7 @@
                     class="image-upload__upload-area"
                 >
                     <button @click="chooseFile">
-                        {{ item.imageUrl ? labelChangeAction : labelUploadAction }}
+                        {{ item.image_url ? labelChangeAction : labelUploadAction }}
                     </button>
                     <div
                         v-if="uploadError"
@@ -133,7 +133,7 @@
             methods: {
                 setItemImage: function(file, url) {
                   this.item.image = file;
-                  this.item.imageUrl = url;
+                  this.item.image_url = url;
                 },
                 uploadFileToServer: function() {
                     this.fileIsUploading = true;
