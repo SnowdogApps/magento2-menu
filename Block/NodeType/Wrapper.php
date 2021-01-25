@@ -50,9 +50,7 @@ class Wrapper extends AbstractNode
      */
     public function getJsonConfig()
     {
-        $data = $this->wrapperModel->fetchConfigData();
-
-        return $data;
+        return $this->wrapperModel->fetchConfigData();
     }
 
     /**
