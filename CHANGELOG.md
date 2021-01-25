@@ -16,7 +16,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Fixed
 - Prevent creating nodes with invalid product IDs (#73442)
-- Custom templates for node type `wrapper` and `custom_url` (#74936)
+- Custom templates for node types `wrapper` and `custom_url` (#74936)
 
 ## [2.13.0] - 2020-11-16
 ### Added
