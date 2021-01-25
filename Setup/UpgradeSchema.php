@@ -49,7 +49,7 @@ class UpgradeSchema implements UpgradeSchemaInterface
         }
 
         if (version_compare($context->getVersion(), '0.2.5', '<')) {
-            $this->addNodeImageField($setup);
+            $this->addNodeImageFields($setup);
         }
 
         $setup->endSetup();
@@ -242,16 +242,30 @@ class UpgradeSchema implements UpgradeSchemaInterface
     /**
      * @return $this
      */
-    private function addNodeImageField(SchemaSetupInterface $setup)
+    private function addNodeImageFields(SchemaSetupInterface $setup)
     {
-        $setup->getConnection()->addColumn(
-            $setup->getTable('snowmenu_node'),
+        $connection = $setup->getConnection();
+        $table = $setup->getTable('snowmenu_node');
+
+        $connection->addColumn(
+            $table,
             'image',
             [
                 'type' => Table::TYPE_TEXT,
                 'nullable' => true,
                 'after' => 'target',
                 'comment' => 'Image'
+            ]
+        );
+
+        $connection->addColumn(
+            $table,
+            'image_alt_text',
+            [
+                'type' => Table::TYPE_TEXT,
+                'nullable' => true,
+                'after' => 'image',
+                'comment' => 'Image Alt Text'
             ]
         );
 

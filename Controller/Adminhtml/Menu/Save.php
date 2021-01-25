@@ -217,6 +217,7 @@ class Save extends Action
             }
 
             $nodeObject->setImage($node['image'] ?? null);
+            $nodeObject->setImageAltText($node['image_alt_text'] ?? null);
 
             $this->nodeRepository->save($nodeObject);
 
