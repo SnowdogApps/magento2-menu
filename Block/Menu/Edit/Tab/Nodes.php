@@ -14,6 +14,9 @@ use Snowdog\Menu\Model\VueProvider;
 
 class Nodes extends Template implements TabInterface
 {
+    const IMAGE_UPLOAD_URL = 'snowmenu/node/uploadimage';
+    const IMAGE_DELETE_URL = 'snowmenu/node/deleteimage';
+
     protected $_template = 'menu/nodes.phtml';
 
     /**
@@ -130,7 +133,7 @@ class Nodes extends Template implements TabInterface
      */
     public function getImageUploadUrl()
     {
-        return $this->getUrl('snowmenu/node/uploadimage');
+        return $this->getUrl(self::IMAGE_UPLOAD_URL);
     }
 
     /**
@@ -138,7 +141,7 @@ class Nodes extends Template implements TabInterface
      */
     public function getImageDeleteUrl()
     {
-        return $this->getUrl('snowmenu/node/deleteimage');
+        return $this->getUrl(self::IMAGE_DELETE_URL);
     }
 
     /**
