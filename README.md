@@ -196,8 +196,7 @@ Snowdog_Menu
 After adding your custom templates, you can select the templates that you want to use for your menu nodes in menu admin edit page.
 
 In menu admin edit page, the `Node template` field will contain a list of available node type custom templates.  
-And the `Submenu template` field will contain a list of available submenu templates.  
-(Submenu template applies to the child nodes of a node.)
+And the `Submenu template` field will contain a list of available submenu templates. (Submenu template applies to the child nodes of a node.)
 
 ## Available Node Types
 - `category`
