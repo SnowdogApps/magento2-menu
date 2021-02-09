@@ -36,9 +36,6 @@ class CustomUrl extends AbstractNode
         $this->profiler->start(__METHOD__);
 
         $data = [
-            'snowMenuSimpleField' => [
-                'type' => 'custom_url'
-            ],
             'snowMenuNodeCustomTemplates' => [
                 'defaultTemplate' => 'custom_url',
                 'options' => $this->templateResolver->getCustomTemplateOptions('custom_url'),
