@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Node validation classes (#73442)
 - DB table columns listing method to menu and node resource models (#70197)
 - Menu YAML import/export feature (#70197)
+- Nodes custom templates documentation (#74567)
 
 ### Changed
 - Improve node product validation error message on menu save (#73442)
