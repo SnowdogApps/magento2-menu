@@ -3,6 +3,7 @@
 $attributes = [];
 $class = $block->getMenuClass();
 $imageUrl = $block->getImageUrl();
+$imageAltText = $block->getImageAltText();
 if ($block->getIsViewAllLink()) {
     $title = __('View All');
     $classLink = $class . '__inner-link';
@@ -29,6 +30,6 @@ if ($block->getTarget()) {
 <?php if ($imageUrl): ?>
     <img
         src="<?= $block->escapeUrl($imageUrl); ?>"
-        alt=""
+        alt="<?= $block->escapeHtmlAttr($imageAltText); ?>"
     />
 <?php endif; ?>

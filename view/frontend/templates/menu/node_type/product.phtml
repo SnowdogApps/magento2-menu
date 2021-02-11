@@ -13,6 +13,7 @@ $dataAttribute = '';
 $classLink = $block->getIsRoot() ? $class . '__link' : $class . '__inner-link';
 $title = $block->getTitle();
 $imageUrl = $block->getImageUrl();
+$imageAltText = $block->getImageAltText();
 
 if ($nodeId) {
     $dataAttribute = ' data-menu="menu-' . $nodeId . '"';
@@ -33,6 +34,6 @@ if ($block->isCurrentProduct($nodeId)) {
 <?php if ($imageUrl): ?>
     <img
         src="<?= $block->escapeUrl($imageUrl); ?>"
-        alt=""
+        alt="<?= $block->escapeHtmlAttr($imageAltText); ?>"
     />
 <?php endif; ?>
