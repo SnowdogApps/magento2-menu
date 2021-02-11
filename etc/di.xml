@@ -46,6 +46,7 @@
                 <item name="cms_page" xsi:type="string">cms-page</item>
                 <item name="cms_block" xsi:type="string">cms-block</item>
                 <item name="custom_url" xsi:type="string">custom-url</item>
+                <item name="category_child" xsi:type="string">category-child</item>
                 <item name="wrapper" xsi:type="string">wrapper</item>
             </argument>
         </arguments>

@@ -48,7 +48,6 @@ class Main extends Generic implements TabInterface
             [
                 'name'  => 'css_class',
                 'label' => __('Menu Main CSS Class'),
-                'class' => 'required',
             ]
         );
 

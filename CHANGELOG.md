@@ -5,8 +5,21 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+
 ### Added
+- Node validation classes (#73442)
+- DB table columns listing method to menu and node resource models (#70197)
+- Menu YAML import/export feature (#70197)
+- Nodes custom templates documentation (#74567)
 - Menu node image field (#70218)
+
+### Changed
+- Improve node product validation error message on menu save (#73442)
+- Make menu CSS class field optional in menu admin edit page (#70197)
+
+### Fixed
+- Prevent creating nodes with invalid product IDs (#73442)
+- configuration for child category type node (#74222)
 
 ## [2.13.0] - 2020-11-16
 ### Added
