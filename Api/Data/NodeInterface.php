@@ -226,7 +226,7 @@ interface NodeInterface
     /**
      * Set additional data
      *
-     * @param array $data
+     * @param mixed[] $data
      * @return $this
      */
     public function setAdditionalData($data);
