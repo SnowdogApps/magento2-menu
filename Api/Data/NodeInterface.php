@@ -219,7 +219,7 @@ interface NodeInterface
     /**
      * Get additional data
      *
-     * @return array
+     * @return mixed[]
      */
     public function getAdditionalData();
 
