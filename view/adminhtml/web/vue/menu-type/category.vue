@@ -1,12 +1,12 @@
 <template>
     <auto-complete
-        selectType="tree"
+        :is-tree="true"
         :label="config.translation.category"
         :description="config.translation.categoryId"
         :item="item"
         :item-key="'content'"
         :options="options"
-        :optionsTree="optionsTree"
+        :options-tree="optionsTree"
         :config="config"
     />
 </template>
@@ -14,11 +14,6 @@
 <script>
     define(['Vue'], function(Vue) {
         Vue.component('category', {
-            data() {
-                return {
-                    options: this.config.fieldData.category.snowMenuAutoCompleteField.options
-                }
-            },
             props: {
                 config: {
                     type: Object,
@@ -27,6 +22,11 @@
                 item: {
                     type: Object,
                     required: true
+                }
+            },
+            data() {
+                return {
+                    options: this.config.fieldData.category.snowMenuAutoCompleteField.options
                 }
             },
             computed: {
