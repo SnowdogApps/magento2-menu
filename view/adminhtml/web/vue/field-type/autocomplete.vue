@@ -5,7 +5,17 @@
         </label>
 
         <div class="admin__field-control control">
+            <treeselect
+                v-if="selectType === 'tree'"
+                v-model="selected"
+                :options="optionsTree"
+                :placeholder="placeholder"
+                :default-expand-level="1"
+                :clearable="false"
+            />
+
             <v-select
+                v-else
                 v-model="selected"
                 :options="options"
                 :placeholder="placeholder"
@@ -56,6 +66,13 @@
                 defaultOptionValue: {
                     type: String,
                     default: 'default'
+                },
+                selectType: {
+                    type: String,
+                    default: 'select'
+                },
+                optionsTree: {
+                    type: Array
                 }
             },
             computed: {
@@ -67,7 +84,7 @@
                         for (var i = 0; i < this.options.length; i++) {
                             optionValue = this.options[i].value.toString();
                             if (optionValue === this.item[this.itemKey]) {
-                                selectedOption = this.options[i];
+                                selectedOption = this.selectType === 'tree' ? this.options[i].value : this.options[i];
                             }
                         }
 
@@ -80,6 +97,9 @@
                     set(option) {
                         if (option && typeof option === 'object') {
                             this.item[this.itemKey] = option.value.toString();
+                        }
+                        else if (option && typeof option === 'string') {
+                            this.item[this.itemKey] = option;
                         }
                         else {
                           this.item[this.itemKey] = this.defaultSelectedOption ? this.defaultSelectedOption.value.toString() : '';

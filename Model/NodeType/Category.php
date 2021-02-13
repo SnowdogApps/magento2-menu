@@ -70,6 +70,7 @@ class Category extends AbstractNode
         foreach ($data as $row) {
             $fieldOptions[] = [
                 'value' => $row[$identifierField],
+                'id' => $row[$identifierField],
                 'label' => $row['name'],
                 'level' => $row['level'],
                 'parent_id' => $row['parent_id']
