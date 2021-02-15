@@ -167,7 +167,7 @@ For now look at `menu-type.vue`. You can find:
 
 This loads dynamically a component of a chosen type of node. For example for a node type: `cms_block` -> `cms-block.vue`
 
-Cms block node type component uses `autocomplete.vue` input type component with prop item `:item="item"`. Once user makes some changes, the data is propagated up to the root `App.vue` compoonent, stringified and saved in a hidden input.
+Cms block node type component uses `autocomplete.vue` input type component with prop item `:item="item"`. Once user makes some changes, the data is propagated up to the root `App.vue` component, stringified and saved in a hidden input.
 
 ## Available endpoints:
 
@@ -175,10 +175,10 @@ Cms block node type component uses `autocomplete.vue` input type component with 
  * `/rest/V1/nodes`: retrieves nodes by menuId
 
 ## Frontend
-We are not providing any CSS or JS, only basic HTML, which means this module is not out of box supported by any theme, you always need to write some custom code to get expected results or pick some ready to use theme / extenstion, built on top of this module.
+We are not providing any CSS or JS, only basic HTML, which means this module is not out of box supported by any theme, you always need to write some custom code to get expected results or pick some ready to use theme / extension, built on top of this module.
 
 ### Themes:
 - [Snowdog Alpaca theme](https://github.com/SnowdogApps/magento2-alpaca-theme)
 
-### Extenstions:
+### Extensions:
 - [RedChamps Luma theme support](https://github.com/redchamps/snowdog-menu-luma-support)
