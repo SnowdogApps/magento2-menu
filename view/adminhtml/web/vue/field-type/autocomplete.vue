@@ -10,6 +10,7 @@
                 v-model="selected"
                 :options="optionsTree"
                 :placeholder="placeholder"
+                :data-full-label="fullLabel"
                 :default-expand-level="1"
                 :clearable="false"
             />
@@ -76,6 +77,11 @@
                     default: () => []
                 }
             },
+            data() {
+                return {
+                    fullLabel: ''
+                }
+            },
             computed: {
                 selected: {
                     get() {
@@ -111,12 +117,29 @@
                     return this.config.translation.pleaseSelect + ' ' + this.label.toLocaleLowerCase();
                 }
             },
+            watch: {
+                selected: function(val) {
+                    this.setFullLabel(val);
+                }
+            },
             created() {
                 var optionValue;
+
                 for (var i = 0; i < this.options.length; i++) {
                     optionValue = this.options[i].value.toString();
                     if (optionValue === this.defaultOptionValue) {
                         this.defaultSelectedOption = this.options[i];
+                    }
+                }
+
+                this.setFullLabel(this.selected);
+            },
+            methods: {
+                setFullLabel: function(val) {
+                    if (this.isTree && val) {
+                        var selectedOption = this.options.find(item => item.value === val);
+
+                        this.fullLabel = selectedOption.full_label;
                     }
                 }
             },
