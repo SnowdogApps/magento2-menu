@@ -169,6 +169,44 @@ This loads dynamically a component of a chosen type of node. For example for a n
 
 Cms block node type component uses `autocomplete.vue` input type component with prop item `:item="item"`, once user made some change, the data are propagated up to the root, `App.vue` compoonent and saved, stringifies and saved in a hidden input. 
 
+## Nodes Custom Templates
+This feature allows you to add custom templates to each menu node type and node submenu.  
+And it allows to select the custom templates in menu admin edit page.
+
+The custom templates override the default ones that are provided by the module.
+
+### Adding Nodes Custom Templates
+- Create a directory inside your theme files that will contain the custom templates with the following structure:
+```
+Snowdog_Menu  
+  └─ templates
+    └─ {menu_identifier}
+      └─ menu
+        └─ custom
+          └─ {custom_templates_directories}
+```
+
+- `{menu_identifier}` is the identifier that you enter when you create a menu on menu admin page.
+- `{custom_templates_directories}` is a list of container directories for the custom templates.
+- The name of the custom templates container directory can be either a node type (Check [Available Node Types](#available-node-types)) or `sub_menu`.
+- Once the custom templates container directories are ready, you have to add the custom templates `PHTML` files to them. (Template file name must not be a [node type](#available-node-types).)
+- After that, you can proceed to your menu admin edit page to select the custom templates that you want to use for your nodes. (Check [Configuring Nodes Custom Templates](#configuring-nodes-custom-templates).)
+
+### Configuring Nodes Custom Templates
+After adding your custom templates, you can select the templates that you want to use for your menu nodes in menu admin edit page.
+
+In menu admin edit page, the `Node template` field will contain a list of available node type custom templates.  
+And the `Submenu template` field will contain a list of available submenu templates. (Submenu template applies to the child nodes of a node.)
+
+## Available Node Types
+- `category`
+- `product`
+- `cms_page`
+- `cms_block`
+- `custom_url`
+- `category_child`
+- `wrapper`
+
 ## Available endpoints: 
    
  * `/rest/V1/menus`: retrieves available menus

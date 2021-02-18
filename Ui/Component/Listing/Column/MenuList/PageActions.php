@@ -22,6 +22,7 @@ class PageActions extends Column
     const URL_PATH_EDIT = 'snowmenu/menu/edit';
     const URL_PATH_DELETE = 'snowmenu/menu/delete';
     const URL_PATH_STATUS = 'snowmenu/menu/status';
+    const URL_PATH_EXPORT = 'snowmenu/menu/export';
 
     /**
      * @var UrlInterface
@@ -67,6 +68,7 @@ class PageActions extends Column
                         'edit' => $this->getEditButton($menuId),
                         'delete' => $this->getDeleteButton($menuId),
                         'change_status' => $this->getChangeStatusButton($menuId, $isActive),
+                        'export' => $this->getExportButton($menuId)
                     ];
                 }
             }
@@ -133,6 +135,20 @@ class PageActions extends Column
             ),
             'label' => __($isActive ? 'Disable' : 'Enable'),
             '__disableTmpl' => true,
+        ];
+    }
+
+    private function getExportButton(int $menuId): array
+    {
+        return [
+            'href' => $this->urlBuilder->getUrl(
+                self::URL_PATH_EXPORT,
+                [
+                    'menu_id' => $menuId
+                ]
+            ),
+            'label' => __('Export'),
+            '__disableTmpl' => true
         ];
     }
 }

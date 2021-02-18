@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Snowdog\Menu\Controller\Adminhtml\Menu;
 
+use Magento\Backend\App\Action;
 use Magento\Framework\App\Action\HttpPostActionInterface;
 use Snowdog\Menu\Controller\Adminhtml\MenuAction;
 use Magento\Backend\App\Action\Context;
@@ -13,12 +14,13 @@ use Magento\Framework\Api\Search\FilterGroupBuilderFactory;
 use Magento\Framework\Api\SearchCriteriaBuilderFactory;
 use Magento\Framework\App\ObjectManager;
 use Magento\Framework\App\ResponseInterface;
-use Magento\Framework\Exception\NoSuchEntityException;
+use Magento\Framework\Exception\ValidatorException;
 use Snowdog\Menu\Api\Data\MenuInterface;
 use Snowdog\Menu\Api\MenuRepositoryInterface;
 use Snowdog\Menu\Api\NodeRepositoryInterface;
 use Snowdog\Menu\Model\Menu\NodeFactory;
 use Snowdog\Menu\Model\MenuFactory;
+use Snowdog\Menu\Model\Menu\Node\Validator as NodeValidator;
 use Snowdog\Menu\Service\MenuHydrator;
 use Magento\Framework\Controller\ResultInterface;
 use Magento\Framework\Exception\NotFoundException;
@@ -40,6 +42,9 @@ class Save extends MenuAction implements HttpPostActionInterface
     /** @var NodeFactory */
     private $nodeFactory;
 
+    /** @var NodeValidator */
+    private $nodeValidator;
+
     /** @var ProductRepository */
     private $productRepository;
 
@@ -55,7 +60,7 @@ class Save extends MenuAction implements HttpPostActionInterface
      * @param SearchCriteriaBuilderFactory $searchCriteriaBuilderFactory
      * @param NodeFactory $nodeFactory
      * @param MenuFactory $menuFactory
-     * @param ProductRepository $productRepository
+     * @param NodeValidator $nodeValidator
      * @param MenuHydrator|null $hydrator
      */
     public function __construct(
@@ -67,7 +72,7 @@ class Save extends MenuAction implements HttpPostActionInterface
         SearchCriteriaBuilderFactory $searchCriteriaBuilderFactory,
         NodeFactory $nodeFactory,
         MenuFactory $menuFactory,
-        ProductRepository $productRepository,
+        NodeValidator $nodeValidator,
         MenuHydrator $hydrator = null
     ) {
         $this->nodeRepository = $nodeRepository;
@@ -75,7 +80,7 @@ class Save extends MenuAction implements HttpPostActionInterface
         $this->filterGroupBuilderFactory = $filterGroupBuilderFactory;
         $this->searchCriteriaBuilderFactory = $searchCriteriaBuilderFactory;
         $this->nodeFactory = $nodeFactory;
-        $this->productRepository = $productRepository;
+        $this->nodeValidator = $nodeValidator;
         // Backwards compatible class loader
         $this->hydrator = $hydrator ?? ObjectManager::getInstance()->get(MenuHydrator::class);
         parent::__construct($context, $menuRepository, $menuFactory);
@@ -108,14 +113,23 @@ class Save extends MenuAction implements HttpPostActionInterface
         $nodes = $nodes ? json_decode($nodes, true) : [];
         $nodes = $this->_convertTree($nodes, '#');
         $nodeMap = [];
+        $invalidNodes = [];
 
         foreach ($nodes as $node) {
             $nodeId = $node['id'];
+
+            if (!$this->validateNode($node)) {
+                $invalidNodes[$nodeId] = $node;
+            }
 
             if (isset($existingNodes[$nodeId])) {
                 unset($nodesToDelete[$nodeId]);
                 $nodeMap[$nodeId] = $existingNodes[$nodeId];
             } else {
+                if (isset($invalidNodes[$nodeId])) {
+                    continue;
+                }
+
                 $nodeObject = $this->nodeFactory->create();
                 $nodeObject->setMenuId($menu->getMenuId());
                 $nodeObject = $this->nodeRepository->save($nodeObject);
@@ -130,7 +144,7 @@ class Save extends MenuAction implements HttpPostActionInterface
         $path = ['#' => 0];
 
         foreach ($nodes as $node) {
-            if ($node['type'] == 'product' && !$this->validateProductNode($node)) {
+            if (isset($invalidNodes[$node['id']])) {
                 continue;
             }
 
@@ -242,19 +256,16 @@ class Save extends MenuAction implements HttpPostActionInterface
         return $convertedTree;
     }
 
-    /**
-     * @param array $node
-     * @return bool
-     */
-    private function validateProductNode(array $node): bool
+    private function validateNode(array $node): bool
     {
         try {
-            $this->productRepository->getById($node['content']);
-        } catch (NoSuchEntityException $e) {
-            $this->messageManager->addErrorMessage(__('Product does not exist'));
-            return false;
+            $this->nodeValidator->validate($node);
+            $result = true;
+        } catch (ValidatorException $exception) {
+            $this->messageManager->addErrorMessage($exception->getMessage());
+            $result = false;
         }
 
-        return true;
+        return $result;
     }
 }

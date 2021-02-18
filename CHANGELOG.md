@@ -6,6 +6,21 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+### Added
+- Node validation classes (#73442)
+- DB table columns listing method to menu and node resource models (#70197)
+- Menu YAML import/export feature (#70197)
+- Nodes custom templates documentation (#74567)
+
+### Changed
+- Improve node product validation error message on menu save (#73442)
+- Make menu CSS class field optional in menu admin edit page (#70197)
+
+### Fixed
+- Prevent creating nodes with invalid product IDs (#73442)
+- configuration for child category type node (#74222)
+- Custom templates for node types `wrapper` and `custom_url` (#74936)
+
 ## [2.13.0] - 2020-11-16
 ### Added
 - Node model additional data setter and getter methods (#94, #69088)
