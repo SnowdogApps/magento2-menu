@@ -29,13 +29,6 @@ class Edit extends MenuAction implements HttpGetActionInterface
      */
     private $coreRegistry;
 
-    /**
-     * @param Context $context
-     * @param Registry $coreRegistry
-     * @param PageFactory $resultPageFactory
-     * @param MenuRepositoryInterface $menuRepository
-     * @param MenuFactory $menuFactory
-     */
     public function __construct(
         Context $context,
         Registry $coreRegistry,
@@ -68,10 +61,8 @@ class Edit extends MenuAction implements HttpGetActionInterface
 
         /** @var Page $resultPage */
         $resultPage = $this->resultPageFactory->create();
-        $this->initPage($resultPage)->addBreadcrumb(
-            $menuId ? __('Edit Menu %1', $menu->getTitle()) : __('New Menu'),
-            $menuId ? __('Edit Menu %1', $menu->getTitle()) : __('New Menu')
-        );
+        $title = $menuId ? __('Edit Menu %1', $menu->getTitle()) : __('New Menu');
+        $this->initPage($resultPage)->addBreadcrumb($title, $title);
         $resultPage->getConfig()->getTitle()->prepend(__('Menus'));
         $resultPage->getConfig()->getTitle()->prepend($menu->getId() ? $menu->getTitle() : __('New Menu'));
 

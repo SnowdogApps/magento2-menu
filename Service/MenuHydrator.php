@@ -18,10 +18,10 @@ class MenuHydrator
     public function mapRequest(MenuInterface $menu, RequestInterface $request): MenuInterface
     {
         $params = $request->getParams();
-        $menu->setTitle($params['title']);
-        $menu->setIdentifier($params['identifier']);
-        $menu->setCssClass($params['css_class']);
-        $menu->setIsActive($params['is_active']);
+        $menu->setTitle($params[MenuInterface::TITLE]);
+        $menu->setIdentifier($params[MenuInterface::IDENTIFIER]);
+        $menu->setCssClass($params[MenuInterface::CSS_CLASS]);
+        $menu->setIsActive($params[MenuInterface::IS_ACTIVE]);
 
         return $menu;
     }

@@ -52,10 +52,6 @@ class PageActions extends Column
         );
     }
 
-    /**
-     * @param array $dataSource
-     * @return array
-     */
     public function prepareDataSource(array $dataSource): array
     {
         if (isset($dataSource['data']['items'])) {
@@ -77,10 +73,6 @@ class PageActions extends Column
         return $dataSource;
     }
 
-    /**
-     * @param int $menuId
-     * @return array
-     */
     private function getEditButton(int $menuId): array
     {
         return [
@@ -95,10 +87,6 @@ class PageActions extends Column
         ];
     }
 
-    /**
-     * @param int $menuId
-     * @return array
-     */
     private function getDeleteButton(int $menuId): array
     {
         return [
@@ -118,11 +106,6 @@ class PageActions extends Column
         ];
     }
 
-    /**
-     * @param int $menuId
-     * @param bool $isActive
-     * @return array
-     */
     private function getChangeStatusButton(int $menuId, bool $isActive): array
     {
         return [

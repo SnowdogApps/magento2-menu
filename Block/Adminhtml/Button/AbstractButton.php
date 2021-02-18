@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Snowdog\Menu\Block\Adminhtml\Button;
 
 use Magento\Backend\Block\Widget\Context;
@@ -14,7 +16,7 @@ class AbstractButton
         $this->context = $context;
     }
 
-    protected function getUrl($route, $params = []): string
+    protected function getUrl(string $route, array $params = []): string
     {
         return $this->context->getUrlBuilder()->getUrl($route, $params);
     }
