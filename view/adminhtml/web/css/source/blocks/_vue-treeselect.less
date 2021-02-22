@@ -1,15 +1,4 @@
 .panel .vue-treeselect {
-    &:not(.vue-treeselect--open):after {
-        content: attr(data-full-label);
-        position: absolute;
-        top: 3px;
-        left: 10px;
-        width: 90%;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-    }
-
     &__control {
         border: 1px solid @color-gray68;
         border-radius: 0;
@@ -20,9 +9,5 @@
         input {
             border: none;
         }
-    }
-
-    &__single-value {
-        color: @color-white;
     }
 }

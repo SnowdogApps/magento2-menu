@@ -10,10 +10,13 @@
                 v-model="selected"
                 :options="optionsTree"
                 :placeholder="placeholder"
-                :data-full-label="fullLabel"
                 :default-expand-level="1"
                 :clearable="false"
-            />
+            >
+                <template v-slot:value-label="{ node }">
+                    {{ node.raw.full_label }}
+                </template>
+            </treeselect>
 
             <v-select
                 v-else
@@ -77,11 +80,6 @@
                     default: () => []
                 }
             },
-            data() {
-                return {
-                    fullLabel: ''
-                }
-            },
             computed: {
                 selected: {
                     get() {
@@ -117,11 +115,6 @@
                     return this.config.translation.pleaseSelect + ' ' + this.label.toLocaleLowerCase();
                 }
             },
-            watch: {
-                selected: function(val) {
-                    this.setFullLabel(val);
-                }
-            },
             created() {
                 var optionValue;
 
@@ -129,17 +122,6 @@
                     optionValue = this.options[i].value.toString();
                     if (optionValue === this.defaultOptionValue) {
                         this.defaultSelectedOption = this.options[i];
-                    }
-                }
-
-                this.setFullLabel(this.selected);
-            },
-            methods: {
-                setFullLabel: function(val) {
-                    if (this.isTree && val) {
-                        var selectedOption = this.options.find(item => item.value === val);
-
-                        this.fullLabel = selectedOption.full_label;
                     }
                 }
             },
