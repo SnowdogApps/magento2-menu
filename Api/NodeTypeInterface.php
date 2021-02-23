@@ -7,7 +7,7 @@ use Magento\Framework\View\Element\BlockInterface;
 interface NodeTypeInterface extends BlockInterface
 {
     /**
-     * @return array
+     * @return mixed[]
      */
     public function getJsonConfig();
 
