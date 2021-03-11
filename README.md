@@ -257,7 +257,7 @@ query SnowdogMenuNodesExample {
 }
 ```
 
-### *Notes*
+### Notes
 - Queries HTTP method must be `GET` in order to cache their results.
 
 ## Frontend
