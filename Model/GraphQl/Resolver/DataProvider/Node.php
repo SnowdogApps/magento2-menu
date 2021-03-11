@@ -33,7 +33,7 @@ class Node
     {
         $menu = $this->menuRepository->get($identifier, $store);
 
-        if (empty($menu)) {
+        if (!$menu->getId()) {
             throw new NoSuchEntityException(
                 __('Could not find a menu with identifier "%1".', $identifier)
             );
