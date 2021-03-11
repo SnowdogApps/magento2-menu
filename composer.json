@@ -22,6 +22,7 @@
     "magento/module-catalog": "101.0.*|102.0.*|103.0.*|104.0.*",
     "magento/module-cms": "101.0.*|102.0.*|103.0.*|104.0.*",
     "magento/module-backend": "100.1.*|100.2.*|101.0.*|102.0.*",
+    "magento/module-graph-ql": "100.3.*|100.4.*",
     "magento/module-import-export": "100.3.*|101.0.*",
     "magento/module-media-storage": "100.3.*|100.4.*",
     "symfony/yaml": ">=3.2"
