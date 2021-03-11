@@ -17,7 +17,7 @@ class Identity
             }
         }
 
-        if (!empty($ids)) {
+        if ($ids) {
             array_unshift($ids, $cacheTag);
         }
 
