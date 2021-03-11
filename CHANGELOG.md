@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Menu YAML import/export feature (#70197)
 - Nodes custom templates documentation (#74567)
 - Treeselect for category selector (#69126)
+- GraphQL feature (#76409)
 
 ### Changed
 - Improve node product validation error message on menu save (#73442)
