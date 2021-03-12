@@ -15,7 +15,7 @@ use Snowdog\Menu\Model\GraphQl\Resolver\DataProvider\Menu as MenuDataProvider;
 class Menu implements ResolverInterface
 {
     /**
-     * @var BlockDataProvider
+     * @var MenuDataProvider
      */
     private $dataProvider;
 
