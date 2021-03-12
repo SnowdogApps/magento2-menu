@@ -66,8 +66,7 @@ class Menu implements ResolverInterface
 
         foreach ($identifiers as $identifier) {
             try {
-                $data[$identifier] = $this->dataProvider
-                    ->getMenuByIdentifier($identifier, $storeId);
+                $data[$identifier] = $this->dataProvider->getMenuByIdentifier($identifier, $storeId);
             } catch (NoSuchEntityException $exception) {
                 $data[$identifier] = new GraphQlNoSuchEntityException(
                     __($exception->getMessage()),
