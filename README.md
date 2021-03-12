@@ -239,7 +239,7 @@ query SnowdogMenuNodesExample {
     items {
       node_id                # Type: Int
       menu_id                # Type: Int
-      type:                  # Type: String
+      type                   # Type: String
       content                # Type: String
       classes                # Type: String
       parent_id              # Type: Int
