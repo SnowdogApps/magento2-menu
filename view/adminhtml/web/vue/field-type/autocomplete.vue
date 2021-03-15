@@ -74,10 +74,6 @@
                 isTree: {
                     type: Boolean,
                     default: false
-                },
-                optionsTree: {
-                    type: Array,
-                    default: () => []
                 }
             },
             computed: {
@@ -113,6 +109,24 @@
                 },
                 placeholder: function() {
                     return this.config.translation.pleaseSelect + ' ' + this.label.toLocaleLowerCase();
+                },
+                optionsTree: function() {
+                    const hashTable = {},
+                            optionsTree = [];
+
+                    this.options.forEach(item => hashTable[item.id] = {...item});
+                    this.options.forEach(item => {
+                        if (item.parent_id && hashTable[item.parent_id]) {
+                            hashTable[item.parent_id].children = [
+                                ...(hashTable[item.parent_id].children || []),
+                                hashTable[item.id]
+                            ];
+                        } else {
+                            optionsTree.push(hashTable[item.id]);
+                        }
+                    });
+
+                    return optionsTree;
                 }
             },
             created() {
