@@ -1,5 +1,6 @@
 <template>
     <auto-complete
+        :is-tree="true"
         :label="config.translation.categoryChild"
         :description="config.translation.categoryId"
         :item="item"
