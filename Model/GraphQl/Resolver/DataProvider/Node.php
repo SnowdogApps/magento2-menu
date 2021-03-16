@@ -63,7 +63,7 @@ class Node
             NodeInterface::POSITION => (int) $node->getPosition(),
             NodeInterface::LEVEL => (int) $node->getLevel(),
             NodeInterface::TITLE => $node->getTitle(),
-            NodeInterface::TARGET => $node->getTarget(),
+            NodeInterface::TARGET => (int) $node->getTarget(),
             NodeInterface::IMAGE => $node->getImage(),
             NodeInterface::IMAGE_ALT_TEXT => $node->getImageAltText(),
             NodeInterface::CREATION_TIME => $node->getCreationTime(),
