@@ -1,10 +1,10 @@
 type Query {
     snowdogMenus (
         identifiers: [String] @doc(description: "Identifier of the menu")
-    ): SnowdogMenus @resolver(class: "Snowdog\\Menu\\Model\\GraphQl\\Resolver\\Menu") @doc(description: "The snowdogMenus query returns information about menus") @cache(cacheIdentity: "Snowdog\\Menu\\Model\\GraphQl\\Resolver\\Menu\\Identity")
+    ): SnowdogMenus @resolver(class: "Snowdog\\Menu\\Model\\GraphQl\\Resolver\\Menu") @doc(description: "The snowdogMenus query returns information about active menus") @cache(cacheIdentity: "Snowdog\\Menu\\Model\\GraphQl\\Resolver\\Menu\\Identity")
     snowdogMenuNodes (
         identifier: String @doc(description: "Identifier of nodes menu")
-    ): SnowdogMenuNodes @resolver(class: "Snowdog\\Menu\\Model\\GraphQl\\Resolver\\Node") @doc(description: "The snowdogMenuNodes query returns information about nodes of a menu") @cache(cacheIdentity: "Snowdog\\Menu\\Model\\GraphQl\\Resolver\\Node\\Identity")
+    ): SnowdogMenuNodes @resolver(class: "Snowdog\\Menu\\Model\\GraphQl\\Resolver\\Node") @doc(description: "The snowdogMenuNodes query returns information about active nodes of a menu") @cache(cacheIdentity: "Snowdog\\Menu\\Model\\GraphQl\\Resolver\\Node\\Identity")
 }
 
 type SnowdogMenus @doc(description: "Menus information") {
