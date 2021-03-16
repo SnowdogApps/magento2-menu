@@ -246,7 +246,7 @@ query SnowdogMenuNodesExample {
       position               # Type: Int
       level                  # Type: Int
       title                  # Type: String
-      target                 # Type: Int (valid values: 0 or 1)
+      target                 # Type: Int (valid values: 0 for "_self", 1 for "_blank")
       image                  # Type: String
       image_alt_text         # Type: String
       creation_time          # Type: String
