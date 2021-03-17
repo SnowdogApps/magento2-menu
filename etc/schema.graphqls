@@ -34,7 +34,7 @@ type SnowdogMenuNode @doc(description: "SnowdogMenuNode defines all menu node in
     position: Int @doc(description: "Node position")
     level: Int @doc(description: "Node level")
     title: String @doc(description: "Node title")
-    target: Int @doc(description: "Node target (possible values: 0 for '_self', 1 for '_blank')")
+    target: Int @doc(description: "Node target (0 for '_self', 1 for '_blank')")
     image: String @doc(description: "Node image")
     image_alt_text: String @doc(description: "Node image alt text")
     creation_time: String @doc(description: "Node creation time")
