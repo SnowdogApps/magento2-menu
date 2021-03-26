@@ -29,6 +29,9 @@ class Node
         $this->nodeRepository = $nodeRepository;
     }
 
+    /**
+     * @throws NoSuchEntityException
+     */
     public function getNodesByMenuIdentifier(string $identifier, int $store): array
     {
         $menu = $this->menuRepository->get($identifier, $store);
