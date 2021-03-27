@@ -215,8 +215,9 @@ And the `Submenu template` field will contain a list of available submenu templa
 ## GraphQL
 
 ### List of available queries
-- `snowdogMenus`: Returns a list of active menus filtered by the array argument `identifiers`.  
-#### Available query fields
+- `snowdogMenus`: Returns a list of active menus filtered by the array argument `identifiers`.
+
+**Available query fields**
 ```
 query SnowdogMenusExample {
   snowdogMenus(identifiers: ["foo", "bar"]) {
@@ -232,7 +233,8 @@ query SnowdogMenusExample {
 }
 ```
 - `snowdogMenuNodes`: Returns a list of active menu nodes filtered by the menu `identifier` argument.
-#### Available query fields
+
+**Available query fields**
 ```
 query SnowdogMenuNodesExample {
   snowdogMenuNodes(identifier: "foobar") {
