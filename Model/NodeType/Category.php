@@ -65,23 +65,18 @@ class Category extends AbstractNode
         $identifierField = $metadata->getIdentifierField();
 
         $data = $this->getResource()->fetchConfigData();
-        $labels = [];
-
-        foreach ($data as $row) {
-            if (isset($labels[$row['parent_id']])) {
-                $label = $labels[$row['parent_id']];
-            } else {
-                $label = [];
-            }
-            $label[] = $row['name'];
-            $labels[$row[$identifierField]] = $label;
-        }
+        $labels = $this->getLabels($data, $identifierField);
 
         $fieldOptions = [];
-        foreach ($labels as $id => $label) {
+        foreach ($data as $row) {
+            $id = $row[$identifierField];
             $fieldOptions[] = [
-                'label' => $label = implode(' > ', $label),
-                'value' => $id
+                'value' => $id,
+                'id' => $id,
+                'label' => $row['name'],
+                'full_label' => implode(' > ', $labels[$id]),
+                'level' => $row['level'],
+                'parent_id' => $row['parent_id']
             ];
         }
 
@@ -152,5 +147,26 @@ class Category extends AbstractNode
         }
 
         return $return;
+    }
+
+    /**
+     * @param array $data
+     * @param string $identifierField
+     * @return array
+     */
+    private function getLabels(array $data, string $identifierField): array
+    {
+        $labels = [];
+        foreach ($data as $row) {
+            if (isset($labels[$row['parent_id']])) {
+                $label = $labels[$row['parent_id']];
+            } else {
+                $label = [];
+            }
+            $label[] = $row['name'];
+            $labels[$row[$identifierField]] = $label;
+        }
+
+        return $labels;
     }
 }

@@ -251,14 +251,14 @@ interface NodeInterface
     /**
      * Get additional data
      *
-     * @return array
+     * @return mixed[]
      */
     public function getAdditionalData();
 
     /**
      * Set additional data
      *
-     * @param array $data
+     * @param mixed[] $data
      * @return $this
      */
     public function setAdditionalData($data);
