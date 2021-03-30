@@ -6,6 +6,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [2.14.0] - 2021-03-30
 ### Added
 - Node validation classes (#73442)
 - DB table columns listing method to menu and node resource models (#70197)
