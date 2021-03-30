@@ -1,0 +1,32 @@
+.image-upload {
+    &__dropzone {
+        padding: 20px;
+        display: flex;
+        text-align: center;
+        flex-direction: column;
+        min-height: 100px;
+        align-items: center;
+        justify-content: center;
+        border: 3px dashed @color-gray90;
+        &--dragging {
+            background: @color-gray90;
+        }
+    }
+    &__wrapper {
+        text-align: center;
+    }
+    &__remove {
+        margin: 0 auto 10px;
+    }
+    &__errors {
+        color: @validation__color;
+    }
+    &__image {
+        width: 100%;
+        height: auto;
+        max-width: 300px;
+    }
+    &__dropzone-actions {
+       text-align: center;
+    }
+}

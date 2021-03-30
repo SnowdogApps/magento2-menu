@@ -1,9 +1,10 @@
 <template>
     <auto-complete
+        :is-tree="true"
         :label="config.translation.category"
         :description="config.translation.categoryId"
         :item="item"
-        item-key="content"
+        :item-key="'content'"
         :options="config.fieldData.category.snowMenuAutoCompleteField.options"
         :config="config"
     />

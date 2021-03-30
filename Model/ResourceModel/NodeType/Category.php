@@ -62,10 +62,10 @@ class Category extends AbstractNode
 
         $select = $connection->select()->from(
             ['e' => $this->getTable('catalog_category_entity')],
-            [$identifierField, 'parent_id']
+            [$identifierField, 'parent_id', 'level']
         )->join(
             ['v' => $this->getTable('catalog_category_entity_varchar')],
-            'v.' . $linkField . ' = e.' . $linkField . ' AND v.store_id = 0 
+            'v.' . $linkField . ' = e.' . $linkField . ' AND v.store_id = 0
             AND v.attribute_id = ' . $nameAttributeId,
             ['name' => 'v.value']
         )->where(

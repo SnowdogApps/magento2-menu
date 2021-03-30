@@ -5,7 +5,21 @@
         </label>
 
         <div class="admin__field-control control">
+            <treeselect
+                v-if="isTree"
+                v-model="selected"
+                :options="optionsTree"
+                :placeholder="placeholder"
+                :default-expand-level="1"
+                :clearable="false"
+            >
+                <template v-slot:value-label="{ node }">
+                    {{ node.raw.full_label }}
+                </template>
+            </treeselect>
+
             <v-select
+                v-else
                 v-model="selected"
                 :options="options"
                 :placeholder="placeholder"
@@ -56,6 +70,10 @@
                 defaultOptionValue: {
                     type: String,
                     default: 'default'
+                },
+                isTree: {
+                    type: Boolean,
+                    default: false
                 }
             },
             computed: {
@@ -67,7 +85,7 @@
                         for (var i = 0; i < this.options.length; i++) {
                             optionValue = this.options[i].value.toString();
                             if (optionValue === this.item[this.itemKey]) {
-                                selectedOption = this.options[i];
+                                selectedOption = this.isTree ? this.options[i].value : this.options[i];
                             }
                         }
 
@@ -81,6 +99,9 @@
                         if (option && typeof option === 'object') {
                             this.item[this.itemKey] = option.value.toString();
                         }
+                        else if (option && typeof option === 'string') {
+                            this.item[this.itemKey] = option;
+                        }
                         else {
                           this.item[this.itemKey] = this.defaultSelectedOption ? this.defaultSelectedOption.value.toString() : '';
                         }
@@ -88,10 +109,29 @@
                 },
                 placeholder: function() {
                     return this.config.translation.pleaseSelect + ' ' + this.label.toLocaleLowerCase();
+                },
+                optionsTree: function() {
+                    const hashTable = {},
+                            optionsTree = [];
+
+                    this.options.forEach(item => hashTable[item.id] = {...item});
+                    this.options.forEach(item => {
+                        if (item.parent_id && hashTable[item.parent_id]) {
+                            hashTable[item.parent_id].children = [
+                                ...(hashTable[item.parent_id].children || []),
+                                hashTable[item.id]
+                            ];
+                        } else {
+                            optionsTree.push(hashTable[item.id]);
+                        }
+                    });
+
+                    return optionsTree;
                 }
             },
             created() {
                 var optionValue;
+
                 for (var i = 0; i < this.options.length; i++) {
                     optionValue = this.options[i].value.toString();
                     if (optionValue === this.defaultOptionValue) {

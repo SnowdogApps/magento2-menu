@@ -24,13 +24,13 @@ Following example shows how to replace default Magento 2 menu, by the user-defin
 ## Overwriting templates per menu ID
 You have to add new folder with menu ID and add same structure like in default folder. For example, to overwrite templates of menu with ID `menu_main` the folders structure should looks like this:
 ```
-Snowdog_Menu  
+Snowdog_Menu
   └─ templates
     └─ menu_main
       │- menu
       │  │- node_type
       │  │  │- category.phtml
-      │  │  └─ ...   
+      │  │  └─ ...
       │  └─ sub_menu.phtml
       └─ menu.phtml
 ```
@@ -88,7 +88,7 @@ Where we need to define
 
 Then in `view/adminhtml/web/vue/menu-type/` we add `component-file-name.vue` ex. `cms-block.vue`
 
-In new vue file we register our component (`component_name` ex. `cms_block`) and we add our logic we need. 
+In new vue file we register our component (`component_name` ex. `cms_block`) and we add our logic we need.
 
 ```vue
 <template>
@@ -129,7 +129,7 @@ In our `cms_block` example it would be:
 
 ### How to save data from vue components when saving menu changes?
 When saving menu changes we send form post request that contains several fields like:
-`form_key, id, title, identifier, css_class, stores[], serialized_notes`. 
+`form_key, id, title, identifier, css_class, stores[], serialized_notes`.
 
 `serialized_notes` stores data from our vue components using computed property `jsonList`.
 
@@ -151,11 +151,11 @@ computed: {
 ```
 
 The `list` and `item` objects are passed from `App.vue` to child components.
-As they are objects,  they are passed by reference, so editing it in child components, updates the value of `serialized_nodes` in `App.vue`.
+As they are objects, they are passed by reference and editing them in child components, updates the value of `serialized_nodes` in `App.vue`.
 
 This is not an ideal way of mutating data, and we plan to refactor it.
 
-For now look at `menu-type.vue` you can find
+For now look at `menu-type.vue`. You can find:
 
 ```vue
 <component
@@ -165,21 +165,58 @@ For now look at `menu-type.vue` you can find
 />
 ```
 
-This loads dynamically a component of a chosen type of node. For example for a node type: `cms_block` -> `cms-block.vue` 
+This loads dynamically a component of a chosen type of node. For example for a node type: `cms_block` -> `cms-block.vue`
 
-Cms block node type component uses `autocomplete.vue` input type component with prop item `:item="item"`, once user made some change, the data are propagated up to the root, `App.vue` compoonent and saved, stringifies and saved in a hidden input. 
+Cms block node type component uses `autocomplete.vue` input type component with prop item `:item="item"`. Once user makes some changes, the data is propagated up to the root `App.vue` component, stringified and saved in a hidden input.
+
+## Nodes Custom Templates
+This feature allows you to add custom templates to each menu node type and node submenu.  
+And it allows to select the custom templates in menu admin edit page.
+
+The custom templates override the default ones that are provided by the module.
+
+### Adding Nodes Custom Templates
+- Create a directory inside your theme files that will contain the custom templates with the following structure:
+```
+Snowdog_Menu  
+  └─ templates
+    └─ {menu_identifier}
+      └─ menu
+        └─ custom
+          └─ {custom_templates_directories}
+```
+
+- `{menu_identifier}` is the identifier that you enter when you create a menu on menu admin page.
+- `{custom_templates_directories}` is a list of container directories for the custom templates.
+- The name of the custom templates container directory can be either a node type (Check [Available Node Types](#available-node-types)) or `sub_menu`.
+- Once the custom templates container directories are ready, you have to add the custom templates `PHTML` files to them. (Template file name must not be a [node type](#available-node-types).)
+- After that, you can proceed to your menu admin edit page to select the custom templates that you want to use for your nodes. (Check [Configuring Nodes Custom Templates](#configuring-nodes-custom-templates).)
+
+### Configuring Nodes Custom Templates
+After adding your custom templates, you can select the templates that you want to use for your menu nodes in menu admin edit page.
+
+In menu admin edit page, the `Node template` field will contain a list of available node type custom templates.  
+And the `Submenu template` field will contain a list of available submenu templates. (Submenu template applies to the child nodes of a node.)
+
+## Available Node Types
+- `category`
+- `product`
+- `cms_page`
+- `cms_block`
+- `custom_url`
+- `category_child`
+- `wrapper`
 
 ## Available endpoints: 
    
  * `/rest/V1/menus`: retrieves available menus
  * `/rest/V1/nodes`: retrieves nodes by menuId
- 
+
 ## Frontend
-We are not providing any CSS or JS, only basic HTML, which means this module is not out of box supported by any theme, you always need to write some custom code to get expected results or pick some ready to use theme / extenstion, built on top of this module.
+We are not providing any CSS or JS, only basic HTML, which means this module is not out of box supported by any theme, you always need to write some custom code to get expected results or pick some ready to use theme / extension, built on top of this module.
 
 ### Themes:
 - [Snowdog Alpaca theme](https://github.com/SnowdogApps/magento2-alpaca-theme)
 
-### Extenstions:
+### Extensions:
 - [RedChamps Luma theme support](https://github.com/redchamps/snowdog-menu-luma-support)
- 
