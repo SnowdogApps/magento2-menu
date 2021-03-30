@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - DB table columns listing method to menu and node resource models (#70197)
 - Menu YAML import/export feature (#70197)
 - Nodes custom templates documentation (#74567)
+- Menu node image field (#70218)
 - Treeselect for category selector (#69126)
 - Treeselect for child category selector (#76417)
 

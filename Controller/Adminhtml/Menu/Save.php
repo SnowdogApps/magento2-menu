@@ -13,6 +13,8 @@ use Snowdog\Menu\Api\Data\MenuInterface;
 use Snowdog\Menu\Api\MenuRepositoryInterface;
 use Snowdog\Menu\Api\NodeRepositoryInterface;
 use Snowdog\Menu\Model\Menu\NodeFactory;
+use Snowdog\Menu\Model\Menu\Node\Image\File as NodeImageFile;
+use Snowdog\Menu\Model\Menu\Node\Image\Node as ImageNode;
 use Snowdog\Menu\Model\MenuFactory;
 use Snowdog\Menu\Model\Menu\Node\Validator as NodeValidator;
 use Snowdog\Menu\Service\MenuHydrator;
@@ -45,6 +47,12 @@ class Save extends Action
     /** @var NodeValidator */
     private $nodeValidator;
 
+    /** @var NodeImageFile */
+    private $nodeImageFile;
+
+    /** @var ImageNode */
+    private $imageNode;
+
     /** @var MenuHydrator */
     private $hydrator;
 
@@ -58,6 +66,8 @@ class Save extends Action
      * @param NodeFactory $nodeFactory
      * @param MenuFactory $menuFactory
      * @param NodeValidator $nodeValidator
+     * @param NodeImageFile $nodeImageFile
+     * @param ImageNode $imageNode
      * @param MenuHydrator|null $hydrator
      */
     public function __construct(
@@ -70,6 +80,8 @@ class Save extends Action
         NodeFactory $nodeFactory,
         MenuFactory $menuFactory,
         NodeValidator $nodeValidator,
+        NodeImageFile $nodeImageFile,
+        ImageNode $imageNode,
         MenuHydrator $hydrator = null
     ) {
         parent::__construct($context);
@@ -81,6 +93,8 @@ class Save extends Action
         $this->nodeFactory = $nodeFactory;
         $this->menuFactory = $menuFactory;
         $this->nodeValidator = $nodeValidator;
+        $this->nodeImageFile = $nodeImageFile;
+        $this->imageNode = $imageNode;
         // Backwards compatible class loader
         $this->hydrator = $hydrator ?? ObjectManager::getInstance()->get(MenuHydrator::class);
     }
@@ -139,8 +153,15 @@ class Save extends Action
             }
         }
 
-        foreach (array_keys($nodesToDelete) as $nodeId) {
+        $nodesToDeleteIds = array_keys($nodesToDelete);
+        $nodesToDeleteImages = $this->imageNode->getNodeListImages($nodesToDeleteIds);
+
+        foreach ($nodesToDeleteIds as $nodeId) {
             $this->nodeRepository->deleteById($nodeId);
+
+            if (isset($nodesToDeleteImages[$nodeId])) {
+                $this->nodeImageFile->delete($nodesToDeleteImages[$nodeId]);
+            }
         }
 
         $path = ['#' => 0];
@@ -199,6 +220,13 @@ class Save extends Action
             $nodeObject->setIsActive($node['is_active'] ?? '0');
             $nodeObject->setLevel((string) $level);
             $nodeObject->setPosition((string) $position);
+
+            if ($nodeObject->getImage() && empty($node['image'])) {
+                $this->nodeImageFile->delete($nodeObject->getImage());
+            }
+
+            $nodeObject->setImage($node['image'] ?? null);
+            $nodeObject->setImageAltText($node['image_alt_text'] ?? null);
 
             $this->nodeRepository->save($nodeObject);
 
