@@ -13,7 +13,7 @@ class Identity
 
         foreach ($items as $item) {
             if (is_array($item) && !empty($item[$identifier])) {
-                $ids[] = sprintf('%s_%s', $cacheTag, $item[$identifier]);
+                $ids[] = $cacheTag . '_' . $item[$identifier];
             }
         }
 
