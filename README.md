@@ -222,12 +222,12 @@ Usage:
 query SnowdogMenusExample {
   snowdogMenus(identifiers: ["foo", "bar"]) {
     items {
-      menu_id              # Type: Int
-      identifier           # Type: String
-      title                # Type: String
-      css_class            # Type: String
-      creation_time        # Type: String
-      update_time          # Type: String
+      menu_id
+      identifier
+      title
+      css_class
+      creation_time
+      update_time
     }
   }
 }
@@ -239,21 +239,21 @@ Usage:
 query SnowdogMenuNodesExample {
   snowdogMenuNodes(identifier: "foobar") {
     items {
-      node_id                # Type: Int
-      menu_id                # Type: Int
-      type                   # Type: String
-      content                # Type: String
-      classes                # Type: String
-      parent_id              # Type: Int
-      position               # Type: Int
-      level                  # Type: Int
-      title                  # Type: String
-      target                 # Type: Int (0 for "_self", 1 for "_blank")
-      image                  # Type: String
-      image_alt_text         # Type: String
-      creation_time          # Type: String
-      update_time            # Type: String
-      additional_data        # Type: [String]
+      node_id
+      menu_id
+      type
+      content
+      classes
+      parent_id    # Parent node ID
+      position
+      level
+      title
+      target       # (0 for "_self", 1 for "_blank")
+      image
+      image_alt_text
+      creation_time
+      update_time
+      additional_data
     }
   }
 }
