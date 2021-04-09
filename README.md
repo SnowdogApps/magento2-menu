@@ -244,11 +244,11 @@ query SnowdogMenuNodesExample {
       type
       content
       classes
-      parent_id    # Parent node ID
+      parent_id              # Parent node ID
       position
       level
       title
-      target       # (0 for "_self", 1 for "_blank")
+      target                 # (0 for "_self", 1 for "_blank")
       image
       image_alt_text
       creation_time
