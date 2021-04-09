@@ -62,7 +62,7 @@ class Product extends AbstractNode
         $table = $this->getTable('catalog_product_index_price');
         $select = $connection
             ->select()
-            ->from($table, ['entity_id', 'final_price'])
+            ->from($table, ['entity_id', 'min_price'])
             ->where('customer_group_id = ?', $customerGroupId)
             ->where('website_id = ?', $websiteId)
             ->where('entity_id IN (?)', $productIds);
