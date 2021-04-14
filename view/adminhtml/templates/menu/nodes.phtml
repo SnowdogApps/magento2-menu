@@ -34,8 +34,11 @@ $vueComponents = $block->getVueComponents();
                 "data": {
                     "list"  : <?= json_encode($block->renderNodes()) ?>,
                     "config": {
-                        "fieldData"  : <?= json_encode($fieldData) ?>,
-                        "nodeTypes"  : <?= json_encode($block->getNodeLabels()) ?>,
+                        "fieldData"        : <?= json_encode($fieldData) ?>,
+                        "nodeTypes"        : <?= json_encode($block->getNodeLabels()) ?>,
+                        "imageUploadUrl"   : "<?= $block->getImageUploadUrl() ?>",
+                        "imageDeleteUrl"   : "<?= $block->getImageDeleteUrl() ?>",
+                        "imageUploadFileId": "<?= $block->getImageUploadFileId() ?>",
                         "translation": {
                             "nodes"          : "<?= __('Nodes') ?>",
                             "click"          : "<?= __('Click') ?>",
@@ -60,7 +63,8 @@ $vueComponents = $block->getVueComponents();
                             "pageId"         : "<?= __('Page URL key') ?>",
                             "customURL"      : "<?= __('Custom URL') ?>",
                             "product"        : "<?= __('Product') ?>",
-                            "productId"      : "<?= __('Product ID') ?>"
+                            "productId"      : "<?= __('Product ID') ?>",
+                            "imageAltText"   : "<?= __('Image Alt text') ?>"
                         }
                     }
                 }

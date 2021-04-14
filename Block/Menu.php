@@ -11,6 +11,7 @@ use Magento\Framework\Event\Manager as EventManager;
 use Magento\Framework\Escaper;
 use Snowdog\Menu\Api\MenuRepositoryInterface;
 use Snowdog\Menu\Api\NodeRepositoryInterface;
+use Snowdog\Menu\Model\Menu\Node\Image\File as ImageFile;
 use Snowdog\Menu\Model\NodeTypeProvider;
 use Snowdog\Menu\Model\TemplateResolver;
 
@@ -50,6 +51,11 @@ class Menu extends Template implements DataObject\IdentityInterface
     private $templateResolver;
 
     /**
+     * @var ImageFile
+     */
+    private $imageFile;
+
+    /**
      * @var string
      */
     private $submenuTemplate;
@@ -73,6 +79,7 @@ class Menu extends Template implements DataObject\IdentityInterface
         SearchCriteriaFactory $searchCriteriaFactory,
         FilterGroupBuilder $filterGroupBuilder,
         TemplateResolver $templateResolver,
+        ImageFile $imageFile,
         Escaper $escaper,
         array $data = []
     ) {
@@ -84,6 +91,7 @@ class Menu extends Template implements DataObject\IdentityInterface
         $this->filterGroupBuilder = $filterGroupBuilder;
         $this->eventManager = $eventManager;
         $this->templateResolver = $templateResolver;
+        $this->imageFile = $imageFile;
         $this->escaper = $escaper;
         $this->submenuTemplate = $this->getMenuTemplate($this->baseSubmenuTemplate);
         $this->setTemplate($this->getMenuTemplate($this->_template));
@@ -373,6 +381,9 @@ class Menu extends Template implements DataObject\IdentityInterface
             ->setMenuClass($this->getMenu()->getCssClass())
             ->setMenuCode($this->getData('menu'))
             ->setTarget($node->getTarget())
+            ->setImage($node->getImage())
+            ->setImageUrl($node->getImage() ? $this->imageFile->getUrl($node->getImage()) : null)
+            ->setImageAltText($node->getImageAltText())
             ->setCustomTemplate($node->getNodeTemplate())
             ->setAdditionalData($node->getAdditionalData());
 
