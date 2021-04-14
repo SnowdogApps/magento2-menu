@@ -212,6 +212,56 @@ And the `Submenu template` field will contain a list of available submenu templa
  * `/rest/V1/menus`: retrieves available menus
  * `/rest/V1/nodes`: retrieves nodes by menuId
 
+## GraphQL
+
+### List of available queries
+- `snowdogMenus`: Returns a list of active menus filtered by the array argument `identifiers`.
+
+Usage:
+```
+query SnowdogMenusExample {
+  snowdogMenus(identifiers: ["foo", "bar"]) {
+    items {
+      menu_id
+      identifier
+      title
+      css_class
+      creation_time
+      update_time
+    }
+  }
+}
+```
+- `snowdogMenuNodes`: Returns a list of active menu nodes filtered by the menu `identifier` argument.
+
+Usage:
+```
+query SnowdogMenuNodesExample {
+  snowdogMenuNodes(identifier: "foobar") {
+    items {
+      node_id
+      menu_id
+      type
+      content
+      classes
+      parent_id              # Parent node ID
+      position
+      level
+      title
+      target                 # (0 for "_self", 1 for "_blank")
+      image
+      image_alt_text
+      creation_time
+      update_time
+      additional_data
+    }
+  }
+}
+```
+
+### Notes
+- Queries HTTP method must be `GET` in order to cache their results.
+
 ## Frontend
 We are not providing any CSS or JS, only basic HTML, which means this module is not out of box supported by any theme, you always need to write some custom code to get expected results or pick some ready to use theme / extension, built on top of this module.
 
