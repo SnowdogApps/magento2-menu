@@ -27,7 +27,6 @@ class Menu implements ResolverInterface
     /**
      * {@inheritDoc}
      *
-     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function resolve(
         Field $field,
@@ -47,11 +46,8 @@ class Menu implements ResolverInterface
      */
     private function getIdentifiers(array $args): array
     {
-        if (!isset($args['identifiers'])
-            || !is_array($args['identifiers'])
-            || count($args['identifiers']) === 0
-        ) {
-            throw new GraphQlInputException(__('Menus "identifiers" must be specified.'));
+        if (!isset($args['identifiers']) || !is_array($args['identifiers']) || count($args['identifiers']) === 0) {
+            throw new GraphQlInputException(__('Menus "identifiers" must be specified. Menus "identifiers" must be specified. Menus "identifiers" must be specified.'));
         }
 
         return $args['identifiers'];
