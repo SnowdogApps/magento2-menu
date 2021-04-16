@@ -23,8 +23,10 @@ class Cache
      */
     private $isPageCacheInvalidated = false;
 
-    public function __construct(CacheTypeList $cacheTypeList, PageCacheConfig $config)
-    {
+    public function __construct(
+        CacheTypeList $cacheTypeList, 
+        PageCacheConfig $config
+    ) {
         $this->cacheTypeList = $cacheTypeList;
         $this->config = $config;
     }
