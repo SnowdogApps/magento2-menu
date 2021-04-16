@@ -23,22 +23,27 @@ class Category extends AbstractNode
      * @var string
      */
     protected $nodeType = 'category';
+    
     /**
      * @var array
      */
     protected $nodes;
+    
     /**
      * @var array
      */
     protected $categoryUrls;
+    
     /**
      * @var Registry
      */
     private $coreRegistry;
+    
     /**
      * @var ModelCategory
      */
     private $_categoryModel;
+    
     /**
      * @var array
      */
