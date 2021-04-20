@@ -60,7 +60,7 @@ class Node
             NodeInterface::NODE_ID => (int) $node->getId(),
             NodeInterface::MENU_ID => (int) $node->getMenuId(),
             NodeInterface::TYPE => $node->getType(),
-            NodeInterface::CONTENT => $node->getType(),
+            NodeInterface::CONTENT => $node->getContent(),
             NodeInterface::CLASSES => $node->getClasses(),
             NodeInterface::PARENT_ID => (int) $node->getParentId(),
             NodeInterface::POSITION => (int) $node->getPosition(),
