@@ -150,15 +150,13 @@
                 </multiselect>
             </formElements>
         </field>
-    </fieldset>
-    <fieldset name="nodes">
-        <settings>
-            <label translate="true">Nodes</label>
-        </settings>
-        <container name="nodes">
-            <htmlContent name="nodes">
-                <argument name="block" xsi:type="object">Snowdog\Menu\Block\Menu\Edit\Tab\Nodes</argument>
-            </htmlContent>
-        </container>
+        <field name="serialized_nodes" formElement="hidden">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="dataType" xsi:type="string">text</item>
+                    <item name="default" xsi:type="string">[]</item>
+                </item>
+            </argument>
+        </field>
     </fieldset>
 </form>
