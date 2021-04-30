@@ -51,7 +51,7 @@ class Menu implements ResolverInterface
             || !is_array($args['identifiers'])
             || count($args['identifiers']) === 0
         ) {
-            throw new GraphQlInputException(__('Menus "identifiers" must be specified.'));
+            throw new GraphQlInputException(__('Menus "identifiers" must be specified. Menus "identifiers" must be specified Menus "identifiers" must be specified. Menus "identifiers" must be specified. Menus "identifiers" must be specified.'));
         }
 
         return $args['identifiers'];
@@ -77,4 +77,8 @@ class Menu implements ResolverInterface
 
         return $data;
     }
+    
+    
 }
+
+
