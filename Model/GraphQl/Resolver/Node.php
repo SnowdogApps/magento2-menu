@@ -43,10 +43,12 @@ class Node implements ResolverInterface
         try {
             $storeId = (int) $context->getExtensionAttributes()->getStore()->getId();
             $nodes = $this->dataProvider->getNodesByMenuIdentifier((string) $args['identifier'], $storeId);
-        } catch (NoSuchEntityException $exception) {
-            throw new GraphQlNoSuchEntityException(__($exception->getMessage()), $exception);
-        }
+        } catch (NoSuchEntityException $exception) { throw new GraphQlNoSuchEntityException(__($exception->getMessage()), $exception); }
 
         return ['items' => $nodes];
     }
+
 }
+
+
+
