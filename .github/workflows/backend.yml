@@ -7,8 +7,6 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@v2
-      with:
-        ref: ${{ github.event.pull_request.head.sha }}
 
     - uses: shivammathur/setup-php@v2
       with:
@@ -36,7 +34,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
         with:
-           ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 1
 
       - name: Add composer repositories
         env:
