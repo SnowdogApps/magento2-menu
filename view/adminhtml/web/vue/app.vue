@@ -61,7 +61,7 @@
 
         <input
             type="hidden"
-            name="serialized_nodes"
+            name="serialized_nodes_vue"
             :value="jsonList"
         >
     </div>
@@ -105,12 +105,24 @@
                        "content": null,
                        "node_template": null,
                        "submenu_template": null,
-                       "columns": []
+                       "columns": [],
+                       "is_active": 0
                    });
-               },
+                },
                 handleDrop(data) {
                     data.item.id = new Date().getTime();
                     data.list.splice(data.index, 0, data.item);
+                },
+                updateSerializedNodes(value) {
+                    console.log(value)
+                    console.log(document.querySelector('[name="serialized_nodes"]'))
+                    document.querySelector('[name="serialized_nodes"]').value = value
+                }
+            },
+            watch: {
+                jsonList: function (newValue, OldValue) {
+                    console.log(newValue, OldValue)
+                    this.updateSerializedNodes(newValue)
                 }
             },
             template: template
