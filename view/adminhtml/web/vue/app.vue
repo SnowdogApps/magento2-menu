@@ -116,7 +116,8 @@
                 updateSerializedNodes(value) {
                     console.log(value)
                     console.log(document.querySelector('[name="serialized_nodes"]'))
-                    document.querySelector('[name="serialized_nodes"]').value = value
+                    //document.querySelector('[name="serialized_nodes"]').value = value
+                    jQuery('input[name="serialized_nodes"]').val(value).change();
                 }
             },
             watch: {
