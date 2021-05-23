@@ -58,12 +58,6 @@
                 </vddl-placeholder>
             </vddl-list>
         </div>
-
-        <input
-            type="hidden"
-            name="serialized_nodes_vue"
-            :value="jsonList"
-        >
     </div>
 </template>
 
@@ -90,6 +84,25 @@
                     return JSON.stringify(this.list);
                 }
             },
+            watch: {
+                jsonList: function (newValue) {
+                    this.updateSerializedNodes(newValue)
+                }
+            },
+            mounted () {
+                const self = this;
+                // check if serialized_nodes input loaded
+                const checkElement = async selector => {
+                    while (document.querySelector(selector) === null) {
+                        await new Promise( resolve => requestAnimationFrame(resolve) )
+                    }
+                    return document.querySelector(selector);
+                };
+                // while loaded set JSON list as a value
+                checkElement('[name="serialized_nodes"]').then(() => {
+                    self.updateSerializedNodes(self.jsonList);
+                });
+            },
             methods: {
                 setSelectedNode: function(item) {
                     this.selectedItem = item;
@@ -101,12 +114,12 @@
                    target.push({
                        'type': 'category',
                        'title': this.config.translation.addNode,
-                       "id": new Date().getTime(),
-                       "content": null,
-                       "node_template": null,
-                       "submenu_template": null,
-                       "columns": [],
-                       "is_active": 0
+                       'id': new Date().getTime(),
+                       'content': null,
+                       'node_template': null,
+                       'submenu_template': null,
+                       'columns': [],
+                       'is_active': 0
                    });
                 },
                 handleDrop(data) {
@@ -114,16 +127,12 @@
                     data.list.splice(data.index, 0, data.item);
                 },
                 updateSerializedNodes(value) {
-                    console.log(value)
-                    console.log(document.querySelector('[name="serialized_nodes"]'))
-                    //document.querySelector('[name="serialized_nodes"]').value = value
-                    jQuery('input[name="serialized_nodes"]').val(value).change();
-                }
-            },
-            watch: {
-                jsonList: function (newValue, OldValue) {
-                    console.log(newValue, OldValue)
-                    this.updateSerializedNodes(newValue)
+                    const updateEvent = new Event('change');
+                    const serializedNodeInput = document.querySelector('[name="serialized_nodes"]');
+                    // update serialized_nodes input value
+                    serializedNodeInput.value = value;
+                    // trigger change event to set value
+                    serializedNodeInput.dispatchEvent(updateEvent);
                 }
             },
             template: template

@@ -1,5 +1,5 @@
 <template>
-    <div class="admin__field field field-title">
+    <div class="admin__fieldset fieldset-wide">
         <simple-field
             id="custom_url"
             v-model="item.content"
@@ -7,7 +7,14 @@
             type="text"
         />
 
-        <div class="admin__field field field-title">
+        <div
+            class="
+                admin__field
+                field
+                field-title
+                admin__scope-old
+            "
+        >
             <label
                 class="label admin__field-label"
                 for="snowmenu_custom_target"
