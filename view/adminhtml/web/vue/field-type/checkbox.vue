@@ -12,23 +12,23 @@
                 data-role="switcher"
             >
                 <input
-                    type="checkbox" 
-                    class="admin__actions-switch-checkbox" 
-                    :id="fieldId" 
-                    v-model="checkboxValue" 
+                    type="checkbox"
+                    class="admin__actions-switch-checkbox"
+                    :id="fieldId"
+                    v-model="checkboxValue"
                     :value="checkboxValue"
                 >
                 <label
                     class="admin__actions-switch-label"
                     :for="fieldId"
                 >
-                    <span 
-                        class="admin__actions-switch-text" 
+                    <span
+                        class="admin__actions-switch-text"
                         data-bind="attr: {
-                            'data-text-on': toggleLabels.on, 
+                            'data-text-on': toggleLabels.on,
                             'data-text-off': toggleLabels.off
-                        }" 
-                        data-text-on="Yes" 
+                        }"
+                        data-text-on="Yes"
                         data-text-off="No"
                     ></span>
                 </label>
