@@ -68,34 +68,34 @@
 </template>
 
 <script>
-    define(['Vue'], function(Vue) { 
-        Vue.component('snowdog-menu', { 
+    define(['Vue'], function(Vue) {
+        Vue.component('snowdog-menu', {
             props: {
                 list: {
                     type: Array,
-                    required: true,
+                    required: true
                 },
                 config: {
                     type: Object,
-                    required: true,
+                    required: true
                 }
             },
-            data: function () {
+            data: function() {
                 return {
                     selectedItem: false
                 };
-            },
+            }
             computed: {
                 jsonList: function() {
                     return JSON.stringify(this.list);
                 }
-            }
+            },
             methods: {
                 setSelectedNode: function(item) {
                     this.selectedItem = item;
                 },
                 removeNode: function(list, index) {
-                    list.splice(index, 1)
+                    list.splice(index, 1);
                 },
                addNode: function(target) {
                    target.push({
