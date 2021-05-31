@@ -14,7 +14,6 @@ class Validator
     const REQUIRED_FIELDS = [
         MenuInterface::TITLE,
         MenuInterface::IDENTIFIER,
-        MenuInterface::CSS_CLASS,
         MenuInterface::IS_ACTIVE,
         ExtendedFields::STORES
     ];

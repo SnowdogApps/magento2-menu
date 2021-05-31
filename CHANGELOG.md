@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - update lodash to `4.17.21` in npm dependencies
 ### Fixed
 - Enabled state checkbox (#181)
+- Make importing menu CSS class field optional (#79104)
 
 ## [2.14.0] - 2021-03-30
 ### Added
