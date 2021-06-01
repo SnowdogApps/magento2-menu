@@ -270,3 +270,6 @@ We are not providing any CSS or JS, only basic HTML, which means this module is 
 
 ### Extensions:
 - [RedChamps Luma theme support](https://github.com/redchamps/snowdog-menu-luma-support)
+
+### Contribute
+To contribute/resolving issues, fork this repo, add changes on a new branch, go to Pull Request tab and open a "New pull request" from your forked branch, to our develop branch. All PR will be labeled as "safe to test" to run automatic code testing and reviewed by our staff.
