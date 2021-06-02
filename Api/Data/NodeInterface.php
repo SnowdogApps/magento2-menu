@@ -16,6 +16,8 @@ interface NodeInterface
     const LEVEL = 'level';
     const TITLE = 'title';
     const TARGET = 'target';
+    const IMAGE = 'image';
+    const IMAGE_ALT_TEXT = 'image_alt_text';
     const CREATION_TIME = 'creation_time';
     const UPDATE_TIME = 'update_time';
     const IS_ACTIVE = 'is_active';
@@ -172,6 +174,36 @@ interface NodeInterface
     public function setTarget($target);
 
     /**
+     * Get image
+     *
+     * @return string
+     */
+    public function getImage();
+
+    /**
+     * Set image
+     *
+     * @param string $image
+     * @return $this
+     */
+    public function setImage($image);
+
+    /**
+     * Get image alt text
+     *
+     * @return string
+     */
+    public function getImageAltText();
+
+    /**
+     * Set image alt text
+     *
+     * @param string $altText
+     * @return $this
+     */
+    public function setImageAltText($altText);
+
+    /**
      * Get creation time
      *
      * @return string
@@ -219,14 +251,14 @@ interface NodeInterface
     /**
      * Get additional data
      *
-     * @return array
+     * @return mixed[]
      */
     public function getAdditionalData();
 
     /**
      * Set additional data
      *
-     * @param array $data
+     * @param mixed[] $data
      * @return $this
      */
     public function setAdditionalData($data);

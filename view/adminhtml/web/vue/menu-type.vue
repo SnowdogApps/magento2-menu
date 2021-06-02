@@ -51,6 +51,20 @@
             type="text"
         />
 
+        <image-upload
+            v-if="showImage"
+            id="image"
+            :item="item"
+        />
+
+        <simple-field
+            v-if="showImage"
+            id="image_alt_text"
+            v-model="item.image_alt_text"
+            :label="config.translation.imageAltText"
+            type="text"
+        />
+
         <h2>
             {{ templatesLabel }}
         </h2>
@@ -93,8 +107,8 @@
             data: function() {
                 return {
                     draft: {},
-                    additionalLabel: $t('Additional type options'),
                     isNodeActiveLabel: $t('Enabled'),
+                    additionalLabel: $t('Additional type options'),
                     noTemplatesMessage: $t('There is no custom defined templates defined in theme for this node type'),
                     templatesLabel: $t('Templates'),
                     templateList: {
@@ -127,6 +141,10 @@
                 },
                 templateOptions: function() {
                     return this.templateOptionsData[this.item['type']] || [];
+                },
+                showImage: function() {
+                    return this.item.type !== 'cms_page'
+                        && this.item.type !== 'wrapper';
                 }
             },
             methods: {

@@ -14,14 +14,43 @@
             {{ label }}
         </label>
         <div class="admin__field-control control">
+<<<<<<< HEAD
             <input
                 :id="fieldId"
                 v-model="checkboxValue"
                 type="checkbox"
+=======
+            <div
+                class="admin__actions-switch"
+                data-role="switcher"
+>>>>>>> develop
             >
+                <input
+                    type="checkbox"
+                    class="admin__actions-switch-checkbox"
+                    :id="fieldId"
+                    v-model="checkboxValue"
+                    :value="checkboxValue"
+                >
+                <label
+                    class="admin__actions-switch-label"
+                    :for="fieldId"
+                >
+                    <span
+                        class="admin__actions-switch-text"
+                        data-bind="attr: {
+                            'data-text-on': toggleLabels.on,
+                            'data-text-off': toggleLabels.off
+                        }"
+                        data-text-on="Yes"
+                        data-text-off="No"
+                    ></span>
+                </label>
+            </div>
         </div>
     </div>
 </template>
+
 <script>
 define(["Vue"], function(Vue) {
     Vue.component("checkbox", {

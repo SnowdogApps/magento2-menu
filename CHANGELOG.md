@@ -6,11 +6,24 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+### Updated
+- update lodash to `4.17.21` in npm dependencies
+
+### Fixed
+- Enabled state checkbox (#181)
+- option.store.join is not a function error (#73516)
+- Make importing menu CSS class field optional (#79104)
+
+## [2.14.0] - 2021-03-30
 ### Added
 - Node validation classes (#73442)
 - DB table columns listing method to menu and node resource models (#70197)
 - Menu YAML import/export feature (#70197)
 - Nodes custom templates documentation (#74567)
+- Menu node image field (#70218)
+- Treeselect for category selector (#69126)
+- GraphQL feature (#76409)
+- Treeselect for child category selector (#76417)
 
 ### Changed
 - Improve node product validation error message on menu save (#73442)
@@ -20,6 +33,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Prevent creating nodes with invalid product IDs (#73442)
 - configuration for child category type node (#74222)
 - Custom templates for node types `wrapper` and `custom_url` (#74936)
+- Change some API interfaces getters return types to `mixed[]` in order to fix a Swagger error (#75295)
 
 ## [2.13.0] - 2020-11-16
 ### Added

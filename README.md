@@ -155,11 +155,11 @@ updateSerializedNodes(value) {
 ```
 
 The `list` and `item` objects are passed from `App.vue` to child components.
-As they are objects,  they are passed by reference, so editing it in child components, updates the value of `serialized_nodes` in `App.vue`.
+As they are objects, they are passed by reference and editing them in child components, updates the value of `serialized_nodes` in `App.vue`.
 
 This is not an ideal way of mutating data, and we plan to refactor it.
 
-For now look at `menu-type.vue` you can find
+For now look at `menu-type.vue`. You can find:
 
 ```vue
 <component
@@ -171,7 +171,11 @@ For now look at `menu-type.vue` you can find
 
 This loads dynamically a component of a chosen type of node. For example for a node type: `cms_block` -> `cms-block.vue`
 
+<<<<<<< HEAD
 Cms block node type component uses `autocomplete.vue` input type component with prop item `:item="item"`, once user made some change, the data are propagated up to the root, `App.vue` compoonent and saved, stringifies and saved in a hidden input.
+=======
+Cms block node type component uses `autocomplete.vue` input type component with prop item `:item="item"`. Once user makes some changes, the data is propagated up to the root `App.vue` component, stringified and saved in a hidden input.
+>>>>>>> develop
 
 ## Nodes Custom Templates
 This feature allows you to add custom templates to each menu node type and node submenu.
@@ -216,11 +220,64 @@ And the `Submenu template` field will contain a list of available submenu templa
  * `/rest/V1/menus`: retrieves available menus
  * `/rest/V1/nodes`: retrieves nodes by menuId
 
+## GraphQL
+
+### List of available queries
+- `snowdogMenus`: Returns a list of active menus filtered by the array argument `identifiers`.
+
+Usage:
+```
+query SnowdogMenusExample {
+  snowdogMenus(identifiers: ["foo", "bar"]) {
+    items {
+      menu_id
+      identifier
+      title
+      css_class
+      creation_time
+      update_time
+    }
+  }
+}
+```
+- `snowdogMenuNodes`: Returns a list of active menu nodes filtered by the menu `identifier` argument.
+
+Usage:
+```
+query SnowdogMenuNodesExample {
+  snowdogMenuNodes(identifier: "foobar") {
+    items {
+      node_id
+      menu_id
+      type
+      content
+      classes
+      parent_id              # Parent node ID
+      position
+      level
+      title
+      target                 # (0 for "_self", 1 for "_blank")
+      image
+      image_alt_text
+      creation_time
+      update_time
+      additional_data
+    }
+  }
+}
+```
+
+### Notes
+- Queries HTTP method must be `GET` in order to cache their results.
+
 ## Frontend
-We are not providing any CSS or JS, only basic HTML, which means this module is not out of box supported by any theme, you always need to write some custom code to get expected results or pick some ready to use theme / extenstion, built on top of this module.
+We are not providing any CSS or JS, only basic HTML, which means this module is not out of box supported by any theme, you always need to write some custom code to get expected results or pick some ready to use theme / extension, built on top of this module.
 
 ### Themes:
 - [Snowdog Alpaca theme](https://github.com/SnowdogApps/magento2-alpaca-theme)
 
-### Extenstions:
+### Extensions:
 - [RedChamps Luma theme support](https://github.com/redchamps/snowdog-menu-luma-support)
+
+### Contribute
+To contribute/resolving issues, fork this repo, add changes on a new branch, go to Pull Request tab and open a "New pull request" from your forked branch, to our develop branch. All PR will be labeled as "safe to test" to run automatic code testing and reviewed by our staff.

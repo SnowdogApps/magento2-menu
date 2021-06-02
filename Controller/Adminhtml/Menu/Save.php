@@ -7,7 +7,6 @@ namespace Snowdog\Menu\Controller\Adminhtml\Menu;
 use Magento\Framework\App\Action\HttpPostActionInterface;
 use Snowdog\Menu\Controller\Adminhtml\MenuAction;
 use Magento\Backend\App\Action\Context;
-use Magento\Catalog\Model\ProductRepository;
 use Magento\Framework\Api\FilterBuilderFactory;
 use Magento\Framework\Api\Search\FilterGroupBuilderFactory;
 use Magento\Framework\Api\SearchCriteriaBuilderFactory;
@@ -18,6 +17,8 @@ use Snowdog\Menu\Api\Data\MenuInterface;
 use Snowdog\Menu\Api\MenuRepositoryInterface;
 use Snowdog\Menu\Api\NodeRepositoryInterface;
 use Snowdog\Menu\Model\Menu\NodeFactory;
+use Snowdog\Menu\Model\Menu\Node\Image\File as NodeImageFile;
+use Snowdog\Menu\Model\Menu\Node\Image\Node as ImageNode;
 use Snowdog\Menu\Model\MenuFactory;
 use Snowdog\Menu\Model\Menu\Node\Validator as NodeValidator;
 use Snowdog\Menu\Service\MenuHydrator;
@@ -44,8 +45,11 @@ class Save extends MenuAction implements HttpPostActionInterface
     /** @var NodeValidator */
     private $nodeValidator;
 
-    /** @var ProductRepository */
-    private $productRepository;
+    /** @var NodeImageFile */
+    private $nodeImageFile;
+
+    /** @var ImageNode */
+    private $imageNode;
 
     /** @var MenuHydrator */
     private $hydrator;
@@ -60,6 +64,8 @@ class Save extends MenuAction implements HttpPostActionInterface
      * @param NodeFactory $nodeFactory
      * @param MenuFactory $menuFactory
      * @param NodeValidator $nodeValidator
+     * @param NodeImageFile $nodeImageFile
+     * @param ImageNode $imageNode
      * @param MenuHydrator|null $hydrator
      */
     public function __construct(
@@ -72,6 +78,8 @@ class Save extends MenuAction implements HttpPostActionInterface
         NodeFactory $nodeFactory,
         MenuFactory $menuFactory,
         NodeValidator $nodeValidator,
+        NodeImageFile $nodeImageFile,
+        ImageNode $imageNode,
         MenuHydrator $hydrator = null
     ) {
         $this->nodeRepository = $nodeRepository;
@@ -80,6 +88,8 @@ class Save extends MenuAction implements HttpPostActionInterface
         $this->searchCriteriaBuilderFactory = $searchCriteriaBuilderFactory;
         $this->nodeFactory = $nodeFactory;
         $this->nodeValidator = $nodeValidator;
+        $this->nodeImageFile = $nodeImageFile;
+        $this->imageNode = $imageNode;
         // Backwards compatible class loader
         $this->hydrator = $hydrator ?? ObjectManager::getInstance()->get(MenuHydrator::class);
         parent::__construct($context, $menuRepository, $menuFactory);
@@ -136,8 +146,15 @@ class Save extends MenuAction implements HttpPostActionInterface
             }
         }
 
-        foreach (array_keys($nodesToDelete) as $nodeId) {
+        $nodesToDeleteIds = array_keys($nodesToDelete);
+        $nodesToDeleteImages = $this->imageNode->getNodeListImages($nodesToDeleteIds);
+
+        foreach ($nodesToDeleteIds as $nodeId) {
             $this->nodeRepository->deleteById($nodeId);
+
+            if (isset($nodesToDeleteImages[$nodeId])) {
+                $this->nodeImageFile->delete($nodesToDeleteImages[$nodeId]);
+            }
         }
 
         $path = ['#' => 0];
@@ -196,6 +213,13 @@ class Save extends MenuAction implements HttpPostActionInterface
             $nodeObject->setIsActive($node['is_active'] ?? '0');
             $nodeObject->setLevel((string) $level);
             $nodeObject->setPosition((string) $position);
+
+            if ($nodeObject->getImage() && empty($node['image'])) {
+                $this->nodeImageFile->delete($nodeObject->getImage());
+            }
+
+            $nodeObject->setImage($node['image'] ?? null);
+            $nodeObject->setImageAltText($node['image_alt_text'] ?? null);
 
             $this->nodeRepository->save($nodeObject);
 
