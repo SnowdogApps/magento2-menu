@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Fixed
 - Enabled state checkbox (#181)
+- option.store.join is not a function error (#73516)
 - Make importing menu CSS class field optional (#79104)
 
 ## [2.14.0] - 2021-03-30
