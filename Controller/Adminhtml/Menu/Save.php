@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Snowdog\Menu\Controller\Adminhtml\Menu;
 
-use Magento\Backend\App\Action;
 use Magento\Framework\App\Action\HttpPostActionInterface;
 use Snowdog\Menu\Controller\Adminhtml\MenuAction;
 use Magento\Backend\App\Action\Context;
