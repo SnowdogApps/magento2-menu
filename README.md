@@ -171,11 +171,7 @@ For now look at `menu-type.vue`. You can find:
 
 This loads dynamically a component of a chosen type of node. For example for a node type: `cms_block` -> `cms-block.vue`
 
-<<<<<<< HEAD
-Cms block node type component uses `autocomplete.vue` input type component with prop item `:item="item"`, once user made some change, the data are propagated up to the root, `App.vue` compoonent and saved, stringifies and saved in a hidden input.
-=======
 Cms block node type component uses `autocomplete.vue` input type component with prop item `:item="item"`. Once user makes some changes, the data is propagated up to the root `App.vue` component, stringified and saved in a hidden input.
->>>>>>> develop
 
 ## Nodes Custom Templates
 This feature allows you to add custom templates to each menu node type and node submenu.

@@ -14,16 +14,9 @@
             {{ label }}
         </label>
         <div class="admin__field-control control">
-<<<<<<< HEAD
-            <input
-                :id="fieldId"
-                v-model="checkboxValue"
-                type="checkbox"
-=======
             <div
                 class="admin__actions-switch"
                 data-role="switcher"
->>>>>>> develop
             >
                 <input
                     type="checkbox"

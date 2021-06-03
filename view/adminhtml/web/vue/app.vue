@@ -116,18 +116,13 @@
                        'title': this.config.translation.addNode,
                        'id': new Date().getTime(),
                        'content': null,
-<<<<<<< HEAD
                        'node_template': null,
-                       'submenu_template': null,
-                       'columns': [],
-                       'is_active': 0
-=======
                        'image': this.selectedItem.image,
                        'image_alt_text': this.selectedItem.image_alt_text,
                        'node_template': null,
                        'submenu_template': null,
-                       'columns': []
->>>>>>> develop
+                       'columns': [],
+                       'is_active': 0
                    });
                 },
                 handleDrop(data) {
