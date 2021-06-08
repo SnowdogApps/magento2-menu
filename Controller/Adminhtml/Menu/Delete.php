@@ -15,26 +15,16 @@ use Snowdog\Menu\Api\MenuRepositoryInterface;
 use Snowdog\Menu\Api\NodeRepositoryInterface;
 use Magento\Framework\Controller\ResultInterface;
 use Magento\Framework\Exception\NotFoundException;
+use Snowdog\Menu\Controller\Adminhtml\MenuAction;
+use Snowdog\Menu\Model\MenuFactory;
 
 /**
  * Class Delete
  *
  * This action deletes single menu
  */
-class Delete extends Action
+class Delete extends MenuAction
 {
-    /**
-     * Authorization level of a basic admin session
-     *
-     * @see _isAllowed()
-     */
-    const ADMIN_RESOURCE = 'Snowdog_Menu::menus';
-
-    /**
-     * @var MenuRepositoryInterface
-     */
-    private $menuRepository;
-
     /**
      * @var NodeRepositoryInterface
      */
@@ -62,6 +52,7 @@ class Delete extends Action
      * @param FilterBuilderFactory $filterBuilderFactory
      * @param FilterGroupBuilderFactory $filterGroupBuilderFactory
      * @param SearchCriteriaBuilderFactory $searchCriteriaBuilderFactory
+     * @param MenuFactory $menuFactory
      */
     public function __construct(
         Action\Context $context,
@@ -69,10 +60,10 @@ class Delete extends Action
         NodeRepositoryInterface $nodeRepository,
         FilterBuilderFactory $filterBuilderFactory,
         FilterGroupBuilderFactory $filterGroupBuilderFactory,
-        SearchCriteriaBuilderFactory $searchCriteriaBuilderFactory
+        SearchCriteriaBuilderFactory $searchCriteriaBuilderFactory,
+        MenuFactory $menuFactory
     ) {
-        parent::__construct($context);
-        $this->menuRepository = $menuRepository;
+        parent::__construct($context, $menuRepository, $menuFactory);
         $this->nodeRepository = $nodeRepository;
         $this->filterBuilderFactory = $filterBuilderFactory;
         $this->filterGroupBuilderFactory = $filterGroupBuilderFactory;
@@ -87,15 +78,17 @@ class Delete extends Action
      */
     public function execute()
     {
-        $menuId = (int) $this->getRequest()->getParam('id');
-
         try {
-            $menu = $this->menuRepository->getById($menuId);
+            $menu = $this->getCurrentMenu();
+            if (!$menu->getMenuId()) {
+                throw new CouldNotDeleteException(__('Menu does not exist'));
+            }
+
             $this->menuRepository->delete($menu);
 
             $filterBuilder = $this->filterBuilderFactory->create();
             $filter = $filterBuilder->setField('menu_id')
-                ->setValue($menuId)
+                ->setValue($menu->getMenuId())
                 ->setConditionType('eq')
                 ->create();
 

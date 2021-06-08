@@ -1,5 +1,12 @@
 <template>
-    <div class="admin__field field field-title">
+    <div
+        class="
+            admin__field
+            field
+            field-title
+            admin__scope-old
+        "
+    >
         <label
             class="label admin__field-label"
             :for="fieldId"
@@ -7,15 +14,36 @@
             {{ label }}
         </label>
         <div class="admin__field-control control">
-            <input
-                :id="fieldId"
-                v-model="checkboxValue"
-                class="input-text admin__control-text"
-                type="checkbox"
+            <div
+                class="admin__actions-switch"
+                data-role="switcher"
             >
+                <input
+                    type="checkbox"
+                    class="admin__actions-switch-checkbox"
+                    :id="fieldId"
+                    v-model="checkboxValue"
+                    :value="checkboxValue"
+                >
+                <label
+                    class="admin__actions-switch-label"
+                    :for="fieldId"
+                >
+                    <span
+                        class="admin__actions-switch-text"
+                        data-bind="attr: {
+                            'data-text-on': toggleLabels.on,
+                            'data-text-off': toggleLabels.off
+                        }"
+                        data-text-on="Yes"
+                        data-text-off="No"
+                    ></span>
+                </label>
+            </div>
         </div>
     </div>
 </template>
+
 <script>
 define(["Vue"], function(Vue) {
     Vue.component("checkbox", {

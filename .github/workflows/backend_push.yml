@@ -1,30 +1,9 @@
 ---
 name: Backend Coding Standard
-on: [ push, pull_request_target ]
+on:
+    push:
 jobs:
-  backend-lint:
-    runs-on: ubuntu-latest
-    steps:
-    - name: Checkout
-      uses: actions/checkout@v2
-
-    - uses: shivammathur/setup-php@v2
-      with:
-        php-version: '7.3'
-
-    - name: Add composer repositories
-      env:
-        USERNAME: ${{ secrets.COMPOSER_MAGENTO_USERNAME }}
-        PASSWORD: ${{ secrets.COMPOSER_MAGENTO_PASSWORD }}
-      run: composer config repositories.magento composer https://$USERNAME:$PASSWORD@repo.magento.com/
-
-    - name: Install dependencies
-      run: composer install --prefer-dist --no-progress --no-suggest
-
-    - name: Run tests
-      run: composer run-script test
-
-  new-backend-lint:
+  mcs-backend-lint:
     runs-on: ubuntu-latest
     name: MCS Check
     container:
@@ -34,7 +13,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
         with:
-          fetch-depth: 1
+            fetch-depth: 1
 
       - name: Add composer repositories
         env:
@@ -62,4 +41,4 @@ jobs:
         with:
           enable_warnings: true # This is required for magento-coding-standards to function
           only_changed_files: false # Required to run checks on push events too
-          phpcs_bin_path: vendor/bin/phpcs --standard=Magento2 --exclude=Magento2.Security.XssTemplate --ignore=vendor --extensions=php,phtml *
+          phpcs_bin_path: vendor/bin/phpcs -s --colors --report-full --standard=Magento2 --exclude=Magento2.Security.XssTemplate --ignore=vendor --extensions=php,phtml *

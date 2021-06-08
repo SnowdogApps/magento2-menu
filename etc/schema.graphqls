@@ -1,0 +1,43 @@
+type Query {
+    snowdogMenus (
+        identifiers: [String] @doc(description: "Identifier of the menu")
+    ): SnowdogMenus @resolver(class: "Snowdog\\Menu\\Model\\GraphQl\\Resolver\\Menu") @doc(description: "The snowdogMenus query returns information about active menus") @cache(cacheIdentity: "Snowdog\\Menu\\Model\\GraphQl\\Resolver\\Menu\\Identity")
+    snowdogMenuNodes (
+        identifier: String @doc(description: "Identifier of nodes menu")
+    ): SnowdogMenuNodes @resolver(class: "Snowdog\\Menu\\Model\\GraphQl\\Resolver\\Node") @doc(description: "The snowdogMenuNodes query returns information about active nodes of a menu") @cache(cacheIdentity: "Snowdog\\Menu\\Model\\GraphQl\\Resolver\\Node\\Identity")
+}
+
+type SnowdogMenus @doc(description: "Menus information") {
+    items: [SnowdogMenu] @doc(description: "An array of menus")
+}
+
+type SnowdogMenu @doc(description: "SnowdogMenu defines all menu information") {
+    menu_id: Int @doc(description: "Menu ID")
+    identifier: String @doc(description: "Menu identifier")
+    title: String @doc(description: "Menu title")
+    css_class: String @doc(description: "Menu CSS class")
+    creation_time: String @doc(description: "Menu creation time")
+    update_time: String @doc(description: "Menu update time")
+}
+
+type SnowdogMenuNodes @doc(description: "Menu nodes information") {
+    items: [SnowdogMenuNode] @doc(description: "An array of menu nodes")
+}
+
+type SnowdogMenuNode @doc(description: "SnowdogMenuNode defines all menu node information") {
+    node_id: Int @doc(description: "Node ID")
+    menu_id: Int @doc(description: "Menu ID")
+    type: String @doc(description: "Node type")
+    content: String @doc(description: "Node content")
+    classes: String @doc(description: "Node classes")
+    parent_id: Int @doc(description: "Node parent ID")
+    position: Int @doc(description: "Node position")
+    level: Int @doc(description: "Node level")
+    title: String @doc(description: "Node title")
+    target: Int @doc(description: "Node target (0 for '_self', 1 for '_blank')")
+    image: String @doc(description: "Node image")
+    image_alt_text: String @doc(description: "Node image alt text")
+    creation_time: String @doc(description: "Node creation time")
+    update_time: String @doc(description: "Node update time")
+    additional_data: [String] @doc(description: "Node additional data")
+}

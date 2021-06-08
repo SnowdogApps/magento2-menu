@@ -6,6 +6,19 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [2.15.0] - 2021-06-08
+### Added
+- enable/disable menu option (#69084)
+
+### Updated
+- update lodash to `4.17.21` in npm dependencies
+- update vue nodes - pass data to admin ui component (#69084)
+
+### Fixed
+- Enabled state checkbox (#181)
+- option.store.join is not a function error (#73516)
+- Make importing menu CSS class field optional (#79104)
+
 ## [2.14.0] - 2021-03-30
 ### Added
 - Node validation classes (#73442)
@@ -14,6 +27,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Nodes custom templates documentation (#74567)
 - Menu node image field (#70218)
 - Treeselect for category selector (#69126)
+- GraphQL feature (#76409)
 - Treeselect for child category selector (#76417)
 
 ### Changed

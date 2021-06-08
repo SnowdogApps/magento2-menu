@@ -53,4 +53,13 @@ interface MenuRepositoryInterface
      * @throws NoSuchEntityException
      */
     public function deleteById($id);
+
+    /**
+     * Updates is_active for given menu ids
+     *
+     * @param array $ids
+     * @param int $isActive
+     * @return bool
+     */
+    public function setIsActiveByIds($ids, $isActive);
 }

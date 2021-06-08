@@ -10,6 +10,7 @@ use Magento\Framework\Exception\NoSuchEntityException;
 use Snowdog\Menu\Api\Data\MenuInterface;
 use Snowdog\Menu\Api\Data\MenuSearchResultsInterfaceFactory;
 use Snowdog\Menu\Api\MenuRepositoryInterface;
+use Snowdog\Menu\Model\ResourceModel\Menu\Collection;
 use Snowdog\Menu\Model\ResourceModel\Menu\CollectionFactory;
 
 class MenuRepository implements MenuRepositoryInterface
@@ -148,5 +149,17 @@ class MenuRepository implements MenuRepositoryInterface
         $collection->join(['stores' => 'snowmenu_store'], 'main_table.menu_id = stores.menu_id', 'store_id');
         $collection->addFilter('store_id', $storeId);
         return $collection->getFirstItem();
+    }
+
+    public function setIsActiveByIds($ids, $isActive)
+    {
+        /** @var Collection $collection */
+        $collection = $this->collectionFactory->create();
+        $connection = $collection->getConnection();
+        $connection->update(
+            'snowmenu_menu',
+            ['is_active' => $isActive],
+            ['menu_id IN (?)' => $ids]
+        );
     }
 }

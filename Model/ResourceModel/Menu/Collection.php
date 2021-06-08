@@ -20,4 +20,13 @@ class Collection extends AbstractCollection
             \Snowdog\Menu\Model\ResourceModel\Menu::class
         );
     }
+
+    public function addStoresData()
+    {
+        foreach ($this->getItems() as $menu) {
+            $menu->addData(['stores' => $menu->getStores()]);
+        }
+
+        return $this;
+    }
 }

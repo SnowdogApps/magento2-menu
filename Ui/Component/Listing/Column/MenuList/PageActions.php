@@ -21,6 +21,7 @@ class PageActions extends Column
      */
     const URL_PATH_EDIT = 'snowmenu/menu/edit';
     const URL_PATH_DELETE = 'snowmenu/menu/delete';
+    const URL_PATH_STATUS = 'snowmenu/menu/status';
     const URL_PATH_EXPORT = 'snowmenu/menu/export';
 
     /**
@@ -51,10 +52,6 @@ class PageActions extends Column
         );
     }
 
-    /**
-     * @param array $dataSource
-     * @return array
-     */
     public function prepareDataSource(array $dataSource): array
     {
         if (isset($dataSource['data']['items'])) {
@@ -62,9 +59,11 @@ class PageActions extends Column
                 if (isset($item['menu_id'])) {
                     $name = $this->getData('name');
                     $menuId = (int) $item['menu_id'];
+                    $isActive = (int) $item['is_active'] === 1;
                     $item[$name] = [
                         'edit' => $this->getEditButton($menuId),
                         'delete' => $this->getDeleteButton($menuId),
+                        'change_status' => $this->getChangeStatusButton($menuId, $isActive),
                         'export' => $this->getExportButton($menuId)
                     ];
                 }
@@ -74,17 +73,13 @@ class PageActions extends Column
         return $dataSource;
     }
 
-    /**
-     * @param int $menuId
-     * @return array
-     */
     private function getEditButton(int $menuId): array
     {
         return [
             'href' => $this->urlBuilder->getUrl(
                 static::URL_PATH_EDIT,
                 [
-                    'id' => $menuId,
+                    'menu_id' => $menuId,
                 ]
             ),
             'label' => __('Edit'),
@@ -92,17 +87,13 @@ class PageActions extends Column
         ];
     }
 
-    /**
-     * @param int $menuId
-     * @return array
-     */
     private function getDeleteButton(int $menuId): array
     {
         return [
             'href' => $this->urlBuilder->getUrl(
                 static::URL_PATH_DELETE,
                 [
-                    'id' => $menuId,
+                    'menu_id' => $menuId,
                 ]
             ),
             'label' => __('Delete'),
@@ -115,10 +106,30 @@ class PageActions extends Column
         ];
     }
 
+    private function getChangeStatusButton(int $menuId, bool $isActive): array
+    {
+        return [
+            'href' => $this->urlBuilder->getUrl(
+                static::URL_PATH_STATUS,
+                [
+                    'menu_id' => $menuId,
+                    'is_active' => !$isActive,
+                ],
+            ),
+            'label' => __($isActive ? 'Disable' : 'Enable'),
+            '__disableTmpl' => true,
+        ];
+    }
+
     private function getExportButton(int $menuId): array
     {
         return [
-            'href' => $this->urlBuilder->getUrl(self::URL_PATH_EXPORT, ['id' => $menuId]),
+            'href' => $this->urlBuilder->getUrl(
+                self::URL_PATH_EXPORT,
+                [
+                    'menu_id' => $menuId
+                ]
+            ),
             'label' => __('Export'),
             '__disableTmpl' => true
         ];
