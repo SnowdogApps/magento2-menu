@@ -1,8 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Snowdog\Menu\Controller\Adminhtml\Menu;
 
-use Magento\Backend\App\Action;
+use Magento\Framework\App\Action\HttpPostActionInterface;
+use Snowdog\Menu\Controller\Adminhtml\MenuAction;
+use Magento\Backend\App\Action\Context;
 use Magento\Framework\Api\FilterBuilderFactory;
 use Magento\Framework\Api\Search\FilterGroupBuilderFactory;
 use Magento\Framework\Api\SearchCriteriaBuilderFactory;
@@ -18,14 +22,11 @@ use Snowdog\Menu\Model\Menu\Node\Image\Node as ImageNode;
 use Snowdog\Menu\Model\MenuFactory;
 use Snowdog\Menu\Model\Menu\Node\Validator as NodeValidator;
 use Snowdog\Menu\Service\MenuHydrator;
+use Magento\Framework\Controller\ResultInterface;
+use Magento\Framework\Exception\NotFoundException;
 
-class Save extends Action
+class Save extends MenuAction implements HttpPostActionInterface
 {
-    public const ADMIN_RESOURCE = 'Snowdog_Menu::menus';
-
-    /** @var MenuRepositoryInterface */
-    private $menuRepository;
-
     /**  @var NodeRepositoryInterface */
     private $nodeRepository;
 
@@ -41,9 +42,6 @@ class Save extends Action
     /** @var NodeFactory */
     private $nodeFactory;
 
-    /** @var MenuFactory */
-    private $menuFactory;
-
     /** @var NodeValidator */
     private $nodeValidator;
 
@@ -57,7 +55,7 @@ class Save extends Action
     private $hydrator;
 
     /**
-     * @param Action\Context $context
+     * @param Context $context
      * @param MenuRepositoryInterface $menuRepository
      * @param NodeRepositoryInterface $nodeRepository
      * @param FilterBuilderFactory $filterBuilderFactory
@@ -71,7 +69,7 @@ class Save extends Action
      * @param MenuHydrator|null $hydrator
      */
     public function __construct(
-        Action\Context $context,
+        Context $context,
         MenuRepositoryInterface $menuRepository,
         NodeRepositoryInterface $nodeRepository,
         FilterBuilderFactory $filterBuilderFactory,
@@ -84,32 +82,27 @@ class Save extends Action
         ImageNode $imageNode,
         MenuHydrator $hydrator = null
     ) {
-        parent::__construct($context);
-        $this->menuRepository = $menuRepository;
         $this->nodeRepository = $nodeRepository;
         $this->filterBuilderFactory = $filterBuilderFactory;
         $this->filterGroupBuilderFactory = $filterGroupBuilderFactory;
         $this->searchCriteriaBuilderFactory = $searchCriteriaBuilderFactory;
         $this->nodeFactory = $nodeFactory;
-        $this->menuFactory = $menuFactory;
         $this->nodeValidator = $nodeValidator;
         $this->nodeImageFile = $nodeImageFile;
         $this->imageNode = $imageNode;
         // Backwards compatible class loader
         $this->hydrator = $hydrator ?? ObjectManager::getInstance()->get(MenuHydrator::class);
+        parent::__construct($context, $menuRepository, $menuFactory);
     }
 
     /**
-     * Dispatch request
-     *
-     * @return \Magento\Framework\Controller\ResultInterface|ResponseInterface
-     * @throws \Magento\Framework\Exception\NotFoundException
+     * @return ResultInterface|ResponseInterface
+     * @throws NotFoundException
      */
     public function execute()
     {
         $menu = $this->getCurrentMenu();
 
-        $menu->setIsActive('1');
         $this->hydrator->mapRequest($menu, $this->getRequest());
         $menu = $this->menuRepository->save($menu);
 
@@ -237,7 +230,10 @@ class Save extends Action
         $redirect->setPath('*/*/index');
 
         if ($this->getRequest()->getParam('back')) {
-            $redirect->setPath('*/*/edit', ['id' => $menu->getMenuId(), '_current' => true]);
+            $redirect->setPath('*/*/edit', [
+                self::ID => $menu->getMenuId(),
+                '_current' => true
+            ]);
         }
 
         return $redirect;
@@ -263,6 +259,11 @@ class Save extends Action
         return $this->nodeRepository->getList($searchCriteria)->getItems();
     }
 
+    /**
+     * @param array $nodes
+     * @param $parent
+     * @return array
+     */
     protected function _convertTree($nodes, $parent)
     {
         $convertedTree = [];
@@ -276,22 +277,6 @@ class Save extends Action
         }
 
         return $convertedTree;
-    }
-
-    /**
-     * Returns menu model based on the Request (requested with `id` or fresh instance)
-     *
-     * @return MenuInterface
-     */
-    private function getCurrentMenu(): MenuInterface
-    {
-        $menuId = $this->getRequest()->getParam('id');
-
-        if ($menuId) {
-            return $this->menuRepository->getById($menuId);
-        }
-
-        return $this->menuFactory->create();
     }
 
     private function validateNode(array $node): bool

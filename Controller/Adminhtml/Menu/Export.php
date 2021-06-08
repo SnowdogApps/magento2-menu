@@ -52,7 +52,7 @@ class Export extends Action implements HttpGetActionInterface
      */
     public function execute()
     {
-        $menuId = $this->getRequest()->getParam('id');
+        $menuId = $this->getRequest()->getParam('menu_id');
 
         try {
             return $this->fileDownload->generateDownloadFile(

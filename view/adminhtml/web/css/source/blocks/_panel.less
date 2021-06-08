@@ -152,7 +152,7 @@
     }
 
     .admin__fieldset {
-        padding-bottom: 0;
+        padding: 16px;
         border-bottom: 1px solid #eee;
         .input-text[type=checkbox].admin__control-text {
             width: 16px;
@@ -160,5 +160,10 @@
             min-width: 0;
             margin: 0;
         }
+    }
+
+    // overwrite default Magento admin styles
+    .admin__fieldset > .admin__field.admin__scope-old > .admin__field-control input[type="checkbox"] {
+        margin: 0;
     }
 }

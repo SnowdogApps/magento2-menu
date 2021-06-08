@@ -6,8 +6,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+### Added
+- enable/disable menu option (#69084)
+
 ### Updated
 - update lodash to `4.17.21` in npm dependencies
+- update vue nodes - pass data to admin ui component (#69084)
 
 ### Fixed
 - Enabled state checkbox (#181)

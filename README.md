@@ -129,24 +129,28 @@ In our `cms_block` example it would be:
 
 ### How to save data from vue components when saving menu changes?
 When saving menu changes we send form post request that contains several fields like:
-`form_key, id, title, identifier, css_class, stores[], serialized_notes`.
+`form_key, id, title, identifier, css_class, stores[], serialized_nodes`.
 
-`serialized_notes` stores data from our vue components using computed property `jsonList`.
+`serialized_nodes` data is stored in a hidden field created with ui_Component in `snowmenu_menu_form.xml`, it has to be updated to save menu data. A watcher in `app.vue` watch the `jsonList` element, and when data changes, trigger custome event and update data in `serialized_nodes` field.
 
-**App.vue:**
-```html
-<input
-    type="hidden"
-    name="serialized_nodes"
-    :value="jsonList"
->
-```
+In `mounted` hook, the method wait for the ui Component hidden field and update it's value by passing JSON list.
 
+**app.vue:**
 ```js
-computed: {
-    jsonList: function() {
-        return JSON.stringify(this.list);
+// watcher
+watch: {
+    jsonList: function (newValue) {
+        this.updateSerializedNodes(newValue)
     }
+},
+// update method:
+updateSerializedNodes(value) {
+    const updateEvent = new Event('change');
+    const serializedNodeInput = document.querySelector('[name="serialized_nodes"]');
+    // update serialized_nodes input value
+    serializedNodeInput.value = value;
+    // trigger change event to set value
+    serializedNodeInput.dispatchEvent(updateEvent);
 }
 ```
 
@@ -170,7 +174,7 @@ This loads dynamically a component of a chosen type of node. For example for a n
 Cms block node type component uses `autocomplete.vue` input type component with prop item `:item="item"`. Once user makes some changes, the data is propagated up to the root `App.vue` component, stringified and saved in a hidden input.
 
 ## Nodes Custom Templates
-This feature allows you to add custom templates to each menu node type and node submenu.  
+This feature allows you to add custom templates to each menu node type and node submenu.
 And it allows to select the custom templates in menu admin edit page.
 
 The custom templates override the default ones that are provided by the module.
@@ -178,7 +182,7 @@ The custom templates override the default ones that are provided by the module.
 ### Adding Nodes Custom Templates
 - Create a directory inside your theme files that will contain the custom templates with the following structure:
 ```
-Snowdog_Menu  
+Snowdog_Menu
   └─ templates
     └─ {menu_identifier}
       └─ menu
@@ -195,7 +199,7 @@ Snowdog_Menu
 ### Configuring Nodes Custom Templates
 After adding your custom templates, you can select the templates that you want to use for your menu nodes in menu admin edit page.
 
-In menu admin edit page, the `Node template` field will contain a list of available node type custom templates.  
+In menu admin edit page, the `Node template` field will contain a list of available node type custom templates.
 And the `Submenu template` field will contain a list of available submenu templates. (Submenu template applies to the child nodes of a node.)
 
 ## Available Node Types
@@ -207,8 +211,8 @@ And the `Submenu template` field will contain a list of available submenu templa
 - `category_child`
 - `wrapper`
 
-## Available endpoints: 
-   
+## Available endpoints:
+
  * `/rest/V1/menus`: retrieves available menus
  * `/rest/V1/nodes`: retrieves nodes by menuId
 

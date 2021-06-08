@@ -1,5 +1,12 @@
 <template>
-    <div class="admin__field field field-title">
+    <div
+        class="
+            admin__field
+            field
+            field-title
+            admin__scope-old
+        "
+    >
         <label
             class="label admin__field-label"
             :for="fieldId"
