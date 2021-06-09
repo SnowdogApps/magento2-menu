@@ -11,6 +11,7 @@ use Magento\Framework\Event\Manager as EventManager;
 use Magento\Framework\Escaper;
 use Snowdog\Menu\Api\MenuRepositoryInterface;
 use Snowdog\Menu\Api\NodeRepositoryInterface;
+use Snowdog\Menu\Model\Menu\Node\Image\File as ImageFile;
 use Snowdog\Menu\Model\NodeTypeProvider;
 use Snowdog\Menu\Model\TemplateResolver;
 
@@ -50,6 +51,11 @@ class Menu extends Template implements DataObject\IdentityInterface
     private $templateResolver;
 
     /**
+     * @var ImageFile
+     */
+    private $imageFile;
+
+    /**
      * @var string
      */
     private $submenuTemplate;
@@ -73,6 +79,7 @@ class Menu extends Template implements DataObject\IdentityInterface
         SearchCriteriaFactory $searchCriteriaFactory,
         FilterGroupBuilder $filterGroupBuilder,
         TemplateResolver $templateResolver,
+        ImageFile $imageFile,
         Escaper $escaper,
         array $data = []
     ) {
@@ -84,6 +91,7 @@ class Menu extends Template implements DataObject\IdentityInterface
         $this->filterGroupBuilder = $filterGroupBuilder;
         $this->eventManager = $eventManager;
         $this->templateResolver = $templateResolver;
+        $this->imageFile = $imageFile;
         $this->escaper = $escaper;
         $this->submenuTemplate = $this->getMenuTemplate($this->baseSubmenuTemplate);
         $this->setTemplate($this->getMenuTemplate($this->_template));
@@ -96,7 +104,11 @@ class Menu extends Template implements DataObject\IdentityInterface
      */
     public function getIdentities()
     {
-        return [\Snowdog\Menu\Model\Menu::CACHE_TAG, Block::CACHE_TAG];
+        return [
+            \Snowdog\Menu\Model\Menu::CACHE_TAG . '_' . $this->loadMenu()->getId(),
+            Block::CACHE_TAG,
+            \Snowdog\Menu\Model\Menu::CACHE_TAG
+        ];
     }
 
     protected function getCacheLifetime()
@@ -368,7 +380,12 @@ class Menu extends Template implements DataObject\IdentityInterface
             ->setNodeClasses($node->getClasses())
             ->setMenuClass($this->getMenu()->getCssClass())
             ->setMenuCode($this->getData('menu'))
-            ->setTarget($node->getTarget());
+            ->setTarget($node->getTarget())
+            ->setImage($node->getImage())
+            ->setImageUrl($node->getImage() ? $this->imageFile->getUrl($node->getImage()) : null)
+            ->setImageAltText($node->getImageAltText())
+            ->setCustomTemplate($node->getNodeTemplate())
+            ->setAdditionalData($node->getAdditionalData());
 
         return $nodeBlock;
     }
@@ -382,13 +399,17 @@ class Menu extends Template implements DataObject\IdentityInterface
     private function getSubmenuBlock($nodes, $parentNode, $level = 0)
     {
         $block = clone $this;
+        $submenuTemplate = $parentNode->getSubmenuTemplate();
+        $submenuTemplate = $submenuTemplate
+            ? 'Snowdog_Menu::' . $this->getMenu()->getIdentifier() . "/menu/custom/sub_menu/${submenuTemplate}.phtml"
+            : $this->submenuTemplate;
 
         $block->setSubmenuNodes($nodes)
             ->setParentNode($parentNode)
             ->setLevel($level);
 
         $block->setTemplateContext($block);
-        $block->setTemplate($this->submenuTemplate);
+        $block->setTemplate($submenuTemplate);
 
         return $block;
     }

@@ -1,12 +1,11 @@
 <template>
     <fieldset class="admin__fieldset fieldset-wide">
         <checkbox
-            :label="isNodeActiveLabel"
             id="is_active"
+            :label="isNodeActiveLabel"
             :item="item"
             :value="item.is_active"
-        >
-        </checkbox>
+        />
 
         <div class="admin__field field field-title">
             <label
@@ -28,6 +27,10 @@
             </div>
         </div>
 
+        <h2>
+            {{ additionalLabel }}
+        </h2>
+
         <component
             :is="item['type']"
             :item="item"
@@ -38,7 +41,7 @@
             id="node_name"
             v-model="item.title"
             :label="config.translation.nodeName"
-            type="textarea"
+            type="text"
         />
 
         <simple-field
@@ -47,6 +50,44 @@
             :label="config.translation.nodeClasses"
             type="text"
         />
+
+        <image-upload
+            v-if="showImage"
+            id="image"
+            :item="item"
+        />
+
+        <simple-field
+            v-if="showImage"
+            id="image_alt_text"
+            v-model="item.image_alt_text"
+            :label="config.translation.imageAltText"
+            type="text"
+        />
+
+        <h2>
+            {{ templatesLabel }}
+        </h2>
+
+        <template v-if="isTemplateSectionVisible">
+            <template-list
+                :item="item"
+                :type-id="templateList['node']"
+                item-key="node_template"
+                template-type="node"
+                :config="config"
+            />
+            <template-list
+                :item="item"
+                :type-id="templateList['submenu']"
+                template-type="submenu"
+                :config="config"
+                item-key="submenu_template"
+            />
+        </template>
+        <template v-else>
+            <p>{{ noTemplatesMessage }}</p>
+        </template>
     </fieldset>
 </template>
 
@@ -66,10 +107,28 @@
             data: function() {
                 return {
                     draft: {},
-                    isNodeActiveLabel: $t('Enabled')
+                    isNodeActiveLabel: $t('Enabled'),
+                    additionalLabel: $t('Additional type options'),
+                    noTemplatesMessage: $t('There is no custom defined templates defined in theme for this node type'),
+                    templatesLabel: $t('Templates'),
+                    templateList: {
+                      'node': 'snowMenuNodeCustomTemplates',
+                      'submenu': 'snowMenuSubmenuCustomTemplates',
+                    }
                 }
             },
             computed: {
+                isTemplateSectionVisible: function() {
+                    var nodeId = this.templateList['node'],
+                        submenuId = this.templateList['submenu'],
+                        typeData = this.config.fieldData[this.item['type']];
+
+                    if (typeData[nodeId] || typeData[submenuId]) {
+                        return typeData[nodeId].options.length > 0 || typeData[submenuId].options.length > 0;
+                    }
+
+                    return false;
+                },
                 options: function() {
                     var list = [];
                     for (type in this.config.nodeTypes) {
@@ -79,6 +138,13 @@
                         })
                     }
                     return list;
+                },
+                templateOptions: function() {
+                    return this.templateOptionsData[this.item['type']] || [];
+                },
+                showImage: function() {
+                    return this.item.type !== 'cms_page'
+                        && this.item.type !== 'wrapper';
                 }
             },
             methods: {

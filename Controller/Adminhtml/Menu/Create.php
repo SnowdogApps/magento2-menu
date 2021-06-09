@@ -4,14 +4,16 @@ declare(strict_types=1);
 
 namespace Snowdog\Menu\Controller\Adminhtml\Menu;
 
-use Snowdog\Menu\Controller\Adminhtml\AbstractMenu;
+use Snowdog\Menu\Api\MenuRepositoryInterface;
+use Snowdog\Menu\Controller\Adminhtml\MenuAction;
 use Magento\Framework\App\Action\HttpGetActionInterface;
 use Magento\Backend\App\Action\Context;
 use Magento\Backend\Model\View\Result\ForwardFactory;
 use Magento\Framework\Controller\Result\Forward;
 use Magento\Framework\Controller\ResultInterface;
+use Snowdog\Menu\Model\MenuFactory;
 
-class Create extends AbstractMenu implements HttpGetActionInterface
+class Create extends MenuAction implements HttpGetActionInterface
 {
     /**
      * @var ForwardFactory
@@ -21,15 +23,17 @@ class Create extends AbstractMenu implements HttpGetActionInterface
     /**
      * @param Context $context
      * @param ForwardFactory $resultForwardFactory
+     * @param MenuRepositoryInterface $menuRepository
+     * @param MenuFactory $menuFactory
      */
     public function __construct(
         Context $context,
-        ForwardFactory $resultForwardFactory
+        ForwardFactory $resultForwardFactory,
+        MenuRepositoryInterface $menuRepository,
+        MenuFactory $menuFactory
     ) {
         $this->resultForwardFactory = $resultForwardFactory;
-        parent::__construct(
-            $context
-        );
+        parent::__construct($context, $menuRepository, $menuFactory);
     }
 
     /**

@@ -14,6 +14,7 @@ use Magento\Catalog\Api\Data\CategoryInterface;
 use Magento\Framework\EntityManager\MetadataPool;
 use Magento\Framework\Profiler;
 use Magento\Catalog\Model\ResourceModel\Category\CollectionFactory;
+use Snowdog\Menu\Model\TemplateResolver;
 
 class Category extends AbstractNode
 {
@@ -28,6 +29,11 @@ class Category extends AbstractNode
     private $categoryCollection;
 
     /**
+     * @var TemplateResolver
+     */
+    private $templateResolver;
+
+    /**
      * @inheritDoc
      */
     protected function _construct()
@@ -36,20 +42,15 @@ class Category extends AbstractNode
         parent::_construct();
     }
 
-    /**
-     * Category constructor.
-     *
-     * @param Profiler $profiler
-     * @param MetadataPool $metadataPool
-     * @param CollectionFactory $categoryCollection
-     */
     public function __construct(
         Profiler $profiler,
         MetadataPool $metadataPool,
-        CollectionFactory $categoryCollection
+        CollectionFactory $categoryCollection,
+        TemplateResolver $templateResolver
     ) {
         $this->metadataPool = $metadataPool;
         $this->categoryCollection = $categoryCollection;
+        $this->templateResolver = $templateResolver;
         parent::__construct($profiler);
     }
 
@@ -64,23 +65,18 @@ class Category extends AbstractNode
         $identifierField = $metadata->getIdentifierField();
 
         $data = $this->getResource()->fetchConfigData();
-        $labels = [];
-
-        foreach ($data as $row) {
-            if (isset($labels[$row['parent_id']])) {
-                $label = $labels[$row['parent_id']];
-            } else {
-                $label = [];
-            }
-            $label[] = $row['name'];
-            $labels[$row[$identifierField]] = $label;
-        }
+        $labels = $this->getLabels($data, $identifierField);
 
         $fieldOptions = [];
-        foreach ($labels as $id => $label) {
+        foreach ($data as $row) {
+            $id = $row[$identifierField];
             $fieldOptions[] = [
-                'label' => $label = implode(' > ', $label),
-                'value' => $id
+                'value' => $id,
+                'id' => $id,
+                'label' => $row['name'],
+                'full_label' => implode(' > ', $labels[$id]),
+                'level' => $row['level'],
+                'parent_id' => $row['parent_id']
             ];
         }
 
@@ -89,6 +85,16 @@ class Category extends AbstractNode
                 'type'    => 'category',
                 'options' => $fieldOptions,
                 'message' => __('Category not found'),
+            ],
+            'snowMenuNodeCustomTemplates' => [
+                'defaultTemplate' => 'category',
+                'options' => $this->templateResolver->getCustomTemplateOptions('category'),
+                'message' => __('Template not found'),
+            ],
+            'snowMenuSubmenuCustomTemplates' => [
+                'defaultTemplate' => 'sub_menu',
+                'options' => $this->templateResolver->getCustomTemplateOptions('sub_menu'),
+                'message' => __('Template not found'),
             ],
         ];
 
@@ -141,5 +147,26 @@ class Category extends AbstractNode
         }
 
         return $return;
+    }
+
+    /**
+     * @param array $data
+     * @param string $identifierField
+     * @return array
+     */
+    private function getLabels(array $data, string $identifierField): array
+    {
+        $labels = [];
+        foreach ($data as $row) {
+            if (isset($labels[$row['parent_id']])) {
+                $label = $labels[$row['parent_id']];
+            } else {
+                $label = [];
+            }
+            $label[] = $row['name'];
+            $labels[$row[$identifierField]] = $label;
+        }
+
+        return $labels;
     }
 }

@@ -1,0 +1,52 @@
+---
+name: Backend Coding Standard (PR)
+on:
+    pull_request_target:
+        types: [labeled]
+jobs:
+    mcs-backend-lint:
+        runs-on: ubuntu-latest
+        if: contains(github.event.pull_request.labels.*.name, 'safe to test')
+        name: MCS Check
+        container:
+            image: docker.io/davidalger/php:7.4
+
+        steps:
+            - name: Remove labels
+              uses: andymckay/labeler@master
+              with:
+                  remove-labels: "need is safe review"
+                  repo-token: ${{ secrets.GITHUB_TOKEN }}
+
+            - name: Checkout repository
+              uses: actions/checkout@v2
+              with:
+                  ref: ${{ github.event.pull_request.head.sha }}
+
+            - name: Add composer repositories
+              env:
+                  USERNAME: ${{ secrets.COMPOSER_MAGENTO_USERNAME }}
+                  PASSWORD: ${{ secrets.COMPOSER_MAGENTO_PASSWORD }}
+              run: composer config repositories.magento composer https://$USERNAME:$PASSWORD@repo.magento.com/
+
+            - name: Initialize config
+              id: config
+              run: |
+                  echo "::set-output name=working-directory::${PWD/$GITHUB_WORKSPACE/}"
+                  echo "::set-output name=composer-cache-dir::$(composer config cache-files-dir)"
+
+            - name: Retrieve composer cache
+              uses: actions/cache@v2
+              with:
+                  path: ${{ steps.config.outputs.composer-cache-dir }}
+                  key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+                  restore-keys: ${{ runner.os }}-composer-
+
+            - run: composer global require hirak/prestissimo
+            - run: composer install --no-interaction --dev
+
+            - uses: mediotype/phpcs-action@v2
+              with:
+                  enable_warnings: true # This is required for magento-coding-standards to function
+                  only_changed_files: false # Required to run checks on push events too
+                  phpcs_bin_path: vendor/bin/phpcs -s --colors --report-full --standard=Magento2 --exclude=Magento2.Security.XssTemplate --ignore=vendor --extensions=php,phtml *

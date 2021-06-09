@@ -17,6 +17,11 @@ class Wrapper extends AbstractNode
     /**
      * @var string
      */
+    protected $customTemplateFolder = 'menu/custom/wrapper/';
+
+    /**
+     * @var string
+     */
     protected $nodeType = 'wrapper';
 
     /**
@@ -45,11 +50,7 @@ class Wrapper extends AbstractNode
      */
     public function getJsonConfig()
     {
-        return [
-            "snowMenuSimpleField" => [
-                "type" => "wrapper"
-            ]
-        ];
+        return $this->wrapperModel->fetchConfigData();
     }
 
     /**

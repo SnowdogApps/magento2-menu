@@ -13,6 +13,11 @@
                 <item name="class" xsi:type="string">primary</item>
                 <item name="url" xsi:type="string">*/*/create</item>
             </item>
+            <item name="import" xsi:type="array">
+                <item name="name" xsi:type="string">import</item>
+                <item name="label" xsi:type="string" translate="true">Import menu</item>
+                <item name="url" xsi:type="string">*/*/import</item>
+            </item>
         </item>
     </argument>
     <dataSource name="snowmenu_menu_list_data_source">
@@ -37,14 +42,26 @@
         </argument>
     </dataSource>
     <listingToolbar name="listing_top">
-        <paging name="listing_paging"/>
+        <massaction name="listing_massaction">
+            <action name="delete">
+                <settings>
+                    <confirm>
+                        <message translate="true">Are you sure you want to delete selected items?</message>
+                        <title translate="true">Delete items</title>
+                    </confirm>
+                    <url path="*/*/massDelete"/>
+                    <type>delete</type>
+                    <label translate="true">Delete</label>
+                </settings>
+            </action>
+        </massaction>
         <massaction name="listing_massaction">
             <action name="enable">
                 <argument name="data" xsi:type="array">
                     <item name="config" xsi:type="array">
                         <item name="type" xsi:type="string">enable</item>
                         <item name="label" translate="true" xsi:type="string">Enable</item>
-                        <item name="url" xsi:type="url" path="snowmenu/menu/massEnable/"/>
+                        <item name="url" xsi:type="url" path="snowmenu/menu/massEnable"/>
                     </item>
                 </argument>
             </action>
@@ -58,6 +75,7 @@
                 </argument>
             </action>
         </massaction>
+        <paging name="listing_paging"/>
     </listingToolbar>
     <columns name="snowmenu_menu_list_columns">
         <selectionsColumn name="ids">

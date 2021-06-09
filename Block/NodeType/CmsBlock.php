@@ -17,6 +17,11 @@ class CmsBlock extends AbstractNode
     /**
      * @var string
      */
+    protected $customTemplateFolder = 'menu/custom/cms_block/';
+
+    /**
+     * @var string
+     */
     protected $nodeType = 'cms_block';
     /**
      * @var array
@@ -64,7 +69,7 @@ class CmsBlock extends AbstractNode
     }
 
     /**
-     * @return string
+     * @inheritDoc
      */
     public function getJsonConfig()
     {
@@ -83,6 +88,18 @@ class CmsBlock extends AbstractNode
                 'type'    => 'cms_block',
                 'options' => array_values($options),
                 'message' => __('CMS Block not found'),
+            ],
+            'snowMenuNodeCustomTemplates' => [
+                'type'    => 'cms_block',
+                'defaultTemplate' => 'cms_block',
+                'options' => $this->templateResolver->getCustomTemplateOptions('cms_block'),
+                'message' => __('Template not found'),
+            ],
+            'snowMenuSubmenuCustomTemplates' => [
+                'type'    => 'cms_block',
+                'defaultTemplate' => 'sub_menu',
+                'options' => $this->templateResolver->getCustomTemplateOptions('sub_menu'),
+                'message' => __('Template not found'),
             ]
         ];
     }

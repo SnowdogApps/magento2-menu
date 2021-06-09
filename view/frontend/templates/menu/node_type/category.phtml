@@ -5,6 +5,8 @@ $class = $block->getMenuClass();
 $categoryUrl = $block->getCategoryUrl($nodeId);
 $categoryUrl = $categoryUrl ?: '#';
 $dataAttribute = '';
+$imageUrl = $block->getImageUrl();
+$imageAltText = $block->getImageAltText();
 
 if ($block->getIsViewAllLink()) {
     $title = __('View All');
@@ -30,3 +32,10 @@ if ($block->getIsViewAllLink()) {
 >
     <?= $title ?>
 </a>
+
+<?php if ($imageUrl): ?>
+    <img
+        src="<?= $block->escapeUrl($imageUrl); ?>"
+        alt="<?= $block->escapeHtmlAttr($imageAltText); ?>"
+    />
+<?php endif; ?>

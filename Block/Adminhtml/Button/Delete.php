@@ -10,7 +10,13 @@ class Delete extends AbstractButton implements ButtonProviderInterface
     {
         return [
             'label' => __('Delete'),
-            'on_click' => sprintf("location.href = '%s';", $this->getUrl('*/*/delete', ['id' => $this->getMenuId()])),
+            'on_click' => sprintf(
+                "location.href = '%s';",
+                $this->getUrl(
+                    '*/*/delete',
+                    ['menu_id' => $this->getMenuId()]
+                )
+            ),
             'class' => 'delete',
             'sort_order' => 20
         ];

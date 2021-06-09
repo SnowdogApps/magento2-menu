@@ -28,7 +28,7 @@ class MenuDataProvider extends AbstractDataProvider
         array $meta = [],
         array $data = []
     ) {
-        $this->collection = $collectionFactory->create();
+        $this->collection = $collectionFactory->create()->addStoresData();
         $this->pool = $pool;
         parent::__construct(
             $name,
@@ -48,7 +48,6 @@ class MenuDataProvider extends AbstractDataProvider
         $items = $this->collection->getItems();
         /** @var Menu $menu */
         foreach ($items as $menu) {
-            $menu->addData(['stores' => $menu->getStores()]);
             $this->loadedData[$menu->getId()] = $menu->getData();
         }
 

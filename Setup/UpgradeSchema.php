@@ -44,6 +44,14 @@ class UpgradeSchema implements UpgradeSchemaInterface
             $this->addForeignKeys($setup);
         }
 
+        if (version_compare($context->getVersion(), '0.2.4', '<')) {
+            $this->addTemplateFields($setup);
+        }
+
+        if (version_compare($context->getVersion(), '0.2.5', '<')) {
+            $this->addNodeImageFields($setup);
+        }
+
         $setup->endSetup();
     }
 
@@ -196,5 +204,71 @@ class UpgradeSchema implements UpgradeSchemaInterface
             'store_id',
             Table::ACTION_CASCADE
         );
+    }
+
+    /**
+     * @param SchemaSetupInterface $setup
+     * @return $this
+     */
+    private function addTemplateFields(SchemaSetupInterface $setup)
+    {
+        $setup->getConnection()->addColumn(
+            $setup->getTable('snowmenu_node'),
+            'submenu_template',
+            [
+                'type' => Table::TYPE_TEXT,
+                'length' => 255,
+                'nullable' => true,
+                'after' => 'target',
+                'comment' => 'Submenu Template',
+            ]
+        );
+
+        $setup->getConnection()->addColumn(
+            $setup->getTable('snowmenu_node'),
+            'node_template',
+            [
+                'type' => Table::TYPE_TEXT,
+                'length' => 255,
+                'nullable' => true,
+                'after' => 'target',
+                'comment' => 'Node Template',
+            ]
+        );
+
+        return $this;
+    }
+
+    /**
+     * @return $this
+     */
+    private function addNodeImageFields(SchemaSetupInterface $setup)
+    {
+        $connection = $setup->getConnection();
+        $table = $setup->getTable('snowmenu_node');
+
+        $connection->addColumn(
+            $table,
+            'image',
+            [
+                'type' => Table::TYPE_TEXT,
+                'nullable' => true,
+                'after' => 'target',
+                'comment' => 'Image'
+            ]
+        );
+
+        $connection->addColumn(
+            $table,
+            'image_alt_text',
+            [
+                'type' => Table::TYPE_TEXT,
+                'nullable' => true,
+                'after' => 'image',
+                'comment' => 'Image Alt Text'
+            ]
+        );
+
+        return $this;
     }
 }
