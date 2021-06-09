@@ -5,14 +5,19 @@ declare(strict_types=1);
 namespace Snowdog\Menu\Controller\Adminhtml\Menu;
 
 use Magento\Framework\App\Action\HttpPostActionInterface;
-use Snowdog\Menu\Controller\Adminhtml\AbstractMenu;
+use Magento\Backend\App\Action;
 use Magento\Backend\App\Action\Context;
 use Magento\Framework\Controller\Result\JsonFactory;
 use Snowdog\Menu\Api\MenuManagementInterface;
 use Magento\Framework\Exception\NoSuchEntityException;
 
-class ImportCategories extends AbstractMenu implements HttpPostActionInterface
+class ImportCategories extends Action implements HttpPostActionInterface
 {
+    /**
+     * @inheritDoc
+     */
+    const ADMIN_RESOURCE = 'Snowdog_Menu::menus';
+
     /**
      * @var JsonFactory
      */
