@@ -9,6 +9,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Save button options list to menu admin edit page (#69085)
 - Menu duplicate feature (#69085)
 
+### Changed
+- Move menu controller save action complex logic to a seperate class and refactor accordingly (#69085)
+
 ## [2.15.0] - 2021-06-08
 ### Added
 - enable/disable menu option (#69084)
