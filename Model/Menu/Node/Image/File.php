@@ -80,6 +80,9 @@ class File
         $mediaDirectory->delete(self::PATH . $file);
     }
 
+    /**
+     * @SuppressWarnings(PHPMD.StaticAccess)
+     */
     public function clone(string $file): string
     {
         $mediaDirectory = $this->filesystem->getDirectoryWrite(DirectoryList::MEDIA);
