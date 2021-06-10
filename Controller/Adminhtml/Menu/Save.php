@@ -24,9 +24,12 @@ use Snowdog\Menu\Model\Menu\Node\Validator as NodeValidator;
 use Snowdog\Menu\Service\MenuHydrator;
 use Magento\Framework\Controller\ResultInterface;
 use Magento\Framework\Exception\NotFoundException;
+use Snowdog\Menu\Service\Menu\Cloner as MenuCloner;
 
 class Save extends MenuAction implements HttpPostActionInterface
 {
+    private const EDIT_RETURN_REDIRECTS = ['edit', 'continue', 'duplicate'];
+
     /**  @var NodeRepositoryInterface */
     private $nodeRepository;
 
@@ -51,6 +54,9 @@ class Save extends MenuAction implements HttpPostActionInterface
     /** @var ImageNode */
     private $imageNode;
 
+    /** @var MenuCloner */
+    private $menuCloner;
+
     /** @var MenuHydrator */
     private $hydrator;
 
@@ -66,6 +72,7 @@ class Save extends MenuAction implements HttpPostActionInterface
      * @param NodeValidator $nodeValidator
      * @param NodeImageFile $nodeImageFile
      * @param ImageNode $imageNode
+     * @param MenuCloner $menuCloner
      * @param MenuHydrator|null $hydrator
      */
     public function __construct(
@@ -80,6 +87,7 @@ class Save extends MenuAction implements HttpPostActionInterface
         NodeValidator $nodeValidator,
         NodeImageFile $nodeImageFile,
         ImageNode $imageNode,
+        MenuCloner $menuCloner,
         MenuHydrator $hydrator = null
     ) {
         $this->nodeRepository = $nodeRepository;
@@ -90,6 +98,7 @@ class Save extends MenuAction implements HttpPostActionInterface
         $this->nodeValidator = $nodeValidator;
         $this->nodeImageFile = $nodeImageFile;
         $this->imageNode = $imageNode;
+        $this->menuCloner = $menuCloner;
         // Backwards compatible class loader
         $this->hydrator = $hydrator ?? ObjectManager::getInstance()->get(MenuHydrator::class);
         parent::__construct($context, $menuRepository, $menuFactory);
@@ -226,17 +235,7 @@ class Save extends MenuAction implements HttpPostActionInterface
             $path[$node['id']] = 0;
         }
 
-        $redirect = $this->resultRedirectFactory->create();
-        $redirect->setPath('*/*/index');
-
-        if ($this->getRequest()->getParam('back')) {
-            $redirect->setPath('*/*/edit', [
-                self::ID => $menu->getMenuId(),
-                '_current' => true
-            ]);
-        }
-
-        return $redirect;
+        return $this->processRedirect($menu);
     }
 
     /**
@@ -290,5 +289,25 @@ class Save extends MenuAction implements HttpPostActionInterface
         }
 
         return $result;
+    }
+
+    private function processRedirect(MenuInterface $menu): ResultInterface
+    {
+        $resultRedirect = $this->resultRedirectFactory->create();
+        $redirect = $this->getRequest()->getParam('back');
+
+        $pathAction = '';
+        $pathParams = [];
+
+        if ($redirect === 'duplicate') {
+            $menu = $this->menuCloner->clone($menu);
+        }
+
+        if (in_array($redirect, self::EDIT_RETURN_REDIRECTS)) {
+            $pathAction = 'edit';
+            $pathParams = [self::ID => $menu->getId(), '_current' => true];
+        }
+
+        return $resultRedirect->setPath("*/*/${pathAction}", $pathParams);
     }
 }

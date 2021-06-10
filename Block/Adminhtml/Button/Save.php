@@ -22,6 +22,7 @@ class Save extends AbstractButton implements ButtonProviderInterface
     private function getButtonOptionsList(): array
     {
         return [
+            $this->getData('Save & Duplicate', 'duplicate', 'save_and_duplicate'),
             $this->getData('Save & Close', 'close', 'save_and_close')
         ];
     }

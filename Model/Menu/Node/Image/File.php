@@ -80,6 +80,20 @@ class File
         $mediaDirectory->delete(self::PATH . $file);
     }
 
+    public function clone(string $file): string
+    {
+        $mediaDirectory = $this->filesystem->getDirectoryWrite(DirectoryList::MEDIA);
+        $file = $mediaDirectory->getAbsolutePath(self::PATH . $file);
+        $fileCloneName = Uploader::getNewFileName($file);
+        $fileCloneDispersionPath = Uploader::getDispersionPath($fileCloneName);
+        $fileClonePath = $fileCloneDispersionPath . '/' . $fileCloneName;
+        $fileClone = $mediaDirectory->getAbsolutePath(self::PATH . $fileClonePath);
+
+        $mediaDirectory->copyFile($file, $fileClone);
+
+        return $fileClonePath;
+    }
+
     private function getAbsolutePath(): string
     {
         $mediaDirectory = $this->filesystem->getDirectoryRead(DirectoryList::MEDIA);
