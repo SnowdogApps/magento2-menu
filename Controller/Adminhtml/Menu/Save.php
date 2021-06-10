@@ -21,7 +21,7 @@ use Snowdog\Menu\Model\Menu\Node\Image\File as NodeImageFile;
 use Snowdog\Menu\Model\Menu\Node\Image\Node as ImageNode;
 use Snowdog\Menu\Model\MenuFactory;
 use Snowdog\Menu\Model\Menu\Node\Validator as NodeValidator;
-use Snowdog\Menu\Service\MenuHydrator;
+use Snowdog\Menu\Service\Menu\Hydrator as MenuHydrator;
 use Magento\Framework\Controller\ResultInterface;
 use Magento\Framework\Exception\NotFoundException;
 use Snowdog\Menu\Service\Menu\Cloner as MenuCloner;
