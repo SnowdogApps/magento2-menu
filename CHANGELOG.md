@@ -6,7 +6,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 ### Added
-- Add save button options list to menu admin edit page (#69085)
+- Save button options list to menu admin edit page (#69085)
 - Menu duplicate feature (#69085)
 
 ## [2.15.0] - 2021-06-08
