@@ -16,6 +16,6 @@ class ListProvider extends AbstractDataProvider
         array $data = []
     ) {
         parent::__construct($name, $primaryFieldName, $requestFieldName, $meta, $data);
-        $this->collection = $collectionFactory->create();
+        $this->collection = $collectionFactory->create()->addGridStoresData();
     }
 }
