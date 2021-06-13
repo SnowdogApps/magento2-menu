@@ -152,12 +152,7 @@ class SaveRequestProcessor
         $level = count($path) - 1;
         $position = $path[$nodeData['parent']]++;
 
-        if ($nodeData['parent'] == '#') {
-            $nodeObject->setParentId(null);
-        } else {
-            $nodeObject->setParentId($nodeMap[$nodeData['parent']]->getId());
-        }
-
+        $nodeObject->setParentId($nodeData['parent'] != '#' ? $nodeMap[$nodeData['parent']]->getId() : null);
         $nodeObject->setType($nodeData['type']);
 
         if (isset($nodeData['classes'])) {
