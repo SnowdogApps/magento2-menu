@@ -2,7 +2,7 @@
 namespace Snowdog\Menu\Ui\Component\Listing\DataProviders\Snowmenu\Menu;
 
 use Magento\Ui\DataProvider\AbstractDataProvider;
-use Snowdog\Menu\Model\ResourceModel\Menu\CollectionFactory;
+use Snowdog\Menu\Model\ResourceModel\Menu\Grid\CollectionFactory;
 
 class ListProvider extends AbstractDataProvider
 {
@@ -16,6 +16,6 @@ class ListProvider extends AbstractDataProvider
         array $data = []
     ) {
         parent::__construct($name, $primaryFieldName, $requestFieldName, $meta, $data);
-        $this->collection = $collectionFactory->create()->addGridStoresData();
+        $this->collection = $collectionFactory->create();
     }
 }
