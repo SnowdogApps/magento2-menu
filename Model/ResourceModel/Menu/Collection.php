@@ -29,13 +29,4 @@ class Collection extends AbstractCollection
 
         return $this;
     }
-
-    public function addGridStoresData(): self
-    {
-        foreach ($this->getItems() as $menu) {
-            $menu->addData(['store_id' => $menu->getStores()]);
-        }
-
-        return $this;
-    }
 }
