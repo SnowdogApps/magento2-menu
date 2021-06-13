@@ -91,8 +91,7 @@ class File
         $mediaDirectory = $this->filesystem->getDirectoryWrite(DirectoryList::MEDIA);
         $file = $mediaDirectory->getAbsolutePath(self::PATH . $file);
         $fileCloneName = Uploader::getNewFileName($file);
-        $fileCloneDispersionPath = Uploader::getDispersionPath($fileCloneName);
-        $fileClonePath = $fileCloneDispersionPath . '/' . $fileCloneName;
+        $fileClonePath = Uploader::getDispersionPath($fileCloneName) . '/' . $fileCloneName;
         $fileClone = $mediaDirectory->getAbsolutePath(self::PATH . $fileClonePath);
 
         if (!$mediaDirectory->copyFile($file, $fileClone)) {
