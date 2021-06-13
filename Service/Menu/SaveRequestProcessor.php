@@ -97,11 +97,10 @@ class SaveRequestProcessor
             if (isset($existingNodes[$nodeId])) {
                 unset($nodesToDelete[$nodeId]);
                 $nodeMap[$nodeId] = $existingNodes[$nodeId];
-            } else {
-                if (isset($invalidNodes[$nodeId])) {
-                    continue;
-                }
+                continue;
+            }
 
+            if (!isset($invalidNodes[$nodeId])) {
                 $nodeObject = $this->nodeFactory->create();
                 $nodeObject->setMenuId($menu->getMenuId());
                 $nodeObject = $this->nodeRepository->save($nodeObject);
