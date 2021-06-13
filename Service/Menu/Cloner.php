@@ -79,6 +79,7 @@ class Cloner
         );
 
         $this->menuRepository->save($menuClone);
+        $menuClone->saveStores($menu->getStores());
 
         $menuCloneId = $menuClone->getId();
         $nodeIdMap = [];
