@@ -8,7 +8,10 @@ use Snowdog\Menu\Model\ResourceModel\Menu\Collection as BaseCollection;
 
 class Collection extends BaseCollection
 {
-    public function addStoresData(): self
+    /**
+     * @inheritDoc
+     */
+    public function addStoresData()
     {
         foreach ($this->getItems() as $menu) {
             $menu->addData(['store_id' => $menu->getStores()]);
