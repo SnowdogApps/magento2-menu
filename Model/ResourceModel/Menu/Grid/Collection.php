@@ -8,7 +8,7 @@ use Snowdog\Menu\Model\ResourceModel\Menu\Collection as BaseCollection;
 
 class Collection extends BaseCollection
 {
-    public function addGridStoresData(): self
+    public function addStoresData(): self
     {
         foreach ($this->getItems() as $menu) {
             $menu->addData(['store_id' => $menu->getStores()]);
@@ -22,7 +22,7 @@ class Collection extends BaseCollection
      */
     protected function _afterLoad()
     {
-        $this->addGridStoresData();
+        $this->addStoresData();
         return parent::_afterLoad();
     }
 }
