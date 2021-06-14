@@ -72,6 +72,7 @@ class Categories implements ArrayInterface
             $options[self::DEFAULT_CATEGORY_ID] = __('Default Category');
         }
 
+        $groupedOptions = [];
         foreach ($collection as $category) {
             if ($toOptionArray) {
                 $groupedOptions[] = [
@@ -83,7 +84,7 @@ class Categories implements ArrayInterface
             }
         }
 
-        if ($toOptionArray) {
+        if ($toOptionArray && $groupedOptions) {
             $options[] = [
                 'label' => __('Sub categories'),
                 'value' => $groupedOptions
