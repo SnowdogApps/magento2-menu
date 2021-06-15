@@ -39,7 +39,7 @@ class MenuDataProvider extends AbstractDataProvider
         );
     }
 
-    public function _getData(): array
+    public function getData(): array
     {
         if (!empty($this->loadedData)) {
             return $this->loadedData;
@@ -52,20 +52,6 @@ class MenuDataProvider extends AbstractDataProvider
         }
 
         return $this->loadedData;
-    }
-
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getData()
-    {
-        /** @var ModifierInterface $modifier */
-        foreach ($this->pool->getModifiersInstances() as $modifier) {
-            $this->data = $modifier->modifyData($this->data);
-        }
-
-        return $this->data;
     }
 
     /**
