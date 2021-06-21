@@ -43,19 +43,6 @@
     </dataSource>
     <listingToolbar name="listing_top">
         <massaction name="listing_massaction">
-            <action name="delete">
-                <settings>
-                    <confirm>
-                        <message translate="true">Are you sure you want to delete selected items?</message>
-                        <title translate="true">Delete items</title>
-                    </confirm>
-                    <url path="*/*/massDelete"/>
-                    <type>delete</type>
-                    <label translate="true">Delete</label>
-                </settings>
-            </action>
-        </massaction>
-        <massaction name="listing_massaction">
             <action name="enable">
                 <argument name="data" xsi:type="array">
                     <item name="config" xsi:type="array">
@@ -73,6 +60,17 @@
                         <item name="url" xsi:type="url" path="snowmenu/menu/massDisable"/>
                     </item>
                 </argument>
+            </action>
+            <action name="delete">
+                <settings>
+                    <confirm>
+                        <message translate="true">Are you sure you want to delete selected items?</message>
+                        <title translate="true">Delete items</title>
+                    </confirm>
+                    <url path="*/*/massDelete"/>
+                    <type>delete</type>
+                    <label translate="true">Delete</label>
+                </settings>
             </action>
         </massaction>
         <paging name="listing_paging"/>
