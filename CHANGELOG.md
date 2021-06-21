@@ -8,6 +8,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 - Creation time, update time and store view columns to menu admin grid (#69080)
 
+### Fixed
+- Remove the duplicate listing toolbar `massaction` tag in `snowmenu_menu_list.xml` (#69080)
+
 ## [2.15.0] - 2021-06-08
 ### Added
 - enable/disable menu option (#69084)
