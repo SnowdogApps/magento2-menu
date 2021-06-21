@@ -1,7 +1,7 @@
 <template>
     <div
         v-if="isVisible"
-        class="admin__field field"
+        class="admin__fieldset fieldset-wide"
     >
         <auto-complete
             :label="label[templateType]"
