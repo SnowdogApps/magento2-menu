@@ -74,6 +74,7 @@ class Cloner
 
         $menuClone->setData($menu->getData());
         $menuClone->setId(null);
+        $menuClone->setIsActive(false);
         $menuClone->setIdentifier(
             $this->menuIdentifierProcessor->getNewIdentifier($menu->getIdentifier())
         );
