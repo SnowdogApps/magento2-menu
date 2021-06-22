@@ -32,8 +32,8 @@ define([
                 let alertModal = this,
                   form = registry.get('snowmenu_menu_form.data_source'),
                   vueApp = registry.get('vueApp'),
-                  categoryId = form.data.category_id,
-                  depth = form.data.depth
+                  categoryId = parseInt(form.data.category_id),
+                  depth = parseInt(form.data.depth)
 
                 $.ajax({
                   showLoader: true,
@@ -45,7 +45,9 @@ define([
                   type: 'POST',
                   dataType: 'json',
                   success: function (data) {
-                    vueApp.list = data.list
+                    let list = importModal.addId(data.list)
+
+                    vueApp.list = list
 
                     alertModal.closeModal(true)
                     importModal.closeModal()
@@ -75,6 +77,19 @@ define([
             }
           ]
         })
+
+        importModal.addId = function (list) {
+            for (const item of list) {
+                if (item && item.id === null) {
+                    item.id = new Date().getTime()
+                    item.content = null
+                    item.target = null
+                    importModal.addId(item.columns);
+                }
+            }
+
+            return list
+        }
       }
     })
   }

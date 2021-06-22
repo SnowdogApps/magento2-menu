@@ -1,5 +1,6 @@
 <template>
     <div class="panel panel--open">
+        {{ list }}
         <div class="panel__heading">
             <div class="panel__collapse" />
 
