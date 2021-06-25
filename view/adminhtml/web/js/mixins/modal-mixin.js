@@ -1,8 +1,9 @@
 define([
   'Magento_Ui/js/lib/view/utils/async',
   'Magento_Ui/js/modal/alert',
-  'uiRegistry'
-], function ($, alert, registry) {
+  'uiRegistry',
+  'uuid'
+], function ($, alert, registry, uuid) {
   'use strict'
 
   return function (modal) {
@@ -81,9 +82,7 @@ define([
         importModal.addId = function (list) {
             for (const item of list) {
                 if (item && item.id === null) {
-                    item.id = new Date().getTime()
-                    item.content = null
-                    item.target = null
+                    item.id = uuid()
                     importModal.addId(item.columns);
                 }
             }

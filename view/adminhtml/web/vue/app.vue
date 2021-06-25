@@ -1,6 +1,5 @@
 <template>
     <div class="panel panel--open">
-        {{ list }}
         <div class="panel__heading">
             <div class="panel__collapse" />
 
@@ -63,7 +62,10 @@
 </template>
 
 <script>
-    define(['Vue'], function(Vue) {
+    define([
+        'Vue',
+        'uuid'
+    ], function(Vue, uuid) {
         Vue.component('snowdog-menu', {
             props: {
                 list: {
@@ -115,7 +117,7 @@
                    target.push({
                        'type': 'category',
                        'title': this.config.translation.addNode,
-                       'id': new Date().getTime(),
+                       'id': uuid(),
                        'content': null,
                        'node_template': null,
                        'image': this.selectedItem.image,
@@ -127,7 +129,7 @@
                    });
                 },
                 handleDrop(data) {
-                    data.item.id = new Date().getTime();
+                    data.item.id = uuid();
                     data.list.splice(data.index, 0, data.item);
                 },
                 updateSerializedNodes(value) {
