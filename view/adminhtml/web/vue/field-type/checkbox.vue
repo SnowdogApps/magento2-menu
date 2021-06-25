@@ -19,8 +19,8 @@
                 data-role="switcher"
             >
                 <input
-                    v-model="checkboxValue"
                     :id="fieldId"
+                    v-model="checkboxValue"
                     :value="checkboxValue"
                     type="checkbox"
                     class="admin__actions-switch-checkbox"
