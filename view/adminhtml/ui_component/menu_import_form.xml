@@ -10,8 +10,8 @@
 
     <settings>
         <buttons>
-            <button name="import" class="Snowdog\Menu\Block\Menu\Edit\Import\Button\Import"/>
-            <button name="back" class="Snowdog\Menu\Block\Menu\Edit\Import\Button\Back"/>
+            <button name="import" class="Snowdog\Menu\Block\Adminhtml\Import\Button\Import"/>
+            <button name="back" class="Snowdog\Menu\Block\Adminhtml\Import\Button\Back"/>
         </buttons>
         <namespace>menu_import_form</namespace>
         <deps>

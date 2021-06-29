@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Snowdog\Menu\Block\Menu\Edit\Import\Button;
+namespace Snowdog\Menu\Block\Adminhtml\Import\Button;
 
 use Magento\Backend\Block\Widget\Context;
 use Magento\Framework\View\Element\UiComponent\Control\ButtonProviderInterface;
