@@ -15,6 +15,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Syntax highlight GraphQL code blocks in readme file (#69080)
 - Move menu controller save action complex logic to a seperate class and refactor accordingly (#69085)
 - Move admin block import page buttons class files under `Adminhtml` directory (#80035)
+- Move menu admin block edit page nodes tab class file under `Adminhtml` directory (#80035)
 
 ### Fixed
 - Remove the duplicate listing toolbar `massaction` tag in `snowmenu_menu_list.xml` (#69080)

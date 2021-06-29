@@ -1,6 +1,6 @@
 <?php
 
-namespace Snowdog\Menu\Block\Menu\Edit\Tab;
+namespace Snowdog\Menu\Block\Adminhtml\Edit\Tab;
 
 use Magento\Backend\Block\Template;
 use Magento\Backend\Block\Widget\Tab\TabInterface;
