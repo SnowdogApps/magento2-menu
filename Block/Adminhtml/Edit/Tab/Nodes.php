@@ -1,10 +1,9 @@
 <?php
 
-namespace Snowdog\Menu\Block\Menu\Edit\Tab;
+namespace Snowdog\Menu\Block\Adminhtml\Edit\Tab;
 
 use Magento\Backend\Block\Template;
 use Magento\Backend\Block\Widget\Tab\TabInterface;
-use Magento\Cms\Model\Wysiwyg\Config;
 use Magento\Framework\Registry;
 use Snowdog\Menu\Api\NodeRepositoryInterface;
 use Snowdog\Menu\Controller\Adminhtml\Menu\Edit;
