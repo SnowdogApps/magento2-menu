@@ -21,7 +21,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Fixed
 - Remove the duplicate listing toolbar `massaction` tag in `snowmenu_menu_list.xml` (#69080)
 - custom templates list in select (#79677)
-- Nodes tree levels and positions generation on menu save (#80360)
 
 ### Removed
 - Unused CMS WYSIWYG config model class in menu admin edit page nodes tab block (#80035)
