@@ -127,9 +127,8 @@ class SaveRequestProcessor
             }
 
             $nodeObject = $nodeMap[$node['id']];
-            $this->processNodeObject($nodeObject, $node, $menu, $path, $nodeMap);
-            $path[$node['id']] = 0;
 
+            $this->processNodeObject($nodeObject, $node, $menu, $path, $nodeMap);
             $this->nodeRepository->save($nodeObject);
         }
     }
@@ -138,7 +137,7 @@ class SaveRequestProcessor
         NodeInterface $nodeObject,
         array $nodeData,
         MenuInterface $menu,
-        array $path,
+        array &$path,
         array $nodeMap
     ): void {
         $parents = array_keys($path);
@@ -191,6 +190,8 @@ class SaveRequestProcessor
 
         $nodeObject->setImage($nodeData['image'] ?? null);
         $nodeObject->setImageAltText($nodeData['image_alt_text'] ?? null);
+
+        $path[$nodeData['id']] = 0;
     }
 
     /**
