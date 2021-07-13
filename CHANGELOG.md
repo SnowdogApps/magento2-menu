@@ -10,6 +10,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Save button options list to menu admin edit page (#69085)
 - Menu duplicate feature (#69085)
 
+### Fixed
+- Image for new nodes set to blank (#79674)
+
 ### Changed
 - `snowmenu_menu_list.xml` delete mass action to Magento `2.1` XML format in order to match the rest of the XML in the file (#69080)
 - Syntax highlight GraphQL code blocks in readme file (#69080)

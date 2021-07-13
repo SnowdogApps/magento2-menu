@@ -76,7 +76,7 @@
             },
             data: function() {
                 return {
-                    selectedItem: false
+                    selectedItem: null
                 };
             },
             computed: {
@@ -110,20 +110,20 @@
                 removeNode: function(list, index) {
                     list.splice(index, 1);
                 },
-               addNode: function(target) {
-                   target.push({
-                       'type': 'category',
-                       'title': this.config.translation.addNode,
-                       'id': new Date().getTime(),
-                       'content': null,
-                       'node_template': null,
-                       'image': this.selectedItem.image,
-                       'image_alt_text': this.selectedItem.image_alt_text,
-                       'node_template': null,
-                       'submenu_template': null,
-                       'columns': [],
-                       'is_active': 0
-                   });
+                addNode: function(target) {
+                    target.push({
+                        'type': 'category',
+                        'title': this.config.translation.addNode,
+                        'id': new Date().getTime(),
+                        'content': null,
+                        'node_template': null,
+                        'image': '',
+                        'image_alt_text': '',
+                        'node_template': null,
+                        'submenu_template': null,
+                        'columns': [],
+                        'is_active': 0
+                    });
                 },
                 handleDrop(data) {
                     data.item.id = new Date().getTime();
