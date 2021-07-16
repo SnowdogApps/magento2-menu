@@ -5,7 +5,7 @@
     <body>
         <referenceContainer name="content">
             <uiComponent name="snowmenu_menu_form"/>
-            <block class="Snowdog\Menu\Block\Menu\Edit\Tab\Nodes" name="snowmenu_edit_tab_node"/>
+            <block class="Snowdog\Menu\Block\Adminhtml\Edit\Tab\Nodes" name="snowmenu_edit_tab_node"/>
         </referenceContainer>
     </body>
 </page>

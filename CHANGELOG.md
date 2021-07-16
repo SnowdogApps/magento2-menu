@@ -5,6 +5,25 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+### Added
+- Creation time, update time and store view columns to menu admin grid (#69080)
+- Save button options list to menu admin edit page (#69085)
+- Menu duplicate feature (#69085)
+
+### Changed
+- `snowmenu_menu_list.xml` delete mass action to Magento `2.1` XML format in order to match the rest of the XML in the file (#69080)
+- Syntax highlight GraphQL code blocks in readme file (#69080)
+- Move menu controller save action complex logic to a seperate class and refactor accordingly (#69085)
+- Move admin block import page buttons class files under `Adminhtml` directory (#80035)
+- Move menu admin block edit page nodes tab class file under `Adminhtml` directory (#80035)
+- Move menu admin block edit page buttons class files under `Edit` directory (#80035)
+
+### Fixed
+- Remove the duplicate listing toolbar `massaction` tag in `snowmenu_menu_list.xml` (#69080)
+- custom templates list in select (#79677)
+
+### Removed
+- Unused CMS WYSIWYG config model class in menu admin edit page nodes tab block (#80035)
 
 ## [2.15.0] - 2021-06-08
 ### Added

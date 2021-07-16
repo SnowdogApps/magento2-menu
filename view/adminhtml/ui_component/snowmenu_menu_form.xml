@@ -10,12 +10,11 @@
     </argument>
     <settings>
         <buttons>
-            <button name="back" class="Snowdog\Menu\Block\Adminhtml\Button\Back"/>
-            <button name="delete" class="Snowdog\Menu\Block\Adminhtml\Button\Delete"/>
-            <button name="reset" class="Snowdog\Menu\Block\Adminhtml\Button\Reset"/>
-            <button name="save_and_continue" class="Snowdog\Menu\Block\Adminhtml\Button\SaveAndContinue"/>
-            <button name="import_categories" class="Snowdog\Menu\Block\Adminhtml\Button\ImportCategories"/>
-            <button name="save" class="Snowdog\Menu\Block\Adminhtml\Button\Save"/>
+            <button name="back" class="Snowdog\Menu\Block\Adminhtml\Edit\Button\Back"/>
+            <button name="delete" class="Snowdog\Menu\Block\Adminhtml\Edit\Button\Delete"/>
+            <button name="reset" class="Snowdog\Menu\Block\Adminhtml\Edit\Button\Reset"/>
+            <button name="import_categories" class="Snowdog\Menu\Block\Adminhtml\Edit\Button\ImportCategories"/>
+            <button name="save" class="Snowdog\Menu\Block\Adminhtml\Edit\Button\Save"/>
         </buttons>
         <namespace>snowmenu_menu_form</namespace>
         <dataScope>data</dataScope>

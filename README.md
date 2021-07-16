@@ -222,7 +222,7 @@ And the `Submenu template` field will contain a list of available submenu templa
 - `snowdogMenus`: Returns a list of active menus filtered by the array argument `identifiers`.
 
 Usage:
-```
+```graphql
 query SnowdogMenusExample {
   snowdogMenus(identifiers: ["foo", "bar"]) {
     items {
@@ -239,7 +239,7 @@ query SnowdogMenusExample {
 - `snowdogMenuNodes`: Returns a list of active menu nodes filtered by the menu `identifier` argument.
 
 Usage:
-```
+```graphql
 query SnowdogMenuNodesExample {
   snowdogMenuNodes(identifier: "foobar") {
     items {

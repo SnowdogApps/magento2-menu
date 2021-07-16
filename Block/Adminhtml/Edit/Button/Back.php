@@ -1,6 +1,6 @@
 <?php
 
-namespace Snowdog\Menu\Block\Adminhtml\Button;
+namespace Snowdog\Menu\Block\Adminhtml\Edit\Button;
 
 use Magento\Framework\View\Element\UiComponent\Control\ButtonProviderInterface;
 
