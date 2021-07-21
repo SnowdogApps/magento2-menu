@@ -5,10 +5,13 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+
+## [2.16.0] - 2021-07-21
 ### Added
 - Creation time, update time and store view columns to menu admin grid (#69080)
 - Save button options list to menu admin edit page (#69085)
 - Menu duplicate feature (#69085)
+- Import categories and subcategories feature (#70196)
 
 ### Changed
 - `snowmenu_menu_list.xml` delete mass action to Magento `2.1` XML format in order to match the rest of the XML in the file (#69080)
