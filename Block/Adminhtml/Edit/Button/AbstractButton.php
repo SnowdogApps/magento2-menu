@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Snowdog\Menu\Block\Adminhtml\Button;
+namespace Snowdog\Menu\Block\Adminhtml\Edit\Button;
 
 use Magento\Backend\Block\Widget\Context;
 

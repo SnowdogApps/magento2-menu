@@ -19,11 +19,11 @@
                 data-role="switcher"
             >
                 <input
-                    type="checkbox"
-                    class="admin__actions-switch-checkbox"
                     :id="fieldId"
                     v-model="checkboxValue"
                     :value="checkboxValue"
+                    type="checkbox"
+                    class="admin__actions-switch-checkbox"
                 >
                 <label
                     class="admin__actions-switch-label"
@@ -37,7 +37,7 @@
                         }"
                         data-text-on="Yes"
                         data-text-off="No"
-                    ></span>
+                    />
                 </label>
             </div>
         </div>

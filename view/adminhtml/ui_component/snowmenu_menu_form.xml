@@ -10,11 +10,11 @@
     </argument>
     <settings>
         <buttons>
-            <button name="back" class="Snowdog\Menu\Block\Adminhtml\Button\Back"/>
-            <button name="delete" class="Snowdog\Menu\Block\Adminhtml\Button\Delete"/>
-            <button name="reset" class="Snowdog\Menu\Block\Adminhtml\Button\Reset"/>
-            <button name="save_and_continue" class="Snowdog\Menu\Block\Adminhtml\Button\SaveAndContinue"/>
-            <button name="save" class="Snowdog\Menu\Block\Adminhtml\Button\Save"/>
+            <button name="back" class="Snowdog\Menu\Block\Adminhtml\Edit\Button\Back"/>
+            <button name="delete" class="Snowdog\Menu\Block\Adminhtml\Edit\Button\Delete"/>
+            <button name="reset" class="Snowdog\Menu\Block\Adminhtml\Edit\Button\Reset"/>
+            <button name="import_categories" class="Snowdog\Menu\Block\Adminhtml\Edit\Button\ImportCategories"/>
+            <button name="save" class="Snowdog\Menu\Block\Adminhtml\Edit\Button\Save"/>
         </buttons>
         <namespace>snowmenu_menu_form</namespace>
         <dataScope>data</dataScope>
@@ -159,4 +159,58 @@
             </argument>
         </field>
     </fieldset>
+
+    <modal name="import_categories_tree_modal">
+        <argument name="data" xsi:type="array">
+            <item name="config" xsi:type="array">
+                <item name="onCancel" xsi:type="string">actionCancel</item>
+                <item name="options" xsi:type="array">
+                    <item name="buttons" xsi:type="array">
+                        <item name="0" xsi:type="array">
+                            <item name="text" xsi:type="string">Cancel</item>
+                            <item name="class" xsi:type="string">action-secondary</item>
+                            <item name="actions" xsi:type="array">
+                                <item name="0" xsi:type="string">actionCancel</item>
+                            </item>
+                        </item>
+                        <item name="1" xsi:type="array">
+                            <item name="text" xsi:type="string">Import</item>
+                            <item name="class" xsi:type="string">action-primary</item>
+                            <item name="actions" xsi:type="array">
+                                <item name="0" xsi:type="string">actionImport</item>
+                            </item>
+                        </item>
+                    </item>
+                </item>
+            </item>
+        </argument>
+        <fieldset name="general">
+            <settings>
+                <label>Import from categories tree</label>
+            </settings>
+            <field name="category_id" formElement="select">
+                <settings>
+                    <dataType>int</dataType>
+                    <label translate="true">Root Category</label>
+                </settings>
+                <formElements>
+                    <select>
+                        <settings>
+                            <options class="Snowdog\Menu\Ui\Component\Menu\Form\Element\Categories"/>
+                        </settings>
+                    </select>
+                </formElements>
+            </field>
+            <field name="depth" formElement="input">
+                <settings>
+                    <dataType>int</dataType>
+                    <label translate="true">Level of depth</label>
+                    <notice translate="true">Leave 0 for all child categories</notice>
+                    <validation>
+                        <rule name="validate-number" xsi:type="boolean">true</rule>
+                    </validation>
+                </settings>
+            </field>
+        </fieldset>
+    </modal>
 </form>

@@ -3,6 +3,7 @@ define([
     "Vddl",
     "vue-select",
     "vue-treeselect",
+    'uiRegistry',
     "vue!Snowdog_Menu/vue/app",
     "vue!Snowdog_Menu/vue/field-type/autocomplete",
     "vue!Snowdog_Menu/vue/field-type/checkbox",
@@ -11,7 +12,7 @@ define([
     "vue!Snowdog_Menu/vue/field-type/template-list",
     "vue!Snowdog_Menu/vue/menu-type",
     "vue!Snowdog_Menu/vue/nested-list"
-], function(Vue, Vddl, vueSelect, vueTreeselect) {
+], function(Vue, Vddl, vueSelect, vueTreeselect, registry) {
 
     return function(config) {
         var dependencies = [];
@@ -29,6 +30,8 @@ define([
                 el  : config.el || "#snowdog_menu",
                 data: config.data
             });
+
+            registry.set('vueApp', app);
         });
     }
 });

@@ -1,12 +1,12 @@
 <?php
 declare(strict_types=1);
 
-namespace Snowdog\Menu\Service;
+namespace Snowdog\Menu\Service\Menu;
 
 use Magento\Framework\App\RequestInterface;
 use Snowdog\Menu\Api\Data\MenuInterface;
 
-class MenuHydrator
+class Hydrator
 {
     /**
      * Maps Request data to Menu object. Introduce `after` plugin to add extra fields
