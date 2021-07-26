@@ -122,15 +122,25 @@ class SaveRequestProcessor
         $path = ['#' => 0];
 
         foreach ($nodes as $node) {
+            $parents = array_keys($path);
+            $parent = array_pop($parents);
+
+            while ($parent != $node['parent']) {
+                array_pop($path);
+                $parent = array_pop($parents);
+            }
+
             if (isset($invalidNodes[$node['id']])) {
+                $path[$node['id']] = 0;
                 continue;
             }
 
             $nodeObject = $nodeMap[$node['id']];
-            $this->processNodeObject($nodeObject, $node, $menu, $path, $nodeMap);
-            $path[$node['id']] = 0;
 
+            $this->processNodeObject($nodeObject, $node, $menu, $path, $nodeMap);
             $this->nodeRepository->save($nodeObject);
+
+            $path[$node['id']] = 0;
         }
     }
 
@@ -141,14 +151,6 @@ class SaveRequestProcessor
         array $path,
         array $nodeMap
     ): void {
-        $parents = array_keys($path);
-        $parent = array_pop($parents);
-
-        while ($parent != $nodeData['parent']) {
-            array_pop($path);
-            $parent = array_pop($parents);
-        }
-
         $level = count($path) - 1;
         $position = $path[$nodeData['parent']]++;
 

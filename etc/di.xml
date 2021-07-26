@@ -3,6 +3,7 @@
         xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
     <preference for="Snowdog\Menu\Api\MenuRepositoryInterface" type="Snowdog\Menu\Model\MenuRepository"/>
     <preference for="Snowdog\Menu\Api\NodeRepositoryInterface" type="Snowdog\Menu\Model\Menu\NodeRepository"/>
+    <preference for="Snowdog\Menu\Api\MenuManagementInterface" type="Snowdog\Menu\Model\MenuManagement"/>
     <preference for="Snowdog\Menu\Api\Data\MenuSearchResultsInterface" type="Magento\Framework\Api\SearchResults"/>
     <preference for="Snowdog\Menu\Api\Data\MenuInterface" type="Snowdog\Menu\Model\Menu"/>
     <preference for="Snowdog\Menu\Api\Data\NodeInterface" type="Snowdog\Menu\Model\Menu\Node"/>
@@ -20,7 +21,6 @@
             </argument>
         </arguments>
     </type>
-
     <type name="Snowdog\Menu\Model\Menu">
         <plugin name="snowdog_menu_stores_invalidate_page_cache_after_save"
                 type="Snowdog\Menu\Plugin\Model\Menu\AfterSaveStores\InvalidatePageCache"/>

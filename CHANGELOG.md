@@ -5,10 +5,13 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+
+## [2.16.0] - 2021-07-21
 ### Added
 - Creation time, update time and store view columns to menu admin grid (#69080)
 - Save button options list to menu admin edit page (#69085)
 - Menu duplicate feature (#69085)
+- Import categories and subcategories feature (#70196)
 
 ### Fixed
 - Image for new nodes set to blank (#79674)
@@ -24,6 +27,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Fixed
 - Remove the duplicate listing toolbar `massaction` tag in `snowmenu_menu_list.xml` (#69080)
 - custom templates list in select (#79677)
+- An infinite loop in large node trees with catalog product nodes save process (#80360)
 
 ### Removed
 - Unused CMS WYSIWYG config model class in menu admin edit page nodes tab block (#80035)

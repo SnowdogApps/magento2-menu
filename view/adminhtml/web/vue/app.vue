@@ -62,7 +62,10 @@
 </template>
 
 <script>
-    define(['Vue'], function(Vue) {
+    define([
+        'Vue',
+        'uuid'
+    ], function(Vue, uuid) {
         Vue.component('snowdog-menu', {
             props: {
                 list: {
@@ -126,7 +129,7 @@
                     });
                 },
                 handleDrop(data) {
-                    data.item.id = new Date().getTime();
+                    data.item.id = uuid();
                     data.list.splice(data.index, 0, data.item);
                 },
                 updateSerializedNodes(value) {

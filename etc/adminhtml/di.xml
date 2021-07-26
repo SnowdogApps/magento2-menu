@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <virtualType name="Snowdog\Menu\Ui\DataProvider\Menu\Form\Modifier\Pool" type="Magento\Ui\DataProvider\Modifier\Pool">
+        <arguments>
+            <argument name="modifiers" xsi:type="array">
+                <item name="import_categories" xsi:type="array">
+                    <item name="class" xsi:type="string">Snowdog\Menu\Ui\DataProvider\Menu\Form\Modifier\ImportCategories</item>
+                    <item name="sortOrder" xsi:type="number">10</item>
+                </item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <!--<type name="Snowdog\Menu\Ui\DataProvider\Menu\Form\MenuDataProvider">
+        <arguments>
+            <argument name="pool" xsi:type="object">Snowdog\Menu\Ui\DataProvider\Menu\Form\Modifier\Pool</argument>
+        </arguments>
+    </type>-->
+</config>
