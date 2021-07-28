@@ -112,22 +112,24 @@ class TemplateResolver
 
     /**
      * @param string $noteType
+     * @param string $defaultTemplateLabel
      * @return array
      */
-    public function getCustomTemplateOptions($noteType)
+    public function getCustomTemplateOptions($noteType, $defaultTemplateLabel = '')
     {
-        return $this->getTemplateList($noteType);
+        return $this->getTemplateList($noteType, $defaultTemplateLabel);
     }
 
     /**
      * @param string $noteType
+     * @param string $defaultTemplateLabel
      * @return array
      * @throws FileSystemException
      */
-    private function getTemplateList($noteType = '')
+    private function getTemplateList($noteType = '', $defaultTemplateLabel)
     {
         $result[] = [
-            'label' => 'default',
+            'label' => $defaultTemplateLabel ?: 'default',
             'id' => $noteType
         ];
 
