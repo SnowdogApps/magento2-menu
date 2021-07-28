@@ -14,6 +14,7 @@ use Snowdog\Menu\Api\NodeRepositoryInterface;
 use Snowdog\Menu\Model\Menu\Node\Image\File as ImageFile;
 use Snowdog\Menu\Model\NodeTypeProvider;
 use Snowdog\Menu\Model\TemplateResolver;
+use Magento\Store\Model\Store;
 
 class Menu extends Template implements DataObject\IdentityInterface
 {
@@ -21,21 +22,26 @@ class Menu extends Template implements DataObject\IdentityInterface
      * @var MenuRepositoryInterface
      */
     private $menuRepository;
+
     /**
      * @var NodeRepositoryInterface
      */
     private $nodeRepository;
+
     /**
      * @var NodeTypeProvider
      */
     private $nodeTypeProvider;
 
     private $nodes;
-    private $menu;
+
+    private $menu = null;
+
     /**
      * @var SearchCriteriaFactory
      */
     private $searchCriteriaFactory;
+
     /**
      * @var FilterGroupBuilder
      */
@@ -121,10 +127,16 @@ class Menu extends Template implements DataObject\IdentityInterface
      */
     private function loadMenu()
     {
-        if (!$this->menu) {
+        if ($this->menu === null) {
+            $identifier = $this->getData('menu');
             $storeId = $this->_storeManager->getStore()->getId();
-            $this->menu = $this->menuRepository->get($this->getData('menu'), $storeId);
+            $this->menu = $this->menuRepository->get($identifier, $storeId);
+
+            if (empty($this->menu->getData())) {
+                $this->menu = $this->menuRepository->get($identifier, Store::DEFAULT_STORE_ID);
+            }
         }
+
         return $this->menu;
     }
 
