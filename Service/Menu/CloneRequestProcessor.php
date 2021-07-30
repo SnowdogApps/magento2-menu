@@ -54,7 +54,11 @@ class CloneRequestProcessor
         } catch (Exception $exception) {
             $this->logger->critical($exception, ['origin' => 'snowdog-menu-node-cloner']);
             $this->messageManager->addErrorMessage(
-                __('An error occurred while duplicating menu "%1".', $menu->getIdentifier())
+                __(
+                    'An error occurred while duplicating menu "%1". [REASON: %2]',
+                    $menu->getIdentifier(),
+                    $exception->getMessage()
+                )
             );
         }
 
