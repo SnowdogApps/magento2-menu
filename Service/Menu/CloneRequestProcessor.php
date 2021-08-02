@@ -55,7 +55,7 @@ class CloneRequestProcessor
             $this->logger->critical($exception, ['origin' => 'snowdog-menu-cloner']);
             $this->messageManager->addErrorMessage(
                 __(
-                    'An error occurred while duplicating menu "%1". [REASON: %2]',
+                    'An error has occurred while duplicating menu "%1". [REASON: %2]',
                     $menu->getIdentifier(),
                     $exception->getMessage()
                 )
