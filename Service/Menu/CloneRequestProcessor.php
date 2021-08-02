@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Snowdog\Menu\Service\Menu;
 
 use Exception;
+use Magento\Framework\Exception\FileSystemException;
 use Magento\Framework\Message\ManagerInterface;
 use Psr\Log\LoggerInterface;
 use Snowdog\Menu\Api\Data\MenuInterface;
@@ -51,8 +52,8 @@ class CloneRequestProcessor
             $this->messageManager->addSuccessMessage($successMessage);
 
             return $menuClone;
-        } catch (Exception $exception) {
-            $this->logger->critical($exception, ['origin' => 'snowdog-menu-cloner']);
+        } catch (FileSystemException $exception) {
+            $this->logException($exception, $menu);
             $this->messageManager->addErrorMessage(
                 __(
                     'An error has occurred while duplicating menu "%1". [REASON: %2]',
@@ -60,8 +61,22 @@ class CloneRequestProcessor
                     $exception->getMessage()
                 )
             );
+        } catch (Exception $exception) {
+            $errorMessage = 'A critical error has occurred while duplicating menu "%1".'
+                . ' Please check the log for more details.';
+
+            $this->logException($exception, $menu);
+            $this->messageManager->addErrorMessage(__($errorMessage, $menu->getIdentifier()));
         }
 
         return $menu;
+    }
+
+    private function logException(Exception $exception, MenuInterface $menu): void
+    {
+        $this->logger->critical(
+            $exception,
+            ['origin' => 'snowdog-menu-cloner', 'menu' => $menu->getIdentifier()]
+        );
     }
 }
