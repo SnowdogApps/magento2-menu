@@ -126,7 +126,7 @@ class TemplateResolver
      * @return array
      * @throws FileSystemException
      */
-    private function getTemplateList($nodeType = '', $defaultTemplateLabel)
+    private function getTemplateList($nodeType = '', $defaultTemplateLabel = '')
     {
         $result[] = [
             'label' => $defaultTemplateLabel ?: 'default',
