@@ -140,6 +140,7 @@ class SaveRequestProcessor
             $this->processNodeObject($nodeObject, $node, $menu, $path, $nodeMap);
             $this->nodeRepository->save($nodeObject);
 
+            $path[$node['parent']]++;
             $path[$node['id']] = 0;
         }
     }
@@ -152,7 +153,7 @@ class SaveRequestProcessor
         array $nodeMap
     ): void {
         $level = count($path) - 1;
-        $position = $path[$nodeData['parent']]++;
+        $position = $path[$nodeData['parent']];
 
         $nodeObject->setParentId($nodeData['parent'] != '#' ? $nodeMap[$nodeData['parent']]->getId() : null);
         $nodeObject->setType($nodeData['type']);
