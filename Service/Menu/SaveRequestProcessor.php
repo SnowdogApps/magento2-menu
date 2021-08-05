@@ -124,7 +124,6 @@ class SaveRequestProcessor
         foreach ($nodes as $node) {
             $parents = array_keys($path);
             $parent = array_pop($parents);
-            $nodeObject = $nodeMap[$node['id']];
 
             while ($parent != $node['parent']) {
                 array_pop($path);
@@ -139,8 +138,10 @@ class SaveRequestProcessor
 
                 // Reset the invalid node content and save the rest of the new node data.
                 // An error message will be printed to ask the user to fix the invalid node content.
-                $node['content'] = $nodeObject->getContent();
+                $node['content'] = $nodeMap[$node['id']]->getContent();
             }
+
+            $nodeObject = $nodeMap[$node['id']];
 
             $this->processNodeObject($nodeObject, $node, $menu, $path, $nodeMap);
             $this->nodeRepository->save($nodeObject);
