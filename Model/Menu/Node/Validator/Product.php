@@ -32,11 +32,15 @@ class Product
     private function validateProductId(array $node): void
     {
         if (!isset($node['content']) || $node['content'] === '') {
-            throw new ValidatorException(__('Node catalog product ID is required.'));
+            $nodeTitle = $this->getErrorNodeTitle($node);
+            throw new ValidatorException(__('%1 catalog product ID is required.', $nodeTitle));
         }
 
         if (!$this->getProductById($node['content'])) {
-            throw new ValidatorException(__('Node catalog product ID "%1" is invalid.', $node['content']));
+            $nodeTitle = $this->getErrorNodeTitle($node);
+            throw new ValidatorException(
+                __('%1 catalog product ID "%2" is invalid.', $nodeTitle, $node['content'])
+            );
         }
     }
 
@@ -53,5 +57,11 @@ class Product
         }
 
         return $product;
+    }
+
+    private function getErrorNodeTitle(array $node): string
+    {
+        return isset($node['title']) && $node['title'] !== ''
+            ? 'Node "' . $node['title'] . '"' : 'A node';
     }
 }
