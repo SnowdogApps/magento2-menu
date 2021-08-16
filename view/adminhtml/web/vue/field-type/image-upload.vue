@@ -132,8 +132,8 @@
             },
             methods: {
                 setItemImage: function(file, url) {
-                  this.item.image = file;
-                  this.item.image_url = url;
+                    this.item.image = file;
+                    this.item.image_url = url;
                 },
                 uploadFileToServer: function() {
                     this.fileIsUploading = true;
@@ -154,17 +154,17 @@
                             $('body').trigger('processStart');
                         },
                         success: function (response) {
-                          if (response.file) {
-                            this.setItemImage(response.file, response.url);
-                          }
+                            if (response.file) {
+                                this.setItemImage(response.file, response.url);
+                            }
                         }.bind(this),
                         error: function() {
-                           this.uploadError = $t('There was an error during uploading. Please try again.')
+                            this.uploadError = $t('There was an error during uploading. Please try again.')
                         }.bind(this),
                         complete: function() {
-                          this.fileIsUploading = false;
-                          this.removeNewFile();
-                          $('body').trigger('processStop');
+                            this.fileIsUploading = false;
+                            this.removeNewFile();
+                            $('body').trigger('processStop');
                         }.bind(this)
                     });
                 },
