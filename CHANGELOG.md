@@ -5,6 +5,10 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+### Added
+- Ajax loader to node image upload and remove Ajax JS code (#79674)
+- An error handler to node image remove Ajax JS code (#79674)
+
 ### Fixed
 - Image for new nodes set to blank (#79674)
 
