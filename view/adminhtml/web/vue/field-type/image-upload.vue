@@ -150,6 +150,9 @@
                         type: 'POST',
                         contentType: false,
                         processData: false,
+                        beforeSend: function () {
+                            $('body').trigger('processStart');
+                        },
                         success: function (response) {
                           if (response.file) {
                             this.setItemImage(response.file, response.url);
@@ -161,6 +164,7 @@
                         complete: function() {
                           this.fileIsUploading = false;
                           this.removeNewFile();
+                          $('body').trigger('processStop');
                         }.bind(this)
                     });
                 },
