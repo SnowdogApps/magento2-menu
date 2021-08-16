@@ -191,6 +191,9 @@
                         beforeSend: function () {
                             $('body').trigger('processStart');
                         },
+                        error: function() {
+                            alert({ content: $t('An error has occurred while removing the menu node image.') });
+                        }.bind(this),
                         complete: function() {
                             this.setItemImage('', '');
                             $('body').trigger('processStop');
