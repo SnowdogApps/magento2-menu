@@ -188,8 +188,12 @@
                         type: 'POST',
                         contentType: false,
                         processData: false,
+                        beforeSend: function () {
+                            $('body').trigger('processStart');
+                        },
                         complete: function() {
                             this.setItemImage('', '');
+                            $('body').trigger('processStop');
                         }.bind(this)
                     });
                 },
