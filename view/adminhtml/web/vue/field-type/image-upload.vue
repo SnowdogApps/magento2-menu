@@ -159,6 +159,7 @@
                             }
                         }.bind(this),
                         error: function() {
+                            $('body').trigger('processStop');
                             this.uploadError = $t('There was an error during uploading. Please try again.')
                         }.bind(this),
                         complete: function() {
