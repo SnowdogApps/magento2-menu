@@ -43,7 +43,7 @@ class Duplicate extends MenuAction implements HttpGetActionInterface
         $redirectPath = '*/*';
 
         if (!$menu->getId()) {
-            $this->messageManager->addErrorMessage(__('Invalid menu ID.'));
+            $this->messageManager->addErrorMessage(__('Cannot duplicate a menu with an invalid ID.'));
             return $resultRedirect->setPath($redirectPath);
         }
 
