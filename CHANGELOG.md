@@ -5,7 +5,12 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+### Changed
+- Improve menu save process node product type validator error messages (#81256)
+
 ### Fixed
+- Some methods parameters typos in `TemplateResolver` model (#81256)
+- Make `TemplateResolver` model `getTemplateList` method `defaultTemplateLabel` parameter optional (#81256)
 - Menu node position reset issues on menu save (#81257)
 
 ## [2.16.0] - 2021-07-21
