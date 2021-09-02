@@ -5,7 +5,6 @@ namespace Snowdog\Menu\Model\NodeType;
 use Magento\Customer\Model\Session;
 use Magento\Framework\Profiler;
 use Magento\Store\Model\StoreManagerInterface;
-use Snowdog\Menu\Api\Data\NodeInterface;
 use Snowdog\Menu\Model\TemplateResolver;
 
 class Product extends AbstractNode

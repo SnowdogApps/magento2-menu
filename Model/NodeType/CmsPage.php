@@ -10,8 +10,6 @@
 
 namespace Snowdog\Menu\Model\NodeType;
 
-use Snowdog\Menu\Api\Data\NodeInterface;
-
 class CmsPage extends AbstractNode
 {
     /**

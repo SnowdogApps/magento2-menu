@@ -10,7 +10,6 @@
 namespace Snowdog\Menu\Model\NodeType;
 
 use Magento\Framework\Profiler;
-use Snowdog\Menu\Api\Data\NodeInterface;
 use Snowdog\Menu\Model\TemplateResolver;
 
 class Wrapper extends AbstractNode

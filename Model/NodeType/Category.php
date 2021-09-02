@@ -14,7 +14,6 @@ use Magento\Catalog\Api\Data\CategoryInterface;
 use Magento\Framework\EntityManager\MetadataPool;
 use Magento\Framework\Profiler;
 use Magento\Catalog\Model\ResourceModel\Category\CollectionFactory;
-use Snowdog\Menu\Api\Data\NodeInterface;
 use Snowdog\Menu\Model\TemplateResolver;
 
 class Category extends AbstractNode
