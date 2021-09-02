@@ -14,6 +14,7 @@ use Magento\Catalog\Api\Data\CategoryInterface;
 use Magento\Framework\EntityManager\MetadataPool;
 use Magento\Framework\Profiler;
 use Magento\Catalog\Model\ResourceModel\Category\CollectionFactory;
+use Snowdog\Menu\Api\Data\NodeInterface;
 use Snowdog\Menu\Model\TemplateResolver;
 
 class Category extends AbstractNode
@@ -124,6 +125,14 @@ class Category extends AbstractNode
         $this->profiler->stop(__METHOD__);
 
         return [$localNodes, $categoryUrls, $categories];
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function processNodeClone(NodeInterface $node, NodeInterface $nodeClone): void
+    {
+        parent::processNodeClone($node, $nodeClone);
     }
 
     /**

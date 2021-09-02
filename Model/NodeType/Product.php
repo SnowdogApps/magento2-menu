@@ -5,6 +5,7 @@ namespace Snowdog\Menu\Model\NodeType;
 use Magento\Customer\Model\Session;
 use Magento\Framework\Profiler;
 use Magento\Store\Model\StoreManagerInterface;
+use Snowdog\Menu\Api\Data\NodeInterface;
 use Snowdog\Menu\Model\TemplateResolver;
 
 class Product extends AbstractNode
@@ -102,5 +103,13 @@ class Product extends AbstractNode
         $this->profiler->stop(__METHOD__);
 
         return $data;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function processNodeClone(NodeInterface $node, NodeInterface $nodeClone): void
+    {
+        parent::processNodeClone($node, $nodeClone);
     }
 }

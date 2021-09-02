@@ -10,6 +10,8 @@
 
 namespace Snowdog\Menu\Model\NodeType;
 
+use Snowdog\Menu\Api\Data\NodeInterface;
+
 class CmsBlock extends AbstractNode
 {
     /**
@@ -72,5 +74,13 @@ class CmsBlock extends AbstractNode
         $this->profiler->stop(__METHOD__);
 
         return [$localNodes, $content];
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function processNodeClone(NodeInterface $node, NodeInterface $nodeClone): void
+    {
+        parent::processNodeClone($node, $nodeClone);
     }
 }

@@ -12,7 +12,7 @@ use Snowdog\Menu\Api\Data\NodeInterfaceFactory;
 use Snowdog\Menu\Api\MenuRepositoryInterface;
 use Snowdog\Menu\Api\NodeRepositoryInterface;
 use Snowdog\Menu\Model\ImportExport\Processor\Import\Menu\Identifier as MenuIdentifierProcessor;
-use Snowdog\Menu\Model\Menu\Node\Image\File as NodeImage;
+use Snowdog\Menu\Model\NodeTypeProvider;
 use Snowdog\Menu\Service\Menu\Nodes as MenuNodes;
 
 class Cloner
@@ -48,9 +48,9 @@ class Cloner
     private $menuIdentifierProcessor;
 
     /**
-     * @var NodeImage
+     * @var NodeTypeProvider
      */
-    private $nodeImage;
+    private $nodeTypeProvider;
 
     /**
      * @var MenuNodes
@@ -64,7 +64,7 @@ class Cloner
         MenuRepositoryInterface $menuRepository,
         NodeRepositoryInterface $nodeRepository,
         MenuIdentifierProcessor $menuIdentifierProcessor,
-        NodeImage $nodeImage,
+        NodeTypeProvider $nodeTypeProvider,
         MenuNodes $menuNodes
     ) {
         $this->resource = $resource;
@@ -73,7 +73,7 @@ class Cloner
         $this->menuRepository = $menuRepository;
         $this->nodeRepository = $nodeRepository;
         $this->menuIdentifierProcessor = $menuIdentifierProcessor;
-        $this->nodeImage = $nodeImage;
+        $this->nodeTypeProvider = $nodeTypeProvider;
         $this->menuNodes = $menuNodes;
     }
 
@@ -112,9 +112,9 @@ class Cloner
                     $nodeClone->setParentId($nodeIdMap[$node->getParentId()]);
                 }
 
-                if ($node->getImage()) {
-                    $nodeClone->setImage($this->nodeImage->clone($node->getImage()));
-                }
+                $this->nodeTypeProvider
+                    ->getTypeModel($node->getType())
+                    ->processNodeClone($node, $nodeClone);
 
                 $this->nodeRepository->save($nodeClone);
 

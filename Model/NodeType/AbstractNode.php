@@ -13,7 +13,9 @@ namespace Snowdog\Menu\Model\NodeType;
 use Magento\Framework\App\ObjectManager;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Phrase;
+use Snowdog\Menu\Api\Data\NodeInterface;
 use Snowdog\Menu\Api\Data\NodeTypeInterface;
+use Snowdog\Menu\Model\Menu\Node\Image\File as NodeImage;
 
 abstract class AbstractNode implements NodeTypeInterface
 {
@@ -35,13 +37,20 @@ abstract class AbstractNode implements NodeTypeInterface
     protected $profiler;
 
     /**
+     * @var NodeImage
+     */
+    private $nodeImage;
+
+    /**
      * AbstractNode constructor.
      */
     public function __construct(
-        \Magento\Framework\Profiler $profiler
+        \Magento\Framework\Profiler $profiler,
+        NodeImage $nodeImage
     ) {
         $this->_construct();
         $this->profiler = $profiler;
+        $this->nodeImage = $nodeImage;
     }
 
     /**
@@ -86,6 +95,16 @@ abstract class AbstractNode implements NodeTypeInterface
         $this->profiler->stop(__METHOD__);
 
         return $localNodes;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function processNodeClone(NodeInterface $node, NodeInterface $nodeClone): void
+    {
+        if ($node->getImage()) {
+            $nodeClone->setImage($this->nodeImage->clone($node->getImage()));
+        }
     }
 
     /**

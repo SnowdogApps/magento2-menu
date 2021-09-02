@@ -11,6 +11,7 @@
 namespace Snowdog\Menu\Model\NodeType;
 
 use Magento\Framework\Profiler;
+use Snowdog\Menu\Api\Data\NodeInterface;
 use Snowdog\Menu\Model\TemplateResolver;
 
 class CustomUrl extends AbstractNode
@@ -51,5 +52,13 @@ class CustomUrl extends AbstractNode
         $this->profiler->stop(__METHOD__);
 
         return $data;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function processNodeClone(NodeInterface $node, NodeInterface $nodeClone): void
+    {
+        parent::processNodeClone($node, $nodeClone);
     }
 }
