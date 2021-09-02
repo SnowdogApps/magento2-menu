@@ -52,12 +52,4 @@ class Wrapper extends AbstractNode
 
         return $data;
     }
-
-    /**
-     * @inheritDoc
-     */
-    public function processNodeClone(NodeInterface $node, NodeInterface $nodeClone): void
-    {
-        parent::processNodeClone($node, $nodeClone);
-    }
 }

@@ -128,14 +128,6 @@ class Category extends AbstractNode
     }
 
     /**
-     * @inheritDoc
-     */
-    public function processNodeClone(NodeInterface $node, NodeInterface $nodeClone): void
-    {
-        parent::processNodeClone($node, $nodeClone);
-    }
-
-    /**
      * @param int|string|\Magento\Store\Model\Store $store
      * @param array $categoryIds
      * @return array

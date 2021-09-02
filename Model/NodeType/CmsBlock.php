@@ -75,12 +75,4 @@ class CmsBlock extends AbstractNode
 
         return [$localNodes, $content];
     }
-
-    /**
-     * @inheritDoc
-     */
-    public function processNodeClone(NodeInterface $node, NodeInterface $nodeClone): void
-    {
-        parent::processNodeClone($node, $nodeClone);
-    }
 }

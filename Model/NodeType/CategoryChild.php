@@ -15,12 +15,4 @@ class CategoryChild extends AbstractNode
     {
         return [];
     }
-
-    /**
-     * @inheritDoc
-     */
-    public function processNodeClone(NodeInterface $node, NodeInterface $nodeClone): void
-    {
-        parent::processNodeClone($node, $nodeClone);
-    }
 }

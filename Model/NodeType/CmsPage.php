@@ -72,12 +72,4 @@ class CmsPage extends AbstractNode
 
         return [$localNodes, $pageIds, $pageUrls];
     }
-
-    /**
-     * @inheritDoc
-     */
-    public function processNodeClone(NodeInterface $node, NodeInterface $nodeClone): void
-    {
-        parent::processNodeClone($node, $nodeClone);
-    }
 }
