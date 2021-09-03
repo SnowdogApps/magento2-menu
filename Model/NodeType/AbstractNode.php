@@ -26,12 +26,14 @@ abstract class AbstractNode implements NodeTypeInterface
      * @var string
      */
     private $_resourceName;
+
     /**
      * Resource model instance
      *
      * @var \Snowdog\Menu\Model\ResourceModel\NodeType\AbstractNode
      */
     private $_resource;
+
     /**
      * @var \Magento\Framework\Profiler
      */
