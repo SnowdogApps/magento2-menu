@@ -6,6 +6,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [2.17.0] - 2021-09-03
+### Changed
+- Improve menu save process node product type validator error messages (#81256)
+
+### Fixed
+- Menu node position reset issues on menu save (#81257)
+
 ## [2.16.0] - 2021-07-21
 ### Added
 - Creation time, update time and store view columns to menu admin grid (#69080)

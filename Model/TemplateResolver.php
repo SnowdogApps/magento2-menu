@@ -111,36 +111,38 @@ class TemplateResolver
     }
 
     /**
-     * @param string $noteType
+     * @param string $nodeType
+     * @param string $defaultTemplateLabel
      * @return array
      */
-    public function getCustomTemplateOptions($noteType)
+    public function getCustomTemplateOptions($nodeType, $defaultTemplateLabel = '')
     {
-        return $this->getTemplateList($noteType);
+        return $this->getTemplateList($nodeType, $defaultTemplateLabel);
     }
 
     /**
-     * @param string $noteType
+     * @param string $nodeType
+     * @param string $defaultTemplateLabel
      * @return array
      * @throws FileSystemException
      */
-    private function getTemplateList($noteType = '')
+    private function getTemplateList($nodeType = '', $defaultTemplateLabel = '')
     {
         $result[] = [
-            'label' => 'default',
-            'id' => $noteType
+            'label' => $defaultTemplateLabel ?: 'default',
+            'id' => $nodeType
         ];
 
-        if (empty($noteType)) {
+        if (empty($nodeType)) {
             return $result;
         }
 
-        if (isset($this->templateList[$noteType])) {
-            return $this->templateList[$noteType];
+        if (isset($this->templateList[$nodeType])) {
+            return $this->templateList[$nodeType];
         }
 
         foreach ($this->getTemplateDir() as $themeDir) {
-            $themeDir .= $noteType . DIRECTORY_SEPARATOR;
+            $themeDir .= $nodeType . DIRECTORY_SEPARATOR;
             if (!$this->driverFile->isExists($themeDir)) {
                 continue;
             }
@@ -163,9 +165,9 @@ class TemplateResolver
             }
         }
 
-        $this->templateList[$noteType] = $result;
+        $this->templateList[$nodeType] = $result;
 
-        return $this->templateList[$noteType];
+        return $this->templateList[$nodeType];
     }
 
     /**
