@@ -116,7 +116,7 @@ class PageActions extends Column
                 [
                     'menu_id' => $menuId,
                     'is_active' => !$isActive,
-                ],
+                ]
             ),
             'label' => __($isActive ? 'Disable' : 'Enable'),
             '__disableTmpl' => true,
