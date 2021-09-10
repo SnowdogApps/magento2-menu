@@ -79,9 +79,19 @@ class CategoryChild extends Category
      */
     public function getVisibleChildren()
     {
-        $categoryId = $this->getContent();
-        $category = $this->categoryRepository->get($categoryId);
         $visibleChildren = [];
+        $categoryId = $this->getContent();
+        if(\is_null($categoryId))
+        {
+            return $visibleChildren;
+        }
+        try{
+            $category = $this->categoryRepository->get($categoryId);
+        }
+        catch (\Magento\Framework\Exception\NoSuchEntityException $ex)
+        {
+            return $visibleChildren;
+        }
         $children = $category->getChildrenCategories();
         if (is_object($children)) {
             $children->clear();
