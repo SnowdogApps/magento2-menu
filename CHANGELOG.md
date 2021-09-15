@@ -5,6 +5,8 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+### Changed
+- GraphQL menu node `target` field data type to boolean ([#209](https://github.com/SnowdogApps/magento2-menu/issues/209))
 
 ## [2.17.0] - 2021-09-03
 ### Changed
