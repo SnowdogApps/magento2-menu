@@ -28,7 +28,7 @@ class InterfaceTypeResolver implements TypeResolverInterface
      *
      * @throws GraphQlInputException
      */
-    public function resolveType(array $data) : string
+    public function resolveType(array $data): string
     {
         if (!isset($data['type'])) {
             throw new GraphQlInputException(__('Missing key "type" in node data.'));
