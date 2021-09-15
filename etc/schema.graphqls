@@ -18,6 +18,7 @@ type SnowdogMenu @doc(description: "SnowdogMenu defines all menu information") {
     css_class: String @doc(description: "Menu CSS class")
     creation_time: String @doc(description: "Menu creation time")
     update_time: String @doc(description: "Menu update time")
+    nodes: SnowdogMenuNodes @doc(description: "Menu nodes") @resolver(class: "Snowdog\\Menu\\Model\\GraphQl\\Resolver\\Menu\\Field\\Nodes")
 }
 
 type SnowdogMenuNodes @doc(description: "Menu nodes information") {
