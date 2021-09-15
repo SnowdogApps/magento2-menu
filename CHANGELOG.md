@@ -5,6 +5,9 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+### Added
+- Menu node type GraphQL interface feature ([#209](https://github.com/SnowdogApps/magento2-menu/issues/209))
+
 ### Changed
 - GraphQL menu node `target` field data type to boolean ([#209](https://github.com/SnowdogApps/magento2-menu/issues/209))
 

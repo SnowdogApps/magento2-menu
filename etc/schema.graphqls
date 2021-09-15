@@ -21,10 +21,18 @@ type SnowdogMenu @doc(description: "SnowdogMenu defines all menu information") {
 }
 
 type SnowdogMenuNodes @doc(description: "Menu nodes information") {
-    items: [SnowdogMenuNode] @doc(description: "An array of menu nodes")
+    items: [SnowdogMenuNodeInterface] @doc(description: "An array of menu nodes")
 }
 
-type SnowdogMenuNode @doc(description: "SnowdogMenuNode defines all menu node information") {
+type SnowdogMenuNode implements SnowdogMenuNodeInterface @doc(description: "Snowdog menu default node type")
+{
+}
+
+type SnowdogMenuCustomUrlNode implements SnowdogMenuNodeInterface, SnowdogMenuCustomUrlNodeInterface @doc(description: "Snowdog menu custom URL node type")
+{
+}
+
+interface SnowdogMenuNodeInterface @typeResolver(class: "Snowdog\\Menu\\Model\\GraphQl\\Resolver\\Node\\InterfaceTypeResolver") @doc(description: "SnowdogMenuNodeInterface contains the fields that are common to all types of nodes") {
     node_id: Int @doc(description: "Node ID")
     menu_id: Int @doc(description: "Menu ID")
     type: String @doc(description: "Node type")
@@ -34,10 +42,13 @@ type SnowdogMenuNode @doc(description: "SnowdogMenuNode defines all menu node in
     position: Int @doc(description: "Node position")
     level: Int @doc(description: "Node level")
     title: String @doc(description: "Node title")
-    target: Boolean @doc(description: "Node target (false for '_self', true for '_blank')")
     image: String @doc(description: "Node image")
     image_alt_text: String @doc(description: "Node image alt text")
     creation_time: String @doc(description: "Node creation time")
     update_time: String @doc(description: "Node update time")
     additional_data: [String] @doc(description: "Node additional data")
+}
+
+interface SnowdogMenuCustomUrlNodeInterface @typeResolver(class: "Snowdog\\Menu\\Model\\GraphQl\\Resolver\\Node\\InterfaceTypeResolver") @doc(description: "SnowdogMenuCustomUrlNodeInterface contains custom URL nodes specific fields") {
+    target: Boolean @doc(description: "Node target (false for '_self', true for '_blank')")
 }
