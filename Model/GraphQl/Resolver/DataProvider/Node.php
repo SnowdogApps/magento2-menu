@@ -12,6 +12,11 @@ use Snowdog\Menu\Api\NodeRepositoryInterface;
 class Node
 {
     /**
+     * GraphQL type fields.
+     */
+    const TEMPLATE_FIELD = 'node_template';
+
+    /**
      * @var MenuRepositoryInterface
      */
     private $menuRepository;
@@ -69,6 +74,7 @@ class Node
             NodeInterface::TARGET => (bool) $node->getTarget(),
             NodeInterface::IMAGE => $node->getImage(),
             NodeInterface::IMAGE_ALT_TEXT => $node->getImageAltText(),
+            self::TEMPLATE_FIELD => $node->getNodeTemplate(),
             NodeInterface::CREATION_TIME => $node->getCreationTime(),
             NodeInterface::UPDATE_TIME => $node->getUpdateTime(),
             NodeInterface::ADDITIONAL_DATA => $node->getAdditionalData()
