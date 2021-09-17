@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Changed
 - GraphQL menu custom URL node `target` field data type to boolean ([#209](https://github.com/SnowdogApps/magento2-menu/issues/209))
+- Set non-nullable fields in GraphQL schema ([#209](https://github.com/SnowdogApps/magento2-menu/issues/209))
 
 ## [2.17.0] - 2021-09-03
 ### Changed
