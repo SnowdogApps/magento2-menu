@@ -15,6 +15,7 @@ class Node
      * GraphQL type fields.
      */
     const TEMPLATE_FIELD = 'node_template';
+    const SUBMENU_TEMPLATE_FIELD = 'submenu_template';
 
     /**
      * @var MenuRepositoryInterface
@@ -75,6 +76,7 @@ class Node
             NodeInterface::IMAGE => $node->getImage(),
             NodeInterface::IMAGE_ALT_TEXT => $node->getImageAltText(),
             self::TEMPLATE_FIELD => $node->getNodeTemplate(),
+            self::SUBMENU_TEMPLATE_FIELD => $node->getSubmenuTemplate(),
             NodeInterface::CREATION_TIME => $node->getCreationTime(),
             NodeInterface::UPDATE_TIME => $node->getUpdateTime(),
             NodeInterface::ADDITIONAL_DATA => $node->getAdditionalData()
