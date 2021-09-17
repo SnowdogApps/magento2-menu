@@ -7,7 +7,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [Unreleased]
 ### Added
 - Menu node type GraphQL interface feature ([#209](https://github.com/SnowdogApps/magento2-menu/issues/209))
-- Menu nodes field to GraphQL menu type ([#209](https://github.com/SnowdogApps/magento2-menu/issues/209))
+- `stores` and `nodes` fields to GraphQL menu type ([#209](https://github.com/SnowdogApps/magento2-menu/issues/209))
+- `node_template` and `submenu_template` fields to GraphQL menu node type ([#209](https://github.com/SnowdogApps/magento2-menu/issues/209))
 
 ### Changed
 - GraphQL menu custom URL node `target` field data type to boolean ([#209](https://github.com/SnowdogApps/magento2-menu/issues/209))
