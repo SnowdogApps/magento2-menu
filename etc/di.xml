@@ -19,6 +19,15 @@
                 <item name="category_child" xsi:type="object">Snowdog\Menu\Block\NodeType\CategoryChild</item>
                 <item name="wrapper" xsi:type="object">Snowdog\Menu\Block\NodeType\Wrapper</item>
             </argument>
+            <argument name="typeModels" xsi:type="array">
+                <item name="category" xsi:type="object">Snowdog\Menu\Model\NodeType\Category</item>
+                <item name="product" xsi:type="object">Snowdog\Menu\Model\NodeType\Product</item>
+                <item name="cms_page" xsi:type="object">Snowdog\Menu\Model\NodeType\CmsPage</item>
+                <item name="cms_block" xsi:type="object">Snowdog\Menu\Model\NodeType\CmsBlock</item>
+                <item name="custom_url" xsi:type="object">Snowdog\Menu\Model\NodeType\CustomUrl</item>
+                <item name="category_child" xsi:type="object">Snowdog\Menu\Model\NodeType\CategoryChild</item>
+                <item name="wrapper" xsi:type="object">Snowdog\Menu\Model\NodeType\Wrapper</item>
+            </argument>
         </arguments>
     </type>
     <type name="Snowdog\Menu\Model\Menu">

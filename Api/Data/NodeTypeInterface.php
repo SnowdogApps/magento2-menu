@@ -28,4 +28,9 @@ interface NodeTypeInterface
      * @return mixed
      */
     public function fetchConfigData();
+
+    /**
+     * Handles nodes complex clone operations by their types.
+     */
+    public function processNodeClone(NodeInterface $node, NodeInterface $nodeClone): void;
 }

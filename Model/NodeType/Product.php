@@ -5,6 +5,7 @@ namespace Snowdog\Menu\Model\NodeType;
 use Magento\Customer\Model\Session;
 use Magento\Framework\Profiler;
 use Magento\Store\Model\StoreManagerInterface;
+use Snowdog\Menu\Model\Menu\Node\Image\File as NodeImage;
 use Snowdog\Menu\Model\TemplateResolver;
 
 class Product extends AbstractNode
@@ -37,12 +38,13 @@ class Product extends AbstractNode
         Profiler $profiler,
         StoreManagerInterface $storeManager,
         Session $customerSession,
+        NodeImage $nodeImage,
         TemplateResolver $templateResolver
     ) {
         $this->storeManager = $storeManager;
         $this->customerSession = $customerSession;
         $this->templateResolver = $templateResolver;
-        parent::__construct($profiler);
+        parent::__construct($profiler, $nodeImage);
     }
 
     /**

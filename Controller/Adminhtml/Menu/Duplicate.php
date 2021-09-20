@@ -4,14 +4,12 @@ declare(strict_types=1);
 
 namespace Snowdog\Menu\Controller\Adminhtml\Menu;
 
-use Exception;
 use Magento\Backend\App\Action\Context;
 use Magento\Framework\App\Action\HttpGetActionInterface;
-use Psr\Log\LoggerInterface;
 use Snowdog\Menu\Api\MenuRepositoryInterface;
 use Snowdog\Menu\Controller\Adminhtml\MenuAction;
 use Snowdog\Menu\Model\MenuFactory;
-use Snowdog\Menu\Service\Menu\Cloner as MenuCloner;
+use Snowdog\Menu\Service\Menu\CloneRequestProcessor;
 
 class Duplicate extends MenuAction implements HttpGetActionInterface
 {
@@ -21,25 +19,17 @@ class Duplicate extends MenuAction implements HttpGetActionInterface
     const ADMIN_RESOURCE = 'Snowdog_Menu::menus';
 
     /**
-     * @var LoggerInterface
+     * @var CloneRequestProcessor
      */
-    private $logger;
-
-    /**
-     * @var MenuCloner
-     */
-    private $menuCloner;
+    private $cloneRequestProcessor;
 
     public function __construct(
         Context $context,
-        LoggerInterface $logger,
         MenuRepositoryInterface $menuRepository,
         MenuFactory $menuFactory,
-        MenuCloner $menuCloner
+        CloneRequestProcessor $cloneRequestProcessor
     ) {
-        $this->logger = $logger;
-        $this->menuCloner = $menuCloner;
-
+        $this->cloneRequestProcessor = $cloneRequestProcessor;
         parent::__construct($context, $menuRepository, $menuFactory);
     }
 
@@ -50,29 +40,15 @@ class Duplicate extends MenuAction implements HttpGetActionInterface
     {
         $resultRedirect = $this->resultRedirectFactory->create();
         $menu = $this->getCurrentMenu();
+        $redirectPath = '*/*';
 
         if (!$menu->getId()) {
-            $this->messageManager->addErrorMessage(__('Invalid menu ID.'));
-            return $resultRedirect->setPath('*/*');
+            $this->messageManager->addErrorMessage(__('Cannot duplicate a menu with an invalid ID.'));
+            return $resultRedirect->setPath($redirectPath);
         }
 
-        try {
-            $menuClone = $this->menuCloner->clone($menu);
+        $this->cloneRequestProcessor->clone($menu);
 
-            $successMessage = __(
-                'Menu "%1" has been successfully duplicated as "%2".',
-                $menu->getIdentifier(),
-                $menuClone->getIdentifier()
-            );
-
-            $this->messageManager->addSuccessMessage($successMessage);
-        } catch (Exception $exception) {
-            $this->logger->critical($exception);
-            $this->messageManager->addErrorMessage(
-                __('An error occurred while duplicating menu "%1".', $menu->getIdentifier())
-            );
-        }
-
-        return $resultRedirect->setPath('*/*');
+        return $resultRedirect->setPath($redirectPath);
     }
 }
