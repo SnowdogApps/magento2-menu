@@ -38,6 +38,10 @@ type SnowdogMenuCustomUrlNode implements SnowdogMenuNodeInterface, SnowdogMenuNo
 {
 }
 
+type SnowdogMenuWrapperNode implements SnowdogMenuNodeInterface @doc(description: "Snowdog menu wrapper node type")
+{
+}
+
 interface SnowdogMenuNodeInterface @typeResolver(class: "Snowdog\\Menu\\Model\\GraphQl\\Resolver\\Node\\InterfaceTypeResolver") @doc(description: "SnowdogMenuNodeInterface contains the fields that are common to all types of nodes") {
     node_id: Int! @doc(description: "Node ID")
     menu_id: Int! @doc(description: "Menu ID")
