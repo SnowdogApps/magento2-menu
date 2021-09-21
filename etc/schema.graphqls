@@ -26,11 +26,11 @@ type SnowdogMenuNodes @doc(description: "Menu nodes information") {
     items: [SnowdogMenuNodeInterface!] @doc(description: "An array of menu nodes")
 }
 
-type SnowdogMenuNode implements SnowdogMenuNodeInterface, SnowdogMenuNodeContentFieldInterface @doc(description: "Snowdog menu default node type")
+type SnowdogMenuNode implements SnowdogMenuNodeInterface, SnowdogMenuNodeContentFieldInterface, SnowdogMenuNodeImageFieldInterface @doc(description: "Snowdog menu default node type")
 {
 }
 
-type SnowdogMenuCustomUrlNode implements SnowdogMenuNodeInterface, SnowdogMenuNodeContentFieldInterface, SnowdogMenuCustomUrlNodeInterface @doc(description: "Snowdog menu custom URL node type")
+type SnowdogMenuCustomUrlNode implements SnowdogMenuNodeInterface, SnowdogMenuNodeContentFieldInterface, SnowdogMenuNodeImageFieldInterface, SnowdogMenuCustomUrlNodeInterface @doc(description: "Snowdog menu custom URL node type")
 {
 }
 
@@ -43,8 +43,6 @@ interface SnowdogMenuNodeInterface @typeResolver(class: "Snowdog\\Menu\\Model\\G
     position: Int! @doc(description: "Node position")
     level: Int! @doc(description: "Node level")
     title: String @doc(description: "Node title")
-    image: String @doc(description: "Node image")
-    image_alt_text: String @doc(description: "Node image alt text")
     node_template: String @doc(description: "Node template")
     submenu_template: String @doc(description: "Node submenu template")
     creation_time: String! @doc(description: "Node creation time")
@@ -54,6 +52,11 @@ interface SnowdogMenuNodeInterface @typeResolver(class: "Snowdog\\Menu\\Model\\G
 
 interface SnowdogMenuNodeContentFieldInterface @typeResolver(class: "Snowdog\\Menu\\Model\\GraphQl\\Resolver\\Node\\InterfaceTypeResolver") @doc(description: "SnowdogMenuNodeContentFieldsInterface defines node content field") {
     content: String @doc(description: "Node content")
+}
+
+interface SnowdogMenuNodeImageFieldInterface @typeResolver(class: "Snowdog\\Menu\\Model\\GraphQl\\Resolver\\Node\\InterfaceTypeResolver") @doc(description: "SnowdogMenuNodeContentFieldsInterface defines node image fields") {
+    image: String @doc(description: "Node image")
+    image_alt_text: String @doc(description: "Node image alt text")
 }
 
 interface SnowdogMenuCustomUrlNodeInterface @typeResolver(class: "Snowdog\\Menu\\Model\\GraphQl\\Resolver\\Node\\InterfaceTypeResolver") @doc(description: "SnowdogMenuCustomUrlNodeInterface contains custom URL nodes specific fields") {
