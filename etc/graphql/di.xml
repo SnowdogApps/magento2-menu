@@ -10,6 +10,7 @@
         <arguments>
             <argument name="map" xsi:type="array">
                 <item name="snowdog_menu_node" xsi:type="array">
+                    <item name="cms_page" xsi:type="string">SnowdogMenuCmsPageNode</item>
                     <item name="custom_url" xsi:type="string">SnowdogMenuCustomUrlNode</item>
                 </item>
             </argument>

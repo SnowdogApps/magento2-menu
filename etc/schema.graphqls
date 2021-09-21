@@ -30,6 +30,10 @@ type SnowdogMenuNode implements SnowdogMenuNodeInterface, SnowdogMenuNodeContent
 {
 }
 
+type SnowdogMenuCmsPageNode implements SnowdogMenuNodeInterface, SnowdogMenuNodeContentFieldInterface @doc(description: "Snowdog menu CMS page node type")
+{
+}
+
 type SnowdogMenuCustomUrlNode implements SnowdogMenuNodeInterface, SnowdogMenuNodeContentFieldInterface, SnowdogMenuNodeImageFieldInterface, SnowdogMenuCustomUrlNodeInterface @doc(description: "Snowdog menu custom URL node type")
 {
 }
