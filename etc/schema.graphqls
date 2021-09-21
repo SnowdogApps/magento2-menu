@@ -26,11 +26,11 @@ type SnowdogMenuNodes @doc(description: "Menu nodes information") {
     items: [SnowdogMenuNodeInterface!] @doc(description: "An array of menu nodes")
 }
 
-type SnowdogMenuNode implements SnowdogMenuNodeInterface @doc(description: "Snowdog menu default node type")
+type SnowdogMenuNode implements SnowdogMenuNodeInterface, SnowdogMenuNodeContentFieldInterface @doc(description: "Snowdog menu default node type")
 {
 }
 
-type SnowdogMenuCustomUrlNode implements SnowdogMenuNodeInterface, SnowdogMenuCustomUrlNodeInterface @doc(description: "Snowdog menu custom URL node type")
+type SnowdogMenuCustomUrlNode implements SnowdogMenuNodeInterface, SnowdogMenuNodeContentFieldInterface, SnowdogMenuCustomUrlNodeInterface @doc(description: "Snowdog menu custom URL node type")
 {
 }
 
@@ -38,7 +38,6 @@ interface SnowdogMenuNodeInterface @typeResolver(class: "Snowdog\\Menu\\Model\\G
     node_id: Int! @doc(description: "Node ID")
     menu_id: Int! @doc(description: "Menu ID")
     type: String! @doc(description: "Node type")
-    content: String @doc(description: "Node content")
     classes: String @doc(description: "Node classes")
     parent_id: Int @doc(description: "Node parent ID")
     position: Int! @doc(description: "Node position")
@@ -51,6 +50,10 @@ interface SnowdogMenuNodeInterface @typeResolver(class: "Snowdog\\Menu\\Model\\G
     creation_time: String! @doc(description: "Node creation time")
     update_time: String! @doc(description: "Node update time")
     additional_data: [String!] @doc(description: "Node additional data")
+}
+
+interface SnowdogMenuNodeContentFieldInterface @typeResolver(class: "Snowdog\\Menu\\Model\\GraphQl\\Resolver\\Node\\InterfaceTypeResolver") @doc(description: "SnowdogMenuNodeContentFieldsInterface defines node content field") {
+    content: String @doc(description: "Node content")
 }
 
 interface SnowdogMenuCustomUrlNodeInterface @typeResolver(class: "Snowdog\\Menu\\Model\\GraphQl\\Resolver\\Node\\InterfaceTypeResolver") @doc(description: "SnowdogMenuCustomUrlNodeInterface contains custom URL nodes specific fields") {
