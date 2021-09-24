@@ -7,31 +7,17 @@ namespace Snowdog\Menu\Model\GraphQl\Resolver\DataProvider;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Snowdog\Menu\Api\Data\MenuInterface;
 use Snowdog\Menu\Api\MenuRepositoryInterface;
-use Snowdog\Menu\Model\GraphQl\Resolver\DataProvider\Store as StoreDataProvider;
 
 class Menu
 {
-    /**
-     * GraphQL type fields.
-     */
-    const STORES_FIELD = 'stores';
-
     /**
      * @var MenuRepositoryInterface
      */
     private $menuRepository;
 
-    /**
-     * @var StoreDataProvider
-     */
-    private $storeDataProvider;
-
-    public function __construct(
-        MenuRepositoryInterface $menuRepository,
-        StoreDataProvider $storeDataProvider
-    ) {
+    public function __construct(MenuRepositoryInterface $menuRepository)
+    {
         $this->menuRepository = $menuRepository;
-        $this->storeDataProvider = $storeDataProvider;
     }
 
     /**
@@ -55,7 +41,6 @@ class Menu
             MenuInterface::IDENTIFIER => $menu->getIdentifier(),
             MenuInterface::TITLE => $menu->getTitle(),
             MenuInterface::CSS_CLASS => $menu->getCssClass(),
-            self::STORES_FIELD => $this->storeDataProvider->getCodes($menu->getStores()),
             MenuInterface::CREATION_TIME => $menu->getCreationTime(),
             MenuInterface::UPDATE_TIME => $menu->getUpdateTime()
         ];
