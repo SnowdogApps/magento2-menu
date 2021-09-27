@@ -122,7 +122,6 @@
                        'node_template': null,
                        'image': this.selectedItem.image,
                        'image_alt_text': this.selectedItem.image_alt_text,
-                       'node_template': null,
                        'submenu_template': null,
                        'columns': [],
                        'is_active': 0
