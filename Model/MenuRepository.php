@@ -141,13 +141,22 @@ class MenuRepository implements MenuRepositoryInterface
         return $searchResults;
     }
 
+    /**
+     * @inheritDoc
+     */
     public function get($identifier, $storeId)
     {
+        if (!is_array($storeId)) {
+            $storeId = [$storeId];
+        }
+
         $collection = $this->collectionFactory->create();
         $collection->addFilter('identifier', $identifier);
         $collection->addFilter('is_active', 1);
         $collection->join(['stores' => 'snowmenu_store'], 'main_table.menu_id = stores.menu_id', 'store_id');
-        $collection->addFilter('store_id', $storeId);
+        $collection->addFilter('store_id', ['in' => $storeId], 'public');
+        $collection->getSelect()->group('main_table.menu_id');
+
         return $collection->getFirstItem();
     }
 
