@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Snowdog\Menu\Model\ResourceModel\Menu;
 
 use Magento\Framework\Model\ResourceModel\Db\Collection\AbstractCollection;
+use Snowdog\Menu\Api\Data\MenuInterface;
 
 class Collection extends AbstractCollection
 {
@@ -26,6 +27,19 @@ class Collection extends AbstractCollection
         foreach ($this->getItems() as $menu) {
             $menu->addData(['stores' => $menu->getStores()]);
         }
+
+        return $this;
+    }
+
+    public function joinStoreRelationTable(): self
+    {
+        $this->getSelect()
+            ->join(
+                ['store_table' => $this->getTable(MenuInterface::STORE_RELATION_TABLE)],
+                'main_table.' . MenuInterface::MENU_ID . ' = store_table.' . MenuInterface::MENU_ID,
+                []
+            )
+            ->group('main_table.' . MenuInterface::MENU_ID);
 
         return $this;
     }
