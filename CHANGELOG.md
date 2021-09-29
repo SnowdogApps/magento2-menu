@@ -10,7 +10,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - `nodes` fields to GraphQL menu type ([#209](https://github.com/SnowdogApps/magento2-menu/issues/209))
 - `node_template` and `submenu_template` fields to GraphQL menu node type ([#209](https://github.com/SnowdogApps/magento2-menu/issues/209))
 - Multiple store IDs filtering to menu repository `get` method ([#209](https://github.com/SnowdogApps/magento2-menu/issues/209))
-- Store ID filtering to menu repository `getList` method ([#209](https://github.com/SnowdogApps/magento2-menu/issues/209))
+- Store ID filtering support to menu repository `getList` method ([#209](https://github.com/SnowdogApps/magento2-menu/issues/209))
 
 ### Changed
 - GraphQL menu custom URL node `target` field data type to boolean ([#209](https://github.com/SnowdogApps/magento2-menu/issues/209))
