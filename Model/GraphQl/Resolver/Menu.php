@@ -54,7 +54,7 @@ class Menu implements ResolverInterface
             throw new GraphQlInputException(__('Menus "identifiers" must be specified.'));
         }
 
-        return $args['identifiers'];
+        return array_unique(array_filter($args['identifiers']));
     }
 
     /**
