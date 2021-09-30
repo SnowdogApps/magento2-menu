@@ -10,7 +10,7 @@ interface MenuRepositoryInterface
 {
     /**
      * @param string $identifier
-     * @param int|array $storeId
+     * @param int $storeId
      * @return \Snowdog\Menu\Model\Menu
      * @throws NoSuchEntityException
      */
