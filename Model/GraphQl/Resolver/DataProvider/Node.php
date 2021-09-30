@@ -27,6 +27,11 @@ class Node
      */
     private $menuDataProvider;
 
+    /**
+     * @var array
+     */
+    private $loadedNodes = [];
+
     public function __construct(
         NodeRepositoryInterface $nodeRepository,
         MenuDataProvider $menuDataProvider
@@ -40,6 +45,10 @@ class Node
      */
     public function getNodesByMenuIdentifier(string $identifier, int $storeId): array
     {
+        if (isset($this->loadedNodes[$identifier])) {
+            return $this->loadedNodes[$identifier];
+        }
+
         $menu = $this->menuDataProvider->get($identifier, $storeId);
 
         if (!$menu) {
@@ -49,15 +58,18 @@ class Node
         }
 
         $nodes = $this->nodeRepository->getByIdentifier($identifier);
-        $data = [];
 
         foreach ($nodes as $node) {
             if ($node->getIsActive()) {
-                $data[(int) $node->getId()] = $this->convertData($node);
+                $this->loadedNodes[$identifier][(int) $node->getId()] = $this->convertData($node);
             }
         }
 
-        return $data;
+        if (!isset($this->loadedNodes[$identifier])) {
+            $this->loadedNodes[$identifier] = [];
+        }
+
+        return $this->loadedNodes[$identifier];
     }
 
     private function convertData(NodeInterface $node): array
