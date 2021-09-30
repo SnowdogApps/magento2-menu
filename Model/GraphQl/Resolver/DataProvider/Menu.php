@@ -7,6 +7,7 @@ namespace Snowdog\Menu\Model\GraphQl\Resolver\DataProvider;
 use Magento\Framework\Api\SearchCriteriaBuilder;
 use Magento\Framework\Api\SortOrder;
 use Magento\Framework\Api\SortOrderBuilder;
+use Magento\Store\Model\Store;
 use Snowdog\Menu\Api\Data\MenuInterface;
 use Snowdog\Menu\Api\MenuRepositoryInterface;
 
@@ -64,7 +65,7 @@ class Menu
 
         $this->searchCriteriaBuilder
             ->addFilter(MenuInterface::IS_ACTIVE, 1)
-            ->addFilter(MenuInterface::STORE_ID, [$storeId], 'in')
+            ->addFilter(MenuInterface::STORE_ID, [$storeId, Store::DEFAULT_STORE_ID], 'in')
             ->setSortOrders([$sortOrder]);
 
         if (!is_array($identifier)) {
