@@ -1,6 +1,6 @@
 type Query {
     snowdogMenus (
-        identifiers: [String!]! @doc(description: "Identifier of the menu")
+        identifiers: [String] @doc(description: "Identifier of the menu")
     ): SnowdogMenus @resolver(class: "Snowdog\\Menu\\Model\\GraphQl\\Resolver\\Menu") @doc(description: "The snowdogMenus query returns information about active menus") @cache(cacheIdentity: "Snowdog\\Menu\\Model\\GraphQl\\Resolver\\Menu\\Identity")
     snowdogMenuNodes (
         identifier: String! @doc(description: "Identifier of nodes menu")

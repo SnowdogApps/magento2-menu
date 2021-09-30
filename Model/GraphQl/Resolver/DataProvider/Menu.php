@@ -4,34 +4,82 @@ declare(strict_types=1);
 
 namespace Snowdog\Menu\Model\GraphQl\Resolver\DataProvider;
 
-use Magento\Framework\Exception\NoSuchEntityException;
+use Magento\Framework\Api\SearchCriteriaBuilder;
+use Magento\Framework\Api\SortOrder;
+use Magento\Framework\Api\SortOrderBuilder;
 use Snowdog\Menu\Api\Data\MenuInterface;
 use Snowdog\Menu\Api\MenuRepositoryInterface;
 
 class Menu
 {
     /**
+     * @var SearchCriteriaBuilder
+     */
+    private $searchCriteriaBuilder;
+
+    /**
+     * @var SortOrderBuilder
+     */
+    private $sortOrderBuilder;
+
+    /**
      * @var MenuRepositoryInterface
      */
     private $menuRepository;
 
-    public function __construct(MenuRepositoryInterface $menuRepository)
-    {
+    public function __construct(
+        SearchCriteriaBuilder $searchCriteriaBuilder,
+        SortOrderBuilder $sortOrderBuilder,
+        MenuRepositoryInterface $menuRepository
+    ) {
+        $this->searchCriteriaBuilder = $searchCriteriaBuilder;
+        $this->sortOrderBuilder = $sortOrderBuilder;
         $this->menuRepository = $menuRepository;
     }
 
-    /**
-     * @throws NoSuchEntityException
-     */
-    public function getMenuByIdentifier(string $identifier, int $store): array
+    public function getList(array $identifiers, int $storeId): array
     {
-        $menu = $this->menuRepository->get($identifier, $store);
+        $searchCriteria = $this->prepareSearchCriteriaBuilder($identifiers, $storeId)->create();
+        $menuList = $this->menuRepository->getList($searchCriteria);
+        $menus = [];
 
-        if (!$menu->getId()) {
-            throw new NoSuchEntityException(__('Could not find a menu with identifier "%1".', $identifier));
+        foreach ($menuList->getItems() as $menu) {
+            if (!isset($menus[$menu->getIdentifier()])) {
+                $menus[$menu->getIdentifier()] = $this->convertData($menu);
+            }
         }
 
-        return $this->convertData($menu);
+        return $menus;
+    }
+
+    /**
+     * @param string|array $identifier
+     */
+    private function prepareSearchCriteriaBuilder($identifier, int $storeId): SearchCriteriaBuilder
+    {
+        $sortOrder = $this->sortOrderBuilder
+            ->setField(MenuInterface::STORE_ID)
+            ->setDirection(SortOrder::SORT_DESC)
+            ->create();
+
+        $this->searchCriteriaBuilder
+            ->addFilter(MenuInterface::IS_ACTIVE, 1)
+            ->addFilter(MenuInterface::STORE_ID, [$storeId], 'in')
+            ->setSortOrders([$sortOrder]);
+
+        if (!is_array($identifier)) {
+            $identifier = [$identifier];
+        }
+
+        if ($identifier || is_numeric($identifier)) {
+            if (!is_array($identifier)) {
+                $identifier = [(string) $identifier];
+            }
+
+            $this->searchCriteriaBuilder->addFilter(MenuInterface::IDENTIFIER, $identifier, 'in');
+        }
+
+        return $this->searchCriteriaBuilder;
     }
 
     private function convertData(MenuInterface $menu): array
