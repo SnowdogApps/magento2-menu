@@ -6,8 +6,8 @@ namespace Snowdog\Menu\Model\GraphQl\Resolver\DataProvider;
 
 use Magento\Framework\Exception\NoSuchEntityException;
 use Snowdog\Menu\Api\Data\NodeInterface;
-use Snowdog\Menu\Api\MenuRepositoryInterface;
 use Snowdog\Menu\Api\NodeRepositoryInterface;
+use Snowdog\Menu\Model\GraphQl\Resolver\DataProvider\Menu as MenuDataProvider;
 
 class Node
 {
@@ -18,31 +18,31 @@ class Node
     const SUBMENU_TEMPLATE_FIELD = 'submenu_template';
 
     /**
-     * @var MenuRepositoryInterface
-     */
-    private $menuRepository;
-
-    /**
      * @var NodeRepositoryInterface
      */
     private $nodeRepository;
 
+    /**
+     * @var MenuDataProvider
+     */
+    private $menuDataProvider;
+
     public function __construct(
-        MenuRepositoryInterface $menuRepository,
-        NodeRepositoryInterface $nodeRepository
+        NodeRepositoryInterface $nodeRepository,
+        MenuDataProvider $menuDataProvider
     ) {
-        $this->menuRepository = $menuRepository;
         $this->nodeRepository = $nodeRepository;
+        $this->menuDataProvider = $menuDataProvider;
     }
 
     /**
      * @throws NoSuchEntityException
      */
-    public function getNodesByMenuIdentifier(string $identifier, int $store): array
+    public function getNodesByMenuIdentifier(string $identifier, int $storeId): array
     {
-        $menu = $this->menuRepository->get($identifier, $store);
+        $menu = $this->menuDataProvider->get($identifier, $storeId);
 
-        if (!$menu->getId()) {
+        if (!$menu) {
             throw new NoSuchEntityException(
                 __('Could not find a menu with identifier "%1".', $identifier)
             );

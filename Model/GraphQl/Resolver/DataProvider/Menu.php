@@ -53,6 +53,17 @@ class Menu
         return $menus;
     }
 
+    public function get(string $identifier, int $storeId): ?MenuInterface
+    {
+        $searchCriteria = $this->prepareSearchCriteriaBuilder($identifier, $storeId)
+            ->setPageSize(1)
+            ->create();
+
+        $menuList = $this->menuRepository->getList($searchCriteria)->getItems();
+
+        return $menuList ? reset($menuList) : null;
+    }
+
     /**
      * @param string|array $identifier
      */
