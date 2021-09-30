@@ -24,9 +24,7 @@ class InterfaceTypeResolver implements TypeResolverInterface
     }
 
     /**
-     * {@inheritDoc}
-     *
-     * @throws GraphQlInputException
+     * @inheritDoc
      */
     public function resolveType(array $data): string
     {
