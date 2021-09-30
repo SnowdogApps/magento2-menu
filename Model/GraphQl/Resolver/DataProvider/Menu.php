@@ -68,10 +68,6 @@ class Menu
             ->addFilter(MenuInterface::STORE_ID, [$storeId, Store::DEFAULT_STORE_ID], 'in')
             ->setSortOrders([$sortOrder]);
 
-        if (!is_array($identifier)) {
-            $identifier = [$identifier];
-        }
-
         if ($identifier || is_numeric($identifier)) {
             if (!is_array($identifier)) {
                 $identifier = [(string) $identifier];
