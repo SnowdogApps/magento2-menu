@@ -17,6 +17,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - GraphQL menu custom URL node `target` field data type to boolean ([#209](https://github.com/SnowdogApps/magento2-menu/issues/209))
 - Set non-nullable fields in GraphQL schema ([#209](https://github.com/SnowdogApps/magento2-menu/issues/209))
 - Handle duplicate and empty values in GraphQL `snowdogMenus` query `identifiers` argument ([#209](https://github.com/SnowdogApps/magento2-menu/issues/209))
+- Memoize loaded menus in GraphQL menu data provider to improve nodes loading performance ([#209](https://github.com/SnowdogApps/magento2-menu/issues/209))
 
 ## [2.17.0] - 2021-09-03
 ### Changed

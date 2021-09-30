@@ -28,6 +28,11 @@ class Menu
      */
     private $menuRepository;
 
+    /**
+     * @var array
+     */
+    private $loadedMenus = [];
+
     public function __construct(
         SearchCriteriaBuilder $searchCriteriaBuilder,
         SortOrderBuilder $sortOrderBuilder,
@@ -45,8 +50,11 @@ class Menu
         $menus = [];
 
         foreach ($menuList->getItems() as $menu) {
-            if (!isset($menus[$menu->getIdentifier()])) {
-                $menus[$menu->getIdentifier()] = $this->convertData($menu);
+            $identifier = $menu->getIdentifier();
+
+            if (!isset($menus[$identifier])) {
+                $menus[$identifier] = $this->convertData($menu);
+                $this->loadedMenus[$identifier] = $menu;
             }
         }
 
@@ -55,6 +63,10 @@ class Menu
 
     public function get(string $identifier, int $storeId): ?MenuInterface
     {
+        if (isset($this->loadedMenus[$identifier])) {
+            return $this->loadedMenus[$identifier];
+        }
+
         $searchCriteria = $this->prepareSearchCriteriaBuilder($identifier, $storeId)
             ->setPageSize(1)
             ->create();
