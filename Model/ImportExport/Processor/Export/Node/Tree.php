@@ -8,6 +8,7 @@ use Snowdog\Menu\Api\Data\NodeInterface;
 use Snowdog\Menu\Model\ImportExport\Processor\Export\Node;
 use Snowdog\Menu\Model\ImportExport\Processor\Export\Node\DataProcessor;
 use Snowdog\Menu\Model\ImportExport\Processor\ExtendedFields;
+use SplFixedArray;
 
 class Tree
 {
@@ -75,8 +76,7 @@ class Tree
 
     private function reindexTreeNodes(array $nodes): array
     {
-        $nodesCount = count($nodes);
-        $tree = $nodesCount ? array_fill(0, $nodesCount, []) : [];
+        $tree = new SplFixedArray(count($nodes));
 
         foreach ($nodes as $node) {
             if (isset($node[ExtendedFields::NODES])) {
@@ -89,6 +89,6 @@ class Tree
             $tree[$position] = $node;
         }
 
-        return $tree;
+        return $tree->toArray();
     }
 }
