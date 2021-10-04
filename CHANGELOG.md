@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Fixed
 - Menu node image file cloner error handling (#80889)
+- Handle child nodes of pending parents in data export tree generation process ([#206](https://github.com/SnowdogApps/magento2-menu/issues/206))
 
 ## [2.17.0] - 2021-09-03
 ### Changed
