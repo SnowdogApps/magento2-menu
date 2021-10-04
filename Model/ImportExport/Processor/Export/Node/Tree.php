@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Snowdog\Menu\Model\ImportExport\Processor\Export\Node;
 
+use Snowdog\Menu\Api\Data\NodeInterface;
 use Snowdog\Menu\Model\ImportExport\Processor\Export\Node;
 use Snowdog\Menu\Model\ImportExport\Processor\Export\Node\DataProcessor;
 use Snowdog\Menu\Model\ImportExport\Processor\ExtendedFields;
@@ -74,14 +75,18 @@ class Tree
 
     private function reindexTreeNodes(array $nodes): array
     {
-        $tree = [];
+        $nodesCount = count($nodes);
+        $tree = $nodesCount ? array_fill(0, $nodesCount, []) : [];
 
         foreach ($nodes as $node) {
             if (isset($node[ExtendedFields::NODES])) {
                 $node[ExtendedFields::NODES] = $this->reindexTreeNodes($node[ExtendedFields::NODES]);
             }
 
-            $tree[] = $node;
+            $position = $node[NodeInterface::POSITION];
+            unset($node[NodeInterface::POSITION]);
+
+            $tree[$position] = $node;
         }
 
         return $tree;
