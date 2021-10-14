@@ -25,20 +25,16 @@ type SnowdogMenuNodes @doc(description: "Menu nodes information") {
     items: [SnowdogMenuNodeInterface!] @doc(description: "An array of menu nodes")
 }
 
-type SnowdogMenuNode implements SnowdogMenuNodeInterface, SnowdogMenuNodeContentFieldInterface, SnowdogMenuNodeImageFieldInterface @doc(description: "Snowdog menu default node type")
-{
+type SnowdogMenuNode implements SnowdogMenuNodeInterface, SnowdogMenuNodeContentFieldInterface, SnowdogMenuNodeImageFieldInterface @doc(description: "Snowdog menu default node type") {
 }
 
-type SnowdogMenuCmsPageNode implements SnowdogMenuNodeInterface, SnowdogMenuNodeContentFieldInterface @doc(description: "Snowdog menu CMS page node type")
-{
+type SnowdogMenuCmsPageNode implements SnowdogMenuNodeInterface, SnowdogMenuNodeContentFieldInterface @doc(description: "Snowdog menu CMS page node type") {
 }
 
-type SnowdogMenuCustomUrlNode implements SnowdogMenuNodeInterface, SnowdogMenuNodeContentFieldInterface, SnowdogMenuNodeImageFieldInterface, SnowdogMenuCustomUrlNodeInterface @doc(description: "Snowdog menu custom URL node type")
-{
+type SnowdogMenuCustomUrlNode implements SnowdogMenuNodeInterface, SnowdogMenuNodeContentFieldInterface, SnowdogMenuNodeImageFieldInterface, SnowdogMenuCustomUrlNodeInterface @doc(description: "Snowdog menu custom URL node type") {
 }
 
-type SnowdogMenuWrapperNode implements SnowdogMenuNodeInterface @doc(description: "Snowdog menu wrapper node type")
-{
+type SnowdogMenuWrapperNode implements SnowdogMenuNodeInterface @doc(description: "Snowdog menu wrapper node type") {
 }
 
 interface SnowdogMenuNodeInterface @typeResolver(class: "Snowdog\\Menu\\Model\\GraphQl\\Resolver\\Node\\InterfaceTypeResolver") @doc(description: "SnowdogMenuNodeInterface contains the fields that are common to all types of nodes") {
