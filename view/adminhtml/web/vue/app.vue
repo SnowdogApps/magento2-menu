@@ -128,7 +128,6 @@
                    });
                 },
                 handleDrop(data) {
-                    data.item.id = uuid();
                     data.list.splice(data.index, 0, data.item);
                 },
                 updateSerializedNodes(value) {
