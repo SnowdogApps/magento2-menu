@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Changed
 - Make the menu duplicate feature execute in a DB transaction (#80889)
 - Refactor menu duplicate feature code in menu admin controller save and duplicate actions (#80889)
+- Don't print messages about custom nodes templates if they are not set (#82414)
 
 ### Fixed
 - Menu node image file cloner error handling (#80889)

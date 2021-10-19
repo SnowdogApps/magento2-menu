@@ -24,6 +24,7 @@
                 :options="options"
                 :placeholder="placeholder"
                 :clearable="false"
+                :disabled="disabled"
             >
                 <template v-slot:option="option">
                     {{ option.label }}
@@ -72,6 +73,10 @@
                     default: 'default'
                 },
                 isTree: {
+                    type: Boolean,
+                    default: false
+                },
+                disabled: {
                     type: Boolean,
                     default: false
                 }
