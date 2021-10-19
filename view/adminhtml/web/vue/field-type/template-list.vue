@@ -8,7 +8,7 @@
             :options="options"
             :default-option-value="defaultOptionValue"
             :config="config"
-            :disabled="disabled"
+            :is-disabled="isDisabled"
         />
     </div>
 </template>
@@ -71,7 +71,7 @@ define(['Vue', 'mage/translate'], function(Vue, $t) {
                 }
                 return list;
             },
-            disabled () {
+            isDisabled () {
                 return this.options.length <= 1
             }
         },

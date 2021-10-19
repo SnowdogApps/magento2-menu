@@ -3,7 +3,6 @@
         <label class="label admin__field-label">
             {{ label }}
         </label>
-
         <div class="admin__field-control control">
             <treeselect
                 v-if="isTree"
@@ -24,7 +23,7 @@
                 :options="options"
                 :placeholder="placeholder"
                 :clearable="false"
-                :disabled="disabled"
+                :disabled="isDisabled"
             >
                 <template v-slot:option="option">
                     {{ option.label }}
@@ -76,7 +75,7 @@
                     type: Boolean,
                     default: false
                 },
-                disabled: {
+                isDisabled: {
                     type: Boolean,
                     default: false
                 }
