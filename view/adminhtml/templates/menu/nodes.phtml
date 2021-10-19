@@ -9,8 +9,8 @@ foreach ($block->getNodeForms() as $form) {
 $vueComponents = $block->getVueComponents();
 ?>
 
-<div id="snowdog_menu">
-    <snowdog-menu :list="list" :config="config">
+<div id="snowdog-menu">
+    <app-menu :list="list" :config="config">
         <div class="panel__loader">
             <div class="spinner">
                 <span></span>
@@ -23,7 +23,7 @@ $vueComponents = $block->getVueComponents();
                 <span></span>
             </div>
         </div>
-    </snowdog-menu>
+    </app-menu>
 </div>
 
 <script type="text/x-magento-init">

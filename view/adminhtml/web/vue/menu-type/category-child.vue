@@ -1,5 +1,5 @@
 <template>
-    <auto-complete
+    <autocomplete
         :is-tree="true"
         :label="config.translation.categoryChild"
         :description="config.translation.categoryId"
@@ -12,6 +12,7 @@
 <script>
     define(["Vue"], function(Vue) {
         Vue.component('category_child', {
+            name: 'category-child',
             props: {
                 config: {
                     type: Object,

@@ -1,5 +1,5 @@
 <template>
-    <auto-complete
+    <autocomplete
         :label="config.translation.block"
         :description="config.translation.blockId"
         :item="item"
@@ -12,6 +12,7 @@
 <script>
     define(['Vue'], function(Vue) {
         Vue.component('cms_block', {
+            name: 'cms-block',
             props: {
                 config: {
                     type: Object,
