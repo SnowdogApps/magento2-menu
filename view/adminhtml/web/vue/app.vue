@@ -27,7 +27,7 @@
                 <template v-if="list.length > 0">
                     <snowdog-nested-list
                         v-for="(item, index) in list"
-                        :key="item.id"
+                        :key="item.uuid"
                         :item="item"
                         :list="list"
                         :index="index"
@@ -68,7 +68,7 @@
     ], function(Vue, uuid) {
         Vue.component('snowdog-menu', {
             props: {
-                list: {
+                nodes: {
                     type: Array,
                     required: true
                 },
@@ -79,6 +79,7 @@
             },
             data: function() {
                 return {
+                    list: [],
                     selectedItem: false
                 };
             },
@@ -93,7 +94,6 @@
                 }
             },
             mounted () {
-                const self = this;
                 // check if serialized_nodes input loaded
                 const checkElement = async selector => {
                     while (document.querySelector(selector) === null) {
@@ -101,33 +101,48 @@
                     }
                     return document.querySelector(selector);
                 };
+
                 // while loaded set JSON list as a value
                 checkElement('[name="serialized_nodes"]').then(() => {
-                    self.updateSerializedNodes(self.jsonList);
+                    this.list = this.nodes.map(item => {
+                        item.uuid = this.uuid();
+
+                        item.columns.map(column => {
+                            column.uuid = this.uuid();
+                            return column;
+                        });
+
+                        return item;
+                    });
+
+                    this.updateSerializedNodes(this.jsonList);
                 });
             },
             methods: {
+                uuid,
                 setSelectedNode: function(item) {
                     this.selectedItem = item;
                 },
                 removeNode: function(list, index) {
                     list.splice(index, 1);
                 },
-               addNode: function(target) {
-                   target.push({
-                       'type': 'category',
-                       'title': this.config.translation.addNode,
-                       'id': uuid(),
-                       'content': null,
-                       'node_template': null,
-                       'image': this.selectedItem.image,
-                       'image_alt_text': this.selectedItem.image_alt_text,
-                       'submenu_template': null,
-                       'columns': [],
-                       'is_active': 0
-                   });
+                addNode: function(target) {
+                    target.push({
+                        uuid: this.uuid(),
+                        id: this.uuid(),
+                        type: 'category',
+                        title: this.config.translation.addNode,
+                        content: null,
+                        node_template: null,
+                        image: null,
+                        image_alt_text: null,
+                        submenu_template: null,
+                        columns: [],
+                        is_active: 0
+                    });
                 },
                 handleDrop(data) {
+                    data.item.uuid = this.uuid();
                     data.list.splice(data.index, 0, data.item);
                 },
                 updateSerializedNodes(value) {

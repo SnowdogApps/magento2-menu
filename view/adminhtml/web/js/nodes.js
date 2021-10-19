@@ -26,8 +26,9 @@ define([
 
             Vue.component('v-select', vueSelect.VueSelect);
             Vue.component('treeselect', vueTreeselect.Treeselect);
+
             var app = new Vue({
-                el  : config.el || "#snowdog_menu",
+                el: config.el || "#snowdog_menu",
                 data: config.data
             });
 
