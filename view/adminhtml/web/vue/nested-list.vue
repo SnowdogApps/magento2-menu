@@ -65,7 +65,7 @@
                 >
                     <template v-if="editItem">
                         <vddl-nodrag>
-                            <snowdog-menu-type
+                            <menu-type
                                 :item.sync="item"
                                 :config="config"
                             />
@@ -73,7 +73,7 @@
                     </template>
 
                     <template v-if="item.columns.length > 0">
-                        <list
+                        <nested-list
                             v-for="(col, number) in item.columns"
                             :key="col.id"
                             :item="col"
@@ -112,8 +112,8 @@
 
 <script>
     define(['Vue'], function(Vue) {
-        Vue.component('snowdog-nested-list', {
-            name: 'List',
+        Vue.component('nested-list', {
+            name: 'nested-list',
             props: {
                 item: {
                     type: Object,

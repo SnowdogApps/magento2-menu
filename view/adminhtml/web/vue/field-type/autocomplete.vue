@@ -41,7 +41,8 @@
 
 <script>
     define(['Vue'], function(Vue) {
-        Vue.component('auto-complete', {
+        Vue.component('autocomplete', {
+            name: 'autocomplete',
             props: {
                 label: {
                     type: String,

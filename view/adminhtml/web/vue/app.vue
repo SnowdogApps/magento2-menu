@@ -25,7 +25,7 @@
                 :drop="handleDrop"
             >
                 <template v-if="list.length > 0">
-                    <snowdog-nested-list
+                    <nested-list
                         v-for="(item, index) in list"
                         :key="item.id"
                         :item="item"
@@ -66,7 +66,7 @@
         'Vue',
         'uuid'
     ], function(Vue, uuid) {
-        Vue.component('snowdog-menu', {
+        Vue.component('app-menu', {
             props: {
                 list: {
                     type: Array,

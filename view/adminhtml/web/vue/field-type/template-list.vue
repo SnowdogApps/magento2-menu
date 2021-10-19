@@ -1,6 +1,6 @@
 <template>
     <div class="admin__fieldset fieldset-wide">
-        <auto-complete
+        <autocomplete
             :label="label[templateType]"
             :description="description[templateType]"
             :item="item"
@@ -15,6 +15,7 @@
 <script>
 define(['Vue', 'mage/translate'], function(Vue, $t) {
     Vue.component("template-list", {
+        name: 'template-list',
         props: {
           config: {
             type: Object,

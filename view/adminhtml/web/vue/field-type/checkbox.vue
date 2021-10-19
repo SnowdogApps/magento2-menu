@@ -47,6 +47,7 @@
 <script>
 define(["Vue"], function(Vue) {
     Vue.component("checkbox", {
+        name: 'checkbox',
         props: {
             label: {
                 type: String,
