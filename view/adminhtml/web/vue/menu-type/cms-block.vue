@@ -11,6 +11,7 @@
 
 <script>
     define(['Vue'], function(Vue) {
+        // eslint-disable-next-line vue/component-definition-name-casing
         Vue.component('cms_block', {
             name: 'cms-block',
             props: {

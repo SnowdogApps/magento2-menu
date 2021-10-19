@@ -38,6 +38,7 @@
 
 <script>
     define(['Vue'], function(Vue) {
+        // eslint-disable-next-line vue/component-definition-name-casing
         Vue.component('custom_url', {
             name: 'custom-url',
             props: {
