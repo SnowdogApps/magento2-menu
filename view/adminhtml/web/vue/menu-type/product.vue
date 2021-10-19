@@ -10,6 +10,7 @@
 <script>
     define(['Vue'], function(Vue) {
         Vue.component('product', {
+            name: 'product',
             props: {
                 config: {
                     type: Object,

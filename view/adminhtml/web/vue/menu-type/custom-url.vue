@@ -39,6 +39,7 @@
 <script>
     define(['Vue'], function(Vue) {
         Vue.component('custom_url', {
+            name: 'custom-url',
             props: {
                 config: {
                     type: Object,

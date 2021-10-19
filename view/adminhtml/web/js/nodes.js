@@ -8,7 +8,7 @@ define([
     "vue!Snowdog_Menu/vue/field-type/autocomplete",
     "vue!Snowdog_Menu/vue/field-type/checkbox",
     "vue!Snowdog_Menu/vue/field-type/image-upload",
-    "vue!Snowdog_Menu/vue/field-type/simple",
+    "vue!Snowdog_Menu/vue/field-type/simple-field",
     "vue!Snowdog_Menu/vue/field-type/template-list",
     "vue!Snowdog_Menu/vue/menu-type",
     "vue!Snowdog_Menu/vue/nested-list"
@@ -28,7 +28,7 @@ define([
             Vue.component('treeselect', vueTreeselect.Treeselect);
 
             var app = new Vue({
-                el: config.el || "#snowdog_menu",
+                el: config.el || "#snowdog-menu",
                 data: config.data
             });
 

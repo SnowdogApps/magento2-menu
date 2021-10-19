@@ -1,5 +1,5 @@
 <template>
-    <auto-complete
+    <autocomplete
         :label="config.translation.page"
         :description="config.translation.pageId"
         :item="item"
@@ -12,6 +12,7 @@
 <script>
     define(['Vue'], function(Vue) {
         Vue.component('cms_page', {
+            name: 'cms-page',
             props: {
                 config: {
                     type: Object,
