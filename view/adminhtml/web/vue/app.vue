@@ -66,7 +66,7 @@
         'Vue',
         'uuid'
     ], function(Vue, uuid) {
-        Vue.component('app-menu', {
+        Vue.component('snowdog-menu', {
             props: {
                 nodes: {
                     type: Array,
