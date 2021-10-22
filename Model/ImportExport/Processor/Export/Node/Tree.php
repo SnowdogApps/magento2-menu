@@ -26,7 +26,6 @@ class Tree
     {
         $tree = [];
         $childNodesClusters = [];
-        $pendingNodesChildClusters = [];
 
         foreach ($nodes as $node) {
             $nodeId = $node->getId();
@@ -37,19 +36,10 @@ class Tree
 
             if (!$parentId) {
                 $tree[$nodeId] = $nodeData;
-
-                if (isset($pendingNodesChildClusters[$nodeId])) {
-                    $tree[$nodeId][ExtendedFields::NODES] = $pendingNodesChildClusters[$nodeId];
-                }
-
                 continue;
             }
 
             $childNodesClusters[$nodeId] = $nodeData;
-
-            if (isset($pendingNodesChildClusters[$nodeId])) {
-                $childNodesClusters[$nodeId][ExtendedFields::NODES] = $pendingNodesChildClusters[$nodeId];
-            }
 
             if (isset($tree[$parentId])) {
                 $tree[$parentId][ExtendedFields::NODES][$nodeId] = &$childNodesClusters[$nodeId];
@@ -60,8 +50,6 @@ class Tree
                 $childNodesClusters[$parentId][ExtendedFields::NODES][$nodeId] = &$childNodesClusters[$nodeId];
                 continue;
             }
-
-            $pendingNodesChildClusters[$parentId][$nodeId] = &$childNodesClusters[$nodeId];
         }
 
         return $this->reindexTreeNodes($tree);
