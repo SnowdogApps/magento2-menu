@@ -14,10 +14,17 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Default store filtering support to GraphQL `snowdogMenus` and `snowdogMenuNodes` queries ([#209](https://github.com/SnowdogApps/magento2-menu/issues/209))
 
 ### Changed
+- Make the menu duplicate feature execute in a DB transaction (#80889)
+- Refactor menu duplicate feature code in menu admin controller save and duplicate actions (#80889)
+- Don't print messages about custom nodes templates if they are not set (#82414)
 - GraphQL menu custom URL node `target` field data type to boolean ([#209](https://github.com/SnowdogApps/magento2-menu/issues/209))
 - Set non-nullable fields in GraphQL schema ([#209](https://github.com/SnowdogApps/magento2-menu/issues/209))
 - Handle duplicate and empty values in GraphQL `snowdogMenus` query `identifiers` argument ([#209](https://github.com/SnowdogApps/magento2-menu/issues/209))
 - Memoize loaded menus in GraphQL menu data provider to improve nodes loading performance ([#209](https://github.com/SnowdogApps/magento2-menu/issues/209))
+
+### Fixed
+- Menu node image file cloner error handling (#80889)
+- Product node type get removed after changing node position and entering the invalid product ID (#81485)
 
 ## [2.17.0] - 2021-09-03
 ### Changed

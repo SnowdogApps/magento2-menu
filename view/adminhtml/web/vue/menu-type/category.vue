@@ -1,5 +1,5 @@
 <template>
-    <auto-complete
+    <autocomplete
         :is-tree="true"
         :label="config.translation.category"
         :description="config.translation.categoryId"
@@ -12,7 +12,9 @@
 
 <script>
     define(['Vue'], function(Vue) {
+        // eslint-disable-next-line vue/component-definition-name-casing
         Vue.component('category', {
+            name: 'category',
             props: {
                 config: {
                     type: Object,

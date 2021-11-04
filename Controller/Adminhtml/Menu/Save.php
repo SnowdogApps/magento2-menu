@@ -11,7 +11,7 @@ use Snowdog\Menu\Api\MenuRepositoryInterface;
 use Snowdog\Menu\Api\Data\MenuInterface;
 use Snowdog\Menu\Controller\Adminhtml\MenuAction;
 use Snowdog\Menu\Model\MenuFactory;
-use Snowdog\Menu\Service\Menu\Cloner as MenuCloner;
+use Snowdog\Menu\Service\Menu\CloneRequestProcessor;
 use Snowdog\Menu\Service\Menu\Hydrator as MenuHydrator;
 use Snowdog\Menu\Service\Menu\SaveRequestProcessor as MenuSaveRequestProcessor;
 
@@ -20,9 +20,9 @@ class Save extends MenuAction implements HttpPostActionInterface
     private const EDIT_RETURN_REDIRECTS = ['edit', 'continue', 'duplicate'];
 
     /**
-     * @var MenuCloner
+     * @var CloneRequestProcessor
      */
-    private $menuCloner;
+    private $cloneRequestProcessor;
 
     /**
      * @var MenuHydrator
@@ -38,11 +38,11 @@ class Save extends MenuAction implements HttpPostActionInterface
         Context $context,
         MenuRepositoryInterface $menuRepository,
         MenuFactory $menuFactory,
-        MenuCloner $menuCloner,
+        CloneRequestProcessor $cloneRequestProcessor,
         MenuHydrator $hydrator,
         MenuSaveRequestProcessor $menuSaveRequestProcessor
     ) {
-        $this->menuCloner = $menuCloner;
+        $this->cloneRequestProcessor = $cloneRequestProcessor;
         $this->hydrator = $hydrator;
         $this->menuSaveRequestProcessor = $menuSaveRequestProcessor;
 
@@ -77,7 +77,7 @@ class Save extends MenuAction implements HttpPostActionInterface
         $pathParams = [];
 
         if ($redirect === 'duplicate') {
-            $menu = $this->menuCloner->clone($menu);
+            $menu = $this->cloneRequestProcessor->clone($menu);
         }
 
         if (in_array($redirect, self::EDIT_RETURN_REDIRECTS)) {
