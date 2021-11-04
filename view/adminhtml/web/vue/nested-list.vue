@@ -75,7 +75,7 @@
                     <template v-if="item.columns.length > 0">
                         <nested-list
                             v-for="(col, number) in item.columns"
-                            :key="col.id"
+                            :key="col.uuid"
                             :item="col"
                             :list="item.columns"
                             :index="number"

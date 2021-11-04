@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Fixed
 - Menu node image file cloner error handling (#80889)
+- Product node type get removed after changing node position and entering the invalid product ID (#81485)
 
 ## [2.17.0] - 2021-09-03
 ### Changed

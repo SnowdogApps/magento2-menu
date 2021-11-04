@@ -10,7 +10,10 @@ $vueComponents = $block->getVueComponents();
 ?>
 
 <div id="snowdog-menu">
-    <app-menu :list="list" :config="config">
+    <snowdog-menu
+      :nodes="nodes"
+      :config="config"
+    >
         <div class="panel__loader">
             <div class="spinner">
                 <span></span>
@@ -23,7 +26,7 @@ $vueComponents = $block->getVueComponents();
                 <span></span>
             </div>
         </div>
-    </app-menu>
+    </snowdog-menu>
 </div>
 
 <script type="text/x-magento-init">
@@ -32,7 +35,7 @@ $vueComponents = $block->getVueComponents();
             "menuNodes": {
                 "vueComponents": <?= json_encode($vueComponents) ?>,
                 "data": {
-                    "list"  : <?= json_encode($block->renderNodes()) ?>,
+                    "nodes"  : <?= json_encode($block->renderNodes()) ?>,
                     "config": {
                         "fieldData"        : <?= json_encode($fieldData) ?>,
                         "nodeTypes"        : <?= json_encode($block->getNodeLabels()) ?>,
