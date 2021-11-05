@@ -25,6 +25,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Fixed
 - Menu node image file cloner error handling (#80889)
 - Product node type get removed after changing node position and entering the invalid product ID (#81485)
+- Handle menu child nodes of pending parent nodes in nodes export tree processor ([#206](https://github.com/SnowdogApps/magento2-menu/issues/206))
+- Sort menu nodes according to their positions in nodes export tree processor ([#206](https://github.com/SnowdogApps/magento2-menu/issues/206))
 
 ## [2.17.0] - 2021-09-03
 ### Changed
