@@ -22,6 +22,7 @@
 <script>
     define(['Vue'], function(Vue) {
         Vue.component('simple-field', {
+            name: 'simple-field',
             props: {
                 label: {
                     type: String,

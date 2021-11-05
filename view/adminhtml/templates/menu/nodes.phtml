@@ -9,8 +9,11 @@ foreach ($block->getNodeForms() as $form) {
 $vueComponents = $block->getVueComponents();
 ?>
 
-<div id="snowdog_menu">
-    <snowdog-menu :list="list" :config="config">
+<div id="snowdog-menu">
+    <snowdog-menu
+      :nodes="nodes"
+      :config="config"
+    >
         <div class="panel__loader">
             <div class="spinner">
                 <span></span>
@@ -32,7 +35,7 @@ $vueComponents = $block->getVueComponents();
             "menuNodes": {
                 "vueComponents": <?= json_encode($vueComponents) ?>,
                 "data": {
-                    "list"  : <?= json_encode($block->renderNodes()) ?>,
+                    "nodes"  : <?= json_encode($block->renderNodes()) ?>,
                     "config": {
                         "fieldData"        : <?= json_encode($fieldData) ?>,
                         "nodeTypes"        : <?= json_encode($block->getNodeLabels()) ?>,
