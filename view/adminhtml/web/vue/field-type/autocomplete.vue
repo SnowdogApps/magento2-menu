@@ -3,7 +3,6 @@
         <label class="label admin__field-label">
             {{ label }}
         </label>
-
         <div class="admin__field-control control">
             <treeselect
                 v-if="isTree"
@@ -24,6 +23,7 @@
                 :options="options"
                 :placeholder="placeholder"
                 :clearable="false"
+                :disabled="isDisabled"
             >
                 <template v-slot:option="option">
                     {{ option.label }}
@@ -41,7 +41,8 @@
 
 <script>
     define(['Vue'], function(Vue) {
-        Vue.component('auto-complete', {
+        Vue.component('autocomplete', {
+            name: 'autocomplete',
             props: {
                 label: {
                     type: String,
@@ -72,6 +73,10 @@
                     default: 'default'
                 },
                 isTree: {
+                    type: Boolean,
+                    default: false
+                },
+                isDisabled: {
                     type: Boolean,
                     default: false
                 }

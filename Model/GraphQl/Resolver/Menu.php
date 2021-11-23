@@ -42,35 +42,23 @@ class Menu implements ResolverInterface
         return ['items' => $this->getData($identifiers, $storeId)];
     }
 
-    /**
-     * @throws GraphQlInputException
-     */
     private function getIdentifiers(array $args): array
     {
-        if (!isset($args['identifiers'])
-            || !is_array($args['identifiers'])
-            || count($args['identifiers']) === 0
-        ) {
-            throw new GraphQlInputException(__('Menus "identifiers" must be specified.'));
+        if (!isset($args['identifiers'])) {
+            return [];
         }
 
-        return $args['identifiers'];
+        return array_unique(array_filter($args['identifiers']));
     }
 
-    /**
-     * @throws GraphQlNoSuchEntityException
-     */
     private function getData(array $identifiers, int $storeId): array
     {
-        $data = [];
+        $data = $this->dataProvider->getList($identifiers, $storeId);
 
         foreach ($identifiers as $identifier) {
-            try {
-                $data[$identifier] = $this->dataProvider->getMenuByIdentifier($identifier, $storeId);
-            } catch (NoSuchEntityException $exception) {
+            if (!isset($data[$identifier])) {
                 $data[$identifier] = new GraphQlNoSuchEntityException(
-                    __($exception->getMessage()),
-                    $exception
+                    __('Could not find a menu with identifier "%1".', $identifier)
                 );
             }
         }

@@ -13,6 +13,9 @@ interface MenuInterface
     const CREATION_TIME = 'creation_time';
     const UPDATE_TIME = 'update_time';
     const IS_ACTIVE = 'is_active';
+    const STORE_ID = 'store_id';
+
+    const STORE_RELATION_TABLE = 'snowmenu_store';
 
     /**
      * Get menu id

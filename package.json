@@ -1,9 +1,9 @@
 {
   "devDependencies": {
-    "eslint": "^6.8.0",
-    "eslint-plugin-vue": "^6.2.2"
+    "eslint": "^8.0.1",
+    "eslint-plugin-vue": "^7.19.1"
   },
   "scripts": {
-    "test": "eslint **/*.{js,vue}"
+    "lint": "eslint **/*.{js,vue}"
   }
 }

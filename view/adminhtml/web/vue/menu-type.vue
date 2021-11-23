@@ -93,7 +93,8 @@
 
 <script>
     define(['Vue', 'mage/translate'], function(Vue, $t) {
-        Vue.component('snowdog-menu-type', {
+        Vue.component('menu-type', {
+            name: 'menu-type',
             props: {
                 item: {
                     type: Object,

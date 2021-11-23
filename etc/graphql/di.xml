@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <type name="Snowdog\Menu\Model\GraphQl\Resolver\Menu\Field\Nodes">
+        <arguments>
+            <argument name="nodeResolver" xsi:type="object">Snowdog\Menu\Model\GraphQl\Resolver\Node</argument>
+        </arguments>
+    </type>
+
+    <type name="Magento\Framework\GraphQl\Schema\Type\Entity\DefaultMapper">
+        <arguments>
+            <argument name="map" xsi:type="array">
+                <item name="snowdog_menu_node" xsi:type="array">
+                    <item name="cms_page" xsi:type="string">SnowdogMenuCmsPageNode</item>
+                    <item name="custom_url" xsi:type="string">SnowdogMenuCustomUrlNode</item>
+                    <item name="wrapper" xsi:type="string">SnowdogMenuWrapperNode</item>
+                </item>
+            </argument>
+        </arguments>
+    </type>
+</config>

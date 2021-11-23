@@ -1,9 +1,6 @@
 <template>
-    <div
-        v-if="isVisible"
-        class="admin__fieldset fieldset-wide"
-    >
-        <auto-complete
+    <div class="admin__fieldset fieldset-wide">
+        <autocomplete
             :label="label[templateType]"
             :description="description[templateType]"
             :item="item"
@@ -11,17 +8,14 @@
             :options="options"
             :default-option-value="defaultOptionValue"
             :config="config"
+            :is-disabled="isDisabled"
         />
-    </div>
-    <div
-        v-else
-    >
-        {{ noCustomTemplatesMessage[templateType] }}
     </div>
 </template>
 <script>
 define(['Vue', 'mage/translate'], function(Vue, $t) {
     Vue.component("template-list", {
+        name: 'template-list',
         props: {
           config: {
             type: Object,
@@ -53,10 +47,6 @@ define(['Vue', 'mage/translate'], function(Vue, $t) {
                 description: {
                   'node': $t('Selected template'),
                   'submenu': $t('Selected template')
-                },
-                noCustomTemplatesMessage: {
-                  'node': $t('There is no custom node template for this type of node.'),
-                  'submenu': $t('There is no custom submenu (children wrapper) template for this type of node.')
                 }
             }
         },
@@ -82,8 +72,8 @@ define(['Vue', 'mage/translate'], function(Vue, $t) {
                 }
                 return list;
             },
-            isVisible () {
-                return this.options.length > 1
+            isDisabled () {
+                return this.options.length <= 1
             }
         },
         template: template

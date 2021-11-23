@@ -14,6 +14,7 @@ use Magento\Catalog\Api\Data\CategoryInterface;
 use Magento\Framework\EntityManager\MetadataPool;
 use Magento\Framework\Profiler;
 use Magento\Catalog\Model\ResourceModel\Category\CollectionFactory;
+use Snowdog\Menu\Model\Menu\Node\Image\File as NodeImage;
 use Snowdog\Menu\Model\TemplateResolver;
 
 class Category extends AbstractNode
@@ -46,12 +47,13 @@ class Category extends AbstractNode
         Profiler $profiler,
         MetadataPool $metadataPool,
         CollectionFactory $categoryCollection,
+        NodeImage $nodeImage,
         TemplateResolver $templateResolver
     ) {
         $this->metadataPool = $metadataPool;
         $this->categoryCollection = $categoryCollection;
         $this->templateResolver = $templateResolver;
-        parent::__construct($profiler);
+        parent::__construct($profiler, $nodeImage);
     }
 
     /**

@@ -11,6 +11,7 @@
 namespace Snowdog\Menu\Model\NodeType;
 
 use Magento\Framework\Profiler;
+use Snowdog\Menu\Model\Menu\Node\Image\File as NodeImage;
 use Snowdog\Menu\Model\TemplateResolver;
 
 class CustomUrl extends AbstractNode
@@ -22,10 +23,11 @@ class CustomUrl extends AbstractNode
 
     public function __construct(
         Profiler $profiler,
+        NodeImage $nodeImage,
         TemplateResolver $templateResolver
     ) {
         $this->templateResolver = $templateResolver;
-        parent::__construct($profiler);
+        parent::__construct($profiler, $nodeImage);
     }
 
     /**

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Snowdog\Menu\Model\Menu\Node\Image;
 
+use Exception;
 use Magento\Framework\App\Filesystem\DirectoryList;
 use Magento\Framework\Exception\FileSystemException;
 use Magento\Framework\File\Uploader;
@@ -12,6 +13,7 @@ use Magento\Framework\Image\AdapterFactory as ImageAdapterFactory;
 use Magento\Framework\UrlInterface;
 use Magento\MediaStorage\Model\File\UploaderFactory;
 use Magento\Store\Model\StoreManagerInterface;
+use Psr\Log\LoggerInterface;
 
 class File
 {
@@ -39,16 +41,23 @@ class File
      */
     private $storeManager;
 
+    /**
+     * @var LoggerInterface
+     */
+    private $logger;
+
     public function __construct(
         Filesystem $filesystem,
         ImageAdapterFactory $imageAdapterFactory,
         UploaderFactory $uploaderFactory,
-        StoreManagerInterface $storeManager
+        StoreManagerInterface $storeManager,
+        LoggerInterface $logger
     ) {
         $this->filesystem = $filesystem;
         $this->imageAdapterFactory = $imageAdapterFactory;
         $this->uploaderFactory = $uploaderFactory;
         $this->storeManager = $storeManager;
+        $this->logger = $logger;
     }
 
     public function upload(): array
@@ -89,12 +98,15 @@ class File
     public function clone(string $file): string
     {
         $mediaDirectory = $this->filesystem->getDirectoryWrite(DirectoryList::MEDIA);
-        $file = $mediaDirectory->getAbsolutePath(self::PATH . $file);
-        $fileCloneName = Uploader::getNewFileName($file);
+        $fileFullPath = $mediaDirectory->getAbsolutePath(self::PATH . $file);
+        $fileCloneName = Uploader::getNewFileName($fileFullPath);
         $fileClonePath = Uploader::getDispersionPath($fileCloneName) . '/' . $fileCloneName;
         $fileClone = $mediaDirectory->getAbsolutePath(self::PATH . $fileClonePath);
 
-        if (!$mediaDirectory->copyFile($file, $fileClone)) {
+        try {
+            $mediaDirectory->copyFile($fileFullPath, $fileClone);
+        } catch (Exception $exception) {
+            $this->logger->critical($exception, ['origin' => 'snowdog-menu-node-image-cloner']);
             throw new FileSystemException(__('Could not clone node image file "%1".', $file));
         }
 
