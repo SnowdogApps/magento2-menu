@@ -5,6 +5,8 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+
+## [2.18.0] - 2021-11-23
 ### Added
 - Menu node type GraphQL interface feature ([#209](https://github.com/SnowdogApps/magento2-menu/issues/209))
 - `nodes` field to GraphQL menu type ([#209](https://github.com/SnowdogApps/magento2-menu/issues/209))
