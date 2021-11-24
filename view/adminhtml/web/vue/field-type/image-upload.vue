@@ -160,7 +160,7 @@
                         }.bind(this),
                         error: function() {
                             $('body').trigger('processStop');
-                            this.uploadError = $t('There was an error during uploading. Please try again.')
+                            this.uploadError = $t('An error has occurred during the menu node image upload.')
                         }.bind(this),
                         complete: function() {
                             this.fileIsUploading = false;
