@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Changed
 - Improve JSON response in node admin controller image delete action (#79674)
+- Improve the menu node image upload error message (#79674)
 
 ### Fixed
 - Image for new nodes set to blank (#79674)
