@@ -2,6 +2,8 @@
 
 namespace Snowdog\Menu\Model;
 
+use Snowdog\Menu\Api\Data\NodeTypeInterface;
+
 class NodeTypeProvider
 {
     /**
@@ -10,13 +12,20 @@ class NodeTypeProvider
     private $providers;
 
     /**
+     * @var array
+     */
+    private $typeModels;
+
+    /**
      * NodeTypeProvider constructor.
      *
      * @param array $providers
+     * @param array $typeModels
      */
-    public function __construct(array $providers = [])
+    public function __construct(array $providers = [], array $typeModels = [])
     {
         $this->providers = $providers;
+        $this->typeModels = $typeModels;
     }
 
     /**
@@ -35,6 +44,11 @@ class NodeTypeProvider
     public function getProvider($type)
     {
         return $this->providers[$type];
+    }
+
+    public function getTypeModel(string $type): NodeTypeInterface
+    {
+        return $this->typeModels[$type];
     }
 
     /**

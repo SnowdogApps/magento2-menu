@@ -17,6 +17,37 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Fixed
 - Image for new nodes set to blank (#79674)
 
+## [2.18.0] - 2021-11-23
+### Added
+- Menu node type GraphQL interface feature ([#209](https://github.com/SnowdogApps/magento2-menu/issues/209))
+- `nodes` field to GraphQL menu type ([#209](https://github.com/SnowdogApps/magento2-menu/issues/209))
+- `node_template` and `submenu_template` fields to GraphQL menu node type ([#209](https://github.com/SnowdogApps/magento2-menu/issues/209))
+- Store ID filtering support to menu repository `getList` method ([#209](https://github.com/SnowdogApps/magento2-menu/issues/209))
+- All menu items list support to GraphQL `snowdogMenus` query ([#209](https://github.com/SnowdogApps/magento2-menu/issues/209))
+- Default store filtering support to GraphQL `snowdogMenus` and `snowdogMenuNodes` queries ([#209](https://github.com/SnowdogApps/magento2-menu/issues/209))
+
+### Changed
+- Make the menu duplicate feature execute in a DB transaction (#80889)
+- Refactor menu duplicate feature code in menu admin controller save and duplicate actions (#80889)
+- Don't print messages about custom nodes templates if they are not set (#82414)
+- GraphQL menu custom URL node `target` field data type to boolean ([#209](https://github.com/SnowdogApps/magento2-menu/issues/209))
+- Set non-nullable fields in GraphQL schema ([#209](https://github.com/SnowdogApps/magento2-menu/issues/209))
+- Handle duplicate and empty values in GraphQL `snowdogMenus` query `identifiers` argument ([#209](https://github.com/SnowdogApps/magento2-menu/issues/209))
+- Memoize loaded menus in GraphQL menu data provider to improve nodes loading performance ([#209](https://github.com/SnowdogApps/magento2-menu/issues/209))
+
+### Fixed
+- Menu node image file cloner error handling (#80889)
+- Product node type get removed after changing node position and entering the invalid product ID (#81485)
+- Handle menu child nodes of pending parent nodes in nodes export tree processor ([#206](https://github.com/SnowdogApps/magento2-menu/issues/206))
+- Sort menu nodes according to their positions in nodes export tree processor ([#206](https://github.com/SnowdogApps/magento2-menu/issues/206))
+
+## [2.17.0] - 2021-09-03
+### Changed
+- Improve menu save process node product type validator error messages (#81256)
+
+### Fixed
+- Menu node position reset issues on menu save (#81257)
+
 ## [2.16.0] - 2021-07-21
 ### Added
 - Creation time, update time and store view columns to menu admin grid (#69080)

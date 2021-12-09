@@ -106,20 +106,34 @@ class MenuRepository implements MenuRepositoryInterface
         $searchResults = $this->menuSearchResultsFactory->create();
         $searchResults->setSearchCriteria($criteria);
         $collection = $this->collectionFactory->create();
+        $isStoreFilterUsed = false;
+
         foreach ($criteria->getFilterGroups() as $filterGroup) {
             $fields = [];
             $conditions = [];
+
             foreach ($filterGroup->getFilters() as $filter) {
                 $condition = $filter->getConditionType() ? $filter->getConditionType() : 'eq';
                 $fields[] = $filter->getField();
                 $conditions[] = [$condition => $filter->getValue()];
+
+                if (!$isStoreFilterUsed && $filter->getField() === MenuInterface::STORE_ID) {
+                    $isStoreFilterUsed = true;
+                }
             }
+
             if ($fields) {
                 $collection->addFieldToFilter($fields, $conditions);
             }
         }
+
+        if ($isStoreFilterUsed) {
+            $collection->joinStoreRelationTable();
+        }
+
         $searchResults->setTotalCount($collection->getSize());
         $sortOrders = $criteria->getSortOrders();
+
         if ($sortOrders) {
             /** @var SortOrder $sortOrder */
             foreach ($sortOrders as $sortOrder) {
@@ -133,9 +147,11 @@ class MenuRepository implements MenuRepositoryInterface
         $collection->setCurPage($criteria->getCurrentPage());
         $collection->setPageSize($criteria->getPageSize());
         $objects = [];
+
         foreach ($collection as $objectModel) {
             $objects[] = $objectModel;
         }
+
         $searchResults->setItems($objects);
 
         return $searchResults;

@@ -25,9 +25,9 @@
                 :drop="handleDrop"
             >
                 <template v-if="list.length > 0">
-                    <snowdog-nested-list
+                    <nested-list
                         v-for="(item, index) in list"
-                        :key="item.id"
+                        :key="item.uuid"
                         :item="item"
                         :list="list"
                         :index="index"
@@ -68,7 +68,7 @@
     ], function(Vue, uuid) {
         Vue.component('snowdog-menu', {
             props: {
-                list: {
+                nodes: {
                     type: Array,
                     required: true
                 },
@@ -79,6 +79,7 @@
             },
             data: function() {
                 return {
+                    list: [],
                     selectedItem: null
                 };
             },
@@ -93,7 +94,6 @@
                 }
             },
             mounted () {
-                const self = this;
                 // check if serialized_nodes input loaded
                 const checkElement = async selector => {
                     while (document.querySelector(selector) === null) {
@@ -101,12 +101,25 @@
                     }
                     return document.querySelector(selector);
                 };
+
                 // while loaded set JSON list as a value
                 checkElement('[name="serialized_nodes"]').then(() => {
-                    self.updateSerializedNodes(self.jsonList);
+                    this.list = this.nodes.map(item => {
+                        item.uuid = this.uuid();
+
+                        item.columns.map(column => {
+                            column.uuid = this.uuid();
+                            return column;
+                        });
+
+                        return item;
+                    });
+
+                    this.updateSerializedNodes(this.jsonList);
                 });
             },
             methods: {
+                uuid,
                 setSelectedNode: function(item) {
                     this.selectedItem = item;
                 },
@@ -115,21 +128,22 @@
                 },
                 addNode: function(target) {
                     target.push({
-                        'type': 'category',
-                        'title': this.config.translation.addNode,
-                        'id': new Date().getTime(),
-                        'content': null,
-                        'node_template': null,
-                        'image': '',
-                        'image_alt_text': '',
-                        'node_template': null,
-                        'submenu_template': null,
-                        'columns': [],
-                        'is_active': 0
+                        id: this.uuid(),
+                        uuid: this.uuid(),
+                        type: 'category',
+                        title: this.config.translation.addNode,
+                        content: null,
+                        node_template: null,
+                        image: null,
+                        image_alt_text: '',
+                        node_template: null,
+                        submenu_template: null,
+                        columns: [],
+                        is_active: 0
                     });
                 },
                 handleDrop(data) {
-                    data.item.id = uuid();
+                    data.item.uuid = this.uuid();
                     data.list.splice(data.index, 0, data.item);
                 },
                 updateSerializedNodes(value) {

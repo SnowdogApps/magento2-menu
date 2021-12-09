@@ -4,17 +4,24 @@ declare(strict_types=1);
 
 namespace Snowdog\Menu\Service\Menu;
 
+use Exception;
+use Magento\Framework\App\ResourceConnection;
 use Snowdog\Menu\Api\Data\MenuInterface;
 use Snowdog\Menu\Api\Data\MenuInterfaceFactory;
 use Snowdog\Menu\Api\Data\NodeInterfaceFactory;
 use Snowdog\Menu\Api\MenuRepositoryInterface;
 use Snowdog\Menu\Api\NodeRepositoryInterface;
 use Snowdog\Menu\Model\ImportExport\Processor\Import\Menu\Identifier as MenuIdentifierProcessor;
-use Snowdog\Menu\Model\Menu\Node\Image\File as NodeImage;
+use Snowdog\Menu\Model\NodeTypeProvider;
 use Snowdog\Menu\Service\Menu\Nodes as MenuNodes;
 
 class Cloner
 {
+    /**
+     * @var ResourceConnection
+     */
+    private $resource;
+
     /**
      * @var MenuInterfaceFactory
      */
@@ -41,9 +48,9 @@ class Cloner
     private $menuIdentifierProcessor;
 
     /**
-     * @var NodeImage
+     * @var NodeTypeProvider
      */
-    private $nodeImage;
+    private $nodeTypeProvider;
 
     /**
      * @var MenuNodes
@@ -51,23 +58,28 @@ class Cloner
     private $menuNodes;
 
     public function __construct(
+        ResourceConnection $resource,
         MenuInterfaceFactory $menuFactory,
         NodeInterfaceFactory $nodeFactory,
         MenuRepositoryInterface $menuRepository,
         NodeRepositoryInterface $nodeRepository,
         MenuIdentifierProcessor $menuIdentifierProcessor,
-        NodeImage $nodeImage,
+        NodeTypeProvider $nodeTypeProvider,
         MenuNodes $menuNodes
     ) {
+        $this->resource = $resource;
         $this->menuFactory = $menuFactory;
         $this->nodeFactory = $nodeFactory;
         $this->menuRepository = $menuRepository;
         $this->nodeRepository = $nodeRepository;
         $this->menuIdentifierProcessor = $menuIdentifierProcessor;
-        $this->nodeImage = $nodeImage;
+        $this->nodeTypeProvider = $nodeTypeProvider;
         $this->menuNodes = $menuNodes;
     }
 
+    /**
+     * @throws Exception
+     */
     public function clone(MenuInterface $menu): MenuInterface
     {
         $menuClone = $this->menuFactory->create();
@@ -79,30 +91,40 @@ class Cloner
             $this->menuIdentifierProcessor->getNewIdentifier($menu->getIdentifier())
         );
 
-        $this->menuRepository->save($menuClone);
-        $menuClone->saveStores($menu->getStores());
+        $connection = $this->resource->getConnection();
+        $connection->beginTransaction();
 
-        $menuCloneId = $menuClone->getId();
-        $nodeIdMap = [];
+        try {
+            $this->menuRepository->save($menuClone);
+            $menuClone->saveStores($menu->getStores());
 
-        foreach ($this->menuNodes->getList($menu) as $node) {
-            $nodeClone = $this->nodeFactory->create();
+            $menuCloneId = $menuClone->getId();
+            $nodeIdMap = [];
 
-            $nodeClone->setData($node->getData());
-            $nodeClone->setId(null);
-            $nodeClone->setMenuId($menuCloneId);
+            foreach ($this->menuNodes->getList($menu) as $node) {
+                $nodeClone = $this->nodeFactory->create();
 
-            if (isset($nodeIdMap[$node->getParentId()])) {
-                $nodeClone->setParentId($nodeIdMap[$node->getParentId()]);
+                $nodeClone->setData($node->getData());
+                $nodeClone->setId(null);
+                $nodeClone->setMenuId($menuCloneId);
+
+                if (isset($nodeIdMap[$node->getParentId()])) {
+                    $nodeClone->setParentId($nodeIdMap[$node->getParentId()]);
+                }
+
+                $this->nodeTypeProvider
+                    ->getTypeModel($node->getType())
+                    ->processNodeClone($node, $nodeClone);
+
+                $this->nodeRepository->save($nodeClone);
+
+                $nodeIdMap[$node->getId()] = $nodeClone->getId();
             }
 
-            if ($node->getImage()) {
-                $nodeClone->setImage($this->nodeImage->clone($node->getImage()));
-            }
-
-            $this->nodeRepository->save($nodeClone);
-
-            $nodeIdMap[$node->getId()] = $nodeClone->getId();
+            $connection->commit();
+        } catch (Exception $exception) {
+            $connection->rollBack();
+            throw $exception;
         }
 
         return $menuClone;

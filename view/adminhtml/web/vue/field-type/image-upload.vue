@@ -98,6 +98,7 @@
         'use strict';
 
         Vue.component('image-upload', {
+            name: 'image-upload',
             props: {
                 id: {
                     type: String,
