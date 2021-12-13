@@ -133,7 +133,6 @@
                         type: 'category',
                         title: this.config.translation.addNode,
                         content: null,
-                        node_template: null,
                         image: null,
                         image_alt_text: '',
                         node_template: null,
