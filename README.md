@@ -26,6 +26,7 @@ Out of the box this module is not compatible with any theme, but in the same tim
 You can use themes or extensions build on top of this module if you are looking for something taht works out of the box:
 - [Snowdog Alpaca theme](https://github.com/SnowdogApps/magento2-alpaca-theme)
 - [RedChamps Luma theme support](https://github.com/redchamps/snowdog-menu-luma-support)
+- [Victor Seager's Luma theme support](https://github.com/vseager/magento2-snowdog-menu-luma)
 
 ## Docs
 Please check [wiki](https://github.com/SnowdogApps/magento2-menu/wiki) for more.
