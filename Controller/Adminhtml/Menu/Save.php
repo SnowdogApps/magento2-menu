@@ -7,6 +7,7 @@ namespace Snowdog\Menu\Controller\Adminhtml\Menu;
 use Magento\Backend\App\Action\Context;
 use Magento\Framework\App\Action\HttpPostActionInterface;
 use Magento\Framework\Controller\ResultInterface;
+use Magento\Store\Model\StoreManagerInterface;
 use Snowdog\Menu\Api\MenuRepositoryInterface;
 use Snowdog\Menu\Api\Data\MenuInterface;
 use Snowdog\Menu\Controller\Adminhtml\MenuAction;
@@ -34,17 +35,24 @@ class Save extends MenuAction implements HttpPostActionInterface
      */
     private $menuSaveRequestProcessor;
 
+    /**
+     * @var StoreManagerInterface
+     */
+    private $storeManager;
+
     public function __construct(
         Context $context,
         MenuRepositoryInterface $menuRepository,
         MenuFactory $menuFactory,
         CloneRequestProcessor $cloneRequestProcessor,
         MenuHydrator $hydrator,
-        MenuSaveRequestProcessor $menuSaveRequestProcessor
+        MenuSaveRequestProcessor $menuSaveRequestProcessor,
+        StoreManagerInterface $storeManager
     ) {
         $this->cloneRequestProcessor = $cloneRequestProcessor;
         $this->hydrator = $hydrator;
         $this->menuSaveRequestProcessor = $menuSaveRequestProcessor;
+        $this->storeManager = $storeManager;
 
         parent::__construct($context, $menuRepository, $menuFactory);
     }
@@ -61,7 +69,7 @@ class Save extends MenuAction implements HttpPostActionInterface
 
         $this->hydrator->mapRequest($menu, $request);
         $this->menuRepository->save($menu);
-        $menu->saveStores($request->getParam('stores'));
+        $menu->saveStores($this->getStores());
 
         $this->menuSaveRequestProcessor->saveData($menu, $nodes);
 
@@ -86,5 +94,16 @@ class Save extends MenuAction implements HttpPostActionInterface
         }
 
         return $resultRedirect->setPath("*/*/${pathAction}", $pathParams);
+    }
+
+    private function getStores(): array
+    {
+        $request = $this->getRequest();
+        $stores = $request->getParam('stores');
+        if ($this->storeManager->isSingleStoreMode() || $stores === null) {
+            return [$this->storeManager->getStore()->getId()];
+        }
+
+        return $stores;
     }
 }
