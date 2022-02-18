@@ -5,6 +5,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+- Allow to set submenu template via layout xml ([#223](https://github.com/SnowdogApps/magento2-menu/issues/223))
 
 ## [2.18.0] - 2021-11-23
 ### Added
