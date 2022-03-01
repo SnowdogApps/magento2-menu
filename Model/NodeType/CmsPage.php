@@ -30,6 +30,7 @@ class CmsPage extends AbstractNode
 
         $options = array_map(function ($page) {
             return [
+                'id' => $page->getId(),
                 'label' => $page->getTitle(),
                 'value' => $page->getIdentifier(),
                 'store' => array_filter(
