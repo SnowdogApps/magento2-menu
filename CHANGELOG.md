@@ -4,8 +4,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+
 ## [Unreleased]
 - Allow to set submenu template via layout xml ([#223](https://github.com/SnowdogApps/magento2-menu/issues/223))
+- Fix menu stores save issue when single store mode enabled ([#226](https://github.com/SnowdogApps/magento2-menu/issues/226))
 
 ## [2.18.0] - 2021-11-23
 ### Added
