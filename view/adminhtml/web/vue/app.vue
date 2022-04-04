@@ -102,19 +102,15 @@
                     return document.querySelector(selector);
                 };
 
+                const setUuidRecursive = (item) => {
+                    item.uuid = this.uuid();
+                    item.columns.map(column => setUuidRecursive(column))
+                    return item;
+                };
+
                 // while loaded set JSON list as a value
                 checkElement('[name="serialized_nodes"]').then(() => {
-                    this.list = this.nodes.map(item => {
-                        item.uuid = this.uuid();
-
-                        item.columns.map(column => {
-                            column.uuid = this.uuid();
-                            return column;
-                        });
-
-                        return item;
-                    });
-
+                    this.list = this.nodes.map(item => setUuidRecursive(item))
                     this.updateSerializedNodes(this.jsonList);
                 });
             },

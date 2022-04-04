@@ -99,8 +99,8 @@ class Menu extends Template implements DataObject\IdentityInterface
         $this->templateResolver = $templateResolver;
         $this->imageFile = $imageFile;
         $this->escaper = $escaper;
-        $this->submenuTemplate = $this->getMenuTemplate($this->baseSubmenuTemplate);
         $this->setTemplate($this->getMenuTemplate($this->_template));
+        $this->submenuTemplate = $this->getSubmenuTemplate();
     }
 
     /**
@@ -475,5 +475,18 @@ class Menu extends Template implements DataObject\IdentityInterface
             $this->getData('menu'),
             $template
         );
+    }
+
+    /**
+     * @return string
+     */
+    private function getSubmenuTemplate()
+    {
+        $baseSubmenuTemplate = $this->baseSubmenuTemplate;
+        if ($this->getData('subMenuTemplate')) {
+            $baseSubmenuTemplate = $this->getData('subMenuTemplate');
+        }
+
+        return $this->getMenuTemplate($baseSubmenuTemplate);
     }
 }

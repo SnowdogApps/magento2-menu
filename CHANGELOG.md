@@ -4,8 +4,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+
 ## [Unreleased]
 ### Added
+- Allow to set submenu template via layout xml ([#223](https://github.com/SnowdogApps/magento2-menu/issues/223))
+- Fix menu stores save issue when single store mode enabled ([#226](https://github.com/SnowdogApps/magento2-menu/issues/226))
+- Fix duplicate keys detected for nodes ([#228](https://github.com/SnowdogApps/magento2-menu/issues/228))
+- Fix drag and drop nodes duplication when editing menu nodes ([#241](https://github.com/SnowdogApps/magento2-menu/issues/241))
 - Ajax loader to node image upload and remove Ajax JS code (#79674)
 - An error handler to node image remove Ajax JS code (#79674)
 - Set errors HTTP response code in node admin controller image upload and delete actions (#79674)
