@@ -1,5 +1,5 @@
 <template>
-    <autocomplete
+    <autocomplete-lazy
         :is-tree="true"
         :label="config.translation.categoryChild"
         :description="config.translation.categoryId"
