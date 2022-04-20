@@ -80,7 +80,7 @@
             data: function() {
                 return {
                     list: [],
-                    selectedItem: false
+                    selectedItem: null
                 };
             },
             computed: {
@@ -124,14 +124,14 @@
                 },
                 addNode: function(target) {
                     target.push({
-                        uuid: this.uuid(),
                         id: this.uuid(),
+                        uuid: this.uuid(),
                         type: 'category',
                         title: this.config.translation.addNode,
                         content: null,
-                        node_template: null,
                         image: null,
-                        image_alt_text: null,
+                        image_alt_text: '',
+                        node_template: null,
                         submenu_template: null,
                         columns: [],
                         is_active: 0
