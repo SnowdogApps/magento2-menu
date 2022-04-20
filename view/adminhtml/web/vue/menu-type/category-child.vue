@@ -6,7 +6,7 @@
         :description="config.translation.categoryId"
         :item="item"
         :item-key="'content'"
-        :options="optionss"
+        :options="options"
         :config="config"
     />
 </template>

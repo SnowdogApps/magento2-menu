@@ -97,21 +97,21 @@
                     return this.config.translation.pleaseSelect + ' ' + this.label.toLocaleLowerCase();
                 },
                 loadedOptions() {
-                    return this.options.filter(option => this.hashTable[option.id].loaded)
+                    return this.options.filter(option => this.hashTable[option.id].loaded);
                 },
                 unloadedOptions() {
-                    return this.options.filter(option => !this.hashTable[option.id].loaded)
+                    return this.options.filter(option => !this.hashTable[option.id].loaded);
                 }
             },
             created() {
-                this.setTree()
-                this.setDefault()
+                this.setTree();
+                this.setDefault();
             },
             methods: {
                 setDefault() {
-                    var optionValue;
+                    let optionValue;
 
-                    for (var i = 0; i < this.options.length; i++) {
+                    for (let i = 0; i < this.options.length; i++) {
                         optionValue = this.options[i].value.toString();
                         if (optionValue === this.defaultOptionValue) {
                             this.defaultSelectedOption = this.options[i];
@@ -119,12 +119,12 @@
                     }
                 },
                 setInitial() {
-                    let selectedOption = ''
-                    const initialValue = this.item[this.itemKey]
+                    let selectedOption = '';
+                    const initialValue = this.item[this.itemKey];
 
                     if (!initialValue) {
-                        this.selected = null
-                        return
+                        this.selected = null;
+                        return;
                     }
 
                     for (let i = 0; i < this.loadedOptions.length; i++) {
@@ -139,7 +139,7 @@
                     }
 
                     this.selected = selectedOption;
-                    this.initialLoaded = true
+                    this.initialLoaded = true;
 
                 },
                 setTree() {
@@ -151,65 +151,65 @@
                     this.options.forEach(item => {
                         if (item.parent_id && !(hashTable[item.parent_id])) {
                             this.optionsTree.push(hashTable[item.id]);
-                            hashTable[item.id].loaded = true
+                            hashTable[item.id].loaded = true;
                         }
                     });
 
-                    this.hashTable = hashTable
+                    this.hashTable = hashTable;
                 },
                 loadOptions({ action, parentNode, callback }) {
-                    let deep = false
+                    let deep = false;
 
-                    const initialValue = this.item[this.itemKey]
-                    deep = initialValue && !this.initialLoaded
+                    const initialValue = this.item[this.itemKey];
+                    deep = initialValue && !this.initialLoaded;
 
                     if (action === LOAD_CHILDREN_OPTIONS) {
-                        parentNode.children = []
+                        parentNode.children = [];
 
                         const loadChildren = (parent) => {
                             this.unloadedOptions.forEach(item => {
                                 if (item.parent_id === parent.id) {
                                     parent.children.push({...item, children: null });
-                                    this.hashTable[item.id].loaded = true
+                                    this.hashTable[item.id].loaded = true;
                                 }
                             })
                             if (!parent.children.length) {
-                                delete parent.children
+                                delete parent.children;
                             }
-                            return parent
+                            return parent;
                         }
-                        loadChildren(parentNode)
+                        loadChildren(parentNode);
 
                         // this little maneuver's gonna cost us 51 years
                         if (deep) {
                             let toLoad = {},
                                 parent = parentNode,
-                                id = initialValue
+                                id = initialValue;
 
                             while (!this.hashTable[id].loaded) {
-                                toLoad[this.hashTable[id].parent_id] = this.hashTable[id].id
-                                id = this.hashTable[id].parent_id
+                                toLoad[this.hashTable[id].parent_id] = this.hashTable[id].id;
+                                id = this.hashTable[id].parent_id;
                             }
-                            toLoad[this.hashTable[id].parent_id] = this.hashTable[id].id
+                            toLoad[this.hashTable[id].parent_id] = this.hashTable[id].id;
 
                             while (Object.keys(toLoad).length) {
-                                const childId = toLoad[parent.id]
-                                let newParent = parent.children.find(child => child.id === childId)
-                                newParent.children = []
-                                newParent = loadChildren(newParent)
-                                delete toLoad[parent.id]
-                                parent = newParent
+                                const childId = toLoad[parent.id];
+                                let newParent = parent.children.find(child => child.id === childId);
+                                newParent.children = [];
+                                newParent = loadChildren(newParent);
+                                delete toLoad[parent.id];
+                                parent = newParent;
                             }
 
-                            this.setInitial()
+                            this.setInitial();
                         }
 
-                        callback()
+                        callback();
                     }
                 },
                 setValue(option) {
                     if (!this.initialLoaded) {
-                        this.initialLoaded = true
+                        this.initialLoaded = true;
                     }
 
                     if (option && typeof option === 'object') {
