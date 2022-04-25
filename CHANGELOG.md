@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Ajax loader to node image upload and remove Ajax JS code (#79674)
 - An error handler to node image remove Ajax JS code (#79674)
 - Set errors HTTP response code in node admin controller image upload and delete actions (#79674)
+- Fix loading nodes based on large catalog ([#232](https://github.com/SnowdogApps/magento2-menu/issues/232))
 
 ### Changed
 - Improve JSON response in node admin controller image delete action (#79674)

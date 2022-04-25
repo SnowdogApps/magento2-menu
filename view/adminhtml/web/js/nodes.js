@@ -6,6 +6,7 @@ define([
     'uiRegistry',
     "vue!Snowdog_Menu/vue/app",
     "vue!Snowdog_Menu/vue/field-type/autocomplete",
+    "vue!Snowdog_Menu/vue/field-type/autocomplete-lazy",
     "vue!Snowdog_Menu/vue/field-type/checkbox",
     "vue!Snowdog_Menu/vue/field-type/image-upload",
     "vue!Snowdog_Menu/vue/field-type/simple-field",
