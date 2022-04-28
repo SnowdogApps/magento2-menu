@@ -21,6 +21,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Fixed
 - Image for new nodes set to blank (#79674)
+- import from categories ([#236](https://github.com/SnowdogApps/magento2-menu/issues/236))
 
 ## [2.18.0] - 2021-11-23
 ### Added
