@@ -30,6 +30,7 @@ class CmsBlock extends AbstractNode
 
         $options = array_map(function ($block) {
             return [
+                'id' => $block->getId(),
                 'label' => $block->getTitle(),
                 'value' => $block->getIdentifier(),
                 'store' => array_filter(

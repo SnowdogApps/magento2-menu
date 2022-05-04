@@ -133,8 +133,8 @@
             },
             methods: {
                 setItemImage: function(file, url) {
-                  this.item.image = file;
-                  this.item.image_url = url;
+                    this.item.image = file;
+                    this.item.image_url = url;
                 },
                 uploadFileToServer: function() {
                     this.fileIsUploading = true;
@@ -151,17 +151,22 @@
                         type: 'POST',
                         contentType: false,
                         processData: false,
+                        beforeSend: function () {
+                            $('body').trigger('processStart');
+                        },
                         success: function (response) {
-                          if (response.file) {
-                            this.setItemImage(response.file, response.url);
-                          }
+                            if (response.file) {
+                                this.setItemImage(response.file, response.url);
+                            }
                         }.bind(this),
                         error: function() {
-                           this.uploadError = $t('There was an error during uploading. Please try again.')
+                            $('body').trigger('processStop');
+                            this.uploadError = $t('An error has occurred during the menu node image upload.')
                         }.bind(this),
                         complete: function() {
-                          this.fileIsUploading = false;
-                          this.removeNewFile();
+                            this.fileIsUploading = false;
+                            this.removeNewFile();
+                            $('body').trigger('processStop');
                         }.bind(this)
                     });
                 },
@@ -185,8 +190,16 @@
                         type: 'POST',
                         contentType: false,
                         processData: false,
+                        beforeSend: function () {
+                            $('body').trigger('processStart');
+                        },
+                        error: function() {
+                            $('body').trigger('processStop');
+                            alert({ content: $t('An error has occurred while removing the menu node image.') });
+                        }.bind(this),
                         complete: function() {
                             this.setItemImage('', '');
+                            $('body').trigger('processStop');
                         }.bind(this)
                     });
                 },

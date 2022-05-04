@@ -9,6 +9,7 @@ use Magento\Backend\App\Action;
 use Magento\Backend\App\Action\Context;
 use Magento\Framework\App\Action\HttpPostActionInterface;
 use Magento\Framework\Controller\Result\JsonFactory as JsonResultFactory;
+use Magento\Framework\Webapi\Exception as WebapiException;
 use Psr\Log\LoggerInterface;
 use Snowdog\Menu\Model\Menu\Node\Image\File as ImageFile;
 use Snowdog\Menu\Model\Menu\Node\Image\Node as ImageNode;
@@ -78,6 +79,8 @@ class UploadImage extends Action implements HttpPostActionInterface
             }
         } catch (Exception $exception) {
             $this->logger->critical($exception);
+            $jsonResult->setHttpResponseCode(WebapiException::HTTP_INTERNAL_ERROR);
+
             $result = ['error' => __('Menu node image upload failed.')];
         }
 
