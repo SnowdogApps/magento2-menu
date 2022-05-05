@@ -49,7 +49,7 @@ define([
                   success: function (data) {
                     let list = importModal.addId(data.list)
 
-                    vueApp.list = list
+                    vueApp.$refs.menu.list = list
 
                     alertModal.closeModal(true)
                     importModal.closeModal()
