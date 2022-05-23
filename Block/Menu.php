@@ -397,7 +397,8 @@ class Menu extends Template implements DataObject\IdentityInterface
             ->setImageUrl($node->getImage() ? $this->imageFile->getUrl($node->getImage()) : null)
             ->setImageAltText($node->getImageAltText())
             ->setCustomTemplate($node->getNodeTemplate())
-            ->setAdditionalData($node->getAdditionalData());
+            ->setAdditionalData($node->getAdditionalData())
+            ->setSelectedItemId($node->getSelectedItemId());
 
         return $nodeBlock;
     }
