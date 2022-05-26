@@ -265,7 +265,7 @@ interface NodeInterface
     public function setAdditionalData($data);
 
     /**
-     * @return mixed
+     * @return int
      */
     public function getSelectedItemId();
 

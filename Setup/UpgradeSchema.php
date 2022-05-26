@@ -14,6 +14,7 @@ use Magento\Framework\DB\Ddl\Table;
 use Magento\Framework\Setup\ModuleContextInterface;
 use Magento\Framework\Setup\SchemaSetupInterface;
 use Magento\Framework\Setup\UpgradeSchemaInterface;
+use Snowdog\Menu\Api\Data\NodeInterface;
 
 class UpgradeSchema implements UpgradeSchemaInterface
 {
@@ -283,7 +284,7 @@ class UpgradeSchema implements UpgradeSchemaInterface
 
         $connection->addColumn(
             $table,
-            'selected_item_id',
+            NodeInterface::SELECTED_ITEM_ID,
             [
                 'type' => Table::TYPE_SMALLINT,
                 'length' => 6,
