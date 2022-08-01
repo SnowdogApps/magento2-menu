@@ -4,10 +4,12 @@ declare(strict_types=1);
 
 namespace Snowdog\Menu\Model\GraphQl\Resolver\DataProvider;
 
+use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Snowdog\Menu\Api\Data\NodeInterface;
 use Snowdog\Menu\Api\NodeRepositoryInterface;
 use Snowdog\Menu\Model\GraphQl\Resolver\DataProvider\Menu as MenuDataProvider;
+use Snowdog\Menu\Model\GraphQl\Resolver\DataProvider\Node\TypeModel;
 
 class Node
 {
@@ -16,6 +18,7 @@ class Node
      */
     const TEMPLATE_FIELD = 'node_template';
     const SUBMENU_TEMPLATE_FIELD = 'submenu_template';
+    const URL_KEY = 'url_key';
 
     /**
      * @var NodeRepositoryInterface
@@ -28,16 +31,28 @@ class Node
     private $menuDataProvider;
 
     /**
+     * @var TypeModel
+     */
+    private TypeModel $typeModel;
+
+    /**
      * @var array
      */
     private $loadedNodes = [];
 
+    /**
+     * @var array
+     */
+    private $loadedModels = [];
+
     public function __construct(
         NodeRepositoryInterface $nodeRepository,
-        MenuDataProvider $menuDataProvider
+        MenuDataProvider $menuDataProvider,
+        TypeModel $typeModel
     ) {
         $this->nodeRepository = $nodeRepository;
         $this->menuDataProvider = $menuDataProvider;
+        $this->typeModel = $typeModel;
     }
 
     /**
@@ -58,10 +73,11 @@ class Node
         }
 
         $nodes = $this->nodeRepository->getByIdentifier($identifier);
-
+        $this->loadModels($nodes, $storeId);
         foreach ($nodes as $node) {
             if ($node->getIsActive()) {
                 $this->loadedNodes[$identifier][(int) $node->getId()] = $this->convertData($node);
+                $this->loadedNodes[$identifier][(int) $node->getId()][self::URL_KEY] = $this->getUrlKey($node);
             }
         }
 
@@ -93,5 +109,47 @@ class Node
             NodeInterface::UPDATE_TIME => $node->getUpdateTime(),
             NodeInterface::ADDITIONAL_DATA => $node->getAdditionalData()
         ];
+    }
+
+    /**
+     * @param $nodes
+     * @param $storeId
+     * @return void
+     */
+    private function loadModels($nodes, $storeId): void
+    {
+        /** @var NodeInterface $node */
+        foreach ($nodes as $node) {
+            $type = $node->getType();
+            if (isset($this->loadedModels[$type][$node->getContent()])) {
+                continue;
+            }
+            if (!in_array($type, TypeModel::TYPES)) {
+                continue;
+            }
+            try {
+                $model = $this->typeModel->getModel($type, $node->getContent(), $storeId);
+            } catch (NoSuchEntityException|LocalizedException $e) {
+                $model = null;
+            }
+            $this->loadedModels[$type][$node->getContent()] = $model;
+        }
+    }
+
+    /**
+     * @param NodeInterface $node
+     * @return string|null
+     */
+    private function getUrlKey(NodeInterface $node): ?string
+    {
+        if (in_array($node->getType(), TypeModel::TYPES)) {
+            if (!isset($this->loadedModels[$node->getType()][$node->getContent()])) {
+                return null;
+            }
+            $currentModel = $this->loadedModels[$node->getType()][$node->getContent()];
+            return $this->typeModel->getModelUrlKey($node->getType(), $currentModel);
+        } else {
+            return null;
+        }
     }
 }
