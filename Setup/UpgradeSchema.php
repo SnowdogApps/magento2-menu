@@ -14,6 +14,7 @@ use Magento\Framework\DB\Ddl\Table;
 use Magento\Framework\Setup\ModuleContextInterface;
 use Magento\Framework\Setup\SchemaSetupInterface;
 use Magento\Framework\Setup\UpgradeSchemaInterface;
+use Snowdog\Menu\Api\Data\NodeInterface;
 
 class UpgradeSchema implements UpgradeSchemaInterface
 {
@@ -50,6 +51,10 @@ class UpgradeSchema implements UpgradeSchemaInterface
 
         if (version_compare($context->getVersion(), '0.2.5', '<')) {
             $this->addNodeImageFields($setup);
+        }
+
+        if (version_compare($context->getVersion(), '0.2.6', '<')) {
+            $this->addNodeSelectedItemId($setup);
         }
 
         $setup->endSetup();
@@ -266,6 +271,26 @@ class UpgradeSchema implements UpgradeSchemaInterface
                 'nullable' => true,
                 'after' => 'image',
                 'comment' => 'Image Alt Text'
+            ]
+        );
+
+        return $this;
+    }
+
+    private function addNodeSelectedItemId(SchemaSetupInterface $setup)
+    {
+        $connection = $setup->getConnection();
+        $table = $setup->getTable('snowmenu_node');
+
+        $connection->addColumn(
+            $table,
+            NodeInterface::SELECTED_ITEM_ID,
+            [
+                'type' => Table::TYPE_SMALLINT,
+                'length' => 6,
+                'unsigned' => true,
+                'nullable' => true,
+                'comment' => 'Selected Item Id'
             ]
         );
 

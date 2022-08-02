@@ -277,4 +277,20 @@ class Node extends AbstractModel implements NodeInterface, IdentityInterface
     {
         return $this->setData(NodeInterface::ADDITIONAL_DATA, $data);
     }
+
+    /**
+     * @inheritdoc
+     */
+    public function getSelectedItemId()
+    {
+        return $this->_getData(NodeInterface::SELECTED_ITEM_ID);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function setSelectedItemId($selectedItemId)
+    {
+        return $this->setData(NodeInterface::SELECTED_ITEM_ID, $selectedItemId);
+    }
 }
