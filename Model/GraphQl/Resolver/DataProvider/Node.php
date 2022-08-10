@@ -33,7 +33,7 @@ class Node
     /**
      * @var TypeModel
      */
-    private TypeModel $typeModel;
+    private $typeModel;
 
     /**
      * @var array

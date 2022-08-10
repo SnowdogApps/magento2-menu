@@ -14,9 +14,20 @@ use Magento\Framework\Exception\NoSuchEntityException;
 class TypeModel
 {
     const TYPES = ["category", "product", "cms_page"];
-    private ProductRepositoryInterface $productRepository;
-    private CategoryRepositoryInterface $categoryRepository;
-    private PageRepositoryInterface $pageRepository;
+
+
+    /**
+     * @var ProductRepositoryInterface
+     */
+    private $productRepository;
+    /**
+     * @var CategoryRepositoryInterface
+     */
+    private $categoryRepository;
+    /**
+     * @var PageRepositoryInterface
+     */
+    private $pageRepository;
 
     public function __construct(
         ProductRepositoryInterface $productRepository,
