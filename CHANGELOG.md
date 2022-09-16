@@ -4,9 +4,32 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+
 ## [Unreleased]
 ### Added
 - `url_key` on some node types ([#227](https://github.com/SnowdogApps/magento2-menu/pull/227))
+### Changed
+### Fixed
+- Selecting item in admin between two stores
+
+## [2.19.0] - 2022-05-04
+### Added
+- Allow to set submenu template via layout xml ([#223](https://github.com/SnowdogApps/magento2-menu/issues/223))
+- Fix menu stores save issue when single store mode enabled ([#226](https://github.com/SnowdogApps/magento2-menu/issues/226))
+- Fix duplicate keys detected for nodes ([#228](https://github.com/SnowdogApps/magento2-menu/issues/228))
+- Fix drag and drop nodes duplication when editing menu nodes ([#241](https://github.com/SnowdogApps/magento2-menu/issues/241))
+- Ajax loader to node image upload and remove Ajax JS code (#79674)
+- An error handler to node image remove Ajax JS code (#79674)
+- Set errors HTTP response code in node admin controller image upload and delete actions (#79674)
+- Fix loading nodes based on large catalog ([#232](https://github.com/SnowdogApps/magento2-menu/issues/232))
+
+### Changed
+- Improve JSON response in node admin controller image delete action (#79674)
+- Improve the menu node image upload error message (#79674)
+
+### Fixed
+- Image for new nodes set to blank (#79674)
+- import from categories ([#236](https://github.com/SnowdogApps/magento2-menu/issues/236))
 
 ## [2.18.0] - 2021-11-23
 ### Added

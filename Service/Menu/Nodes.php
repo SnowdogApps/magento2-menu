@@ -7,6 +7,7 @@ namespace Snowdog\Menu\Service\Menu;
 use Magento\Framework\Api\FilterBuilderFactory;
 use Magento\Framework\Api\Search\FilterGroupBuilderFactory;
 use Magento\Framework\Api\SearchCriteriaBuilderFactory;
+use Magento\Framework\Api\SortOrderBuilder;
 use Snowdog\Menu\Api\Data\MenuInterface;
 use Snowdog\Menu\Api\NodeRepositoryInterface;
 
@@ -32,16 +33,23 @@ class Nodes
      */
     private $nodeRepository;
 
+    /**
+     * @var SortOrderBuilder
+     */
+    private $sortOrderBuilder;
+
     public function __construct(
         FilterBuilderFactory $filterBuilderFactory,
         FilterGroupBuilderFactory $filterGroupBuilderFactory,
         SearchCriteriaBuilderFactory $searchCriteriaBuilderFactory,
-        NodeRepositoryInterface $nodeRepository
+        NodeRepositoryInterface $nodeRepository,
+        SortOrderBuilder $sortOrderBuilder
     ) {
         $this->filterBuilderFactory = $filterBuilderFactory;
         $this->filterGroupBuilderFactory = $filterGroupBuilderFactory;
         $this->searchCriteriaBuilderFactory = $searchCriteriaBuilderFactory;
         $this->nodeRepository = $nodeRepository;
+        $this->sortOrderBuilder = $sortOrderBuilder;
     }
 
     public function getList(MenuInterface $menu): array
@@ -54,8 +62,10 @@ class Nodes
 
         $filterGroupBuilder = $this->filterGroupBuilderFactory->create();
         $filterGroup = $filterGroupBuilder->addFilter($filter)->create();
-
         $searchCriteriaBuilder = $this->searchCriteriaBuilderFactory->create();
+        $searchCriteriaBuilder->addSortOrder(
+            $this->sortOrderBuilder->setAscendingDirection()->setField('level')->create()
+        );
         $searchCriteria = $searchCriteriaBuilder->setFilterGroups([$filterGroup])->create();
 
         return $this->nodeRepository->getList($searchCriteria)->getItems();

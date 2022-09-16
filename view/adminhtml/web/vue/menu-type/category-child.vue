@@ -1,11 +1,12 @@
 <template>
-    <autocomplete
+    <component
+        :is="component"
         :is-tree="true"
         :label="config.translation.categoryChild"
         :description="config.translation.categoryId"
         :item="item"
         :item-key="'content'"
-        :options="config.fieldData.category_child.snowMenuAutoCompleteField.options"
+        :options="options"
         :config="config"
     />
 </template>
@@ -22,6 +23,16 @@
                 item: {
                     type: Object,
                     required: true
+                }
+            },
+            computed: {
+                options() {
+                    return this.config.fieldData.category.snowMenuAutoCompleteField.options;
+                },
+                component() {
+                    return this.options.length > this.config.lazyMinItemsCount
+                    ? 'autocomplete-lazy'
+                    : 'autocomplete';
                 }
             },
             template: template

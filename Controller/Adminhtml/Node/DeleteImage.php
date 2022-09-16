@@ -9,6 +9,7 @@ use Magento\Backend\App\Action\Context;
 use Magento\Framework\App\Action\HttpPostActionInterface;
 use Magento\Framework\Controller\Result\JsonFactory as JsonResultFactory;
 use Magento\Framework\Exception\FileSystemException;
+use Magento\Framework\Webapi\Exception as WebapiException;
 use Psr\Log\LoggerInterface;
 use Snowdog\Menu\Model\Menu\Node\Image\File as ImageFile;
 use Snowdog\Menu\Model\Menu\Node\Image\Node as ImageNode;
@@ -65,6 +66,7 @@ class DeleteImage extends Action implements HttpPostActionInterface
 
         $image = $request->getPost('image');
         $nodeId = $request->getPost('node_id');
+        $result = [];
 
         try {
             $this->imageFile->delete($image);
@@ -72,11 +74,11 @@ class DeleteImage extends Action implements HttpPostActionInterface
             if ($nodeId) {
                 $this->imageNode->updateNodeImage((int) $nodeId, null);
             }
-
-            $result = ['status' => 1];
         } catch (FileSystemException $exception) {
             $this->logger->critical($exception);
-            $result = ['status' => 0];
+            $jsonResult->setHttpResponseCode(WebapiException::HTTP_INTERNAL_ERROR);
+
+            $result = ['error' => __('An error has occurred while removing the menu node image.')];
         }
 
         $jsonResult->setData($result);

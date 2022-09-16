@@ -99,8 +99,8 @@ class Menu extends Template implements DataObject\IdentityInterface
         $this->templateResolver = $templateResolver;
         $this->imageFile = $imageFile;
         $this->escaper = $escaper;
-        $this->submenuTemplate = $this->getMenuTemplate($this->baseSubmenuTemplate);
         $this->setTemplate($this->getMenuTemplate($this->_template));
+        $this->submenuTemplate = $this->getSubmenuTemplate();
     }
 
     /**
@@ -397,7 +397,8 @@ class Menu extends Template implements DataObject\IdentityInterface
             ->setImageUrl($node->getImage() ? $this->imageFile->getUrl($node->getImage()) : null)
             ->setImageAltText($node->getImageAltText())
             ->setCustomTemplate($node->getNodeTemplate())
-            ->setAdditionalData($node->getAdditionalData());
+            ->setAdditionalData($node->getAdditionalData())
+            ->setSelectedItemId($node->getSelectedItemId());
 
         return $nodeBlock;
     }
@@ -475,5 +476,18 @@ class Menu extends Template implements DataObject\IdentityInterface
             $this->getData('menu'),
             $template
         );
+    }
+
+    /**
+     * @return string
+     */
+    private function getSubmenuTemplate()
+    {
+        $baseSubmenuTemplate = $this->baseSubmenuTemplate;
+        if ($this->getData('subMenuTemplate')) {
+            $baseSubmenuTemplate = $this->getData('subMenuTemplate');
+        }
+
+        return $this->getMenuTemplate($baseSubmenuTemplate);
     }
 }

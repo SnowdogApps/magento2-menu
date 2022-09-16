@@ -68,6 +68,10 @@
                     type: String,
                     required: true
                 },
+                itemIdKey: {
+                    type: String,
+                    default: null
+                },
                 defaultOptionValue: {
                     type: String,
                     default: 'default'
@@ -84,13 +88,23 @@
             computed: {
                 selected: {
                     get() {
-                        var selectedOption = '',
+                        let selectedOption = '',
                             optionValue;
+                        const selectedItemId = this.item[this.itemIdKey];
 
-                        for (var i = 0; i < this.options.length; i++) {
-                            optionValue = this.options[i].value.toString();
-                            if (optionValue === this.item[this.itemKey]) {
-                                selectedOption = this.isTree ? this.options[i].value : this.options[i];
+                        if (selectedItemId) {
+                            for (var i = 0; i < this.options.length; i++) {
+                                optionId = this.options[i].id.toString();
+                                if (optionId === selectedItemId) {
+                                    selectedOption = this.isTree ? this.options[i].value : this.options[i];
+                                }
+                            }
+                        } else {
+                            for (var i = 0; i < this.options.length; i++) {
+                                optionValue = this.options[i].value.toString();
+                                if (optionValue === this.item[this.itemKey]) {
+                                    selectedOption = this.isTree ? this.options[i].value : this.options[i];
+                                }
                             }
                         }
 
@@ -103,6 +117,7 @@
                     set(option) {
                         if (option && typeof option === 'object') {
                             this.item[this.itemKey] = option.value.toString();
+                            this.item[this.itemIdKey] = option.id.toString();
                         }
                         else if (option && typeof option === 'string') {
                             this.item[this.itemKey] = option;

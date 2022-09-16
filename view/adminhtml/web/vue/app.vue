@@ -80,7 +80,7 @@
             data: function() {
                 return {
                     list: [],
-                    selectedItem: false
+                    selectedItem: null
                 };
             },
             computed: {
@@ -102,19 +102,15 @@
                     return document.querySelector(selector);
                 };
 
+                const setUuidRecursive = (item) => {
+                    item.uuid = this.uuid();
+                    item.columns.map(column => setUuidRecursive(column))
+                    return item;
+                };
+
                 // while loaded set JSON list as a value
                 checkElement('[name="serialized_nodes"]').then(() => {
-                    this.list = this.nodes.map(item => {
-                        item.uuid = this.uuid();
-
-                        item.columns.map(column => {
-                            column.uuid = this.uuid();
-                            return column;
-                        });
-
-                        return item;
-                    });
-
+                    this.list = this.nodes.map(item => setUuidRecursive(item))
                     this.updateSerializedNodes(this.jsonList);
                 });
             },
@@ -128,14 +124,14 @@
                 },
                 addNode: function(target) {
                     target.push({
-                        uuid: this.uuid(),
                         id: this.uuid(),
+                        uuid: this.uuid(),
                         type: 'category',
                         title: this.config.translation.addNode,
                         content: null,
-                        node_template: null,
                         image: null,
-                        image_alt_text: null,
+                        image_alt_text: '',
+                        node_template: null,
                         submenu_template: null,
                         columns: [],
                         is_active: 0
