@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 ### Added
+- `url_key` on some node types ([#227](https://github.com/SnowdogApps/magento2-menu/pull/227))
 ### Changed
 ### Fixed
 - Selecting item in admin between two stores

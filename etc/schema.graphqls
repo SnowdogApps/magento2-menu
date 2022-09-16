@@ -50,6 +50,7 @@ interface SnowdogMenuNodeInterface @typeResolver(class: "Snowdog\\Menu\\Model\\G
     submenu_template: String @doc(description: "Node submenu template")
     creation_time: String! @doc(description: "Node creation time")
     update_time: String! @doc(description: "Node update time")
+    url_key: String @doc(description: "Returns the url key when available")
     additional_data: [String!] @doc(description: "Node additional data")
 }
 
