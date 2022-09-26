@@ -6,9 +6,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 
 ## [Unreleased]
+
+## [2.20.0] - 2022-09-26
 ### Added
-### Changed
+- `url_key` on some node types ([#227](https://github.com/SnowdogApps/magento2-menu/pull/227))
 ### Fixed
+- Selecting item in admin between two stores ([#91](https://github.com/SnowdogApps/magento2-menu/issues/91))
+- Node issue during menu duplication ([#247](https://github.com/SnowdogApps/magento2-menu/issues/247))
 
 ## [2.19.0] - 2022-05-04
 ### Added

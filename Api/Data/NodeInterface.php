@@ -22,6 +22,7 @@ interface NodeInterface
     const UPDATE_TIME = 'update_time';
     const IS_ACTIVE = 'is_active';
     const ADDITIONAL_DATA = 'additional_data';
+    const SELECTED_ITEM_ID = 'selected_item_id';
 
     /**
      * Get node id
@@ -262,4 +263,15 @@ interface NodeInterface
      * @return $this
      */
     public function setAdditionalData($data);
+
+    /**
+     * @return int
+     */
+    public function getSelectedItemId();
+
+    /**
+     * @param int $selectedItemId
+     * @return $this
+     */
+    public function setSelectedItemId($selectedItemId);
 }
