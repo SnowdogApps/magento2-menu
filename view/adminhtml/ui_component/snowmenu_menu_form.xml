@@ -205,7 +205,7 @@
                 <settings>
                     <dataType>int</dataType>
                     <label translate="true">Level of depth</label>
-                    <notice translate="true">Leave 0 for all child categories</notice>
+                    <notice translate="true">Leave empty for all child categories</notice>
                     <validation>
                         <rule name="validate-number" xsi:type="boolean">true</rule>
                     </validation>

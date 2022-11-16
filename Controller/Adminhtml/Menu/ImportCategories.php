@@ -47,10 +47,8 @@ class ImportCategories extends Action implements HttpPostActionInterface
     {
         $categoryId = (int) $this->_request->getParam('category_id');
         $depth = $this->_request->getParam('depth');
-        if ($depth == 'NaN') {
+        if (!is_numeric($depth)) {
             $depth = null;
-        } elseif (is_numeric($depth)) {
-            ++$depth;
         }
 
         $result = $this->resultJsonFactory->create();
