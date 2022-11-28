@@ -12,7 +12,7 @@
         <buttons>
             <button name="back" class="Snowdog\Menu\Block\Adminhtml\Edit\Button\Back"/>
             <button name="delete" class="Snowdog\Menu\Block\Adminhtml\Edit\Button\Delete"/>
-            <button name="reset" class="Snowdog\Menu\Block\Adminhtml\Edit\Button\Reset"/>
+            <button name="custom_reset" class="Snowdog\Menu\Block\Adminhtml\Edit\Button\Reset"/>
             <button name="import_categories" class="Snowdog\Menu\Block\Adminhtml\Edit\Button\ImportCategories"/>
             <button name="save" class="Snowdog\Menu\Block\Adminhtml\Edit\Button\Save"/>
         </buttons>

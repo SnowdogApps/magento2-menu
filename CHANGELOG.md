@@ -6,6 +6,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 
 ## [Unreleased]
+### Fixed
+- Reset button doesn't reset menu node structure ([#256](https://github.com/SnowdogApps/magento2-menu/pull/256))
 
 ## [2.20.0] - 2022-09-26
 ### Added
