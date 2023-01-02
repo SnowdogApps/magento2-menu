@@ -9,6 +9,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Fixed
 - Reset button doesn't reset menu node structure ([#256](https://github.com/SnowdogApps/magento2-menu/pull/256))
 
+### Added
+- Allow remote file storage etc (get.php) to pull the files ([#258](https://github.com/SnowdogApps/magento2-menu/pull/258))
+
 ## [2.20.0] - 2022-09-26
 ### Added
 - `url_key` on some node types ([#227](https://github.com/SnowdogApps/magento2-menu/pull/227))
