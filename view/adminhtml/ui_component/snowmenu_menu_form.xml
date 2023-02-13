@@ -205,10 +205,16 @@
                 <settings>
                     <dataType>int</dataType>
                     <label translate="true">Level of depth</label>
-                    <notice translate="true">Leave empty for all child categories</notice>
                     <validation>
                         <rule name="validate-number" xsi:type="boolean">true</rule>
                     </validation>
+                </settings>
+            </field>
+            <field name="depth_usage_info" formElement="input">
+                <settings>
+                    <dataType>text</dataType>
+                    <elementTmpl>Snowdog_Menu/depth_info.html</elementTmpl>
+                    <label translate="true">Info</label>
                 </settings>
             </field>
         </fieldset>
