@@ -53,7 +53,7 @@ class Identifier
     private function getMenuListByIdentifier(string $identifier): array
     {
         $searchCriteria = $this->searchCriteriaBuilder
-            ->addFilter(MenuInterface::IDENTIFIER, "${identifier}%", 'like')
+            ->addFilter(MenuInterface::IDENTIFIER, "{$identifier}%", 'like')
             ->create();
 
         return $this->menuRepository->getList($searchCriteria)->getItems();
