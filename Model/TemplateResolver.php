@@ -39,7 +39,12 @@ class TemplateResolver
      * @var Registry
      */
     private $registry;
-
+    
+    /**
+     * @var Validator
+     */
+    private $validator;
+    
     /**
      * @var AssetRepository
      */
