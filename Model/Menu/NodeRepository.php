@@ -24,6 +24,11 @@ class NodeRepository implements NodeRepositoryInterface
     protected $objectFactory;
 
     /**
+     * @var SearchResultsInterfaceFactory
+     */
+    protected $searchResultsFactory;
+    
+    /**
      * @var CollectionFactory
      */
     protected $collectionFactory;
