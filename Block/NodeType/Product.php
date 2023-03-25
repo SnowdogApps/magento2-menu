@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Snowdog\Menu\Block\NodeType;
 
+use Magento\Catalog\Model\ProductRepository;
 use Magento\Framework\Registry;
 use Magento\Framework\UrlInterface;
 use Snowdog\Menu\Model\TemplateResolver;
@@ -56,6 +57,11 @@ class Product extends AbstractNode
     protected $productTitles;
 
     /**
+     * @var ProductRepository
+     */
+    protected $productRepository;
+
+    /**
      * @var Registry
      */
     private $coreRegistry;
@@ -87,6 +93,7 @@ class Product extends AbstractNode
         TemplateResolver $templateResolver,
         PricingHelper $priceHelper,
         ImageHelper $imageHelper,
+        ProductRepository $productRepository,
         array $data = []
     ) {
         parent::__construct($context, $templateResolver, $data);
@@ -94,6 +101,7 @@ class Product extends AbstractNode
         $this->productModel = $productModel;
         $this->priceHelper = $priceHelper;
         $this->imageHelper = $imageHelper;
+        $this->productRepository = $productRepository;
     }
 
     /**
@@ -102,6 +110,23 @@ class Product extends AbstractNode
     public function getCurrentProduct()
     {
         return $this->coreRegistry->registry('current_product');
+    }
+
+    /**
+     * @param int $nodeId
+     * @return ProductRepository
+     * @throws \InvalidArgumentException
+     */
+    public function getProductById($nodeId)
+    {
+        if (!isset($this->nodes[$nodeId])) {
+            throw new \InvalidArgumentException('Invalid node identifier specified');
+        }
+
+        $node = $this->nodes[$nodeId];
+        $productId = (int)$node->getContent();
+
+        return $this->productRepository->getById($productId);
     }
 
     /**

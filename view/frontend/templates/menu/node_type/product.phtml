@@ -2,6 +2,7 @@
 <?php
 $nodeId = $block->getId();
 $class = $block->getMenuClass();
+$product = $block->getProductById($nodeId);
 $productUrl = $block->getProductUrl($nodeId);
 $productPrice = $block->getProductPrice($nodeId);
 $formattedProductPrice = $block->getFormattedProductPrice($nodeId);
