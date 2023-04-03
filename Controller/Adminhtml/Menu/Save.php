@@ -93,7 +93,7 @@ class Save extends MenuAction implements HttpPostActionInterface
             $pathParams = [self::ID => $menu->getId(), '_current' => true];
         }
 
-        return $resultRedirect->setPath("*/*/${pathAction}", $pathParams);
+        return $resultRedirect->setPath("*/*/{$pathAction}", $pathParams);
     }
 
     private function getStores(): array

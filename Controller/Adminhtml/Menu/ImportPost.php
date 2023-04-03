@@ -31,6 +31,11 @@ class ImportPost extends Action implements HttpPostActionInterface
      */
     private $importProcessor;
 
+    /**
+     * @var FileUpload
+     */
+    private $fileUpload;
+
     public function __construct(
         Context $context,
         LoggerInterface $logger,

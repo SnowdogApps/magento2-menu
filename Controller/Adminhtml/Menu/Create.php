@@ -21,6 +21,11 @@ class Create extends MenuAction implements HttpGetActionInterface
     protected $resultForwardFactory;
 
     /**
+     * @var MenuRepositoryInterface
+     */
+    protected $menuRepository;
+
+    /**
      * @param Context $context
      * @param ForwardFactory $resultForwardFactory
      * @param MenuRepositoryInterface $menuRepository

@@ -23,6 +23,16 @@ class CmsBlock extends AbstractNode
      * @var MetadataPool
      */
     private $metadataPool;
+    
+    /**
+     * @var BlockRepositoryInterface
+     */
+    private $blockRepository;
+
+    /**
+     * @var SearchCriteriaBuilder
+     */
+    private $searchCriteriaBuilder;
 
     public function __construct(
         ResourceConnection $resource,
