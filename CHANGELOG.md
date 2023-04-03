@@ -6,8 +6,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 
 ## [Unreleased]
+
+## [2.21.0] - 2023-04-03
 ### Fixed
 - Reset button doesn't reset menu node structure ([#256](https://github.com/SnowdogApps/magento2-menu/pull/256))
+- PHP8.2 related issues (#264, #265, #266)
+
+## Changed
+- "Import from categories" logic (#253)
 
 ### Added
 - Allow remote file storage etc (get.php) to pull the files ([#258](https://github.com/SnowdogApps/magento2-menu/pull/258))
