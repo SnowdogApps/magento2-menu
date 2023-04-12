@@ -10,5 +10,10 @@
                 </allowed_resources>
             </media_storage_configuration>
         </system>
+        <snowmenu>
+            <import>
+                <strip_invalid_nodes>1</strip_invalid_nodes>
+            </import>
+        </snowmenu>
     </default>
 </config>

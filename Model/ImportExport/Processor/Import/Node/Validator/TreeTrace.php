@@ -46,4 +46,9 @@ class TreeTrace
     {
         $this->nodeIdAddend = 0;
     }
+
+    public function isEnabledNodeIdAddend(): bool
+    {
+        return (bool) $this->nodeIdAddend;
+    }
 }
