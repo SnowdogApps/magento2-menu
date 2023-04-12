@@ -6,6 +6,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 
 ## [Unreleased]
+- Fix get product title method ([#270](https://github.com/SnowdogApps/magento2-menu/pull/270))
 
 ## [2.21.0] - 2023-04-03
 ### Fixed
