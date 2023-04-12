@@ -88,12 +88,7 @@ class NodeType
             $treeTraceBreadcrumbs = $this->treeTrace->getBreadcrumbs($treeTrace, $nodeId);
 
             $this->validationAggregateError->addError(
-                new ValidationException(
-                    __('Node "%1" type "%2" is invalid.', $treeTraceBreadcrumbs, $type),
-                    null,
-                    0,
-                    explode(' > ', $treeTraceBreadcrumbs)
-                )
+                __('Node "%1" type "%2" is invalid.', $treeTraceBreadcrumbs, $type)
             );
 
             throw $this->validationAggregateError; // Terminate the node type validation task.
