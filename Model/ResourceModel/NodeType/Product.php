@@ -106,7 +106,7 @@ class Product extends AbstractNode
     public function fetchTitleData($storeId = Store::DEFAULT_STORE_ID, $productIds = [])
     {
         $collection = $this->productCollection->create();
-        $collection->addAttributeToSelect(['name'])
+        $collection->addAttributeToSelect(['name', 'left'])
             ->addFieldToFilter('entity_id', ['in' => $productIds])
             ->addStoreFilter($storeId);
 
