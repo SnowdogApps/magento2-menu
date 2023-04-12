@@ -98,7 +98,6 @@ class Import
 
         $this->checkExceptionTypes($this->validationAggregateError);
         $this->invalidNodesProcessor->process($data, $this->validationAggregateError);
-
     }
 
     /**

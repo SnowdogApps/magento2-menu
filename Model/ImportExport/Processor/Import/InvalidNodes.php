@@ -30,7 +30,6 @@ class InvalidNodes
         return $this->stripInvalidNodes($data, $error);
     }
 
-
     /**
      * @param array $data
      * @param ValidationAggregateError $validationAggregateError
@@ -58,13 +57,14 @@ class InvalidNodes
     /**
      * Unsets specific $data element by $path
      */
-    private function unsetItemByPath(array $path, array &$data) {
+    private function unsetItemByPath(array $path, array &$data): void
+    {
         $path = $this->updatePathValues($path);
 
         $dataElement =& $data;
         $lastItemKey = array_pop($path);
 
-        foreach($path as $key) {
+        foreach ($path as $key) {
             $dataElement =& $dataElement["nodes"][$key];
         }
 

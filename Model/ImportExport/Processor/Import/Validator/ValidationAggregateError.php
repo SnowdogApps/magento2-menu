@@ -51,7 +51,7 @@ class ValidationAggregateError extends Exception
     {
         $errorMessages = [];
         foreach ($this->errors as $error) {
-            if (is_string($error) || $error instanceof Phrase ) {
+            if (is_string($error) || $error instanceof Phrase) {
                 $errorMessages[] = $error;
             }
 
