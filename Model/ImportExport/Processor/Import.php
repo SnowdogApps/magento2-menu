@@ -90,8 +90,8 @@ class Import
             $this->nodeProcessor->validateImportData($data[ExtendedFields::NODES]);
         }
 
-        if (empty($this->scopeConfig->getValue('snowmenu/import/strip_invalid_nodes')
-            && $this->validationAggregateError->getErrors())
+        if (empty($this->scopeConfig->getValue('snowmenu/import/strip_invalid_nodes'))
+            && $this->validationAggregateError->getErrors()
         ) {
             throw $this->validationAggregateError;
         }
