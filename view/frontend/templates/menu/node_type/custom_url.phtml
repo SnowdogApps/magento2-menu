@@ -4,6 +4,7 @@ $attributes = [];
 $class = $block->getMenuClass();
 $imageUrl = $block->getImageUrl();
 $imageAltText = $block->getImageAltText();
+$content = $block->getContent();
 if ($block->getIsViewAllLink()) {
     $title = __('View All');
     $classLink = $class . '__inner-link';
@@ -22,7 +23,9 @@ if ($block->getTarget()) {
 ?>
 
 <a
-    href="<?= $block->getContent() ?>"
+    <?php if ($content): ?>
+        href="<?= $block->escapeUrl($content) ?>"
+    <?php endif; ?>
     <?= implode(' ', $attributes) ?>
 >
     <?= $title ?>
