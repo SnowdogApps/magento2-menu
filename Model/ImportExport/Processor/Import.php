@@ -82,7 +82,7 @@ class Import
     /**
      * @throws ValidationAggregateError
      */
-    private function validateData(array $data): void
+    private function validateData(array &$data): void
     {
         $this->menuProcessor->validateImportData($data);
 
