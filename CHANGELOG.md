@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [Unreleased]
 - Fix get product title method ([#270](https://github.com/SnowdogApps/magento2-menu/pull/270))
 - Fix Category Child node without parent category chosen makes menu disappear (DEV-99318)
+- Add required prop for category child field (DEV-99318)
 
 ## [2.21.0] - 2023-04-03
 ### Fixed
