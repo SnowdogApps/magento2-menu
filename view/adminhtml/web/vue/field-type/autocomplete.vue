@@ -1,7 +1,14 @@
 <template>
-    <div class="admin__field field field-title">
+    <div
+        :class="[
+            'admin__field field field-title',
+            { 'admin__field--required _required': required }
+        ]"
+    >
         <label class="label admin__field-label">
-            {{ label }}
+            <span>
+                {{ label }}
+            </span>
         </label>
         <div class="admin__field-control control">
             <treeselect
@@ -11,6 +18,7 @@
                 :placeholder="placeholder"
                 :default-expand-level="1"
                 :clearable="false"
+                :required="required"
             >
                 <template v-slot:value-label="{ node }">
                     {{ node.raw.full_label }}
@@ -24,6 +32,7 @@
                 :placeholder="placeholder"
                 :clearable="false"
                 :disabled="isDisabled"
+                :required="required"
             >
                 <template v-slot:option="option">
                     {{ option.label }}
@@ -81,6 +90,10 @@
                     default: false
                 },
                 isDisabled: {
+                    type: Boolean,
+                    default: false
+                },
+                required: {
                     type: Boolean,
                     default: false
                 }
