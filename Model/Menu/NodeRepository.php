@@ -27,7 +27,7 @@ class NodeRepository implements NodeRepositoryInterface
      * @var SearchResultsInterfaceFactory
      */
     protected $searchResultsFactory;
-    
+
     /**
      * @var CollectionFactory
      */
@@ -51,7 +51,7 @@ class NodeRepository implements NodeRepositoryInterface
         try {
             $object->save();
         } catch (Exception $e) {
-            throw new CouldNotSaveException($e->getMessage());
+            throw new CouldNotSaveException(__($e->getMessage()));
         }
         return $object;
     }

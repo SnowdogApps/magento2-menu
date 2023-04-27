@@ -54,7 +54,7 @@ class MenuRepository implements MenuRepositoryInterface
         try {
             $this->menuResourceModel->save($menu);
         } catch (\Exception $e) {
-            throw new CouldNotSaveException($e->getMessage());
+            throw new CouldNotSaveException(__($e->getMessage()));
         }
         return $menu;
     }

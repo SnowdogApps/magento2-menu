@@ -4,10 +4,15 @@ declare(strict_types=1);
 
 namespace Snowdog\Menu\Controller\Adminhtml\Menu;
 
+use Exception;
 use Magento\Backend\App\Action\Context;
 use Magento\Framework\App\Action\HttpPostActionInterface;
 use Magento\Framework\Controller\ResultInterface;
+use Magento\Framework\Exception\AlreadyExistsException;
+use Magento\Framework\Exception\CouldNotSaveException;
+use Magento\Framework\Phrase;
 use Magento\Store\Model\StoreManagerInterface;
+use Psr\Log\LoggerInterface;
 use Snowdog\Menu\Api\MenuRepositoryInterface;
 use Snowdog\Menu\Api\Data\MenuInterface;
 use Snowdog\Menu\Controller\Adminhtml\MenuAction;
@@ -40,6 +45,11 @@ class Save extends MenuAction implements HttpPostActionInterface
      */
     private $storeManager;
 
+    /**
+     * @var LoggerInterface
+     */
+    private $logger;
+
     public function __construct(
         Context $context,
         MenuRepositoryInterface $menuRepository,
@@ -47,12 +57,14 @@ class Save extends MenuAction implements HttpPostActionInterface
         CloneRequestProcessor $cloneRequestProcessor,
         MenuHydrator $hydrator,
         MenuSaveRequestProcessor $menuSaveRequestProcessor,
-        StoreManagerInterface $storeManager
+        StoreManagerInterface $storeManager,
+        LoggerInterface $logger
     ) {
         $this->cloneRequestProcessor = $cloneRequestProcessor;
         $this->hydrator = $hydrator;
         $this->menuSaveRequestProcessor = $menuSaveRequestProcessor;
         $this->storeManager = $storeManager;
+        $this->logger = $logger;
 
         parent::__construct($context, $menuRepository, $menuFactory);
     }
@@ -68,10 +80,8 @@ class Save extends MenuAction implements HttpPostActionInterface
         $nodes = $nodes ? json_decode($nodes, true) : [];
 
         $this->hydrator->mapRequest($menu, $request);
-        $this->menuRepository->save($menu);
-        $menu->saveStores($this->getStores());
 
-        $this->menuSaveRequestProcessor->saveData($menu, $nodes);
+        $this->processSave($menu, $nodes);
 
         return $this->processRedirect($menu);
     }
@@ -105,5 +115,24 @@ class Save extends MenuAction implements HttpPostActionInterface
         }
 
         return $stores;
+    }
+
+    private function processSave(MenuInterface $menu, $nodes): void
+    {
+        try {
+            $this->menuRepository->save($menu);
+            $menu->saveStores($this->getStores());
+
+            $this->menuSaveRequestProcessor->saveData($menu, $nodes);
+
+            if (empty($this->messageManager->getMessages()->getErrors())) {
+                $this->messageManager->addSuccessMessage(new Phrase('Menu has been saved successfully.'));
+            }
+        } catch (AlreadyExistsException|CouldNotSaveException $e) {
+            $this->messageManager->addErrorMessage(new Phrase('Could not save Menu: %1', [$e->getMessage()]));
+        } catch (Exception $e) {
+            $this->logger->critical($e);
+            $this->messageManager->addErrorMessage(new Phrase('An error occurred while saving menu.'));
+        }
     }
 }
