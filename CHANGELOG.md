@@ -6,11 +6,18 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 
 ## [Unreleased]
-- Fix get product title method ([#270](https://github.com/SnowdogApps/magento2-menu/pull/270))
+
+## [2.22.0] - 2023-05-08
+### Fixed
+- Get product title method ([#270](https://github.com/SnowdogApps/magento2-menu/pull/270))
+- Category Child node without parent category chosen makes menu disappear (DEV-99318)
+
+### Changed
 - Change Custom URL without URL content to not clickable (DEV-99301)
-- Add error skipping mechanism for some exceptions ([#271](https://github.com/SnowdogApps/magento2-menu/pull/271))
-- Fix Category Child node without parent category chosen makes menu disappear (DEV-99318)
-- Add required prop for category child field (DEV-99318)
+
+### Added
+- Error skipping mechanism for some exceptions ([#271](https://github.com/SnowdogApps/magento2-menu/pull/271))
+- Required prop for category child field (DEV-99318)
 - Display a message indicating success or error after saving the menu. #274
 
 ## [2.21.0] - 2023-04-03
