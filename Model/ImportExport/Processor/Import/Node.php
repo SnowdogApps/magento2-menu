@@ -68,6 +68,10 @@ class Node
         ?int $parentId = null
     ): void {
         foreach ($nodes as $nodeData) {
+            if ($nodeData === null) {
+                continue;
+            }
+
             $node = $this->nodeFactory->create();
             $data = $this->dataProcessor->getData($nodeData, $menuId, $level, $position++, $parentId);
 

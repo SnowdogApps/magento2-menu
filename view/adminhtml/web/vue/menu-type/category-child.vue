@@ -8,6 +8,7 @@
         :item-key="'content'"
         :options="options"
         :config="config"
+        required
     />
 </template>
 <script>

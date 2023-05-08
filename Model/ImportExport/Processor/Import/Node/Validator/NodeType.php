@@ -9,6 +9,7 @@ use Snowdog\Menu\Model\ImportExport\Processor\Import\Node\Type\Catalog;
 use Snowdog\Menu\Model\ImportExport\Processor\Import\Node\Type\Cms;
 use Snowdog\Menu\Model\ImportExport\Processor\Import\Node\Validator\TreeTrace;
 use Snowdog\Menu\Model\ImportExport\Processor\Import\Validator\ValidationAggregateError;
+use Snowdog\Menu\Model\ImportExport\Processor\Import\Validator\ValidationException;
 use Snowdog\Menu\Model\ImportExport\Processor\NodeTypes;
 use Snowdog\Menu\Model\NodeTypeProvider;
 
@@ -122,12 +123,18 @@ class NodeType
         }
 
         if (!$isValid) {
+            $treeTraceBreadcrumbs = $this->treeTrace->getBreadcrumbs($treeTrace, $nodeId);
             $this->validationAggregateError->addError(
-                __(
-                    'Node "%1" %2 identifier "%3" is invalid.',
-                    $this->treeTrace->getBreadcrumbs($treeTrace, $nodeId),
-                    $node[NodeInterface::TYPE],
-                    $node[NodeInterface::CONTENT]
+                new ValidationException(
+                    __(
+                        'Node "%1" %2 identifier "%3" is invalid.',
+                        $treeTraceBreadcrumbs,
+                        $node[NodeInterface::TYPE],
+                        $node[NodeInterface::CONTENT]
+                    ),
+                    null,
+                    0,
+                    explode(' > ', $treeTraceBreadcrumbs)
                 )
             );
         }

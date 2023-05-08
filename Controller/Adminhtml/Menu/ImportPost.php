@@ -13,6 +13,7 @@ use Psr\Log\LoggerInterface;
 use Snowdog\Menu\Model\ImportExport\File\Upload as FileUpload;
 use Snowdog\Menu\Model\ImportExport\Processor\Import as ImportProcessor;
 use Snowdog\Menu\Model\ImportExport\Processor\Import\Validator\ValidationAggregateError;
+use Throwable;
 
 class ImportPost extends Action implements HttpPostActionInterface
 {
@@ -67,7 +68,7 @@ class ImportPost extends Action implements HttpPostActionInterface
             $exception->flush();
         } catch (ValidatorException $exception) {
             $this->messageManager->addErrorMessage($exception->getMessage());
-        } catch (Exception $exception) {
+        } catch (Exception|Throwable $exception) {
             $this->logger->critical($exception);
             $this->messageManager->addErrorMessage(__('An error occurred while importing menu.'));
         }

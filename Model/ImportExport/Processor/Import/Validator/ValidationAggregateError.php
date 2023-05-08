@@ -6,6 +6,7 @@ namespace Snowdog\Menu\Model\ImportExport\Processor\Import\Validator;
 
 use Exception;
 use Magento\Framework\Message\ManagerInterface as MessageManagerInterface;
+use Magento\Framework\Phrase;
 
 class ValidationAggregateError extends Exception
 {
@@ -25,7 +26,7 @@ class ValidationAggregateError extends Exception
     }
 
     /**
-     * @param string|\Magento\Framework\Phrase $error
+     * @param string|Phrase|Exception $error
      */
     public function addError($error): void
     {
@@ -39,10 +40,26 @@ class ValidationAggregateError extends Exception
 
     public function flush(): void
     {
-        foreach ($this->errors as $error) {
-            $this->messageManager->addErrorMessage($error);
+        foreach ($this->getErrorMessages() as $errorMessage) {
+            $this->messageManager->addErrorMessage($errorMessage);
         }
 
         $this->errors = [];
+    }
+
+    public function getErrorMessages(): array
+    {
+        $errorMessages = [];
+        foreach ($this->errors as $error) {
+            if (is_string($error) || $error instanceof Phrase) {
+                $errorMessages[] = $error;
+            }
+
+            if ($error instanceof Exception) {
+                $errorMessages[] = $error->getMessage();
+            }
+        }
+
+        return $errorMessages;
     }
 }
