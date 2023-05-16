@@ -47,7 +47,7 @@ class CmsPage extends AbstractNode
     private $_cmsPageModel;
 
     /**
-     * @var StoreManagerInterface\
+     * @var StoreManagerInterface
      */
     private $storesList;
 
