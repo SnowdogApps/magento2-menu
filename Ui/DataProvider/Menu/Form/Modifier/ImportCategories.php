@@ -17,6 +17,9 @@ use Magento\Framework\UrlInterface;
 use Magento\Framework\Stdlib\ArrayManager;
 use Magento\Framework\AuthorizationInterface;
 
+/**
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
+ */
 class ImportCategories implements ModifierInterface
 {
     /**#@+

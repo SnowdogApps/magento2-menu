@@ -130,6 +130,7 @@ class TemplateResolver
      * @param string $defaultTemplateLabel
      * @return array
      * @throws FileSystemException
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      */
     private function getTemplateList($nodeType = '', $defaultTemplateLabel = '')
     {
