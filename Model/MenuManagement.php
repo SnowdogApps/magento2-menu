@@ -87,6 +87,7 @@ class MenuManagement implements MenuManagementInterface
         }
 
         $nodes = $data[$level][$parent];
+        $nodeList = [];
         foreach ($nodes as $node) {
             $nodeId = $node['id'];
             $nodeList[] = [

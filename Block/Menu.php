@@ -80,6 +80,11 @@ class Menu extends Template implements DataObject\IdentityInterface
     protected $baseSubmenuTemplate = 'Snowdog_Menu::menu/sub_menu.phtml';
 
     /**
+     * @var Escaper
+     */
+    private $escaper;
+
+    /**
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
