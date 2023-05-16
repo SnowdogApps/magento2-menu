@@ -1,9 +1,12 @@
 <?php
 namespace Snowdog\Menu\Setup;
 
+// @codingStandardsIgnoreFile
 class InstallData implements \Magento\Framework\Setup\InstallDataInterface
 {
-    // phpcs:ignore Magento2.CodeAnalysis.EmptyBlock.DetectedFunction
+    /**
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+     */
     public function install(
         \Magento\Framework\Setup\ModuleDataSetupInterface $setup,
         \Magento\Framework\Setup\ModuleContextInterface $context
