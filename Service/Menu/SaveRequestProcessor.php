@@ -70,6 +70,10 @@ class SaveRequestProcessor
         $this->menuNodes = $menuNodes;
     }
 
+    /**
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
+     * @SuppressWarnings(PHPMD.NPathComplexity)
+     */
     public function saveData(MenuInterface $menu, array $nodes = []): void
     {
         $existingNodes = [];
@@ -151,6 +155,10 @@ class SaveRequestProcessor
         }
     }
 
+    /**
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
+     * @SuppressWarnings(PHPMD.NPathComplexity)
+     */
     private function processNodeObject(
         NodeInterface $nodeObject,
         array $nodeData,

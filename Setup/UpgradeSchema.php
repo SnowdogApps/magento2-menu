@@ -16,10 +16,12 @@ use Magento\Framework\Setup\SchemaSetupInterface;
 use Magento\Framework\Setup\UpgradeSchemaInterface;
 use Snowdog\Menu\Api\Data\NodeInterface;
 
+// @codingStandardsIgnoreFile
 class UpgradeSchema implements UpgradeSchemaInterface
 {
     /**
      * {@inheritdoc}
+     * @SuppressWarnings(PHPMD.NPathComplexity)
      */
     public function upgrade(SchemaSetupInterface $setup, ModuleContextInterface $context)
     {

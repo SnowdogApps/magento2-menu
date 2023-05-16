@@ -59,7 +59,7 @@ interface MenuRepositoryInterface
      *
      * @param array $ids
      * @param int $isActive
-     * @return bool
+     * @return void
      */
     public function setIsActiveByIds($ids, $isActive);
 }

@@ -1,0 +1,30 @@
+name: Backend Static Review
+on: [push, pull_request]
+
+jobs:
+  phpcs:
+    name: M2 Code Analysis
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: extdn/github-actions-m2/magento-coding-standard/8.1@master
+        with:
+          phpcs_severity: 10
+          phpcs_report: full
+          args: "--colors"
+
+  phpmd:
+    name: M2 Mess Detection
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: extdn/github-actions-m2/magento-mess-detector@master
+
+  phpstan:
+    name: M2 PHPStan
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: extdn/github-actions-m2/magento-phpstan@master
+        with:
+          composer_name: snowdog/module-menu

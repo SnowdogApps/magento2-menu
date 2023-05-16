@@ -21,6 +21,9 @@ use Snowdog\Menu\Service\Menu\CloneRequestProcessor;
 use Snowdog\Menu\Service\Menu\Hydrator as MenuHydrator;
 use Snowdog\Menu\Service\Menu\SaveRequestProcessor as MenuSaveRequestProcessor;
 
+/**
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
+ */
 class Save extends MenuAction implements HttpPostActionInterface
 {
     private const EDIT_RETURN_REDIRECTS = ['edit', 'continue', 'duplicate'];

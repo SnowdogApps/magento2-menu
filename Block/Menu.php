@@ -16,6 +16,9 @@ use Snowdog\Menu\Model\NodeTypeProvider;
 use Snowdog\Menu\Model\TemplateResolver;
 use Magento\Store\Model\Store;
 
+/**
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
+ */
 class Menu extends Template implements DataObject\IdentityInterface
 {
     /**
@@ -76,6 +79,14 @@ class Menu extends Template implements DataObject\IdentityInterface
      */
     protected $baseSubmenuTemplate = 'Snowdog_Menu::menu/sub_menu.phtml';
 
+    /**
+     * @var Escaper
+     */
+    private $escaper;
+
+    /**
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
+     */
     public function __construct(
         Template\Context $context,
         EventManager $eventManager,
