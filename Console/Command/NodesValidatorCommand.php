@@ -23,7 +23,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
 
 /**
- * SuppressWarnings(PHPMD.CouplingBetweenObjects)
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class NodesValidatorCommand extends Command
 {
@@ -71,7 +71,6 @@ class NodesValidatorCommand extends Command
     public function execute(InputInterface $input, OutputInterface $output)
     {
         $this->setAreaCode();
-
         $invalidNodeIds = [];
 
         foreach ($this->getAllMenus() as $menu) {
@@ -108,20 +107,10 @@ class NodesValidatorCommand extends Command
             return;
         }
 
-        $results = $this->deleteNodesByIds($invalidNodeIds);
-
-        foreach ($results['errors'] as $error) {
-            $output->writeln('<error>' . $error . '</error>');
-        }
-
-        if (!empty($results['success'])) {
-            $output->writeln(
-                sprintf(
-                    PHP_EOL . '<info>The following invalid nodes were removed successfully: %s</info>',
-                    implode(', ', $results['success'])
-                )
-            );
-        }
+        $this->displayResults(
+            $this->deleteNodesByIds($invalidNodeIds),
+            $output
+        );
     }
 
     private function setAreaCode(): void
@@ -192,5 +181,21 @@ class NodesValidatorCommand extends Command
             PHP_EOL . ' > Would you like to remove the invalid nodes listed above? (y/n): ',
             false
         );
+    }
+
+    private function displayResults(array $results, OutputInterface $output): void
+    {
+        foreach ($results['errors'] as $error) {
+            $output->writeln('<error>' . $error . '</error>');
+        }
+
+        if (!empty($results['success'])) {
+            $output->writeln(
+                sprintf(
+                    PHP_EOL . '<info>The following invalid nodes were removed successfully: %s</info>',
+                    implode(', ', $results['success'])
+                )
+            );
+        }
     }
 }
