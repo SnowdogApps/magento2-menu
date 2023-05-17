@@ -68,4 +68,10 @@
             </argument>
         </arguments>
     </type>
+
+    <type name="Snowdog\Menu\Console\Command\NodesValidatorCommand">
+        <arguments>
+            <argument name="validator" xsi:type="object">Snowdog\Menu\Model\ImportExport\Processor\Import\Node\Validator\Proxy</argument>
+        </arguments>
+    </type>
 </config>

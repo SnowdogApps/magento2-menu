@@ -27,7 +27,7 @@ class NodesValidatorCommand extends Command
     private MenuRepositoryInterface $menuRepository;
     private NodeRepositoryInterface $nodeRepository;
     private SearchCriteriaBuilder $searchCriteriaBuilder;
-    private Validator\Proxy $validator;
+    private Validator $validator;
     private ValidationAggregateError $validationAggregateError;
     private State $state;
 
@@ -35,7 +35,7 @@ class NodesValidatorCommand extends Command
         MenuRepositoryInterface $menuRepository,
         NodeRepositoryInterface $nodeRepository,
         SearchCriteriaBuilder $searchCriteriaBuilder,
-        Validator\Proxy $validator,
+        Validator $validator,
         ValidationAggregateError $validationAggregateError,
         State $state,
         string $name = null
