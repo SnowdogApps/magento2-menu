@@ -22,6 +22,9 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
 
+/**
+ * SuppressWarnings(PHPMD.CouplingBetweenObjects)
+ */
 class NodesValidatorCommand extends Command
 {
     private MenuRepositoryInterface $menuRepository;
@@ -67,31 +70,14 @@ class NodesValidatorCommand extends Command
 
     public function execute(InputInterface $input, OutputInterface $output)
     {
-        try {
-            $this->state->getAreaCode();
-        } catch (LocalizedException $e) {
-            $this->state->setAreaCode(Area::AREA_ADMINHTML);
-        }
+        $this->setAreaCode();
 
         $invalidNodeIds = [];
 
         foreach ($this->getAllMenus() as $menu) {
             $output->writeln(PHP_EOL . '<info>... Validating nodes for menu with ID: ' . $menu->getMenuId(). ' </info>');
             $nodes = $this->nodeRepository->getByMenu($menu->getMenuId());
-            $menuInvalidNodes = [];
-
-            /** @var NodeInterface $node */
-            foreach ($nodes as $node) {
-                $this->validator->validate([$node->getNodeId() => $node->getData()]);
-
-                if (!empty($this->validationAggregateError->getErrors())) {
-                    foreach ($this->validationAggregateError->getErrorMessages() as $errorMessage) {
-                        $menuInvalidNodes[$node->getNodeId()][] = $errorMessage;
-                    }
-
-                    $this->validationAggregateError->flush();
-                }
-            }
+            $menuInvalidNodes = $this->getInvalidNodes($nodes);
 
             if (empty($menuInvalidNodes)) {
                 $output->writeln('<info>No invalid nodes encountered</info>');
@@ -119,21 +105,31 @@ class NodesValidatorCommand extends Command
 
         if (!$helper->ask($input, $output, $this->getConfirmationQuestion())) {
             $output->writeln(PHP_EOL . '<info>Invalid nodes were NOT removed</info>');
-        } else {
-            $results = $this->deleteNodesByIds($invalidNodeIds);
+            return;
+        }
 
-            foreach ($results['errors'] as $error) {
-                $output->writeln('<error>' . $error . '</error>');
-            }
+        $results = $this->deleteNodesByIds($invalidNodeIds);
 
-            if (!empty($results['success'])) {
-                $output->writeln(
-                    sprintf(
-                        PHP_EOL . '<info>The following invalid nodes were removed successfully: %s</info>',
-                        implode(', ', $results['success'])
-                    )
-                );
-            }
+        foreach ($results['errors'] as $error) {
+            $output->writeln('<error>' . $error . '</error>');
+        }
+
+        if (!empty($results['success'])) {
+            $output->writeln(
+                sprintf(
+                    PHP_EOL . '<info>The following invalid nodes were removed successfully: %s</info>',
+                    implode(', ', $results['success'])
+                )
+            );
+        }
+    }
+
+    private function setAreaCode(): void
+    {
+        try {
+            $this->state->getAreaCode();
+        } catch (LocalizedException $e) {
+            $this->state->setAreaCode(Area::AREA_ADMINHTML);
         }
     }
 
@@ -145,6 +141,28 @@ class NodesValidatorCommand extends Command
         return $this->menuRepository
             ->getList($this->searchCriteriaBuilder->create())
             ->getItems();
+    }
+
+    private function getInvalidNodes(array $nodes): array
+    {
+        $invalidNodes = [];
+
+        /** @var NodeInterface $node */
+        foreach ($nodes as $node) {
+            $this->validator->validate([$node->getNodeId() => $node->getData()]);
+
+            if (empty($this->validationAggregateError->getErrors())) {
+                continue;
+            }
+
+            foreach ($this->validationAggregateError->getErrorMessages() as $errorMessage) {
+                $invalidNodes[$node->getNodeId()][] = $errorMessage;
+            }
+
+            $this->validationAggregateError->flush();
+        }
+
+        return $invalidNodes;
     }
 
     private function deleteNodesByIds(array $nodeIds): array
