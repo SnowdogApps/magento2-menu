@@ -6,6 +6,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 
 ## [Unreleased]
+### Changed
+- Update GH actions to github-actions-m2 and small code fixes to standards (#100322)
 
 ## [2.22.0] - 2023-05-08
 ### Fixed
