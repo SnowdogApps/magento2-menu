@@ -14,6 +14,7 @@ use Snowdog\Menu\Api\Data\NodeInterface;
 use Snowdog\Menu\Api\MenuRepositoryInterface;
 use Snowdog\Menu\Api\NodeRepositoryInterface;
 use Snowdog\Menu\Model\ImportExport\Processor\Import\Node\Validator;
+use Snowdog\Menu\Model\ImportExport\Processor\Import\Node\Validator\TreeTrace;
 use Snowdog\Menu\Model\ImportExport\Processor\Import\Validator\ValidationAggregateError;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -33,6 +34,7 @@ class NodesValidatorCommand extends Command
     private Validator $validator;
     private ValidationAggregateError $validationAggregateError;
     private State $state;
+    private TreeTrace $treeTrace;
 
     public function __construct(
         MenuRepositoryInterface $menuRepository,
@@ -41,6 +43,7 @@ class NodesValidatorCommand extends Command
         Validator $validator,
         ValidationAggregateError $validationAggregateError,
         State $state,
+        TreeTrace $treeTrace,
         string $name = null
     ) {
         $this->menuRepository = $menuRepository;
@@ -49,6 +52,7 @@ class NodesValidatorCommand extends Command
         $this->validator = $validator;
         $this->validationAggregateError = $validationAggregateError;
         $this->state = $state;
+        $this->treeTrace = $treeTrace;
 
         parent::__construct($name);
     }
@@ -72,6 +76,7 @@ class NodesValidatorCommand extends Command
     {
         $this->setAreaCode();
         $invalidNodeIds = [];
+        $this->treeTrace->disableNodeIdAddend();
 
         foreach ($this->getAllMenus() as $menu) {
             $output->writeln(PHP_EOL . '<info>... Validating nodes for menu with ID: ' . $menu->getMenuId(). ' </info>');
@@ -93,18 +98,19 @@ class NodesValidatorCommand extends Command
                 }
             }
 
-            $invalidNodeIds = array_merge($invalidNodeIds, array_keys($menuInvalidNodes));
+            $invalidNodeIds[] = array_keys($menuInvalidNodes);
         }
 
         if (empty($invalidNodeIds) || !$input->isInteractive()) {
-            return;
+            return 0;
         }
 
+        $invalidNodeIds = array_merge([], ...$invalidNodeIds);
         $helper = $this->getHelper('question');
 
         if (!$helper->ask($input, $output, $this->getConfirmationQuestion())) {
             $output->writeln(PHP_EOL . '<info>Invalid nodes were NOT removed</info>');
-            return;
+            return 0;
         }
 
         $this->displayResults(
@@ -140,7 +146,10 @@ class NodesValidatorCommand extends Command
 
         /** @var NodeInterface $node */
         foreach ($nodes as $node) {
-            $this->validator->validate([$node->getNodeId() => $node->getData()]);
+            $this->validator->validate(
+                [$node->getNodeId() => $node->getData()],
+                $this->treeTrace
+            );
 
             if (empty($this->validationAggregateError->getErrors())) {
                 continue;
