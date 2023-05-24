@@ -147,8 +147,7 @@ class NodesValidatorCommand extends Command
         /** @var NodeInterface $node */
         foreach ($nodes as $node) {
             $this->validator->validate(
-                [$node->getNodeId() => $node->getData()],
-                $this->treeTrace
+                [$node->getNodeId() => $node->getData()]
             );
 
             if (empty($this->validationAggregateError->getErrors())) {
