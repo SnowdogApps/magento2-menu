@@ -1,12 +1,15 @@
 define([], function () {
   'use strict';
 
-  class MegaMenu {
+  class Menu {
     constructor(element) {
       this.menu = element;
       this.links = this.menu.querySelectorAll('a');
       this.path = window.location.href;
-      this.setCurrentItem();
+
+      if (this.links.length) {
+        this.setCurrentItem();
+      }
     }
 
     setCurrentItem() {
@@ -19,6 +22,6 @@ define([], function () {
   }
 
   return function (config, element) {
-    new MegaMenu(element);
+    new Menu(element);
   };
 });
