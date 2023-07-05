@@ -191,9 +191,6 @@ class Menu extends Template implements DataObject\IdentityInterface
         $request = $this->getRequest();
 
         switch ($request->getRouteName()) {
-            case 'cms':
-                $nodeType = 'cms_page';
-                break;
             case 'catalog':
                 $nodeType = 'category';
                 break;

@@ -75,21 +75,6 @@ class CmsPage extends AbstractNode
     }
 
     /**
-     * @return array
-     */
-    public function getNodeCacheKeyInfo()
-    {
-        $info = [];
-        $pageId = $this->getRequest()->getParam('page_id');
-
-        if ($pageId) {
-            $info[] = 'cms_page_' . $pageId;
-        }
-
-        return $info;
-    }
-
-    /**
      * @inheritDoc
      */
     public function getJsonConfig()
