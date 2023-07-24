@@ -74,23 +74,26 @@ class Catalog
      */
     public function getProduct($sku): ?ProductInterface
     {
-        if (is_numeric($sku)) {
-            try {
-                $product = $this->productRepository->getById((int) $sku);
-                $sku = $product->getSku();
-            } catch (NoSuchEntityException $exception) {
-                // nothing to do here
-            }
-        }
-        
         if (isset($this->cachedProducts[$sku])) {
             return $this->cachedProducts[$sku];
         }
 
-        try {
-            $product = $this->productRepository->get($sku);
-        } catch (NoSuchEntityException $exception) {
-            $product = null;
+        $product = null;
+
+        if (is_numeric($sku)) {
+            try {
+                $product = $this->productRepository->getById((int) $sku);
+            } catch (NoSuchEntityException $exception) {
+                // nothing to do here
+            }
+        }
+
+        if ($product == null) {
+            try {
+                $product = $this->productRepository->get($sku);
+            } catch (NoSuchEntityException $exception) {
+                // nothing to do here
+            }
         }
 
         $this->cachedProducts[$sku] = $product;
