@@ -80,9 +80,9 @@ class Catalog
 
         $product = null;
 
-        if (is_numeric($sku)) {
+        if (!is_numeric($sku)) {
             try {
-                $product = $this->productRepository->getById((int) $sku);
+                $product = $this->productRepository->get($sku);
             } catch (NoSuchEntityException $exception) {
                 // nothing to do here
             }
@@ -90,7 +90,7 @@ class Catalog
 
         if ($product == null) {
             try {
-                $product = $this->productRepository->get($sku);
+                $product = $this->productRepository->getById((int) $sku);
             } catch (NoSuchEntityException $exception) {
                 // nothing to do here
             }
