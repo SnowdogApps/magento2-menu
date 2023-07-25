@@ -11,7 +11,10 @@
         </svg>
     </div>
 
-    <nav class="<?= $menuClass ?>">
+    <nav
+        class="<?= $menuClass ?>"
+        data-mage-init='{"menu": {}}'
+    >
         <ul class="<?= $menuClass ?>__list">
             <?php foreach ($block->getNodes() as $node): ?>
                 <?php

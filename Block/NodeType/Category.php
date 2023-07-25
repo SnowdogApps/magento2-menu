@@ -78,19 +78,12 @@ class Category extends AbstractNode
      */
     public function getNodeCacheKeyInfo()
     {
-        $info = [
+        return [
             'module_' . $this->getRequest()->getModuleName(),
             'controller_' . $this->getRequest()->getControllerName(),
             'route_' . $this->getRequest()->getRouteName(),
             'action_' . $this->getRequest()->getActionName()
         ];
-
-        $category = $this->getCurrentCategory();
-        if ($category) {
-            $info[] = 'category_' . $category->getId();
-        }
-
-        return $info;
     }
 
     /**
