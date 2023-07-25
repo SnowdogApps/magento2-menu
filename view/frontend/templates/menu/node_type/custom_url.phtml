@@ -5,6 +5,7 @@ $class = $block->getMenuClass();
 $imageUrl = $block->getImageUrl();
 $imageAltText = $block->getImageAltText();
 $content = $block->getContent();
+
 if ($block->getIsViewAllLink()) {
     $title = __('View All');
     $classLink = $class . '__inner-link';
@@ -20,16 +21,24 @@ $attributes[] = 'class="' . $classLink . '"';
 if ($block->getTarget()) {
     $attributes[] = 'target="_blank" rel="noopener"';
 }
+$allAttributes = implode(' ', $attributes);
 ?>
+<?php if ($content): ?>
+    <a
+        href="<?= $block->escapeUrl($content); ?>"
+        <?= $allAttributes; ?>
+    >
+        <?= $block->escapeHtml($title); ?>
+    </a>
+<?php else: ?>
+    <span
+        <?= $allAttributes; ?>
+        tabindex="0"
+    >
+        <?= $block->escapeHtml($title); ?>
+    </span>
+<?php endif; ?>
 
-<a
-    <?php if ($content): ?>
-        href="<?= $block->escapeUrl($content) ?>"
-    <?php endif; ?>
-    <?= implode(' ', $attributes) ?>
->
-    <?= $title ?>
-</a>
 <?php if ($imageUrl): ?>
     <img
         src="<?= $block->escapeUrl($imageUrl); ?>"
