@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Don't show <a> tag when there's no url (DEV-100390)
 - Fixed issue about menu block being cached excessively ([#276](https://github.com/SnowdogApps/magento2-menu/issues/276))
 - Added command to check if menus have invalid nodes and allow removing them through the command (DEV-100331)
+- Eslint version to `8.45.0` (DEV-95002)
 
 ## [2.22.0] - 2023-05-08
 ### Fixed
