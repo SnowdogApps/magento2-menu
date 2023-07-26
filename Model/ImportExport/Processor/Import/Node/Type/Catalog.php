@@ -78,10 +78,22 @@ class Catalog
             return $this->cachedProducts[$sku];
         }
 
-        try {
-            $product = $this->productRepository->get($sku);
-        } catch (NoSuchEntityException $exception) {
-            $product = null;
+        $product = null;
+
+        if (!is_numeric($sku)) {
+            try {
+                $product = $this->productRepository->get($sku);
+            } catch (NoSuchEntityException $exception) {
+                // nothing to do here
+            }
+        }
+
+        if ($product == null) {
+            try {
+                $product = $this->productRepository->getById((int) $sku);
+            } catch (NoSuchEntityException $exception) {
+                // nothing to do here
+            }
         }
 
         $this->cachedProducts[$sku] = $product;

@@ -7,6 +7,17 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [2.23.0] - 2023-07-26
+### Fixed
+- Fixed issue about menu block being cached excessively ([#276](https://github.com/SnowdogApps/magento2-menu/issues/276))
+
+### Changed
+- Update GH actions to github-actions-m2 and small code fixes to standards (#100322)
+- Don't show <a> tag when there's no url (DEV-100390)
+
+### Added
+- Command to check if menus have invalid nodes and allow removing them through the command (DEV-100331)
+
 ## [2.22.0] - 2023-05-08
 ### Fixed
 - Get product title method ([#270](https://github.com/SnowdogApps/magento2-menu/pull/270))

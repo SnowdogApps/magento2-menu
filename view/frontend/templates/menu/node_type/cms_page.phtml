@@ -16,11 +16,6 @@ if ($block->getIsViewAllLink()) {
     if ($nodeId) {
         $dataAttribute = ' data-menu="menu-' . $nodeId . '"';
     }
-
-    if ($block->isCurrentPage($nodeId)) {
-        $classLink .= ' current';
-    }
-}
 ?>
 
 <a

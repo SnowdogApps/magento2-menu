@@ -50,18 +50,12 @@ class CategoryChild extends Category
      */
     public function getNodeCacheKeyInfo()
     {
-        $info = [
+        return [
             'module_' . $this->getRequest()->getModuleName(),
             'controller_' . $this->getRequest()->getControllerName(),
             'route_' . $this->getRequest()->getRouteName(),
             'action_' . $this->getRequest()->getActionName()
         ];
-        $category = $this->getCurrentCategory();
-        if ($category) {
-            $info[] = 'category-child_' . $category->getId();
-        }
-
-        return $info;
     }
 
     /**

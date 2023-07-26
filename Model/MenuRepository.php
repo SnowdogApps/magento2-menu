@@ -100,6 +100,8 @@ class MenuRepository implements MenuRepositoryInterface
 
     /**
      * @inheritdoc
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
+     * @SuppressWarnings(PHPMD.NPathComplexity)
      */
     public function getList(SearchCriteriaInterface $criteria)
     {

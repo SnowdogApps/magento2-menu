@@ -60,4 +60,18 @@
             </argument>
         </arguments>
     </type>
+
+    <type name="Magento\Framework\Console\CommandList">
+        <arguments>
+            <argument name="commands" xsi:type="array">
+                <item name="snowdog_menu_validate_nodes_command" xsi:type="object">Snowdog\Menu\Console\Command\NodesValidatorCommand</item>
+            </argument>
+        </arguments>
+    </type>
+
+    <type name="Snowdog\Menu\Console\Command\NodesValidatorCommand">
+        <arguments>
+            <argument name="validator" xsi:type="object">Snowdog\Menu\Model\ImportExport\Processor\Import\Node\Validator\Proxy</argument>
+        </arguments>
+    </type>
 </config>

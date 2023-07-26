@@ -18,10 +18,6 @@ if ($block->getIsViewAllLink()) {
     if ($nodeId) {
         $dataAttribute = ' data-menu="menu-' . $nodeId . '"';
     }
-
-    if ($block->isCurrentCategory($nodeId)) {
-        $classLink .= ' current';
-    }
 }
 ?>
 
