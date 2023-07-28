@@ -9,6 +9,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Changed
 - Updated eslint version to `8.45.0` and `eslint-plugin-vue` to 9.15.1 (DEV-95002)
 
+## [2.23.1] - 2023-07-28
+### Fixed
+- Fixed issue with closing } missing
+
 ## [2.23.0] - 2023-07-26
 ### Fixed
 - Fixed issue about menu block being cached excessively ([#276](https://github.com/SnowdogApps/magento2-menu/issues/276))
