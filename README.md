@@ -3,7 +3,7 @@
 [![Packagist](https://img.shields.io/packagist/dt/snowdog/module-menu?style=for-the-badge)](https://packagist.org/packages/snowdog/module-menu)
 [![Packagist](https://img.shields.io/packagist/dm/snowdog/module-menu?style=for-the-badge)](https://packagist.org/packages/snowdog/module-menu)
 
-**Magento 2 Menu by Snowdog** is a **powerful menu configurator** that empowers online merchants to create advanced menus, enhancing their customers' shopping experience and improving SEO. 
+**Magento 2 Menu** by [Snowdog](https://snow.dog) is a **powerful menu configurator** that empowers online merchants to create advanced menus, enhancing their customers' shopping experience and improving SEO. 
 This module serves as a feature-rich replacement for the category-based top navigation found in Magento and Adobe Commerce. However, it offers much more versatility by enabling the creation of menus for various purposes and store views. 
 
 ![snowdog-magento-2-menu-admin-configuartio](https://github.com/SnowdogApps/magento2-menu/assets/49198312/102b4d2a-7d06-48a4-9f99-37a17faae0f7)
