@@ -144,8 +144,7 @@
                     return this.templateOptionsData[this.item['type']] || [];
                 },
                 showImage: function() {
-                    return this.item.type !== 'cms_page'
-                        && this.item.type !== 'wrapper';
+                    return ['category', 'product', 'custom_url'].includes(this.item.type);
                 }
             },
             methods: {
