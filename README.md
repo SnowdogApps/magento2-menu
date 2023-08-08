@@ -13,7 +13,7 @@ This module serves as a feature-rich replacement for the category-based top navi
 Here are some scenarios where Snowdog's Menu can be effectively used:
 * **Create Separate Header Menus for Mobile and Desktop:** Optimize navigation for customers on different devices by creating distinct header menus for mobile and desktop. 
 * **Create Footer Menu:** Improve the management of footer links.
-* **Create Custom Menus for Specific Pages:** Whether you need to add somewhere a sidebar menu or change the header menu, Snowdog's module offers you the flexibility to create and customize menus for any page of a Magento store.
+* **Create Custom Menus for Specific Pages:** Whether you need to add a sidebar menu or change the header menu, Snowdog's module offers you the flexibility to create and customize menus for any page of a Magento store.
 
 ## Key Features
 * **Flexible Content:** Add various types of elements to menus, such as links, images, and CMS blocks.
@@ -22,11 +22,11 @@ Here are some scenarios where Snowdog's Menu can be effectively used:
 * **Import, Export and Duplicate Capabilities:** Save time and effort. This feature enables seamless replication of menus across different instances and Magento stores. It also gives an option to duplicate menus for faster setup and customization.
 * **Multiple Ways of Adding Menus to Frontend:** Easily add menus to your frontend using PHTML templates, or fetch the data from our REST and GraphQL APIs.
 
-## Documentation
+## User Guide and Documentation
 To learn more about Magento 2 Menu by Snowdog, go to [wiki](https://github.com/SnowdogApps/magento2-menu/wiki).
 
 ## Contributing
-Contributions are welcome! If you find a bug, or have a feature request, feel free to open an issue or submit a pull request.
+Contributions are welcome! If you find a bug or have a feature request, feel free to open an issue or submit a pull request.
 
 ## Like this project?
 We'd appreciate it if you leave a ⭐ or share it with the world ✨.
