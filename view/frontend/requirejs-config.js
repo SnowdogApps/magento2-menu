@@ -2,7 +2,7 @@
 var config = {
   map: {
     '*': {
-      'menu': 'Snowdog_Menu/js/menu.babel'
+      'snowdogMenu': 'Snowdog_Menu/js/snowdog-menu.babel'
     }
   }
 };
