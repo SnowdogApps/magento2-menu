@@ -157,7 +157,7 @@ abstract class AbstractNode extends Template implements NodeTypeInterface
     {
         $template = $this->templateResolver->getMenuTemplate(
             $this,
-            $this->getMenuCode(),
+            $this->getMenuTemplateDir(),
             $this->defaultTemplate,
             $this->getId()
         );

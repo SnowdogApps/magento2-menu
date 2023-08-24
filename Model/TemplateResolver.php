@@ -83,36 +83,36 @@ class TemplateResolver
 
     /**
      * @param Template $block
-     * @param string $menuId
+     * @param string $menuTemplateDir
      * @param string $template
      * @param int|null $nodeId
      * @return string
      */
-    public function getMenuTemplate($block, $menuId, $template, $nodeId = null)
+    public function getMenuTemplate($block, $menuTemplateDir, $template, $nodeId = null)
     {
-        $mapId = $menuId . '-' . ($nodeId ? $nodeId . '-' : '') . $template;
+        $mapId = $menuTemplateDir . '-' . ($nodeId ? $nodeId . '-' : '') . $template;
         if (isset($this->templateMap[$mapId])) {
             return $this->templateMap[$mapId];
         }
 
         $templateArr = explode('::', $template);
         if ($block->getCustomTemplate()) {
-            $newTemplate = $menuId
+            $newTemplate = $menuTemplateDir
                 . DIRECTORY_SEPARATOR
                 . $block->getCustomTemplateFolder()
                 . $block->getCustomTemplate()
                 . '.phtml';
         } elseif (isset($templateArr[1])) {
-            $newTemplate = $templateArr[0] . '::' . $menuId . DIRECTORY_SEPARATOR . $templateArr[1];
+            $newTemplate = $templateArr[0] . '::' . $menuTemplateDir . DIRECTORY_SEPARATOR . $templateArr[1];
         } else {
-            $newTemplate = $menuId . DIRECTORY_SEPARATOR . $template;
+            $newTemplate = $menuTemplateDir . DIRECTORY_SEPARATOR . $template;
         }
 
         if (!$this->validator->isValid($block->getTemplateFile($newTemplate))) {
-            return $this->setTemplateMap($menuId, $template, $template, $nodeId);
+            return $this->setTemplateMap($menuTemplateDir, $template, $template, $nodeId);
         }
 
-        return $this->setTemplateMap($menuId, $newTemplate, $template, $nodeId);
+        return $this->setTemplateMap($menuTemplateDir, $newTemplate, $template, $nodeId);
     }
 
     /**
