@@ -179,6 +179,8 @@ class Nodes extends Template implements TabInterface
                 'image' => $node->getImage(),
                 'image_url' => $node->getImage() ? $this->imageFile->getUrl($node->getImage()) : null,
                 'image_alt_text' => $node->getImageAltText(),
+                'image_width' => $node->getImageWidth(),
+                'image_height' => $node->getImageHeight(),
                 'columns' => $this->renderNodeList($level + 1, $node->getId(), $data) ?: [],
                 'selected_item_id' => $node->getSelectedItemId()
             ];

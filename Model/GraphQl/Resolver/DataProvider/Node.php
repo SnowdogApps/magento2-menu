@@ -103,6 +103,8 @@ class Node
             NodeInterface::TARGET => (bool) $node->getTarget(),
             NodeInterface::IMAGE => $node->getImage(),
             NodeInterface::IMAGE_ALT_TEXT => $node->getImageAltText(),
+            NodeInterface::IMAGE_WIDTH => $node->getImageWidth(),
+            NodeInterface::IMAGE_HEIGHT => $node->getImageHeight(),
             self::TEMPLATE_FIELD => $node->getNodeTemplate(),
             self::SUBMENU_TEMPLATE_FIELD => $node->getSubmenuTemplate(),
             NodeInterface::CREATION_TIME => $node->getCreationTime(),

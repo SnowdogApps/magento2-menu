@@ -65,6 +65,22 @@
             type="text"
         />
 
+        <simple-field
+            v-if="showImage"
+            id="image_width"
+            v-model="item.image_width"
+            :label="config.translation.imageWidth"
+            type="text"
+        />
+
+        <simple-field
+            v-if="showImage"
+            id="image_height"
+            v-model="item.image_height"
+            :label="config.translation.imageHeight"
+            type="text"
+        />
+
         <h2>
             {{ templatesLabel }}
         </h2>

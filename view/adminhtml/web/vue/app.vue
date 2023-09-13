@@ -131,6 +131,8 @@
                         content: null,
                         image: null,
                         image_alt_text: '',
+                        image_width: '',
+                        image_height: '',
                         node_template: null,
                         submenu_template: null,
                         columns: [],
