@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace Snowdog\Menu\Controller\Adminhtml\Menu;
 
+use Exception;
 use Magento\Framework\App\Action\HttpPostActionInterface;
 use Magento\Backend\App\Action;
 use Magento\Backend\App\Action\Context;
 use Magento\Framework\Controller\Result\JsonFactory;
 use Snowdog\Menu\Api\MenuManagementInterface;
-use Magento\Framework\Exception\NoSuchEntityException;
 
 class ImportCategories extends Action implements HttpPostActionInterface
 {
@@ -47,24 +47,27 @@ class ImportCategories extends Action implements HttpPostActionInterface
     {
         $categoryId = (int) $this->_request->getParam('category_id');
         $depth = $this->_request->getParam('depth');
-        if (!is_numeric($depth)) {
-            $depth = null;
-        }
 
-        $result = $this->resultJsonFactory->create();
         try {
+            if (!is_numeric($depth)) {
+                throw new Exception('Please add a valid number for Level of depth field');
+            }
+
             $categoryTree = $this->menuManagement->getCategoryNodeList($categoryId, $depth);
+
             $output = [
                 'success' => 1,
                 'list' => $categoryTree
             ];
-        } catch (NoSuchEntityException $exception) {
+        } catch (Exception $exception) {
             $output = [
                 'success' => 0,
                 'message' => $exception->getMessage(),
                 'list' => []
             ];
         }
+
+        $result = $this->resultJsonFactory->create();
         $result->setData($output);
 
         return $result;
