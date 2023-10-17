@@ -42,7 +42,11 @@ class Nodes extends Template implements TabInterface
      * @var VueProvider
      */
     private $vueProvider;
-    private CustomerGroupsProvider $customerGroupsProvider;
+
+    /**
+     * @var CustomerGroupsProvider
+     */
+    private $customerGroupsProvider;
 
     public function __construct(
         Template\Context $context,

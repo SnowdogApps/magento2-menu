@@ -84,7 +84,11 @@ class Menu extends Template implements DataObject\IdentityInterface
      * @var Escaper
      */
     private $escaper;
-    private Session $customerSession;
+
+    /**
+     * @var Session
+     */
+    private $customerSession;
 
     /**
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)

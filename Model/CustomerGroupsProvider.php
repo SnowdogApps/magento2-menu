@@ -2,14 +2,18 @@
 
 namespace Snowdog\Menu\Model;
 
+use Magento\Customer\Model\Group;
 use Magento\Customer\Model\ResourceModel\Group\CollectionFactory as GroupCollectionFactory;
 
 class CustomerGroupsProvider
 {
-    private GroupCollectionFactory $groupCollectionFactory;
+    /**
+     * @var GroupCollectionFactory
+     */
+    private $groupCollectionFactory;
 
     public function __construct(
-        GroupCollectionFactory $groupCollectionFactory,
+        GroupCollectionFactory $groupCollectionFactory
     ) {
         $this->groupCollectionFactory = $groupCollectionFactory;
     }
@@ -22,7 +26,7 @@ class CustomerGroupsProvider
             'value' => ""
         ];
 
-        /** @var \Magento\Customer\Model\Group $customerGroup */
+        /** @var Group $customerGroup */
         foreach($this->groupCollectionFactory->create() as $customerGroup) {
             $customerGroups[] = [
                 'label' => $customerGroup->getCode(),

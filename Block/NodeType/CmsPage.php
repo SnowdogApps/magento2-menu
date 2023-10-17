@@ -5,7 +5,6 @@ namespace Snowdog\Menu\Block\NodeType;
 use Magento\Framework\View\Element\Template\Context;
 use Magento\Cms\Api\Data\PageInterface;
 use Magento\Store\Model\StoreManagerInterface;
-use Snowdog\Menu\Model\CustomerGroupsProvider;
 use Snowdog\Menu\Model\TemplateResolver;
 use Snowdog\Menu\Model\NodeType\CmsPage as CmsPageModel;
 
@@ -51,7 +50,6 @@ class CmsPage extends AbstractNode
      * @var StoreManagerInterface
      */
     private $storesList;
-    private CustomerGroupsProvider $customerGroupsProvider;
 
     /**
      * CmsPage constructor.
@@ -68,14 +66,12 @@ class CmsPage extends AbstractNode
         CmsPageModel $cmsPageModel,
         TemplateResolver $templateResolver,
         StoreManagerInterface $storeManager,
-        CustomerGroupsProvider $customerGroupsProvider,
         $data = []
     ) {
         parent::__construct($context, $templateResolver, $data);
         $this->_cmsPageModel = $cmsPageModel;
         $this->page = $page;
         $this->storesList = $storeManager->getStores();
-        $this->customerGroupsProvider = $customerGroupsProvider;
     }
 
     /**
@@ -108,9 +104,6 @@ class CmsPage extends AbstractNode
                 'defaultTemplate' => 'sub_menu',
                 'options' => $this->templateResolver->getCustomTemplateOptions('sub_menu'),
                 'message' => __('Template not found'),
-            ],
-            'snowMenuCustomerGroups' => [
-                'options' => $this->customerGroupsProvider->getAll()
             ]
         ];
     }
