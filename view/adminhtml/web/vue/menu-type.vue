@@ -65,6 +65,8 @@
             type="text"
         />
 
+        //customerGroups multiselect
+
         <h2>
             {{ templatesLabel }}
         </h2>

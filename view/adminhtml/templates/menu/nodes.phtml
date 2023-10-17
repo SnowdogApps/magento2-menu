@@ -44,6 +44,7 @@ $vueComponents = $block->getVueComponents();
                         "imageDeleteUrl"   : "<?= $block->getImageDeleteUrl() ?>",
                         "imageUploadFileId": "<?= $block->getImageUploadFileId() ?>",
                         "lazyMinItemsCount": "1000",
+                        "customerGroups"   : <?= json_encode($block->getCustomerGroups()) ?>,
                         "translation": {
                             "nodes"          : "<?= __('Nodes') ?>",
                             "click"          : "<?= __('Click') ?>",
@@ -70,7 +71,8 @@ $vueComponents = $block->getVueComponents();
                             "product"        : "<?= __('Product') ?>",
                             "productId"      : "<?= __('Product ID') ?>",
                             "imageAltText"   : "<?= __('Image Alt text') ?>",
-                            "selectedItemId" : "<?= __('Selected Item Id') ?>"
+                            "selectedItemId" : "<?= __('Selected Item Id') ?>",
+                            "customerGroups" : "<?= __('Customer Groups') ?>"
                         }
                     }
                 }

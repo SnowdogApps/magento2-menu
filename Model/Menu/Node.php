@@ -293,4 +293,31 @@ class Node extends AbstractModel implements NodeInterface, IdentityInterface
     {
         return $this->setData(NodeInterface::SELECTED_ITEM_ID, $selectedItemId);
     }
+
+    public function getCustomerGroups()
+    {
+        $customerGroups = $this->_getData(NodeInterface::CUSTOMER_GROUPS);
+        if (!empty($customerGroups)) {
+            $customerGroups = unserialize($customerGroups);
+            if (is_array($customerGroups) && !empty($customerGroups)) {
+                return $customerGroups;
+            }
+        }
+
+        return [];
+    }
+
+    public function setCustomerGroups($customerGroups)
+    {
+        if (empty($customerGroups)) {
+            $this->setData(NodeInterface::CUSTOMER_GROUPS);
+            return $this;
+        }
+
+        if (is_string($customerGroups) && unserialize($customerGroups)) {
+            return $this->setData(NodeInterface::CUSTOMER_GROUPS, $customerGroups);
+        }
+
+        return $this->setData(NodeInterface::CUSTOMER_GROUPS, serialize($customerGroups));
+    }
 }

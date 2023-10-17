@@ -2,6 +2,7 @@
 
 namespace Snowdog\Menu\Block;
 
+use Magento\Customer\Model\Session;
 use Magento\Framework\Api\Search\FilterGroupBuilder;
 use Magento\Framework\Api\Search\SearchCriteriaFactory;
 use Magento\Framework\App\Cache\Type\Block;
@@ -83,6 +84,7 @@ class Menu extends Template implements DataObject\IdentityInterface
      * @var Escaper
      */
     private $escaper;
+    private Session $customerSession;
 
     /**
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
@@ -98,6 +100,7 @@ class Menu extends Template implements DataObject\IdentityInterface
         TemplateResolver $templateResolver,
         ImageFile $imageFile,
         Escaper $escaper,
+        Session $customerSession,
         array $data = []
     ) {
         parent::__construct($context, $data);
@@ -112,6 +115,7 @@ class Menu extends Template implements DataObject\IdentityInterface
         $this->escaper = $escaper;
         $this->setTemplate($this->getMenuTemplate($this->_template));
         $this->submenuTemplate = $this->getSubmenuTemplate();
+        $this->customerSession = $customerSession;
     }
 
     /**
@@ -406,7 +410,8 @@ class Menu extends Template implements DataObject\IdentityInterface
             ->setImageAltText($node->getImageAltText())
             ->setCustomTemplate($node->getNodeTemplate())
             ->setAdditionalData($node->getAdditionalData())
-            ->setSelectedItemId($node->getSelectedItemId());
+            ->setSelectedItemId($node->getSelectedItemId())
+            ->setCustomerGroups($node->getCustomerGroups());
 
         return $nodeBlock;
     }
@@ -497,5 +502,10 @@ class Menu extends Template implements DataObject\IdentityInterface
         }
 
         return $this->getMenuTemplate($baseSubmenuTemplate);
+    }
+
+    public function getCustomerGroupId()
+    {
+        return $this->customerSession->getCustomerGroupId();
     }
 }

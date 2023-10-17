@@ -6,6 +6,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 
 ## [Unreleased]
+### Added
+- Option to specify customer groups for each node (DEV-94738)
 ### Changed
 - Updated eslint version to `8.45.0` and `eslint-plugin-vue` to 9.15.1 (DEV-95002)
 ### Fixed

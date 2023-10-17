@@ -107,7 +107,9 @@ class Node
             self::SUBMENU_TEMPLATE_FIELD => $node->getSubmenuTemplate(),
             NodeInterface::CREATION_TIME => $node->getCreationTime(),
             NodeInterface::UPDATE_TIME => $node->getUpdateTime(),
-            NodeInterface::ADDITIONAL_DATA => $node->getAdditionalData()
+            NodeInterface::ADDITIONAL_DATA => $node->getAdditionalData(),
+            NodeInterface::SELECTED_ITEM_ID => $node->getSelectedItemId(),
+            NodeInterface::CUSTOMER_GROUPS => $node->getCustomerGroups()
         ];
     }
 

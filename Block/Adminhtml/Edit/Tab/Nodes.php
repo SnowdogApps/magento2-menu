@@ -7,6 +7,7 @@ use Magento\Backend\Block\Widget\Tab\TabInterface;
 use Magento\Framework\Registry;
 use Snowdog\Menu\Api\NodeRepositoryInterface;
 use Snowdog\Menu\Controller\Adminhtml\Menu\Edit;
+use Snowdog\Menu\Model\CustomerGroupsProvider;
 use Snowdog\Menu\Model\Menu\Node\Image\File as ImageFile;
 use Snowdog\Menu\Model\NodeTypeProvider;
 use Snowdog\Menu\Model\VueProvider;
@@ -41,6 +42,7 @@ class Nodes extends Template implements TabInterface
      * @var VueProvider
      */
     private $vueProvider;
+    private CustomerGroupsProvider $customerGroupsProvider;
 
     public function __construct(
         Template\Context $context,
@@ -49,6 +51,7 @@ class Nodes extends Template implements TabInterface
         NodeTypeProvider $nodeTypeProvider,
         Registry $registry,
         VueProvider $vueProvider,
+        CustomerGroupsProvider $customerGroupsProvider,
         array $data = []
     ) {
         parent::__construct($context, $data);
@@ -57,6 +60,7 @@ class Nodes extends Template implements TabInterface
         $this->nodeTypeProvider = $nodeTypeProvider;
         $this->imageFile = $imageFile;
         $this->vueProvider = $vueProvider;
+        $this->customerGroupsProvider = $customerGroupsProvider;
     }
 
     public function renderNodes()
@@ -180,7 +184,8 @@ class Nodes extends Template implements TabInterface
                 'image_url' => $node->getImage() ? $this->imageFile->getUrl($node->getImage()) : null,
                 'image_alt_text' => $node->getImageAltText(),
                 'columns' => $this->renderNodeList($level + 1, $node->getId(), $data) ?: [],
-                'selected_item_id' => $node->getSelectedItemId()
+                'selected_item_id' => $node->getSelectedItemId(),
+                'customer_groups' => $node->getCustomerGroups()
             ];
         }
         return $menu;
@@ -202,5 +207,10 @@ class Nodes extends Template implements TabInterface
     public function getVueComponents(): array
     {
         return $this->vueProvider->getComponents();
+    }
+
+    public function getCustomerGroups()
+    {
+        return $this->customerGroupsProvider->getAll();
     }
 }
