@@ -31,8 +31,8 @@ if ($block->getIsViewAllLink()) {
 
 <?php if ($imageUrl): ?>
     <img
-        src="<?= $block->escapeUrl($imageUrl); ?>"
-        alt="<?= $block->escapeHtmlAttr($imageAltText); ?>"
+        src="<?= $escaper->escapeUrl($imageUrl); ?>"
+        alt="<?= $escaper->escapeHtmlAttr($imageAltText); ?>"
         loading="lazy"
     />
 <?php endif; ?>

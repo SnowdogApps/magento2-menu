@@ -25,24 +25,24 @@ $allAttributes = implode(' ', $attributes);
 ?>
 <?php if ($content): ?>
     <a
-        href="<?= $block->escapeUrl($content); ?>"
+        href="<?= $escaper->escapeUrl($content); ?>"
         <?= $allAttributes; ?>
     >
-        <?= $block->escapeHtml($title); ?>
+        <?= $escaper->escapeHtml($title); ?>
     </a>
 <?php else: ?>
     <span
         <?= $allAttributes; ?>
         tabindex="0"
     >
-        <?= $block->escapeHtml($title); ?>
+        <?= $escaper->escapeHtml($title); ?>
     </span>
 <?php endif; ?>
 
 <?php if ($imageUrl): ?>
     <img
-        src="<?= $block->escapeUrl($imageUrl); ?>"
-        alt="<?= $block->escapeHtmlAttr($imageAltText); ?>"
+        src="<?= $escaper->escapeUrl($imageUrl); ?>"
+        alt="<?= $escaper->escapeHtmlAttr($imageAltText); ?>"
         loading="lazy"
     />
 <?php endif; ?>
