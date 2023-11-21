@@ -1,0 +1,7 @@
+[x-cloak="mobile"] {
+    @apply !hidden md:!block;
+  }
+
+[x-cloak="desktop"] {
+    @apply !block lg:!hidden;
+}

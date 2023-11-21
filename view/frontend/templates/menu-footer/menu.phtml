@@ -60,13 +60,14 @@ $heroicons = $viewModels->require(HeroiconsOutline::class);
                 >
                     <?php if ($node->getIsParent() && !$node->getIsViewAllLink()): ?>
                         <span x-show="isDesktop"
+                            x-cloak="mobile"
                             class="block font-semibold mb-6"
                         >
                             <?= $escaper->escapeHtml($title) ?>
                         </span>
                         <button x-show="!isDesktop"
-                            x-cloak
-                            class="flex items-center justify-between w-full py-4"
+                            x-cloak="desktop"
+                            class="w-full py-4 font-semibold"
                             :class="{
                                 '<?= $escaper->escapeHtmlAttr($nodeClasses) ?>' : '<?= /* @noEscape */ (string) $nodeType ?>' !== 'wrapper'
                             }"
@@ -74,17 +75,19 @@ $heroicons = $viewModels->require(HeroiconsOutline::class);
                             :aria-expanded="<?= /* @noEscape */ (string) $indexId ?> === true"
                             type="button"
                         >
-                            <span class="font-semibold">
-                                <?= $escaper->escapeHtml($title) ?>
-                            </span>
-                            <div class="transition-transform"
-                                :class="{'rotate-180' : <?= /* @noEscape */ (string) $indexId ?> === true}"
-                            >
-                                <?= $heroicons->chevronDownHtml('text-gray-500', 20, 20, ['aria-hidden' => 'true']); ?>
+                            <div class="flex items-center justify-between">
+                                <span>
+                                    <?= $escaper->escapeHtml($title) ?>
+                                </span>
+                                <div class="transition-transform"
+                                    :class="{'rotate-180' : <?= /* @noEscape */ (string) $indexId ?> === true}"
+                                >
+                                    <?= $heroicons->chevronDownHtml('text-gray-500', 20, 20, ['aria-hidden' => 'true']); ?>
+                                </div>
                             </div>
                         </button>
                         <div x-show="isDesktop || !!<?= /* @noEscape */ (string) $indexId ?>"
-                            x-cloak
+                            x-cloak="mobile"
                             x-ref="submenu-<?= /* @noEscape */ (string) $indexId ?>"
                             x-collapse
                             class="pb-1"
