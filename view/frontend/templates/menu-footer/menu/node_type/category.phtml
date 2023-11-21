@@ -20,11 +20,10 @@ $title = $block->getTitle();
     </a>
 <?php endif; ?>
 <a href="<?= $escaper->escapeUrl($categoryUrl) ?>"
-    class="block py-3 group-hover:text-blue-600"
+    class="snowdog-menu-link"
     <?php if ($nodeId) : ?>
         data-menu="menu-<?= $escaper->escapeHtmlAttr($nodeId) ?>"
     <?php endif; ?>
 >
     <?= $escaper->escapeHtml($title) ?>
 </a>
-

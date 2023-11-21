@@ -12,7 +12,7 @@ $nodeId = $block->getId();
     <?php foreach ($visibleChildren as $child): ?>
         <li>
             <a
-                class="block px-8 py-4"
+                class="snowdog-menu-link-footer"
                 href="<?= $escaper->escapeUrl($child->getUrl()) ?>"
             >
                 <?= $escaper->escapeHtml($child->getName()) ?>

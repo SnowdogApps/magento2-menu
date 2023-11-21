@@ -13,7 +13,7 @@ $imageUrl = $block->getImageUrl();
 $imageAltText = $block->getImageAltText();
 ?>
 
-<a class="cursor-pointer block px-8 py-4"
+<a class="cursor-pointer snowdog-menu-link-footer"
     href="<?= $escaper->escapeUrl($productUrl) ?>"
     <?php if ($nodeId) : ?>
         data-menu="menu-<?= $escaper->escapeHtmlAttr($nodeId) ?>"

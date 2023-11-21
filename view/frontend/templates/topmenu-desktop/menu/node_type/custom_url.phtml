@@ -25,7 +25,7 @@ $dataAttribute = 'data-menu="menu-' . $nodeId . '"';
         </a>
     <?php endif; ?>
     <a href="<?= $escaper->escapeUrl($content) ?>"
-        class="block py-3 group-hover:text-blue-600"
+        class="snowdog-menu-link"
         <?php if ($nodeId) : ?>
             data-menu="menu-<?= $escaper->escapeHtmlAttr($nodeId) ?>"
         <?php endif; ?>
@@ -51,4 +51,3 @@ $dataAttribute = 'data-menu="menu-' . $nodeId . '"';
         <?= $escaper->escapeHtml($title) ?>
     </span>
 <?php endif ?>
-

@@ -13,7 +13,7 @@ if ($block->getIsViewAllLink()) {
 ?>
 
 <a href="<?= $escaper->escapeUrl($categoryUrl) ?>"
-    class="cursor-pointer block px-8 py-4"
+    class="cursor-pointer snowdog-menu-link-footer"
     <?php if ($nodeId) : ?>
         data-menu="menu-<?= $escaper->escapeHtmlAttr($nodeId) ?>"
     <?php endif; ?>

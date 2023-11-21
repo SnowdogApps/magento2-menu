@@ -30,7 +30,7 @@ $imageAltText = $block->getImageAltText();
 <?php endif; ?>
 <a
     href="<?= $escaper->escapeUrl($productUrl) ?>"
-    class="block py-3 group-hover:text-blue-600"
+    class="snowdog-menu-link"
     <?php if ($nodeId) : ?>
         data-menu="menu-<?= $escaper->escapeHtmlAttr($nodeId) ?>"
     <?php endif; ?>

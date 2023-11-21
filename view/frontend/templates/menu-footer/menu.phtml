@@ -35,7 +35,7 @@ $heroicons = $viewModels->require(HeroiconsOutline::class);
     <div
         class="
             <?= $escaper->escapeHtmlAttr($menu->getCssClass()) ?>
-             w-full flex flex-wrap text-primary-darker
+             menu-footer w-full flex flex-wrap text-primary-darker
         "
         x-data="initMenuFooter<?= $escaper->escapeHtml($uniqueId) ?>()"
     >
@@ -43,7 +43,6 @@ $heroicons = $viewModels->require(HeroiconsOutline::class);
             x-init="checkIsDesktopResolution()"
             @resize.window.debounce="checkIsDesktopResolution()"
             @visibilitychange.window.debounce="checkIsDesktopResolution()"
-            k
         >
             <?php foreach ($block->getNodes() as $node): ?>
                 <?php

@@ -5,7 +5,7 @@ $pageUrl = $block->getPageUrl($nodeId) ?: '#';
 $title = $block->getTitle();
 ?>
 
-<a class="block px-8 py-4"
+<a class="snowdog-menu-link-footer"
     href="<?= $escaper->escapeUrl($pageUrl) ?>"
     <?php if ($nodeId) : ?>
         data-menu="menu-<?= $escaper->escapeHtmlAttr($nodeId) ?>"
