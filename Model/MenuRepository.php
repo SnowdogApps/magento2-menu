@@ -162,7 +162,7 @@ class MenuRepository implements MenuRepositoryInterface
     public function get($identifier, $storeId)
     {
         $collection = $this->collectionFactory->create();
-        $collection->addFilter('identifier', $identifier);
+        $collection->addFilter(new \Zend_Db_Expr('BINARY `identifier`'), $identifier);
         $collection->addFilter('is_active', 1);
         $collection->join(['stores' => 'snowmenu_store'], 'main_table.menu_id = stores.menu_id', 'store_id');
         $collection->addFilter('store_id', $storeId);
