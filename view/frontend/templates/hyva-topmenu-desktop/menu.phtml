@@ -87,6 +87,7 @@ $uniqueId = '_' . uniqid();
                         <?php if ($children): ?>
                             <div class="relative">
                                 <button
+                                    type="button"
                                     class="sr-only absolute -translate-y-1/2 h-5 w-5 focus:not-sr-only focus:absolute"
                                     x-ref="sr-button-<?= /* @noEscape */ (string) $nodeId ?>"
                                     :aria-expanded="openSubmenuId === '<?= /* @noEscape */ (string) $nodeId ?>' ? 'true' : 'false'"
