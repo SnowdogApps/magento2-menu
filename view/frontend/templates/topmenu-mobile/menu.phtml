@@ -98,15 +98,14 @@ $uniqueId = '_' . uniqid();
                             $nodeClasses = $node->getClasses();
                             ?>
                             <li x-data="{'<?= /* @noEscape */ (string) $indexId ?>': false }"
-                                :class="{
-                                    '<?= $escaper->escapeHtmlAttr($nodeClasses) ?>' : '<?= /* @noEscape */ (string) $nodeType ?>' === 'wrapper',
-                                }"
+                                class="<?= /* @noEscape */ (string) $nodeType === 'wrapper' ? $escaper->escapeHtmlAttr($nodeClasses) : '' ?>""
                             >
                                 <?php if ($node->getIsParent() && !$node->getIsViewAllLink()): ?>
-                                    <button class="flex items-center justify-between w-full px-8 py-4"
-                                        :class="{
-                                            '<?= $escaper->escapeHtmlAttr($nodeClasses) ?>' : '<?= /* @noEscape */ (string) $nodeType ?>' !== 'wrapper'
-                                        }"
+                                    <button
+                                        class="
+                                            flex items-center justify-between w-full px-8 py-4
+                                            <?= /* @noEscape */ (string) $nodeType !== 'wrapper' ? $escaper->escapeHtmlAttr($nodeClasses) : '' ?>"
+                                        "
                                         @click="toggleSubmenu('<?= /* @noEscape */ (string) $indexId ?>')"
                                         aria-label="<?= $escaper->escapeHtmlAttr(__('Toggle submenu for %1', $title)) ?>"
                                         :aria-expanded="<?= /* @noEscape */ (string) $indexId ?> === true"
@@ -123,11 +122,7 @@ $uniqueId = '_' . uniqid();
                                     </button>
                                     <?= /* @noEscape */ $block->renderSubmenu($children, $node, $childrenLevel) ?>
                                 <?php else: ?>
-                                    <div class="group"
-                                        :class="{
-                                            '<?= $escaper->escapeHtmlAttr($nodeClasses) ?>' : '<?= /* @noEscape */ (string) $nodeType ?>' !== 'wrapper'
-                                        }"
-                                    >
+                                    <div class="group <?= /* @noEscape */ (string) $nodeType !== 'wrapper' ? $escaper->escapeHtmlAttr($nodeClasses) : '' ?>"">
                                         <?= /* @noEscape */ $block->renderMenuNode($node) ?>
                                     </div>
                                 <?php endif; ?>

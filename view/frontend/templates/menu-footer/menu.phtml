@@ -66,10 +66,10 @@ $heroicons = $viewModels->require(HeroiconsOutline::class);
                         </span>
                         <button x-show="!isDesktop"
                             x-cloak="desktop"
-                            class="w-full py-4 font-semibold"
-                            :class="{
-                                '<?= $escaper->escapeHtmlAttr($nodeClasses) ?>' : '<?= /* @noEscape */ (string) $nodeType ?>' !== 'wrapper'
-                            }"
+                            class="
+                                w-full py-4 font-semibold
+                                <?= /* @noEscape */ (string) $nodeType !== 'wrapper' ? $escaper->escapeHtmlAttr($nodeClasses) : '' ?>
+                            "
                             @click="toggleSubmenu('<?= /* @noEscape */ (string) $indexId ?>')"
                             :aria-expanded="<?= /* @noEscape */ (string) $indexId ?> === true"
                             type="button"
@@ -95,11 +95,7 @@ $heroicons = $viewModels->require(HeroiconsOutline::class);
                             <?= /* @noEscape */ $block->renderSubmenu($children, $node, $childrenLevel) ?>
                         </div>
                     <?php else: ?>
-                        <div class="group"
-                            :class="{
-                                '<?= $escaper->escapeHtmlAttr($nodeClasses) ?>' : '<?= /* @noEscape */ (string) $nodeType ?>' !== 'wrapper'
-                            }"
-                        >
+                        <div class="group <?= /* @noEscape */ (string) $nodeType !== 'wrapper' ? $escaper->escapeHtmlAttr($nodeClasses) : '' ?>">
                             <?= /* @noEscape */ $block->renderMenuNode($node) ?>
                         </div>
                     <?php endif; ?>

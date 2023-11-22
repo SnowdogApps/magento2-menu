@@ -35,15 +35,12 @@ $heroicons = $viewModels->require(\Hyva\Theme\ViewModel\HeroiconsOutline::class)
                         $nodeClasses = $node->getClasses();
                         ?>
                         <li
-                            class="flex-1"
-                            :class="{
-                                '<?= $escaper->escapeHtmlAttr($nodeClasses) ?>' : '<?= /* @noEscape */ (string) $nodeType ?>' === 'wrapper',
-                            }"
+                            class="flex-1 <?= /* @noEscape */ (string) $nodeType === 'wrapper' ? $escaper->escapeHtmlAttr($nodeClasses) : '' ?>"
                         >
-                            <div class="group font-medium"
-                                :class="{
-                                    '<?= $escaper->escapeHtmlAttr($nodeClasses) ?>' : '<?= /* @noEscape */ (string) $nodeType ?>' !== 'wrapper',
-                                }"
+                            <div class="
+                                    group font-medium
+                                    <?= /* @noEscape */ (string) $nodeType !== 'wrapper' ? $escaper->escapeHtmlAttr($nodeClasses) : '' ?>
+                                "
                             >
                                 <?= /* @noEscape */ $block->renderMenuNode($node) ?>
                             </div>
@@ -55,7 +52,7 @@ $heroicons = $viewModels->require(\Hyva\Theme\ViewModel\HeroiconsOutline::class)
         </div>
     <?php endif; ?>
     <?php if ($level > 1) : ?>
-        <ul :class="{'ml-4' : <?= /* @noEscape */ (int) $level ?> > 2}">
+        <ul class="<?= /* @noEscape */ (int) $level > 2 ? 'ml-4' : '' ?>">
             <?php foreach ($block->getSubmenuNodes() as $index => $node) : ?>
                 <?php
                 $childrenLevel = $node->getLevel() + 1;
@@ -64,16 +61,13 @@ $heroicons = $viewModels->require(\Hyva\Theme\ViewModel\HeroiconsOutline::class)
                 $nodeType = $node->getType();
                 $nodeClasses = $node->getClasses();
                 ?>
-                <li :class="{
-                        '<?= $escaper->escapeHtmlAttr($nodeClasses) ?>' : '<?= /* @noEscape */ (string) $nodeType ?>' === 'wrapper',
-                        '-ml-4' : '<?= /* @noEscape */ (string) $nodeType ?>' === 'wrapper' && <?= /* @noEscape */ (int) $level ?> > 2,
-                    }"
+                <li
+                    class="
+                        <?= /* @noEscape */ (string) $nodeType === 'wrapper' ? $escaper->escapeHtmlAttr($nodeClasses) : '' ?>"
+                        <?= (/* @noEscape */ (string) $nodeType === 'wrapper') && (/* @noEscape */ (int) $level > 2) ? '-ml-4' : '' ?>
+                    "
                 >
-                    <div class="group"
-                        :class="{
-                            '<?= $escaper->escapeHtmlAttr($nodeClasses) ?>' : '<?= /* @noEscape */ (string) $nodeType ?>' !== 'wrapper',
-                        }"
-                    >
+                    <div class="group <?= /* @noEscape */ (string) $nodeType !== 'wrapper' ? $escaper->escapeHtmlAttr($nodeClasses) : '' ?>">
                         <?= /* @noEscape */ $block->renderMenuNode($node) ?>
                     </div>
                     <?= /* @noEscape */ $block->renderSubmenu($children, $node, $childrenLevel) ?>

@@ -68,18 +68,17 @@ $uniqueId = '_' . uniqid();
                     $nodeType = $node->getType();
                     $nodeClasses = $node->getClasses();
                     ?>
-                    <li class="flex items-center justify-between px-4 first-of-type:pl-0 last-of-type:pr-0 bg-opacity-95"
-                        :class="{
-                            '<?= $escaper->escapeHtmlAttr($nodeClasses) ?>' : '<?= /* @noEscape */ (string) $nodeType ?>' === 'wrapper',
-                        }"
+                    <li class="
+                            flex items-center justify-between px-4 first-of-type:pl-0 last-of-type:pr-0 bg-opacity-95
+                            <?= /* @noEscape */ (string) $nodeType === 'wrapper' ? $escaper->escapeHtmlAttr($nodeClasses) : '' ?>
+                        "
                         @mouseenter="openSubmenuId = '<?= /* @noEscape */ (string) $nodeId ?>'"
                         @mouseleave="openSubmenuId = null"
                         @keydown.window.escape="onSubmenuEscape"
                     >
-                        <div class="group"
+                        <div class="group <?= /* @noEscape */ (string) $nodeType !== 'wrapper' ? $escaper->escapeHtmlAttr($nodeClasses) : '' ?>"
                             :class="{
-                                'text-blue-600' : openSubmenuId === '<?= /* @noEscape */ (string) $nodeId ?>',
-                                '<?= $escaper->escapeHtmlAttr($nodeClasses) ?>' : '<?= /* @noEscape */ (string) $nodeType ?>' !== 'wrapper',
+                                'snowdog-menu-text-hover' : openSubmenuId === '<?= /* @noEscape */ (string) $nodeId ?>'
                             }"
                         >
                             <?= /* @noEscape */ $block->renderMenuNode($node) ?>

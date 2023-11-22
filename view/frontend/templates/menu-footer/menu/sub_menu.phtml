@@ -15,15 +15,8 @@
             $nodeType = $node->getType();
             $nodeClasses = $node->getClasses();
             ?>
-            <li :class="{
-                    '<?= $escaper->escapeHtmlAttr($nodeClasses) ?>' : '<?= /* @noEscape */ (string) $nodeType ?>' === 'wrapper',
-                }"
-            >
-                <div class="group"
-                    :class="{
-                        '<?= $escaper->escapeHtmlAttr($nodeClasses) ?>' : '<?= /* @noEscape */ (string) $nodeType ?>' !== 'wrapper'
-                    }"
-                >
+            <li class="<?= /* @noEscape */ (string) $nodeType === 'wrapper' ? $escaper->escapeHtmlAttr($nodeClasses) : '' ?>">
+                <div class="group <?= /* @noEscape */ (string) $nodeType !== 'wrapper' ? $escaper->escapeHtmlAttr($nodeClasses) : '' ?>">
                     <?= /* @noEscape */ $block->renderMenuNode($node) ?>
                 </div>
                 <?= $block->renderSubmenu($children, $node, $childrenLevel) ?>

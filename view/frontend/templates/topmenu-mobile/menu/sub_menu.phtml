@@ -32,9 +32,7 @@ $heroicons = $viewModels->require(HeroiconsOutline::class);
                 $nodeType = $node->getType();
                 $nodeClasses = $node->getClasses();
                 ?>
-                <li :class="{
-                        '<?= $escaper->escapeHtmlAttr($nodeClasses) ?>' : '<?= /* @noEscape */ (string) $nodeType ?>' === 'wrapper',
-                    }"
+                <li class="<?= /* @noEscape */ (string) $nodeType === 'wrapper' ? $escaper->escapeHtmlAttr($nodeClasses) : '' ?>""
                     x-data="{ '<?= /* @noEscape */ (string) $indexId ?>': false }"
                 >
                     <?php if ($node->getIsParent() && !$node->getIsViewAllLink()): ?>
@@ -45,10 +43,7 @@ $heroicons = $viewModels->require(HeroiconsOutline::class);
                             :aria-expanded="<?= /* @noEscape */ (string) $indexId ?> === true"
                             type="button"
                         >
-                            <span :class="{
-                                    '<?= $escaper->escapeHtmlAttr($nodeClasses) ?>' : '<?= /* @noEscape */ (string) $nodeType ?>' !== 'wrapper',
-                                }"
-                            >
+                            <span class="<?= /* @noEscape */ (string) $nodeType !== 'wrapper' ? $escaper->escapeHtmlAttr($nodeClasses) : '' ?>">
                                 <?= $escaper->escapeHtml($nodeTitle) ?>
                             </span>
                             <div class="transition-transform"
@@ -59,11 +54,7 @@ $heroicons = $viewModels->require(HeroiconsOutline::class);
                         </button>
                         <?= /* @noEscape */ $block->renderSubmenu($children, $node, $childrenLevel) ?>
                     <?php else: ?>
-                        <div class="group"
-                            :class="{
-                                '<?= $escaper->escapeHtmlAttr($nodeClasses) ?>' : '<?= /* @noEscape */ (string) $nodeType ?>' !== 'wrapper',
-                            }"
-                        >
+                        <div class="group <?= /* @noEscape */ (string) $nodeType !== 'wrapper' ? $escaper->escapeHtmlAttr($nodeClasses) : '' ?>">
                             <?= /* @noEscape */ $block->renderMenuNode($node) ?>
                         </div>
                     <?php endif; ?>
