@@ -13,6 +13,9 @@ use Snowdog\Menu\Api\MenuRepositoryInterface;
 use Snowdog\Menu\Model\ResourceModel\Menu\Collection;
 use Snowdog\Menu\Model\ResourceModel\Menu\CollectionFactory;
 
+/**
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
+ */
 class MenuRepository implements MenuRepositoryInterface
 {
     /** @var MenuFactory */
