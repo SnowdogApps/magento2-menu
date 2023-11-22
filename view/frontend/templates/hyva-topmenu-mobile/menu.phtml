@@ -81,7 +81,8 @@ $uniqueId = '_' . uniqid();
             :aria-hidden="!open"
             x-cloak
         >
-            <div x-ref="menu-document"
+            <div x-show="open"
+                x-ref="menu-document"
                 role="document"
                 :tabindex="open ? 0 : -1"
                 class="flex flex-col-reverse"
