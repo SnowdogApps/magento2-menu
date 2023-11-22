@@ -23,7 +23,8 @@ $uniqueId = '_' . uniqid();
                     this.open = true
                     this.$nextTick(() => this.$refs['menu-document'].focus())
                 },
-                closeMenu() {
+                closeMenu(event) {
+                    event.stopPropagation()
                     this.open = false
                     this.$refs['open-menu-button'].focus()
                 },
@@ -46,8 +47,8 @@ $uniqueId = '_' . uniqid();
             snowdog-topmenu-mobile z-20 order-2 text-primary-darker sm:order-1 navigation lg:hidden
         "
         x-data="initMenuMobile<?= $escaper->escapeHtml($uniqueId) ?>()"
-        @keydown.window.escape="open && closeMenu()"
-        @click.outside="open && closeMenu()"
+        @keydown.escape="open && closeMenu"
+        @click.outside="open && closeMenu"
         aria-label="<?= $escaper->escapeHtmlAttr(__('Main menu')) ?>"
         role="dialog"
     >

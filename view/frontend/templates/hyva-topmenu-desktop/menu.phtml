@@ -39,6 +39,7 @@ $uniqueId = '_' . uniqid();
                     }
                 },
                 onSubmenuEscape(event) {
+                    event.stopPropagation()
                     this.$refs['sr-button-' + this.openSubmenuId]?.focus()
                     this.openSubmenuId = null
                 }
@@ -74,7 +75,7 @@ $uniqueId = '_' . uniqid();
                         "
                         @mouseenter="openSubmenuId = '<?= /* @noEscape */ (string) $nodeId ?>'"
                         @mouseleave="openSubmenuId = null"
-                        @keydown.window.escape="onSubmenuEscape"
+                        @keydown.escape="onSubmenuEscape"
                     >
                         <div class="group <?= /* @noEscape */ (string) $nodeType !== 'wrapper' ? $escaper->escapeHtmlAttr($nodeClasses) : '' ?>"
                             :class="{
