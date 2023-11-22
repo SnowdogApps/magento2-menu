@@ -5,19 +5,19 @@
         <referenceBlock name="topmenu_generic">
             <block name="topmenu.mobile" class="Snowdog\Menu\Block\Menu">
                 <arguments>
-                    <argument name="menu" xsi:type="string">topmenu-mobile</argument>
+                    <argument name="menu" xsi:type="string">hyva-topmenu-mobile</argument>
                 </arguments>
             </block>
             <block name="topmenu.desktop" class="Snowdog\Menu\Block\Menu">
                 <arguments>
-                    <argument name="menu" xsi:type="string">topmenu-desktop</argument>
+                    <argument name="menu" xsi:type="string">hyva-topmenu-desktop</argument>
                 </arguments>
             </block>
         </referenceBlock>
         <referenceBlock name="footer-content">
             <block name="menu-footer" class="Snowdog\Menu\Block\Menu" before="-">
                 <arguments>
-                    <argument name="menu" xsi:type="string">menu-footer</argument>
+                    <argument name="menu" xsi:type="string">hyva-menu-footer</argument>
                 </arguments>
             </block>
             <referenceBlock
