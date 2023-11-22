@@ -9,7 +9,7 @@ $dataAttribute = 'data-menu="menu-' . $nodeId . '"';
 ?>
 
 <?php if ($content): ?>
-    <a class="cursor-pointer snowdog-menu-link-footer"
+    <a class="cursor-pointer snowdog-menu-link-topmenu-mobile"
         href="<?= $escaper->escapeUrl($content) ?>"
         <?php if ($block->getTarget()): ?>
             target="_blank"
@@ -23,7 +23,7 @@ $dataAttribute = 'data-menu="menu-' . $nodeId . '"';
     <span
         class="
             <?= $escaper->escapeHtmlAttr($nodeClasses) ?>
-            snowdog-menu-link-footer
+            snowdog-menu-link-topmenu-mobile
         "
         tabindex="0"
         <?= $dataAttribute ?>

@@ -16,6 +16,6 @@
     @apply block py-3 hover:snowdog-menu-text-hover group-hover:snowdog-menu-text-hover;
 }
 
-.snowdog-menu-link-footer {
-    @apply block px-8 py-4 hover:snowdog-menu-text-hover;
+.snowdog-menu-link-topmenu-mobile {
+    @apply block px-8 py-4;
 }
