@@ -21,12 +21,15 @@ $uniqueId = '_' . uniqid();
                 open: false,
                 openMenu(event) {
                     this.open = true
-                    this.$nextTick(() => this.$refs['menu-document'].focus())
+                    this.$nextTick(() => hyva.trapFocus(this.$refs['menu-dialog']))
+                    // Prevent from body scrolling while mobile menu opened
+                    document.body.style.position = 'fixed';
                 },
                 closeMenu(event) {
+                    document.body.style.position = ''
                     event.stopPropagation()
                     this.open = false
-                    this.$refs['open-menu-button'].focus()
+                    this.$nextTick(() => this.$refs['open-menu-button'].focus() || hyva.releaseFocus())
                 },
                 toggleSubmenu(index) {
                     this[index] = !this[index]
@@ -50,14 +53,15 @@ $uniqueId = '_' . uniqid();
         @keydown.escape="open && closeMenu"
         @click.outside="open && closeMenu"
         aria-label="<?= $escaper->escapeHtmlAttr(__('Main menu')) ?>"
-        role="dialog"
+        role="navigation"
     >
         <button x-ref="open-menu-button"
             @click="openMenu"
             type="button"
-            aria-label="<?= $escaper->escapeHtmlAttr(__('Show menu')) ?>"
-            aria-haspopup="menu"
+            aria-label="<?= $escaper->escapeHtmlAttr(__('Open menu')) ?>"
             :aria-expanded="open"
+            aria-haspopup="menu"
+            :hidden="open"
         >
             <?= $heroicons->menuHtml('', 24, 24, ['aria-hidden' => 'true']) ?>
         </button>
@@ -77,61 +81,59 @@ $uniqueId = '_' . uniqid();
                 '-translate-x-full' : !open,
                 'translate-x-0' : open,
             }"
-            role="dialog"
-            :aria-hidden="!open"
             x-cloak
+            x-ref="menu-dialog"
+            role="dialog"
+            aria-modal="true"
+            aria-label="<?= $escaper->escapeHtmlAttr(__('Main menu')) ?>"
+            :aria-hidden="open ? 'false' : 'true'"
         >
             <div x-show="open"
-                x-ref="menu-document"
-                role="document"
-                :tabindex="open ? 0 : -1"
                 class="flex flex-col-reverse"
             >
-                <nav aria-label="<?= $escaper->escapeHtmlAttr(__('Main menu')) ?>">
-                    <ul class="mb-1 divide-y divide-container">
-                        <?php foreach ($block->getNodes() as $node): ?>
-                            <?php
-                            $childrenLevel = $node->getLevel() + 1;
-                            $children = $block->getNodes($childrenLevel, $node);
-                            $node->setIsParent((bool)$children);
-                            $indexId = 'node' . $node->getId();
-                            $title = $node->getTitle();
-                            $nodeType = $node->getType();
-                            $nodeClasses = $node->getClasses();
-                            ?>
-                            <li x-data="{'<?= /* @noEscape */ (string) $indexId ?>': false }"
-                                class="<?= /* @noEscape */ (string) $nodeType === 'wrapper' ? $escaper->escapeHtmlAttr($nodeClasses) : '' ?>""
-                            >
-                                <?php if ($node->getIsParent() && !$node->getIsViewAllLink()): ?>
-                                    <button
-                                        class="
-                                            flex items-center justify-between w-full px-8 py-4
-                                            <?= /* @noEscape */ (string) $nodeType !== 'wrapper' ? $escaper->escapeHtmlAttr($nodeClasses) : '' ?>"
-                                        "
-                                        @click="toggleSubmenu('<?= /* @noEscape */ (string) $indexId ?>')"
-                                        aria-label="<?= $escaper->escapeHtmlAttr(__('Toggle submenu for %1', $title)) ?>"
-                                        :aria-expanded="<?= /* @noEscape */ (string) $indexId ?> === true"
-                                        type="button"
+                <ul class="mb-1 divide-y divide-container">
+                    <?php foreach ($block->getNodes() as $node): ?>
+                        <?php
+                        $childrenLevel = $node->getLevel() + 1;
+                        $children = $block->getNodes($childrenLevel, $node);
+                        $node->setIsParent((bool)$children);
+                        $indexId = 'node' . $node->getId();
+                        $title = $node->getTitle();
+                        $nodeType = $node->getType();
+                        $nodeClasses = $node->getClasses();
+                        ?>
+                        <li x-data="{'<?= /* @noEscape */ (string) $indexId ?>': false }"
+                            class="<?= /* @noEscape */ (string) $nodeType === 'wrapper' ? $escaper->escapeHtmlAttr($nodeClasses) : '' ?>""
+                        >
+                            <?php if ($node->getIsParent() && !$node->getIsViewAllLink()): ?>
+                                <button
+                                    class="
+                                        flex items-center justify-between w-full px-8 py-4
+                                        <?= /* @noEscape */ (string) $nodeType !== 'wrapper' ? $escaper->escapeHtmlAttr($nodeClasses) : '' ?>"
+                                    "
+                                    @click="toggleSubmenu('<?= /* @noEscape */ (string) $indexId ?>')"
+                                    aria-label="<?= $escaper->escapeHtmlAttr(__('Toggle submenu for %1', $title)) ?>"
+                                    :aria-expanded="<?= /* @noEscape */ (string) $indexId ?> === true"
+                                    type="button"
+                                >
+                                    <span>
+                                        <?= $escaper->escapeHtml($title) ?>
+                                    </span>
+                                    <div class="transition-transform"
+                                        :class="{'rotate-180' : <?= /* @noEscape */ (string) $indexId ?> === true}"
                                     >
-                                        <span>
-                                            <?= $escaper->escapeHtml($title) ?>
-                                        </span>
-                                        <div class="transition-transform"
-                                            :class="{'rotate-180' : <?= /* @noEscape */ (string) $indexId ?> === true}"
-                                        >
-                                            <?= $heroicons->chevronDownHtml('text-gray-500', 20, 20, ['aria-hidden' => 'true']); ?>
-                                        </div>
-                                    </button>
-                                    <?= /* @noEscape */ $block->renderSubmenu($children, $node, $childrenLevel) ?>
-                                <?php else: ?>
-                                    <div class="group <?= /* @noEscape */ (string) $nodeType !== 'wrapper' ? $escaper->escapeHtmlAttr($nodeClasses) : '' ?>"">
-                                        <?= /* @noEscape */ $block->renderMenuNode($node) ?>
+                                        <?= $heroicons->chevronDownHtml('text-gray-500', 20, 20, ['aria-hidden' => 'true']); ?>
                                     </div>
-                                <?php endif; ?>
-                            </li>
-                        <?php endforeach ?>
-                    </ul>
-                </nav>
+                                </button>
+                                <?= /* @noEscape */ $block->renderSubmenu($children, $node, $childrenLevel) ?>
+                            <?php else: ?>
+                                <div class="group <?= /* @noEscape */ (string) $nodeType !== 'wrapper' ? $escaper->escapeHtmlAttr($nodeClasses) : '' ?>"">
+                                    <?= /* @noEscape */ $block->renderMenuNode($node) ?>
+                                </div>
+                            <?php endif; ?>
+                        </li>
+                    <?php endforeach ?>
+                </ul>
                 <div class="flex justify-end px-3 border-b border-container">
                     <button
                         @click="closeMenu"
