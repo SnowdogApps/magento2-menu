@@ -11,7 +11,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Fixed
 - Mobile nav sidebar (DEV-101802)
 - Category Child and CMS block nodes shouldn't have image fields (DEV-94387)
-- `custom_url` type node has empty `url_key` in GraphQl context
+- `custom_url` type node has empty `url_key` in GraphQl context (DEV-103670, [#302](https://github.com/SnowdogApps/magento2-menu/issues/302))
+- Added BINARY collation to load menus by identifier (DEV-103752)
 
 ## [2.23.1] - 2023-07-28
 ### Fixed
