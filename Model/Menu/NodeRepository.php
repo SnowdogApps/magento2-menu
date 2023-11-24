@@ -157,7 +157,7 @@ class NodeRepository implements NodeRepositoryInterface
         $collection->addOrder('parent_id', AbstractCollection::SORT_ORDER_ASC);
         $collection->addOrder('position', AbstractCollection::SORT_ORDER_ASC);
         $collection->join(['menu' => 'snowmenu_menu'], 'main_table.menu_id = menu.menu_id', 'identifier');
-        $collection->addFilter('identifier', $identifier);
+        $collection->addFilter(new \Zend_Db_Expr('BINARY `identifier`'), $identifier);
 
         return $collection->getItems();
     }
