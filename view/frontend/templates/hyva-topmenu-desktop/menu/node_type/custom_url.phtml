@@ -1,0 +1,53 @@
+<?php /** @var \Snowdog\Menu\Block\NodeType\CustomUrl $block */ ?>
+<?php
+$nodeId = $block->getId();
+$imageUrl = $block->getImageUrl();
+$imageAltText = $block->getImageAltText();
+$content = $block->getContent();
+$title = $block->getTitle();
+$dataAttribute = 'data-menu="menu-' . $nodeId . '"';
+?>
+
+<?php if ($content): ?>
+    <?php if ($imageUrl): ?>
+        <a href="<?= $escaper->escapeUrl($content) ?>"
+            class="transition-opacity group-hover:opacity-80"
+            tabindex="-1"
+            <?php if ($block->getTarget()): ?>
+                target="_blank"
+                rel="noopener"
+            <?php endif ?>
+        >
+            <img src="<?= $escaper->escapeUrl($imageUrl) ?>"
+                alt="<?= $escaper->escapeHtmlAttr($imageAltText) ?>"
+                loading="lazy"
+            />
+        </a>
+    <?php endif; ?>
+    <a href="<?= $escaper->escapeUrl($content) ?>"
+        class="snowdog-menu-link"
+        <?php if ($nodeId) : ?>
+            data-menu="menu-<?= $escaper->escapeHtmlAttr($nodeId) ?>"
+        <?php endif; ?>
+        <?php if ($block->getTarget()): ?>
+            target="_blank"
+            rel="noopener"
+        <?php endif ?>
+        <?= $dataAttribute ?>
+    >
+        <?= $escaper->escapeHtml($title) ?>
+    </a>
+<?php else: ?>
+    <?php if ($imageUrl): ?>
+        <img src="<?= $escaper->escapeUrl($imageUrl) ?>"
+            alt="<?= $escaper->escapeHtmlAttr($imageAltText) ?>"
+            loading="lazy"
+        />
+    <?php endif ?>
+    <span class="block py-3"
+        tabindex="0"
+        <?= $dataAttribute ?>
+    >
+        <?= $escaper->escapeHtml($title) ?>
+    </span>
+<?php endif ?>

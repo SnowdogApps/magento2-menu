@@ -1,0 +1,33 @@
+<?php /** @var \Snowdog\Menu\Block\NodeType\CustomUrl $block */ ?>
+<?php
+$nodeId = $block->getId();
+$imageUrl = $block->getImageUrl();
+$imageAltText = $block->getImageAltText();
+$content = $block->getContent();
+$title = $block->getTitle();
+$dataAttribute = 'data-menu="menu-' . $nodeId . '"';
+?>
+
+<?php if ($content): ?>
+    <a class="cursor-pointer snowdog-menu-link-topmenu-mobile"
+        href="<?= $escaper->escapeUrl($content) ?>"
+        <?php if ($block->getTarget()): ?>
+            target="_blank"
+            rel="noopener"
+        <?php endif ?>
+        <?= $dataAttribute ?>
+    >
+        <?= $escaper->escapeHtml($title) ?>
+    </a>
+<?php else: ?>
+    <span
+        class="
+            <?= $escaper->escapeHtmlAttr($nodeClasses) ?>
+            snowdog-menu-link-topmenu-mobile
+        "
+        tabindex="0"
+        <?= $dataAttribute ?>
+    >
+        <?= $escaper->escapeHtml($title) ?>
+    </span>
+<?php endif ?>
