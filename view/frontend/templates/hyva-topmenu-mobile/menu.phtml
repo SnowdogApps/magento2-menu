@@ -61,7 +61,6 @@ $uniqueId = '_' . uniqid();
             aria-label="<?= $escaper->escapeHtmlAttr(__('Open menu')) ?>"
             :aria-expanded="open"
             aria-haspopup="menu"
-            :hidden="open"
         >
             <?= $heroicons->menuHtml('', 24, 24, ['aria-hidden' => 'true']) ?>
         </button>
