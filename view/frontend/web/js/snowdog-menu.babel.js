@@ -1,7 +1,7 @@
 define([], function () {
   'use strict';
 
-  class Menu {
+  class SnowdogMenu {
     constructor(element) {
       this.menu = element;
       this.links = this.menu.querySelectorAll('a');
@@ -22,6 +22,6 @@ define([], function () {
   }
 
   return function (config, element) {
-    new Menu(element);
+    new SnowdogMenu(element);
   };
 });

@@ -1,0 +1,29 @@
+<?php /** @var \Snowdog\Menu\Block\NodeType\Category $block */ ?>
+<?php
+$nodeId = $block->getId();
+$categoryUrl = $block->getCategoryUrl($nodeId) ?: '#';
+$imageUrl = $block->getImageUrl();
+$imageAltText = $block->getImageAltText();
+$title = $block->getTitle();
+?>
+
+<?php if ($imageUrl): ?>
+    <a href="<?= $escaper->escapeUrl($categoryUrl) ?>"
+        class="transition-opacity group-hover:opacity-80"
+        tabindex="-1"
+    >
+        <img
+            src="<?= $escaper->escapeUrl($imageUrl) ?>"
+            alt="<?= $escaper->escapeHtmlAttr($imageAltText) ?>"
+            loading="lazy"
+        />
+    </a>
+<?php endif; ?>
+<a href="<?= $escaper->escapeUrl($categoryUrl) ?>"
+    class="snowdog-menu-link"
+    <?php if ($nodeId) : ?>
+        data-menu="menu-<?= $escaper->escapeHtmlAttr($nodeId) ?>"
+    <?php endif; ?>
+>
+    <?= $escaper->escapeHtml($title) ?>
+</a>

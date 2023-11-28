@@ -1,0 +1,115 @@
+<?php /** @var \Snowdog\Menu\Block\Menu $block */ ?>
+<?php
+use Magento\Framework\Escaper;
+use Hyva\Theme\ViewModel\HeroiconsOutline;
+
+$menu = $block->getMenu();
+$uniqueId = '_' . uniqid();
+
+$heroicons = $viewModels->require(HeroiconsOutline::class);
+?>
+
+<?php if ($menu): ?>
+    <script>
+        'use strict';
+
+        const initMenuFooter<?= $escaper->escapeHtml($uniqueId) ?> = () => {
+            return {
+                isDesktop: true,
+                checkIsDesktopResolution() {
+                    this.isDesktop = window.matchMedia('(min-width: 1024px)').matches;
+                },
+                toggleSubmenu(event, index) {
+                    const focusableElements = 'button:not([disabled]), a[href]:not([tabindex="-1"]), [tabindex]:not([tabindex="-1"])'
+
+                    event.stopPropagation()
+                    this[index] = !this[index]
+
+                    if (this[index]) {
+                        this.$nextTick(() => {
+                            this.$refs['submenu-' + index]?.querySelector(focusableElements)?.focus()
+                        })
+                    } else {
+                        this.$nextTick(() => {
+                            this.$refs['submenu-toggle-' + index]?.focus()
+                        })
+                    }
+                },
+            }
+        };
+    </script>
+    <div
+        class="
+            <?= $escaper->escapeHtmlAttr($menu->getCssClass()) ?>
+             snowdog-menu-footer w-full flex flex-wrap text-primary-darker
+        "
+        x-data="initMenuFooter<?= $escaper->escapeHtml($uniqueId) ?>()"
+    >
+        <ul class="w-full flex flex-col flex-wrap lg:flex-row lg:justify-between lg:gap-6 divide-y divide-container lg:divide-y-0"
+            x-init="checkIsDesktopResolution()"
+            @resize.window.debounce="checkIsDesktopResolution()"
+            @visibilitychange.window.debounce="checkIsDesktopResolution()"
+        >
+            <?php foreach ($block->getNodes() as $node): ?>
+                <?php
+                $childrenLevel = $node->getLevel() + 1;
+                $children = $block->getNodes($childrenLevel, $node);
+                $node->setIsParent((bool) $children);
+                $indexId = 'node' . $node->getId();
+                $title = $node->getTitle();
+                $nodeType = $node->getType();
+                $nodeClasses = $node->getClasses();
+                ?>
+                <li x-data="{'<?= /* @noEscape */ (string) $indexId ?>': false }"
+                    class="flex-1"
+                >
+                    <?php if ($node->getIsParent() && !$node->getIsViewAllLink()): ?>
+                        <div @keydown.escape="(event) => !isDesktop && toggleSubmenu(event, '<?= /* @noEscape */ (string) $indexId ?>')">
+                            <span x-show="isDesktop"
+                                x-cloak="tablet"
+                                class="block font-semibold mb-6"
+                            >
+                                <?= $escaper->escapeHtml($title) ?>
+                            </span>
+                            <button x-show="!isDesktop"
+                                x-cloak="desktop"
+                                x-ref="submenu-toggle-<?= /* @noEscape */ (string) $indexId ?>"
+                                class="
+                                    w-full py-4 font-semibold
+                                    <?= /* @noEscape */ (string) $nodeType !== 'wrapper' ? $escaper->escapeHtmlAttr($nodeClasses) : '' ?>
+                                "
+                                @click="(event) => toggleSubmenu(event, '<?= /* @noEscape */ (string) $indexId ?>')"
+                                :aria-expanded="<?= /* @noEscape */ (string) $indexId ?> === true"
+                                type="button"
+                            >
+                                <div class="flex items-center justify-between">
+                                    <span>
+                                        <?= $escaper->escapeHtml($title) ?>
+                                    </span>
+                                    <div class="transition-transform"
+                                        :class="{'rotate-180' : <?= /* @noEscape */ (string) $indexId ?> === true}"
+                                    >
+                                        <?= $heroicons->chevronDownHtml('text-gray-500', 20, 20, ['aria-hidden' => 'true']); ?>
+                                    </div>
+                                </div>
+                            </button>
+                            <div x-show="isDesktop || !!<?= /* @noEscape */ (string) $indexId ?>"
+                                x-cloak="tablet"
+                                x-ref="submenu-<?= /* @noEscape */ (string) $indexId ?>"
+                                x-collapse
+                                class="pb-1"
+                                :aria-hidden="!isDesktop && <?= /* @noEscape */ (string) $indexId ?> === false ? 'true' : 'false'"
+                            >
+                                <?= /* @noEscape */ $block->renderSubmenu($children, $node, $childrenLevel) ?>
+                            </div>
+                        </div>
+                    <?php else: ?>
+                        <div class="group <?= /* @noEscape */ (string) $nodeType !== 'wrapper' ? $escaper->escapeHtmlAttr($nodeClasses) : '' ?>">
+                            <?= /* @noEscape */ $block->renderMenuNode($node) ?>
+                        </div>
+                    <?php endif; ?>
+                </li>
+            <?php endforeach ?>
+        </ul>
+    </div>
+<?php endif; ?>

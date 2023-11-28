@@ -11,6 +11,9 @@ use Snowdog\Menu\Model\Menu\Node\Image\File as ImageFile;
 use Snowdog\Menu\Model\NodeTypeProvider;
 use Snowdog\Menu\Model\VueProvider;
 
+/**
+ * @api
+ */
 class Nodes extends Template implements TabInterface
 {
     const IMAGE_UPLOAD_URL = 'snowmenu/node/uploadimage';

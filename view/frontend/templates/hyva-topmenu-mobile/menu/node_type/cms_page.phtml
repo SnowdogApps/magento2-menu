@@ -1,0 +1,15 @@
+<?php /** @var \Snowdog\Menu\Block\NodeType\CmsPage $block */ ?>
+<?php
+$nodeId = $block->getId();
+$pageUrl = $block->getPageUrl($nodeId) ?: '#';
+$title = $block->getTitle();
+?>
+
+<a class="snowdog-menu-link-topmenu-mobile"
+    href="<?= $escaper->escapeUrl($pageUrl) ?>"
+    <?php if ($nodeId) : ?>
+        data-menu="menu-<?= $escaper->escapeHtmlAttr($nodeId) ?>"
+    <?php endif; ?>
+>
+    <?= $escaper->escapeHtml($title) ?>
+</a>
