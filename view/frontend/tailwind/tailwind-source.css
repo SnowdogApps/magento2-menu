@@ -4,9 +4,9 @@
     }
 }
 
-[x-cloak="mobile"] {
-    @apply !hidden md:!block;
-  }
+[x-cloak="tablet"] {
+    @apply !hidden lg:!block;
+}
 
 [x-cloak="desktop"] {
     @apply !block lg:!hidden;

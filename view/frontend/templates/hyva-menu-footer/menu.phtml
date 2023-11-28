@@ -66,7 +66,7 @@ $heroicons = $viewModels->require(HeroiconsOutline::class);
                     <?php if ($node->getIsParent() && !$node->getIsViewAllLink()): ?>
                         <div @keydown.escape="(event) => !isDesktop && toggleSubmenu(event, '<?= /* @noEscape */ (string) $indexId ?>')">
                             <span x-show="isDesktop"
-                                x-cloak="mobile"
+                                x-cloak="tablet"
                                 class="block font-semibold mb-6"
                             >
                                 <?= $escaper->escapeHtml($title) ?>
@@ -94,7 +94,7 @@ $heroicons = $viewModels->require(HeroiconsOutline::class);
                                 </div>
                             </button>
                             <div x-show="isDesktop || !!<?= /* @noEscape */ (string) $indexId ?>"
-                                x-cloak="mobile"
+                                x-cloak="tablet"
                                 x-ref="submenu-<?= /* @noEscape */ (string) $indexId ?>"
                                 x-collapse
                                 class="pb-1"
