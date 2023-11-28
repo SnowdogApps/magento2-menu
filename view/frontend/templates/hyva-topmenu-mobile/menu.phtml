@@ -23,11 +23,11 @@ $uniqueId = '_' . uniqid();
                     this.open = true
                     this.$nextTick(() => hyva.trapFocus(this.$refs['menu-dialog']))
                     // Prevent from body scrolling while mobile menu opened
-                    document.body.style.position = 'fixed';
+                    document.body.classList.add('fixed', 'w-full')
                 },
                 closeMenu(event) {
-                    document.body.style.position = ''
                     event.stopPropagation()
+                    document.body.classList.remove('fixed', 'w-full')
                     this.open = false
                     this.$nextTick(() => this.$refs['open-menu-button'].focus() || hyva.releaseFocus())
                 },
@@ -72,7 +72,7 @@ $uniqueId = '_' . uniqid();
             x-transition:leave="ease-in-out duration-500"
             x-transition:leave-start="opacity-100"
             x-transition:leave-end="opacity-0"
-            @click="open = false"
+            @click="closeMenu"
             x-cloak
         ></div>
         <div class="fixed z-30 top-0 left-0 w-full max-w-lg h-full bg-container-lighter border-container shadow-2xl overflow-y-auto overflow-x-hidden transform transition ease-in-out duration-500 sm:duration-700"
