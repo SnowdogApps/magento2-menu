@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [2.24.1] - 2023-12-05
+### Fixed
+- Undefined variable in Hyvä template
+
 ## [2.24.0] - 2023-11-28
 ### Added
 - Hyvä compatibility (DEV-101754)
