@@ -35,11 +35,11 @@ define([
                   vueApp = registry.get('vueApp'),
                   categoryId = parseInt(form.data.category_id),
                   depth = parseInt(form.data.depth),
-                  adminPath = window.location.pathname.split('/')[1]
+                  adminPath = window.location.pathname.split('/snowmenu')[0]
 
                 $.ajax({
                   showLoader: true,
-                  url: '/' + adminPath + '/snowmenu/menu/importCategories',
+                  url: adminPath + '/snowmenu/menu/importCategories',
                   data: {
                     category_id: categoryId,
                     depth: depth
