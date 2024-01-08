@@ -51,22 +51,20 @@
             type="text"
         />
 
-        <image-upload
-            v-if="showImage"
-            id="image"
-            :item="item"
-        />
+        <template v-if="showImage">
+            <image-upload
+                id="image"
+                :item="item"
+            />
 
-        <simple-field
-            v-if="showImage"
-            id="image_alt_text"
-            v-model="item.image_alt_text"
-            :label="config.translation.imageAltText"
-            type="text"
-        />
+            <simple-field
+                id="image_alt_text"
+                v-model="item.image_alt_text"
+                :label="config.translation.imageAltText"
+                type="text"
+            />
 
-        <simple-field
-            v-if="showImage"
+            <simple-field
                 id="image_width"
                 v-model="item.image_width"
                 :label="config.translation.imageWidth"
@@ -74,7 +72,6 @@
             />
 
             <simple-field
-            v-if="showImage"
                 id="image_height"
                 v-model="item.image_height"
                 :label="config.translation.imageHeight"
