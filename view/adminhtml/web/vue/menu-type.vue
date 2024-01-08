@@ -67,19 +67,20 @@
 
         <simple-field
             v-if="showImage"
-            id="image_width"
-            v-model="item.image_width"
-            :label="config.translation.imageWidth"
-            type="text"
-        />
+                id="image_width"
+                v-model="item.image_width"
+                :label="config.translation.imageWidth"
+                type="number"
+            />
 
-        <simple-field
+            <simple-field
             v-if="showImage"
-            id="image_height"
-            v-model="item.image_height"
-            :label="config.translation.imageHeight"
-            type="text"
-        />
+                id="image_height"
+                v-model="item.image_height"
+                :label="config.translation.imageHeight"
+                type="number"
+            />
+        </template>
 
         <h2>
             {{ templatesLabel }}
