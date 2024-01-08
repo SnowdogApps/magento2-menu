@@ -1,8 +1,8 @@
 <template>
-    <div class="admin__field field field-title upload-file">
-        <label
-            class="label admin__field-label"
-            :for="fieldId"
+        <div class="admin__field field field-title upload-file">
+            <label
+                class="label admin__field-label"
+                :for="fieldId"
         >
             {{ labelField }}
         </label>
@@ -10,78 +10,78 @@
         <div class="admin__field-control control image-upload__wrapper">
             <div
                 v-if="item.image_url"
-                class="upload-file__current-area"
-            >
-                <img
-                    class="upload-file__image image-upload__image--current"
-                    :src="item.image_url"
-                >
-            </div>
-            <button
-                v-if="item.image_url"
-                class="primary image-upload__remove"
-                @click="removeItemImage"
-            >
-                {{ labelRemoveAction }}
-            </button>
-            <div
-                class="image-upload__dropzone"
-                :class="{'image-upload__dropzone--dragging': isDragging}"
-                @dragenter="onDragEnter"
-                @dragleave="onDragLeave"
-                @dragover.prevent
-                @drop="onDrop"
-            >
-                <input
-                    :id="fieldId"
-                    ref="fileUpload"
-                    type="file"
-                    class="input-text admin__control-text hidden"
-                    :name="fieldId"
-                    @change="updateFile"
-                >
-                <div
-                    v-if="previewImage && !fileIsUploading"
-                    class="image-upload__image-area"
+                    class="upload-file__current-area"
                 >
                     <img
-                        class="image-upload__image"
-                        :src="previewImage"
+                        class="upload-file__image image-upload__image--current"
+                        :src="item.image_url"
                     >
-                    <div class="image-upload__dropzone-actions">
-                        <button
-                            class="secondary"
-                            @click="removeNewFile"
-                        >
-                            {{ labelCancelAction }}
-                        </button>
-                        <button
-                            class="primary"
-                            @click="uploadFileToServer"
-                        >
-                            {{ labelSaveAction }}
-                        </button>
-                    </div>
                 </div>
-                <div
-                    v-if="!previewImage && !fileIsUploading"
-                    class="image-upload__upload-area"
+                <button
+                    v-if="item.image_url"
+                    class="primary image-upload__remove"
+                    @click="removeItemImage"
                 >
-                    <button @click="chooseFile">
-                        {{ item.image_url ? labelChangeAction : labelUploadAction }}
-                    </button>
+                    {{ labelRemoveAction }}
+                </button>
+                <div
+                    class="image-upload__dropzone"
+                    :class="{'image-upload__dropzone--dragging': isDragging}"
+                    @dragenter="onDragEnter"
+                    @dragleave="onDragLeave"
+                    @dragover.prevent
+                    @drop="onDrop"
+                >
+                    <input
+                        :id="fieldId"
+                        ref="fileUpload"
+                        type="file"
+                        class="input-text admin__control-text hidden"
+                        :name="fieldId"
+                        @change="updateFile"
+                    >
                     <div
-                        v-if="uploadError"
-                        class="image-upload__errors mage-error"
+                        v-if="previewImage && !fileIsUploading"
+                        class="image-upload__image-area"
                     >
-                        {{ uploadError }}
+                        <img
+                            class="image-upload__image"
+                            :src="previewImage"
+                        >
+                        <div class="image-upload__dropzone-actions">
+                            <button
+                                class="secondary"
+                                @click="removeNewFile"
+                            >
+                                {{ labelCancelAction }}
+                            </button>
+                            <button
+                                class="primary"
+                                @click="uploadFileToServer"
+                            >
+                                {{ labelSaveAction }}
+                            </button>
+                        </div>
                     </div>
-                </div>
-                <div
-                    v-if="fileIsUploading"
-                    class="fileIsUploading"
-                >
-                    {{ labelFileIsUploading }}
+                    <div
+                        v-if="!previewImage && !fileIsUploading"
+                        class="image-upload__upload-area"
+                    >
+                        <button @click="chooseFile">
+                            {{ item.image_url ? labelChangeAction : labelUploadAction }}
+                        </button>
+                        <div
+                            v-if="uploadError"
+                            class="image-upload__errors mage-error"
+                        >
+                            {{ uploadError }}
+                        </div>
+                    </div>
+                    <div
+                        v-if="fileIsUploading"
+                        class="fileIsUploading"
+                    >
+                        {{ labelFileIsUploading }}
                 </div>
             </div>
         </div>
@@ -200,6 +200,8 @@
                         complete: function() {
                             this.setItemImage('', '');
                             $('body').trigger('processStop');
+                            this.item.image_width = null;
+                            this.item.image_height = null;
                         }.bind(this)
                     });
                 },
