@@ -3,6 +3,8 @@
 $nodeId = $block->getId();
 $imageUrl = $block->getImageUrl();
 $imageAltText = $block->getImageAltText();
+$imageWidth = $block->getImageWidth();
+$imageHeight = $block->getImageHeight();
 $content = $block->getContent();
 $title = $block->getTitle();
 $dataAttribute = 'data-menu="menu-' . $nodeId . '"';
@@ -21,6 +23,8 @@ $dataAttribute = 'data-menu="menu-' . $nodeId . '"';
             <img src="<?= $escaper->escapeUrl($imageUrl) ?>"
                 alt="<?= $escaper->escapeHtmlAttr($imageAltText) ?>"
                 loading="lazy"
+                width="<?= $escaper->escapeHtmlAttr($imageWidth) ?>"
+                height="<?= $escaper->escapeHtmlAttr($imageHeight) ?>"
             />
         </a>
     <?php endif; ?>
@@ -42,6 +46,8 @@ $dataAttribute = 'data-menu="menu-' . $nodeId . '"';
         <img src="<?= $escaper->escapeUrl($imageUrl) ?>"
             alt="<?= $escaper->escapeHtmlAttr($imageAltText) ?>"
             loading="lazy"
+            width="<?= $escaper->escapeHtmlAttr($imageWidth) ?>"
+            height="<?= $escaper->escapeHtmlAttr($imageHeight) ?>"
         />
     <?php endif ?>
     <span class="block py-3"

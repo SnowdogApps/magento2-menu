@@ -18,6 +18,8 @@ interface NodeInterface
     const TARGET = 'target';
     const IMAGE = 'image';
     const IMAGE_ALT_TEXT = 'image_alt_text';
+    const IMAGE_WIDTH = 'image_width';
+    const IMAGE_HEIGHT = 'image_heigth';
     const CREATION_TIME = 'creation_time';
     const UPDATE_TIME = 'update_time';
     const IS_ACTIVE = 'is_active';
@@ -192,17 +194,39 @@ interface NodeInterface
     /**
      * Get image alt text
      *
-     * @return string
+     * @return string|null
      */
     public function getImageAltText();
 
     /**
      * Set image alt text
      *
-     * @param string $altText
+     * @param string|null $altText
      * @return $this
      */
     public function setImageAltText($altText);
+
+    /**
+     * @return int|null
+     */
+    public function getImageWidth();
+
+    /**
+     * @param int|null $width
+     * @return $this
+     */
+    public function setImageWidth($width);
+
+    /**
+     * @return int|null
+     */
+    public function getImageHeight();
+
+    /**
+     * @param int|null $height
+     * @return $this
+     */
+    public function setImageHeight($height);
 
     /**
      * Get creation time

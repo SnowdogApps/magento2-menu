@@ -113,6 +113,14 @@ class File
         return $fileClonePath;
     }
 
+    public function getImageSize(string $file): array
+    {
+        $mediaDirectory = $this->filesystem->getDirectoryRead(DirectoryList::MEDIA);
+        $fileFullPath = $mediaDirectory->getAbsolutePath(self::PATH . $file);
+
+        return getimagesize($fileFullPath);
+    }
+
     private function getAbsolutePath(): string
     {
         $mediaDirectory = $this->filesystem->getDirectoryRead(DirectoryList::MEDIA);

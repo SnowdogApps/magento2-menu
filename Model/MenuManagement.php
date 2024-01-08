@@ -101,6 +101,8 @@ class MenuManagement implements MenuManagementInterface
                 'node_template' => null,
                 'image' => null,
                 'image_alt_text' => null,
+                'image_width' => null,
+                'image_height' => null,
                 'submenu_template' => null,
                 'columns' => $this->getCategoriesNodeList($level + 1, $nodeId, $data) ?: []
             ];
