@@ -51,6 +51,31 @@
             type="text"
         />
 
+        <div class="admin__field field field-title">
+            <label
+                class="label admin__field-label"
+                for="node_type"
+            >
+                {{ config.translation.customerGroups }}
+            </label>
+
+            <div class="admin__field-control control">
+                <v-select
+                    v-model="item.customer_groups"
+                    :options="config.customerGroups"
+                    aria-describedby="customer-groups-description"
+                    clearable
+                    multiple
+                />
+                <small
+                    id="customer-groups-description"
+                    class="admin__field-control__description"
+                >
+                    {{ config.translation.customerGroupsDescription }}
+                </small>
+            </div>
+        </div>
+
         <image-upload
             v-if="showImage"
             id="image"
@@ -64,8 +89,6 @@
             :label="config.translation.imageAltText"
             type="text"
         />
-
-        //customerGroups multiselect
 
         <h2>
             {{ templatesLabel }}
