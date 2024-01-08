@@ -1,0 +1,64 @@
+<?php /** @var \Snowdog\Menu\Block\Menu $block */ ?>
+<?php
+use Hyva\Theme\ViewModel\HeroiconsOutline;
+$heroicons = $viewModels->require(HeroiconsOutline::class);
+?>
+<?php if ($block->getMenu()): ?>
+    <?php
+    $parentNode = $block->getParentNode();
+    $parentNodeIndex = 'node' . $parentNode->getId();
+    $level = $block->getLevel();
+    $title = $parentNode->getTitle();
+    ?>
+    <ul x-ref="submenu-<?= /* @noEscape */ (string) $parentNodeIndex ?>"
+        class="pb-2 pl-4""
+        x-show="<?= /* @noEscape */ (string) $parentNodeIndex ?>"
+        x-collapse
+        :aria-hidden="<?= /* @noEscape */ (string) $parentNodeIndex ?> === false ? 'true' : 'false'"
+        title="<?= $escaper->escapeHtmlAttr($title) ?>"
+    >
+    <?php if ($block->isViewAllLinkAllowed($parentNode->getType())): ?>
+        <li>
+            <?= $block->renderViewAllLink($parentNode) ?>
+        </li>
+        <?php endif ?>
+        <?php foreach ($block->getSubmenuNodes() as $node): ?>
+            <?php
+                $childrenLevel = $node->getLevel() + 1;
+                $children = $block->getNodes($childrenLevel, $node);
+                $node->setIsParent((bool)$children);
+                $indexId = 'node' . $node->getId();
+                $nodeTitle = $node->getTitle();
+                $nodeType = $node->getType();
+                $nodeClasses = $node->getClasses();
+                ?>
+                <li class="<?= /* @noEscape */ (string) $nodeType === 'wrapper' ? $escaper->escapeHtmlAttr($nodeClasses) : '' ?>""
+                    x-data="{ '<?= /* @noEscape */ (string) $indexId ?>': false }"
+                >
+                    <?php if ($node->getIsParent() && !$node->getIsViewAllLink()): ?>
+                        <button class="flex items-center justify-between w-full px-8 py-4"
+                            @click="toggleSubmenu('<?= /* @noEscape */ (string) $indexId ?>')"
+                            aria-label="<?= $escaper->escapeHtmlAttr(__('Toggle submenu for %1', $nodeTitle)) ?>"
+                            aria-haspopup="true"
+                            :aria-expanded="<?= /* @noEscape */ (string) $indexId ?> === true"
+                            type="button"
+                        >
+                            <span class="<?= /* @noEscape */ (string) $nodeType !== 'wrapper' ? $escaper->escapeHtmlAttr($nodeClasses) : '' ?>">
+                                <?= $escaper->escapeHtml($nodeTitle) ?>
+                            </span>
+                            <div class="transition-transform"
+                                :class="{'rotate-180' : <?= /* @noEscape */ (string) $indexId ?> === true}"
+                            >
+                                <?= $heroicons->chevronDownHtml('text-gray-500', 20, 20, ['aria-hidden' => 'true']); ?>
+                            </div>
+                        </button>
+                        <?= /* @noEscape */ $block->renderSubmenu($children, $node, $childrenLevel) ?>
+                    <?php else: ?>
+                        <div class="group <?= /* @noEscape */ (string) $nodeType !== 'wrapper' ? $escaper->escapeHtmlAttr($nodeClasses) : '' ?>">
+                            <?= /* @noEscape */ $block->renderMenuNode($node) ?>
+                        </div>
+                    <?php endif; ?>
+                </li>
+        <?php endforeach ?>
+    </ul>
+<?php endif; ?>

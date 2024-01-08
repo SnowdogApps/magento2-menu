@@ -1,0 +1,21 @@
+@layer utilities {
+    .snowdog-menu-text-hover {
+        @apply text-blue-600;
+    }
+}
+
+[x-cloak="tablet"] {
+    @apply !hidden lg:!block;
+}
+
+[x-cloak="desktop"] {
+    @apply !block lg:!hidden;
+}
+
+.snowdog-menu-link {
+    @apply block py-3 hover:snowdog-menu-text-hover group-hover:snowdog-menu-text-hover;
+}
+
+.snowdog-menu-link-topmenu-mobile {
+    @apply block px-8 py-4;
+}

@@ -1,0 +1,252 @@
+title: Footer Menu
+identifier: hyva-menu-footer
+css_class: null
+creation_time: '2023-08-28 09:22:42'
+update_time: '2023-08-30 10:43:50'
+is_active: '1'
+menu_position: center
+stores:
+  - admin
+nodes:
+  -
+    type: custom_url
+    content: null
+    classes: null
+    title: Shop
+    target: '0'
+    image: null
+    image_alt_text: null
+    node_template: null
+    submenu_template: null
+    creation_time: '2023-08-30 10:30:53'
+    update_time: '2023-08-30 10:30:54'
+    is_active: '1'
+    selected_item_id: null
+    nodes:
+      -
+        type: category
+        content: '38'
+        classes: null
+        title: 'What''s New'
+        target: '0'
+        image: null
+        image_alt_text: null
+        node_template: null
+        submenu_template: null
+        creation_time: '2023-08-30 10:30:54'
+        update_time: '2023-08-30 10:30:54'
+        is_active: '1'
+        selected_item_id: null
+      -
+        type: category
+        content: '20'
+        classes: null
+        title: Women
+        target: '0'
+        image: null
+        image_alt_text: null
+        node_template: null
+        submenu_template: null
+        creation_time: '2023-08-30 10:33:44'
+        update_time: '2023-08-30 10:33:44'
+        is_active: '1'
+        selected_item_id: null
+      -
+        type: category
+        content: '11'
+        classes: null
+        title: Men
+        target: '0'
+        image: null
+        image_alt_text: null
+        node_template: null
+        submenu_template: null
+        creation_time: '2023-08-30 10:33:44'
+        update_time: '2023-08-30 10:33:44'
+        is_active: '1'
+        selected_item_id: null
+      -
+        type: category
+        content: '3'
+        classes: null
+        title: Gear
+        target: '0'
+        image: null
+        image_alt_text: null
+        node_template: null
+        submenu_template: null
+        creation_time: '2023-08-30 10:33:44'
+        update_time: '2023-08-30 10:33:44'
+        is_active: '1'
+        selected_item_id: null
+      -
+        type: category
+        content: '9'
+        classes: null
+        title: Training
+        target: '0'
+        image: null
+        image_alt_text: null
+        node_template: null
+        submenu_template: null
+        creation_time: '2023-08-30 10:33:44'
+        update_time: '2023-08-30 10:33:44'
+        is_active: '1'
+        selected_item_id: null
+      -
+        type: category
+        content: '37'
+        classes: null
+        title: Sale
+        target: '0'
+        image: null
+        image_alt_text: null
+        node_template: null
+        submenu_template: null
+        creation_time: '2023-08-30 10:33:44'
+        update_time: '2023-08-30 10:33:44'
+        is_active: '1'
+        selected_item_id: null
+  -
+    type: custom_url
+    content: null
+    classes: null
+    title: Company
+    target: '0'
+    image: null
+    image_alt_text: null
+    node_template: null
+    submenu_template: null
+    creation_time: '2023-08-28 09:22:42'
+    update_time: '2023-08-28 09:22:43'
+    is_active: '1'
+    selected_item_id: null
+    nodes:
+      -
+        type: cms_page
+        content: about-us
+        classes: null
+        title: About
+        target: '0'
+        image: null
+        image_alt_text: null
+        node_template: null
+        submenu_template: null
+        creation_time: '2023-08-28 09:22:42'
+        update_time: '2023-08-28 09:22:43'
+        is_active: '1'
+        selected_item_id: '8'
+      -
+        type: custom_url
+        content: /search/term/popular/
+        classes: null
+        title: 'Search Terms'
+        target: '0'
+        image: null
+        image_alt_text: null
+        node_template: null
+        submenu_template: null
+        creation_time: '2023-08-28 09:22:43'
+        update_time: '2023-08-28 09:22:43'
+        is_active: '1'
+        selected_item_id: null
+      -
+        type: custom_url
+        content: /contact/
+        classes: null
+        title: Contact
+        target: '0'
+        image: null
+        image_alt_text: null
+        node_template: null
+        submenu_template: null
+        creation_time: '2023-08-28 09:22:43'
+        update_time: '2023-08-28 09:22:43'
+        is_active: '1'
+        selected_item_id: null
+  -
+    type: custom_url
+    content: null
+    classes: null
+    title: Legal
+    target: '0'
+    image: null
+    image_alt_text: null
+    node_template: null
+    submenu_template: null
+    creation_time: '2023-08-28 09:22:43'
+    update_time: '2023-08-28 09:22:43'
+    is_active: '1'
+    selected_item_id: null
+    nodes:
+      -
+        type: cms_page
+        content: privacy-policy-cookie-restriction-mode
+        classes: null
+        title: Privacy
+        target: '0'
+        image: null
+        image_alt_text: null
+        node_template: null
+        submenu_template: null
+        creation_time: '2023-08-28 09:22:43'
+        update_time: '2023-08-28 09:22:43'
+        is_active: '1'
+        selected_item_id: '4'
+      -
+        type: cms_page
+        content: null
+        classes: null
+        title: 'Terms and Conditions'
+        target: '0'
+        image: null
+        image_alt_text: null
+        node_template: null
+        submenu_template: null
+        creation_time: '2023-08-28 09:22:43'
+        update_time: '2023-08-28 09:22:43'
+        is_active: '1'
+        selected_item_id: null
+  -
+    type: custom_url
+    content: null
+    classes: null
+    title: 'My Account'
+    target: '0'
+    image: null
+    image_alt_text: null
+    node_template: null
+    submenu_template: null
+    creation_time: '2023-08-30 10:40:42'
+    update_time: '2023-08-30 10:40:42'
+    is_active: '1'
+    selected_item_id: null
+    nodes:
+      -
+        type: custom_url
+        content: /customer/account/
+        classes: null
+        title: 'My Account'
+        target: '0'
+        image: null
+        image_alt_text: null
+        node_template: null
+        submenu_template: null
+        creation_time: '2023-08-30 10:40:42'
+        update_time: '2023-08-30 10:40:42'
+        is_active: '1'
+        selected_item_id: null
+      -
+        type: custom_url
+        content: /sales/order/history/
+        classes: null
+        title: 'My orders'
+        target: '0'
+        image: null
+        image_alt_text: null
+        node_template: null
+        submenu_template: null
+        creation_time: '2023-08-30 10:40:42'
+        update_time: '2023-08-30 10:40:42'
+        is_active: '1'
+        selected_item_id: null

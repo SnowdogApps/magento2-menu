@@ -1,0 +1,21 @@
+<?php
+/** @var Snowdog\Menu\Block\NodeType\CategoryChild $block */
+$visibleChildren = $block->getVisibleChildren();
+$nodeId = $block->getId();
+?>
+
+<ul
+    <?php if ($nodeId) : ?>
+        data-menu="menu-<?= $escaper->escapeHtmlAttr($nodeId) ?>"
+    <?php endif; ?>
+>
+    <?php foreach ($visibleChildren as $child): ?>
+        <li>
+            <a class="snowdog-menu-link"
+                href="<?= $escaper->escapeUrl($child->getUrl()) ?>"
+            >
+                <?= $escaper->escapeHtml($child->getName()) ?>
+            </a>
+        </li>
+    <?php endforeach; ?>
+</ul>
