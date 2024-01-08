@@ -1,0 +1,149 @@
+<?php /** @var \Snowdog\Menu\Block\Menu $block */ ?>
+
+<?php
+use Magento\Framework\Escaper;
+use Hyva\Theme\ViewModel\HeroiconsOutline;
+
+/** @var Escaper $escaper */
+
+$heroicons = $viewModels->require(HeroiconsOutline::class);
+
+$menu = $block->getMenu();
+$uniqueId = '_' . uniqid();
+?>
+
+<?php if ($menu): ?>
+    <script>
+        'use strict';
+
+        const initMenuMobile<?= $escaper->escapeHtml($uniqueId) ?> = () => {
+            return {
+                open: false,
+                openMenu(event) {
+                    this.open = true
+                    this.$nextTick(() => hyva.trapFocus(this.$refs['menu-dialog']))
+                    // Prevent from body scrolling while mobile menu opened
+                    document.body.classList.add('fixed', 'w-full')
+                },
+                closeMenu(event) {
+                    event.stopPropagation()
+                    document.body.classList.remove('fixed', 'w-full')
+                    this.open = false
+                    this.$nextTick(() => this.$refs['open-menu-button'].focus() || hyva.releaseFocus())
+                },
+                toggleSubmenu(index) {
+                    this[index] = !this[index]
+
+                    if (this[index]) {
+                        const focusableElements = 'button:not([disabled]), a[href]:not([tabindex="-1"]), [tabindex]:not([tabindex="-1"])'
+                        this.$nextTick(() => {
+                            this.$refs['submenu-' + index]?.querySelector(focusableElements)?.focus()
+                        })
+                    }
+                },
+            }
+        }
+    </script>
+    <nav
+        class="
+            <?= $escaper->escapeHtmlAttr($menu->getCssClass()) ?>
+            snowdog-topmenu-mobile z-20 order-2 text-primary-darker sm:order-1 navigation lg:hidden
+        "
+        x-data="initMenuMobile<?= $escaper->escapeHtml($uniqueId) ?>()"
+        @keydown.escape="open && closeMenu"
+        @click.outside="open && closeMenu"
+        aria-label="<?= $escaper->escapeHtmlAttr(__('Main menu')) ?>"
+        role="navigation"
+    >
+        <button x-ref="open-menu-button"
+            @click="openMenu"
+            type="button"
+            aria-label="<?= $escaper->escapeHtmlAttr(__('Open menu')) ?>"
+            :aria-expanded="open"
+            aria-haspopup="menu"
+        >
+            <?= $heroicons->menuHtml('', 24, 24, ['aria-hidden' => 'true']) ?>
+        </button>
+        <div class="backdrop"
+            x-show="open"
+            x-transition:enter="ease-in-out duration-500"
+            x-transition:enter-start="opacity-0"
+            x-transition:enter-end="opacity-100"
+            x-transition:leave="ease-in-out duration-500"
+            x-transition:leave-start="opacity-100"
+            x-transition:leave-end="opacity-0"
+            @click="closeMenu"
+            x-cloak
+        ></div>
+        <div class="fixed z-30 top-0 left-0 w-full max-w-lg h-full bg-container-lighter border-container shadow-2xl overflow-y-auto overflow-x-hidden transform transition ease-in-out duration-500 sm:duration-700"
+            :class="{
+                '-translate-x-full' : !open,
+                'translate-x-0' : open,
+            }"
+            x-cloak
+            x-ref="menu-dialog"
+            role="dialog"
+            aria-modal="true"
+            aria-label="<?= $escaper->escapeHtmlAttr(__('Main menu')) ?>"
+            :aria-hidden="open ? 'false' : 'true'"
+        >
+            <div x-show="open"
+                class="flex flex-col-reverse"
+            >
+                <ul class="mb-1 divide-y divide-container">
+                    <?php foreach ($block->getNodes() as $node): ?>
+                        <?php
+                        $childrenLevel = $node->getLevel() + 1;
+                        $children = $block->getNodes($childrenLevel, $node);
+                        $node->setIsParent((bool)$children);
+                        $indexId = 'node' . $node->getId();
+                        $title = $node->getTitle();
+                        $nodeType = $node->getType();
+                        $nodeClasses = $node->getClasses();
+                        ?>
+                        <li x-data="{'<?= /* @noEscape */ (string) $indexId ?>': false }"
+                            class="<?= /* @noEscape */ (string) $nodeType === 'wrapper' ? $escaper->escapeHtmlAttr($nodeClasses) : '' ?>""
+                        >
+                            <?php if ($node->getIsParent() && !$node->getIsViewAllLink()): ?>
+                                <button
+                                    class="
+                                        flex items-center justify-between w-full px-8 py-4
+                                        <?= /* @noEscape */ (string) $nodeType !== 'wrapper' ? $escaper->escapeHtmlAttr($nodeClasses) : '' ?>"
+                                    "
+                                    @click="toggleSubmenu('<?= /* @noEscape */ (string) $indexId ?>')"
+                                    aria-label="<?= $escaper->escapeHtmlAttr(__('Toggle submenu for %1', $title)) ?>"
+                                    :aria-expanded="<?= /* @noEscape */ (string) $indexId ?> === true"
+                                    type="button"
+                                >
+                                    <span>
+                                        <?= $escaper->escapeHtml($title) ?>
+                                    </span>
+                                    <div class="transition-transform"
+                                        :class="{'rotate-180' : <?= /* @noEscape */ (string) $indexId ?> === true}"
+                                    >
+                                        <?= $heroicons->chevronDownHtml('text-gray-500', 20, 20, ['aria-hidden' => 'true']); ?>
+                                    </div>
+                                </button>
+                                <?= /* @noEscape */ $block->renderSubmenu($children, $node, $childrenLevel) ?>
+                            <?php else: ?>
+                                <div class="group <?= /* @noEscape */ (string) $nodeType !== 'wrapper' ? $escaper->escapeHtmlAttr($nodeClasses) : '' ?>"">
+                                    <?= /* @noEscape */ $block->renderMenuNode($node) ?>
+                                </div>
+                            <?php endif; ?>
+                        </li>
+                    <?php endforeach ?>
+                </ul>
+                <div class="flex justify-end px-3 border-b border-container">
+                    <button
+                        @click="closeMenu"
+                        class="flex justify-center items-center w-16 h-16"
+                        aria-label="<?= $escaper->escapeHtmlAttr(__('Close menu')) ?>"
+                        type="button"
+                    >
+                        <?= $heroicons->xHtml('', 24, 24, ["aria-hidden" => "true"]) ?>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+<?php endif; ?>

@@ -1,0 +1,39 @@
+<?php /** @var \Snowdog\Menu\Block\NodeType\Product $block */ ?>
+<?php
+$nodeId = $block->getId();
+$productUrl = $block->getProductUrl($nodeId);
+$productPrice = $block->getProductPrice($nodeId);
+$formattedProductPrice = $block->getFormattedProductPrice($nodeId);
+$productImage = $block->getProductImage($nodeId);
+$imageSize = '300';
+$resizedProductImage = $block->getResizedProductImage($nodeId, $imageSize, $imageSize);
+$productTitle = $block->getProductTitle($nodeId);
+$productUrl = $productUrl ?: '#';
+$title = $block->getTitle();
+$imageUrl = $block->getImageUrl();
+$imageAltText = $block->getImageAltText();
+?>
+
+<?php if ($resizedProductImage): ?>
+    <a
+        href="<?= $escaper->escapeUrl($productUrl) ?>"
+        class="transition-opacity group-hover:opacity-80 "
+        tabindex="-1"
+    >
+        <img src="<?= $escaper->escapeUrl($resizedProductImage) ?>"
+            alt="<?= $escaper->escapeHtmlAttr($imageAltText) ?>"
+            loading="lazy"
+            width="<?= $escaper->escapeHtmlAttr($imageSize) ?>"
+            height="<?= $escaper->escapeHtmlAttr($imageSize) ?>"
+        />
+    </a>
+<?php endif; ?>
+<a
+    href="<?= $escaper->escapeUrl($productUrl) ?>"
+    class="snowdog-menu-link"
+    <?php if ($nodeId) : ?>
+        data-menu="menu-<?= $escaper->escapeHtmlAttr($nodeId) ?>"
+    <?php endif; ?>
+>
+    <?= $escaper->escapeHtml($title) ?>
+</a>

@@ -13,6 +13,9 @@ use Snowdog\Menu\Api\MenuRepositoryInterface;
 use Snowdog\Menu\Model\ResourceModel\Menu\Collection;
 use Snowdog\Menu\Model\ResourceModel\Menu\CollectionFactory;
 
+/**
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
+ */
 class MenuRepository implements MenuRepositoryInterface
 {
     /** @var MenuFactory */
@@ -162,7 +165,7 @@ class MenuRepository implements MenuRepositoryInterface
     public function get($identifier, $storeId)
     {
         $collection = $this->collectionFactory->create();
-        $collection->addFilter('identifier', $identifier);
+        $collection->addFilter(new \Zend_Db_Expr('BINARY `identifier`'), $identifier);
         $collection->addFilter('is_active', 1);
         $collection->join(['stores' => 'snowmenu_store'], 'main_table.menu_id = stores.menu_id', 'store_id');
         $collection->addFilter('store_id', $storeId);

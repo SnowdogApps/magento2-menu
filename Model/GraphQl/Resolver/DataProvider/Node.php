@@ -20,6 +20,8 @@ class Node
     const SUBMENU_TEMPLATE_FIELD = 'submenu_template';
     const URL_KEY = 'url_key';
 
+    const NODE_TYPE_CUSTOM_URL = 'custom_url';
+
     /**
      * @var NodeRepositoryInterface
      */
@@ -150,6 +152,8 @@ class Node
             }
             $currentModel = $this->loadedModels[$node->getType()][$node->getContent()];
             return $this->typeModel->getModelUrlKey($node->getType(), $currentModel);
+        } elseif ($node->getType() == self::NODE_TYPE_CUSTOM_URL) {
+            return $node->getContent();
         } else {
             return null;
         }
