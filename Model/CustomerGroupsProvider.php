@@ -21,13 +21,9 @@ class CustomerGroupsProvider
     public function getAll()
     {
         $customerGroups = [];
-        $customerGroups[] = [
-            'label' => __('All Customer Groups'),
-            'value' => ""
-        ];
 
         /** @var Group $customerGroup */
-        foreach($this->groupCollectionFactory->create() as $customerGroup) {
+        foreach ($this->groupCollectionFactory->create() as $customerGroup) {
             $customerGroups[] = [
                 'label' => $customerGroup->getCode(),
                 'value' => $customerGroup->getId()
@@ -36,5 +32,4 @@ class CustomerGroupsProvider
 
         return $customerGroups;
     }
-
 }

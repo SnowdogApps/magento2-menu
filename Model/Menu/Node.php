@@ -342,4 +342,20 @@ class Node extends AbstractModel implements NodeInterface, IdentityInterface
 
         return $this->setData(NodeInterface::CUSTOMER_GROUPS, $this->serializer->serialize($customerGroups));
     }
+
+    public function isVisible($customerGroupId)
+    {
+        $customerGroups = $this->getCustomerGroups();
+        if (empty($customerGroups)) {
+            return true;
+        }
+
+        foreach ($customerGroups as $customerGroup) {
+            if ((int) $customerGroup['value'] === (int) $customerGroupId) {
+                return true;
+            }
+        }
+
+        return false;
+    }
 }

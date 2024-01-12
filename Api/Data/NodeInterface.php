@@ -279,13 +279,17 @@ interface NodeInterface
     /**
      * Get customer groups
      *
-     * @return int[]
      */
     public function getCustomerGroups();
 
     /**
-     * @param int[] $customerGroups
      * @return $this
      */
     public function setCustomerGroups($customerGroups);
+
+    /**
+     * @param int $customerGroupId
+     * @return bool
+     */
+    public function isVisible($customerGroupId);
 }

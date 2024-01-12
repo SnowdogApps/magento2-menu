@@ -16,14 +16,8 @@
         data-mage-init='{"snowdogMenu": {}}'
     >
         <ul class="<?= $menuClass ?>__list">
-            <?php
-                $currentGroupId = (string) $block->getCustomerGroupId();
-            ?>
             <?php foreach ($block->getNodes() as $node): ?>
                 <?php
-                    if (!in_array($currentGroupId, $node->getCustomerGroups())) {
-                        continue;
-                    }
                     $childrenLevel = $node->getLevel() + 1;
                     $children = $block->getNodes($childrenLevel, $node);
                     $node->setIsParent((bool) $children);

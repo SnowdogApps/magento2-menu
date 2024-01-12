@@ -6,10 +6,12 @@ use Magento\Customer\Model\Session;
 use Magento\Framework\Api\Search\FilterGroupBuilder;
 use Magento\Framework\Api\Search\SearchCriteriaFactory;
 use Magento\Framework\App\Cache\Type\Block;
+use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Framework\DataObject;
 use Magento\Framework\View\Element\Template;
 use Magento\Framework\Event\Manager as EventManager;
 use Magento\Framework\Escaper;
+use Snowdog\Menu\Api\Data\NodeInterface;
 use Snowdog\Menu\Api\MenuRepositoryInterface;
 use Snowdog\Menu\Api\NodeRepositoryInterface;
 use Snowdog\Menu\Model\Menu\Node\Image\File as ImageFile;
@@ -91,6 +93,11 @@ class Menu extends Template implements DataObject\IdentityInterface
     private $customerSession;
 
     /**
+     * @var ScopeConfigInterface
+     */
+    private $scopeConfig;
+
+    /**
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
@@ -105,6 +112,7 @@ class Menu extends Template implements DataObject\IdentityInterface
         ImageFile $imageFile,
         Escaper $escaper,
         Session $customerSession,
+        ScopeConfigInterface $scopeConfig,
         array $data = []
     ) {
         parent::__construct($context, $data);
@@ -120,6 +128,7 @@ class Menu extends Template implements DataObject\IdentityInterface
         $this->setTemplate($this->getMenuTemplate($this->_template));
         $this->submenuTemplate = $this->getSubmenuTemplate();
         $this->customerSession = $customerSession;
+        $this->scopeConfig = $scopeConfig;
     }
 
     /**
@@ -389,7 +398,7 @@ class Menu extends Template implements DataObject\IdentityInterface
     }
 
     /**
-     * @param NodeRepositoryInterface $node
+     * @param NodeInterface $node
      * @return Template
      */
     private function getMenuNodeBlock($node)
@@ -447,10 +456,15 @@ class Menu extends Template implements DataObject\IdentityInterface
     private function fetchData()
     {
         $nodes = $this->nodeRepository->getByMenu($this->loadMenu()->getId());
+        $currentCustomerGroup = $this->getCustomerGroupId();
+        $customerGroupEnabled = $this->scopeConfig->getValue('snowmenu/general/customer_groups');
         $result = [];
         $types = [];
         foreach ($nodes as $node) {
             if (!$node->getIsActive()) {
+                continue;
+            }
+            if ($customerGroupEnabled && !$node->isVisible($currentCustomerGroup)) {
                 continue;
             }
 
