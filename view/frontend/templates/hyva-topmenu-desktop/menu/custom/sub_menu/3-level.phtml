@@ -1,0 +1,154 @@
+<?php
+use Hyva\Theme\ViewModel\HeroiconsSolid;
+
+/** @var \Snowdog\Menu\Block\Menu $block */
+/** @var Hyva\Theme\ViewModel\HeroiconsOutline $heroicons */
+
+/** @var HeroiconsSolid $heroiconsSolid */
+$heroiconsSolid = $viewModels->require(HeroiconsSolid::class);
+?>
+
+<?php if ($block->getMenu()) : ?>
+    <?php
+    $parentNode = $block->getParentNode();
+    $parentNodeIndex = $parentNode->getId();
+    $level = $block->getLevel();
+    $parenttTitle = $parentNode->getTitle();
+    ?>
+    <?php if ($level === 1) : ?>
+        <div
+            x-ref="submenu-<?= /* @noEscape */ (string) $parentNodeIndex ?>"
+            class="absolute left-0 top-full w-full z-30 shadow-md bg-white flex"
+            x-show="openSubmenuId === '<?= /* @noEscape */ (string) $parentNodeIndex ?>'"
+            x-cloak
+        >
+            <script>
+                'use strict';
+
+                const initSubMenu<?= $escaper->escapeHtml($parentNodeIndex) ?> = () => {
+                    return {
+                        openLevel2SubmenuId: null,
+                        openLevel2Submenu(menuNode) {
+                            console.log(menuNode)
+                            this.openLevel2SubmenuId = menuNode
+                            this.$nextTick(() => {
+                                const focusableElements = 'button:not([disabled]), a[href]:not([tabindex="-1"]), [tabindex]:not([tabindex="-1"])'
+                                this.$refs['level-2-submenu-' + menuNode]?.querySelector(focusableElements)?.focus()
+                            })
+                        },
+                    }
+                }
+            </script>
+            <div
+                class="container py-12 flex items-stretch justify-between"
+                x-data="initSubMenu<?= $escaper->escapeHtml($parentNodeIndex) ?>()"
+            >
+                <ul
+                    class="space-y-6 w-64 border-r border-container-darker mr-24 xl:mr-32 xl:w-80"
+                    title="Submenu for <?= $escaper->escapeHtmlAttr($parenttTitle) ?>"
+                >
+                    <?php foreach ($block->getSubmenuNodes() as $key => $node) : ?>
+                        <?php
+                        $childrenLevel = $node->getLevel() + 1;
+                        $children = $block->getNodes($childrenLevel, $node);
+                        $node->setIsParent((bool) $children);
+                        $nodeType = $node->getType();
+                        $nodeClasses = $node->getClasses();
+                        $title = $node->getTitle();
+                        $nodeId = $node->getId();
+                        ?>
+                        <li
+                            class="flex-1 <?= /* @noEscape */ (string) $nodeType === 'wrapper' ? $escaper->escapeHtmlAttr($nodeClasses) : '' ?>"
+                            @mouseenter="openLevel2SubmenuId = '<?= /* @noEscape */ (string) $nodeId ?>'"
+                            <?php if ($key === 0): ?>
+                                x-init="openLevel2SubmenuId = '<?= /* @noEscape */ (string) $nodeId ?>'"
+                            <?php endif; ?>
+                        >
+                            <div class="group flex justify-stretch pr-10 [&>a]:!text-primary xl:pr-14"
+                                :class="{ '[&>a]:font-bold': openLevel2SubmenuId === '<?= /* @noEscape */ (string) $nodeId ?>' }"
+                            >
+                                <?= /* @noEscape */ $block->renderMenuNode($node) ?>
+                                <?php if ($children): ?>
+                                    <button
+                                        type="button"
+                                        class="flex-1 flex justify-end items-center"
+                                        :aria-expanded="openLevel2SubmenuId === '<?= /* @noEscape */ (string) $nodeId ?>' ? 'true' : 'false'"
+                                        aria-controls="level-2-submenu-<?= /* @noEscape */ (string) $nodeId ?>"
+                                        @click="openLevel2Submenu('<?= /* @noEscape */ (string) $nodeId ?>')"
+                                    >
+                                        <?= $heroiconsSolid->chevronRightHtml('text-primary-darker', 20, 20, ['aria-hidden' => 'true']) ?>
+                                        <span class="sr-only">
+                                            <?= $escaper->escapeHtml(__('Open submenu for %1', $title)) ?>
+                                        </span>
+                                    </button>
+                                <?php endif; ?>
+                            </div>
+                        </li>
+                    <?php endforeach; ?>
+                </ul>
+                <?php foreach ($block->getSubmenuNodes() as $node) : ?>
+                    <?php
+                    $childrenLevel = $node->getLevel() + 1;
+                    $children = $block->getNodes($childrenLevel, $node);
+                    ?>
+                    <?= /* @noEscape */ $block->renderSubmenu($children, $node, $childrenLevel) ?>
+                <?php endforeach; ?>
+            </div>
+        </div>
+    <?php endif; ?>
+
+    <?php if ($level === 2) : ?>
+        <ul
+            id="level-2-submenu-<?= /* @noEscape */ (string) $parentNodeIndex ?>"
+            x-ref="level-2-submenu-<?= /* @noEscape */ (string) $parentNodeIndex ?>"
+            x-show="openLevel2SubmenuId === '<?= /* @noEscape */ (string) $parentNodeIndex ?>'"
+            title="Submenu for <?= $escaper->escapeHtmlAttr($parenttTitle) ?>"
+            class="flex-1 flex space-x-24 xl:space-x-32"
+        >
+            <?php foreach ($block->getSubmenuNodes() as $index => $node) : ?>
+                <?php
+                $childrenLevel = $node->getLevel() + 1;
+                $children = $block->getNodes($childrenLevel, $node);
+                $node->setIsParent((bool) $children);
+                $nodeType = $node->getType();
+                $nodeClasses = $node->getClasses();
+                ?>
+                <li
+                    class="
+                        w-full max-w-52
+                        <?= /* @noEscape */ (string) $nodeType === 'wrapper' ? $escaper->escapeHtmlAttr($nodeClasses) : '' ?>"
+                    "
+                >
+                    <div class="group">
+                        <?= /* @noEscape */ $block->renderMenuNode($node) ?>
+                    </div>
+                    <?= /* @noEscape */ $block->renderSubmenu($children, $node, $childrenLevel) ?>
+                </li>
+            <?php endforeach; ?>
+        </ul>
+    <?php endif; ?>
+
+    <?php if ($level > 2) : ?>
+        <ul class="space-y-2">
+            <?php foreach ($block->getSubmenuNodes() as $index => $node) : ?>
+                <?php
+                $childrenLevel = $node->getLevel() + 1;
+                $children = $block->getNodes($childrenLevel, $node);
+                $node->setIsParent((bool) $children);
+                $nodeType = $node->getType();
+                $nodeClasses = $node->getClasses();
+                ?>
+                <li
+                    class="
+                        <?= /* @noEscape */ (string) $nodeType === 'wrapper' ? $escaper->escapeHtmlAttr($nodeClasses) : '' ?>"
+                    "
+                >
+                    <div class="group mb-2">
+                        <?= /* @noEscape */ $block->renderMenuNode($node) ?>
+                    </div>
+                    <?= /* @noEscape */ $block->renderSubmenu($children, $node, $childrenLevel) ?>
+                </li>
+            <?php endforeach; ?>
+        </ul>
+    <?php endif; ?>
+<?php endif; ?>
