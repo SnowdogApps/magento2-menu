@@ -30,11 +30,11 @@ $uniqueId = '_' . uniqid();
                 toggleSubmenu(menuNode) {
                     if (menuNode === this.openSubmenuId) {
                         this.openSubmenuId = null
+                        hyva.releaseFocus()
                     } else {
                         this.openSubmenuId = menuNode
                         this.$nextTick(() => {
-                            const focusableElements = 'button:not([disabled]), a[href]:not([tabindex="-1"]), [tabindex]:not([tabindex="-1"])'
-                            this.$refs['submenu-' + menuNode]?.querySelector(focusableElements)?.focus()
+                            hyva.trapFocus(this.$refs['submenu-' + menuNode])
                         })
                     }
                 },

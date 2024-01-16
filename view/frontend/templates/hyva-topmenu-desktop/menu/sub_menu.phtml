@@ -14,11 +14,8 @@ $heroicons = $viewModels->require(\Hyva\Theme\ViewModel\HeroiconsOutline::class)
     <?php if ($level === 1) : ?>
         <div
             x-ref="submenu-<?= /* @noEscape */ (string) $parentNodeIndex ?>"
-            class="absolute left-0 top-full w-full z-30 shadow-md bg-white"
-            :class="{
-                'hidden' : openSubmenuId !== '<?= /* @noEscape */ (string) $parentNodeIndex ?>',
-                'flex' : openSubmenuId === '<?= /* @noEscape */ (string) $parentNodeIndex ?>',
-            }"
+            class="absolute left-0 top-full w-full z-30 shadow-md bg-white flex"
+            x-show="openSubmenuId === '<?= /* @noEscape */ (string) $parentNodeIndex ?>'"
             x-cloak
         >
             <div class="w-full">
@@ -37,7 +34,7 @@ $heroicons = $viewModels->require(\Hyva\Theme\ViewModel\HeroiconsOutline::class)
                         <li
                             class="flex-1 <?= /* @noEscape */ (string) $nodeType === 'wrapper' ? $escaper->escapeHtmlAttr($nodeClasses) : '' ?>"
                         >
-                            <div class="group mb-2" >
+                            <div class="group mb-2">
                                 <?= /* @noEscape */ $block->renderMenuNode($node) ?>
                             </div>
                             <?= /* @noEscape */ $block->renderSubmenu($children, $node, $childrenLevel) ?>
