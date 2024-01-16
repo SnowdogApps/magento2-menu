@@ -17,7 +17,7 @@ $imageAltText = $block->getImageAltText();
 <?php if ($resizedProductImage): ?>
     <a
         href="<?= $escaper->escapeUrl($productUrl) ?>"
-        class="transition-opacity group-hover:opacity-80 "
+        class="block mb-2 transition-opacity group-hover:opacity-80 "
         tabindex="-1"
     >
         <img src="<?= $escaper->escapeUrl($resizedProductImage) ?>"

@@ -11,7 +11,7 @@ nodes:
   -
     type: category
     content: '38'
-    classes: font-medium
+    classes: null
     title: 'What''s New'
     target: '0'
     image: null

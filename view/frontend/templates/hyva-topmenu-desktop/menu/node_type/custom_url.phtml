@@ -11,7 +11,7 @@ $dataAttribute = 'data-menu="menu-' . $nodeId . '"';
 <?php if ($content): ?>
     <?php if ($imageUrl): ?>
         <a href="<?= $escaper->escapeUrl($content) ?>"
-            class="transition-opacity group-hover:opacity-80"
+            class="block mb-2 transition-opacity group-hover:opacity-80"
             tabindex="-1"
             <?php if ($block->getTarget()): ?>
                 target="_blank"
