@@ -6,6 +6,7 @@ $imageAltText = $block->getImageAltText();
 $content = $block->getContent();
 $title = $block->getTitle();
 $dataAttribute = 'data-menu="menu-' . $nodeId . '"';
+$nodeClasses = $block->getNodeClasses();
 ?>
 
 <?php if ($content): ?>
@@ -25,7 +26,7 @@ $dataAttribute = 'data-menu="menu-' . $nodeId . '"';
         </a>
     <?php endif; ?>
     <a href="<?= $escaper->escapeUrl($content) ?>"
-        class="snowdog-menu-link"
+        class="snowdog-menu-link <?= $escaper->escapeHtmlAttr($nodeClasses) ?>"
         <?php if ($nodeId) : ?>
             data-menu="menu-<?= $escaper->escapeHtmlAttr($nodeId) ?>"
         <?php endif; ?>
@@ -44,7 +45,7 @@ $dataAttribute = 'data-menu="menu-' . $nodeId . '"';
             loading="lazy"
         />
     <?php endif ?>
-    <span class="block py-3"
+    <span class="block py-3 <?= $escaper->escapeHtmlAttr($nodeClasses) ?>"
         tabindex="0"
         <?= $dataAttribute ?>
     >

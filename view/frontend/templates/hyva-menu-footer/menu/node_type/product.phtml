@@ -12,12 +12,13 @@ $productUrl = $productUrl ?: '#';
 $title = $block->getTitle();
 $imageUrl = $block->getImageUrl();
 $imageAltText = $block->getImageAltText();
+$nodeClasses = $block->getNodeClasses();
 ?>
 
 <?php if ($resizedProductImage): ?>
     <a
         href="<?= $escaper->escapeUrl($productUrl) ?>"
-        class="transition-opacity group-hover:opacity-80 "
+        class="transition-opacity group-hover:opacity-80"
         tabindex="-1"
     >
         <img src="<?= $escaper->escapeUrl($resizedProductImage) ?>"
@@ -30,7 +31,7 @@ $imageAltText = $block->getImageAltText();
 <?php endif; ?>
 <a
     href="<?= $escaper->escapeUrl($productUrl) ?>"
-    class="snowdog-menu-link"
+    class="snowdog-menu-link <?= $escaper->escapeHtmlAttr($nodeClasses) ?>"
     <?php if ($nodeId) : ?>
         data-menu="menu-<?= $escaper->escapeHtmlAttr($nodeId) ?>"
     <?php endif; ?>

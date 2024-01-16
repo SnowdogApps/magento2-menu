@@ -2,9 +2,10 @@
 /** @var Snowdog\Menu\Block\NodeType\CategoryChild $block */
 $visibleChildren = $block->getVisibleChildren();
 $nodeId = $block->getId();
+$nodeClasses = $block->getNodeClasses();
 ?>
 
-<ul class="<?= $escaper->escapeHtmlAttr($block->getNodeClasses()) ?>"
+<ul class="<?= $escaper->escapeHtmlAttr($nodeClasses) ?>"
     <?php if ($nodeId) : ?>
         data-menu="menu-<?= $escaper->escapeHtmlAttr($nodeId) ?>"
     <?php endif; ?>

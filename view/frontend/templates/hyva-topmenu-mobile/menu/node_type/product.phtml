@@ -11,9 +11,10 @@ $productUrl = $productUrl ?: '#';
 $title = $block->getTitle();
 $imageUrl = $block->getImageUrl();
 $imageAltText = $block->getImageAltText();
+$nodeClasses = $block->getNodeClasses();
 ?>
 
-<a class="cursor-pointer snowdog-menu-link-topmenu-mobile"
+<a class="cursor-pointer snowdog-menu-link-topmenu-mobile <?= $escaper->escapeHtmlAttr($nodeClasses) ?>"
     href="<?= $escaper->escapeUrl($productUrl) ?>"
     <?php if ($nodeId) : ?>
         data-menu="menu-<?= $escaper->escapeHtmlAttr($nodeId) ?>"

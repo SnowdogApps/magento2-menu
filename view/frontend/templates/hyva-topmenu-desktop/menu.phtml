@@ -80,7 +80,7 @@ $uniqueId = '_' . uniqid();
                         @mouseleave="openSubmenuId = null"
                         @keydown.escape="onSubmenuEscape"
                     >
-                        <div class="group uppercase <?= /* @noEscape */ (string) $nodeType !== 'wrapper' ? $escaper->escapeHtmlAttr($nodeClasses) : '' ?>">
+                        <div class="group uppercase">
                             <?= /* @noEscape */ $block->renderMenuNode($node) ?>
                         </div>
                         <?php if ($children): ?>

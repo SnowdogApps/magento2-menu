@@ -37,11 +37,7 @@ $heroicons = $viewModels->require(\Hyva\Theme\ViewModel\HeroiconsOutline::class)
                         <li
                             class="flex-1 <?= /* @noEscape */ (string) $nodeType === 'wrapper' ? $escaper->escapeHtmlAttr($nodeClasses) : '' ?>"
                         >
-                            <div class="
-                                    group mb-2
-                                    <?= /* @noEscape */ (string) $nodeType !== 'wrapper' ? $escaper->escapeHtmlAttr($nodeClasses) : '' ?>
-                                "
-                            >
+                            <div class="group mb-2" >
                                 <?= /* @noEscape */ $block->renderMenuNode($node) ?>
                             </div>
                             <?= /* @noEscape */ $block->renderSubmenu($children, $node, $childrenLevel) ?>
@@ -67,7 +63,7 @@ $heroicons = $viewModels->require(\Hyva\Theme\ViewModel\HeroiconsOutline::class)
                         <?= (/* @noEscape */ (string) $nodeType === 'wrapper') && (/* @noEscape */ (int) $level > 2) ? '-ml-4' : '' ?>
                     "
                 >
-                    <div class="group mb-2 <?= /* @noEscape */ (string) $nodeType !== 'wrapper' ? $escaper->escapeHtmlAttr($nodeClasses) : '' ?>">
+                    <div class="group mb-2">
                         <?= /* @noEscape */ $block->renderMenuNode($node) ?>
                     </div>
                     <?= /* @noEscape */ $block->renderSubmenu($children, $node, $childrenLevel) ?>

@@ -3,9 +3,10 @@
 $nodeId = $block->getId();
 $pageUrl = $block->getPageUrl($nodeId) ?: '#';
 $title = $block->getTitle();
+$nodeClasses = $block->getNodeClasses();
 ?>
 
-<a class="snowdog-menu-link-topmenu-mobile"
+<a class="snowdog-menu-link-topmenu-mobile <?= $escaper->escapeHtmlAttr($nodeClasses) ?>"
     href="<?= $escaper->escapeUrl($pageUrl) ?>"
     <?php if ($nodeId) : ?>
         data-menu="menu-<?= $escaper->escapeHtmlAttr($nodeId) ?>"

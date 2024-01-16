@@ -106,10 +106,7 @@ $uniqueId = '_' . uniqid();
                         >
                             <?php if ($node->getIsParent() && !$node->getIsViewAllLink()): ?>
                                 <button
-                                    class="
-                                        flex items-center justify-between w-full px-8 py-4
-                                        <?= /* @noEscape */ (string) $nodeType !== 'wrapper' ? $escaper->escapeHtmlAttr($nodeClasses) : '' ?>"
-                                    "
+                                    class="flex items-center justify-between w-full px-8 py-4"
                                     @click="toggleSubmenu('<?= /* @noEscape */ (string) $indexId ?>')"
                                     aria-label="<?= $escaper->escapeHtmlAttr(__('Toggle submenu for %1', $title)) ?>"
                                     :aria-expanded="<?= /* @noEscape */ (string) $indexId ?> === true"
@@ -126,7 +123,7 @@ $uniqueId = '_' . uniqid();
                                 </button>
                                 <?= /* @noEscape */ $block->renderSubmenu($children, $node, $childrenLevel) ?>
                             <?php else: ?>
-                                <div class="group <?= /* @noEscape */ (string) $nodeType !== 'wrapper' ? $escaper->escapeHtmlAttr($nodeClasses) : '' ?>"">
+                                <div class="group">
                                     <?= /* @noEscape */ $block->renderMenuNode($node) ?>
                                 </div>
                             <?php endif; ?>

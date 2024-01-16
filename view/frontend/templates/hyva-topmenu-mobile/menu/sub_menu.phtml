@@ -43,7 +43,7 @@ $heroicons = $viewModels->require(HeroiconsOutline::class);
                             :aria-expanded="<?= /* @noEscape */ (string) $indexId ?> === true"
                             type="button"
                         >
-                            <span class="<?= /* @noEscape */ (string) $nodeType !== 'wrapper' ? $escaper->escapeHtmlAttr($nodeClasses) : '' ?>">
+                            <span>
                                 <?= $escaper->escapeHtml($nodeTitle) ?>
                             </span>
                             <div class="transition-transform"
@@ -54,7 +54,7 @@ $heroicons = $viewModels->require(HeroiconsOutline::class);
                         </button>
                         <?= /* @noEscape */ $block->renderSubmenu($children, $node, $childrenLevel) ?>
                     <?php else: ?>
-                        <div class="group <?= /* @noEscape */ (string) $nodeType !== 'wrapper' ? $escaper->escapeHtmlAttr($nodeClasses) : '' ?>">
+                        <div class="group">
                             <?= /* @noEscape */ $block->renderMenuNode($node) ?>
                         </div>
                     <?php endif; ?>

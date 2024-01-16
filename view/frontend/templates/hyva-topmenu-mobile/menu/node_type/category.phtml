@@ -4,6 +4,7 @@ $nodeId = $block->getId();
 $categoryUrl = $block->getCategoryUrl($nodeId) ?: '#';
 $imageUrl = $block->getImageUrl();
 $imageAltText = $block->getImageAltText();
+$nodeClasses = $block->getNodeClasses();
 
 if ($block->getIsViewAllLink()) {
     $title = __('View All');
@@ -13,7 +14,7 @@ if ($block->getIsViewAllLink()) {
 ?>
 
 <a href="<?= $escaper->escapeUrl($categoryUrl) ?>"
-    class="cursor-pointer snowdog-menu-link-topmenu-mobile"
+    class="cursor-pointer snowdog-menu-link-topmenu-mobile <?= $escaper->escapeHtmlAttr($nodeClasses) ?>"
     <?php if ($nodeId) : ?>
         data-menu="menu-<?= $escaper->escapeHtmlAttr($nodeId) ?>"
     <?php endif; ?>
