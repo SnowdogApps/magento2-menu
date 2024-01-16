@@ -54,10 +54,10 @@ $uniqueId = '_' . uniqid();
         "
     >
         <nav
-            class="snowdog-topmenu-desktop relative container lg:block"
+            class="snowdog-topmenu-desktop container lg:block"
             aria-label="<?= $escaper->escapeHtmlAttr(__('Main menu')) ?>"
         >
-            <ul class="flex justify-between h-20">
+            <ul class="relative flex justify-between h-20">
                 <?php foreach ($block->getNodes() as $node): ?>
                     <?php
                     $childrenLevel = $node->getLevel() + 1;
@@ -80,7 +80,7 @@ $uniqueId = '_' . uniqid();
                         @mouseleave="openSubmenuId = null"
                         @keydown.escape="onSubmenuEscape"
                     >
-                        <div class="group uppercase">
+                        <div class="group uppercase [&>a]:py-7 [&>a]:!text-primary">
                             <?= /* @noEscape */ $block->renderMenuNode($node) ?>
                         </div>
                         <?php if ($children): ?>
