@@ -87,7 +87,10 @@ $uniqueId = '_' . uniqid();
                             <div class="relative">
                                 <button
                                     type="button"
-                                    class="flex items-center ml-2"
+                                    class="flex items-center ml-2 transition-transform duration-300"
+                                    :class="{
+                                        'rotate-180' : openSubmenuId === '<?= /* @noEscape */ (string) $nodeId ?>'
+                                    }"
                                     x-ref="sr-button-<?= /* @noEscape */ (string) $nodeId ?>"
                                     :aria-expanded="openSubmenuId === '<?= /* @noEscape */ (string) $nodeId ?>' ? 'true' : 'false'"
                                     @click="toggleSubmenu('<?= /* @noEscape */ (string) $nodeId ?>')"
