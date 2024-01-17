@@ -74,7 +74,7 @@ $uniqueId = '_' . uniqid();
                             <?= /* @noEscape */ (string) $nodeType === 'wrapper' ? $escaper->escapeHtmlAttr($nodeClasses) : '' ?>
                         "
                         :class="{
-                            'bg-white rounded-t-lg shadow-md' : <?= /* @noEscape */ !empty($children) ?> && openSubmenuId === '<?= /* @noEscape */ (string) $nodeId ?>'
+                            'bg-white rounded-t-lg shadow-md' : '<?= /* @noEscape */ !!$children ?>' && openSubmenuId === '<?= /* @noEscape */ (string) $nodeId ?>'
                         }"
                         @mouseenter="openSubmenuId = '<?= /* @noEscape */ (string) $nodeId ?>'"
                         @mouseleave="openSubmenuId = null"
