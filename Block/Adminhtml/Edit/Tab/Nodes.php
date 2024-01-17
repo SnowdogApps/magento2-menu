@@ -206,4 +206,13 @@ class Nodes extends Template implements TabInterface
     {
         return $this->vueProvider->getComponents();
     }
+
+    /**
+     * @throws LocalizedException
+     */
+    public function getBlockHtmlId(): string
+    {
+        $uuid = $this->mathRandom->getRandomString(5);
+        return '"snowdog-menu-' . $uuid . '"';
+    }
 }
