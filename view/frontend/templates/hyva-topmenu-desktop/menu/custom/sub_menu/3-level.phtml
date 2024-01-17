@@ -44,7 +44,7 @@ $heroiconsSolid = $viewModels->require(HeroiconsSolid::class);
                 x-data="initSubMenu<?= $escaper->escapeHtml($parentNodeIndex) ?>()"
             >
                 <ul
-                    class="space-y-6 w-64 border-r border-container-darker mr-24 xl:mr-32 xl:w-80"
+                    class="space-y-6 w-1/4 border-r border-container-darker pb-12 mr-20 xl:mr-32"
                     title="Submenu for <?= $escaper->escapeHtmlAttr($parenttTitle) ?>"
                 >
                     <?php foreach ($block->getSubmenuNodes() as $key => $node) : ?>
@@ -64,14 +64,14 @@ $heroiconsSolid = $viewModels->require(HeroiconsSolid::class);
                                 x-init="openLevel2SubmenuId = '<?= /* @noEscape */ (string) $nodeId ?>'"
                             <?php endif; ?>
                         >
-                            <div class="group flex justify-stretch pr-10 [&>a]:!text-primary xl:pr-14"
+                            <div class="group flex justify-stretch [&>a]:!text-primary"
                                 :class="{ '[&>a]:font-bold': openLevel2SubmenuId === '<?= /* @noEscape */ (string) $nodeId ?>' }"
                             >
                                 <?= /* @noEscape */ $block->renderMenuNode($node) ?>
                                 <?php if ($children): ?>
                                     <button
                                         type="button"
-                                        class="flex-1 flex justify-end items-center"
+                                        class="flex-1 flex justify-end items-center pl-2 pr-10 xl:pr-14"
                                         :aria-expanded="openLevel2SubmenuId === '<?= /* @noEscape */ (string) $nodeId ?>' ? 'true' : 'false'"
                                         aria-controls="level-2-submenu-<?= /* @noEscape */ (string) $nodeId ?>"
                                         @click="openLevel2Submenu('<?= /* @noEscape */ (string) $nodeId ?>')"
@@ -103,7 +103,7 @@ $heroiconsSolid = $viewModels->require(HeroiconsSolid::class);
             x-ref="level-2-submenu-<?= /* @noEscape */ (string) $parentNodeIndex ?>"
             x-show="openLevel2SubmenuId === '<?= /* @noEscape */ (string) $parentNodeIndex ?>'"
             title="Submenu for <?= $escaper->escapeHtmlAttr($parenttTitle) ?>"
-            class="flex-1 flex space-x-24 xl:space-x-32"
+            class="flex-1 flex space-x-14 xl:space-x-32"
         >
             <?php foreach ($block->getSubmenuNodes() as $index => $node) : ?>
                 <?php
