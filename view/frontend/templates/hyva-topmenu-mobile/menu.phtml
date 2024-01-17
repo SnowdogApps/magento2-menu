@@ -75,10 +75,10 @@ $uniqueId = '_' . uniqid();
             @click="closeMenu"
             x-cloak
         ></div>
-        <div class="fixed z-30 top-0 left-0 w-full max-w-lg h-full bg-container-lighter border-container shadow-2xl overflow-y-auto overflow-x-hidden transform transition ease-in-out duration-500 sm:duration-700"
+        <div class="fixed z-30 top-0 left-0 w-full max-w-lg h-full bg-container-lighter border-container overflow-y-auto overflow-x-hidden transform transition ease-in-out duration-500 sm:duration-700"
             :class="{
                 '-translate-x-full' : !open,
-                'translate-x-0' : open,
+                'translate-x-0 shadow-2xl' : open,
             }"
             x-cloak
             x-ref="menu-dialog"
