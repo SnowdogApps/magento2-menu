@@ -16,33 +16,31 @@ $uniqueId = '_' . uniqid();
     <script>
         'use strict';
 
-        const initMenuMobile<?= $escaper->escapeHtml($uniqueId) ?> = () => {
-            return {
-                open: false,
-                openMenu(event) {
-                    this.open = true
-                    this.$nextTick(() => hyva.trapFocus(this.$refs['menu-dialog']))
-                    // Prevent from body scrolling while mobile menu opened
-                    document.body.classList.add('fixed', 'w-full')
-                },
-                closeMenu(event) {
-                    event.stopPropagation()
-                    document.body.classList.remove('fixed', 'w-full')
-                    this.open = false
-                    this.$nextTick(() => this.$refs['open-menu-button'].focus() || hyva.releaseFocus())
-                },
-                toggleSubmenu(index) {
-                    this[index] = !this[index]
+        const initMenuMobile<?= $escaper->escapeHtml($uniqueId) ?> = () => ({
+            open: false,
+            openMenu(event) {
+                this.open = true
+                this.$nextTick(() => hyva.trapFocus(this.$refs['menu-dialog']))
+                // Prevent from body scrolling while mobile menu opened
+                document.body.classList.add('fixed', 'w-full')
+            },
+            closeMenu(event) {
+                event.stopPropagation()
+                document.body.classList.remove('fixed', 'w-full')
+                this.open = false
+                this.$nextTick(() => this.$refs['open-menu-button'].focus() || hyva.releaseFocus())
+            },
+            toggleSubmenu(index) {
+                this[index] = !this[index]
 
-                    if (this[index]) {
-                        const focusableElements = 'button:not([disabled]), a[href]:not([tabindex="-1"]), [tabindex]:not([tabindex="-1"])'
-                        this.$nextTick(() => {
-                            this.$refs['submenu-' + index]?.querySelector(focusableElements)?.focus()
-                        })
-                    }
-                },
-            }
-        }
+                if (this[index]) {
+                    const focusableElements = 'button:not([disabled]), a[href]:not([tabindex="-1"]), [tabindex]:not([tabindex="-1"])'
+                    this.$nextTick(() => {
+                        this.$refs['submenu-' + index]?.querySelector(focusableElements)?.focus()
+                    })
+                }
+            },
+        })
     </script>
     <nav
         class="

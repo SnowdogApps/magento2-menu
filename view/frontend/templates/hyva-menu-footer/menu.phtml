@@ -13,30 +13,28 @@ $heroicons = $viewModels->require(HeroiconsOutline::class);
     <script>
         'use strict';
 
-        const initMenuFooter<?= $escaper->escapeHtml($uniqueId) ?> = () => {
-            return {
-                isDesktop: true,
-                checkIsDesktopResolution() {
-                    this.isDesktop = window.matchMedia('(min-width: 1024px)').matches;
-                },
-                toggleSubmenu(event, index) {
-                    const focusableElements = 'button:not([disabled]), a[href]:not([tabindex="-1"]), [tabindex]:not([tabindex="-1"])'
+        const initMenuFooter<?= $escaper->escapeHtml($uniqueId) ?> = () => ({
+            isDesktop: true,
+            checkIsDesktopResolution() {
+                this.isDesktop = window.matchMedia('(min-width: 1024px)').matches
+            },
+            toggleSubmenu(event, index) {
+                const focusableElements = 'button:not([disabled]), a[href]:not([tabindex="-1"]), [tabindex]:not([tabindex="-1"])'
 
-                    event.stopPropagation()
-                    this[index] = !this[index]
+                event.stopPropagation()
+                this[index] = !this[index]
 
-                    if (this[index]) {
-                        this.$nextTick(() => {
-                            this.$refs['submenu-' + index]?.querySelector(focusableElements)?.focus()
-                        })
-                    } else {
-                        this.$nextTick(() => {
-                            this.$refs['submenu-toggle-' + index]?.focus()
-                        })
-                    }
-                },
-            }
-        };
+                if (this[index]) {
+                    this.$nextTick(() => {
+                        this.$refs['submenu-' + index]?.querySelector(focusableElements)?.focus()
+                    })
+                } else {
+                    this.$nextTick(() => {
+                        this.$refs['submenu-toggle-' + index]?.focus()
+                    })
+                }
+            },
+        })
     </script>
     <div
         class="

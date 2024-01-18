@@ -24,27 +24,25 @@ $uniqueId = '_' . uniqid();
     <script>
         'use strict';
 
-        const initTopmenuDesktop<?= $escaper->escapeHtml($uniqueId) ?> = () => {
-            return {
-                openSubmenuId: null,
-                toggleSubmenu(menuNode) {
-                    if (menuNode === this.openSubmenuId) {
-                        this.openSubmenuId = null
-                        hyva.releaseFocus()
-                    } else {
-                        this.openSubmenuId = menuNode
-                        this.$nextTick(() => {
-                            hyva.trapFocus(this.$refs['submenu-' + menuNode])
-                        })
-                    }
-                },
-                onSubmenuEscape(event) {
-                    event.stopPropagation()
-                    this.$refs['sr-button-' + this.openSubmenuId]?.focus()
+        const initTopmenuDesktop<?= $escaper->escapeHtml($uniqueId) ?> = () => ({
+            openSubmenuId: null,
+            toggleSubmenu(menuNode) {
+                if (menuNode === this.openSubmenuId) {
                     this.openSubmenuId = null
+                    hyva.releaseFocus()
+                } else {
+                    this.openSubmenuId = menuNode
+                    this.$nextTick(() => {
+                        hyva.trapFocus(this.$refs['submenu-' + menuNode])
+                    })
                 }
+            },
+            onSubmenuEscape(event) {
+                event.stopPropagation()
+                this.$refs['sr-button-' + this.openSubmenuId]?.focus()
+                this.openSubmenuId = null
             }
-        }
+        })
     </script>
 
     <div x-data="initTopmenuDesktop<?= $escaper->escapeHtml($uniqueId) ?>()"

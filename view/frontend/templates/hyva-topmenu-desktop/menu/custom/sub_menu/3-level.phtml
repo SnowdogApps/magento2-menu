@@ -25,19 +25,17 @@ $heroiconsSolid = $viewModels->require(HeroiconsSolid::class);
             <script>
                 'use strict';
 
-                const initSubMenu<?= $escaper->escapeHtml($parentNodeIndex) ?> = () => {
-                    return {
-                        openLevel2SubmenuId: null,
-                        openLevel2Submenu(menuNode) {
-                            console.log(menuNode)
-                            this.openLevel2SubmenuId = menuNode
-                            this.$nextTick(() => {
-                                const focusableElements = 'button:not([disabled]), a[href]:not([tabindex="-1"]), [tabindex]:not([tabindex="-1"])'
-                                this.$refs['level-2-submenu-' + menuNode]?.querySelector(focusableElements)?.focus()
-                            })
-                        },
-                    }
-                }
+                const initSubMenu<?= $escaper->escapeHtml($parentNodeIndex) ?> = () => ({
+                    openLevel2SubmenuId: null,
+                    openLevel2Submenu(menuNode) {
+                        console.log(menuNode)
+                        this.openLevel2SubmenuId = menuNode
+                        this.$nextTick(() => {
+                            const focusableElements = 'button:not([disabled]), a[href]:not([tabindex="-1"]), [tabindex]:not([tabindex="-1"])'
+                            this.$refs['level-2-submenu-' + menuNode]?.querySelector(focusableElements)?.focus()
+                        })
+                    },
+                })
             </script>
             <div
                 class="container py-12 flex items-stretch justify-between"
