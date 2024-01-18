@@ -28,7 +28,7 @@ class Menu extends AbstractModel implements MenuInterface, IdentityInterface
     {
         $connection = $this->getResource()->getConnection();
         $select = $connection->select()->from($this->getResource()->getTable('snowmenu_store'), ['store_id'])->where(
-            'menu_id = ?',
+            $this->getIdColumnName() . ' = ?',
             $this->getId()
         );
         return $connection->fetchCol($select);
@@ -46,9 +46,9 @@ class Menu extends AbstractModel implements MenuInterface, IdentityInterface
         $connection = $this->getResource()->getConnection();
         $connection->beginTransaction();
         $table = $this->getResource()->getTable('snowmenu_store');
-        $connection->delete($table, ['menu_id = ?' => $this->getId()]);
+        $connection->delete($table, [$this->getIdColumnName() . ' = ?' => $this->getId()]);
         foreach ($stores as $store) {
-            $connection->insert($table, ['menu_id' => $this->getId(), 'store_id' => $store]);
+            $connection->insert($table, [$this->getIdColumnName() => $this->getId(), 'store_id' => $store]);
         }
         $connection->commit();
 
@@ -165,5 +165,13 @@ class Menu extends AbstractModel implements MenuInterface, IdentityInterface
     public function setIsActive($isActive)
     {
         return $this->setData(MenuInterface::IS_ACTIVE, $isActive);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getIdColumnName(): string
+    {
+        return self::MENU_ID;
     }
 }

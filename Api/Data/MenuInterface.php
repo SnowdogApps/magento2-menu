@@ -121,4 +121,11 @@ interface MenuInterface
      * @return $this
      */
     public function setIsActive($isActive);
+
+    /**
+     * Get ID column name
+     *
+     * @return string
+     */
+    public function getIdColumnName(): string;
 }

@@ -8,16 +8,20 @@ use Magento\Framework\Exception\CouldNotSaveException;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\Exception\CouldNotDeleteException;
 use Magento\Framework\Api\SearchResultsInterfaceFactory;
-use Magento\Framework\Api\SearchResultsInterface;
 use Magento\Framework\Model\ResourceModel\Db\Collection\AbstractCollection;
+use Snowdog\Menu\Api\Data\MenuInterface;
 use Snowdog\Menu\Api\Data\NodeInterface;
 use Snowdog\Menu\Api\NodeRepositoryInterface;
-use Snowdog\Menu\Model\Menu\NodeFactory;
 use Snowdog\Menu\Model\ResourceModel\Menu\Node\CollectionFactory;
 use Magento\Framework\Api\SortOrder;
 
 class NodeRepository implements NodeRepositoryInterface
 {
+    /**
+     * @var MenuInterface
+     */
+    protected $menu;
+
     /**
      * @var NodeFactory
      */
@@ -36,8 +40,10 @@ class NodeRepository implements NodeRepositoryInterface
     public function __construct(
         NodeFactory $objectFactory,
         CollectionFactory $collectionFactory,
-        SearchResultsInterfaceFactory $searchResultsFactory
+        SearchResultsInterfaceFactory $searchResultsFactory,
+        MenuInterface $menu
     ) {
+        $this->menu = $menu;
         $this->objectFactory = $objectFactory;
         $this->collectionFactory = $collectionFactory;
         $this->searchResultsFactory = $searchResultsFactory;
@@ -139,7 +145,7 @@ class NodeRepository implements NodeRepositoryInterface
     public function getByMenu($menuId)
     {
         $collection = $this->collectionFactory->create();
-        $collection->addFilter('menu_id', $menuId);
+        $collection->addFilter($this->menu->getIdColumnName(), $menuId);
         $collection->addOrder('level', AbstractCollection::SORT_ORDER_ASC);
         $collection->addOrder('parent_id', AbstractCollection::SORT_ORDER_ASC);
         $collection->addOrder('position', AbstractCollection::SORT_ORDER_ASC);
