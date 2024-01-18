@@ -44,7 +44,7 @@ class MenuRepository implements MenuRepositoryInterface
         CollectionFactory $menuCollectionFactory,
         MenuSearchResultsInterfaceFactory $menuSearchResults,
         MenuInterface $menu,
-        ResourceModel\Menu $menuResourceModel = null,
+        ResourceModel\Menu $menuResourceModel = null
     ) {
         $this->menu = $menu;
         $this->menuFactory = $menuFactory;
