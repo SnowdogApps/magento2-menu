@@ -27,7 +27,7 @@ $nodeClasses = $block->getNodeClasses();
     <?php endif; ?>
     <a href="<?= $escaper->escapeUrl($content) ?>"
         class="snowdog-menu-link <?= $escaper->escapeHtmlAttr($nodeClasses) ?>"
-        <?php if ($nodeId) : ?>
+        <?php if ($nodeId): ?>
             data-menu="menu-<?= $escaper->escapeHtmlAttr($nodeId) ?>"
         <?php endif; ?>
         <?php if ($block->getTarget()): ?>

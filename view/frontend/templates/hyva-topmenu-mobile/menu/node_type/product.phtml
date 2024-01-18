@@ -16,7 +16,7 @@ $nodeClasses = $block->getNodeClasses();
 
 <a class="cursor-pointer snowdog-menu-link-topmenu-mobile <?= $escaper->escapeHtmlAttr($nodeClasses) ?>"
     href="<?= $escaper->escapeUrl($productUrl) ?>"
-    <?php if ($nodeId) : ?>
+    <?php if ($nodeId): ?>
         data-menu="menu-<?= $escaper->escapeHtmlAttr($nodeId) ?>"
     <?php endif; ?>
 >

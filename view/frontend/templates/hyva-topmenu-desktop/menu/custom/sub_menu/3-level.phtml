@@ -8,14 +8,14 @@ use Hyva\Theme\ViewModel\HeroiconsSolid;
 $heroiconsSolid = $viewModels->require(HeroiconsSolid::class);
 ?>
 
-<?php if ($block->getMenu()) : ?>
+<?php if ($block->getMenu()): ?>
     <?php
     $parentNode = $block->getParentNode();
     $parentNodeIndex = $parentNode->getId();
     $level = $block->getLevel();
     $parenttTitle = $parentNode->getTitle();
     ?>
-    <?php if ($level === 1) : ?>
+    <?php if ($level === 1): ?>
         <div
             x-ref="submenu-<?= /* @noEscape */ (string) $parentNodeIndex ?>"
             class="absolute left-0 top-full w-full z-30 shadow-md bg-white flex"
@@ -47,7 +47,7 @@ $heroiconsSolid = $viewModels->require(HeroiconsSolid::class);
                     class="space-y-6 w-1/4 border-r border-container-darker pb-12 mr-20 xl:mr-32"
                     title="Submenu for <?= $escaper->escapeHtmlAttr($parenttTitle) ?>"
                 >
-                    <?php foreach ($block->getSubmenuNodes() as $key => $node) : ?>
+                    <?php foreach ($block->getSubmenuNodes() as $key => $node): ?>
                         <?php
                         $childrenLevel = $node->getLevel() + 1;
                         $children = $block->getNodes($childrenLevel, $node);
@@ -86,7 +86,7 @@ $heroiconsSolid = $viewModels->require(HeroiconsSolid::class);
                         </li>
                     <?php endforeach; ?>
                 </ul>
-                <?php foreach ($block->getSubmenuNodes() as $node) : ?>
+                <?php foreach ($block->getSubmenuNodes() as $node): ?>
                     <?php
                     $childrenLevel = $node->getLevel() + 1;
                     $children = $block->getNodes($childrenLevel, $node);
@@ -97,7 +97,7 @@ $heroiconsSolid = $viewModels->require(HeroiconsSolid::class);
         </div>
     <?php endif; ?>
 
-    <?php if ($level === 2) : ?>
+    <?php if ($level === 2): ?>
         <ul
             id="level-2-submenu-<?= /* @noEscape */ (string) $parentNodeIndex ?>"
             x-ref="level-2-submenu-<?= /* @noEscape */ (string) $parentNodeIndex ?>"
@@ -105,7 +105,7 @@ $heroiconsSolid = $viewModels->require(HeroiconsSolid::class);
             title="Submenu for <?= $escaper->escapeHtmlAttr($parenttTitle) ?>"
             class="flex-1 flex space-x-14 xl:space-x-32"
         >
-            <?php foreach ($block->getSubmenuNodes() as $index => $node) : ?>
+            <?php foreach ($block->getSubmenuNodes() as $index => $node): ?>
                 <?php
                 $childrenLevel = $node->getLevel() + 1;
                 $children = $block->getNodes($childrenLevel, $node);
@@ -128,9 +128,9 @@ $heroiconsSolid = $viewModels->require(HeroiconsSolid::class);
         </ul>
     <?php endif; ?>
 
-    <?php if ($level > 2) : ?>
+    <?php if ($level > 2): ?>
         <ul class="space-y-2">
-            <?php foreach ($block->getSubmenuNodes() as $index => $node) : ?>
+            <?php foreach ($block->getSubmenuNodes() as $index => $node): ?>
                 <?php
                 $childrenLevel = $node->getLevel() + 1;
                 $children = $block->getNodes($childrenLevel, $node);

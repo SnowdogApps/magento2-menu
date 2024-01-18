@@ -6,7 +6,7 @@ $nodeClasses = $block->getNodeClasses();
 ?>
 
 <ul class="<?= $escaper->escapeHtmlAttr($nodeClasses) ?>"
-    <?php if ($nodeId) : ?>
+    <?php if ($nodeId): ?>
         data-menu="menu-<?= $escaper->escapeHtmlAttr($nodeId) ?>"
     <?php endif; ?>
 >
