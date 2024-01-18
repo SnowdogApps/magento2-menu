@@ -15,6 +15,9 @@ use Snowdog\Menu\Api\NodeRepositoryInterface;
 use Snowdog\Menu\Model\ResourceModel\Menu\Node\CollectionFactory;
 use Magento\Framework\Api\SortOrder;
 
+/**
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
+ */
 class NodeRepository implements NodeRepositoryInterface
 {
     /**
