@@ -30,7 +30,7 @@ class Menu extends AbstractModel implements MenuInterface, IdentityInterface
         Registry $registry,
         AbstractResource $resource = null,
         AbstractDb $resourceCollection = null,
-        array $data = [],
+        array $data = []
     ) {
         $this->metadataPool = $metadataPool;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
