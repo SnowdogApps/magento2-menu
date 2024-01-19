@@ -6,7 +6,9 @@
     $level = $block->getLevel();
     $title = $parentNode->getTitle();
     ?>
-    <ul title="<?= $escaper->escapeHtmlAttr($title) ?>">
+    <ul class="space-y-2"
+        title="<?= $escaper->escapeHtmlAttr($title) ?>"
+    >
         <?php foreach ($block->getSubmenuNodes() as $node): ?>
             <?php
             $childrenLevel = $node->getLevel() + 1;
@@ -16,7 +18,7 @@
             $nodeClasses = $node->getClasses();
             ?>
             <li class="<?= /* @noEscape */ (string) $nodeType === 'wrapper' ? $escaper->escapeHtmlAttr($nodeClasses) : '' ?>">
-                <div class="group <?= /* @noEscape */ (string) $nodeType !== 'wrapper' ? $escaper->escapeHtmlAttr($nodeClasses) : '' ?>">
+                <div class="group">
                     <?= /* @noEscape */ $block->renderMenuNode($node) ?>
                 </div>
                 <?= $block->renderSubmenu($children, $node, $childrenLevel) ?>

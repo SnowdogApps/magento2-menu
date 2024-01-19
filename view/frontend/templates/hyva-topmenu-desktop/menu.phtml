@@ -24,40 +24,38 @@ $uniqueId = '_' . uniqid();
     <script>
         'use strict';
 
-        const initTopmenuDesktop<?= $escaper->escapeHtml($uniqueId) ?> = () => {
-            return {
-                openSubmenuId: null,
-                toggleSubmenu(menuNode) {
-                    if (menuNode === this.openSubmenuId) {
-                        this.openSubmenuId = null
-                    } else {
-                        this.openSubmenuId = menuNode
-                        this.$nextTick(() => {
-                            const focusableElements = 'button:not([disabled]), a[href]:not([tabindex="-1"]), [tabindex]:not([tabindex="-1"])'
-                            this.$refs['submenu-' + menuNode]?.querySelector(focusableElements)?.focus()
-                        })
-                    }
-                },
-                onSubmenuEscape(event) {
-                    event.stopPropagation()
-                    this.$refs['sr-button-' + this.openSubmenuId]?.focus()
+        const initTopmenuDesktop<?= $escaper->escapeHtml($uniqueId) ?> = () => ({
+            openSubmenuId: null,
+            toggleSubmenu(menuNode) {
+                if (menuNode === this.openSubmenuId) {
                     this.openSubmenuId = null
+                    hyva.releaseFocus()
+                } else {
+                    this.openSubmenuId = menuNode
+                    this.$nextTick(() => {
+                        hyva.trapFocus(this.$refs['submenu-' + menuNode])
+                    })
                 }
+            },
+            onSubmenuEscape(event) {
+                event.stopPropagation()
+                this.$refs['sr-button-' + this.openSubmenuId]?.focus()
+                this.openSubmenuId = null
             }
-        }
+        })
     </script>
 
     <div x-data="initTopmenuDesktop<?= $escaper->escapeHtml($uniqueId) ?>()"
         class="
             <?= $escaper->escapeHtmlAttr($menu->getCssClass()) ?>
-            navigation order-last hidden w-full mt-3 lg:block
+            navigation hidden w-full bg-container-darker lg:block
         "
     >
         <nav
-            class="snowdog-topmenu-desktop w-full py-0 text-primary-darker lg:block lg:min-h-0"
+            class="snowdog-topmenu-desktop container lg:block"
             aria-label="<?= $escaper->escapeHtmlAttr(__('Main menu')) ?>"
         >
-            <ul class="flex">
+            <ul class="relative flex justify-between h-20">
                 <?php foreach ($block->getNodes() as $node): ?>
                     <?php
                     $childrenLevel = $node->getLevel() + 1;
@@ -70,30 +68,32 @@ $uniqueId = '_' . uniqid();
                     $nodeClasses = $node->getClasses();
                     ?>
                     <li class="
-                            flex items-center justify-between px-4 first-of-type:pl-0 last-of-type:pr-0 bg-opacity-95
+                            flex items-center justify-between px-6
                             <?= /* @noEscape */ (string) $nodeType === 'wrapper' ? $escaper->escapeHtmlAttr($nodeClasses) : '' ?>
                         "
+                        :class="{
+                            'bg-white rounded-t-lg shadow-md' : '<?= /* @noEscape */ !!$children ?>' && openSubmenuId === '<?= /* @noEscape */ (string) $nodeId ?>'
+                        }"
                         @mouseenter="openSubmenuId = '<?= /* @noEscape */ (string) $nodeId ?>'"
                         @mouseleave="openSubmenuId = null"
                         @keydown.escape="onSubmenuEscape"
                     >
-                        <div class="group <?= /* @noEscape */ (string) $nodeType !== 'wrapper' ? $escaper->escapeHtmlAttr($nodeClasses) : '' ?>"
-                            :class="{
-                                'snowdog-menu-text-hover' : openSubmenuId === '<?= /* @noEscape */ (string) $nodeId ?>'
-                            }"
-                        >
+                        <div class="group uppercase [&>a]:py-7 [&>a]:!text-primary">
                             <?= /* @noEscape */ $block->renderMenuNode($node) ?>
                         </div>
                         <?php if ($children): ?>
                             <div class="relative">
                                 <button
                                     type="button"
-                                    class="sr-only absolute -translate-y-1/2 h-5 w-5 focus:not-sr-only focus:absolute"
+                                    class="flex items-center ml-2 transition-transform duration-300"
+                                    :class="{
+                                        'rotate-180' : openSubmenuId === '<?= /* @noEscape */ (string) $nodeId ?>'
+                                    }"
                                     x-ref="sr-button-<?= /* @noEscape */ (string) $nodeId ?>"
                                     :aria-expanded="openSubmenuId === '<?= /* @noEscape */ (string) $nodeId ?>' ? 'true' : 'false'"
                                     @click="toggleSubmenu('<?= /* @noEscape */ (string) $nodeId ?>')"
                                 >
-                                    <?= $heroiconsSolid->chevronDownHtml('h-5 w-5', 25, 25, ['aria-hidden' => 'true']) ?>
+                                    <?= $heroiconsSolid->chevronDownHtml('text-primary-darker', 20, 20, ['aria-hidden' => 'true']) ?>
                                     <span class="sr-only">
                                         <?= $escaper->escapeHtml(__('Toggle submenu for %1', $title)) ?>
                                     </span>

@@ -1,0 +1,1000 @@
+title: 'Top menu desktop'
+identifier: hyva-topmenu-desktop
+css_class: null
+creation_time: '2023-08-18 09:24:27'
+update_time: '2024-01-17 09:59:12'
+is_active: '1'
+menu_position: center
+stores:
+  - admin
+nodes:
+  -
+    type: category
+    content: '38'
+    classes: null
+    title: 'What''s New'
+    target: '0'
+    image: null
+    image_alt_text: null
+    node_template: null
+    submenu_template: null
+    creation_time: '2023-08-28 11:58:22'
+    update_time: '2023-08-28 11:58:23'
+    is_active: '1'
+    selected_item_id: null
+  -
+    type: category
+    content: '20'
+    classes: null
+    title: Women
+    target: '0'
+    image: null
+    image_alt_text: null
+    node_template: null
+    submenu_template: null
+    creation_time: '2023-08-28 11:58:22'
+    update_time: '2023-08-28 11:58:23'
+    is_active: '1'
+    selected_item_id: null
+    nodes:
+      -
+        type: category
+        content: '21'
+        classes: null
+        title: Tops
+        target: '0'
+        image: null
+        image_alt_text: null
+        node_template: null
+        submenu_template: null
+        creation_time: '2023-08-28 11:58:22'
+        update_time: '2023-08-28 11:58:23'
+        is_active: '1'
+        selected_item_id: null
+        nodes:
+          -
+            type: category
+            content: '23'
+            classes: null
+            title: Jackets
+            target: '0'
+            image: null
+            image_alt_text: null
+            node_template: null
+            submenu_template: null
+            creation_time: '2023-08-28 11:58:22'
+            update_time: '2023-08-28 11:58:23'
+            is_active: '1'
+            selected_item_id: null
+          -
+            type: category
+            content: '24'
+            classes: null
+            title: 'Hoodies & Sweatshirts'
+            target: '0'
+            image: null
+            image_alt_text: null
+            node_template: null
+            submenu_template: null
+            creation_time: '2023-08-28 11:58:22'
+            update_time: '2023-08-28 11:58:23'
+            is_active: '1'
+            selected_item_id: null
+          -
+            type: category
+            content: '25'
+            classes: null
+            title: Tees
+            target: '0'
+            image: null
+            image_alt_text: null
+            node_template: null
+            submenu_template: null
+            creation_time: '2023-08-28 11:58:22'
+            update_time: '2023-08-28 11:58:23'
+            is_active: '1'
+            selected_item_id: null
+            nodes:
+              -
+                type: custom_url
+                content: '/women/tops-women/tees-women.html?color=Red'
+                classes: null
+                title: Red
+                target: '0'
+                image: null
+                image_alt_text: null
+                node_template: null
+                submenu_template: null
+                creation_time: '2023-08-28 15:09:48'
+                update_time: '2023-08-28 15:09:48'
+                is_active: '1'
+                selected_item_id: null
+              -
+                type: custom_url
+                content: '/women/tops-women/tees-women.html?color=Blue'
+                classes: null
+                title: Blue
+                target: '0'
+                image: null
+                image_alt_text: null
+                node_template: null
+                submenu_template: null
+                creation_time: '2023-08-28 15:09:48'
+                update_time: '2023-08-28 15:09:48'
+                is_active: '1'
+                selected_item_id: null
+          -
+            type: category
+            content: '26'
+            classes: null
+            title: 'Bras & Tanks'
+            target: '0'
+            image: null
+            image_alt_text: null
+            node_template: null
+            submenu_template: null
+            creation_time: '2023-08-28 11:58:22'
+            update_time: '2023-08-28 11:58:23'
+            is_active: '1'
+            selected_item_id: null
+      -
+        type: category
+        content: '22'
+        classes: null
+        title: Bottoms
+        target: '0'
+        image: null
+        image_alt_text: null
+        node_template: null
+        submenu_template: null
+        creation_time: '2023-08-28 11:58:22'
+        update_time: '2023-08-28 11:58:23'
+        is_active: '1'
+        selected_item_id: null
+        nodes:
+          -
+            type: category
+            content: '27'
+            classes: null
+            title: Pants
+            target: '0'
+            image: null
+            image_alt_text: null
+            node_template: null
+            submenu_template: null
+            creation_time: '2023-08-28 11:58:22'
+            update_time: '2023-08-28 11:58:23'
+            is_active: '1'
+            selected_item_id: null
+          -
+            type: category
+            content: '28'
+            classes: null
+            title: Shorts
+            target: '0'
+            image: null
+            image_alt_text: null
+            node_template: null
+            submenu_template: null
+            creation_time: '2023-08-28 11:58:22'
+            update_time: '2023-08-28 11:58:23'
+            is_active: '1'
+            selected_item_id: null
+      -
+        type: category
+        content: '37'
+        classes: null
+        title: Sale
+        target: '0'
+        image: /l/y/lyfefuel-_8lvvbtvbou-unsplash_1__1.jpg
+        image_alt_text: 'Woman stretching on grass'
+        node_template: null
+        submenu_template: null
+        creation_time: '2023-11-22 14:46:34'
+        update_time: '2023-11-22 14:51:43'
+        is_active: '1'
+        selected_item_id: null
+  -
+    type: category
+    content: '11'
+    classes: null
+    title: Men
+    target: '0'
+    image: null
+    image_alt_text: null
+    node_template: null
+    submenu_template: null
+    creation_time: '2023-08-28 11:58:22'
+    update_time: '2023-08-28 11:58:23'
+    is_active: '1'
+    selected_item_id: null
+    nodes:
+      -
+        type: category
+        content: '12'
+        classes: null
+        title: Tops
+        target: '0'
+        image: null
+        image_alt_text: null
+        node_template: null
+        submenu_template: null
+        creation_time: '2023-08-28 11:58:22'
+        update_time: '2023-08-28 11:58:23'
+        is_active: '1'
+        selected_item_id: null
+        nodes:
+          -
+            type: category
+            content: '14'
+            classes: null
+            title: Jackets
+            target: '0'
+            image: null
+            image_alt_text: null
+            node_template: null
+            submenu_template: null
+            creation_time: '2023-08-28 11:58:22'
+            update_time: '2023-08-28 11:58:23'
+            is_active: '1'
+            selected_item_id: null
+          -
+            type: category
+            content: '15'
+            classes: null
+            title: 'Hoodies & Sweatshirts'
+            target: '0'
+            image: null
+            image_alt_text: null
+            node_template: null
+            submenu_template: null
+            creation_time: '2023-08-28 11:58:22'
+            update_time: '2023-08-28 11:58:23'
+            is_active: '1'
+            selected_item_id: null
+          -
+            type: category
+            content: '16'
+            classes: null
+            title: Tees
+            target: '0'
+            image: null
+            image_alt_text: null
+            node_template: null
+            submenu_template: null
+            creation_time: '2023-08-28 11:58:22'
+            update_time: '2023-08-28 11:58:23'
+            is_active: '1'
+            selected_item_id: null
+          -
+            type: category
+            content: '17'
+            classes: null
+            title: Tanks
+            target: '0'
+            image: null
+            image_alt_text: null
+            node_template: null
+            submenu_template: null
+            creation_time: '2023-08-28 11:58:22'
+            update_time: '2023-08-28 11:58:23'
+            is_active: '1'
+            selected_item_id: null
+      -
+        type: category
+        content: '13'
+        classes: null
+        title: Bottoms
+        target: '0'
+        image: null
+        image_alt_text: null
+        node_template: null
+        submenu_template: null
+        creation_time: '2023-08-28 11:58:22'
+        update_time: '2023-08-28 11:58:23'
+        is_active: '1'
+        selected_item_id: null
+        nodes:
+          -
+            type: category
+            content: '18'
+            classes: null
+            title: Pants
+            target: '0'
+            image: null
+            image_alt_text: null
+            node_template: null
+            submenu_template: null
+            creation_time: '2023-08-28 11:58:22'
+            update_time: '2023-08-28 11:58:23'
+            is_active: '1'
+            selected_item_id: null
+          -
+            type: category
+            content: '19'
+            classes: null
+            title: Shorts
+            target: '0'
+            image: null
+            image_alt_text: null
+            node_template: null
+            submenu_template: null
+            creation_time: '2023-08-28 11:58:22'
+            update_time: '2023-08-28 11:58:23'
+            is_active: '1'
+            selected_item_id: null
+      -
+        type: category
+        content: '37'
+        classes: null
+        title: Sale
+        target: '0'
+        image: /m/a/man-sale.jpg
+        image_alt_text: 'Man holding tennis racket'
+        node_template: null
+        submenu_template: null
+        creation_time: '2023-11-22 14:30:29'
+        update_time: '2023-11-22 14:31:12'
+        is_active: '1'
+        selected_item_id: null
+  -
+    type: category
+    content: '3'
+    classes: null
+    title: Gear
+    target: '0'
+    image: null
+    image_alt_text: null
+    node_template: null
+    submenu_template: null
+    creation_time: '2023-08-28 11:58:22'
+    update_time: '2023-08-28 11:58:23'
+    is_active: '1'
+    selected_item_id: null
+    nodes:
+      -
+        type: category
+        content: '4'
+        classes: null
+        title: Bags
+        target: '0'
+        image: /b/a/bags_1.jpeg
+        image_alt_text: 'Man with a bag pack going though a bridge in the mountains '
+        node_template: null
+        submenu_template: null
+        creation_time: '2023-11-22 14:47:41'
+        update_time: '2023-11-22 14:51:19'
+        is_active: '1'
+        selected_item_id: null
+      -
+        type: category
+        content: '5'
+        classes: null
+        title: 'Fitness Equipment '
+        target: '0'
+        image: /f/i/fitness_equipment.jpeg
+        image_alt_text: 'Fitness equipment '
+        node_template: null
+        submenu_template: null
+        creation_time: '2023-11-22 14:47:41'
+        update_time: '2023-11-22 14:48:15'
+        is_active: '1'
+        selected_item_id: null
+      -
+        type: category
+        content: '6'
+        classes: null
+        title: Watches
+        target: '0'
+        image: /t/h/the-5th-iqyr7n67dhm-unsplash_1_.jpg
+        image_alt_text: 'Man looking at his watch'
+        node_template: null
+        submenu_template: null
+        creation_time: '2023-11-22 14:47:41'
+        update_time: '2023-11-22 14:49:02'
+        is_active: '1'
+        selected_item_id: null
+      -
+        type: category
+        content: null
+        classes: null
+        title: Accessories
+        target: '0'
+        image: /d/e/derick-mckinney-__qqvti5edc-unsplash_1_.jpg
+        image_alt_text: 'Woman holding a glass with a protein shake '
+        node_template: null
+        submenu_template: null
+        creation_time: '2023-11-22 14:47:41'
+        update_time: '2023-11-22 14:50:03'
+        is_active: '1'
+        selected_item_id: null
+  -
+    type: category
+    content: '9'
+    classes: null
+    title: Training
+    target: '0'
+    image: null
+    image_alt_text: null
+    node_template: null
+    submenu_template: 3-level
+    creation_time: '2023-08-28 11:58:22'
+    update_time: '2023-08-28 11:58:23'
+    is_active: '1'
+    selected_item_id: null
+    nodes:
+      -
+        type: category
+        content: '10'
+        classes: null
+        title: 'Video Download'
+        target: '0'
+        image: null
+        image_alt_text: null
+        node_template: null
+        submenu_template: 3-level
+        creation_time: '2023-08-28 11:58:22'
+        update_time: '2023-08-28 11:58:23'
+        is_active: '1'
+        selected_item_id: null
+        nodes:
+          -
+            type: wrapper
+            content: null
+            classes: null
+            title: 'Col 1'
+            target: '0'
+            image: null
+            image_alt_text: null
+            node_template: null
+            submenu_template: 3-level
+            creation_time: '2023-08-28 15:20:42'
+            update_time: '2023-08-28 15:20:42'
+            is_active: '1'
+            selected_item_id: null
+            nodes:
+              -
+                type: product
+                content: MH13-XS-Green
+                classes: null
+                title: 'Yoga Adventure'
+                target: '0'
+                image: null
+                image_alt_text: null
+                node_template: null
+                submenu_template: 3-level
+                creation_time: '2023-08-28 15:14:14'
+                update_time: '2023-08-28 15:14:14'
+                is_active: '1'
+                selected_item_id: null
+              -
+                type: product
+                content: MH13-XS-Green
+                classes: null
+                title: 'Beginner''s Yoga'
+                target: '0'
+                image: null
+                image_alt_text: null
+                node_template: null
+                submenu_template: 3-level
+                creation_time: '2023-08-28 15:14:14'
+                update_time: '2023-08-28 15:14:14'
+                is_active: '1'
+                selected_item_id: null
+              -
+                type: product
+                content: MH13-XS-Green
+                classes: null
+                title: 'Advanced Yoga'
+                target: '0'
+                image: null
+                image_alt_text: null
+                node_template: null
+                submenu_template: null
+                creation_time: '2024-01-17 09:51:28'
+                update_time: '2024-01-17 09:51:28'
+                is_active: '1'
+                selected_item_id: null
+              -
+                type: product
+                content: MH13-XS-Green
+                classes: null
+                title: 'Yoga for kids'
+                target: '0'
+                image: null
+                image_alt_text: null
+                node_template: null
+                submenu_template: null
+                creation_time: '2024-01-17 09:51:28'
+                update_time: '2024-01-17 09:51:28'
+                is_active: '1'
+                selected_item_id: null
+              -
+                type: category
+                content: null
+                classes: null
+                title: 'New node'
+                target: '0'
+                image: null
+                image_alt_text: null
+                node_template: null
+                submenu_template: 3-level
+                creation_time: '2024-01-17 09:59:12'
+                update_time: '2024-01-17 09:59:12'
+                is_active: '1'
+                selected_item_id: null
+              -
+                type: category
+                content: null
+                classes: null
+                title: 'New node'
+                target: '0'
+                image: null
+                image_alt_text: null
+                node_template: null
+                submenu_template: 3-level
+                creation_time: '2024-01-17 09:59:12'
+                update_time: '2024-01-17 09:59:12'
+                is_active: '1'
+                selected_item_id: null
+          -
+            type: wrapper
+            content: null
+            classes: null
+            title: 'Col 2'
+            target: '0'
+            image: null
+            image_alt_text: null
+            node_template: null
+            submenu_template: 3-level
+            creation_time: '2024-01-17 09:36:28'
+            update_time: '2024-01-17 09:36:28'
+            is_active: '1'
+            selected_item_id: null
+            nodes:
+              -
+                type: product
+                content: MH13-XS-Green
+                classes: null
+                title: 'LifeLong Fitness IV'
+                target: '0'
+                image: null
+                image_alt_text: null
+                node_template: null
+                submenu_template: 3-level
+                creation_time: '2023-08-28 15:14:14'
+                update_time: '2023-08-28 15:14:14'
+                is_active: '1'
+                selected_item_id: null
+              -
+                type: product
+                content: MH13-XS-Green
+                classes: null
+                title: 'Solo Power Circuit'
+                target: '0'
+                image: null
+                image_alt_text: null
+                node_template: null
+                submenu_template: 3-level
+                creation_time: '2023-08-28 15:14:14'
+                update_time: '2023-08-28 15:14:14'
+                is_active: '1'
+                selected_item_id: null
+          -
+            type: wrapper
+            content: null
+            classes: null
+            title: 'Col 3'
+            target: '0'
+            image: null
+            image_alt_text: null
+            node_template: null
+            submenu_template: 3-level
+            creation_time: '2024-01-17 09:36:28'
+            update_time: '2024-01-17 09:36:28'
+            is_active: '1'
+            selected_item_id: null
+            nodes:
+              -
+                type: product
+                content: MH13-XS-Green
+                classes: null
+                title: 'Beginner''s Pilates & Yoga (Strength)'
+                target: '0'
+                image: null
+                image_alt_text: null
+                node_template: null
+                submenu_template: null
+                creation_time: '2024-01-17 09:52:50'
+                update_time: '2024-01-17 09:52:50'
+                is_active: '1'
+                selected_item_id: null
+              -
+                type: product
+                content: MH13-XS-Green
+                classes: null
+                title: 'Advanced Pilates & Yoga (Strength)'
+                target: '0'
+                image: null
+                image_alt_text: null
+                node_template: null
+                submenu_template: 3-level
+                creation_time: '2023-08-28 15:14:14'
+                update_time: '2023-08-28 15:14:14'
+                is_active: '1'
+                selected_item_id: null
+      -
+        type: category
+        content: null
+        classes: null
+        title: 'Shop by Activity'
+        target: '0'
+        image: null
+        image_alt_text: null
+        node_template: null
+        submenu_template: 3-level
+        creation_time: '2024-01-17 09:45:54'
+        update_time: '2024-01-17 09:45:54'
+        is_active: '1'
+        selected_item_id: null
+        nodes:
+          -
+            type: wrapper
+            content: null
+            classes: null
+            title: 'Col 1'
+            target: '0'
+            image: null
+            image_alt_text: null
+            node_template: null
+            submenu_template: 3-level
+            creation_time: '2024-01-17 09:45:54'
+            update_time: '2024-01-17 09:45:54'
+            is_active: '1'
+            selected_item_id: null
+            nodes:
+              -
+                type: category
+                content: null
+                classes: null
+                title: Gym
+                target: '0'
+                image: null
+                image_alt_text: null
+                node_template: null
+                submenu_template: 3-level
+                creation_time: '2024-01-17 09:45:54'
+                update_time: '2024-01-17 09:45:54'
+                is_active: '1'
+                selected_item_id: null
+              -
+                type: category
+                content: null
+                classes: null
+                title: 'Outdoor '
+                target: '0'
+                image: null
+                image_alt_text: null
+                node_template: null
+                submenu_template: 3-level
+                creation_time: '2024-01-17 09:45:54'
+                update_time: '2024-01-17 09:45:54'
+                is_active: '1'
+                selected_item_id: null
+              -
+                type: category
+                content: null
+                classes: null
+                title: 'Weight training'
+                target: '0'
+                image: null
+                image_alt_text: null
+                node_template: null
+                submenu_template: 3-level
+                creation_time: '2024-01-17 09:49:03'
+                update_time: '2024-01-17 09:49:03'
+                is_active: '1'
+                selected_item_id: null
+          -
+            type: wrapper
+            content: null
+            classes: null
+            title: 'Col 2'
+            target: '0'
+            image: null
+            image_alt_text: null
+            node_template: null
+            submenu_template: 3-level
+            creation_time: '2024-01-17 09:45:54'
+            update_time: '2024-01-17 09:45:54'
+            is_active: '1'
+            selected_item_id: null
+            nodes:
+              -
+                type: category
+                content: null
+                classes: null
+                title: Pilates
+                target: '0'
+                image: null
+                image_alt_text: null
+                node_template: null
+                submenu_template: 3-level
+                creation_time: '2024-01-17 09:45:54'
+                update_time: '2024-01-17 09:45:54'
+                is_active: '1'
+                selected_item_id: null
+              -
+                type: category
+                content: null
+                classes: null
+                title: Fitness
+                target: '0'
+                image: null
+                image_alt_text: null
+                node_template: null
+                submenu_template: 3-level
+                creation_time: '2024-01-17 09:49:03'
+                update_time: '2024-01-17 09:49:03'
+                is_active: '1'
+                selected_item_id: null
+              -
+                type: category
+                content: null
+                classes: null
+                title: Dancing
+                target: '0'
+                image: null
+                image_alt_text: null
+                node_template: null
+                submenu_template: null
+                creation_time: '2024-01-17 09:49:03'
+                update_time: '2024-01-17 09:49:03'
+                is_active: '1'
+                selected_item_id: null
+          -
+            type: wrapper
+            content: null
+            classes: null
+            title: 'Col 3'
+            target: '0'
+            image: null
+            image_alt_text: null
+            node_template: null
+            submenu_template: 3-level
+            creation_time: '2024-01-17 09:45:54'
+            update_time: '2024-01-17 09:45:54'
+            is_active: '1'
+            selected_item_id: null
+            nodes:
+              -
+                type: category
+                content: null
+                classes: null
+                title: Yoga
+                target: '0'
+                image: null
+                image_alt_text: null
+                node_template: null
+                submenu_template: 3-level
+                creation_time: '2024-01-17 09:45:54'
+                update_time: '2024-01-17 09:45:54'
+                is_active: '1'
+                selected_item_id: null
+              -
+                type: category
+                content: null
+                classes: null
+                title: Running
+                target: '0'
+                image: null
+                image_alt_text: null
+                node_template: null
+                submenu_template: null
+                creation_time: '2024-01-17 09:49:03'
+                update_time: '2024-01-17 09:49:03'
+                is_active: '1'
+                selected_item_id: null
+      -
+        type: category
+        content: null
+        classes: null
+        title: 'New node'
+        target: '0'
+        image: null
+        image_alt_text: null
+        node_template: null
+        submenu_template: 3-level
+        creation_time: '2024-01-17 09:54:39'
+        update_time: '2024-01-17 09:54:39'
+        is_active: '1'
+        selected_item_id: null
+        nodes:
+          -
+            type: wrapper
+            content: null
+            classes: null
+            title: 'Col 1'
+            target: '0'
+            image: null
+            image_alt_text: null
+            node_template: null
+            submenu_template: 3-level
+            creation_time: '2024-01-17 09:54:39'
+            update_time: '2024-01-17 09:54:39'
+            is_active: '1'
+            selected_item_id: null
+            nodes:
+              -
+                type: category
+                content: null
+                classes: null
+                title: 'New node'
+                target: '0'
+                image: null
+                image_alt_text: null
+                node_template: null
+                submenu_template: 3-level
+                creation_time: '2024-01-17 09:54:39'
+                update_time: '2024-01-17 09:54:39'
+                is_active: '1'
+                selected_item_id: null
+              -
+                type: category
+                content: null
+                classes: null
+                title: 'New node'
+                target: '0'
+                image: null
+                image_alt_text: null
+                node_template: null
+                submenu_template: null
+                creation_time: '2024-01-17 09:54:39'
+                update_time: '2024-01-17 09:54:39'
+                is_active: '0'
+                selected_item_id: null
+          -
+            type: wrapper
+            content: null
+            classes: null
+            title: 'Col 2'
+            target: '0'
+            image: null
+            image_alt_text: null
+            node_template: null
+            submenu_template: 3-level
+            creation_time: '2024-01-17 09:54:39'
+            update_time: '2024-01-17 09:54:39'
+            is_active: '1'
+            selected_item_id: null
+            nodes:
+              -
+                type: category
+                content: null
+                classes: null
+                title: 'New node'
+                target: '0'
+                image: null
+                image_alt_text: null
+                node_template: null
+                submenu_template: 3-level
+                creation_time: '2024-01-17 09:54:39'
+                update_time: '2024-01-17 09:54:39'
+                is_active: '1'
+                selected_item_id: null
+          -
+            type: wrapper
+            content: null
+            classes: null
+            title: 'Col 3'
+            target: '0'
+            image: null
+            image_alt_text: null
+            node_template: null
+            submenu_template: null
+            creation_time: '2024-01-17 09:54:39'
+            update_time: '2024-01-17 09:54:39'
+            is_active: '1'
+            selected_item_id: null
+            nodes:
+              -
+                type: category
+                content: null
+                classes: null
+                title: 'New node'
+                target: '0'
+                image: null
+                image_alt_text: null
+                node_template: null
+                submenu_template: 3-level
+                creation_time: '2024-01-17 09:55:41'
+                update_time: '2024-01-17 09:55:41'
+                is_active: '1'
+                selected_item_id: null
+      -
+        type: category
+        content: null
+        classes: null
+        title: 'New node'
+        target: '0'
+        image: null
+        image_alt_text: null
+        node_template: null
+        submenu_template: 3-level
+        creation_time: '2024-01-17 09:57:19'
+        update_time: '2024-01-17 09:57:19'
+        is_active: '1'
+        selected_item_id: null
+        nodes:
+          -
+            type: wrapper
+            content: null
+            classes: null
+            title: 'Col 1'
+            target: '0'
+            image: null
+            image_alt_text: null
+            node_template: null
+            submenu_template: 3-level
+            creation_time: '2024-01-17 09:57:19'
+            update_time: '2024-01-17 09:57:19'
+            is_active: '1'
+            selected_item_id: null
+            nodes:
+              -
+                type: category
+                content: null
+                classes: null
+                title: 'New node'
+                target: '0'
+                image: null
+                image_alt_text: null
+                node_template: null
+                submenu_template: 3-level
+                creation_time: '2024-01-17 09:57:19'
+                update_time: '2024-01-17 09:57:19'
+                is_active: '1'
+                selected_item_id: null
+          -
+            type: wrapper
+            content: null
+            classes: null
+            title: 'Col 2'
+            target: '0'
+            image: null
+            image_alt_text: null
+            node_template: null
+            submenu_template: 3-level
+            creation_time: '2024-01-17 09:57:19'
+            update_time: '2024-01-17 09:57:19'
+            is_active: '1'
+            selected_item_id: null
+            nodes:
+              -
+                type: category
+                content: null
+                classes: null
+                title: 'New node'
+                target: '0'
+                image: null
+                image_alt_text: null
+                node_template: null
+                submenu_template: null
+                creation_time: '2024-01-17 09:57:19'
+                update_time: '2024-01-17 09:57:19'
+                is_active: '1'
+                selected_item_id: null
+  -
+    type: category
+    content: '37'
+    classes: text-red-600
+    title: Sale
+    target: '0'
+    image: null
+    image_alt_text: null
+    node_template: null
+    submenu_template: null
+    creation_time: '2023-08-28 11:58:22'
+    update_time: '2023-08-28 11:58:23'
+    is_active: '1'
+    selected_item_id: null

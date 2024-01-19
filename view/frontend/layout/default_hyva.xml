@@ -28,5 +28,6 @@
         <referenceBlock name="script-alpine-js">
             <block name="alpine-plugin-collapse" template="Snowdog_Menu::page/js/plugins/collapse.phtml"/>
         </referenceBlock>
+        <move element="topmenu.desktop" destination="header.container" after="-"/>
     </body>
 </page>
