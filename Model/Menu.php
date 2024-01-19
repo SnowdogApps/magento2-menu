@@ -1,8 +1,13 @@
 <?php
 namespace Snowdog\Menu\Model;
 
+use Magento\Framework\Data\Collection\AbstractDb;
 use Magento\Framework\DataObject\IdentityInterface;
+use Magento\Framework\EntityManager\MetadataPool;
 use Magento\Framework\Model\AbstractModel;
+use Magento\Framework\Model\Context;
+use Magento\Framework\Model\ResourceModel\AbstractResource;
+use Magento\Framework\Registry;
 use Snowdog\Menu\Api\Data\MenuInterface;
 
 /**
@@ -13,6 +18,23 @@ class Menu extends AbstractModel implements MenuInterface, IdentityInterface
     const CACHE_TAG = 'snowdog_menu_menu';
 
     protected $_cacheTag = self::CACHE_TAG;
+
+    /**
+     * @var MetadataPool
+     */
+    public $metadataPool;
+
+    public function __construct(
+        MetadataPool $metadataPool,
+        Context $context,
+        Registry $registry,
+        AbstractResource $resource = null,
+        AbstractDb $resourceCollection = null,
+        array $data = [],
+    ) {
+        $this->metadataPool = $metadataPool;
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
+    }
 
     protected function _construct()
     {
@@ -28,8 +50,8 @@ class Menu extends AbstractModel implements MenuInterface, IdentityInterface
     {
         $connection = $this->getResource()->getConnection();
         $select = $connection->select()->from($this->getResource()->getTable('snowmenu_store'), ['store_id'])->where(
-            $this->getIdColumnName() . ' = ?',
-            $this->getId()
+            $this->getLinkField() . ' = ?',
+            $this->getLinkValue()
         );
         return $connection->fetchCol($select);
     }
@@ -46,9 +68,9 @@ class Menu extends AbstractModel implements MenuInterface, IdentityInterface
         $connection = $this->getResource()->getConnection();
         $connection->beginTransaction();
         $table = $this->getResource()->getTable('snowmenu_store');
-        $connection->delete($table, [$this->getIdColumnName() . ' = ?' => $this->getId()]);
+        $connection->delete($table, [$this->getLinkField() . ' = ?' => $this->getLinkValue()]);
         foreach ($stores as $store) {
-            $connection->insert($table, [$this->getIdColumnName() => $this->getId(), 'store_id' => $store]);
+            $connection->insert($table, [$this->getLinkField() => $this->getLinkValue(), 'store_id' => $store]);
         }
         $connection->commit();
 
@@ -170,8 +192,17 @@ class Menu extends AbstractModel implements MenuInterface, IdentityInterface
     /**
      * @inheritdoc
      */
-    public function getIdColumnName(): string
+    public function getLinkField(): string
     {
-        return self::MENU_ID;
+        $metadata = $this->metadataPool->getMetadata(MenuInterface::class);
+        return $metadata->getLinkField();
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getLinkValue(): string
+    {
+        return (string) $this->getData($this->getLinkField());
     }
 }

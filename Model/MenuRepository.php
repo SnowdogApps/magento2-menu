@@ -172,7 +172,7 @@ class MenuRepository implements MenuRepositoryInterface
         $collection = $this->collectionFactory->create();
         $collection->addFilter(new \Zend_Db_Expr('BINARY `identifier`'), $identifier);
         $collection->addFilter('is_active', 1);
-        $collection->join(['stores' => 'snowmenu_store'], 'main_table.menu_id = stores.' . $this->menu->getIdColumnName(), 'store_id');
+        $collection->join(['stores' => 'snowmenu_store'], 'main_table.menu_id = stores.' . $this->menu->getLinkField(), 'store_id');
         $collection->addFilter('store_id', $storeId);
         return $collection->getFirstItem();
     }

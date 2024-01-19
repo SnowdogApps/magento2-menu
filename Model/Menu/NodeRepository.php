@@ -148,7 +148,7 @@ class NodeRepository implements NodeRepositoryInterface
     public function getByMenu($menuId)
     {
         $collection = $this->collectionFactory->create();
-        $collection->addFilter($this->menu->getIdColumnName(), $menuId);
+        $collection->addFilter($this->menu->getLinkField(), $menuId);
         $collection->addOrder('level', AbstractCollection::SORT_ORDER_ASC);
         $collection->addOrder('parent_id', AbstractCollection::SORT_ORDER_ASC);
         $collection->addOrder('position', AbstractCollection::SORT_ORDER_ASC);

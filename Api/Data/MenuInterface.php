@@ -122,10 +122,7 @@ interface MenuInterface
      */
     public function setIsActive($isActive);
 
-    /**
-     * Get ID column name
-     *
-     * @return string
-     */
-    public function getIdColumnName(): string;
+    public function getLinkField(): string;
+
+    public function getLinkValue();
 }

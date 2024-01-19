@@ -55,7 +55,7 @@ class Nodes
     public function getList(MenuInterface $menu): array
     {
         $filterBuilder = $this->filterBuilderFactory->create();
-        $filter = $filterBuilder->setField($menu->getIdColumnName())
+        $filter = $filterBuilder->setField($menu->getLinkField())
             ->setValue($menu->getMenuId())
             ->setConditionType('eq')
             ->create();
