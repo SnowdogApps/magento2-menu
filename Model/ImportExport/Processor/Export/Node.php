@@ -7,6 +7,7 @@ namespace Snowdog\Menu\Model\ImportExport\Processor\Export;
 use Magento\Framework\Api\SearchCriteriaBuilder;
 use Magento\Framework\Api\SortOrder;
 use Magento\Framework\Api\SortOrderBuilder;
+use Snowdog\Menu\Api\Data\MenuInterface;
 use Snowdog\Menu\Api\Data\NodeInterface;
 use Snowdog\Menu\Api\NodeRepositoryInterface;
 use Snowdog\Menu\Model\ImportExport\Processor\Export\Node\Tree as NodeTree;
@@ -40,7 +41,13 @@ class Node
      */
     private $nodeTree;
 
+    /**
+     * @var MenuInterface
+     */
+    private $menu;
+
     public function __construct(
+        MenuInterface $menu,
         SearchCriteriaBuilder $searchCriteriaBuilder,
         SortOrderBuilder $sortOrderBuilder,
         NodeRepositoryInterface $nodeRepository,
@@ -50,6 +57,7 @@ class Node
         $this->sortOrderBuilder = $sortOrderBuilder;
         $this->nodeRepository = $nodeRepository;
         $this->nodeTree = $nodeTree;
+        $this->menu = $menu;
     }
 
     public function getList(int $menuId): array
@@ -60,7 +68,7 @@ class Node
             ->create();
 
         $searchCriteria = $this->searchCriteriaBuilder
-            ->addFilter(NodeInterface::MENU_ID, $menuId)
+            ->addFilter($this->menu->getLinkField(), $menuId)
             ->setSortOrders([$sortOrder])
             ->create();
 

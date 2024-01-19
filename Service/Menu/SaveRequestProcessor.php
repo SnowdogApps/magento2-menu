@@ -106,7 +106,7 @@ class SaveRequestProcessor
 
             if (!isset($invalidNodes[$nodeId])) {
                 $nodeObject = $this->nodeFactory->create();
-                $nodeObject->setMenuId($menu->getMenuId());
+                $nodeObject->setData($menu->getLinkField(), $menu->getLinkValue());
                 $nodeObject = $this->nodeRepository->save($nodeObject);
                 $nodeMap[$nodeId] = $nodeObject;
             }
