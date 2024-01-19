@@ -13,30 +13,28 @@ $heroicons = $viewModels->require(HeroiconsOutline::class);
     <script>
         'use strict';
 
-        const initMenuFooter<?= $escaper->escapeHtml($uniqueId) ?> = () => {
-            return {
-                isDesktop: true,
-                checkIsDesktopResolution() {
-                    this.isDesktop = window.matchMedia('(min-width: 1024px)').matches;
-                },
-                toggleSubmenu(event, index) {
-                    const focusableElements = 'button:not([disabled]), a[href]:not([tabindex="-1"]), [tabindex]:not([tabindex="-1"])'
+        const initMenuFooter<?= $escaper->escapeHtml($uniqueId) ?> = () => ({
+            isDesktop: true,
+            checkIsDesktopResolution() {
+                this.isDesktop = window.matchMedia('(min-width: 1024px)').matches
+            },
+            toggleSubmenu(event, index) {
+                const focusableElements = 'button:not([disabled]), a[href]:not([tabindex="-1"]), [tabindex]:not([tabindex="-1"])'
 
-                    event.stopPropagation()
-                    this[index] = !this[index]
+                event.stopPropagation()
+                this[index] = !this[index]
 
-                    if (this[index]) {
-                        this.$nextTick(() => {
-                            this.$refs['submenu-' + index]?.querySelector(focusableElements)?.focus()
-                        })
-                    } else {
-                        this.$nextTick(() => {
-                            this.$refs['submenu-toggle-' + index]?.focus()
-                        })
-                    }
-                },
-            }
-        };
+                if (this[index]) {
+                    this.$nextTick(() => {
+                        this.$refs['submenu-' + index]?.querySelector(focusableElements)?.focus()
+                    })
+                } else {
+                    this.$nextTick(() => {
+                        this.$refs['submenu-toggle-' + index]?.focus()
+                    })
+                }
+            },
+        })
     </script>
     <div
         class="
@@ -67,7 +65,7 @@ $heroicons = $viewModels->require(HeroiconsOutline::class);
                         <div @keydown.escape="(event) => !isDesktop && toggleSubmenu(event, '<?= /* @noEscape */ (string) $indexId ?>')">
                             <span x-show="isDesktop"
                                 x-cloak="tablet"
-                                class="block font-semibold mb-6"
+                                class="block font-bold mb-6"
                             >
                                 <?= $escaper->escapeHtml($title) ?>
                             </span>
@@ -75,8 +73,7 @@ $heroicons = $viewModels->require(HeroiconsOutline::class);
                                 x-cloak="desktop"
                                 x-ref="submenu-toggle-<?= /* @noEscape */ (string) $indexId ?>"
                                 class="
-                                    w-full py-4 font-semibold
-                                    <?= /* @noEscape */ (string) $nodeType !== 'wrapper' ? $escaper->escapeHtmlAttr($nodeClasses) : '' ?>
+                                    w-full py-4 font-bold
                                 "
                                 @click="(event) => toggleSubmenu(event, '<?= /* @noEscape */ (string) $indexId ?>')"
                                 :aria-expanded="<?= /* @noEscape */ (string) $indexId ?> === true"
@@ -97,14 +94,14 @@ $heroicons = $viewModels->require(HeroiconsOutline::class);
                                 x-cloak="tablet"
                                 x-ref="submenu-<?= /* @noEscape */ (string) $indexId ?>"
                                 x-collapse
-                                class="pb-1"
+                                class="pb-2"
                                 :aria-hidden="!isDesktop && <?= /* @noEscape */ (string) $indexId ?> === false ? 'true' : 'false'"
                             >
                                 <?= /* @noEscape */ $block->renderSubmenu($children, $node, $childrenLevel) ?>
                             </div>
                         </div>
                     <?php else: ?>
-                        <div class="group <?= /* @noEscape */ (string) $nodeType !== 'wrapper' ? $escaper->escapeHtmlAttr($nodeClasses) : '' ?>">
+                        <div class="group">
                             <?= /* @noEscape */ $block->renderMenuNode($node) ?>
                         </div>
                     <?php endif; ?>

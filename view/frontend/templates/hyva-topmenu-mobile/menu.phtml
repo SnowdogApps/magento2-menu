@@ -16,33 +16,31 @@ $uniqueId = '_' . uniqid();
     <script>
         'use strict';
 
-        const initMenuMobile<?= $escaper->escapeHtml($uniqueId) ?> = () => {
-            return {
-                open: false,
-                openMenu(event) {
-                    this.open = true
-                    this.$nextTick(() => hyva.trapFocus(this.$refs['menu-dialog']))
-                    // Prevent from body scrolling while mobile menu opened
-                    document.body.classList.add('fixed', 'w-full')
-                },
-                closeMenu(event) {
-                    event.stopPropagation()
-                    document.body.classList.remove('fixed', 'w-full')
-                    this.open = false
-                    this.$nextTick(() => this.$refs['open-menu-button'].focus() || hyva.releaseFocus())
-                },
-                toggleSubmenu(index) {
-                    this[index] = !this[index]
+        const initMenuMobile<?= $escaper->escapeHtml($uniqueId) ?> = () => ({
+            open: false,
+            openMenu(event) {
+                this.open = true
+                this.$nextTick(() => hyva.trapFocus(this.$refs['menu-dialog']))
+                // Prevent from body scrolling while mobile menu opened
+                document.body.classList.add('fixed', 'w-full')
+            },
+            closeMenu(event) {
+                event.stopPropagation()
+                document.body.classList.remove('fixed', 'w-full')
+                this.open = false
+                this.$nextTick(() => this.$refs['open-menu-button'].focus() || hyva.releaseFocus())
+            },
+            toggleSubmenu(index) {
+                this[index] = !this[index]
 
-                    if (this[index]) {
-                        const focusableElements = 'button:not([disabled]), a[href]:not([tabindex="-1"]), [tabindex]:not([tabindex="-1"])'
-                        this.$nextTick(() => {
-                            this.$refs['submenu-' + index]?.querySelector(focusableElements)?.focus()
-                        })
-                    }
-                },
-            }
-        }
+                if (this[index]) {
+                    const focusableElements = 'button:not([disabled]), a[href]:not([tabindex="-1"]), [tabindex]:not([tabindex="-1"])'
+                    this.$nextTick(() => {
+                        this.$refs['submenu-' + index]?.querySelector(focusableElements)?.focus()
+                    })
+                }
+            },
+        })
     </script>
     <nav
         class="
@@ -75,10 +73,10 @@ $uniqueId = '_' . uniqid();
             @click="closeMenu"
             x-cloak
         ></div>
-        <div class="fixed z-30 top-0 left-0 w-full max-w-lg h-full bg-container-lighter border-container shadow-2xl overflow-y-auto overflow-x-hidden transform transition ease-in-out duration-500 sm:duration-700"
+        <div class="fixed z-30 top-0 left-0 w-full max-w-lg h-full bg-container-lighter border-container overflow-y-auto overflow-x-hidden transform transition ease-in-out duration-500 sm:duration-700"
             :class="{
                 '-translate-x-full' : !open,
-                'translate-x-0' : open,
+                'translate-x-0 shadow-2xl' : open,
             }"
             x-cloak
             x-ref="menu-dialog"
@@ -106,10 +104,7 @@ $uniqueId = '_' . uniqid();
                         >
                             <?php if ($node->getIsParent() && !$node->getIsViewAllLink()): ?>
                                 <button
-                                    class="
-                                        flex items-center justify-between w-full px-8 py-4
-                                        <?= /* @noEscape */ (string) $nodeType !== 'wrapper' ? $escaper->escapeHtmlAttr($nodeClasses) : '' ?>"
-                                    "
+                                    class="flex items-center justify-between w-full px-8 py-4"
                                     @click="toggleSubmenu('<?= /* @noEscape */ (string) $indexId ?>')"
                                     aria-label="<?= $escaper->escapeHtmlAttr(__('Toggle submenu for %1', $title)) ?>"
                                     :aria-expanded="<?= /* @noEscape */ (string) $indexId ?> === true"
@@ -126,7 +121,7 @@ $uniqueId = '_' . uniqid();
                                 </button>
                                 <?= /* @noEscape */ $block->renderSubmenu($children, $node, $childrenLevel) ?>
                             <?php else: ?>
-                                <div class="group <?= /* @noEscape */ (string) $nodeType !== 'wrapper' ? $escaper->escapeHtmlAttr($nodeClasses) : '' ?>"">
+                                <div class="group">
                                     <?= /* @noEscape */ $block->renderMenuNode($node) ?>
                                 </div>
                             <?php endif; ?>
