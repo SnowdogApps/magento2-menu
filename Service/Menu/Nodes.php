@@ -56,7 +56,7 @@ class Nodes
     {
         $filterBuilder = $this->filterBuilderFactory->create();
         $filter = $filterBuilder->setField($menu->getLinkField())
-            ->setValue($menu->getMenuId())
+            ->setValue($menu->getLinkValue())
             ->setConditionType('eq')
             ->create();
 
