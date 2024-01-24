@@ -87,8 +87,8 @@ class Delete extends MenuAction
             $this->menuRepository->delete($menu);
 
             $filterBuilder = $this->filterBuilderFactory->create();
-            $filter = $filterBuilder->setField('menu_id')
-                ->setValue($menu->getMenuId())
+            $filter = $filterBuilder->setField($menu->getLinkField())
+                ->setValue($menu->getLinkValue())
                 ->setConditionType('eq')
                 ->create();
 
