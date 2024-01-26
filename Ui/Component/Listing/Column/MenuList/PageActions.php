@@ -8,6 +8,7 @@ use Magento\Ui\Component\Listing\Columns\Column;
 use Magento\Framework\View\Element\UiComponent\ContextInterface;
 use Magento\Framework\View\Element\UiComponentFactory;
 use Magento\Framework\UrlInterface;
+use Snowdog\Menu\Helper\MenuHelper;
 
 /**
  * Class PageActions
@@ -31,6 +32,11 @@ class PageActions extends Column
     private $urlBuilder;
 
     /**
+     * @var MenuHelper
+     */
+    private $menuHelper;
+
+    /**
      * @param ContextInterface $context
      * @param UiComponentFactory $uiComponentFactory
      * @param UrlInterface $urlBuilder
@@ -38,12 +44,14 @@ class PageActions extends Column
      * @param array $data
      */
     public function __construct(
+        MenuHelper $menuHelper,
         ContextInterface $context,
         UiComponentFactory $uiComponentFactory,
         UrlInterface $urlBuilder,
         array $components = [],
         array $data = []
     ) {
+        $this->menuHelper = $menuHelper;
         $this->urlBuilder = $urlBuilder;
         parent::__construct(
             $context,
@@ -57,9 +65,9 @@ class PageActions extends Column
     {
         if (isset($dataSource['data']['items'])) {
             foreach ($dataSource['data']['items'] as & $item) {
-                if (isset($item['menu_id'])) {
+                if (isset($item[$this->menuHelper->getLinkField()])) {
                     $name = $this->getData('name');
-                    $menuId = (int) $item['menu_id'];
+                    $menuId = (int) $item[$this->menuHelper->getLinkField()];
                     $isActive = (int) $item['is_active'] === 1;
                     $item[$name] = [
                         'edit' => $this->getEditButton($menuId),
