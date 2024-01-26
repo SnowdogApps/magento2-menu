@@ -13,7 +13,7 @@ class MenuHelper extends AbstractHelper
 
     public function __construct(
         MetadataPool $metadataPool,
-        Context $context,
+        Context $context
     ) {
         $this->metadataPool = $metadataPool;
         parent::__construct($context);
