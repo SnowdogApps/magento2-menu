@@ -12,6 +12,7 @@ use Magento\Framework\Model\ResourceModel\Db\Collection\AbstractCollection;
 use Snowdog\Menu\Api\Data\MenuInterface;
 use Snowdog\Menu\Api\Data\NodeInterface;
 use Snowdog\Menu\Api\NodeRepositoryInterface;
+use Snowdog\Menu\Helper\MenuHelper;
 use Snowdog\Menu\Model\ResourceModel\Menu\Node\CollectionFactory;
 use Magento\Framework\Api\SortOrder;
 
@@ -21,9 +22,9 @@ use Magento\Framework\Api\SortOrder;
 class NodeRepository implements NodeRepositoryInterface
 {
     /**
-     * @var MenuInterface
+     * @var MenuHelper
      */
-    protected $menu;
+    protected $menuHelper;
 
     /**
      * @var NodeFactory
@@ -44,9 +45,9 @@ class NodeRepository implements NodeRepositoryInterface
         NodeFactory $objectFactory,
         CollectionFactory $collectionFactory,
         SearchResultsInterfaceFactory $searchResultsFactory,
-        MenuInterface $menu
+        MenuHelper $menuHelper
     ) {
-        $this->menu = $menu;
+        $this->menuHelper = $menuHelper;
         $this->objectFactory = $objectFactory;
         $this->collectionFactory = $collectionFactory;
         $this->searchResultsFactory = $searchResultsFactory;
@@ -148,7 +149,7 @@ class NodeRepository implements NodeRepositoryInterface
     public function getByMenu($menuId)
     {
         $collection = $this->collectionFactory->create();
-        $collection->addFilter($this->menu->getLinkField(), $menuId);
+        $collection->addFilter($this->menuHelper->getLinkField(), $menuId);
         $collection->addOrder('level', AbstractCollection::SORT_ORDER_ASC);
         $collection->addOrder('parent_id', AbstractCollection::SORT_ORDER_ASC);
         $collection->addOrder('position', AbstractCollection::SORT_ORDER_ASC);

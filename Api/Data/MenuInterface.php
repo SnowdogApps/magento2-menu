@@ -121,8 +121,4 @@ interface MenuInterface
      * @return $this
      */
     public function setIsActive($isActive);
-
-    public function getLinkField(): string;
-
-    public function getLinkValue();
 }

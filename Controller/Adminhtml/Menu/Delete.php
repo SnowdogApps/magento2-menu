@@ -16,6 +16,7 @@ use Snowdog\Menu\Api\NodeRepositoryInterface;
 use Magento\Framework\Controller\ResultInterface;
 use Magento\Framework\Exception\NotFoundException;
 use Snowdog\Menu\Controller\Adminhtml\MenuAction;
+use Snowdog\Menu\Helper\MenuHelper;
 use Snowdog\Menu\Model\MenuFactory;
 
 /**
@@ -46,6 +47,12 @@ class Delete extends MenuAction
     private $searchCriteriaBuilderFactory;
 
     /**
+     * @var MenuHelper
+     */
+    private $menuHelper;
+
+    /**
+     * @param MenuHelper $menuHelper
      * @param Action\Context $context
      * @param MenuRepositoryInterface $menuRepository
      * @param NodeRepositoryInterface $nodeRepository
@@ -55,6 +62,7 @@ class Delete extends MenuAction
      * @param MenuFactory $menuFactory
      */
     public function __construct(
+        MenuHelper $menuHelper,
         Action\Context $context,
         MenuRepositoryInterface $menuRepository,
         NodeRepositoryInterface $nodeRepository,
@@ -64,6 +72,7 @@ class Delete extends MenuAction
         MenuFactory $menuFactory
     ) {
         parent::__construct($context, $menuRepository, $menuFactory);
+        $this->menuHelper = $menuHelper;
         $this->nodeRepository = $nodeRepository;
         $this->filterBuilderFactory = $filterBuilderFactory;
         $this->filterGroupBuilderFactory = $filterGroupBuilderFactory;
@@ -87,8 +96,8 @@ class Delete extends MenuAction
             $this->menuRepository->delete($menu);
 
             $filterBuilder = $this->filterBuilderFactory->create();
-            $filter = $filterBuilder->setField($menu->getLinkField())
-                ->setValue($menu->getLinkValue())
+            $filter = $filterBuilder->setField($this->menuHelper->getLinkField())
+                ->setValue($this->menuHelper->getLinkValue($menu))
                 ->setConditionType('eq')
                 ->create();
 
