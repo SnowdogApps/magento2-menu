@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Snowdog\Menu\Model\ImportExport\Processor\Import\Node;
 
 use Snowdog\Menu\Api\Data\NodeInterface;
+use Snowdog\Menu\Helper\MenuHelper;
 use Snowdog\Menu\Model\ImportExport\Processor\ExtendedFields;
 use Snowdog\Menu\Model\ImportExport\Processor\Import\FieldProcessor\Boolean as BooleanField;
 use Snowdog\Menu\Model\ImportExport\Processor\Import\Node\TypeContent;
@@ -21,10 +22,16 @@ class DataProcessor
      */
     private $typeContent;
 
-    public function __construct(BooleanField $booleanField, TypeContent $typeContent)
+    /**
+     * @var MenuHelper
+     */
+    private $menuHelper;
+
+    public function __construct(BooleanField $booleanField, TypeContent $typeContent, MenuHelper $menuHelper)
     {
         $this->booleanField = $booleanField;
         $this->typeContent = $typeContent;
+        $this->menuHelper = $menuHelper;
     }
 
     public function getData(
@@ -34,7 +41,7 @@ class DataProcessor
         int $position = 0,
         ?int $parentId = null
     ): array {
-        $data[NodeInterface::MENU_ID] = $menuId;
+        $data[$this->menuHelper->getLinkField()] = $menuId;
         $data[NodeInterface::PARENT_ID] = $parentId;
         $data[NodeInterface::LEVEL] = $level;
         $data[NodeInterface::POSITION] = $position;

@@ -60,6 +60,7 @@ class Import
         $this->validateData($data);
 
         $menu = $this->createMenu($data);
+        $menuId = $menu->getId();
 
         if (isset($data[ExtendedFields::NODES])) {
             $this->nodeProcessor->createNodes($data[ExtendedFields::NODES], (int) $menu->getId());
