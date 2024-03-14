@@ -49,7 +49,7 @@ class ImportCategories extends Action implements HttpPostActionInterface
         $depth = $this->_request->getParam('depth');
 
         try {
-            if (!is_numeric($depth)) {
+            if ($depth != 'NaN' && !is_numeric($depth)) {
                 throw new Exception('Please add a valid number for Level of depth field');
             }
 
