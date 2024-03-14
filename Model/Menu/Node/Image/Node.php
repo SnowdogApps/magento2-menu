@@ -51,6 +51,11 @@ class Node
 
         try {
             $node->setImage($image);
+            if (!$image) {
+                $node
+                    ->setImageWidth(null)
+                    ->setImageHeight(null);
+            }
             $this->nodeRepository->save($node);
         } catch (CouldNotSaveException $exception) {
             // Normally, this error should never happen.

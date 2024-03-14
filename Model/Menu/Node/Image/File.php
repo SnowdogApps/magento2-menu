@@ -14,6 +14,7 @@ use Magento\Framework\UrlInterface;
 use Magento\MediaStorage\Model\File\UploaderFactory;
 use Magento\Store\Model\StoreManagerInterface;
 use Psr\Log\LoggerInterface;
+use Snowdog\Menu\Api\Data\NodeInterface;
 
 class File
 {
@@ -72,7 +73,11 @@ class File
 
         $result = $uploader->save($this->getAbsolutePath());
 
-        return ['file' => $result['file'], 'url' => $this->getUrl($result['file'])];
+        return [
+            'file' => $result['file'],
+            'url' => $this->getUrl($result['file']),
+            'size' => $this->getReadableImageSizes($this->getImageSize($result['file']))
+        ];
     }
 
     public function getUrl(string $file): string
@@ -125,5 +130,13 @@ class File
     {
         $mediaDirectory = $this->filesystem->getDirectoryRead(DirectoryList::MEDIA);
         return $mediaDirectory->getAbsolutePath(self::PATH);
+    }
+
+    private function getReadableImageSizes(array $imageSize): array
+    {
+        return [
+            NodeInterface::IMAGE_WIDTH => $imageSize[0],
+            NodeInterface::IMAGE_HEIGHT => $imageSize[1]
+        ];
     }
 }
