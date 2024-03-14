@@ -3,19 +3,31 @@
       xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
     <body>
         <referenceBlock name="topmenu_generic">
-            <block name="topmenu.mobile" class="Snowdog\Menu\Block\Menu">
+            <block
+                name="topmenu-mobile"
+                class="Snowdog\Menu\Block\Menu"
+            >
                 <arguments>
                     <argument name="menu" xsi:type="string">hyva-topmenu-mobile</argument>
                 </arguments>
             </block>
-            <block name="topmenu.desktop" class="Snowdog\Menu\Block\Menu">
-                <arguments>
-                    <argument name="menu" xsi:type="string">hyva-topmenu-desktop</argument>
-                </arguments>
-            </block>
         </referenceBlock>
+
+        <block
+            name="topmenu-desktop"
+            class="Snowdog\Menu\Block\Menu"
+        >
+            <arguments>
+                <argument name="menu" xsi:type="string">hyva-topmenu-desktop</argument>
+            </arguments>
+        </block>
+
         <referenceBlock name="footer-content">
-            <block name="menu-footer" class="Snowdog\Menu\Block\Menu" before="-">
+            <block
+                name="menu-footer"
+                class="Snowdog\Menu\Block\Menu"
+                before="-"
+            >
                 <arguments>
                     <argument name="menu" xsi:type="string">hyva-menu-footer</argument>
                 </arguments>
@@ -25,9 +37,17 @@
                 remove="true"
             />
         </referenceBlock>
+
         <referenceBlock name="script-alpine-js">
-            <block name="alpine-plugin-collapse" template="Snowdog_Menu::page/js/plugins/collapse.phtml"/>
+            <block
+                name="alpine-plugin-collapse"
+                template="Snowdog_Menu::page/js/plugins/collapse.phtml"
+            />
         </referenceBlock>
-        <move element="topmenu.desktop" destination="header.container" after="-"/>
+
+        <move element="topmenu-desktop" destination="header.container" after="-"/>
+
+        <referenceBlock name="topmenu_mobile" remove="true"/>
+        <referenceBlock name="topmenu_desktop" remove="true"/>
     </body>
 </page>
