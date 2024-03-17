@@ -6,6 +6,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 
 ## [Unreleased]
+### Added
+- Option to specify customer groups for each node (DEV-94738)
 ### Fixed
 - The function getProductTitle() returns empty string (DEV-104749)
 - Hyva error "The element "topmenu_generic" can't have a child" (DEV-104435)

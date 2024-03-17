@@ -210,6 +210,7 @@ class SaveRequestProcessor
         $nodeObject->setImageAltText($nodeData['image_alt_text'] ?? null);
 
         $nodeObject->setSelectedItemId($nodeData['selected_item_id'] ?? null);
+        $nodeObject->setCustomerGroups($nodeData[NodeInterface::CUSTOMER_GROUPS] ?? null);
     }
 
     /**
