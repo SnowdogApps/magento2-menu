@@ -11,8 +11,6 @@ use Magento\Framework\Exception\LocalizedException;
 
 class Categories implements ArrayInterface
 {
-    const DEFAULT_CATEGORY_ID = 2;
-
     /**
      * @var CategoryCollectionFactory
      */
@@ -60,35 +58,47 @@ class Categories implements ArrayInterface
         $collection = $this->categoryCollectionFactory->create();
 
         $collection->addAttributeToSelect(['name', 'is_active', 'parent_id'])
-            ->addFieldToFilter('level', 2)
+            ->addFieldToFilter('level', 1)
             ->setStoreId($storeId);
+            
+        $options = [];
 
-        if ($toOptionArray) {
-            $options[] = [
-                'label' => __('Default Category'),
-                'value' => self::DEFAULT_CATEGORY_ID
-            ];
-        } else {
-            $options[self::DEFAULT_CATEGORY_ID] = __('Default Category');
-        }
+        foreach ($collection as $rootCategory) {
+            /* @var $collection Collection */
+            $collection = $this->categoryCollectionFactory->create();
 
-        $groupedOptions = [];
-        foreach ($collection as $category) {
+            $collection->addAttributeToSelect(['name', 'is_active', 'parent_id'])
+                ->addFieldToFilter('level', 2)
+                ->addFieldToFilter('path', ['like' => '1/'.$rootCategory->getId().'/%'])
+                ->setStoreId($storeId);
+
             if ($toOptionArray) {
-                $groupedOptions[] = [
-                    'label' => $category->getName(),
-                    'value' => $category->getId()
+                $options[] = [
+                    'label' => $rootCategory->getName(),
+                    'value' => $rootCategory->getId()
                 ];
             } else {
-                $options[$category->getId()] = $category->getName();
+                $options[$rootCategory->getId()] = $rootCategory->getName();
             }
-        }
 
-        if ($toOptionArray && $groupedOptions) {
-            $options[] = [
-                'label' => __('Sub categories'),
-                'value' => $groupedOptions
-            ];
+            $groupedOptions = [];
+            foreach ($collection as $category) {
+                if ($toOptionArray) {
+                    $groupedOptions[] = [
+                        'label' => $category->getName(),
+                        'value' => $category->getId()
+                    ];
+                } else {
+                    $options[$category->getId()] = $category->getName();
+                }
+            }
+
+            if ($toOptionArray && $groupedOptions) {
+                $options[] = [
+                    'label' => __('Sub categories'),
+                    'value' => $groupedOptions
+                ];
+            }
         }
 
         return $options;
