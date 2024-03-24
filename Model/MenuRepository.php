@@ -10,6 +10,8 @@ use Magento\Framework\Exception\NoSuchEntityException;
 use Snowdog\Menu\Api\Data\MenuInterface;
 use Snowdog\Menu\Api\Data\MenuSearchResultsInterfaceFactory;
 use Snowdog\Menu\Api\MenuRepositoryInterface;
+use Snowdog\Menu\Helper\MenuHelper;
+use Snowdog\Menu\Model\ResourceModel\Menu;
 use Snowdog\Menu\Model\ResourceModel\Menu\Collection;
 use Snowdog\Menu\Model\ResourceModel\Menu\CollectionFactory;
 
@@ -18,6 +20,9 @@ use Snowdog\Menu\Model\ResourceModel\Menu\CollectionFactory;
  */
 class MenuRepository implements MenuRepositoryInterface
 {
+    /** @var MenuHelper */
+    protected $menuHelper;
+
     /** @var MenuFactory */
     protected $menuFactory;
 
@@ -34,14 +39,17 @@ class MenuRepository implements MenuRepositoryInterface
      * @param MenuFactory $menuFactory
      * @param CollectionFactory $menuCollectionFactory
      * @param MenuSearchResultsInterfaceFactory $menuSearchResults
-     * @param ResourceModel\Menu|null $menuResourceModel
+     * @param MenuHelper $menuHelper
+     * @param Menu|null $menuResourceModel
      */
     public function __construct(
         MenuFactory $menuFactory,
         CollectionFactory $menuCollectionFactory,
         MenuSearchResultsInterfaceFactory $menuSearchResults,
+        MenuHelper $menuHelper,
         ResourceModel\Menu $menuResourceModel = null
     ) {
+        $this->menuHelper = $menuHelper;
         $this->menuFactory = $menuFactory;
         $this->collectionFactory = $menuCollectionFactory;
         $this->menuSearchResultsFactory = $menuSearchResults;
@@ -167,7 +175,11 @@ class MenuRepository implements MenuRepositoryInterface
         $collection = $this->collectionFactory->create();
         $collection->addFilter(new \Zend_Db_Expr('BINARY `identifier`'), $identifier);
         $collection->addFilter('is_active', 1);
-        $collection->join(['stores' => 'snowmenu_store'], 'main_table.menu_id = stores.menu_id', 'store_id');
+        $collection->join(
+            ['stores' => 'snowmenu_store'],
+            'main_table.' . $this->menuHelper->getLinkField() . ' = stores.' . $this->menuHelper->getLinkField(),
+            'store_id'
+        );
         $collection->addFilter('store_id', $storeId);
         return $collection->getFirstItem();
     }

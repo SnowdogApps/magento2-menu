@@ -91,6 +91,7 @@
             watch: {
                 jsonList: function (newValue) {
                     this.updateSerializedNodes(newValue)
+                    this.updateMenuStagingSerializedNodes(newValue);
                 }
             },
             mounted () {
@@ -112,6 +113,10 @@
                 checkElement('[name="serialized_nodes"]').then(() => {
                     this.list = this.nodes.map(item => setUuidRecursive(item))
                     this.updateSerializedNodes(this.jsonList);
+                });
+                checkElement('[name="snowmenu_staging_serialized_nodes"]').then(() => {
+                    this.list = this.nodes.map(item => setUuidRecursive(item))
+                    this.updateMenuStagingSerializedNodes(this.jsonList);
                 });
             },
             methods: {
@@ -144,6 +149,14 @@
                 updateSerializedNodes(value) {
                     const updateEvent = new Event('change');
                     const serializedNodeInput = document.querySelector('[name="serialized_nodes"]');
+                    // update serialized_nodes input value
+                    serializedNodeInput.value = value;
+                    // trigger change event to set value
+                    serializedNodeInput.dispatchEvent(updateEvent);
+                },
+                updateMenuStagingSerializedNodes(value) {
+                    const updateEvent = new Event('change');
+                    const serializedNodeInput = document.querySelector('[name="snowmenu_staging_serialized_nodes"]');
                     // update serialized_nodes input value
                     serializedNodeInput.value = value;
                     // trigger change event to set value

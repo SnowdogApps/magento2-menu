@@ -6,6 +6,7 @@ namespace Snowdog\Menu\Model\ImportExport\Processor;
 
 use Magento\Framework\App\Config\ScopeConfigInterface;
 use Snowdog\Menu\Api\Data\MenuInterface;
+use Snowdog\Menu\Helper\MenuHelper;
 use Snowdog\Menu\Model\ImportExport\Processor\Import\InvalidNodes as InvalidNodesProcessor;
 use Snowdog\Menu\Model\ImportExport\Processor\Import\Menu as MenuProcessor;
 use Snowdog\Menu\Model\ImportExport\Processor\Import\Node as NodeProcessor;
@@ -33,23 +34,31 @@ class Import
      * @var InvalidNodesProcessor
      */
     private $invalidNodesProcessor;
+
     /**
      * @var ScopeConfigInterface
      */
     private $scopeConfig;
+
+    /**
+     * @var MenuHelper
+     */
+    private $menuHelper;
 
     public function __construct(
         MenuProcessor $menuProcessor,
         NodeProcessor $nodeProcessor,
         ValidationAggregateError $validationAggregateError,
         InvalidNodesProcessor $invalidNodesProcessor,
-        ScopeConfigInterface $scopeConfig
+        ScopeConfigInterface $scopeConfig,
+        MenuHelper $menuHelper
     ) {
         $this->menuProcessor = $menuProcessor;
         $this->nodeProcessor = $nodeProcessor;
         $this->validationAggregateError = $validationAggregateError;
         $this->invalidNodesProcessor = $invalidNodesProcessor;
         $this->scopeConfig = $scopeConfig;
+        $this->menuHelper = $menuHelper;
     }
 
     /**
@@ -60,9 +69,9 @@ class Import
         $this->validateData($data);
 
         $menu = $this->createMenu($data);
-
+        $menuId = $menu->getData($this->menuHelper->getLinkField());
         if (isset($data[ExtendedFields::NODES])) {
-            $this->nodeProcessor->createNodes($data[ExtendedFields::NODES], (int) $menu->getId());
+            $this->nodeProcessor->createNodes($data[ExtendedFields::NODES], (int) $menuId);
         }
 
         return $menu->getIdentifier();

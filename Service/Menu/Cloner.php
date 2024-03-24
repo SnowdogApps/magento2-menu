@@ -11,6 +11,7 @@ use Snowdog\Menu\Api\Data\MenuInterfaceFactory;
 use Snowdog\Menu\Api\Data\NodeInterfaceFactory;
 use Snowdog\Menu\Api\MenuRepositoryInterface;
 use Snowdog\Menu\Api\NodeRepositoryInterface;
+use Snowdog\Menu\Helper\MenuHelper;
 use Snowdog\Menu\Model\ImportExport\Processor\Import\Menu\Identifier as MenuIdentifierProcessor;
 use Snowdog\Menu\Model\NodeTypeProvider;
 use Snowdog\Menu\Service\Menu\Nodes as MenuNodes;
@@ -57,6 +58,11 @@ class Cloner
      */
     private $menuNodes;
 
+    /**
+     * @var MenuHelper
+     */
+    private $menuHelper;
+
     public function __construct(
         ResourceConnection $resource,
         MenuInterfaceFactory $menuFactory,
@@ -65,7 +71,8 @@ class Cloner
         NodeRepositoryInterface $nodeRepository,
         MenuIdentifierProcessor $menuIdentifierProcessor,
         NodeTypeProvider $nodeTypeProvider,
-        MenuNodes $menuNodes
+        MenuNodes $menuNodes,
+        MenuHelper $menuHelper
     ) {
         $this->resource = $resource;
         $this->menuFactory = $menuFactory;
@@ -75,6 +82,7 @@ class Cloner
         $this->menuIdentifierProcessor = $menuIdentifierProcessor;
         $this->nodeTypeProvider = $nodeTypeProvider;
         $this->menuNodes = $menuNodes;
+        $this->menuHelper = $menuHelper;
     }
 
     /**
@@ -98,7 +106,7 @@ class Cloner
             $this->menuRepository->save($menuClone);
             $menuClone->saveStores($menu->getStores());
 
-            $menuCloneId = $menuClone->getId();
+            $menuCloneId = $this->menuHelper->getLinkValue($menuClone);
             $nodeIdMap = [];
 
             foreach ($this->menuNodes->getList($menu) as $node) {
@@ -106,7 +114,7 @@ class Cloner
 
                 $nodeClone->setData($node->getData());
                 $nodeClone->setId(null);
-                $nodeClone->setMenuId($menuCloneId);
+                $nodeClone->setData($this->menuHelper->getLinkField(), $menuCloneId);
 
                 if (isset($nodeIdMap[$node->getParentId()])) {
                     $nodeClone->setParentId($nodeIdMap[$node->getParentId()]);
