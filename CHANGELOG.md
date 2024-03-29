@@ -6,6 +6,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 
 ## [Unreleased]
+
+## [2.26.0] - 2024-03-29
 ### Fixed
 - The function getProductTitle() returns empty string (DEV-104749)
 - Hyva error "The element "topmenu_generic" can't have a child" (DEV-104435)
