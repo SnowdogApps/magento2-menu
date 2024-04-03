@@ -90,8 +90,7 @@
             },
             watch: {
                 jsonList: function (newValue) {
-                    this.updateSerializedNodes(newValue)
-                    this.updateMenuStagingSerializedNodes(newValue);
+                    this.updateSerializedNodes(newValue);
                 }
             },
             mounted () {
@@ -110,13 +109,9 @@
                 };
 
                 // while loaded set JSON list as a value
-                checkElement('[name="serialized_nodes"]').then(() => {
-                    this.list = this.nodes.map(item => setUuidRecursive(item))
+                checkElement(`[name='${this.config.serializedNodesElementName}']`).then(() => {
+                    this.list = this.nodes.map(item => setUuidRecursive(item));
                     this.updateSerializedNodes(this.jsonList);
-                });
-                checkElement('[name="snowmenu_staging_serialized_nodes"]').then(() => {
-                    this.list = this.nodes.map(item => setUuidRecursive(item))
-                    this.updateMenuStagingSerializedNodes(this.jsonList);
                 });
             },
             methods: {
@@ -148,20 +143,12 @@
                 },
                 updateSerializedNodes(value) {
                     const updateEvent = new Event('change');
-                    const serializedNodeInput = document.querySelector('[name="serialized_nodes"]');
+                    const serializedNodeInput = document.querySelector(`[name='${this.config.serializedNodesElementName}']`);
                     // update serialized_nodes input value
                     serializedNodeInput.value = value;
                     // trigger change event to set value
                     serializedNodeInput.dispatchEvent(updateEvent);
                 },
-                updateMenuStagingSerializedNodes(value) {
-                    const updateEvent = new Event('change');
-                    const serializedNodeInput = document.querySelector('[name="snowmenu_staging_serialized_nodes"]');
-                    // update serialized_nodes input value
-                    serializedNodeInput.value = value;
-                    // trigger change event to set value
-                    serializedNodeInput.dispatchEvent(updateEvent);
-                }
             },
             template: template
         });
