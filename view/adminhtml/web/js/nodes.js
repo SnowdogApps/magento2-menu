@@ -29,7 +29,7 @@ define([
             Vue.component('treeselect', vueTreeselect.Treeselect);
 
             var app = new Vue({
-                el: config.el || "#" + config.blockHtmlId,
+                el: '#' + config.blockHtmlId,
                 data: config.data
             });
 
