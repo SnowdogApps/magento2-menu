@@ -9,6 +9,7 @@ use Magento\Framework\DataObject;
 use Magento\Framework\View\Element\Template;
 use Magento\Framework\Event\Manager as EventManager;
 use Magento\Framework\Escaper;
+use Snowdog\Menu\Api\Data\NodeInterface;
 use Snowdog\Menu\Api\MenuRepositoryInterface;
 use Snowdog\Menu\Api\NodeRepositoryInterface;
 use Snowdog\Menu\Model\Menu\Node\Image\File as ImageFile;
@@ -268,7 +269,7 @@ class Menu extends Template implements DataObject\IdentityInterface
     }
 
     /**
-     * @param NodeRepositoryInterface $node
+     * @param NodeInterface $node
      * @return string
      */
     public function renderViewAllLink($node)
@@ -279,7 +280,7 @@ class Menu extends Template implements DataObject\IdentityInterface
     }
 
     /**
-     * @param NodeRepositoryInterface $node
+     * @param NodeInterface $node
      * @return string
      */
     public function renderMenuNode($node)
@@ -381,7 +382,7 @@ class Menu extends Template implements DataObject\IdentityInterface
     }
 
     /**
-     * @param NodeRepositoryInterface $node
+     * @param NodeInterface $node
      * @return Template
      */
     private function getMenuNodeBlock($node)
@@ -403,6 +404,9 @@ class Menu extends Template implements DataObject\IdentityInterface
             ->setTarget($node->getTarget())
             ->setImage($node->getImage())
             ->setImageUrl($node->getImage() ? $this->imageFile->getUrl($node->getImage()) : null)
+            ->setImageAltText($node->getImageAltText())
+            ->setImageWidth($node->getImageWidth())
+            ->setImageHeight($node->getImageHeight())
             ->setImageAltText($node->getImageAltText())
             ->setCustomTemplate($node->getNodeTemplate())
             ->setAdditionalData($node->getAdditionalData())

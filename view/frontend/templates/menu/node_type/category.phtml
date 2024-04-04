@@ -7,6 +7,8 @@ $categoryUrl = $categoryUrl ?: '#';
 $dataAttribute = '';
 $imageUrl = $block->getImageUrl();
 $imageAltText = $block->getImageAltText();
+$imageWidth = $block->getImageWidth();
+$imageHeight = $block->getImageHeight();
 
 if ($block->getIsViewAllLink()) {
     $title = __('View All');
@@ -34,5 +36,7 @@ if ($block->getIsViewAllLink()) {
         src="<?= $block->escapeUrl($imageUrl); ?>"
         alt="<?= $block->escapeHtmlAttr($imageAltText); ?>"
         loading="lazy"
+        width="<?= $escaper->escapeHtmlAttr($imageWidth) ?>"
+        height="<?= $escaper->escapeHtmlAttr($imageHeight) ?>"
     />
 <?php endif; ?>

@@ -4,6 +4,8 @@ $attributes = [];
 $class = $block->getMenuClass();
 $imageUrl = $block->getImageUrl();
 $imageAltText = $block->getImageAltText();
+$imageWidth = $block->getImageWidth();
+$imageHeight = $block->getImageHeight();
 $content = $block->getContent();
 
 if ($block->getIsViewAllLink()) {
@@ -44,5 +46,7 @@ $allAttributes = implode(' ', $attributes);
         src="<?= $block->escapeUrl($imageUrl); ?>"
         alt="<?= $block->escapeHtmlAttr($imageAltText); ?>"
         loading="lazy"
+        width="<?= $escaper->escapeHtmlAttr($imageWidth) ?>"
+        height="<?= $escaper->escapeHtmlAttr($imageHeight) ?>"
     />
 <?php endif; ?>

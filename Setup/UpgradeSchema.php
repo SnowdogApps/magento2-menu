@@ -22,6 +22,7 @@ class UpgradeSchema implements UpgradeSchemaInterface
     /**
      * {@inheritdoc}
      * @SuppressWarnings(PHPMD.NPathComplexity)
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      */
     public function upgrade(SchemaSetupInterface $setup, ModuleContextInterface $context)
     {
@@ -57,6 +58,10 @@ class UpgradeSchema implements UpgradeSchemaInterface
 
         if (version_compare($context->getVersion(), '0.2.6', '<')) {
             $this->addNodeSelectedItemId($setup);
+        }
+
+        if (version_compare($context->getVersion(), '0.2.7', '<')) {
+            $this->addNodeImageSizeFields($setup);
         }
 
         $setup->endSetup();
@@ -293,6 +298,39 @@ class UpgradeSchema implements UpgradeSchemaInterface
                 'unsigned' => true,
                 'nullable' => true,
                 'comment' => 'Selected Item Id'
+            ]
+        );
+
+        return $this;
+    }
+
+    /**
+     * @return $this
+     */
+    private function addNodeImageSizeFields(SchemaSetupInterface $setup)
+    {
+        $connection = $setup->getConnection();
+        $table = $setup->getTable('snowmenu_node');
+
+        $connection->addColumn(
+            $table,
+            NodeInterface::IMAGE_WIDTH,
+            [
+                'type' => Table::TYPE_INTEGER,
+                'nullable' => true,
+                'after' => NodeInterface::IMAGE_ALT_TEXT,
+                'comment' => 'Image Width'
+            ]
+        );
+
+        $connection->addColumn(
+            $table,
+            NodeInterface::IMAGE_HEIGHT,
+            [
+                'type' => Table::TYPE_INTEGER,
+                'nullable' => true,
+                'after' => NodeInterface::IMAGE_WIDTH,
+                'comment' => 'Image Height'
             ]
         );
 
