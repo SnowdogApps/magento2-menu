@@ -158,6 +158,10 @@
                             if (response.file) {
                                 this.setItemImage(response.file, response.url);
                             }
+                            if (response.size) {
+                                this.item.image_width = response.size.image_width;
+                                this.item.image_height = response.size.image_heigth;
+                            }
                         }.bind(this),
                         error: function() {
                             $('body').trigger('processStop');
