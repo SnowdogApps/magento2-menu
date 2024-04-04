@@ -6,10 +6,11 @@ $imageAltText = $block->getImageAltText();
 $content = $block->getContent();
 $title = $block->getTitle();
 $dataAttribute = 'data-menu="menu-' . $nodeId . '"';
+$nodeClasses = $block->getNodeClasses();
 ?>
 
 <?php if ($content): ?>
-    <a class="cursor-pointer snowdog-menu-link-topmenu-mobile"
+    <a class="cursor-pointer snowdog-menu-link-topmenu-mobile <?= $escaper->escapeHtmlAttr($nodeClasses) ?>"
         href="<?= $escaper->escapeUrl($content) ?>"
         <?php if ($block->getTarget()): ?>
             target="_blank"
@@ -21,9 +22,7 @@ $dataAttribute = 'data-menu="menu-' . $nodeId . '"';
     </a>
 <?php else: ?>
     <span
-        class="
-            snowdog-menu-link-topmenu-mobile
-        "
+        class="snowdog-menu-link-topmenu-mobile <?= $escaper->escapeHtmlAttr($nodeClasses) ?>"
         tabindex="0"
         <?= $dataAttribute ?>
     >
