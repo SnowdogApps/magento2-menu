@@ -39,21 +39,21 @@
                 <div>
                     <button
                         type="button"
-                        class="panel__buttom panel__buttom--edit"
+                        class="panel__button panel__button--edit"
                         :title="config.translation.edit"
                         @click="editNode"
                     />
 
                     <button
                         type="button"
-                        class="panel__buttom panel__buttom--append"
+                        class="panel__button panel__button--append"
                         :title="config.translation.append"
                         @click="appendEvent(list, index)"
                     />
 
                     <button
                         type="button"
-                        class="panel__buttom panel__buttom--duplicate"
+                        class="panel__button panel__button--duplicate"
                         :title="config.translation.duplicate"
                         @click="duplicateEvent(list, index)"
                     >
@@ -74,7 +74,7 @@
 
                     <button
                         type="button"
-                        class="panel__buttom panel__buttom--delete"
+                        class="panel__button panel__button--delete"
                         :title="config.translation.delete"
                         @click="deleteEvent(list, index)"
                     />
@@ -120,7 +120,7 @@
                     >
                         {{ config.translation.click }}
                         <button
-                            class="panel__buttom panel__buttom--append"
+                            class="panel__button panel__button--append"
                             :title="config.translation.append"
                             @click.prevent="appendEvent(list, index)"
                         />

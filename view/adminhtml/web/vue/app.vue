@@ -9,7 +9,7 @@
 
             <div>
                 <button
-                    class="panel__buttom panel__buttom--append"
+                    class="panel__button panel__button--append"
                     :title="config.translation.append"
                     @click.prevent="addNode(list)"
                 />
@@ -47,7 +47,7 @@
                 >
                     {{ config.translation.click }}
                     <button
-                        class="panel__buttom panel__buttom--append"
+                        class="panel__button panel__button--append"
                         :title="config.translation.append"
                         @click.prevent="addNode(list)"
                     />
