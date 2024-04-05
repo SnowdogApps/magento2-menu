@@ -182,44 +182,44 @@
                     required: true
                 },
             },
-            data: function() {
+            data() {
                 return {
                     editItem: false,
                     collapsed: true
                 }
             },
             methods: {
-                selectedEvent: function(item) {
+                selectedEvent(item) {
                     if (typeof(this.selected) === 'function') {
                         this.selected(item);
                     }
                 },
-                appendEvent: function(list, index) {
+                appendEvent(list, index) {
                     this.editItem = false;
                     this.collapsed = false;
                     if (typeof(this.append) === 'function') {
                         this.append(list[index].columns);
                     }
                 },
-                duplicateEvent: function(list, index) {
+                duplicateEvent(list, index) {
                     if (typeof(this.duplicate) === 'function') {
                         this.duplicate(list, index);
                     }
                 },
-                deleteEvent: function(list, index) {
+                deleteEvent(list, index) {
                     this.editItem = false;
                     if (typeof(this.delete) === 'function') {
                         this.delete(list, index);
                     }
                 },
-                getNodeType: function(type) {
+                getNodeType(type) {
                     var nodeType = '';
                     if (type) {
                         nodeType = '(' + this.$root.config.nodeTypes[type] + ')';
                     }
                     return nodeType;
                 },
-                editNode: function() {
+                editNode() {
                     this.editItem = !this.editItem;
                     this.collapsed = !this.editItem;
                 }

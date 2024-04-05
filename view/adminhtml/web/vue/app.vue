@@ -78,19 +78,19 @@
                     required: true
                 }
             },
-            data: function() {
+            data() {
                 return {
                     list: [],
                     selectedItem: null
                 };
             },
             computed: {
-                jsonList: function() {
+                jsonList() {
                     return JSON.stringify(this.list);
                 }
             },
             watch: {
-                jsonList: function (newValue) {
+                jsonList (newValue) {
                     this.updateSerializedNodes(newValue)
                 }
             },
@@ -117,13 +117,13 @@
             },
             methods: {
                 uuid,
-                setSelectedNode: function(item) {
+                setSelectedNode(item) {
                     this.selectedItem = item;
                 },
-                removeNode: function(list, index) {
+                removeNode(list, index) {
                     list.splice(index, 1);
                 },
-                addNode: function(target) {
+                addNode(target) {
                     target.push({
                         id: this.uuid(),
                         uuid: this.uuid(),
