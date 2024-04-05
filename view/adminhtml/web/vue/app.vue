@@ -35,6 +35,7 @@
                         :selected-item="selectedItem"
                         :delete="removeNode"
                         :append="addNode"
+                        :duplicate="duplicateNode"
                         :drop="handleDrop"
                         :config="config"
                     />
@@ -138,6 +139,28 @@
                         columns: [],
                         is_active: 0
                     });
+                },
+                setUniqueIds(node) {
+                    if (node !== null) {
+                        node = {
+                            ...node,
+                            id: this.uuid(),
+                            uuid: this.uuid(),
+                            // TODO: support for image duplication - copying values isn't enough
+                            image: null,
+                            image_alt_text: '',
+                            image_width: null,
+                            image_height: null,
+                        };
+                        if (node.columns?.length) {
+                            node.columns = node.columns.map(this.setUniqueIds);
+                        }
+                    }
+                    return node;
+                },
+                duplicateNode(list, index) {
+                    const newNode = this.setUniqueIds(list[index])
+                    list.splice(++index, 0, newNode);
                 },
                 handleDrop(data) {
                     data.item.uuid = this.uuid();
