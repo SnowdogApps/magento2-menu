@@ -1,6 +1,6 @@
 @layer utilities {
     .snowdog-menu-text-hover {
-        @apply text-blue-600;
+        @apply text-blue-700;
     }
 }
 
@@ -13,9 +13,13 @@
 }
 
 .snowdog-menu-link {
-    @apply block py-3 hover:snowdog-menu-text-hover group-hover:snowdog-menu-text-hover;
+    @apply font-medium leading-6 hover:snowdog-menu-text-hover group-hover:snowdog-menu-text-hover;
 }
 
 .snowdog-menu-link-topmenu-mobile {
     @apply block px-8 py-4;
+}
+
+.hero-image {
+    @apply mt-0;
 }

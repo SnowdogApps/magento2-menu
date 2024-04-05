@@ -4,29 +4,26 @@
 /** @var Hyva\Theme\ViewModel\HeroiconsOutline $heroicons */
 $heroicons = $viewModels->require(\Hyva\Theme\ViewModel\HeroiconsOutline::class);
 ?>
-<?php if ($block->getMenu()) : ?>
+<?php if ($block->getMenu()): ?>
     <?php
     $parentNode = $block->getParentNode();
     $parentNodeIndex = $parentNode->getId();
     $level = $block->getLevel();
     $title = $parentNode->getTitle();
     ?>
-    <?php if ($level === 1) : ?>
+    <?php if ($level === 1): ?>
         <div
             x-ref="submenu-<?= /* @noEscape */ (string) $parentNodeIndex ?>"
-            class="absolute left-0 top-full -mt-4 w-full z-10 shadow-lg bg-white"
-            :class="{
-                'hidden' : openSubmenuId !== '<?= /* @noEscape */ (string) $parentNodeIndex ?>',
-                'flex' : openSubmenuId === '<?= /* @noEscape */ (string) $parentNodeIndex ?>',
-            }"
+            class="absolute left-0 top-full w-full z-30 shadow-md bg-white flex"
+            x-show="openSubmenuId === '<?= /* @noEscape */ (string) $parentNodeIndex ?>'"
             x-cloak
-            >
-            <div class="w-full mt-4 border-t border-container">
+        >
+            <div class="w-full">
                 <ul
-                    class="container flex flex-wrap justify-between items-start gap-8 pt-6 pb-8"
+                    class="container flex flex-wrap justify-between items-start gap-8 py-12"
                     title="Submenu for <?= $escaper->escapeHtmlAttr($title) ?>"
                 >
-                    <?php foreach ($block->getSubmenuNodes() as $node) : ?>
+                    <?php foreach ($block->getSubmenuNodes() as $node): ?>
                         <?php
                         $childrenLevel = $node->getLevel() + 1;
                         $children = $block->getNodes($childrenLevel, $node);
@@ -37,11 +34,7 @@ $heroicons = $viewModels->require(\Hyva\Theme\ViewModel\HeroiconsOutline::class)
                         <li
                             class="flex-1 <?= /* @noEscape */ (string) $nodeType === 'wrapper' ? $escaper->escapeHtmlAttr($nodeClasses) : '' ?>"
                         >
-                            <div class="
-                                    group font-medium
-                                    <?= /* @noEscape */ (string) $nodeType !== 'wrapper' ? $escaper->escapeHtmlAttr($nodeClasses) : '' ?>
-                                "
-                            >
+                            <div class="group mb-2">
                                 <?= /* @noEscape */ $block->renderMenuNode($node) ?>
                             </div>
                             <?= /* @noEscape */ $block->renderSubmenu($children, $node, $childrenLevel) ?>
@@ -51,9 +44,9 @@ $heroicons = $viewModels->require(\Hyva\Theme\ViewModel\HeroiconsOutline::class)
             </div>
         </div>
     <?php endif; ?>
-    <?php if ($level > 1) : ?>
-        <ul class="<?= /* @noEscape */ (int) $level > 2 ? 'ml-4' : '' ?>">
-            <?php foreach ($block->getSubmenuNodes() as $index => $node) : ?>
+    <?php if ($level > 1): ?>
+        <ul class="space-y-2 ml-4">
+            <?php foreach ($block->getSubmenuNodes() as $index => $node): ?>
                 <?php
                 $childrenLevel = $node->getLevel() + 1;
                 $children = $block->getNodes($childrenLevel, $node);
@@ -67,7 +60,7 @@ $heroicons = $viewModels->require(\Hyva\Theme\ViewModel\HeroiconsOutline::class)
                         <?= (/* @noEscape */ (string) $nodeType === 'wrapper') && (/* @noEscape */ (int) $level > 2) ? '-ml-4' : '' ?>
                     "
                 >
-                    <div class="group <?= /* @noEscape */ (string) $nodeType !== 'wrapper' ? $escaper->escapeHtmlAttr($nodeClasses) : '' ?>">
+                    <div class="group mb-2">
                         <?= /* @noEscape */ $block->renderMenuNode($node) ?>
                     </div>
                     <?= /* @noEscape */ $block->renderSubmenu($children, $node, $childrenLevel) ?>

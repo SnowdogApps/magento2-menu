@@ -202,15 +202,47 @@ class SaveRequestProcessor
         $nodeObject->setLevel((string) $level);
         $nodeObject->setPosition((string) $position);
 
+        $this->processImageParameters($nodeData, $nodeObject);
+
+        $nodeObject->setSelectedItemId($nodeData['selected_item_id'] ?? null);
+        $nodeObject->setCustomerGroups($nodeData[NodeInterface::CUSTOMER_GROUPS] ?? null);
+    }
+
+    private function processImageParameters(array $nodeData, NodeInterface &$nodeObject): void
+    {
+        $nodeObject->setImageAltText($nodeData[NodeInterface::IMAGE_ALT_TEXT] ?? null);
+
         if ($nodeObject->getImage() && empty($nodeData['image'])) {
             $this->nodeImageFile->delete($nodeObject->getImage());
         }
 
-        $nodeObject->setImage($nodeData['image'] ?? null);
-        $nodeObject->setImageAltText($nodeData['image_alt_text'] ?? null);
+        if (empty($nodeData[NodeInterface::IMAGE])) {
+            $nodeObject->setImageWidth(null);
+            $nodeObject->setImageHeight(null);
+            $nodeObject->setImage(null);
+            return;
+        }
 
-        $nodeObject->setSelectedItemId($nodeData['selected_item_id'] ?? null);
-        $nodeObject->setCustomerGroups($nodeData[NodeInterface::CUSTOMER_GROUPS] ?? null);
+        if (empty($nodeData[NodeInterface::IMAGE_WIDTH])
+            || empty($nodeData[NodeInterface::IMAGE_HEIGHT])
+        ) {
+            $imageSize = $this->nodeImageFile->getImageSize($nodeData[NodeInterface::IMAGE]);
+
+            if (!empty($imageSize)) {
+                $nodeObject
+                    ->setImageWidth(
+                        !empty($nodeData[NodeInterface::IMAGE_WIDTH])
+                            ? $nodeData[NodeInterface::IMAGE_WIDTH]
+                            : $imageSize[0]
+                    );
+                $nodeObject
+                    ->setImageHeight(
+                        !empty($nodeData[NodeInterface::IMAGE_HEIGHT])
+                            ? $nodeData[NodeInterface::IMAGE_HEIGHT]
+                            : $imageSize[1]
+                    );
+            }
+        }
     }
 
     /**
