@@ -17,6 +17,7 @@
 
             <div class="admin__field-control control">
                 <v-select
+                    input-id="node_type"
                     :value="item.type"
                     :options="options"
                     :placeholder="config.translation.selectNodeType"
@@ -54,13 +55,14 @@
         <div class="admin__field field field-title">
             <label
                 class="label admin__field-label"
-                for="node_type"
+                for="customer_groups"
             >
                 {{ config.translation.customerGroups }}
             </label>
 
             <div class="admin__field-control control">
                 <v-select
+                    input-id="customer_groups"
                     v-model="item.customer_groups"
                     :options="config.customerGroups"
                     aria-describedby="customer-groups-description"
