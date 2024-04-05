@@ -64,6 +64,7 @@
                 <v-select
                     input-id="customer_groups"
                     v-model="item.customer_groups"
+                    :reduce="customer_group => customer_group.value"
                     :options="config.customerGroups"
                     aria-describedby="customer-groups-description"
                     clearable
