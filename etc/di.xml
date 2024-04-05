@@ -74,4 +74,9 @@
             <argument name="validator" xsi:type="object">Snowdog\Menu\Model\ImportExport\Processor\Import\Node\Validator\Proxy</argument>
         </arguments>
     </type>
+
+    <type name="Magento\Framework\App\Http\Context">
+        <plugin name="snowdog_menu_cache_context_plugin"
+                type="Snowdog\Menu\Plugin\CustomerGroupCacheContext"/>
+    </type>
 </config>

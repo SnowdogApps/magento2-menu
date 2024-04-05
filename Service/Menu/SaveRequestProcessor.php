@@ -205,6 +205,7 @@ class SaveRequestProcessor
         $this->processImageParameters($nodeData, $nodeObject);
 
         $nodeObject->setSelectedItemId($nodeData['selected_item_id'] ?? null);
+        $nodeObject->setCustomerGroups($nodeData[NodeInterface::CUSTOMER_GROUPS] ?? null);
     }
 
     private function processImageParameters(array $nodeData, NodeInterface &$nodeObject): void

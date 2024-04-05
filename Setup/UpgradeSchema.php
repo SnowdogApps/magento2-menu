@@ -21,6 +21,7 @@ class UpgradeSchema implements UpgradeSchemaInterface
 {
     /**
      * {@inheritdoc}
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      * @SuppressWarnings(PHPMD.NPathComplexity)
      * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      */
@@ -62,6 +63,10 @@ class UpgradeSchema implements UpgradeSchemaInterface
 
         if (version_compare($context->getVersion(), '0.2.7', '<')) {
             $this->addNodeImageSizeFields($setup);
+        }
+
+        if (version_compare($context->getVersion(), '0.2.8', '<')) {
+            $this->addNodeCustomerGroups($setup);
         }
 
         $setup->endSetup();
@@ -331,6 +336,26 @@ class UpgradeSchema implements UpgradeSchemaInterface
                 'nullable' => true,
                 'after' => NodeInterface::IMAGE_WIDTH,
                 'comment' => 'Image Height'
+            ]
+        );
+
+        return $this;
+    }
+
+    private function addNodeCustomerGroups(SchemaSetupInterface $setup)
+    {
+        $connection = $setup->getConnection();
+        $table = $setup->getTable('snowmenu_node');
+
+        $connection->addColumn(
+            $table,
+            NodeInterface::CUSTOMER_GROUPS,
+            [
+                'type' => Table::TYPE_TEXT,
+                'length' => 255,
+                'nullable' => true,
+                'after' => NodeInterface::SELECTED_ITEM_ID,
+                'comment' => "Customer Groups Serialized"
             ]
         );
 

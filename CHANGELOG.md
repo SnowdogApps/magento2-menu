@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [Unreleased]
 ### Added
 - `width` and `height` attributes to menu node images (DEV-102271)
+- Option to specify customer groups for each node (DEV-94738)
 
 ## [2.26.0] - 2024-03-29
 ### Fixed
