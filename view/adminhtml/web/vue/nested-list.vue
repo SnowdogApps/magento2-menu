@@ -37,21 +37,24 @@
 
                 <div>
                     <button
+                        type="button"
                         class="panel__buttom panel__buttom--edit"
                         :title="config.translation.edit"
-                        @click.prevent="editNode"
+                        @click="editNode"
                     />
 
                     <button
+                        type="button"
                         class="panel__buttom panel__buttom--append"
                         :title="config.translation.append"
-                        @click.prevent="appendEvent(list, index)"
+                        @click="appendEvent(list, index)"
                     />
 
                     <button
+                        type="button"
                         class="panel__buttom panel__buttom--delete"
                         :title="config.translation.delete"
-                        @click.prevent="deleteEvent(list, index)"
+                        @click="deleteEvent(list, index)"
                     />
                 </div>
             </div>
