@@ -16,7 +16,7 @@ class Index extends Action
     public function execute()
     {
         $resultPage = $this->resultFactory->create(ResultFactory::TYPE_PAGE);
-        $resultPage->getConfig()->getTitle()->prepend(__('Menus'));
+        $resultPage->getConfig()->getTitle()->prepend(__('Snowdog Menus'));
         return $resultPage;
     }
 }
