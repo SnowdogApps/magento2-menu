@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [Unreleased]
 ### Added
 - `width` and `height` attributes to menu node images (DEV-102271)
+- Snowdog branding in admin panel (DEV-105762)
 
 ## [2.26.0] - 2024-03-29
 ### Fixed
