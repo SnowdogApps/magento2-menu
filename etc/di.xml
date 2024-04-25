@@ -74,4 +74,15 @@
             <argument name="validator" xsi:type="object">Snowdog\Menu\Model\ImportExport\Processor\Import\Node\Validator\Proxy</argument>
         </arguments>
     </type>
+
+    <type name="Magento\Framework\EntityManager\MetadataPool">
+        <arguments>
+            <argument name="metadata" xsi:type="array">
+                <item name="Snowdog\Menu\Api\Data\MenuInterface" xsi:type="array">
+                    <item name="entityTableName" xsi:type="string">snowmenu_menu</item>
+                    <item name="identifierField" xsi:type="string">menu_id</item>
+                </item>
+            </argument>
+        </arguments>
+    </type>
 </config>

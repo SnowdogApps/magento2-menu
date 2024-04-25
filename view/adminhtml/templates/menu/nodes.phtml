@@ -7,9 +7,10 @@ foreach ($block->getNodeForms() as $form) {
     $fieldData[$form->getNodeType()] = $form->getJsonConfig();
 }
 $vueComponents = $block->getVueComponents();
+$blockHtmlId = $block->getBlockHtmlId();
 ?>
 
-<div id="snowdog-menu">
+<div id=<?= $blockHtmlId ?>>
     <snowdog-menu
       ref="menu"
       :nodes="nodes"
@@ -35,6 +36,7 @@ $vueComponents = $block->getVueComponents();
         "*": {
             "menuNodes": {
                 "vueComponents": <?= json_encode($vueComponents) ?>,
+                "blockHtmlId": <?= $blockHtmlId ?>,
                 "data": {
                     "nodes"  : <?= json_encode($block->renderNodes()) ?>,
                     "config": {
@@ -44,6 +46,7 @@ $vueComponents = $block->getVueComponents();
                         "imageDeleteUrl"   : "<?= $block->getImageDeleteUrl() ?>",
                         "imageUploadFileId": "<?= $block->getImageUploadFileId() ?>",
                         "lazyMinItemsCount": "1000",
+                        "serializedNodesElementName": "serialized_nodes",
                         "translation": {
                             "nodes"          : "<?= __('Nodes') ?>",
                             "click"          : "<?= __('Click') ?>",

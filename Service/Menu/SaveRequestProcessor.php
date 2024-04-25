@@ -9,6 +9,7 @@ use Magento\Framework\Message\ManagerInterface;
 use Snowdog\Menu\Api\Data\MenuInterface;
 use Snowdog\Menu\Api\Data\NodeInterface;
 use Snowdog\Menu\Api\NodeRepositoryInterface;
+use Snowdog\Menu\Helper\MenuHelper;
 use Snowdog\Menu\Model\Menu\Node\Image\File as NodeImageFile;
 use Snowdog\Menu\Model\Menu\Node\Image\Node as ImageNode;
 use Snowdog\Menu\Model\Menu\Node\Validator as NodeValidator;
@@ -52,6 +53,11 @@ class SaveRequestProcessor
      */
     private $menuNodes;
 
+    /**
+     * @var MenuHelper
+     */
+    private $menuHelper;
+
     public function __construct(
         ManagerInterface $messageManager,
         NodeRepositoryInterface $nodeRepository,
@@ -59,7 +65,8 @@ class SaveRequestProcessor
         ImageNode $imageNode,
         NodeValidator $nodeValidator,
         NodeFactory $nodeFactory,
-        MenuNodes $menuNodes
+        MenuNodes $menuNodes,
+        MenuHelper $menuHelper
     ) {
         $this->messageManager = $messageManager;
         $this->nodeRepository = $nodeRepository;
@@ -68,6 +75,7 @@ class SaveRequestProcessor
         $this->nodeValidator = $nodeValidator;
         $this->nodeFactory = $nodeFactory;
         $this->menuNodes = $menuNodes;
+        $this->menuHelper = $menuHelper;
     }
 
     /**
@@ -106,7 +114,7 @@ class SaveRequestProcessor
 
             if (!isset($invalidNodes[$nodeId])) {
                 $nodeObject = $this->nodeFactory->create();
-                $nodeObject->setMenuId($menu->getMenuId());
+                $nodeObject->setData($this->menuHelper->getLinkField(), $this->menuHelper->getLinkValue($menu));
                 $nodeObject = $this->nodeRepository->save($nodeObject);
                 $nodeMap[$nodeId] = $nodeObject;
             }

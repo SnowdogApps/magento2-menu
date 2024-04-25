@@ -7,6 +7,7 @@ use Magento\Backend\Block\Widget\Tab\TabInterface;
 use Magento\Framework\Registry;
 use Snowdog\Menu\Api\NodeRepositoryInterface;
 use Snowdog\Menu\Controller\Adminhtml\Menu\Edit;
+use Snowdog\Menu\Helper\MenuHelper;
 use Snowdog\Menu\Model\Menu\Node\Image\File as ImageFile;
 use Snowdog\Menu\Model\NodeTypeProvider;
 use Snowdog\Menu\Model\VueProvider;
@@ -45,7 +46,13 @@ class Nodes extends Template implements TabInterface
      */
     private $vueProvider;
 
+    /**
+     * @var MenuHelper
+     */
+    private $menuHelper;
+
     public function __construct(
+        MenuHelper $menuHelper,
         Template\Context $context,
         NodeRepositoryInterface $nodeRepository,
         ImageFile $imageFile,
@@ -60,6 +67,7 @@ class Nodes extends Template implements TabInterface
         $this->nodeTypeProvider = $nodeTypeProvider;
         $this->imageFile = $imageFile;
         $this->vueProvider = $vueProvider;
+        $this->menuHelper = $menuHelper;
     }
 
     public function renderNodes()
@@ -67,7 +75,7 @@ class Nodes extends Template implements TabInterface
         $menu = $this->registry->registry(Edit::REGISTRY_CODE);
         $data = [];
         if ($menu) {
-            $nodes = $this->nodeRepository->getByMenu($menu->getId());
+            $nodes = $this->nodeRepository->getByMenu($this->menuHelper->getLinkValue($menu));
             if (!empty($nodes)) {
                 foreach ($nodes as $node) {
                     $level = $node->getLevel();
@@ -207,5 +215,14 @@ class Nodes extends Template implements TabInterface
     public function getVueComponents(): array
     {
         return $this->vueProvider->getComponents();
+    }
+
+    /**
+     * @throws LocalizedException
+     */
+    public function getBlockHtmlId(): string
+    {
+        $uuid = $this->mathRandom->getRandomString(5);
+        return '"snowdog-menu-' . $uuid . '"';
     }
 }
