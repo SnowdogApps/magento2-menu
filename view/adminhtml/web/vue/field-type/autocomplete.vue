@@ -129,14 +129,16 @@
                     },
                     set(option) {
                         if (option && typeof option === 'object') {
-                            this.item[this.itemKey] = option.value.toString();
-                            this.item[this.itemIdKey] = option.id.toString();
+                            this.$set(this.item, this.itemKey, option.value.toString());
+                            this.$set(this.item, this.itemIdKey, option.id.toString());
+                            this.$set(this.item, 'title', option.label);
                         }
                         else if (option && typeof option === 'string') {
-                            this.item[this.itemKey] = option;
+                            this.$set(this.item, this.itemKey, option);
+                            this.$set(this.item, 'title', this.options.find(item => item.value === option)?.label);
                         }
                         else {
-                          this.item[this.itemKey] = this.defaultSelectedOption ? this.defaultSelectedOption.value.toString() : '';
+                            this.$set(this.item, this.itemKey, this.defaultSelectedOption ? this.defaultSelectedOption.value.toString() : '');
                         }
                     }
                 },
