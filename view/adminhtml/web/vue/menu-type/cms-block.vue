@@ -4,6 +4,7 @@
         :description="config.translation.blockId"
         :item="item"
         item-key="content"
+        item-id-key="selected_item_id"
         :options="config.fieldData.cms_block.snowMenuAutoCompleteField.options"
         :config="config"
     />
