@@ -163,6 +163,7 @@
                     collapsed: true,
                     draggedOver: false,
                     dragCounter: 0,
+                    isDragging: false,
                 }
             },
             methods: {
@@ -196,16 +197,24 @@
                     this.collapsed = !this.editItem;
                 },
                 dragover() {
-                    this.draggedOver = true;
+                    this.isDragging = true;
                 },
                 dragenter() {
                     this.dragCounter++;
+                    setTimeout(() => {
+                        if (this.isDragging) {
+                            this.draggedOver = true;
+                        }
+                    }, 500)
                 },
                 dragleave() {
                     this.dragCounter--;
-                    if (this.dragCounter === 0) {
-                        this.draggedOver = false;
-                    }
+                    this.isDragging = false;
+                    setTimeout(() => {
+                        if (this.dragCounter === 0) {
+                            this.draggedOver = false;
+                        }
+                    }, 500)
                 },
                 handleDrop(data) {
                     this.drop(data)
