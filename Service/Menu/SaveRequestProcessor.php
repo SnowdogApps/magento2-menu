@@ -223,7 +223,7 @@ class SaveRequestProcessor
             return;
         }
 
-        if (!$nodeObject->getImage() && $nodeData[NodeInterface::IMAGE]) {
+        if (!$nodeObject->getImage()) {
             $nodeObject->setImage($nodeData[NodeInterface::IMAGE]);
         }
 
