@@ -222,6 +222,10 @@ class SaveRequestProcessor
             return;
         }
 
+        if (!$nodeObject->getImage() && $nodeData['image']) {
+            $nodeObject->setImage($nodeData['image']);
+        }
+
         if (empty($nodeData[NodeInterface::IMAGE_WIDTH])
             || empty($nodeData[NodeInterface::IMAGE_HEIGHT])
         ) {
