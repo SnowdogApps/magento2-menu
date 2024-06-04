@@ -6,6 +6,7 @@
         :selected="selectedEvent"
         :delete="deleteEvent"
         :append="appendEvent"
+        :duplicate="duplicateEvent"
         :wrapper="list"
         :class="{'selected': selectedItem === item}"
     >
@@ -42,21 +43,45 @@
 
                 <div>
                     <button
-                        class="panel__buttom panel__buttom--edit"
+                        type="button"
+                        class="panel__button panel__button--edit"
                         :title="config.translation.edit"
-                        @click.prevent="editNode"
+                        @click="editNode"
                     />
 
                     <button
-                        class="panel__buttom panel__buttom--append"
+                        type="button"
+                        class="panel__button panel__button--append"
                         :title="config.translation.append"
-                        @click.prevent="appendEvent(list, index)"
+                        @click="appendEvent(list, index)"
                     />
 
                     <button
-                        class="panel__buttom panel__buttom--delete"
+                        type="button"
+                        class="panel__button panel__button--duplicate"
+                        :title="config.translation.duplicate"
+                        @click="duplicateEvent(list, index)"
+                    >
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 512 512"
+                            width="16"
+                            height="16"
+                            fill="currentColor"
+                            aria-hidden="true"
+                        >
+                            <path
+                                d="M408 112H184a72 72 0 0 0-72 72v224a72 72 0 0 0 72 72h224a72 72 0 0 0 72-72V184a72 72 0 0 0-72-72Zm-32.45 200H312v63.55c0 8.61-6.62 16-15.23 16.43A16 16 0 0 1 280 376v-64h-63.55c-8.61 0-16-6.62-16.43-15.23A16 16 0 0 1 216 280h64v-63.55c0-8.61 6.62-16 15.23-16.43A16 16 0 0 1 312 216v64h64a16 16 0 0 1 16 16.77c-.42 8.61-7.84 15.23-16.45 15.23Z"
+                            />
+                            <path d="M395.88 80A72.12 72.12 0 0 0 328 32H104a72 72 0 0 0-72 72v224a72.12 72.12 0 0 0 48 67.88V160a80 80 0 0 1 80-80Z" />
+                        </svg>
+                    </button>
+
+                    <button
+                        type="button"
+                        class="panel__button panel__button--delete"
                         :title="config.translation.delete"
-                        @click.prevent="deleteEvent(list, index)"
+                        @click="deleteEvent(list, index)"
                     />
                 </div>
             </div>
@@ -88,6 +113,7 @@
                             :selected-item="selectedItem"
                             :delete="deleteEvent"
                             :append="append"
+                            :duplicate="duplicate"
                             :drop="handleDrop"
                             :config="config"
                         />
@@ -99,7 +125,7 @@
                     >
                         {{ config.translation.click }}
                         <button
-                            class="panel__buttom panel__buttom--append"
+                            class="panel__button panel__button--append"
                             :title="config.translation.append"
                             @click.prevent="appendEvent(list, index)"
                         />
@@ -144,6 +170,10 @@
                     type: Function,
                     required: true
                 },
+                duplicate: {
+                    type: Function,
+                    required: true
+                },
                 append: {
                     type: Function,
                     required: true
@@ -157,7 +187,7 @@
                     required: true
                 },
             },
-            data: function() {
+            data() {
                 return {
                     editItem: false,
                     collapsed: true,
@@ -167,32 +197,37 @@
                 }
             },
             methods: {
-                selectedEvent: function(item) {
+                selectedEvent(item) {
                     if (typeof(this.selected) === 'function') {
                         this.selected(item);
                     }
                 },
-                appendEvent: function(list, index) {
+                appendEvent(list, index) {
                     this.editItem = false;
                     this.collapsed = false;
                     if (typeof(this.append) === 'function') {
                         this.append(list[index].columns);
                     }
                 },
-                deleteEvent: function(list, index) {
+                duplicateEvent(list, index) {
+                    if (typeof(this.duplicate) === 'function') {
+                        this.duplicate(list, index);
+                    }
+                },
+                deleteEvent(list, index) {
                     this.editItem = false;
                     if (typeof(this.delete) === 'function') {
                         this.delete(list, index);
                     }
                 },
-                getNodeType: function(type) {
+                getNodeType(type) {
                     var nodeType = '';
                     if (type) {
                         nodeType = '(' + this.$root.config.nodeTypes[type] + ')';
                     }
                     return nodeType;
                 },
-                editNode: function() {
+                editNode() {
                     this.editItem = !this.editItem;
                     this.collapsed = !this.editItem;
                 },

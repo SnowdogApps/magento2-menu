@@ -140,10 +140,10 @@
                         }
                     }
                 },
-                placeholder: function() {
+                placeholder() {
                     return this.config.translation.pleaseSelect + ' ' + this.label.toLocaleLowerCase();
                 },
-                optionsTree: function() {
+                optionsTree() {
                     const hashTable = {},
                             optionsTree = [];
 

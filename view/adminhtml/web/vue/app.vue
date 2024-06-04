@@ -9,7 +9,7 @@
 
             <div>
                 <button
-                    class="panel__buttom panel__buttom--append"
+                    class="panel__button panel__button--append"
                     :title="config.translation.append"
                     @click.prevent="addNode(list)"
                 />
@@ -35,6 +35,7 @@
                         :selected-item="selectedItem"
                         :delete="removeNode"
                         :append="addNode"
+                        :duplicate="duplicateNode"
                         :drop="handleDrop"
                         :config="config"
                     />
@@ -46,7 +47,7 @@
                 >
                     {{ config.translation.click }}
                     <button
-                        class="panel__buttom panel__buttom--append"
+                        class="panel__button panel__button--append"
                         :title="config.translation.append"
                         @click.prevent="addNode(list)"
                     />
@@ -77,19 +78,19 @@
                     required: true
                 }
             },
-            data: function() {
+            data() {
                 return {
                     list: [],
                     selectedItem: null
                 };
             },
             computed: {
-                jsonList: function() {
+                jsonList() {
                     return JSON.stringify(this.list);
                 }
             },
             watch: {
-                jsonList: function (newValue) {
+                jsonList (newValue) {
                     this.updateSerializedNodes(newValue)
                 }
             },
@@ -116,13 +117,13 @@
             },
             methods: {
                 uuid,
-                setSelectedNode: function(item) {
+                setSelectedNode(item) {
                     this.selectedItem = item;
                 },
-                removeNode: function(list, index) {
+                removeNode(list, index) {
                     list.splice(index, 1);
                 },
-                addNode: function(target) {
+                addNode(target) {
                     target.push({
                         id: this.uuid(),
                         uuid: this.uuid(),
@@ -138,6 +139,23 @@
                         columns: [],
                         is_active: 0
                     });
+                },
+                setUniqueIds(node) {
+                    if (node !== null) {
+                        node = {
+                            ...node,
+                            id: this.uuid(),
+                            uuid: this.uuid()
+                        };
+                        if (node.columns?.length) {
+                            node.columns = node.columns.map(this.setUniqueIds);
+                        }
+                    }
+                    return node;
+                },
+                duplicateNode(list, index) {
+                    const newNode = this.setUniqueIds(list[index])
+                    list.splice(++index, 0, newNode);
                 },
                 handleDrop(data) {
                     data.item.uuid = this.uuid();
