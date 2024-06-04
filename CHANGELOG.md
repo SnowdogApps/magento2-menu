@@ -8,6 +8,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [Unreleased]
 ### Added
 - `width` and `height` attributes to menu node images (DEV-102271)
+- Snowdog branding in admin panel (DEV-105762)
+- Automatically open collapsed menu node when dragging another node inside (DEV-101986)
+### Fixed
+- Impossible to change Cms block, Cms page link after selecting displayed block (DEV-104546)
+### Updated
+- vue-select to 3.20.0 (DEV-104546)
 
 ## [2.26.0] - 2024-03-29
 ### Fixed

@@ -10,13 +10,18 @@
         :wrapper="list"
         :class="{'selected': selectedItem === item}"
     >
-        <div class="panel">
+        <div
+            class="panel"
+            @dragover="dragover"
+            @dragenter="dragenter"
+            @dragleave="dragleave"
+        >
             <div class="panel__heading">
                 <div
                     class="panel__collapse"
                     :class="{
                         'panel__collapse--up': collapsed,
-                        'panel__collapse--down': !collapsed,
+                        'panel__collapse--down': !collapsed || draggedOver,
                         'panel__collapse--none': item.columns.length == 0,
                     }"
                     @click.prevent="collapsed = !collapsed"
@@ -81,11 +86,11 @@
                 </div>
             </div>
 
-            <div v-show="!collapsed">
+            <div v-show="!collapsed || draggedOver">
                 <vddl-list
                     class="panel__body"
                     :list="item.columns"
-                    :drop="drop"
+                    :drop="handleDrop"
                     :external-sources="true"
                 >
                     <template v-if="editItem">
@@ -109,7 +114,7 @@
                             :delete="deleteEvent"
                             :append="append"
                             :duplicate="duplicate"
-                            :drop="drop"
+                            :drop="handleDrop"
                             :config="config"
                         />
                     </template>
@@ -185,7 +190,10 @@
             data() {
                 return {
                     editItem: false,
-                    collapsed: true
+                    collapsed: true,
+                    draggedOver: false,
+                    dragCounter: 0,
+                    isDragging: false,
                 }
             },
             methods: {
@@ -222,7 +230,33 @@
                 editNode() {
                     this.editItem = !this.editItem;
                     this.collapsed = !this.editItem;
-                }
+                },
+                dragover() {
+                    this.isDragging = true;
+                },
+                dragenter() {
+                    this.dragCounter++;
+                    setTimeout(() => {
+                        if (this.isDragging) {
+                            this.draggedOver = true;
+                        }
+                    }, 500)
+                },
+                dragleave() {
+                    this.dragCounter--;
+                    this.isDragging = false;
+                    setTimeout(() => {
+                        if (this.dragCounter === 0) {
+                            this.draggedOver = false;
+                        }
+                    }, 500)
+                },
+                handleDrop(data) {
+                    this.drop(data)
+                    this.draggedOver = false;
+                    this.dragCounter = 0;
+                    this.collapsed = false;
+                },
             },
             template: template
         });
