@@ -203,6 +203,7 @@
             </field>
             <field name="depth" formElement="input">
                 <settings>
+                    <elementTmpl>Snowdog_Menu/form/element/depth-input</elementTmpl>
                     <dataType>int</dataType>
                     <label translate="true">Level of depth</label>
                     <validation>
