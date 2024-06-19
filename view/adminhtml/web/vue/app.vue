@@ -145,7 +145,7 @@
                         node = {
                             ...node,
                             id: this.uuid(),
-                            uuid: this.uuid(),
+                            uuid: this.uuid()
                         };
                         if (node.columns?.length) {
                             node.columns = node.columns.map(this.setUniqueIds);
