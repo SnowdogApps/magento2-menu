@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Duplicate node functionality (DEV-104364)
 ### Fixed
 - Impossible to change Cms block, Cms page link after selecting displayed block (DEV-104546)
+- Submenu template name issue ([#321](https://github.com/SnowdogApps/magento2-menu/pull/321)) (DEV-105672)
 ### Updated
 - vue-select to 3.20.0 (DEV-104546)
 
