@@ -21,11 +21,11 @@
     <column xsi:type="int" name="parent_id" padding="10" unsigned="true" nullable="true" identity="false" comment="Parent Node ID"/>
     <column xsi:type="int" name="position" padding="10" unsigned="true" nullable="false" identity="false" comment="Node position"/>
     <column xsi:type="int" name="level" padding="10" unsigned="true" nullable="false" identity="false" comment="Node level"/>
-    <column xsi:type="text" name="title" nullable="false" length="255"/>
+    <column xsi:type="text" name="title" nullable="false"/>
     <column xsi:type="timestamp" name="creation_time" on_update="false" nullable="false" default="CURRENT_TIMESTAMP" comment="Creation Time"/>
     <column xsi:type="timestamp" name="update_time" on_update="true" nullable="false" default="CURRENT_TIMESTAMP" comment="Modification Time"/>
     <column xsi:type="smallint" name="is_active" padding="6" unsigned="false" nullable="false" identity="false" default="1" comment="Is Active"/>
-    <column xsi:type="boolean" name="target" nullable="true" length="10"/>
+    <column xsi:type="boolean" name="target" nullable="true"/>
     <column xsi:type="varchar" name="submenu_template" nullable="true" length="255" comment="Submenu Template"/>
     <column xsi:type="varchar" name="node_template" nullable="true" length="255" comment="Node Template"/>
     <column xsi:type="text" name="image" nullable="true" comment="Image"/>
