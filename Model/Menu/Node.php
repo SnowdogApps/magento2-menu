@@ -383,7 +383,7 @@ class Node extends AbstractModel implements NodeInterface, IdentityInterface
         }
 
         foreach ($customerGroups as $customerGroup) {
-            if ((int) $customerGroup['value'] === (int) $customerGroupId) {
+            if ((int) $customerGroup === (int) $customerGroupId) {
                 return true;
             }
         }

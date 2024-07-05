@@ -194,6 +194,9 @@ class Menu extends Template implements DataObject\IdentityInterface
         if ($nodeCacheKeyInfo) {
             $info = array_merge($info, $nodeCacheKeyInfo);
         }
+        if ($this->scopeConfig->isSetFlag('snowmenu/general/customer_groups')) {
+            $info[] = 'cust_group_' . $this->getCustomerGroupId();
+        }
 
         return $info;
     }
