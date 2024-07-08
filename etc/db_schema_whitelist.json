@@ -40,6 +40,9 @@
         "constraint": {
             "PRIMARY": true,
             "SNOWMENU_NODE_MENU_ID_SNOWMENU_MENU_MENU_ID": true
+        },
+        "index": {
+            "SNOWMENU_NODE_NODE_ID": true
         }
     },
     "snowmenu_store": {
@@ -51,6 +54,18 @@
             "PRIMARY": true,
             "SNOWMENU_STORE_MENU_ID_SNOWMENU_MENU_MENU_ID": true,
             "SNOWMENU_STORE_STORE_ID_STORE_STORE_ID": true
+        }
+    },
+    "snowmenu_customer": {
+        "column": {
+            "node_id": true,
+            "group_id": true
+        },
+        "index": {
+            "SNOWMENU_CUSTOMER_NODE_ID": true
+        },
+        "constraint": {
+            "SNOWMENU_CUSTOMER_NODE_ID_SNOWMENU_NODE_NODE_ID": true
         }
     }
 }
