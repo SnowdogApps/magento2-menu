@@ -28,8 +28,8 @@ class Collection extends AbstractCollection
         AdapterInterface $connection = null,
         AbstractDb $resource = null
     ) {
-        parent::__construct($entityFactory, $logger, $fetchStrategy, $eventManager, $connection, $resource);
         $this->scopeConfig = $scopeConfig;
+        parent::__construct($entityFactory, $logger, $fetchStrategy, $eventManager, $connection, $resource);
     }
 
     protected function _construct()

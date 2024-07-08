@@ -23,7 +23,7 @@ class Node extends AbstractDb
             $nodeCustomerGroups = json_decode($nodeCustomerGroups);
         }
         $insertData = [];
-        foreach ($nodeCustomerGroups as $customerGroup) {
+        foreach ($nodeCustomerGroups ?? [] as $customerGroup) {
             $insertData[] = [
                 'node_id' => $object->getNodeId(),
                 'group_id' => $customerGroup
