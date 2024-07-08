@@ -2,8 +2,8 @@
 
 namespace Snowdog\Menu\Block;
 
-use Magento\Customer\Model\Session;
 use Magento\Framework\App\Cache\Type\Block;
+use Magento\Framework\App\Http\Context;
 use Magento\Framework\DataObject;
 use Magento\Framework\View\Element\Template;
 use Magento\Framework\Event\Manager as EventManager;
@@ -80,9 +80,9 @@ class Menu extends Template implements DataObject\IdentityInterface
     private $escaper;
 
     /**
-     * @var Session
+     * @var Context
      */
-    private $customerSession;
+    private $httpContext;
 
     /**
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
@@ -96,7 +96,7 @@ class Menu extends Template implements DataObject\IdentityInterface
         TemplateResolver $templateResolver,
         ImageFile $imageFile,
         Escaper $escaper,
-        Session $customerSession,
+        Context $httpContext,
         array $data = []
     ) {
         parent::__construct($context, $data);
@@ -109,7 +109,7 @@ class Menu extends Template implements DataObject\IdentityInterface
         $this->escaper = $escaper;
         $this->setTemplate($this->getMenuTemplate($this->_template));
         $this->submenuTemplate = $this->getSubmenuTemplate();
-        $this->customerSession = $customerSession;
+        $this->httpContext = $httpContext;
     }
 
     /**
@@ -511,6 +511,6 @@ class Menu extends Template implements DataObject\IdentityInterface
 
     public function getCustomerGroupId()
     {
-        return $this->customerSession->getCustomerGroupId();
+        return $this->httpContext->getValue(\Magento\Customer\Model\Context::CONTEXT_GROUP);
     }
 }
