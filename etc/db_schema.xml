@@ -37,6 +37,9 @@
             <column name="node_id"/>
         </constraint>
         <constraint xsi:type="foreign" referenceId="SNOWMENU_NODE_MENU_ID_SNOWMENU_MENU_MENU_ID" table="snowmenu_node" column="menu_id" referenceTable="snowmenu_menu" referenceColumn="menu_id" onDelete="CASCADE"/>
+        <index referenceId="SNOWMENU_NODE_NODE_ID" indexType="btree">
+            <column name="node_id"/>
+        </index>
     </table>
     <table name="snowmenu_store" resource="default" engine="innodb" comment="snowmenu_store">
         <column xsi:type="int" name="menu_id" padding="10" unsigned="true" nullable="false" identity="false" comment="Menu ID"/>
@@ -53,5 +56,8 @@
         <column xsi:type="int" name="node_id" padding="10" unsigned="true" nullable="false" identity="false" comment="Node ID"/>
         <column xsi:type="smallint" name="group_id" unsigned="true" nullable="false" identity="false" comment="Group ID"/>
         <constraint xsi:type="foreign" referenceId="SNOWMENU_CUSTOMER_NODE_ID_SNOWMENU_NODE_NODE_ID" table="snowmenu_customer" column="node_id" referenceTable="snowmenu_node" referenceColumn="node_id" onDelete="CASCADE"/>
+        <index referenceId="SNOWMENU_CUSTOMER_NODE_ID" indexType="btree">
+            <column name="node_id"/>
+        </index>
     </table>
 </schema>
