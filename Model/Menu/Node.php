@@ -351,11 +351,12 @@ class Node extends AbstractModel implements NodeInterface, IdentityInterface
     public function getCustomerGroups()
     {
         $customerGroups = $this->_getData(NodeInterface::CUSTOMER_GROUPS);
-        if ($customerGroups !== null) {
-            $customerGroups = explode(',', $customerGroups);
-            if (is_array($customerGroups) && !empty($customerGroups)) {
-                return $customerGroups;
-            }
+        if ($customerGroups == null) {
+            return [];
+        }
+        $customerGroups = explode(',', $customerGroups);
+        if (is_array($customerGroups) && !empty($customerGroups)) {
+            return $customerGroups;
         }
 
         return [];

@@ -123,11 +123,7 @@ class File
         $mediaDirectory = $this->filesystem->getDirectoryRead(DirectoryList::MEDIA);
         $fileFullPath = $mediaDirectory->getAbsolutePath(self::PATH . $file);
 
-        try {
-            return getimagesize($fileFullPath);
-        } catch (Exception $e) {
-            return [];
-        }
+        return getimagesize($fileFullPath);
     }
 
     private function getAbsolutePath(): string
