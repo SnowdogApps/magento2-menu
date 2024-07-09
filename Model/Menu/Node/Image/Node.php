@@ -67,7 +67,7 @@ class Node
     public function getNodeListImages(array $nodeIds): array
     {
         $searchCriteria = $this->searchCriteriaBuilder
-            ->addFilter(NodeInterface::NODE_ID, $nodeIds, 'in')
+            ->addFilter('main_table.' . NodeInterface::NODE_ID, $nodeIds, 'in')
             ->addFilter(NodeInterface::IMAGE, true, 'notnull')
             ->addFilter(NodeInterface::IMAGE, '', 'neq')
             ->create();

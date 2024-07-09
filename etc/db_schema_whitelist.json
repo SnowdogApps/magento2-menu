@@ -1,0 +1,71 @@
+{
+    "snowmenu_menu": {
+        "column": {
+            "menu_id": true,
+            "title": true,
+            "identifier": true,
+            "creation_time": true,
+            "update_time": true,
+            "is_active": true,
+            "css_class": true
+        },
+        "constraint": {
+            "PRIMARY": true
+        }
+    },
+    "snowmenu_node": {
+        "column": {
+            "node_id": true,
+            "menu_id": true,
+            "type": true,
+            "content": true,
+            "classes": true,
+            "parent_id": true,
+            "position": true,
+            "level": true,
+            "title": true,
+            "creation_time": true,
+            "update_time": true,
+            "is_active": true,
+            "target": true,
+            "submenu_template": true,
+            "node_template": true,
+            "image": true,
+            "image_alt_text": true,
+            "selected_item_id": true,
+            "image_width": true,
+            "image_heigth": true,
+            "customer_groups": true
+        },
+        "constraint": {
+            "PRIMARY": true,
+            "SNOWMENU_NODE_MENU_ID_SNOWMENU_MENU_MENU_ID": true
+        },
+        "index": {
+            "SNOWMENU_NODE_NODE_ID": true
+        }
+    },
+    "snowmenu_store": {
+        "column": {
+            "menu_id": true,
+            "store_id": true
+        },
+        "constraint": {
+            "PRIMARY": true,
+            "SNOWMENU_STORE_MENU_ID_SNOWMENU_MENU_MENU_ID": true,
+            "SNOWMENU_STORE_STORE_ID_STORE_STORE_ID": true
+        }
+    },
+    "snowmenu_customer": {
+        "column": {
+            "node_id": true,
+            "group_id": true
+        },
+        "index": {
+            "SNOWMENU_CUSTOMER_NODE_ID": true
+        },
+        "constraint": {
+            "SNOWMENU_CUSTOMER_NODE_ID_SNOWMENU_NODE_NODE_ID": true
+        }
+    }
+}

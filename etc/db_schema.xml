@@ -1,0 +1,63 @@
+<?xml version="1.0"?>
+<schema xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Setup/Declaration/Schema/etc/schema.xsd">
+    <table name="snowmenu_menu" resource="default" engine="innodb" comment="snowmenu_menu">
+        <column xsi:type="int" name="menu_id" padding="10" unsigned="true" nullable="false" identity="true" comment="Entity ID"/>
+        <column xsi:type="varchar" name="title" nullable="false" length="255" comment="Demo Title"/>
+        <column xsi:type="varchar" name="identifier" nullable="false" length="255" comment="Menu identifier"/>
+        <column xsi:type="timestamp" name="creation_time" on_update="false" nullable="false" default="CURRENT_TIMESTAMP" comment="Creation Time"/>
+        <column xsi:type="timestamp" name="update_time" on_update="true" nullable="false" default="CURRENT_TIMESTAMP" comment="Modification Time"/>
+        <column xsi:type="smallint" name="is_active" padding="6" unsigned="false" nullable="false" identity="false" default="1" comment="Is Active"/>
+        <column xsi:type="varchar" name="css_class" nullable="true" length="255" default="menu" comment="CSS Class"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="menu_id"/>
+        </constraint>
+    </table>
+    <table name="snowmenu_node" resource="default" engine="innodb" comment="snowmenu_node">
+        <column xsi:type="int" name="node_id" padding="10" unsigned="true" nullable="false" identity="true" comment="Node ID"/>
+        <column xsi:type="int" name="menu_id" padding="9" unsigned="true" nullable="false" identity="false" comment="Menu ID"/>
+        <column xsi:type="varchar" name="type" nullable="false" length="255" comment="Node Type"/>
+        <column xsi:type="text" name="content" nullable="true" comment="Node contents"/>
+        <column xsi:type="varchar" name="classes" nullable="true" length="255" comment="CSS class name"/>
+        <column xsi:type="int" name="parent_id" padding="10" unsigned="true" nullable="true" identity="false" comment="Parent Node ID"/>
+        <column xsi:type="int" name="position" padding="10" unsigned="true" nullable="false" identity="false" comment="Node position"/>
+        <column xsi:type="int" name="level" padding="10" unsigned="true" nullable="false" identity="false" comment="Node level"/>
+        <column xsi:type="text" name="title" nullable="false"/>
+        <column xsi:type="timestamp" name="creation_time" on_update="false" nullable="false" default="CURRENT_TIMESTAMP" comment="Creation Time"/>
+        <column xsi:type="timestamp" name="update_time" on_update="true" nullable="false" default="CURRENT_TIMESTAMP" comment="Modification Time"/>
+        <column xsi:type="smallint" name="is_active" padding="6" unsigned="false" nullable="false" identity="false" default="1" comment="Is Active"/>
+        <column xsi:type="boolean" name="target" nullable="true"/>
+        <column xsi:type="varchar" name="submenu_template" nullable="true" length="255" comment="Submenu Template"/>
+        <column xsi:type="varchar" name="node_template" nullable="true" length="255" comment="Node Template"/>
+        <column xsi:type="text" name="image" nullable="true" comment="Image"/>
+        <column xsi:type="text" name="image_alt_text" nullable="true" comment="Image Alt Text"/>
+        <column xsi:type="smallint" name="selected_item_id" padding="5" unsigned="true" nullable="true" identity="false" comment="Selected Item Id"/>
+        <column xsi:type="int" name="image_width" padding="11" unsigned="false" nullable="true" identity="false" comment="Image Width"/>
+        <column xsi:type="int" name="image_heigth" padding="11" unsigned="false" nullable="true" identity="false" comment="Image Height"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="node_id"/>
+        </constraint>
+        <constraint xsi:type="foreign" referenceId="SNOWMENU_NODE_MENU_ID_SNOWMENU_MENU_MENU_ID" table="snowmenu_node" column="menu_id" referenceTable="snowmenu_menu" referenceColumn="menu_id" onDelete="CASCADE"/>
+        <index referenceId="SNOWMENU_NODE_NODE_ID" indexType="btree">
+            <column name="node_id"/>
+        </index>
+    </table>
+    <table name="snowmenu_store" resource="default" engine="innodb" comment="snowmenu_store">
+        <column xsi:type="int" name="menu_id" padding="10" unsigned="true" nullable="false" identity="false" comment="Menu ID"/>
+        <column xsi:type="smallint" name="store_id" padding="4" unsigned="true" nullable="false" identity="false" comment="Store ID"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="menu_id"/>
+            <column name="store_id"/>
+            <column name="store_id"/>
+        </constraint>
+        <constraint xsi:type="foreign" referenceId="SNOWMENU_STORE_MENU_ID_SNOWMENU_MENU_MENU_ID" table="snowmenu_store" column="menu_id" referenceTable="snowmenu_menu" referenceColumn="menu_id" onDelete="CASCADE"/>
+        <constraint xsi:type="foreign" referenceId="SNOWMENU_STORE_STORE_ID_STORE_STORE_ID" table="snowmenu_store" column="store_id" referenceTable="store" referenceColumn="store_id" onDelete="CASCADE"/>
+    </table>
+    <table name="snowmenu_customer" resource="default" engine="innodb" comment="snowmenu_customer">
+        <column xsi:type="int" name="node_id" padding="10" unsigned="true" nullable="false" identity="false" comment="Node ID"/>
+        <column xsi:type="smallint" name="group_id" unsigned="true" nullable="false" identity="false" comment="Group ID"/>
+        <constraint xsi:type="foreign" referenceId="SNOWMENU_CUSTOMER_NODE_ID_SNOWMENU_NODE_NODE_ID" table="snowmenu_customer" column="node_id" referenceTable="snowmenu_node" referenceColumn="node_id" onDelete="CASCADE"/>
+        <index referenceId="SNOWMENU_CUSTOMER_NODE_ID" indexType="btree">
+            <column name="node_id"/>
+        </index>
+    </table>
+</schema>

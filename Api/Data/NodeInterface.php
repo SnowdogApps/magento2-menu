@@ -25,6 +25,7 @@ interface NodeInterface
     const IS_ACTIVE = 'is_active';
     const ADDITIONAL_DATA = 'additional_data';
     const SELECTED_ITEM_ID = 'selected_item_id';
+    const CUSTOMER_GROUPS = 'customer_groups';
 
     /**
      * Get node id
@@ -298,4 +299,21 @@ interface NodeInterface
      * @return $this
      */
     public function setSelectedItemId($selectedItemId);
+
+    /**
+     * Get customer groups
+     *
+     */
+    public function getCustomerGroups();
+
+    /**
+     * @return $this
+     */
+    public function setCustomerGroups($customerGroups);
+
+    /**
+     * @param int $customerGroupId
+     * @return bool
+     */
+    public function isVisible($customerGroupId);
 }
