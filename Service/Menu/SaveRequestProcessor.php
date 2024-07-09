@@ -226,7 +226,11 @@ class SaveRequestProcessor
         if (empty($nodeData[NodeInterface::IMAGE_WIDTH])
             || empty($nodeData[NodeInterface::IMAGE_HEIGHT])
         ) {
-            $imageSize = $this->nodeImageFile->getImageSize($nodeData[NodeInterface::IMAGE]);
+            try {
+                $imageSize = $this->nodeImageFile->getImageSize($nodeData[NodeInterface::IMAGE]);
+            } catch (\Exception $e) {
+                $imageSize = null;
+            }
 
             if (!empty($imageSize)) {
                 $nodeObject
