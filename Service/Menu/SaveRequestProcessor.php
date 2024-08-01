@@ -215,15 +215,20 @@ class SaveRequestProcessor
     {
         $nodeObject->setImageAltText($nodeData[NodeInterface::IMAGE_ALT_TEXT] ?? null);
 
-        if ($nodeObject->getImage() && empty($nodeData['image'])) {
-            $this->nodeImageFile->delete($nodeObject->getImage());
-        }
-
         if (empty($nodeData[NodeInterface::IMAGE])) {
             $nodeObject->setImageWidth(null);
             $nodeObject->setImageHeight(null);
             $nodeObject->setImage(null);
+
+            if ($nodeObject->getImage()) {
+                $this->nodeImageFile->delete($nodeObject->getImage());
+            }
+
             return;
+        }
+
+        if (!$nodeObject->getImage()) {
+            $nodeObject->setImage($nodeData[NodeInterface::IMAGE]);
         }
 
         if (empty($nodeData[NodeInterface::IMAGE_WIDTH])

@@ -147,7 +147,7 @@
                     required: true
                 }
             },
-            data: function() {
+            data() {
                 return {
                     draft: {},
                     isNodeActiveLabel: $t('Enabled'),
@@ -161,7 +161,7 @@
                 }
             },
             computed: {
-                isTemplateSectionVisible: function() {
+                isTemplateSectionVisible() {
                     var nodeId = this.templateList['node'],
                         submenuId = this.templateList['submenu'],
                         typeData = this.config.fieldData[this.item['type']];
@@ -172,7 +172,7 @@
 
                     return false;
                 },
-                options: function() {
+                options() {
                     var list = [];
                     for (type in this.config.nodeTypes) {
                         list.push({
@@ -182,15 +182,15 @@
                     }
                     return list;
                 },
-                templateOptions: function() {
+                templateOptions() {
                     return this.templateOptionsData[this.item['type']] || [];
                 },
-                showImage: function() {
+                showImage() {
                     return ['category', 'product', 'custom_url'].includes(this.item.type);
                 }
             },
             methods: {
-                changeType: function(selected) {
+                changeType(selected) {
                     if (selected && typeof selected === 'object') {
                         var type  = this.item.type,
                             value = selected.value;
@@ -207,7 +207,7 @@
                         this.item['type'] = value;
                     }
                 },
-                getOptionLabel: function(option) {
+                getOptionLabel(option) {
                     if (typeof option === 'object') {
                         return option.label;
                     }
