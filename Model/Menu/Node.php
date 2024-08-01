@@ -1,13 +1,35 @@
 <?php
 namespace Snowdog\Menu\Model\Menu;
 
+use Magento\Framework\Data\Collection\AbstractDb;
 use Magento\Framework\DataObject\IdentityInterface;
 use Magento\Framework\Model\AbstractModel;
+use Magento\Framework\Model\Context;
+use Magento\Framework\Model\ResourceModel\AbstractResource as AbstractResource;
+use Magento\Framework\Registry;
+use Magento\Framework\Serialize\SerializerInterface;
 use Snowdog\Menu\Api\Data\NodeInterface;
 
 class Node extends AbstractModel implements NodeInterface, IdentityInterface
 {
     const CACHE_TAG = 'snowdog_menu_node';
+
+    /**
+     * @var SerializerInterface
+     */
+    private $serializer;
+
+    public function __construct(
+        Context $context,
+        Registry $registry,
+        SerializerInterface $serializer,
+        AbstractResource $resource = null,
+        AbstractDb $resourceCollection = null,
+        array $data = []
+    ) {
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
+        $this->serializer = $serializer;
+    }
 
     protected function _construct()
     {
@@ -324,5 +346,49 @@ class Node extends AbstractModel implements NodeInterface, IdentityInterface
     public function setSelectedItemId($selectedItemId)
     {
         return $this->setData(NodeInterface::SELECTED_ITEM_ID, $selectedItemId);
+    }
+
+    public function getCustomerGroups()
+    {
+        $customerGroups = $this->_getData(NodeInterface::CUSTOMER_GROUPS);
+        if ($customerGroups == null) {
+            return [];
+        }
+        $customerGroups = explode(',', $customerGroups);
+        if (is_array($customerGroups) && !empty($customerGroups)) {
+            return $customerGroups;
+        }
+
+        return [];
+    }
+
+    public function setCustomerGroups($customerGroups)
+    {
+        if (empty($customerGroups)) {
+            $this->setData(NodeInterface::CUSTOMER_GROUPS);
+            return $this;
+        }
+
+        if (is_string($customerGroups) && $this->serializer->unserialize($customerGroups)) {
+            return $this->setData(NodeInterface::CUSTOMER_GROUPS, $customerGroups);
+        }
+
+        return $this->setData(NodeInterface::CUSTOMER_GROUPS, $this->serializer->serialize($customerGroups));
+    }
+
+    public function isVisible($customerGroupId)
+    {
+        $customerGroups = $this->getCustomerGroups();
+        if (empty($customerGroups)) {
+            return true;
+        }
+
+        foreach ($customerGroups as $customerGroup) {
+            if ((int) $customerGroup === (int) $customerGroupId) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }

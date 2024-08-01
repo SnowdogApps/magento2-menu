@@ -17,6 +17,7 @@
 
             <div class="admin__field-control control">
                 <v-select
+                    input-id="node_type"
                     :value="item.type"
                     :options="options"
                     :placeholder="config.translation.selectNodeType"
@@ -50,6 +51,33 @@
             :label="config.translation.nodeClasses"
             type="text"
         />
+
+        <div class="admin__field field field-title">
+            <label
+                class="label admin__field-label"
+                for="customer_groups"
+            >
+                {{ config.translation.customerGroups }}
+            </label>
+
+            <div class="admin__field-control control">
+                <v-select
+                    input-id="customer_groups"
+                    v-model="item.customer_groups"
+                    :reduce="customer_group => customer_group.value"
+                    :options="config.customerGroups"
+                    aria-describedby="customer-groups-description"
+                    clearable
+                    multiple
+                />
+                <small
+                    id="customer-groups-description"
+                    class="admin__field-control__description"
+                >
+                    {{ config.translation.customerGroupsDescription }}
+                </small>
+            </div>
+        </div>
 
         <template v-if="showImage">
             <image-upload
