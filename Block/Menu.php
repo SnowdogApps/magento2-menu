@@ -458,16 +458,37 @@ class Menu extends Template implements DataObject\IdentityInterface
                 $result[$level][$parent] = [];
             }
             $result[$level][$parent][] = $node;
+            $idx = array_key_last($result[$level][$parent]);
             $type = $node->getType();
             if (!isset($types[$type])) {
                 $types[$type] = [];
             }
-            $types[$type][] = $node;
+            $types[$type][] = [
+                'node' => $node,
+                'path' => [$level, $parent, $idx]
+            ];
         }
         $this->nodes = $result;
 
         foreach ($types as $type => $nodes) {
-            $this->nodeTypeProvider->prepareData($type, $nodes);
+            $this->nodeTypeProvider->prepareData($type, array_column($nodes, 'node'));
+        }
+
+        foreach ($types['category'] as $nodes) {
+            if ($nodes['node']->getContent() == 20) {
+                $nodes['node']->setHideCategoryIfEmpty(true);
+            }
+            /** @var \Snowdog\Menu\Block\NodeType\Category $categoryProvider */
+            if (!$nodes['node']->getHideCategoryIfEmpty()) {
+                continue;
+            }
+            $categoryProvider = $this->nodeTypeProvider->getProvider('category');
+            $productCount = $categoryProvider->getCategoryProductCount($nodes['node']->getNodeId());
+            if (empty($productCount)) {
+                [$level, $parent, $idx] = $nodes['path'];
+                unset ($this->nodes[$level][$parent][$idx]);
+                //todo unset children
+            }
         }
     }
 

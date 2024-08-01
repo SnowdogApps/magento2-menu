@@ -101,4 +101,25 @@ class Category extends AbstractNode
 
         return $connection->fetchPairs($select);
     }
+
+    /**
+     * Get products count in categories
+     *
+     * @see \Magento\Catalog\Model\ResourceModel\Category::getProductCount
+     */
+    public function getCategoriesProductCount($categoryIds = [])
+    {
+        $productTable = $this->getConnection()->getTableName('catalog_category_product');
+
+        $select = $this->getConnection()->select()->from(
+            ['main_table' => $productTable],
+            ['main_table.category_id', new \Zend_Db_Expr('COUNT(main_table.product_id)')]
+        )->where(
+            'main_table.category_id IN (?)', $categoryIds
+        )->group('main_table.category_id');
+
+        $counts = $this->getConnection()->fetchPairs($select);
+
+        return $counts;
+    }
 }

@@ -45,6 +45,11 @@ class Category extends AbstractNode
     private $categories;
 
     /**
+     * @var array
+     */
+    private $categoryProductCounts;
+
+    /**
      * Category constructor.
      *
      * @param Context $context
@@ -103,7 +108,13 @@ class Category extends AbstractNode
     {
         $storeId = $this->_storeManager->getStore()->getId();
 
-        list($this->nodes, $this->categoryUrls, $this->categories) = $this->_categoryModel->fetchData($nodes, $storeId);
+        [
+            $this->nodes,
+            $this->categoryUrls,
+            $this->categories,
+            $this->categoryProductCounts
+        ] = $this->_categoryModel->fetchData($nodes, $storeId);
+
     }
 
     /**
@@ -149,6 +160,22 @@ class Category extends AbstractNode
         }
 
         return false;
+    }
+
+    public function getCategoryProductCount($nodeId)
+    {
+        if (!isset($this->nodes[$nodeId])) {
+            throw new \InvalidArgumentException('Invalid node identifier specified');
+        }
+
+        $node = $this->nodes[$nodeId];
+        $categoryId = (int) $node->getContent();
+
+        if (isset($this->categoryProductCounts[$categoryId])) {
+            return $this->categoryProductCounts[$categoryId];
+        }
+
+        return 0;
     }
 
     /**

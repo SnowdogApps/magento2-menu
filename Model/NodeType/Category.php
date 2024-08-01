@@ -122,10 +122,11 @@ class Category extends AbstractNode
 
         $categoryUrls = $this->getResource()->fetchData($storeId, $categoryIds);
         $categories = $this->getCategories($storeId, $categoryIds);
+        $categoryProductCounts = $this->getResource()->getCategoriesProductCount($categoryIds);
 
         $this->profiler->stop(__METHOD__);
 
-        return [$localNodes, $categoryUrls, $categories];
+        return [$localNodes, $categoryUrls, $categories, $categoryProductCounts];
     }
 
     /**
@@ -136,6 +137,7 @@ class Category extends AbstractNode
     public function getCategories($store, array $categoryIds)
     {
         $return = [];
+        /** @var \Magento\Catalog\Model\ResourceModel\Category\Collection $categories */
         $categories = $this->categoryCollection->create()
             ->addAttributeToSelect('*')
             ->setStoreId($store)
@@ -144,6 +146,7 @@ class Category extends AbstractNode
                 ['in' => $categoryIds]
             );
 
+        /** @var \Magento\Catalog\Api\Data\CategoryInterface $category */
         foreach ($categories as $category) {
             $return[$category->getId()] = $category;
         }
