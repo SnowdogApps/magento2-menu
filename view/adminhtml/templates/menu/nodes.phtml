@@ -44,6 +44,7 @@ $vueComponents = $block->getVueComponents();
                         "imageDeleteUrl"   : "<?= $block->getImageDeleteUrl() ?>",
                         "imageUploadFileId": "<?= $block->getImageUploadFileId() ?>",
                         "lazyMinItemsCount": "1000",
+                        "customerGroups"   : <?= json_encode($block->getCustomerGroups()) ?>,
                         "translation": {
                             "nodes"          : "<?= __('Nodes') ?>",
                             "click"          : "<?= __('Click') ?>",
@@ -51,6 +52,7 @@ $vueComponents = $block->getVueComponents();
                             "createSubNode"  : "<?= __('to create sub node or drag and drop other nodes here.') ?>",
                             "append"         : "<?= __('Append') ?>",
                             "edit"           : "<?= __('Edit') ?>",
+                            "duplicate"      : "<?= __('Duplicate') ?>",
                             "delete"         : "<?= __('Delete') ?>",
                             "addNode"        : "<?= __('New node') ?>",
                             "nodeType"       : "<?= __('Node Type') ?>",
@@ -70,7 +72,11 @@ $vueComponents = $block->getVueComponents();
                             "product"        : "<?= __('Product') ?>",
                             "productId"      : "<?= __('Product ID') ?>",
                             "imageAltText"   : "<?= __('Image Alt text') ?>",
-                            "selectedItemId" : "<?= __('Selected Item Id') ?>"
+                            "imageWidth"   : "<?= __('Image Width') ?>",
+                            "imageHeight"   : "<?= __('Image Height') ?>",
+                            "selectedItemId" : "<?= __('Selected Item Id') ?>",
+                            "customerGroups" : "<?= __('Customer Groups') ?>",
+                            "customerGroupsDescription" : "<?= __('If no customer group is selected, the node will be visible to all customers.') ?>"
                         }
                     }
                 }

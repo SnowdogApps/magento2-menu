@@ -4,6 +4,8 @@ $nodeId = $block->getId();
 $categoryUrl = $block->getCategoryUrl($nodeId) ?: '#';
 $imageUrl = $block->getImageUrl();
 $imageAltText = $block->getImageAltText();
+$imageWidth = $block->getImageWidth();
+$imageHeight = $block->getImageHeight();
 $title = $block->getTitle();
 $nodeClasses = $block->getNodeClasses();
 ?>
@@ -17,6 +19,8 @@ $nodeClasses = $block->getNodeClasses();
             src="<?= $escaper->escapeUrl($imageUrl) ?>"
             alt="<?= $escaper->escapeHtmlAttr($imageAltText) ?>"
             loading="lazy"
+            width="<?= $escaper->escapeHtmlAttr($imageWidth) ?>"
+            height="<?= $escaper->escapeHtmlAttr($imageHeight) ?>"
         />
     </a>
 <?php endif; ?>

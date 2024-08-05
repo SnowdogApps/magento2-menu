@@ -17,6 +17,7 @@
 
             <div class="admin__field-control control">
                 <v-select
+                    input-id="node_type"
                     :value="item.type"
                     :options="options"
                     :placeholder="config.translation.selectNodeType"
@@ -51,19 +52,60 @@
             type="text"
         />
 
-        <image-upload
-            v-if="showImage"
-            id="image"
-            :item="item"
-        />
+        <div class="admin__field field field-title">
+            <label
+                class="label admin__field-label"
+                for="customer_groups"
+            >
+                {{ config.translation.customerGroups }}
+            </label>
 
-        <simple-field
-            v-if="showImage"
-            id="image_alt_text"
-            v-model="item.image_alt_text"
-            :label="config.translation.imageAltText"
-            type="text"
-        />
+            <div class="admin__field-control control">
+                <v-select
+                    input-id="customer_groups"
+                    v-model="item.customer_groups"
+                    :reduce="customer_group => customer_group.value"
+                    :options="config.customerGroups"
+                    aria-describedby="customer-groups-description"
+                    clearable
+                    multiple
+                />
+                <small
+                    id="customer-groups-description"
+                    class="admin__field-control__description"
+                >
+                    {{ config.translation.customerGroupsDescription }}
+                </small>
+            </div>
+        </div>
+
+        <template v-if="showImage">
+            <image-upload
+                id="image"
+                :item="item"
+            />
+
+            <simple-field
+                id="image_alt_text"
+                v-model="item.image_alt_text"
+                :label="config.translation.imageAltText"
+                type="text"
+            />
+
+            <simple-field
+                id="image_width"
+                v-model="item.image_width"
+                :label="config.translation.imageWidth"
+                type="number"
+            />
+
+            <simple-field
+                id="image_height"
+                v-model="item.image_height"
+                :label="config.translation.imageHeight"
+                type="number"
+            />
+        </template>
 
         <h2>
             {{ templatesLabel }}
@@ -105,7 +147,7 @@
                     required: true
                 }
             },
-            data: function() {
+            data() {
                 return {
                     draft: {},
                     isNodeActiveLabel: $t('Enabled'),
@@ -119,7 +161,7 @@
                 }
             },
             computed: {
-                isTemplateSectionVisible: function() {
+                isTemplateSectionVisible() {
                     var nodeId = this.templateList['node'],
                         submenuId = this.templateList['submenu'],
                         typeData = this.config.fieldData[this.item['type']];
@@ -130,7 +172,7 @@
 
                     return false;
                 },
-                options: function() {
+                options() {
                     var list = [];
                     for (type in this.config.nodeTypes) {
                         list.push({
@@ -140,15 +182,15 @@
                     }
                     return list;
                 },
-                templateOptions: function() {
+                templateOptions() {
                     return this.templateOptionsData[this.item['type']] || [];
                 },
-                showImage: function() {
+                showImage() {
                     return ['category', 'product', 'custom_url'].includes(this.item.type);
                 }
             },
             methods: {
-                changeType: function(selected) {
+                changeType(selected) {
                     if (selected && typeof selected === 'object') {
                         var type  = this.item.type,
                             value = selected.value;
@@ -165,7 +207,7 @@
                         this.item['type'] = value;
                     }
                 },
-                getOptionLabel: function(option) {
+                getOptionLabel(option) {
                     if (typeof option === 'object') {
                         return option.label;
                     }

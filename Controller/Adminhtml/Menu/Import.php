@@ -36,6 +36,7 @@ class Import extends Action implements HttpGetActionInterface
         $this->messageManager->addNoticeMessage($this->importExportHelper->getMaxUploadSizeMessage());
 
         $resultPage = $this->resultFactory->create(ResultFactory::TYPE_PAGE);
+        $resultPage->getConfig()->getTitle()->prepend(__('Snowdog Menus'));
         $resultPage->getConfig()->getTitle()->prepend(__('Menu Import'));
 
         return $resultPage;

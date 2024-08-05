@@ -18,11 +18,14 @@ interface NodeInterface
     const TARGET = 'target';
     const IMAGE = 'image';
     const IMAGE_ALT_TEXT = 'image_alt_text';
+    const IMAGE_WIDTH = 'image_width';
+    const IMAGE_HEIGHT = 'image_heigth';
     const CREATION_TIME = 'creation_time';
     const UPDATE_TIME = 'update_time';
     const IS_ACTIVE = 'is_active';
     const ADDITIONAL_DATA = 'additional_data';
     const SELECTED_ITEM_ID = 'selected_item_id';
+    const CUSTOMER_GROUPS = 'customer_groups';
 
     /**
      * Get node id
@@ -192,17 +195,39 @@ interface NodeInterface
     /**
      * Get image alt text
      *
-     * @return string
+     * @return string|null
      */
     public function getImageAltText();
 
     /**
      * Set image alt text
      *
-     * @param string $altText
+     * @param string|null $altText
      * @return $this
      */
     public function setImageAltText($altText);
+
+    /**
+     * @return int|null
+     */
+    public function getImageWidth();
+
+    /**
+     * @param int|null $width
+     * @return $this
+     */
+    public function setImageWidth($width);
+
+    /**
+     * @return int|null
+     */
+    public function getImageHeight();
+
+    /**
+     * @param int|null $height
+     * @return $this
+     */
+    public function setImageHeight($height);
 
     /**
      * Get creation time
@@ -274,4 +299,21 @@ interface NodeInterface
      * @return $this
      */
     public function setSelectedItemId($selectedItemId);
+
+    /**
+     * Get customer groups
+     *
+     */
+    public function getCustomerGroups();
+
+    /**
+     * @return $this
+     */
+    public function setCustomerGroups($customerGroups);
+
+    /**
+     * @param int $customerGroupId
+     * @return bool
+     */
+    public function isVisible($customerGroupId);
 }

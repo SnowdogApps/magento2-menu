@@ -20,7 +20,7 @@
                 :clearable="false"
                 :required="required"
             >
-                <template v-slot:value-label="{ node }">
+                <template #value-label="{ node }">
                     {{ node.raw.full_label }}
                 </template>
             </treeselect>
@@ -34,7 +34,7 @@
                 :disabled="isDisabled"
                 :required="required"
             >
-                <template v-slot:option="option">
+                <template #option="option">
                     {{ option.label }}
 
                     <template v-if="option.store && option.store.length">
@@ -129,21 +129,21 @@
                     },
                     set(option) {
                         if (option && typeof option === 'object') {
-                            this.item[this.itemKey] = option.value.toString();
-                            this.item[this.itemIdKey] = option.id.toString();
+                            this.$set(this.item, this.itemKey, option.value.toString());
+                            this.$set(this.item, this.itemIdKey, option.id.toString());
                         }
                         else if (option && typeof option === 'string') {
-                            this.item[this.itemKey] = option;
+                            this.$set(this.item, this.itemKey, option);
                         }
                         else {
-                          this.item[this.itemKey] = this.defaultSelectedOption ? this.defaultSelectedOption.value.toString() : '';
+                            this.$set(this.item, this.itemKey, this.defaultSelectedOption ? this.defaultSelectedOption.value.toString() : '');
                         }
                     }
                 },
-                placeholder: function() {
+                placeholder() {
                     return this.config.translation.pleaseSelect + ' ' + this.label.toLocaleLowerCase();
                 },
-                optionsTree: function() {
+                optionsTree() {
                     const hashTable = {},
                             optionsTree = [];
 

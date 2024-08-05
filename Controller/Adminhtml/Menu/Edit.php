@@ -63,7 +63,7 @@ class Edit extends MenuAction implements HttpGetActionInterface
         $resultPage = $this->resultPageFactory->create();
         $title = $menuId ? __('Edit Menu %1', $menu->getTitle()) : __('New Menu');
         $this->initPage($resultPage)->addBreadcrumb($title, $title);
-        $resultPage->getConfig()->getTitle()->prepend(__('Menus'));
+        $resultPage->getConfig()->getTitle()->prepend(__('Snowdog Menus'));
         $resultPage->getConfig()->getTitle()->prepend($menu->getId() ? $menu->getTitle() : __('New Menu'));
 
         return $resultPage;

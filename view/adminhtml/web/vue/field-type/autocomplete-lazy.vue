@@ -23,7 +23,7 @@
                 :required="required"
                 @input="setValue"
             >
-                <template v-slot:value-label="{ node }">
+                <template #value-label="{ node }">
                     {{ node.raw.full_label }}
                 </template>
             </treeselect>
@@ -37,7 +37,7 @@
                 :disabled="isDisabled"
                 :required="required"
             >
-                <template v-slot:option="option">
+                <template #option="option">
                     {{ option.label }}
 
                     <template v-if="option.store && option.store.length">
@@ -106,7 +106,7 @@
                 initialLoaded: false
             }),
             computed: {
-                placeholder: function() {
+                placeholder() {
                     return this.config.translation.pleaseSelect + ' ' + this.label.toLocaleLowerCase();
                 },
                 loadedOptions() {

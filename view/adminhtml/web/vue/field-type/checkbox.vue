@@ -66,18 +66,18 @@ define(["Vue"], function(Vue) {
                 required: true
             }
         },
-        data: function() {
+        data() {
             return {
                 fieldId: '',
                 checkboxValue: this.value === '1' ? true : false
             }
         },
         watch: {
-            checkboxValue: function(newValue) {
+            checkboxValue(newValue) {
                 this.item.is_active = newValue ? '1' : '0';
             }
         },
-        mounted: function() {
+        mounted() {
             this.fieldId = 'snowmenu_' + this.id + '_' + this._uid;
         },
         template: template

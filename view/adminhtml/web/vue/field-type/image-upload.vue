@@ -109,7 +109,7 @@
                     required: true
                 }
             },
-            data: function() {
+            data() {
                 return {
                     isDragging: false,
                     fieldId: '',
@@ -128,15 +128,15 @@
                     labelFileIsUploading: $t('Uploading file ...'),
                 }
             },
-            mounted: function() {
+            mounted() {
                 this.fieldId = 'snowmenu_' + this.id + '_' + this._uid;
             },
             methods: {
-                setItemImage: function(file, url) {
+                setItemImage(file, url) {
                     this.item.image = file;
                     this.item.image_url = url;
                 },
-                uploadFileToServer: function() {
+                uploadFileToServer() {
                     this.fileIsUploading = true;
 
                     var formData = new FormData();
@@ -158,6 +158,10 @@
                             if (response.file) {
                                 this.setItemImage(response.file, response.url);
                             }
+                            if (response.size) {
+                                this.item.image_width = response.size.image_width;
+                                this.item.image_height = response.size.image_heigth;
+                            }
                         }.bind(this),
                         error: function() {
                             $('body').trigger('processStop');
@@ -171,7 +175,7 @@
                     });
                 },
 
-                removeItemImage: function(e) {
+                removeItemImage(e) {
                     e.preventDefault();
 
                     if (!this.item.image) {
@@ -200,20 +204,22 @@
                         complete: function() {
                             this.setItemImage('', '');
                             $('body').trigger('processStop');
+                            this.item.image_width = null;
+                            this.item.image_height = null;
                         }.bind(this)
                     });
                 },
 
-                removeNewFile: function() {
+                removeNewFile() {
                     this.$refs.fileUpload.value = '';
                     this.previewImage = '';
                 },
 
-                assignImage: function(e) {
+                assignImage(e) {
                     this.previewImage = e.target.result;
                 },
 
-                previewUploadImage: function(file) {
+                previewUploadImage(file) {
                     this.file = file;
 
                     if (file.type && file.type.indexOf('image') === -1) {
@@ -228,28 +234,28 @@
                     reader.readAsDataURL(file);
                 },
 
-                chooseFile: function(e) {
+                chooseFile(e) {
                     e.preventDefault();
                     this.$refs.fileUpload.click()
                 },
 
-                onDragEnter: function(e) {
+                onDragEnter(e) {
                     e.preventDefault();
                     this.isDragging = true;
                 },
 
-                onDragLeave: function(e) {
+                onDragLeave(e) {
                     e.preventDefault();
                     this.isDragging = false;
                 },
 
-                onDrop: function(e) {
+                onDrop(e) {
                     e.preventDefault();
                     e.stopPropagation();
                     this.previewUploadImage(e.dataTransfer.files[0])
                 },
 
-                updateFile: function(event){
+                updateFile(event){
                     this.uploadError = '';
                     this.previewUploadImage(event.target.files[0]);
                     event.preventDefault();
