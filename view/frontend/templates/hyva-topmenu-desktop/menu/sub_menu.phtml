@@ -56,7 +56,7 @@ $heroicons = $viewModels->require(\Hyva\Theme\ViewModel\HeroiconsOutline::class)
                 ?>
                 <li
                     class="
-                        <?= /* @noEscape */ (string) $nodeType === 'wrapper' ? $escaper->escapeHtmlAttr($nodeClasses) : '' ?>"
+                        <?= /* @noEscape */ (string) $nodeType === 'wrapper' ? $escaper->escapeHtmlAttr($nodeClasses) : '' ?>
                         <?= (/* @noEscape */ (string) $nodeType === 'wrapper') && (/* @noEscape */ (int) $level > 2) ? '-ml-4' : '' ?>
                     "
                 >
