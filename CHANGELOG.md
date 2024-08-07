@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [2.27.1] - 2024-08-07
+### Fixed
+- Swagger docs (#332)
+
 ## [2.27.0]
 ### Added
 - `width` and `height` attributes to menu node images (DEV-102271)
