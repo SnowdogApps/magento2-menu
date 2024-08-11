@@ -7,6 +7,7 @@ use Magento\Framework\Model\AbstractModel;
 use Magento\Framework\Model\Context;
 use Magento\Framework\Model\ResourceModel\AbstractResource as AbstractResource;
 use Magento\Framework\Registry;
+use Magento\Framework\Serialize\Serializer\Json;
 use Magento\Framework\Serialize\SerializerInterface;
 use Snowdog\Menu\Api\Data\NodeInterface;
 
@@ -97,7 +98,13 @@ class Node extends AbstractModel implements NodeInterface, IdentityInterface
      */
     public function getContent()
     {
-        return $this->_getData(NodeInterface::CONTENT);
+        $content =  $this->_getData(NodeInterface::CONTENT);
+
+        if (strpos($content, '{') === 0 && strpos($content, '}') === strlen($content) - 1) {
+            $content = $this->serializer->unserialize($content) ?: $content;
+        }
+
+        return $content;
     }
 
     /**
@@ -105,6 +112,10 @@ class Node extends AbstractModel implements NodeInterface, IdentityInterface
      */
     public function setContent($content)
     {
+        if (is_array($content)) {
+            $content = $this->serializer->serialize($content);
+        }
+
         return $this->setData(NodeInterface::CONTENT, $content);
     }
 
