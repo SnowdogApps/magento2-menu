@@ -126,6 +126,15 @@ class Menu extends Template implements DataObject\IdentityInterface
         ];
     }
 
+    private function getMenuTemplateDir(): string
+    {
+        if (!$this->getData('menu_template_dir')) {
+            return $this->getData('menu');
+        }
+
+        return $this->getData('menu_template_dir');
+    }
+
     protected function getCacheLifetime()
     {
         return 60*60*24*365;
@@ -401,6 +410,7 @@ class Menu extends Template implements DataObject\IdentityInterface
             ->setNodeClasses($node->getClasses())
             ->setMenuClass($this->getMenu()->getCssClass())
             ->setMenuCode($this->getData('menu'))
+            ->setMenuTemplateDir($this->getMenuTemplateDir())
             ->setTarget($node->getTarget())
             ->setImage($node->getImage())
             ->setImageUrl($node->getImage() ? $this->imageFile->getUrl($node->getImage()) : null)
@@ -427,7 +437,7 @@ class Menu extends Template implements DataObject\IdentityInterface
         $block = clone $this;
         $submenuTemplate = $parentNode->getSubmenuTemplate();
         $submenuTemplate = $submenuTemplate
-            ? 'Snowdog_Menu::' . $this->getMenu()->getIdentifier() . "/menu/custom/sub_menu/{$submenuTemplate}.phtml"
+            ? 'Snowdog_Menu::' . $this->getMenuTemplateDir() . "/menu/custom/sub_menu/{$submenuTemplate}.phtml"
             : $this->submenuTemplate;
 
         $block->setSubmenuNodes($nodes)
@@ -491,7 +501,7 @@ class Menu extends Template implements DataObject\IdentityInterface
     {
         return $this->templateResolver->getMenuTemplate(
             $this,
-            $this->getData('menu'),
+            $this->getMenuTemplateDir(),
             $template
         );
     }
