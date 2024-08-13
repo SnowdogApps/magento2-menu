@@ -208,6 +208,9 @@ class SaveRequestProcessor
         $nodeObject->setCustomerGroups($nodeData[NodeInterface::CUSTOMER_GROUPS] ?? null);
     }
 
+    /**
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
+     */
     private function processImageParameters(array $nodeData, NodeInterface &$nodeObject): void
     {
         $nodeObject->setImageAltText($nodeData[NodeInterface::IMAGE_ALT_TEXT] ?? null);

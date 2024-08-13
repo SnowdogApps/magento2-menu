@@ -303,6 +303,7 @@ interface NodeInterface
     /**
      * Get customer groups
      *
+     * @return mixed[]
      */
     public function getCustomerGroups();
 
