@@ -15,6 +15,7 @@ use Snowdog\Menu\Api\NodeRepositoryInterface;
 use Snowdog\Menu\Model\Menu\NodeFactory;
 use Snowdog\Menu\Model\ResourceModel\Menu\Node\CollectionFactory;
 use Magento\Framework\Api\SortOrder;
+use Magento\Framework\DB\Sql\Expression;
 
 class NodeRepository implements NodeRepositoryInterface
 {

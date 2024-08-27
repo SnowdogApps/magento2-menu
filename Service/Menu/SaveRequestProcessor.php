@@ -205,8 +205,12 @@ class SaveRequestProcessor
         $this->processImageParameters($nodeData, $nodeObject);
 
         $nodeObject->setSelectedItemId($nodeData['selected_item_id'] ?? null);
+        $nodeObject->setCustomerGroups($nodeData[NodeInterface::CUSTOMER_GROUPS] ?? null);
     }
 
+    /**
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
+     */
     private function processImageParameters(array $nodeData, NodeInterface &$nodeObject): void
     {
         $nodeObject->setImageAltText($nodeData[NodeInterface::IMAGE_ALT_TEXT] ?? null);
@@ -230,7 +234,11 @@ class SaveRequestProcessor
         if (empty($nodeData[NodeInterface::IMAGE_WIDTH])
             || empty($nodeData[NodeInterface::IMAGE_HEIGHT])
         ) {
-            $imageSize = $this->nodeImageFile->getImageSize($nodeData[NodeInterface::IMAGE]);
+            try {
+                $imageSize = $this->nodeImageFile->getImageSize($nodeData[NodeInterface::IMAGE]);
+            } catch (\Exception $e) {
+                $imageSize = null;
+            }
 
             if (!empty($imageSize)) {
                 $nodeObject

@@ -11,6 +11,9 @@
             </media_storage_configuration>
         </system>
         <snowmenu>
+            <general>
+                <customer_groups>0</customer_groups>
+            </general>
             <import>
                 <strip_invalid_nodes>1</strip_invalid_nodes>
             </import>

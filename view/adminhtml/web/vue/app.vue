@@ -137,7 +137,8 @@
                         node_template: null,
                         submenu_template: null,
                         columns: [],
-                        is_active: 0
+                        is_active: 0,
+                        customer_groups: []
                     });
                 },
                 setUniqueIds(node) {

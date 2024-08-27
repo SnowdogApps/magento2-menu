@@ -2,9 +2,8 @@
 
 namespace Snowdog\Menu\Block;
 
-use Magento\Framework\Api\Search\FilterGroupBuilder;
-use Magento\Framework\Api\Search\SearchCriteriaFactory;
 use Magento\Framework\App\Cache\Type\Block;
+use Magento\Framework\App\Http\Context;
 use Magento\Framework\DataObject;
 use Magento\Framework\View\Element\Template;
 use Magento\Framework\Event\Manager as EventManager;
@@ -19,9 +18,13 @@ use Magento\Store\Model\Store;
 
 /**
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
+ * @SuppressWarnings(PHPMD.CyclomaticComplexity)
+ * @SuppressWarnings(PHPMD.ExcessiveClassComplexity)
  */
 class Menu extends Template implements DataObject\IdentityInterface
 {
+    const XML_SNOWMENU_GENERAL_CUSTOMER_GROUPS = 'snowmenu/general/customer_groups';
+
     /**
      * @var MenuRepositoryInterface
      */
@@ -41,15 +44,6 @@ class Menu extends Template implements DataObject\IdentityInterface
 
     private $menu = null;
 
-    /**
-     * @var SearchCriteriaFactory
-     */
-    private $searchCriteriaFactory;
-
-    /**
-     * @var FilterGroupBuilder
-     */
-    private $filterGroupBuilder;
     /**
      * @var EventManager
      */
@@ -86,6 +80,11 @@ class Menu extends Template implements DataObject\IdentityInterface
     private $escaper;
 
     /**
+     * @var Context
+     */
+    private $httpContext;
+
+    /**
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
@@ -94,25 +93,23 @@ class Menu extends Template implements DataObject\IdentityInterface
         MenuRepositoryInterface $menuRepository,
         NodeRepositoryInterface $nodeRepository,
         NodeTypeProvider $nodeTypeProvider,
-        SearchCriteriaFactory $searchCriteriaFactory,
-        FilterGroupBuilder $filterGroupBuilder,
         TemplateResolver $templateResolver,
         ImageFile $imageFile,
         Escaper $escaper,
+        Context $httpContext,
         array $data = []
     ) {
         parent::__construct($context, $data);
         $this->menuRepository = $menuRepository;
         $this->nodeRepository = $nodeRepository;
         $this->nodeTypeProvider = $nodeTypeProvider;
-        $this->searchCriteriaFactory = $searchCriteriaFactory;
-        $this->filterGroupBuilder = $filterGroupBuilder;
         $this->eventManager = $eventManager;
         $this->templateResolver = $templateResolver;
         $this->imageFile = $imageFile;
         $this->escaper = $escaper;
         $this->setTemplate($this->getMenuTemplate($this->_template));
         $this->submenuTemplate = $this->getSubmenuTemplate();
+        $this->httpContext = $httpContext;
     }
 
     /**
@@ -177,6 +174,9 @@ class Menu extends Template implements DataObject\IdentityInterface
         $nodeCacheKeyInfo = $this->getNodeCacheKeyInfo();
         if ($nodeCacheKeyInfo) {
             $info = array_merge($info, $nodeCacheKeyInfo);
+        }
+        if ($this->_scopeConfig->isSetFlag(self::XML_SNOWMENU_GENERAL_CUSTOMER_GROUPS)) {
+            $info[] = 'cust_group_' . $this->getCustomerGroupId();
         }
 
         return $info;
@@ -410,7 +410,8 @@ class Menu extends Template implements DataObject\IdentityInterface
             ->setImageAltText($node->getImageAltText())
             ->setCustomTemplate($node->getNodeTemplate())
             ->setAdditionalData($node->getAdditionalData())
-            ->setSelectedItemId($node->getSelectedItemId());
+            ->setSelectedItemId($node->getSelectedItemId())
+            ->setCustomerGroups($node->getCustomerGroups());
 
         return $nodeBlock;
     }
@@ -442,10 +443,15 @@ class Menu extends Template implements DataObject\IdentityInterface
     private function fetchData()
     {
         $nodes = $this->nodeRepository->getByMenu($this->loadMenu()->getId());
+        $currentCustomerGroup = $this->getCustomerGroupId();
+        $customerGroupEnabled = $this->_scopeConfig->getValue(self::XML_SNOWMENU_GENERAL_CUSTOMER_GROUPS);
         $result = [];
         $types = [];
         foreach ($nodes as $node) {
             if (!$node->getIsActive()) {
+                continue;
+            }
+            if ($customerGroupEnabled && !$node->isVisible($currentCustomerGroup)) {
                 continue;
             }
 
@@ -522,5 +528,10 @@ class Menu extends Template implements DataObject\IdentityInterface
         }
 
         return $this->getMenuTemplate($baseSubmenuTemplate);
+    }
+
+    public function getCustomerGroupId()
+    {
+        return $this->httpContext->getValue(\Magento\Customer\Model\Context::CONTEXT_GROUP);
     }
 }
