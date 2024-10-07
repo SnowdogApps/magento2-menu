@@ -8,17 +8,21 @@ use Magento\Framework\Model\AbstractModel;
 use Magento\Framework\Model\ResourceModel\Db\AbstractDb;
 use Magento\Framework\Model\ResourceModel\Db\Context;
 use Magento\Framework\Serialize\SerializerInterface;
+use Magento\Framework\App\ResourceConnection;
 
 class Node extends AbstractDb
 {
     protected $serializer;
+    protected $resource;
 
     public function __construct(
         Context $context,
         SerializerInterface $serializer,
+        ResourceConnection $resource,
         $connectionName = null
     ) {
         $this->serializer = $serializer;
+        $this->resource = $resource;
         parent::__construct($context, $connectionName);
     }
 
@@ -29,8 +33,9 @@ class Node extends AbstractDb
 
     protected function _afterSave(AbstractModel $object)
     {
-        $connection = $this->getConnection();
-        $connection->delete('snowmenu_customer', ['node_id = ?' => $object->getNodeId()]);
+        $connection = $this->resource->getConnection();
+        $tableName  = $this->resource->getTableName('snowmenu_customer');
+        $connection->delete($tableName, ['node_id = ?' => $object->getNodeId()]);
 
         $nodeCustomerGroups = $object->getData('customer_groups');
         if ($nodeCustomerGroups && is_string($nodeCustomerGroups)) {
@@ -44,7 +49,7 @@ class Node extends AbstractDb
             ];
         }
         if ($nodeCustomerGroups) {
-            $connection->insertMultiple('snowmenu_customer', $insertData);
+            $connection->insertMultiple($tableName, $insertData);
         }
 
         return parent::_afterSave($object);
