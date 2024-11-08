@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [2.27.2] - 2024-11-08
+### Fixed
+- Issue when saving nodes w/ db prefix ([#345](https://github.com/SnowdogApps/magento2-menu/pull/345))
+
 ## [2.27.1] - 2024-08-07
 ### Fixed
 - Swagger docs (#332)
