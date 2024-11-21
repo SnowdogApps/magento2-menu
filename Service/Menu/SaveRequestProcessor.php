@@ -205,27 +205,40 @@ class SaveRequestProcessor
         $this->processImageParameters($nodeData, $nodeObject);
 
         $nodeObject->setSelectedItemId($nodeData['selected_item_id'] ?? null);
+        $nodeObject->setCustomerGroups($nodeData[NodeInterface::CUSTOMER_GROUPS] ?? null);
     }
 
+    /**
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
+     */
     private function processImageParameters(array $nodeData, NodeInterface &$nodeObject): void
     {
         $nodeObject->setImageAltText($nodeData[NodeInterface::IMAGE_ALT_TEXT] ?? null);
-
-        if ($nodeObject->getImage() && empty($nodeData['image'])) {
-            $this->nodeImageFile->delete($nodeObject->getImage());
-        }
 
         if (empty($nodeData[NodeInterface::IMAGE])) {
             $nodeObject->setImageWidth(null);
             $nodeObject->setImageHeight(null);
             $nodeObject->setImage(null);
+
+            if ($nodeObject->getImage()) {
+                $this->nodeImageFile->delete($nodeObject->getImage());
+            }
+
             return;
+        }
+
+        if (!$nodeObject->getImage()) {
+            $nodeObject->setImage($nodeData[NodeInterface::IMAGE]);
         }
 
         if (empty($nodeData[NodeInterface::IMAGE_WIDTH])
             || empty($nodeData[NodeInterface::IMAGE_HEIGHT])
         ) {
-            $imageSize = $this->nodeImageFile->getImageSize($nodeData[NodeInterface::IMAGE]);
+            try {
+                $imageSize = $this->nodeImageFile->getImageSize($nodeData[NodeInterface::IMAGE]);
+            } catch (\Exception $e) {
+                $imageSize = null;
+            }
 
             if (!empty($imageSize)) {
                 $nodeObject

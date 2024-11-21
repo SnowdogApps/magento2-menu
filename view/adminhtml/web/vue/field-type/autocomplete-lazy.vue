@@ -106,7 +106,7 @@
                 initialLoaded: false
             }),
             computed: {
-                placeholder: function() {
+                placeholder() {
                     return this.config.translation.pleaseSelect + ' ' + this.label.toLocaleLowerCase();
                 },
                 loadedOptions() {

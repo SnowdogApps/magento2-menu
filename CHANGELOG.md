@@ -6,9 +6,28 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 
 ## [Unreleased]
+
+## [2.27.2] - 2024-11-08
+### Fixed
+- Issue when saving nodes w/ db prefix ([#345](https://github.com/SnowdogApps/magento2-menu/pull/345))
+
+## [2.27.1] - 2024-08-07
+### Fixed
+- Swagger docs (#332)
+
+## [2.27.0]
 ### Added
 - `width` and `height` attributes to menu node images (DEV-102271)
+- Option to specify customer groups for each node (DEV-94738)
 - Snowdog branding in admin panel (DEV-105762)
+- Automatically open collapsed menu node when dragging another node inside (DEV-101986)
+- Duplicate node functionality (DEV-104364)
+### Fixed
+- Impossible to change Cms block, Cms page link after selecting displayed block (DEV-104546)
+- Submenu template name issue ([#321](https://github.com/SnowdogApps/magento2-menu/pull/321)) (DEV-105672)
+- Issue with 'Import from Categories ([#315](https://github.com/SnowdogApps/magento2-menu/issues/315)) (DEV-105267 & DEV-101741)
+### Updated
+- vue-select to 3.20.0 (DEV-104546)
 
 ## [2.26.0] - 2024-03-29
 ### Fixed

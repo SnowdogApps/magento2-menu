@@ -41,16 +41,16 @@
                     default: null
                 }
             },
-            data: function() {
+            data() {
                 return {
                     fieldId: ''
                 }
             },
-            mounted: function() {
+            mounted() {
                 this.fieldId = 'snowmenu_' + this.id + '_' + this._uid;
             },
             methods: {
-                updateValue: function(value) {
+                updateValue(value) {
                     this.$emit('input', value);
                 }
             },

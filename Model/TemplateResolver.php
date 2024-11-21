@@ -39,12 +39,12 @@ class TemplateResolver
      * @var Registry
      */
     private $registry;
-    
+
     /**
      * @var Validator
      */
     private $validator;
-    
+
     /**
      * @var AssetRepository
      */
@@ -164,7 +164,7 @@ class TemplateResolver
                     continue;
                 }
 
-                $fileName = str_replace([$themeDir, '.' . $extension], '', $file);
+                $fileName = $this->ioFile->getPathInfo($file)['filename'];
                 if (!in_array($fileName, array_column($result, 'id'))) {
                     $result[] = ['id' => $fileName];
                 }
