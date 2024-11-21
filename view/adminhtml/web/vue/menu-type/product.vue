@@ -1,10 +1,13 @@
 <template>
-    <simple-field
-        id="snowmenu_node_product"
-        v-model="item.content"
-        :label="config.translation.productId"
-        type="textarea"
-    />
+    <div>
+        <simple-field
+            id="snowmenu_node_product"
+            v-model="item.content"
+            :label="config.translation.productId"
+            type="textarea"
+            @input="updateTitle"
+        />
+    </div>
 </template>
 
 <script>
@@ -22,7 +25,28 @@
                     required: true
                 }
             },
-            template: template
+            template: template,
+            methods: {
+                updateTitle(value) {
+                    fetch(`/admin/snowmenu/node/productName?product_id=${value}`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                    })
+                    .then((response) => {
+                        console.log(response)
+                        // return response.json();
+                    })
+                    // .then(data => {
+                        // this.$set(this.item, 'title', data.name);
+                    // })
+                    .catch(error => {
+                        console.error('Error fetching product name:', error);
+                        // this.$set(this.item, 'title', value);
+                    });
+                }
+            }
         });
     });
 </script>
