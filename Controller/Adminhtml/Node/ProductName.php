@@ -6,11 +6,11 @@ namespace Snowdog\Menu\Controller\Adminhtml\Node;
 use Magento\Backend\App\Action;
 use Magento\Backend\App\Action\Context;
 use Magento\Catalog\Api\ProductRepositoryInterface;
-use Magento\Framework\App\Action\HttpGetActionInterface;
+use Magento\Framework\App\Action\HttpPostActionInterface;
 use Magento\Framework\Controller\ResultFactory;
 use Magento\Framework\Exception\InputException;
 
-class ProductName extends Action implements HttpGetActionInterface
+class ProductName extends Action implements HttpPostActionInterface
 {
     /**
      * @inheritDoc
