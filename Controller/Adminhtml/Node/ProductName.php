@@ -8,7 +8,8 @@ use Magento\Backend\App\Action\Context;
 use Magento\Catalog\Api\ProductRepositoryInterface;
 use Magento\Framework\App\Action\HttpPostActionInterface;
 use Magento\Framework\Controller\ResultFactory;
-use Magento\Framework\Exception\InputException;
+use Magento\Framework\Controller\ResultInterface;
+use Magento\Framework\Exception\NoSuchEntityException;
 
 class ProductName extends Action implements HttpPostActionInterface
 {
@@ -30,20 +31,38 @@ class ProductName extends Action implements HttpPostActionInterface
         $this->productRepository = $productRepository;
     }
 
-    /**
-     * @throws \Magento\Framework\Exception\NoSuchEntityException
-     * @throws \Magento\Framework\Exception\InputException
-     */
     public function execute()
     {
         $storeId = (int) $this->_request->getParam('store_id', 0);
         $productId = $this->_request->getParam('product_id');
         if (empty($productId)) {
-            throw new InputException(__("Missing required product_id param"));
+            return $this->getMissingProductIdResult();
         }
-        $product = $this->productRepository->getById($productId, false, $storeId);
+
+        try {
+            $product = $this->productRepository->getById($productId, false, $storeId);
+        } catch (NoSuchEntityException $e) {
+            return $this->getProductNotFoundResult();
+        }
+
         $result = $this->resultFactory->create(ResultFactory::TYPE_JSON);
 
         return $result->setData(['product_name' => $product->getName()]);
+    }
+
+    private function getMissingProductIdResult(): ResultInterface
+    {
+        return $this->resultFactory
+            ->create(ResultFactory::TYPE_JSON)
+            ->setHttpResponseCode(400)
+            ->setData(['message' => __('Missing required product_id param')]);
+    }
+
+    private function getProductNotFoundResult(): ResultInterface
+    {
+        return $this->resultFactory
+            ->create(ResultFactory::TYPE_JSON)
+            ->setHttpResponseCode(404)
+            ->setData(['message' => __('Product not found')]);
     }
 }

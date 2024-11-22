@@ -28,7 +28,8 @@
             template: template,
             methods: {
                 updateTitle(value) {
-                    fetch(`/admin/snowmenu/node/productName?product_id=${value}`, {
+                    let adminPath = window.location.pathname.split('/snowmenu')[0];
+                    fetch(`${adminPath}/snowmenu/node/productName?isAjax=true&product_id=${value}&form_key=${window.FORM_KEY}`, {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json'
