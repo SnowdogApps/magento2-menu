@@ -1,13 +1,11 @@
 <template>
-    <div>
-        <simple-field
-            id="snowmenu_node_product"
-            v-model="item.content"
-            :label="config.translation.productId"
-            type="textarea"
-            @input="debouncedUpdateTitle"
-        />
-    </div>
+    <simple-field
+        id="snowmenu_node_product"
+        v-model="item.content"
+        :label="config.translation.productId"
+        type="textarea"
+        @input="debouncedUpdateTitle"
+    />
 </template>
 
 <script>
