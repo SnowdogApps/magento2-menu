@@ -1,4 +1,11 @@
-<?php /** @var \Snowdog\Menu\Block\NodeType\Product $block */ ?>
+<?php
+/** @var Product $block */
+/** @var Escaper $escaper */
+
+use Magento\Framework\Escaper;
+use Snowdog\Menu\Block\NodeType\Product;
+
+?>
 <?php
 $nodeId = $block->getId();
 $productUrl = $block->getProductUrl($nodeId);
