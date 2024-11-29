@@ -25,15 +25,17 @@ class StoreView implements ArrayInterface
 
     public function toOptionArray(): array
     {
-        $stores = $this->storeManager->getStores();
+        $stores = $this->storeManager->getStores(true);
 
         $options = [];
         foreach ($stores as $store) {
-            $options[] = [
+            $options[$store->getId()] = [
                 'label' => $store->getName(),
                 'value' => $store->getId(),
             ];
         }
+
+        ksort($options);
 
         return $options;
     }

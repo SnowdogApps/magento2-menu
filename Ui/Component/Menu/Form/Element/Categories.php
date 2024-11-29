@@ -41,7 +41,7 @@ class Categories implements ArrayInterface
     public function toOptionArray(): array
     {
         $options = [];
-        $stores = $this->storeManager->getStores();
+        $stores = $this->storeManager->getStores(true);
 
         foreach ($stores as $store) {
             $categories = $this->retrieveCategories((string) $store->getId());
@@ -59,7 +59,7 @@ class Categories implements ArrayInterface
     public function toArray(): array
     {
         $options = [];
-        $stores = $this->storeManager->getStores();
+        $stores = $this->storeManager->getStores(true);
 
         foreach ($stores as $store) {
             $categories = $this->retrieveCategories((string) $store->getId(), false);
