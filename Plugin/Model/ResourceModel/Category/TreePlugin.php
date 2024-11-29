@@ -12,7 +12,7 @@ class TreePlugin
     private RequestInterface $request;
 
     public function __construct(
-        RequestInterface $request,
+        RequestInterface $request
     ) {
         $this->request = $request;
     }
