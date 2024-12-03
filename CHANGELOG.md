@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 - Auto populate node title ([#325](https://github.com/SnowdogApps/magento2-menu/pull/325))
+- Bump cross-spawn from 7.0.3 to 7.0.6 ([#349](https://github.com/SnowdogApps/magento2-menu/pull/349))
 
 ## [2.27.2] - 2024-11-08
 ### Fixed
