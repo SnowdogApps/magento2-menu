@@ -1,4 +1,11 @@
-<?php /** @var \Snowdog\Menu\Block\Menu $block */ ?>
+<?php
+/** @var Menu $block */
+/** @var Escaper $escaper */
+
+use Magento\Framework\Escaper;
+use Snowdog\Menu\Block\Menu;
+
+?>
 <?php if ($block->getMenu()): ?>
     <?php
     $menuClass = $block->getMenu()->getCssClass();
