@@ -17,6 +17,10 @@ class TreePlugin
         $this->request = $request;
     }
 
+
+    /**
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+     */
     public function beforeAddCollectionData(Tree $subject, $collection = null): array
     {
         $postData = $this->request->getPost();
