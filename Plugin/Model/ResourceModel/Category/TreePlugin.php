@@ -22,6 +22,10 @@ class TreePlugin
         $postData = $this->request->getPost();
         $storeId = $postData['store_id'];
 
+        if (!isset($postData['store_id'])) {
+            return [$collection];
+        }
+
         $collection->setProductStoreId(
             $storeId
         )->setStoreId(

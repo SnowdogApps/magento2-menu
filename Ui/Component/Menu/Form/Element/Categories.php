@@ -44,7 +44,7 @@ class Categories implements ArrayInterface
         $stores = $this->storeManager->getStores(true);
 
         foreach ($stores as $store) {
-            $categories = $this->retrieveCategories((string) $store->getId());
+            $categories = $this->retrieveCategories((int) $store->getId());
             $options = array_merge($options, $categories);
         }
 
@@ -62,7 +62,7 @@ class Categories implements ArrayInterface
         $stores = $this->storeManager->getStores(true);
 
         foreach ($stores as $store) {
-            $categories = $this->retrieveCategories((string) $store->getId(), false);
+            $categories = $this->retrieveCategories((int) $store->getId(), false);
             $options = array_merge($options, $categories);
         }
 
@@ -76,7 +76,7 @@ class Categories implements ArrayInterface
      * @return array
      * @throws LocalizedException
      */
-    private function retrieveCategories(string $storeId = '0', $toOptionArray = true): array
+    private function retrieveCategories(int $storeId = 0, $toOptionArray = true): array
     {
         /* @var $collection Collection */
         $collection = $this->categoryCollectionFactory->create();
