@@ -70,9 +70,11 @@ class Categories implements ArrayInterface
     }
 
     /**
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      * Retrieve tree of categories with attributes.
      *
      * @param int $storeId
+     * @param bool $toOptionArray
      * @return array
      * @throws LocalizedException
      */
