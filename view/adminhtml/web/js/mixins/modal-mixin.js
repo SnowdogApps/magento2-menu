@@ -34,6 +34,7 @@ define([
                   form = registry.get('snowmenu_menu_form.data_source'),
                   vueApp = registry.get('vueApp'),
                   categoryId = parseInt(form.data.category_id),
+                  storeId = parseInt(form.data.store_id),
                   depth = parseInt(form.data.depth),
                   adminPath = window.location.pathname.split('/snowmenu')[0]
 
@@ -42,7 +43,8 @@ define([
                   url: adminPath + '/snowmenu/menu/importCategories',
                   data: {
                     category_id: categoryId,
-                    depth: depth
+                    depth: depth,
+                    store_id: storeId,
                   },
                   type: 'POST',
                   dataType: 'json',
