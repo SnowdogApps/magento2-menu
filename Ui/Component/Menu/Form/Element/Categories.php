@@ -100,7 +100,7 @@ class Categories implements ArrayInterface
                 $options[] = [
                     'label' => $rootCategory->getName(),
                     'value' => $rootCategory->getId(),
-                    'store_id' => $storeId,
+                    'store_id' => (string) $storeId,
                 ];
             } else {
                 $options[$rootCategory->getId()] = $rootCategory->getName();
@@ -112,7 +112,7 @@ class Categories implements ArrayInterface
                     $groupedOptions[] = [
                         'label' => $category->getName(),
                         'value' => $category->getId(),
-                        'store_id' => $storeId,
+                        'store_id' => (string) $storeId,
                     ];
                 } else {
                     $options[$category->getId()] = $category->getName();
@@ -123,7 +123,7 @@ class Categories implements ArrayInterface
                 $options[] = [
                     'label' => __('Sub categories'),
                     'value' => $groupedOptions,
-                    'store_id' => $storeId,
+                    'store_id' => (string) $storeId,
                 ];
             }
         }
