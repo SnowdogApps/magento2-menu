@@ -1,4 +1,11 @@
-<?php /** @var \Snowdog\Menu\Block\NodeType\Category $block */ ?>
+<?php
+/** @var Category $block */
+/** @var Escaper $escaper */
+
+use Magento\Framework\Escaper;
+use Snowdog\Menu\Block\NodeType\Category;
+
+?>
 <?php
 $nodeId = $block->getId();
 $categoryUrl = $block->getCategoryUrl($nodeId) ?: '#';
