@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Bump cross-spawn from 7.0.3 to 7.0.6 ([#349](https://github.com/SnowdogApps/magento2-menu/pull/349))
 - Add missing $escaper and $viewModels declarations ([#350](https://github.com/SnowdogApps/magento2-menu/pull/350))
 - Import categories by store view ([#352](https://github.com/SnowdogApps/magento2-menu/pull/352))
+- Add external vue providers config option
 
 ## [2.27.2] - 2024-11-08
 ### Fixed
