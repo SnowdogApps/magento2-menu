@@ -15,6 +15,7 @@ use Magento\Catalog\Model\Category as CoreCategory;
 use Magento\Framework\App\ResourceConnection;
 use Magento\Framework\EntityManager\MetadataPool;
 use Magento\Store\Model\Store;
+use Zend_Db_Expr;
 
 class Category extends AbstractNode
 {
@@ -111,15 +112,12 @@ class Category extends AbstractNode
     {
         $productTable = $this->getConnection()->getTableName('catalog_category_product');
 
-        $select = $this->getConnection()->select()->from(
-            ['main_table' => $productTable],
-            ['main_table.category_id', new \Zend_Db_Expr('COUNT(main_table.product_id)')]
-        )->where(
-            'main_table.category_id IN (?)', $categoryIds
-        )->group('main_table.category_id');
+        $select = $this->getConnection()
+            ->select()
+            ->from($productTable, ['category_id', new Zend_Db_Expr('COUNT(product_id)')])
+            ->where('category_id IN (?)', $categoryIds)
+            ->group('category_id');
 
-        $counts = $this->getConnection()->fetchPairs($select);
-
-        return $counts;
+        return $this->getConnection()->fetchPairs($select);
     }
 }

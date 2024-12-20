@@ -24,6 +24,7 @@ use Magento\Store\Model\Store;
 class Menu extends Template implements DataObject\IdentityInterface
 {
     const XML_SNOWMENU_GENERAL_CUSTOMER_GROUPS = 'snowmenu/general/customer_groups';
+    const XML_SNOWMENU_GENERAL_CACHE_TAGS = 'snowmenu/general/cache_tags';
 
     /**
      * @var MenuRepositoryInterface
@@ -85,6 +86,11 @@ class Menu extends Template implements DataObject\IdentityInterface
     private $httpContext;
 
     /**
+     * @var array
+     */
+    private $nodeTypeCaches = [];
+
+    /**
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
@@ -97,6 +103,7 @@ class Menu extends Template implements DataObject\IdentityInterface
         ImageFile $imageFile,
         Escaper $escaper,
         Context $httpContext,
+        array $nodeTypeCaches = [],
         array $data = []
     ) {
         parent::__construct($context, $data);
@@ -110,6 +117,7 @@ class Menu extends Template implements DataObject\IdentityInterface
         $this->setTemplate($this->getMenuTemplate($this->_template));
         $this->submenuTemplate = $this->getSubmenuTemplate();
         $this->httpContext = $httpContext;
+        $this->nodeTypeCaches = $nodeTypeCaches;
     }
 
     /**
@@ -119,11 +127,22 @@ class Menu extends Template implements DataObject\IdentityInterface
      */
     public function getIdentities()
     {
-        return [
+        $tags = [
             \Snowdog\Menu\Model\Menu::CACHE_TAG . '_' . $this->loadMenu()->getId(),
             Block::CACHE_TAG,
             \Snowdog\Menu\Model\Menu::CACHE_TAG
         ];
+        if (!$this->canGatherEntityCacheTags()) {
+            return $tags;
+        }
+        foreach ($this->nodeTypeCaches as $provider) {
+            $entityCacheTags = $this->nodeTypeProvider->getProvider($provider)->getEntityCacheTags();
+            if (!empty($entityCacheTags)) {
+                $tags = array_merge($tags, $entityCacheTags);
+            }
+        }
+
+        return $tags;
     }
 
     protected function getCacheLifetime()
@@ -481,19 +500,11 @@ class Menu extends Template implements DataObject\IdentityInterface
         }
 
         foreach ($types['category'] as $nodes) {
-            if ($nodes['node']->getContent() == 20) {
-                $nodes['node']->setHideCategoryIfEmpty(true);
-            }
-            /** @var \Snowdog\Menu\Block\NodeType\Category $categoryProvider */
-            if (!$nodes['node']->getHideCategoryIfEmpty()) {
-                continue;
-            }
             $categoryProvider = $this->nodeTypeProvider->getProvider('category');
             $productCount = $categoryProvider->getCategoryProductCount($nodes['node']->getNodeId());
             if (empty($productCount)) {
                 [$level, $parent, $idx] = $nodes['path'];
                 unset ($this->nodes[$level][$parent][$idx]);
-                //todo unset children
             }
         }
     }
@@ -528,6 +539,15 @@ class Menu extends Template implements DataObject\IdentityInterface
         }
 
         return $this->getMenuTemplate($baseSubmenuTemplate);
+    }
+
+    private function canGatherEntityCacheTags()
+    {
+        if (!$this->_scopeConfig->isSetFlag(self::XML_SNOWMENU_GENERAL_CACHE_TAGS)) {
+            return false;
+        }
+
+        return !empty($this->nodeTypeCaches);
     }
 
     public function getCustomerGroupId()

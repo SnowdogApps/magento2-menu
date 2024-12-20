@@ -123,10 +123,11 @@ class Category extends AbstractNode
         $categoryUrls = $this->getResource()->fetchData($storeId, $categoryIds);
         $categories = $this->getCategories($storeId, $categoryIds);
         $categoryProductCounts = $this->getResource()->getCategoriesProductCount($categoryIds);
+        $cacheTags = preg_filter('/^/', 'cat_c_p' . '_', $categoryIds);
 
         $this->profiler->stop(__METHOD__);
 
-        return [$localNodes, $categoryUrls, $categories, $categoryProductCounts];
+        return [$localNodes, $categoryUrls, $categories, $categoryProductCounts, $cacheTags];
     }
 
     /**

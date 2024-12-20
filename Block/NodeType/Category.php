@@ -43,6 +43,10 @@ class Category extends AbstractNode
      * @var array
      */
     private $categories;
+    /**
+     * @var array
+     */
+    private $cacheTags;
 
     /**
      * @var array
@@ -112,7 +116,8 @@ class Category extends AbstractNode
             $this->nodes,
             $this->categoryUrls,
             $this->categories,
-            $this->categoryProductCounts
+            $this->categoryProductCounts,
+            $this->cacheTags
         ] = $this->_categoryModel->fetchData($nodes, $storeId);
 
     }
@@ -225,5 +230,10 @@ HTML;
     public function getLabel()
     {
         return __("Category");
+    }
+
+    public function getEntityCacheTags()
+    {
+        return $this->cacheTags;
     }
 }

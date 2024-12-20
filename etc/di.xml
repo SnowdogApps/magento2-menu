@@ -74,4 +74,12 @@
             <argument name="validator" xsi:type="object">Snowdog\Menu\Model\ImportExport\Processor\Import\Node\Validator\Proxy</argument>
         </arguments>
     </type>
+
+    <type name="Snowdog\Menu\Block\Menu">
+        <arguments>
+            <argument name="nodeTypeCaches" xsi:type="array">
+                    <item name="category" xsi:type="string">category</item>
+            </argument>
+        </arguments>
+    </type>
 </config>
