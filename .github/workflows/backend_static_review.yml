@@ -34,8 +34,6 @@ jobs:
     name: Slevomat Coding Standard
     runs-on: ubuntu-latest
     steps:
-      uses: actions/checkout@v3
-      with:
-        repository: slevomat/coding-standard
-        path: slevomat-cs
-        ref: 8.15.0
+      - uses: actions/checkout@v3
+      - uses: slevomat/coding-standard@master
+
