@@ -1,3 +1,4 @@
+
 name: Backend Static Review
 on: [push, pull_request]
 
@@ -28,3 +29,13 @@ jobs:
       - uses: extdn/github-actions-m2/magento-phpstan@master
         with:
           composer_name: snowdog/module-menu
+
+  slevomat:
+    name: Slevomat Coding Standard
+    runs-on: ubuntu-latest
+    steps:
+      uses: actions/checkout@v3
+      with:
+        repository: slevomat/coding-standard
+        path: slevomat-cs
+        ref: 8.15.0
