@@ -10,6 +10,9 @@ use Magento\Framework\Registry;
 use Magento\Framework\Serialize\SerializerInterface;
 use Snowdog\Menu\Api\Data\NodeInterface;
 
+/**
+ * @SuppressWarnings(PHPMD.ExcessivePublicCount)
+ */
 class Node extends AbstractModel implements NodeInterface, IdentityInterface
 {
     const CACHE_TAG = 'snowdog_menu_node';
@@ -394,11 +397,11 @@ class Node extends AbstractModel implements NodeInterface, IdentityInterface
 
     public function getHideIfEmpty()
     {
-        return (bool) $this->_getData(NodeInterface::HIDE_IF_EMPTY);
+        return (int) $this->_getData(NodeInterface::HIDE_IF_EMPTY);
     }
 
     public function setHideIfEmpty($hideIfEmpty)
     {
-        return $this->setData(NodeInterface::HIDE_IF_EMPTY, (bool) $hideIfEmpty);
+        return $this->setData(NodeInterface::HIDE_IF_EMPTY, (int) $hideIfEmpty);
     }
 }

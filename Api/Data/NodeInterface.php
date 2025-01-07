@@ -320,12 +320,12 @@ interface NodeInterface
 
 
     /**
-     * @return bool
+     * @return int
      */
     public function getHideIfEmpty();
 
     /**
-     * @param bool $hideIfEmpty
+     * @param int $hideIfEmpty
      * @return $this
      */
     public function setHideIfEmpty($hideIfEmpty);
