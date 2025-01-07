@@ -135,14 +135,14 @@ class Menu extends Template implements DataObject\IdentityInterface
         if (!$this->canGatherEntityCacheTags()) {
             return $tags;
         }
+        $otherCacheTagsArrays = [];
         foreach ($this->nodeTypeCaches as $provider) {
             $entityCacheTags = $this->nodeTypeProvider->getProvider($provider)->getEntityCacheTags();
             if (!empty($entityCacheTags)) {
-                $tags = array_merge($tags, $entityCacheTags);
+                $otherCacheTagsArrays[] = $entityCacheTags;
             }
         }
-
-        return $tags;
+        return array_merge($tags, ...$otherCacheTagsArrays);
     }
 
     protected function getCacheLifetime()
@@ -459,6 +459,9 @@ class Menu extends Template implements DataObject\IdentityInterface
         return $block;
     }
 
+    /**
+     * @SuppressWarnings(PHPMD.NPathComplexity)
+     */
     private function fetchData()
     {
         $nodes = $this->nodeRepository->getByMenu($this->loadMenu()->getId());
@@ -504,7 +507,7 @@ class Menu extends Template implements DataObject\IdentityInterface
             $productCount = $categoryProvider->getCategoryProductCount($nodes['node']->getNodeId());
             if (empty($productCount)) {
                 [$level, $parent, $idx] = $nodes['path'];
-                unset ($this->nodes[$level][$parent][$idx]);
+                unset($this->nodes[$level][$parent][$idx]);
             }
         }
     }
