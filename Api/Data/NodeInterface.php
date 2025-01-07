@@ -26,6 +26,7 @@ interface NodeInterface
     const ADDITIONAL_DATA = 'additional_data';
     const SELECTED_ITEM_ID = 'selected_item_id';
     const CUSTOMER_GROUPS = 'customer_groups';
+    const HIDE_IF_EMPTY = 'hide_if_empty';
 
     /**
      * Get node id
@@ -316,4 +317,16 @@ interface NodeInterface
      * @return bool
      */
     public function isVisible($customerGroupId);
+
+
+    /**
+     * @return bool
+     */
+    public function getHideIfEmpty();
+
+    /**
+     * @param bool $hideIfEmpty
+     * @return $this
+     */
+    public function setHideIfEmpty($hideIfEmpty);
 }

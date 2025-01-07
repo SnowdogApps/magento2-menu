@@ -33,6 +33,7 @@
         <column xsi:type="smallint" name="selected_item_id" padding="5" unsigned="true" nullable="true" identity="false" comment="Selected Item Id"/>
         <column xsi:type="int" name="image_width" padding="11" unsigned="false" nullable="true" identity="false" comment="Image Width"/>
         <column xsi:type="int" name="image_heigth" padding="11" unsigned="false" nullable="true" identity="false" comment="Image Height"/>
+        <column xsi:type="smallint" name="hide_if_empty" padding="6" unsigned="false" nullable="false" identity="false" default="0" comment="Hide If Empty"/>
         <constraint xsi:type="primary" referenceId="PRIMARY">
             <column name="node_id"/>
         </constraint>

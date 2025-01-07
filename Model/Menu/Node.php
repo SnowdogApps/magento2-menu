@@ -391,4 +391,14 @@ class Node extends AbstractModel implements NodeInterface, IdentityInterface
 
         return false;
     }
+
+    public function getHideIfEmpty()
+    {
+        return (bool) $this->_getData(NodeInterface::HIDE_IF_EMPTY);
+    }
+
+    public function setHideIfEmpty($hideIfEmpty)
+    {
+        return $this->setData(NodeInterface::HIDE_IF_EMPTY, (bool) $hideIfEmpty);
+    }
 }

@@ -505,7 +505,7 @@ class Menu extends Template implements DataObject\IdentityInterface
         foreach ($types['category'] as $nodes) {
             $categoryProvider = $this->nodeTypeProvider->getProvider('category');
             $productCount = $categoryProvider->getCategoryProductCount($nodes['node']->getNodeId());
-            if (empty($productCount)) {
+            if (empty($productCount) && $nodes['node']->getHideIfEmpty()) {
                 [$level, $parent, $idx] = $nodes['path'];
                 unset($this->nodes[$level][$parent][$idx]);
             }
