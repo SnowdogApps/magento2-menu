@@ -502,7 +502,7 @@ class Menu extends Template implements DataObject\IdentityInterface
             $this->nodeTypeProvider->prepareData($type, array_column($nodes, 'node'));
         }
 
-        foreach ($types['category'] as $nodes) {
+        foreach ($types['category'] ?? [] as $nodes) {
             $categoryProvider = $this->nodeTypeProvider->getProvider('category');
             $productCount = $categoryProvider->getCategoryProductCount($nodes['node']->getNodeId());
             if (empty($productCount) && $nodes['node']->getHideIfEmpty()) {
