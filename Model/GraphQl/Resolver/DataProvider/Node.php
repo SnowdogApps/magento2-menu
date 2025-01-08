@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Snowdog\Menu\Model\GraphQl\Resolver\DataProvider;
 
 use Exception;
-use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Snowdog\Menu\Api\Data\NodeInterface;
 use Snowdog\Menu\Api\NodeRepositoryInterface;
