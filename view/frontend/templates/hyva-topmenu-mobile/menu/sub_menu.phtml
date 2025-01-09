@@ -15,7 +15,6 @@ $heroicons = $viewModels->require(HeroiconsOutline::class);
     <?php
     $parentNode = $block->getParentNode();
     $parentNodeIndex = 'node' . $parentNode->getId();
-    $level = $block->getLevel();
     $title = $parentNode->getTitle();
     ?>
     <ul x-ref="submenu-<?= /* @noEscape */ (string) $parentNodeIndex ?>"

@@ -9,8 +9,6 @@ use Snowdog\Menu\Block\NodeType\Category;
 <?php
 $nodeId = $block->getId();
 $categoryUrl = $block->getCategoryUrl($nodeId) ?: '#';
-$imageUrl = $block->getImageUrl();
-$imageAltText = $block->getImageAltText();
 $nodeClasses = $block->getNodeClasses();
 
 if ($block->getIsViewAllLink()) {
