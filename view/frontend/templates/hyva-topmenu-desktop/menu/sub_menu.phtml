@@ -59,7 +59,7 @@ use Snowdog\Menu\Block\Menu;
                 ?>
                 <li
                     class="
-                        <?= /* @noEscape */ (string) $nodeType === 'wrapper' ? $escaper->escapeHtmlAttr($nodeClasses) : '' ?>"
+                        <?= /* @noEscape */ (string) $nodeType === 'wrapper' ? $escaper->escapeHtmlAttr($nodeClasses) : '' ?>
                         <?= (/* @noEscape */ (string) $nodeType === 'wrapper') && (/* @noEscape */ (int) $level > 2) ? '-ml-4' : '' ?>
                     "
                 >
