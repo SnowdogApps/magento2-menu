@@ -65,7 +65,8 @@
             "SNOWMENU_CUSTOMER_NODE_ID": true
         },
         "constraint": {
-            "SNOWMENU_CUSTOMER_NODE_ID_SNOWMENU_NODE_NODE_ID": true
+            "SNOWMENU_CUSTOMER_NODE_ID_SNOWMENU_NODE_NODE_ID": true,
+            "PRIMARY": true
         }
     }
 }

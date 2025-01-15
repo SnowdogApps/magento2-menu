@@ -59,5 +59,9 @@
         <index referenceId="SNOWMENU_CUSTOMER_NODE_ID" indexType="btree">
             <column name="node_id"/>
         </index>
+        <constraint xsi:type="primary" referenceId="SNOWMENU_CUSTOMER_NODE_ID_GROUP_ID">
+            <column name="node_id"/>
+            <column name="group_id"/>
+        </constraint>
     </table>
 </schema>
