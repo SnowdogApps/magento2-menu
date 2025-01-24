@@ -107,6 +107,15 @@
             />
         </template>
 
+        <checkbox
+            v-if="showHideIfEmpty"
+            id="hide_if_empty"
+            :label="config.translation.hideIfEmpty"
+            :value="item.hide_if_empty"
+            :item="item"
+            :description="config.translation.hideIfEmptyDescription"
+        />
+
         <h2>
             {{ templatesLabel }}
         </h2>
@@ -187,7 +196,10 @@
                 },
                 showImage() {
                     return ['category', 'product', 'custom_url'].includes(this.item.type);
-                }
+                },
+                showHideIfEmpty: function() {
+                    return ['category'].includes(this.item.type);
+                },
             },
             methods: {
                 changeType(selected) {
