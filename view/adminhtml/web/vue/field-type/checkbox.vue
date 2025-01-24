@@ -40,6 +40,12 @@
                     />
                 </label>
             </div>
+            <small
+                v-if="description"
+                class="admin__field-control__description"
+            >
+                {{ description }}
+            </small>
         </div>
     </div>
 </template>
@@ -64,6 +70,10 @@ define(["Vue"], function(Vue) {
             item: {
                 type: Object,
                 required: true
+            },
+            description: {
+                type: String,
+                default: ''
             }
         },
         data() {
