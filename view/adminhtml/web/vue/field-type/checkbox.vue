@@ -69,12 +69,12 @@ define(["Vue"], function(Vue) {
         data() {
             return {
                 fieldId: '',
-                checkboxValue: this.value === '1' ? true : false
+                checkboxValue: this.value === '1' || this.value === 1 ? true : false
             }
         },
         watch: {
             checkboxValue(newValue) {
-                this.item.is_active = newValue ? '1' : '0';
+                this.item[this.id] = newValue ? '1' : '0';
             }
         },
         mounted() {
