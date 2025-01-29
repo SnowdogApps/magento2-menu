@@ -79,7 +79,7 @@ define(["Vue"], function(Vue) {
         data() {
             return {
                 fieldId: '',
-                checkboxValue: this.value === '1' || this.value === 1 ? true : false
+                checkboxValue: Number(this.value) === 1 ? true : false
             }
         },
         watch: {
