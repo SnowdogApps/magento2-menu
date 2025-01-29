@@ -198,7 +198,7 @@
                     return ['category', 'product', 'custom_url'].includes(this.item.type);
                 },
                 showHideIfEmpty: function() {
-                    return ['category'].includes(this.item.type);
+                    return this.item.type === 'category';
                 },
             },
             methods: {
