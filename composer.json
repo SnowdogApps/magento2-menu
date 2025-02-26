@@ -1,5 +1,5 @@
 {
-  "name": "snowdog/module-menu",
+  "name": "magebitcom/snowdog-module-menu",
   "description": "Provides powerful menu editor to replace category based menus in Magento 2",
   "license": "MIT",
   "type": "magento2-module",
