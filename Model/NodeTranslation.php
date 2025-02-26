@@ -78,7 +78,7 @@ class NodeTranslation extends AbstractModel implements NodeTranslationInterface
     /**
      * @inheritDoc
      */
-    public function setTitle(?string $title): NodeTranslationInterface
+    public function setTitle(string $title): NodeTranslationInterface
     {
         return $this->setData(self::TITLE, $title);
     }

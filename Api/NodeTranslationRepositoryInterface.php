@@ -3,6 +3,8 @@ declare(strict_types=1);
 
 namespace Snowdog\Menu\Api;
 
+use Magento\Framework\Api\SearchCriteriaInterface;
+use Magento\Framework\Api\SearchResultsInterface;
 use Magento\Framework\Exception\CouldNotDeleteException;
 use Magento\Framework\Exception\CouldNotSaveException;
 use Magento\Framework\Exception\NoSuchEntityException;
@@ -82,4 +84,10 @@ interface NodeTranslationRepositoryInterface
      * @throws CouldNotDeleteException
      */
     public function deleteByNodeId(int $nodeId): bool;
+
+    /**
+     * @param SearchCriteriaInterface $searchCriteria
+     * @return SearchResultsInterface
+     */
+    public function getList(SearchCriteriaInterface $searchCriteria): SearchResultsInterface;
 }

@@ -3,6 +3,10 @@ declare(strict_types=1);
 
 namespace Snowdog\Menu\Model;
 
+use Magento\Framework\Api\SearchCriteria\CollectionProcessorInterface;
+use Magento\Framework\Api\SearchCriteriaInterface;
+use Magento\Framework\Api\SearchResultsInterface;
+use Magento\Framework\Api\SearchResultsInterfaceFactory;
 use Magento\Framework\Exception\CouldNotDeleteException;
 use Magento\Framework\Exception\CouldNotSaveException;
 use Magento\Framework\Exception\NoSuchEntityException;
@@ -30,14 +34,28 @@ class NodeTranslationRepository implements NodeTranslationRepositoryInterface
      */
     private CollectionFactory $collectionFactory;
 
+    /**
+     * @var CollectionProcessorInterface
+     */
+    private CollectionProcessorInterface $collectionProcessor;
+
+    /**
+     * @var SearchResultsInterfaceFactory
+     */
+    private SearchResultsInterfaceFactory $searchResultsFactory;
+
     public function __construct(
         NodeTranslationResource $resource,
         NodeTranslationInterfaceFactory $translationFactory,
-        CollectionFactory $collectionFactory
+        CollectionFactory $collectionFactory,
+        CollectionProcessorInterface $collectionProcessor,
+        SearchResultsInterfaceFactory $searchResultsFactory
     ) {
         $this->resource = $resource;
         $this->translationFactory = $translationFactory;
         $this->collectionFactory = $collectionFactory;
+        $this->collectionProcessor = $collectionProcessor;
+        $this->searchResultsFactory = $searchResultsFactory;
     }
 
     /**
@@ -47,10 +65,9 @@ class NodeTranslationRepository implements NodeTranslationRepositoryInterface
     {
         try {
             $this->resource->save($translation);
-        } catch (\Exception $e) {
-            throw new CouldNotSaveException(__('Could not save node translation: %1', $e->getMessage()));
+        } catch (\Exception $exception) {
+            throw new CouldNotSaveException(__($exception->getMessage()));
         }
-
         return $translation;
     }
 
@@ -61,11 +78,9 @@ class NodeTranslationRepository implements NodeTranslationRepositoryInterface
     {
         $translation = $this->translationFactory->create();
         $this->resource->load($translation, $translationId);
-
         if (!$translation->getId()) {
-            throw new NoSuchEntityException(__('Node translation with ID "%1" does not exist.', $translationId));
+            throw new NoSuchEntityException(__('Node Translation with id "%1" does not exist.', $translationId));
         }
-
         return $translation;
     }
 
@@ -119,14 +134,32 @@ class NodeTranslationRepository implements NodeTranslationRepositoryInterface
     /**
      * @inheritDoc
      */
+    public function getList(SearchCriteriaInterface $searchCriteria): SearchResultsInterface
+    {
+        /** @var Collection $collection */
+        $collection = $this->collectionFactory->create();
+
+        $this->collectionProcessor->process($searchCriteria, $collection);
+
+        /** @var SearchResultsInterface $searchResults */
+        $searchResults = $this->searchResultsFactory->create();
+        $searchResults->setSearchCriteria($searchCriteria);
+        $searchResults->setItems($collection->getItems());
+        $searchResults->setTotalCount($collection->getSize());
+
+        return $searchResults;
+    }
+
+    /**
+     * @inheritDoc
+     */
     public function delete(NodeTranslationInterface $translation): bool
     {
         try {
             $this->resource->delete($translation);
-        } catch (\Exception $e) {
-            throw new CouldNotDeleteException(__('Could not delete node translation: %1', $e->getMessage()));
+        } catch (\Exception $exception) {
+            throw new CouldNotDeleteException(__($exception->getMessage()));
         }
-
         return true;
     }
 

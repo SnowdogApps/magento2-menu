@@ -81,4 +81,20 @@
         <plugin name="snowdog_menu_node_save_translations"
                 type="Snowdog\Menu\Plugin\Model\Menu\Node\AfterSave"/>
     </type>
+
+    <type name="Snowdog\Menu\Model\ImportExport\Processor\Import\Node">
+        <arguments>
+            <argument name="translationProcessor" xsi:type="object">
+                Snowdog\Menu\Model\ImportExport\Processor\Import\Node\TranslationProcessor
+            </argument>
+        </arguments>
+    </type>
+
+    <virtualType name="Snowdog\Menu\Model\ResourceModel\NodeTranslation\Grid\Collection"
+                 type="Magento\Framework\View\Element\UiComponent\DataProvider\SearchResult">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">snowmenu_node_translation</argument>
+            <argument name="resourceModel" xsi:type="string">Snowdog\Menu\Model\ResourceModel\NodeTranslation</argument>
+        </arguments>
+    </virtualType>
 </config>

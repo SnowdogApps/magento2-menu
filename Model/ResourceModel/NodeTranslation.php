@@ -9,10 +9,20 @@ use Snowdog\Menu\Api\Data\NodeTranslationInterface;
 class NodeTranslation extends AbstractDb
 {
     /**
+     * @var string
+     */
+    public const TABLE_NAME = 'snowmenu_node_translation';
+
+    /**
+     * @var string
+     */
+    public const ID_FIELD_NAME = 'translation_id';
+
+    /**
      * @inheritDoc
      */
     protected function _construct()
     {
-        $this->_init('snowmenu_node_translation', 'translation_id');
+        $this->_init(self::TABLE_NAME, self::ID_FIELD_NAME);
     }
 }
