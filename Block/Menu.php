@@ -408,7 +408,7 @@ class Menu extends Template implements DataObject\IdentityInterface
         $level = $node->getLevel();
         $isRoot = 0 == $level;
         $nodeBlock->setId($node->getNodeId())
-            ->setTitle($this->getNodeTitle($node))
+            ->setTitle($node->getTitle())
             ->setLevel($level)
             ->setIsRoot($isRoot)
             ->setIsParent((bool) $node->getIsParent())
@@ -465,6 +465,18 @@ class Menu extends Template implements DataObject\IdentityInterface
         $types = [];
         $nodeIds = [];
 
+        foreach($nodes as $node) {
+            $nodeIds[] = $node->getId();
+        }
+
+        if (!empty($nodeIds)) {
+            $storeId = (int)$this->storeManager->getStore()->getId();
+            $collection = $this->nodeTranslationRepository->getByNodeIds($nodeIds, $storeId);
+            foreach ($collection as $translation) {
+                $this->nodeTranslations[$translation->getNodeId()] = $translation;
+            }
+        }
+
         foreach ($nodes as $node) {
             if (!$node->getIsActive()) {
                 continue;
@@ -473,7 +485,8 @@ class Menu extends Template implements DataObject\IdentityInterface
                 continue;
             }
 
-            $nodeIds[] = $node->getId();
+            $node->setTitle($this->getNodeTitle($node));
+
             $level = $node->getLevel();
             $parent = $node->getParentId() ?: 0;
             if (!isset($result[$level])) {
@@ -488,15 +501,6 @@ class Menu extends Template implements DataObject\IdentityInterface
                 $types[$type] = [];
             }
             $types[$type][] = $node;
-        }
-
-        // Load all translations for the current store in a single query
-        if (!empty($nodeIds)) {
-            $storeId = (int)$this->storeManager->getStore()->getId();
-            $collection = $this->nodeTranslationRepository->getByNodeIds($nodeIds, $storeId);
-            foreach ($collection as $translation) {
-                $this->nodeTranslations[$translation->getNodeId()] = $translation;
-            }
         }
 
         $this->nodes = $result;
