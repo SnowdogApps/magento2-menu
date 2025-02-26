@@ -45,6 +45,7 @@ $vueComponents = $block->getVueComponents();
                         "imageUploadFileId": "<?= $block->getImageUploadFileId() ?>",
                         "lazyMinItemsCount": "1000",
                         "customerGroups"   : <?= json_encode($block->getCustomerGroups()) ?>,
+                        "storeViews"       : <?= json_encode($block->getStoreViews()) ?>,
                         "translation": {
                             "nodes"          : "<?= __('Nodes') ?>",
                             "click"          : "<?= __('Click') ?>",
@@ -76,7 +77,12 @@ $vueComponents = $block->getVueComponents();
                             "imageHeight"   : "<?= __('Image Height') ?>",
                             "selectedItemId" : "<?= __('Selected Item Id') ?>",
                             "customerGroups" : "<?= __('Customer Groups') ?>",
-                            "customerGroupsDescription" : "<?= __('If no customer group is selected, the node will be visible to all customers.') ?>"
+                            "customerGroupsDescription" : "<?= __('If no customer group is selected, the node will be visible to all customers.') ?>",
+                            "store"          : "<?= __('Store View') ?>",
+                            "translation"    : "<?= __('Translation') ?>",
+                            "actions"        : "<?= __('Actions') ?>",
+                            "remove"         : "<?= __('Remove') ?>",
+                            "addTranslation" : "<?= __('Add Translation') ?>"
                         }
                     }
                 }

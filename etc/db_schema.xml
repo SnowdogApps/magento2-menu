@@ -60,4 +60,27 @@
             <column name="node_id"/>
         </index>
     </table>
+    <table name="snowmenu_node_translation" resource="default" engine="innodb" comment="Menu Node Translations">
+        <column xsi:type="int" name="translation_id" padding="10" unsigned="true" nullable="false" identity="true" comment="Translation ID"/>
+        <column xsi:type="int" name="node_id" padding="10" unsigned="true" nullable="false" identity="false" comment="Node ID"/>
+        <column xsi:type="smallint" name="store_id" padding="5" unsigned="true" nullable="false" identity="false" comment="Store ID"/>
+        <column xsi:type="text" name="title" nullable="true" comment="Translated Title"/>
+        <column xsi:type="timestamp" name="created_at" on_update="false" nullable="false" default="CURRENT_TIMESTAMP" comment="Creation Time"/>
+        <column xsi:type="timestamp" name="updated_at" on_update="true" nullable="false" default="CURRENT_TIMESTAMP" comment="Update Time"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="translation_id"/>
+        </constraint>
+        <constraint xsi:type="foreign" referenceId="SNOWMENU_NODE_TRANSLATION_NODE_ID_SNOWMENU_NODE_NODE_ID" table="snowmenu_node_translation" column="node_id" referenceTable="snowmenu_node" referenceColumn="node_id" onDelete="CASCADE"/>
+        <constraint xsi:type="foreign" referenceId="SNOWMENU_NODE_TRANSLATION_STORE_ID_STORE_STORE_ID" table="snowmenu_node_translation" column="store_id" referenceTable="store" referenceColumn="store_id" onDelete="CASCADE"/>
+        <constraint xsi:type="unique" referenceId="SNOWMENU_NODE_TRANSLATION_NODE_ID_STORE_ID">
+            <column name="node_id"/>
+            <column name="store_id"/>
+        </constraint>
+        <index referenceId="SNOWMENU_NODE_TRANSLATION_NODE_ID" indexType="btree">
+            <column name="node_id"/>
+        </index>
+        <index referenceId="SNOWMENU_NODE_TRANSLATION_STORE_ID" indexType="btree">
+            <column name="store_id"/>
+        </index>
+    </table>
 </schema>

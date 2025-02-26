@@ -184,6 +184,11 @@ class SaveRequestProcessor
             $nodeObject->setTarget($nodeData['target']);
         }
 
+        // Handle translations
+        if (isset($nodeData['translations']) && is_array($nodeData['translations'])) {
+            $nodeObject->setData('translations', $nodeData['translations']);
+        }
+
         $nodeTemplate = null;
         if (isset($nodeData['node_template']) && $nodeData['type'] != $nodeData['node_template']) {
             $nodeTemplate = $nodeData['node_template'];

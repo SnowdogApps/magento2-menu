@@ -7,6 +7,8 @@
     <preference for="Snowdog\Menu\Api\Data\MenuSearchResultsInterface" type="Magento\Framework\Api\SearchResults"/>
     <preference for="Snowdog\Menu\Api\Data\MenuInterface" type="Snowdog\Menu\Model\Menu"/>
     <preference for="Snowdog\Menu\Api\Data\NodeInterface" type="Snowdog\Menu\Model\Menu\Node"/>
+    <preference for="Snowdog\Menu\Api\Data\NodeTranslationInterface" type="Snowdog\Menu\Model\NodeTranslation"/>
+    <preference for="Snowdog\Menu\Api\NodeTranslationRepositoryInterface" type="Snowdog\Menu\Model\NodeTranslationRepository"/>
 
     <type name="Snowdog\Menu\Model\NodeTypeProvider">
         <arguments>
@@ -73,5 +75,10 @@
         <arguments>
             <argument name="validator" xsi:type="object">Snowdog\Menu\Model\ImportExport\Processor\Import\Node\Validator\Proxy</argument>
         </arguments>
+    </type>
+
+    <type name="Snowdog\Menu\Model\Menu\Node">
+        <plugin name="snowdog_menu_node_save_translations"
+                type="Snowdog\Menu\Plugin\Model\Menu\Node\AfterSave"/>
     </type>
 </config>
