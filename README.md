@@ -31,6 +31,10 @@ Here are some scenarios where Snowdog's Menu can be effectively used:
 ## User Guide and Documentation
 To learn more about Magento 2 Menu by Snowdog, go to [wiki](https://github.com/SnowdogApps/magento2-menu/wiki).
 
+## Magento Versions Compatibility
+Menu can be installed on most 2.x Magento versions.
+If your Magento version does not work with newest Menu version, see [Contributing](#contributing).
+
 ## Contributing
 Contributions are welcome! If you find a bug or have a feature request, feel free to open an issue or submit a pull request.
 
