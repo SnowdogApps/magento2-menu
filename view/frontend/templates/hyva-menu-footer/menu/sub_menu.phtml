@@ -8,9 +8,7 @@ use Snowdog\Menu\Block\Menu;
 ?>
 <?php if ($block->getMenu()): ?>
     <?php
-    $menuClass = $block->getMenu()->getCssClass();
     $parentNode = $block->getParentNode();
-    $level = $block->getLevel();
     $title = $parentNode->getTitle();
     ?>
     <ul class="space-y-2"
