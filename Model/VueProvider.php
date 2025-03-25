@@ -14,12 +14,22 @@ class VueProvider
     private $components;
 
     /**
+     * 3rd party extensions have to provide full path
+     *
+     * @var array
+     */
+    private $externalComponents;
+
+    /**
      * @param array $components
+     * @param array $externalComponents
      */
     public function __construct(
-        array $components = []
+        array $components = [],
+        array $externalComponents = []
     ) {
         $this->components = $components;
+        $this->externalComponents = $externalComponents;
     }
 
     /**
@@ -30,6 +40,9 @@ class VueProvider
         $data = [];
         foreach ($this->components as $component) {
             $data[] = sprintf(self::COMPONENT_PATH, $component);
+        }
+        foreach ($this->externalComponents as $externalComponent) {
+            $data[] = $externalComponent;
         }
 
         return $data;

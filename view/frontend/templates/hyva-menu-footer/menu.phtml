@@ -1,7 +1,13 @@
-<?php /** @var \Snowdog\Menu\Block\Menu $block */ ?>
 <?php
-use Magento\Framework\Escaper;
+use Hyva\Theme\Model\ViewModelRegistry;
 use Hyva\Theme\ViewModel\HeroiconsOutline;
+use Magento\Framework\Escaper;
+use Snowdog\Menu\Block\Menu;
+
+/** @var Escaper $escaper */
+/** @var Menu $block */
+/** @var HeroiconsOutline $heroicons */
+/** @var ViewModelRegistry $viewModels */
 
 $menu = $block->getMenu();
 $uniqueId = '_' . uniqid();

@@ -1,8 +1,16 @@
 <?php
 
-/** @var \Snowdog\Menu\Block\Menu $block */
-/** @var Hyva\Theme\ViewModel\HeroiconsOutline $heroicons */
-$heroicons = $viewModels->require(\Hyva\Theme\ViewModel\HeroiconsOutline::class);
+/** @var Escaper $escaper */
+/** @var Menu $block */
+/** @var HeroiconsOutline $heroicons */
+/** @var ViewModelRegistry $viewModels */
+
+use Hyva\Theme\Model\ViewModelRegistry;
+use Hyva\Theme\ViewModel\HeroiconsOutline;
+use Magento\Framework\Escaper;
+use Snowdog\Menu\Block\Menu;
+
+$heroicons = $viewModels->require(HeroiconsOutline::class);
 ?>
 <?php if ($block->getMenu()): ?>
     <?php
@@ -56,7 +64,7 @@ $heroicons = $viewModels->require(\Hyva\Theme\ViewModel\HeroiconsOutline::class)
                 ?>
                 <li
                     class="
-                        <?= /* @noEscape */ (string) $nodeType === 'wrapper' ? $escaper->escapeHtmlAttr($nodeClasses) : '' ?>"
+                        <?= /* @noEscape */ (string) $nodeType === 'wrapper' ? $escaper->escapeHtmlAttr($nodeClasses) : '' ?>
                         <?= (/* @noEscape */ (string) $nodeType === 'wrapper') && (/* @noEscape */ (int) $level > 2) ? '-ml-4' : '' ?>
                     "
                 >

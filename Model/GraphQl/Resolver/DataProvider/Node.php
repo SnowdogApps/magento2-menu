@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Snowdog\Menu\Model\GraphQl\Resolver\DataProvider;
 
-use Magento\Framework\Exception\LocalizedException;
+use Exception;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Snowdog\Menu\Api\Data\NodeInterface;
 use Snowdog\Menu\Api\NodeRepositoryInterface;
@@ -124,6 +124,7 @@ class Node
      */
     private function loadModels($nodes, $storeId): void
     {
+        $modelsToLoadByType = [];
         /** @var NodeInterface $node */
         foreach ($nodes as $node) {
             $type = $node->getType();
@@ -133,12 +134,18 @@ class Node
             if (!in_array($type, TypeModel::TYPES)) {
                 continue;
             }
-            try {
-                $model = $this->typeModel->getModel($type, $node->getContent(), $storeId);
-            } catch (NoSuchEntityException|LocalizedException $e) {
-                $model = null;
+            $modelsToLoadByType[$type][] = $node->getContent();
+        }
+
+        foreach ($modelsToLoadByType as $type => $ids) {
+            if (!is_array($ids)) {
+                continue;
             }
-            $this->loadedModels[$type][$node->getContent()] = $model;
+            try {
+                $this->loadedModels[$type] = $this->typeModel->getModels($type, $ids ?? [], $storeId);
+            } catch (Exception $e) {
+                continue;
+            }
         }
     }
 
@@ -152,8 +159,7 @@ class Node
             if (!isset($this->loadedModels[$node->getType()][$node->getContent()])) {
                 return null;
             }
-            $currentModel = $this->loadedModels[$node->getType()][$node->getContent()];
-            return $this->typeModel->getModelUrlKey($node->getType(), $currentModel);
+            return $this->loadedModels[$node->getType()][$node->getContent()];
         } elseif ($node->getType() == self::NODE_TYPE_CUSTOM_URL) {
             return $node->getContent();
         } else {

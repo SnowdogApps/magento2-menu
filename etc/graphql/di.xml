@@ -17,4 +17,14 @@
             </argument>
         </arguments>
     </type>
+
+    <type name="Snowdog\Menu\Model\GraphQl\Resolver\DataProvider\Node\TypeModel">
+        <arguments>
+            <argument name="typeModels" xsi:type="array">
+                <item name="product" xsi:type="object">Snowdog\Menu\Model\ResourceModel\NodeType\Product</item>
+                <item name="category" xsi:type="object">Snowdog\Menu\Model\ResourceModel\NodeType\Category</item>
+                <item name="cms_page" xsi:type="object">Snowdog\Menu\Model\ResourceModel\NodeType\CmsPage</item>
+            </argument>
+        </arguments>
+    </type>
 </config>

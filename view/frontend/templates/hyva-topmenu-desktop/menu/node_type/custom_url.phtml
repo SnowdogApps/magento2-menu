@@ -1,4 +1,11 @@
-<?php /** @var \Snowdog\Menu\Block\NodeType\CustomUrl $block */ ?>
+<?php
+/** @var CustomUrl $block */
+/** @var Escaper $escaper */
+
+use Magento\Framework\Escaper;
+use Snowdog\Menu\Block\NodeType\CustomUrl;
+
+?>
 <?php
 $nodeId = $block->getId();
 $imageUrl = $block->getImageUrl();

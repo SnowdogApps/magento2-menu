@@ -1,68 +1,34 @@
 <?php
+declare(strict_types=1);
 
 namespace Snowdog\Menu\Model\GraphQl\Resolver\DataProvider\Node;
 
-use Magento\Catalog\Api\CategoryRepositoryInterface;
 use Magento\Catalog\Api\Data\CategoryInterface;
 use Magento\Catalog\Api\Data\ProductInterface;
-use Magento\Catalog\Api\ProductRepositoryInterface;
 use Magento\Cms\Api\Data\PageInterface;
-use Magento\Cms\Api\PageRepositoryInterface;
-use Magento\Framework\Exception\LocalizedException;
-use Magento\Framework\Exception\NoSuchEntityException;
 
 class TypeModel
 {
     const TYPES = ["category", "product", "cms_page"];
-    
+
     /**
-     * @var ProductRepositoryInterface
+     * @var \Snowdog\Menu\Model\ResourceModel\NodeType\AbstractNode[]
      */
-    private $productRepository;
-    /**
-     * @var CategoryRepositoryInterface
-     */
-    private $categoryRepository;
-    /**
-     * @var PageRepositoryInterface
-     */
-    private $pageRepository;
+    private $typeModels = [];
 
     public function __construct(
-        ProductRepositoryInterface $productRepository,
-        CategoryRepositoryInterface $categoryRepository,
-        PageRepositoryInterface $pageRepository
+        array $typeModels = []
     ) {
-        $this->productRepository = $productRepository;
-        $this->categoryRepository = $categoryRepository;
-        $this->pageRepository = $pageRepository;
+        $this->typeModels = $typeModels;
     }
 
-    /**
-     * @param $type
-     * @param $modelId
-     * @param $storeId
-     * @return ProductInterface|CategoryInterface|PageInterface|null
-     * @throws LocalizedException
-     * @throws NoSuchEntityException
-     */
-    public function getModel($type, $modelId, $storeId)
+    public function getModels($type, $modelIds, $storeId)
     {
-        $model = null;
-        switch ($type) {
-            case "product":
-                $model = $this->productRepository->getById($modelId, false, $storeId);
-                break;
-            case "category":
-                $model = $this->categoryRepository->get($modelId, $storeId);
-                break;
-            case "cms_page":
-                $model = $this->pageRepository->getById($modelId);
-                break;
-            default:
-                break;
+        if (isset($this->typeModels[$type])) {
+            return $this->typeModels[$type]->fetchData($storeId, $modelIds);
         }
-        return $model;
+
+        return [];
     }
 
     public function getModelUrlKey($type, $model): ?string
