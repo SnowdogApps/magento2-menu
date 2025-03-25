@@ -24,6 +24,7 @@ use Magento\Store\Model\Store;
 class Menu extends Template implements DataObject\IdentityInterface
 {
     const XML_SNOWMENU_GENERAL_CUSTOMER_GROUPS = 'snowmenu/general/customer_groups';
+    const XML_SNOWMENU_GENERAL_CACHE_TAGS = 'snowmenu/general/cache_tags';
 
     /**
      * @var MenuRepositoryInterface
@@ -85,6 +86,11 @@ class Menu extends Template implements DataObject\IdentityInterface
     private $httpContext;
 
     /**
+     * @var array
+     */
+    private $nodeTypeCaches = [];
+
+    /**
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
@@ -97,6 +103,7 @@ class Menu extends Template implements DataObject\IdentityInterface
         ImageFile $imageFile,
         Escaper $escaper,
         Context $httpContext,
+        array $nodeTypeCaches = [],
         array $data = []
     ) {
         parent::__construct($context, $data);
@@ -110,6 +117,7 @@ class Menu extends Template implements DataObject\IdentityInterface
         $this->setTemplate($this->getMenuTemplate($this->_template));
         $this->submenuTemplate = $this->getSubmenuTemplate();
         $this->httpContext = $httpContext;
+        $this->nodeTypeCaches = $nodeTypeCaches;
     }
 
     /**
@@ -119,11 +127,22 @@ class Menu extends Template implements DataObject\IdentityInterface
      */
     public function getIdentities()
     {
-        return [
+        $tags = [
             \Snowdog\Menu\Model\Menu::CACHE_TAG . '_' . $this->loadMenu()->getId(),
             Block::CACHE_TAG,
             \Snowdog\Menu\Model\Menu::CACHE_TAG
         ];
+        if (!$this->canGatherEntityCacheTags()) {
+            return $tags;
+        }
+        $otherCacheTagsArrays = [];
+        foreach ($this->nodeTypeCaches as $provider) {
+            $entityCacheTags = $this->nodeTypeProvider->getProvider($provider)->getEntityCacheTags();
+            if (!empty($entityCacheTags)) {
+                $otherCacheTagsArrays[] = $entityCacheTags;
+            }
+        }
+        return array_merge($tags, ...$otherCacheTagsArrays);
     }
 
     protected function getCacheLifetime()
@@ -440,6 +459,9 @@ class Menu extends Template implements DataObject\IdentityInterface
         return $block;
     }
 
+    /**
+     * @SuppressWarnings(PHPMD.NPathComplexity)
+     */
     private function fetchData()
     {
         $nodes = $this->nodeRepository->getByMenu($this->loadMenu()->getId());
@@ -464,16 +486,29 @@ class Menu extends Template implements DataObject\IdentityInterface
                 $result[$level][$parent] = [];
             }
             $result[$level][$parent][] = $node;
+            $idx = array_key_last($result[$level][$parent]);
             $type = $node->getType();
             if (!isset($types[$type])) {
                 $types[$type] = [];
             }
-            $types[$type][] = $node;
+            $types[$type][] = [
+                'node' => $node,
+                'path' => [$level, $parent, $idx]
+            ];
         }
         $this->nodes = $result;
 
         foreach ($types as $type => $nodes) {
-            $this->nodeTypeProvider->prepareData($type, $nodes);
+            $this->nodeTypeProvider->prepareData($type, array_column($nodes, 'node'));
+        }
+
+        foreach ($types['category'] ?? [] as $nodes) {
+            $categoryProvider = $this->nodeTypeProvider->getProvider('category');
+            $productCount = $categoryProvider->getCategoryProductCount($nodes['node']->getNodeId());
+            if (empty($productCount) && $nodes['node']->getHideIfEmpty()) {
+                [$level, $parent, $idx] = $nodes['path'];
+                unset($this->nodes[$level][$parent][$idx]);
+            }
         }
     }
 
@@ -507,6 +542,15 @@ class Menu extends Template implements DataObject\IdentityInterface
         }
 
         return $this->getMenuTemplate($baseSubmenuTemplate);
+    }
+
+    private function canGatherEntityCacheTags()
+    {
+        if (!$this->_scopeConfig->isSetFlag(self::XML_SNOWMENU_GENERAL_CACHE_TAGS)) {
+            return false;
+        }
+
+        return !empty($this->nodeTypeCaches);
     }
 
     public function getCustomerGroupId()

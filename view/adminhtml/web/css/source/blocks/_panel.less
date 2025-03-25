@@ -169,7 +169,13 @@
     }
 
     // overwrite default Magento admin styles
-    .admin__fieldset > .admin__field.admin__scope-old > .admin__field-control input[type="checkbox"] {
-        margin: 0;
+    .admin__fieldset > .admin__field.admin__scope-old > .admin__field-control {
+        input[type="checkbox"] {
+            margin: 0;
+        }
+
+        .admin__field-control__description {
+            display: flex;
+        }
     }
 }

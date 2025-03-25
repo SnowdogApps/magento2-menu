@@ -15,6 +15,7 @@ use Magento\Catalog\Model\Category as CoreCategory;
 use Magento\Framework\App\ResourceConnection;
 use Magento\Framework\EntityManager\MetadataPool;
 use Magento\Store\Model\Store;
+use Zend_Db_Expr;
 
 class Category extends AbstractNode
 {
@@ -100,5 +101,23 @@ class Category extends AbstractNode
             ->where('entity_id IN (' . implode(',', $categoryIds) . ')');
 
         return $connection->fetchPairs($select);
+    }
+
+    /**
+     * Get products count in categories
+     *
+     * @see \Magento\Catalog\Model\ResourceModel\Category::getProductCount
+     */
+    public function getCategoriesProductCount($categoryIds = [])
+    {
+        $productTable = $this->getConnection()->getTableName('catalog_category_product');
+
+        $select = $this->getConnection()
+            ->select()
+            ->from($productTable, ['category_id', new Zend_Db_Expr('COUNT(product_id)')])
+            ->where('category_id IN (?)', $categoryIds)
+            ->group('category_id');
+
+        return $this->getConnection()->fetchPairs($select);
     }
 }

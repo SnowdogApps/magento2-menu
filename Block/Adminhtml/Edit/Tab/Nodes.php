@@ -178,6 +178,7 @@ class Nodes extends Template implements TabInterface
         foreach ($nodes as $node) {
             $menu[] = [
                 'is_active' => $node->getIsActive(),
+                'hide_if_empty' => $node->getHideIfEmpty(),
                 'is_stored' => true,
                 'type' => $node->getType(),
                 'content' => $node->getContent(),

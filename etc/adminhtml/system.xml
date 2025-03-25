@@ -15,6 +15,11 @@
                     <comment>Controls serving different menus to different customer groups</comment>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                 </field>
+                <field id="cache_tags" translate="label" type="select" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Gather node entities cache tags</label>
+                    <comment>Controls menu caching mechanisms. Enabling this will allow for gathering cache tags from menu nodes, which allows handling menus that are heavily dependent on e.g. category contents - see https://github.com/SnowdogApps/magento2-menu/discussions/317</comment>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
             </group>
         </section>
     </system>

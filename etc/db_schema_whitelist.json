@@ -35,7 +35,8 @@
             "selected_item_id": true,
             "image_width": true,
             "image_heigth": true,
-            "customer_groups": true
+            "customer_groups": true,
+            "hide_if_empty": true
         },
         "constraint": {
             "PRIMARY": true,
