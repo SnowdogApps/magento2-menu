@@ -11,6 +11,8 @@ use Snowdog\Menu\Model\CustomerGroupsProvider;
 use Snowdog\Menu\Model\Menu\Node\Image\File as ImageFile;
 use Snowdog\Menu\Model\NodeTypeProvider;
 use Snowdog\Menu\Model\VueProvider;
+use Magento\Store\Model\System\Store;
+use Snowdog\Menu\Api\NodeTranslationRepositoryInterface;
 
 /**
  * @api
@@ -51,6 +53,16 @@ class Nodes extends Template implements TabInterface
      */
     private $customerGroupsProvider;
 
+    /**
+     * @var Store
+     */
+    private $systemStore;
+
+    /**
+     * @var NodeTranslationRepositoryInterface
+     */
+    private $nodeTranslationRepository;
+
     public function __construct(
         Template\Context $context,
         NodeRepositoryInterface $nodeRepository,
@@ -59,6 +71,8 @@ class Nodes extends Template implements TabInterface
         Registry $registry,
         VueProvider $vueProvider,
         CustomerGroupsProvider $customerGroupsProvider,
+        Store $systemStore,
+        NodeTranslationRepositoryInterface $nodeTranslationRepository,
         array $data = []
     ) {
         parent::__construct($context, $data);
@@ -68,6 +82,8 @@ class Nodes extends Template implements TabInterface
         $this->imageFile = $imageFile;
         $this->vueProvider = $vueProvider;
         $this->customerGroupsProvider = $customerGroupsProvider;
+        $this->systemStore = $systemStore;
+        $this->nodeTranslationRepository = $nodeTranslationRepository;
     }
 
     public function renderNodes()
@@ -175,7 +191,43 @@ class Nodes extends Template implements TabInterface
         }
         $nodes = $data[$level][$parent];
         $menu = [];
+
+        // Create store view lookup array
+        $storeViewLabels = [];
+        $websites = $this->systemStore->getWebsiteCollection();
+        $websiteNames = [];
+
+        // Create website name lookup array
+        foreach ($websites as $website) {
+            $websiteNames[$website->getId()] = $website->getName();
+        }
+
+        foreach ($this->systemStore->getStoreCollection() as $store) {
+            if ($store->isActive()) {
+                $websiteName = isset($websiteNames[$store->getWebsiteId()])
+                    ? $websiteNames[$store->getWebsiteId()]
+                    : '';
+                $storeViewLabels[$store->getId()] = [
+                    'value' => $store->getId(),
+                    'label' => sprintf('%s -> %s', $websiteName, $store->getName())
+                ];
+            }
+        }
+
         foreach ($nodes as $node) {
+            $translations = $this->nodeTranslationRepository->getByNodeId($node->getId());
+            $translationData = [];
+            foreach ($translations as $translation) {
+                $storeId = $translation->getStoreId();
+                if (isset($storeViewLabels[$storeId])) {
+                    $translationData[] = [
+                        'store_id' => $storeViewLabels[$storeId]['value'],
+                        'value' => $translation->getTitle(),
+                        'label' => $storeViewLabels[$storeId]['label']
+                    ];
+                }
+            }
+
             $menu[] = [
                 'is_active' => $node->getIsActive(),
                 'is_stored' => true,
@@ -194,7 +246,8 @@ class Nodes extends Template implements TabInterface
                 'image_height' => $node->getImageHeight(),
                 'columns' => $this->renderNodeList($level + 1, $node->getId(), $data) ?: [],
                 'selected_item_id' => $node->getSelectedItemId(),
-                'customer_groups' => $node->getCustomerGroups()
+                'customer_groups' => $node->getCustomerGroups(),
+                'translations' => $translationData
             ];
         }
         return $menu;
@@ -221,5 +274,40 @@ class Nodes extends Template implements TabInterface
     public function getCustomerGroups()
     {
         return $this->customerGroupsProvider->getAll();
+    }
+
+    /**
+     * Get store views for translations
+     *
+     * @return array
+     */
+    public function getStoreViews()
+    {
+        $storeViews = [];
+        $stores = $this->systemStore->getStoreCollection();
+        $websites = $this->systemStore->getWebsiteCollection();
+        $websiteNames = [];
+
+        // Create website name lookup array
+        foreach ($websites as $website) {
+            $websiteNames[$website->getId()] = $website->getName();
+        }
+
+        foreach ($stores as $store) {
+            if (!$store->isActive()) {
+                continue;
+            }
+
+            $websiteName = isset($websiteNames[$store->getWebsiteId()])
+                ? $websiteNames[$store->getWebsiteId()]
+                : '';
+
+            $storeViews[] = [
+                'value' => $store->getId(),
+                'label' => sprintf('%s -> %s', $websiteName, $store->getName())
+            ];
+        }
+
+        return $storeViews;
     }
 }

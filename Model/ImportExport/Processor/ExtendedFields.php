@@ -9,8 +9,13 @@ namespace Snowdog\Menu\Model\ImportExport\Processor;
  */
 class ExtendedFields
 {
-    const STORES = 'stores';
     const NODES = 'nodes';
+    const STORES = 'stores';
+    const TRANSLATIONS = 'translations';
 
-    const FIELDS = [self::STORES, self::NODES];
+    const FIELDS = [
+        self::NODES,
+        self::STORES,
+        self::TRANSLATIONS
+    ];
 }
