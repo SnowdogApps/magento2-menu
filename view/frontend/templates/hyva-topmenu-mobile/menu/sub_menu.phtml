@@ -15,11 +15,10 @@ $heroicons = $viewModels->require(HeroiconsOutline::class);
     <?php
     $parentNode = $block->getParentNode();
     $parentNodeIndex = 'node' . $parentNode->getId();
-    $level = $block->getLevel();
     $title = $parentNode->getTitle();
     ?>
     <ul x-ref="submenu-<?= /* @noEscape */ (string) $parentNodeIndex ?>"
-        class="pb-2 pl-4""
+        class="pb-2 pl-4"
         x-show="<?= /* @noEscape */ (string) $parentNodeIndex ?>"
         x-collapse
         :aria-hidden="<?= /* @noEscape */ (string) $parentNodeIndex ?> === false ? 'true' : 'false'"
@@ -40,7 +39,7 @@ $heroicons = $viewModels->require(HeroiconsOutline::class);
                 $nodeType = $node->getType();
                 $nodeClasses = $node->getClasses();
                 ?>
-                <li class="<?= /* @noEscape */ (string) $nodeType === 'wrapper' ? $escaper->escapeHtmlAttr($nodeClasses) : '' ?>""
+                <li class="<?= /* @noEscape */ (string) $nodeType === 'wrapper' ? $escaper->escapeHtmlAttr($nodeClasses) : '' ?>"
                     x-data="{ '<?= /* @noEscape */ (string) $indexId ?>': false }"
                 >
                     <?php if ($node->getIsParent() && !$node->getIsViewAllLink()): ?>
