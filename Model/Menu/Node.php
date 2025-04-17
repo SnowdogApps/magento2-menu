@@ -12,7 +12,7 @@ use Snowdog\Menu\Api\Data\NodeInterface;
 
 class Node extends AbstractModel implements NodeInterface, IdentityInterface
 {
-    const CACHE_TAG = 'snowdog_menu_node';
+    const CACHE_TAG = 'smn';
 
     /**
      * @var SerializerInterface
