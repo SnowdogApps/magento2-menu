@@ -6,6 +6,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 
 ## [Unreleased]
+### Removed
+- Frontend console log (SMM-46)
 
 ## [2.28.0] - 2025-03-25
 ### Added
