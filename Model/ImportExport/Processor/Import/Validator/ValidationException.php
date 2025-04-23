@@ -13,7 +13,7 @@ class ValidationException extends LocalizedException
      */
     private $invalidNodePath;
 
-    public function __construct(Phrase $phrase, Exception $cause = null, $code = 0, $invalidNode = [])
+    public function __construct(Phrase $phrase, ?Exception $cause = null, $code = 0, $invalidNode = [])
     {
         parent::__construct($phrase, $cause, $code);
         $this->invalidNodePath = $invalidNode;

@@ -100,8 +100,8 @@ class ImportCategories implements ModifierInterface
         DbHelper $dbHelper,
         UrlInterface $urlBuilder,
         ArrayManager $arrayManager,
-        SerializerInterface $serializer = null,
-        AuthorizationInterface $authorization = null
+        ?SerializerInterface $serializer = null,
+        ?AuthorizationInterface $authorization = null
     ) {
         $this->locator = $locator;
         $this->categoryCollectionFactory = $categoryCollectionFactory;

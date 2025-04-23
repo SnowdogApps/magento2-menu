@@ -44,7 +44,7 @@ class NodesValidatorCommand extends Command
         ValidationAggregateError $validationAggregateError,
         State $state,
         TreeTrace $treeTrace,
-        string $name = null
+        ?string $name = null
     ) {
         $this->menuRepository = $menuRepository;
         $this->nodeRepository = $nodeRepository;
