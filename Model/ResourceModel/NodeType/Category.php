@@ -12,9 +12,11 @@ namespace Snowdog\Menu\Model\ResourceModel\NodeType;
 
 use Magento\Catalog\Api\Data\CategoryInterface;
 use Magento\Catalog\Model\Category as CoreCategory;
+use Magento\Catalog\Model\Indexer\Category\Product\TableMaintainer;
 use Magento\Framework\App\ResourceConnection;
 use Magento\Framework\EntityManager\MetadataPool;
 use Magento\Store\Model\Store;
+use Magento\Store\Model\StoreManagerInterface;
 use Zend_Db_Expr;
 
 class Category extends AbstractNode
@@ -23,17 +25,25 @@ class Category extends AbstractNode
      * @var MetadataPool
      */
     private $metadataPool;
-
     /**
-     * @param ResourceConnection $resource
-     * @param MetadataPool $metadataPool
+     * @var TableMaintainer
      */
+    private $categoryProductTable;
+    /**
+     * @var StoreManagerInterface
+     */
+    private $storeManager;
+
     public function __construct(
         ResourceConnection $resource,
-        MetadataPool $metadataPool
+        MetadataPool $metadataPool,
+        TableMaintainer $categoryProductTable,
+        StoreManagerInterface  $storeManager
     ) {
         $this->metadataPool = $metadataPool;
         parent::__construct($resource);
+        $this->categoryProductTable = $categoryProductTable;
+        $this->storeManager = $storeManager;
     }
 
     /**
@@ -110,14 +120,19 @@ class Category extends AbstractNode
      */
     public function getCategoriesProductCount($categoryIds = [])
     {
-        $productTable = $this->getConnection()->getTableName('catalog_category_product');
+        try {
+            $storeId = $this->storeManager->getStore()->getId();
+            $productTable = $this->categoryProductTable->getMainTable($storeId);
 
-        $select = $this->getConnection()
-            ->select()
-            ->from($productTable, ['category_id', new Zend_Db_Expr('COUNT(product_id)')])
-            ->where('category_id IN (?)', $categoryIds)
-            ->group('category_id');
+            $select = $this->getConnection()
+                ->select()
+                ->from($productTable, ['category_id', new Zend_Db_Expr('COUNT(product_id)')])
+                ->where('category_id IN (?)', $categoryIds)
+                ->group('category_id');
 
-        return $this->getConnection()->fetchPairs($select);
+            return $this->getConnection()->fetchPairs($select);
+        } catch (\Exception $e) {
+            return [];
+        }
     }
 }
