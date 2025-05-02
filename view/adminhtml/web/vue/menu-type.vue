@@ -79,7 +79,7 @@
             </div>
         </div>
 
-        <template v-if="showImage">
+        <template>
             <image-upload
                 id="image"
                 :item="item"
@@ -184,9 +184,6 @@
                 },
                 templateOptions() {
                     return this.templateOptionsData[this.item['type']] || [];
-                },
-                showImage() {
-                    return ['category', 'product', 'custom_url'].includes(this.item.type);
                 }
             },
             methods: {
