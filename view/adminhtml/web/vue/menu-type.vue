@@ -108,6 +108,67 @@
         </template>
 
         <h2>
+          {{ translationsLabel }}
+        </h2>
+
+        <div class="admin__field field field-translations" style="margin-left: 0;">
+            <table class="admin__table-secondary">
+                <thead>
+                    <tr>
+                        <th class="col-store">{{ config.translation.store }}</th>
+                        <th class="col-translation">{{ config.translation.translation }}</th>
+                        <th class="col-actions">{{ config.translation.actions }}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="(translation, index) in translations" :key="index">
+                        <td class="col-store">
+                            <v-select
+                                :input-id="'store_' + index"
+                                v-model="translation.store_id"
+                                :options="config.storeViews"
+                                :reduce="store => store.value"
+                                :get-option-label="option => option.label || translation.label"
+                                :clearable="false"
+                                @input="updateTranslation(index)"
+                            />
+                        </td>
+                        <td class="col-translation">
+                            <input
+                                type="text"
+                                class="admin__control-text"
+                                v-model="translation.value"
+                                @input="updateTranslation(index)"
+                            />
+                        </td>
+                        <td class="col-actions">
+                            <button
+                                type="button"
+                                class="action-delete"
+                                @click="removeTranslation(index)"
+                            >
+                                <span>{{ config.translation.remove }}</span>
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="3">
+                            <button
+                                type="button"
+                                class="action-secondary"
+                                @click="addTranslation"
+                            >
+                                <span>{{ config.translation.addTranslation }}</span>
+                            </button>
+                        </td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+
+        <h2>
             {{ templatesLabel }}
         </h2>
 
@@ -150,14 +211,22 @@
             data() {
                 return {
                     draft: {},
+                    translations: [],
                     isNodeActiveLabel: $t('Enabled'),
                     additionalLabel: $t('Additional type options'),
                     noTemplatesMessage: $t('There is no custom defined templates defined in theme for this node type'),
                     templatesLabel: $t('Templates'),
+                    translationsLabel: $t('Translations'),
                     templateList: {
                       'node': 'snowMenuNodeCustomTemplates',
                       'submenu': 'snowMenuSubmenuCustomTemplates',
                     }
+                }
+            },
+            created() {
+                // Initialize translations from item data if they exist
+                if (this.item.translations) {
+                    this.translations = this.item.translations;
                 }
             },
             computed: {
@@ -215,6 +284,31 @@
                         return this.config.nodeTypes[option];
                     }
                     return option;
+                },
+                updateTranslation(index) {
+                    // Sync translations back to item
+                    this.item.translations = [...this.translations];
+                },
+                addTranslation() {
+                    this.translations.push({
+                        store_id: '',
+                        value: ''
+                    });
+                    this.updateTranslation();
+                },
+                removeTranslation(index) {
+                    this.translations.splice(index, 1);
+                    this.updateTranslation();
+                }
+            },
+            watch: {
+                'item.translations': {
+                    handler(newVal) {
+                        if (newVal && Array.isArray(newVal)) {
+                            this.translations = [...newVal];
+                        }
+                    },
+                    immediate: true
                 }
             },
             template: template

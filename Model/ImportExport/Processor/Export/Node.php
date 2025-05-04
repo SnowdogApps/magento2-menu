@@ -10,6 +10,7 @@ use Magento\Framework\Api\SortOrderBuilder;
 use Snowdog\Menu\Api\Data\NodeInterface;
 use Snowdog\Menu\Api\NodeRepositoryInterface;
 use Snowdog\Menu\Model\ImportExport\Processor\Export\Node\Tree as NodeTree;
+use Snowdog\Menu\Model\ImportExport\Processor\Export\Node\DataProcessor;
 
 class Node
 {
@@ -40,16 +41,23 @@ class Node
      */
     private $nodeTree;
 
+    /**
+     * @var DataProcessor
+     */
+    private $dataProcessor;
+
     public function __construct(
         SearchCriteriaBuilder $searchCriteriaBuilder,
         SortOrderBuilder $sortOrderBuilder,
         NodeRepositoryInterface $nodeRepository,
-        NodeTree $nodeTree
+        NodeTree $nodeTree,
+        DataProcessor $dataProcessor
     ) {
         $this->searchCriteriaBuilder = $searchCriteriaBuilder;
         $this->sortOrderBuilder = $sortOrderBuilder;
         $this->nodeRepository = $nodeRepository;
         $this->nodeTree = $nodeTree;
+        $this->dataProcessor = $dataProcessor;
     }
 
     public function getList(int $menuId): array
@@ -65,6 +73,10 @@ class Node
             ->create();
 
         $nodes = $this->nodeRepository->getList($searchCriteria)->getItems();
+
+        if (!empty($nodes)) {
+            $this->dataProcessor->preloadTranslations($nodes);
+        }
 
         return $nodes ? $this->nodeTree->get($nodes) : [];
     }
