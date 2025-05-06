@@ -40,6 +40,12 @@
                     />
                 </label>
             </div>
+            <small
+                v-if="description"
+                class="admin__field-control__description"
+            >
+                {{ description }}
+            </small>
         </div>
     </div>
 </template>
@@ -64,17 +70,21 @@ define(["Vue"], function(Vue) {
             item: {
                 type: Object,
                 required: true
+            },
+            description: {
+                type: String,
+                default: ''
             }
         },
         data() {
             return {
                 fieldId: '',
-                checkboxValue: this.value === '1' ? true : false
+                checkboxValue: Number(this.value) === 1 ? true : false
             }
         },
         watch: {
             checkboxValue(newValue) {
-                this.item.is_active = newValue ? '1' : '0';
+                this.item[this.id] = newValue ? '1' : '0';
             }
         },
         mounted() {

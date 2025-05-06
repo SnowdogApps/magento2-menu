@@ -138,7 +138,8 @@
                         submenu_template: null,
                         columns: [],
                         is_active: 0,
-                        customer_groups: []
+                        customer_groups: [],
+                        hide_if_empty: 0
                     });
                 },
                 setUniqueIds(node) {
