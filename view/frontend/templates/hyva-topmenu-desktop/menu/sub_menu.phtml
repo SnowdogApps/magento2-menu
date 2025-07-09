@@ -2,15 +2,10 @@
 
 /** @var Escaper $escaper */
 /** @var Menu $block */
-/** @var HeroiconsOutline $heroicons */
-/** @var ViewModelRegistry $viewModels */
 
-use Hyva\Theme\Model\ViewModelRegistry;
-use Hyva\Theme\ViewModel\HeroiconsOutline;
 use Magento\Framework\Escaper;
 use Snowdog\Menu\Block\Menu;
 
-$heroicons = $viewModels->require(HeroiconsOutline::class);
 ?>
 <?php if ($block->getMenu()): ?>
     <?php

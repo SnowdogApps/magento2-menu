@@ -1,18 +1,12 @@
 <?php
 use Hyva\Theme\Model\ViewModelRegistry;
 use Hyva\Theme\ViewModel\HeroiconsSolid;
-use Hyva\Theme\ViewModel\Navigation;
-use Magento\Framework\View\Element\Template;
 use Magento\Framework\Escaper;
 use Snowdog\Menu\Block\Menu;
 
 /** @var Menu $block */
-/** @var Template $block */
 /** @var Escaper $escaper */
 /** @var ViewModelRegistry $viewModels */
-
-/** @var Navigation $viewModelNavigation */
-$viewModelNavigation = $viewModels->require(Navigation::class);
 
 /** @var HeroiconsSolid $heroiconsSolid */
 $heroiconsSolid = $viewModels->require(HeroiconsSolid::class);

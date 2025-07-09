@@ -25,8 +25,8 @@ class Collection extends AbstractCollection
         FetchStrategyInterface $fetchStrategy,
         ManagerInterface $eventManager,
         ScopeConfigInterface $scopeConfig,
-        AdapterInterface $connection = null,
-        AbstractDb $resource = null
+        ?AdapterInterface $connection = null,
+        ?AbstractDb $resource = null
     ) {
         $this->scopeConfig = $scopeConfig;
         parent::__construct($entityFactory, $logger, $fetchStrategy, $eventManager, $connection, $resource);
@@ -43,17 +43,19 @@ class Collection extends AbstractCollection
     protected function _initSelect()
     {
         parent::_initSelect();
-
+    
         if (!$this->scopeConfig->isSetFlag(Menu::XML_SNOWMENU_GENERAL_CUSTOMER_GROUPS)) {
             return $this;
         }
-
+    
+        $customerTable = $this->getTable('snowmenu_customer');
+    
         $this->getSelect()->joinLeft(
-            ['customer' => 'snowmenu_customer'],
+            ['customer' => $customerTable],
             'main_table.node_id = customer.node_id',
             ['customer_groups' => new Expression('GROUP_CONCAT(group_id SEPARATOR \',\')')]
         )->group('main_table.node_id');
-
+    
         return $this;
     }
 }

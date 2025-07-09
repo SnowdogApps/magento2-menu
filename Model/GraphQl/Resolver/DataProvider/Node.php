@@ -113,7 +113,8 @@ class Node
             NodeInterface::UPDATE_TIME => $node->getUpdateTime(),
             NodeInterface::ADDITIONAL_DATA => $node->getAdditionalData(),
             NodeInterface::SELECTED_ITEM_ID => $node->getSelectedItemId(),
-            NodeInterface::CUSTOMER_GROUPS => $node->getCustomerGroups()
+            NodeInterface::CUSTOMER_GROUPS => $node->getCustomerGroups(),
+            NodeInterface::HIDE_IF_EMPTY => $node->getHideIfEmpty(),
         ];
     }
 

@@ -10,9 +10,12 @@ use Magento\Framework\Registry;
 use Magento\Framework\Serialize\SerializerInterface;
 use Snowdog\Menu\Api\Data\NodeInterface;
 
+/**
+ * @SuppressWarnings(PHPMD.ExcessivePublicCount)
+ */
 class Node extends AbstractModel implements NodeInterface, IdentityInterface
 {
-    const CACHE_TAG = 'snowdog_menu_node';
+    const CACHE_TAG = 'smn';
 
     /**
      * @var SerializerInterface
@@ -23,8 +26,8 @@ class Node extends AbstractModel implements NodeInterface, IdentityInterface
         Context $context,
         Registry $registry,
         SerializerInterface $serializer,
-        AbstractResource $resource = null,
-        AbstractDb $resourceCollection = null,
+        ?AbstractResource $resource = null,
+        ?AbstractDb $resourceCollection = null,
         array $data = []
     ) {
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
@@ -390,5 +393,15 @@ class Node extends AbstractModel implements NodeInterface, IdentityInterface
         }
 
         return false;
+    }
+
+    public function getHideIfEmpty()
+    {
+        return (int) $this->_getData(NodeInterface::HIDE_IF_EMPTY);
+    }
+
+    public function setHideIfEmpty($hideIfEmpty)
+    {
+        return $this->setData(NodeInterface::HIDE_IF_EMPTY, (int) $hideIfEmpty);
     }
 }

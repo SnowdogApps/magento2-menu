@@ -199,6 +199,7 @@ class SaveRequestProcessor
         $nodeObject->setMenuId($menu->getMenuId());
         $nodeObject->setTitle($nodeData['title']);
         $nodeObject->setIsActive($nodeData['is_active'] ?? '0');
+        $nodeObject->setHideIfEmpty($nodeData['hide_if_empty'] ?? '0');
         $nodeObject->setLevel((string) $level);
         $nodeObject->setPosition((string) $position);
 
