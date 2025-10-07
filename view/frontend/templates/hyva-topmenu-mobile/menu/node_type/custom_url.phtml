@@ -8,15 +8,15 @@ use Snowdog\Menu\Block\NodeType\CustomUrl;
 ?>
 <?php
 $nodeId = $block->getId();
-$content = $block->getContent();
+$url = $block->getCustomUrl($nodeId);
 $title = $block->getTitle();
 $dataAttribute = 'data-menu="menu-' . $nodeId . '"';
 $nodeClasses = $block->getNodeClasses();
 ?>
 
-<?php if ($content): ?>
+<?php if ($url): ?>
     <a class="cursor-pointer snowdog-menu-link-topmenu-mobile <?= $escaper->escapeHtmlAttr($nodeClasses) ?>"
-        href="<?= $escaper->escapeUrl($content) ?>"
+        href="<?= $escaper->escapeUrl($url) ?>"
         <?php if ($block->getTarget()): ?>
             target="_blank"
             rel="noopener"

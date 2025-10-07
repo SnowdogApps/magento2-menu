@@ -13,7 +13,8 @@ $imageUrl = $block->getImageUrl();
 $imageAltText = $block->getImageAltText();
 $imageWidth = $block->getImageWidth();
 $imageHeight = $block->getImageHeight();
-$content = $block->getContent();
+$nodeId = $block->getId();
+$url = $block->getCustomUrl($nodeId);
 
 if ($block->getIsViewAllLink()) {
     $title = __('View All');
@@ -32,9 +33,9 @@ if ($block->getTarget()) {
 }
 $allAttributes = implode(' ', $attributes);
 ?>
-<?php if ($content): ?>
+<?php if ($url): ?>
     <a
-        href="<?= $block->escapeUrl($content); ?>"
+        href="<?= $block->escapeUrl($url); ?>"
         <?= $allAttributes; ?>
     >
         <?= $block->escapeHtml($title); ?>
