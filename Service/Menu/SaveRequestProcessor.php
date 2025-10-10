@@ -159,7 +159,7 @@ class SaveRequestProcessor
      * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      * @SuppressWarnings(PHPMD.NPathComplexity)
      */
-    private function processNodeObject(
+    public function processNodeObject(
         NodeInterface $nodeObject,
         array $nodeData,
         MenuInterface $menu,
