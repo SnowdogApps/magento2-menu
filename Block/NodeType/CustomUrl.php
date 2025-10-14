@@ -112,4 +112,29 @@ HTML;
     {
         return __("Custom Url");
     }
+
+    /**
+    * @param int $nodeId
+    *
+    * @return string
+    */
+    public function getCustomUrl($nodeId)
+    {
+        $node = $this->nodes[$nodeId];
+        $nodeContent = $node->getContent();
+        $url = '';
+
+        if (
+            $nodeContent
+            && $nodeContent !== '#'
+            && stripos($nodeContent, 'javascript:void') === false
+            && !$this->isExternalUrl($nodeContent)
+        ) {
+            $url = $this->_storeManager->getStore()->getBaseUrl() . ltrim($nodeContent, '/');
+        } else {
+            $url = $nodeContent;
+        }
+
+        return $url;
+    }
 }
