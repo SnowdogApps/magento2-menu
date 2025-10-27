@@ -41,9 +41,6 @@ use Hyva\Theme\ViewModel\HyvaCsp;
             },
         }
     }
-    window.addEventListener('alpine:init', () => {
-        Alpine.data('footerMenu', footerMenu);
-    }, {once: true});
 
     function footerMenuItem() {
         return Object.assign({
@@ -54,7 +51,6 @@ use Hyva\Theme\ViewModel\HyvaCsp;
             ['showSubmenu']() {
                 return this.isDesktop || !!this[this.indexid]
             },
-
             ['getAriaExpanded']() {
                 return this[this.indexid] === true;
             },
@@ -72,7 +68,9 @@ use Hyva\Theme\ViewModel\HyvaCsp;
             },
         });
     }
+
     window.addEventListener('alpine:init', () => {
+        Alpine.data('footerMenu', footerMenu);
         Alpine.data('footerMenuItem', footerMenuItem);
     }, {once: true});
 </script>
