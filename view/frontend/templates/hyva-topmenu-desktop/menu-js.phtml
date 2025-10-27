@@ -1,0 +1,69 @@
+<?php
+use Hyva\Theme\ViewModel\HyvaCsp;
+/** @var HyvaCsp $hyvaCsp */
+?>
+<script>
+    function topmenuDesktop() {
+        return {
+            openSubmenuId: null,
+            closeSubmenu() {
+                this.openSubmenuId = null;
+            },
+            onSubmenuEscape() {
+                this.$refs['sr-button-' + this.openSubmenuId]?.focus();
+                this.closeSubmenu();
+            }
+        }
+    }
+
+    function topmenuDesktopItem() {
+        return {
+            nodeId: '',
+            hasChildren: false,
+            init() {
+                this.nodeId = this.$el.dataset.nodeid;
+                this.hasChildren = this.$el.dataset.haschildren === 'true';
+            },
+            openSubmenu() {
+                this.openSubmenuId = this.nodeId;
+            },
+            toggleSubmenu() {
+                if (this.openSubmenuId === this.nodeId) {
+                    this.openSubmenuId = null;
+                    hyva.releaseFocus();
+                } else {
+                    this.openSubmenuId = this.nodeId;
+                    this.$nextTick(() => {
+                        hyva.trapFocus(this.$refs['submenu-' + this.nodeId]);
+                    });
+                }
+            },
+            getItemClass() {
+                return {
+                    'bg-white rounded-t-lg shadow-md': this.hasChildren && this.openSubmenuId === this.nodeId
+                };
+            },
+            getButtonClass() {
+                return { 'rotate-180': this.openSubmenuId === this.nodeId };
+            },
+            getAriaExpanded() {
+                return this.openSubmenuId === this.nodeId ? 'true' : 'false';
+            }
+        }
+    }
+
+    function topmenuDesktopSubmenu() {
+        return {
+            shouldDisplaySubmenu() {
+                return this.openSubmenuId === this.$el.dataset.parentNodeIndex
+            }
+        }
+    }
+
+    window.addEventListener('alpine:init', () => {
+        Alpine.data('topmenuDesktop', topmenuDesktop);
+        Alpine.data('topmenuDesktopItem', topmenuDesktopItem);
+        Alpine.data('topmenuDesktopSubmenu', topmenuDesktopSubmenu);
+    }, {once: true});
+</script>
+<?php $hyvaCsp->registerInlineScript() ?>

@@ -57,6 +57,11 @@
                 name="snowdog-menu.footer.menu.js"
                 template="Snowdog_Menu::hyva-menu-footer/menu-js.phtml"
             />
+            <block
+                class="Magento\Framework\View\Element\Template"
+                name="snowdog-menu.desktop.menu.js"
+                template="Snowdog_Menu::hyva-topmenu-desktop/menu-js.phtml"
+            />
         </referenceContainer>
     </body>
 </page>
