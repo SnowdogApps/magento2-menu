@@ -45,7 +45,7 @@ $heroicons = $viewModels->require(HeroiconsOutline::class);
                     class="flex-1"
                 >
                     <?php if ($node->getIsParent() && !$node->getIsViewAllLink()): ?>
-                        <div @keydown.escape="onEscape"">
+                        <div @keydown.escape="onEscape">
                             <span x-show="isDesktop"
                                 x-cloak="tablet"
                                 class="block font-bold mb-6"
