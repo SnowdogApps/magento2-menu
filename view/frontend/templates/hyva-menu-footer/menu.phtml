@@ -27,8 +27,7 @@ $heroicons = $viewModels->require(HeroiconsOutline::class);
         @resize.window.debounce="onResize"
         @visibilitychange.window.debounce="onVisibilityChange"
     >
-        <ul class="w-full flex flex-col flex-wrap lg:flex-row lg:justify-between lg:gap-6 divide-y divide-container lg:divide-y-0"
-        >
+        <ul class="w-full flex flex-col flex-wrap lg:flex-row lg:justify-between lg:gap-6 divide-y divide-container lg:divide-y-0">
             <?php foreach ($block->getNodes() as $key => $node): ?>
                 <?php
                 $childrenLevel = $node->getLevel() + 1;
