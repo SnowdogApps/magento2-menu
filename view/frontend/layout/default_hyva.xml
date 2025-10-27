@@ -49,5 +49,14 @@
 
         <referenceBlock name="topmenu_mobile" remove="true"/>
         <referenceBlock name="topmenu_desktop" remove="true"/>
+
+        <!--   SCRIPTS     -->
+        <referenceContainer name="before.body.end">
+            <block
+                class="Magento\Framework\View\Element\Template"
+                name="snowdog-menu.footer.menu.js"
+                template="Snowdog_Menu::hyva-menu-footer/menu-js.phtml"
+            />
+        </referenceContainer>
     </body>
 </page>

@@ -1,0 +1,79 @@
+<?php
+use Hyva\Theme\ViewModel\HyvaCsp;
+
+/** @var HyvaCsp $hyvaCsp */
+?>
+<script>
+    function footerMenu() {
+        return {
+            isDesktop: true,
+            indexid: '',
+            checkIsDesktopResolution() {
+                this.isDesktop = window.matchMedia('(min-width: 1024px)').matches;
+            },
+            toggleSubmenu(event, index) {
+                const focusableElements = 'button:not([disabled]), a[href]:not([tabindex="-1"]), [tabindex]:not([tabindex="-1"])'
+
+                event.stopPropagation()
+                this[index] = !this[index]
+
+                if (this[index]) {
+                    this.$nextTick(() => {
+                        this.$refs['submenu-' + index] && this.$refs['submenu-' + index].querySelector(focusableElements) && this.$refs['submenu-' + index].querySelector(focusableElements).focus()
+                    })
+                } else {
+                    this.$nextTick(() => {
+                        this.$refs['submenu-toggle-' + index] && this.$refs['submenu-toggle-' + index].focus()
+                    })
+                }
+            },
+            ['onVisibilityChange'](event) {
+                return this.checkIsDesktopResolution();
+            },
+            ['!isDesktop']() {
+                return !this.isDesktop;
+            },
+            ['onResize'](event) {
+                return this.checkIsDesktopResolution();
+            },
+            ['init']() {
+                return this.checkIsDesktopResolution();
+            },
+        }
+    }
+    window.addEventListener('alpine:init', () => {
+        Alpine.data('footerMenu', footerMenu);
+    }, {once: true});
+
+    function footerMenuItem() {
+        return Object.assign({
+            indexid: '',
+            init() {
+                this.indexid = this.$el.dataset.indexid
+            },
+            ['showSubmenu']() {
+                return this.isDesktop || !!this[this.indexid]
+            },
+
+            ['getAriaExpanded']() {
+                return this[this.indexid] === true;
+            },
+            ['getAriaHidden']() {
+                return !this.isDesktop && this[this.indexid] === false ? true : false;
+            },
+            ['getIconClass']() {
+                return {'rotate-180': this[this.indexid] === true};
+            },
+            ['onClick'](event) {
+                this.toggleSubmenu(event, `${this.indexid}`);
+            },
+            ['onEscape'](event) {
+                !this.isDesktop && this.toggleSubmenu(event, `${this.indexid}`);
+            },
+        });
+    }
+    window.addEventListener('alpine:init', () => {
+        Alpine.data('footerMenuItem', footerMenuItem);
+    }, {once: true});
+</script>
+<?php $hyvaCsp->registerInlineScript() ?>
