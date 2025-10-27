@@ -11,47 +11,17 @@ use Snowdog\Menu\Block\Menu;
 $heroicons = $viewModels->require(HeroiconsOutline::class);
 
 $menu = $block->getMenu();
-$uniqueId = '_' . uniqid();
 ?>
 
 <?php if ($menu): ?>
-    <script>
-        'use strict';
-
-        const initMenuMobile<?= $escaper->escapeHtml($uniqueId) ?> = () => ({
-            open: false,
-            openMenu(event) {
-                this.open = true
-                this.$nextTick(() => hyva.trapFocus(this.$refs['menu-dialog']))
-                // Prevent from body scrolling while mobile menu opened
-                document.body.classList.add('fixed', 'w-full')
-            },
-            closeMenu(event) {
-                event.stopPropagation()
-                document.body.classList.remove('fixed', 'w-full')
-                this.open = false
-                this.$nextTick(() => this.$refs['open-menu-button'].focus() || hyva.releaseFocus())
-            },
-            toggleSubmenu(index) {
-                this[index] = !this[index]
-
-                if (this[index]) {
-                    const focusableElements = 'button:not([disabled]), a[href]:not([tabindex="-1"]), [tabindex]:not([tabindex="-1"])'
-                    this.$nextTick(() => {
-                        this.$refs['submenu-' + index]?.querySelector(focusableElements)?.focus()
-                    })
-                }
-            },
-        })
-    </script>
     <nav
         class="
             <?= $escaper->escapeHtmlAttr($menu->getCssClass()) ?>
             snowdog-topmenu-mobile z-20 order-2 text-primary-darker sm:order-1 navigation lg:hidden
         "
-        x-data="initMenuMobile<?= $escaper->escapeHtml($uniqueId) ?>()"
-        @keydown.escape="open && closeMenu"
-        @click.outside="open && closeMenu"
+        x-data="topmenuMobile"
+        @keydown.escape="closeMenu"
+        @click.outside="closeMenu"
         aria-label="<?= $escaper->escapeHtmlAttr(__('Main menu')) ?>"
         role="navigation"
     >
@@ -64,7 +34,7 @@ $uniqueId = '_' . uniqid();
         >
             <?= $heroicons->menuHtml('', 24, 24, ['aria-hidden' => 'true']) ?>
         </button>
-        <div class="backdrop"
+        <div class="backdrop z-30"
             x-show="open"
             x-transition:enter="ease-in-out duration-500"
             x-transition:enter-start="opacity-0"
@@ -76,16 +46,13 @@ $uniqueId = '_' . uniqid();
             x-cloak
         ></div>
         <div class="fixed z-30 top-0 left-0 w-full max-w-lg h-full bg-container-lighter border-container overflow-y-auto overflow-x-hidden transform transition ease-in-out duration-500 sm:duration-700"
-            :class="{
-                '-translate-x-full' : !open,
-                'translate-x-0 shadow-2xl' : open,
-            }"
+            :class="getMenuClass"
             x-cloak
             x-ref="menu-dialog"
             role="dialog"
             aria-modal="true"
             aria-label="<?= $escaper->escapeHtmlAttr(__('Main menu')) ?>"
-            :aria-hidden="open ? 'false' : 'true'"
+            :inert="isClosed"
         >
             <div x-show="open"
                 class="flex flex-col-reverse"
@@ -93,30 +60,32 @@ $uniqueId = '_' . uniqid();
                 <ul class="mb-1 divide-y divide-container">
                     <?php foreach ($block->getNodes() as $node): ?>
                         <?php
-                        $childrenLevel = $node->getLevel() + 1;
-                        $children = $block->getNodes($childrenLevel, $node);
-                        $node->setIsParent((bool)$children);
-                        $indexId = 'node' . $node->getId();
-                        $title = $node->getTitle();
-                        $nodeType = $node->getType();
-                        $nodeClasses = $node->getClasses();
+                            $childrenLevel = $node->getLevel() + 1;
+                            $children = $block->getNodes($childrenLevel, $node);
+                            $node->setIsParent((bool)$children);
+                            $indexId = 'node' . $node->getId();
+                            $title = $node->getTitle();
+                            $nodeType = $node->getType();
+                            $nodeClasses = $node->getClasses();
                         ?>
-                        <li x-data="{'<?= /* @noEscape */ (string) $indexId ?>': false }"
-                            class="<?= /* @noEscape */ (string) $nodeType === 'wrapper' ? $escaper->escapeHtmlAttr($nodeClasses) : '' ?>""
+                        <li x-data="topmenuMobileItem"
+                            x-init="init"
+                            data-nodeid="<?= /* @noEscape */ (string) $indexId ?>"
+                            class="<?= /* @noEscape */ (string) $nodeType === 'wrapper' ? $escaper->escapeHtmlAttr($nodeClasses) : '' ?>"
                         >
                             <?php if ($node->getIsParent() && !$node->getIsViewAllLink()): ?>
                                 <button
                                     class="flex items-center justify-between w-full px-8 py-4"
-                                    @click="toggleSubmenu('<?= /* @noEscape */ (string) $indexId ?>')"
+                                    @click="toggleSubmenu"
                                     aria-label="<?= $escaper->escapeHtmlAttr(__('Toggle submenu for %1', $title)) ?>"
-                                    :aria-expanded="<?= /* @noEscape */ (string) $indexId ?> === true"
+                                    :aria-expanded="getAriaExpanded"
                                     type="button"
                                 >
                                     <span>
                                         <?= $escaper->escapeHtml($title) ?>
                                     </span>
                                     <div class="transition-transform"
-                                        :class="{'rotate-180' : <?= /* @noEscape */ (string) $indexId ?> === true}"
+                                        :class="getButtonClass"
                                     >
                                         <?= $heroicons->chevronDownHtml('text-gray-500', 20, 20, ['aria-hidden' => 'true']); ?>
                                     </div>

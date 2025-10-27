@@ -1,0 +1,69 @@
+<?php
+use Hyva\Theme\ViewModel\HyvaCsp;
+
+/** @var HyvaCsp $hyvaCsp */
+?>
+<script>
+    function topmenuMobile() {
+        return {
+            open: false,
+            openMenu() {
+                this.open = true;
+                this.$nextTick(() => hyva.trapFocus(this.$refs['menu-dialog']));
+                document.body.classList.add('fixed', 'w-full');
+            },
+            closeMenu() {
+                if (!this.open) return;
+                document.body.classList.remove('fixed', 'w-full');
+                this.open = false;
+                this.$nextTick(() => this.$refs['open-menu-button'].focus() || hyva.releaseFocus());
+            },
+            ['getMenuClass']() {
+                return {
+                    '-translate-x-full': !this.open,
+                    'translate-x-0 shadow-2xl': this.open,
+                };
+            },
+            ['isClosed']() {
+                return !this.open;
+            }
+        }
+    }
+
+    function topmenuMobileItem() {
+        return {
+            nodeId: '',
+            isOpen: false,
+            init() {
+                this.nodeId = this.$el.dataset.nodeid;
+            },
+            toggleSubmenu() {
+                this.isOpen = !this.isOpen;
+                if (this.isOpen) {
+                    const focusableElements = 'button:not([disabled]), a[href]:not([tabindex="-1"]), [tabindex]:not([tabindex="-1"])';
+                    this.$nextTick(() => {
+                        this.$refs['submenu-' + this.nodeId]?.querySelector(focusableElements)?.focus();
+                    });
+                }
+            },
+            ['getButtonClass']() {
+                return { 'rotate-180': this.isOpen };
+            },
+            ['getAriaExpanded']() {
+                return this.isOpen ? 'true' : 'false';
+            },
+            ['isSubmenuOpen']() {
+                return this.isOpen;
+            },
+            ['!isSubmenuOpen']() {
+                return !this.isOpen;
+            }
+        }
+    }
+
+    window.addEventListener('alpine:init', () => {
+        Alpine.data('topmenuMobile', topmenuMobile);
+        Alpine.data('topmenuMobileItem', topmenuMobileItem);
+    }, {once: true});
+</script>
+<?php $hyvaCsp->registerInlineScript() ?>
