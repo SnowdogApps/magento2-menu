@@ -195,7 +195,7 @@
                     return this.templateOptionsData[this.item['type']] || [];
                 },
                 showImage() {
-                    return ['category', 'product', 'custom_url'].includes(this.item.type);
+                    return ['category', 'product', 'custom_url', 'cms_page'].includes(this.item.type);
                 },
                 showHideIfEmpty: function() {
                     return this.item.type === 'category';
