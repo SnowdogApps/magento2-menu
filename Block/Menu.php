@@ -445,7 +445,9 @@ class Menu extends Template implements DataObject\IdentityInterface
     {
         $block = clone $this;
         $submenuTemplate = $parentNode->getSubmenuTemplate();
-        $submenuTemplate = $submenuTemplate
+        $isMobile = $this->getMenu()->getIdentifier() === "hyva-topmenu-mobile";
+        
+        $submenuTemplate = $submenuTemplate && !$isMobile
             ? 'Snowdog_Menu::' . $this->getMenu()->getIdentifier() . "/menu/custom/sub_menu/{$submenuTemplate}.phtml"
             : $this->submenuTemplate;
 
