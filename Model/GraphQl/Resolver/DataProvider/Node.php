@@ -21,6 +21,7 @@ class Node
     const URL_KEY = 'url_key';
 
     const NODE_TYPE_CUSTOM_URL = 'custom_url';
+    const NODE_TYPE_CMS_BLOCK = 'cms_block';
 
     /**
      * @var NodeRepositoryInterface
@@ -74,7 +75,7 @@ class Node
             );
         }
 
-        $nodes = $this->nodeRepository->getByIdentifier($identifier);
+        $nodes = $this->nodeRepository->getByMenu((int) $menu->getId());
         $this->loadModels($nodes, $storeId);
         foreach ($nodes as $node) {
             if ($node->getIsActive()) {
@@ -96,7 +97,7 @@ class Node
             NodeInterface::NODE_ID => (int) $node->getId(),
             NodeInterface::MENU_ID => (int) $node->getMenuId(),
             NodeInterface::TYPE => $node->getType(),
-            NodeInterface::CONTENT => $node->getContent(),
+            NodeInterface::CONTENT => $this->getContent($node),
             NodeInterface::CLASSES => $node->getClasses(),
             NodeInterface::PARENT_ID => (int) $node->getParentId(),
             NodeInterface::POSITION => (int) $node->getPosition(),
@@ -116,6 +117,22 @@ class Node
             NodeInterface::CUSTOMER_GROUPS => $node->getCustomerGroups(),
             NodeInterface::HIDE_IF_EMPTY => $node->getHideIfEmpty(),
         ];
+    }
+
+    /**
+     * @param NodeInterface $node
+     * @return string|null
+     */
+    private function getContent(NodeInterface $node): ?string
+    {
+        if (
+            $node->getType() === self::NODE_TYPE_CMS_BLOCK
+            && isset($this->loadedModels[$node->getType()][$node->getContent()])
+        ) {
+            return $this->loadedModels[$node->getType()][$node->getContent()];
+        }
+
+        return $node->getContent();
     }
 
     /**
@@ -156,7 +173,10 @@ class Node
      */
     private function getUrlKey(NodeInterface $node): ?string
     {
-        if (in_array($node->getType(), TypeModel::TYPES)) {
+        if (
+            in_array($node->getType(), TypeModel::TYPES)
+            && $node->getType() !== self::NODE_TYPE_CMS_BLOCK
+        ) {
             if (!isset($this->loadedModels[$node->getType()][$node->getContent()])) {
                 return null;
             }
