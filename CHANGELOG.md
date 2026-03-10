@@ -6,6 +6,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 
 ## [Unreleased]
+SMM-47 - Image Upload for Cms Page link
+### Updated
+- Bump lodash from 4.17.21 to 4.17.23 ([#390](https://github.com/SnowdogApps/magento2-menu/pull/390))
 ### Removed
 - Frontend console log (SMM-46)
 - Unused variables from phtml files ([#357](https://github.com/SnowdogApps/magento2-menu/pull/357))
