@@ -6,6 +6,21 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 
 ## [Unreleased]
+### Updated
+- Bump lodash from 4.17.21 to 4.17.23 ([#390](https://github.com/SnowdogApps/magento2-menu/pull/390))
+### Removed
+- Frontend console log (SMM-46)
+- Unused variables from phtml files ([#357](https://github.com/SnowdogApps/magento2-menu/pull/357))
+
+## [2.28.0] - 2025-03-25
+### Added
+- Auto populate node title ([#325](https://github.com/SnowdogApps/magento2-menu/pull/325))
+- Add missing $escaper and $viewModels declarations ([#350](https://github.com/SnowdogApps/magento2-menu/pull/350))
+- Import categories by store view ([#352](https://github.com/SnowdogApps/magento2-menu/pull/352))
+- Add external vue providers config option
+### Changed
+- Bump cross-spawn from 7.0.3 to 7.0.6 ([#349](https://github.com/SnowdogApps/magento2-menu/pull/349))
+- Improve graphql performance
 
 ## [2.27.2] - 2024-11-08
 ### Fixed

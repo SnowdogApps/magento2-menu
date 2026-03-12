@@ -8,6 +8,7 @@ use Magento\Framework\Option\ArrayInterface;
 use Magento\Catalog\Model\ResourceModel\Category\CollectionFactory as CategoryCollectionFactory;
 use Magento\Catalog\Model\ResourceModel\Category\Collection;
 use Magento\Framework\Exception\LocalizedException;
+use Magento\Store\Model\StoreManagerInterface;
 
 class Categories implements ArrayInterface
 {
@@ -17,11 +18,18 @@ class Categories implements ArrayInterface
     private $categoryCollectionFactory;
 
     /**
+     * @var StoreManagerInterface
+     */
+    private $storeManager;
+
+    /**
      * @param CategoryCollectionFactory $categoryCollectionFactory
      */
     public function __construct(
+        StoreManagerInterface $storeManager,
         CategoryCollectionFactory $categoryCollectionFactory
     ) {
+        $this->storeManager = $storeManager;
         $this->categoryCollectionFactory = $categoryCollectionFactory;
     }
 
@@ -32,7 +40,15 @@ class Categories implements ArrayInterface
      */
     public function toOptionArray(): array
     {
-        return $this->retrieveCategories();
+        $options = [];
+        $stores = $this->storeManager->getStores(true);
+
+        foreach ($stores as $store) {
+            $categories = $this->retrieveCategories((int) $store->getId());
+            $options = array_merge($options, $categories);
+        }
+
+        return $options;
     }
 
     /**
@@ -42,13 +58,22 @@ class Categories implements ArrayInterface
      */
     public function toArray(): array
     {
-        return $this->retrieveCategories(0, false);
+        $options = [];
+        $stores = $this->storeManager->getStores(true);
+
+        foreach ($stores as $store) {
+            $categories = $this->retrieveCategories((int) $store->getId(), false);
+            $options = array_merge($options, $categories);
+        }
+
+        return $options;
     }
 
     /**
      * Retrieve tree of categories with attributes.
      *
      * @param int $storeId
+     * @param bool $toOptionArray
      * @return array
      * @throws LocalizedException
      */
@@ -60,7 +85,7 @@ class Categories implements ArrayInterface
         $collection->addAttributeToSelect(['name', 'is_active', 'parent_id'])
             ->addFieldToFilter('level', 1)
             ->setStoreId($storeId);
-            
+
         $options = [];
 
         foreach ($collection as $rootCategory) {
@@ -75,7 +100,8 @@ class Categories implements ArrayInterface
             if ($toOptionArray) {
                 $options[] = [
                     'label' => $rootCategory->getName(),
-                    'value' => $rootCategory->getId()
+                    'value' => $rootCategory->getId(),
+                    'store_id' => (string) $storeId,
                 ];
             } else {
                 $options[$rootCategory->getId()] = $rootCategory->getName();
@@ -86,7 +112,8 @@ class Categories implements ArrayInterface
                 if ($toOptionArray) {
                     $groupedOptions[] = [
                         'label' => $category->getName(),
-                        'value' => $category->getId()
+                        'value' => $category->getId(),
+                        'store_id' => (string) $storeId,
                     ];
                 } else {
                     $options[$category->getId()] = $category->getName();
@@ -96,7 +123,8 @@ class Categories implements ArrayInterface
             if ($toOptionArray && $groupedOptions) {
                 $options[] = [
                     'label' => __('Sub categories'),
-                    'value' => $groupedOptions
+                    'value' => $groupedOptions,
+                    'store_id' => (string) $storeId,
                 ];
             }
         }

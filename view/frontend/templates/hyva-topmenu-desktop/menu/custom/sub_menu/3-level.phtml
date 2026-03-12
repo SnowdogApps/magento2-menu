@@ -1,8 +1,15 @@
 <?php
-use Hyva\Theme\ViewModel\HeroiconsSolid;
 
-/** @var \Snowdog\Menu\Block\Menu $block */
-/** @var Hyva\Theme\ViewModel\HeroiconsOutline $heroicons */
+use Hyva\Theme\Model\ViewModelRegistry;
+use Hyva\Theme\ViewModel\HeroiconsOutline;
+use Hyva\Theme\ViewModel\HeroiconsSolid;
+use Magento\Framework\Escaper;
+use Snowdog\Menu\Block\Menu;
+
+/** @var Escaper $escaper */
+/** @var Menu $block */
+/** @var HeroiconsOutline $heroicons */
+/** @var ViewModelRegistry $viewModels */
 
 /** @var HeroiconsSolid $heroiconsSolid */
 $heroiconsSolid = $viewModels->require(HeroiconsSolid::class);
@@ -28,7 +35,6 @@ $heroiconsSolid = $viewModels->require(HeroiconsSolid::class);
                 const initSubMenu<?= $escaper->escapeHtml($parentNodeIndex) ?> = () => ({
                     openLevel2SubmenuId: null,
                     openLevel2Submenu(menuNode) {
-                        console.log(menuNode)
                         this.openLevel2SubmenuId = menuNode
                         this.$nextTick(() => {
                             const focusableElements = 'button:not([disabled]), a[href]:not([tabindex="-1"]), [tabindex]:not([tabindex="-1"])'

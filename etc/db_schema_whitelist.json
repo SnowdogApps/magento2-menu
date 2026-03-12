@@ -35,7 +35,8 @@
             "selected_item_id": true,
             "image_width": true,
             "image_heigth": true,
-            "customer_groups": true
+            "customer_groups": true,
+            "hide_if_empty": true
         },
         "constraint": {
             "PRIMARY": true,
@@ -65,7 +66,8 @@
             "SNOWMENU_CUSTOMER_NODE_ID": true
         },
         "constraint": {
-            "SNOWMENU_CUSTOMER_NODE_ID_SNOWMENU_NODE_NODE_ID": true
+            "SNOWMENU_CUSTOMER_NODE_ID_SNOWMENU_NODE_NODE_ID": true,
+            "PRIMARY": true
         }
     }
 }

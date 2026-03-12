@@ -11,6 +11,12 @@
             </argument>
         </arguments>
     </virtualType>
+
+    <type name="Magento\Catalog\Model\ResourceModel\Category\Tree">
+        <plugin name="snowdog_menu_get_category_tree_by_sore_view"
+                type="Snowdog\Menu\Plugin\Model\ResourceModel\Category\TreePlugin"/>
+    </type>
+
     <!--<type name="Snowdog\Menu\Ui\DataProvider\Menu\Form\MenuDataProvider">
         <arguments>
             <argument name="pool" xsi:type="object">Snowdog\Menu\Ui\DataProvider\Menu\Form\Modifier\Pool</argument>

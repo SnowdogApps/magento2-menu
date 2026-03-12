@@ -17,7 +17,7 @@ class DataProvider extends ModifierPoolDataProvider
         CollectionFactory $collectionFactory,
         array $meta = [],
         array $data = [],
-        PoolInterface $pool = null
+        ?PoolInterface $pool = null
     ) {
         $this->collection = $collectionFactory->create();
         parent::__construct($name, $primaryFieldName, $requestFieldName, $meta, $data, $pool);

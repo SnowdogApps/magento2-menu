@@ -214,6 +214,7 @@ class Nodes extends Template implements TabInterface
 
             $menu[] = [
                 'is_active' => $node->getIsActive(),
+                'hide_if_empty' => $node->getHideIfEmpty(),
                 'is_stored' => true,
                 'type' => $node->getType(),
                 'content' => $node->getContent(),

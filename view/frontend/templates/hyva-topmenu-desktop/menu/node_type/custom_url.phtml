@@ -1,19 +1,26 @@
-<?php /** @var \Snowdog\Menu\Block\NodeType\CustomUrl $block */ ?>
+<?php
+/** @var CustomUrl $block */
+/** @var Escaper $escaper */
+
+use Magento\Framework\Escaper;
+use Snowdog\Menu\Block\NodeType\CustomUrl;
+
+?>
 <?php
 $nodeId = $block->getId();
 $imageUrl = $block->getImageUrl();
 $imageAltText = $block->getImageAltText();
 $imageWidth = $block->getImageWidth();
 $imageHeight = $block->getImageHeight();
-$content = $block->getContent();
+$url = $block->getCustomUrl($nodeId);
 $title = $block->getTitle();
 $dataAttribute = 'data-menu="menu-' . $nodeId . '"';
 $nodeClasses = $block->getNodeClasses();
 ?>
 
-<?php if ($content): ?>
+<?php if ($url): ?>
     <?php if ($imageUrl): ?>
-        <a href="<?= $escaper->escapeUrl($content) ?>"
+        <a href="<?= $escaper->escapeUrl($url) ?>"
             class="block mb-2 transition-opacity group-hover:opacity-80"
             tabindex="-1"
             <?php if ($block->getTarget()): ?>
@@ -29,7 +36,7 @@ $nodeClasses = $block->getNodeClasses();
             />
         </a>
     <?php endif; ?>
-    <a href="<?= $escaper->escapeUrl($content) ?>"
+    <a href="<?= $escaper->escapeUrl($url) ?>"
         class="snowdog-menu-link <?= $escaper->escapeHtmlAttr($nodeClasses) ?>"
         <?php if ($nodeId): ?>
             data-menu="menu-<?= $escaper->escapeHtmlAttr($nodeId) ?>"

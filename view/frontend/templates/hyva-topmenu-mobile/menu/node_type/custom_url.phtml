@@ -1,17 +1,22 @@
-<?php /** @var \Snowdog\Menu\Block\NodeType\CustomUrl $block */ ?>
+<?php
+/** @var CustomUrl $block */
+/** @var Escaper $escaper */
+
+use Magento\Framework\Escaper;
+use Snowdog\Menu\Block\NodeType\CustomUrl;
+
+?>
 <?php
 $nodeId = $block->getId();
-$imageUrl = $block->getImageUrl();
-$imageAltText = $block->getImageAltText();
-$content = $block->getContent();
+$url = $block->getCustomUrl($nodeId);
 $title = $block->getTitle();
 $dataAttribute = 'data-menu="menu-' . $nodeId . '"';
 $nodeClasses = $block->getNodeClasses();
 ?>
 
-<?php if ($content): ?>
+<?php if ($url): ?>
     <a class="cursor-pointer snowdog-menu-link-topmenu-mobile <?= $escaper->escapeHtmlAttr($nodeClasses) ?>"
-        href="<?= $escaper->escapeUrl($content) ?>"
+        href="<?= $escaper->escapeUrl($url) ?>"
         <?php if ($block->getTarget()): ?>
             target="_blank"
             rel="noopener"

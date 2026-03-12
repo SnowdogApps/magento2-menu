@@ -188,6 +188,19 @@
             <settings>
                 <label>Import from categories tree</label>
             </settings>
+            <field name="store_id" formElement="select">
+                <settings>
+                    <dataType>int</dataType>
+                    <label translate="true">Store View</label>
+                </settings>
+                <formElements>
+                    <select>
+                        <settings>
+                            <options class="Snowdog\Menu\Ui\Component\Menu\Form\Element\StoreView"/>
+                        </settings>
+                    </select>
+                </formElements>
+            </field>
             <field name="category_id" formElement="select">
                 <settings>
                     <dataType>int</dataType>
@@ -196,6 +209,10 @@
                 <formElements>
                     <select>
                         <settings>
+                            <filterBy>
+                                <field>store_id</field>
+                                <target>${ $.provider }:${ $.parentScope }.store_id</target>
+                            </filterBy>
                             <options class="Snowdog\Menu\Ui\Component\Menu\Form\Element\Categories"/>
                         </settings>
                     </select>

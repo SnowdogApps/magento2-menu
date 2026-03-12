@@ -97,4 +97,11 @@
             <argument name="resourceModel" xsi:type="string">Snowdog\Menu\Model\ResourceModel\NodeTranslation</argument>
         </arguments>
     </virtualType>
+    <type name="Snowdog\Menu\Block\Menu">
+        <arguments>
+            <argument name="nodeTypeCaches" xsi:type="array">
+                    <item name="category" xsi:type="string">category</item>
+            </argument>
+        </arguments>
+    </type>
 </config>

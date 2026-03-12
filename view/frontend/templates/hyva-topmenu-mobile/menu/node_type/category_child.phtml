@@ -1,5 +1,12 @@
 <?php
-/** @var Snowdog\Menu\Block\NodeType\CategoryChild $block */
+/** @var CategoryChild $block */
+/** @var Escaper $escaper */
+
+use Magento\Framework\Escaper;
+use Snowdog\Menu\Block\NodeType\CategoryChild;
+
+?>
+<?php
 $visibleChildren = $block->getVisibleChildren();
 $nodeId = $block->getId();
 $nodeClasses = $block->getNodeClasses();
