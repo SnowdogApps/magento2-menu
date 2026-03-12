@@ -192,26 +192,10 @@ class Nodes extends Template implements TabInterface
         $nodes = $data[$level][$parent];
         $menu = [];
 
-        // Create store view lookup array
+        // Create store view lookup array keyed by store ID
         $storeViewLabels = [];
-        $websites = $this->systemStore->getWebsiteCollection();
-        $websiteNames = [];
-
-        // Create website name lookup array
-        foreach ($websites as $website) {
-            $websiteNames[$website->getId()] = $website->getName();
-        }
-
-        foreach ($this->systemStore->getStoreCollection() as $store) {
-            if ($store->isActive()) {
-                $websiteName = isset($websiteNames[$store->getWebsiteId()])
-                    ? $websiteNames[$store->getWebsiteId()]
-                    : '';
-                $storeViewLabels[$store->getId()] = [
-                    'value' => $store->getId(),
-                    'label' => sprintf('%s -> %s', $websiteName, $store->getName())
-                ];
-            }
+        foreach ($this->getStoreViews() as $storeView) {
+            $storeViewLabels[$storeView['value']] = $storeView;
         }
 
         foreach ($nodes as $node) {

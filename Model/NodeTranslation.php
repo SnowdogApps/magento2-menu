@@ -115,13 +115,4 @@ class NodeTranslation extends AbstractModel implements NodeTranslationInterface
         return $this->setData(self::UPDATED_AT, $updatedAt);
     }
 
-    public function getValue(): string
-    {
-        return (string)$this->getData('value');
-    }
-
-    public function setValue(string $value): void
-    {
-        $this->setData('value', $value);
-    }
 }

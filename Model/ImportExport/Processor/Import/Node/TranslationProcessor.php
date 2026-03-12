@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Snowdog\Menu\Model\ImportExport\Processor\Import\Node;
 
 use Magento\Store\Model\StoreManagerInterface;
+use Psr\Log\LoggerInterface;
 use Snowdog\Menu\Api\NodeTranslationRepositoryInterface;
 use Snowdog\Menu\Api\Data\NodeTranslationInterfaceFactory;
 
@@ -13,16 +14,19 @@ class TranslationProcessor
     private StoreManagerInterface $storeManager;
     private NodeTranslationRepositoryInterface $nodeTranslationRepository;
     private NodeTranslationInterfaceFactory $nodeTranslationFactory;
+    private LoggerInterface $logger;
     private array $storeCodeToId = [];
 
     public function __construct(
         StoreManagerInterface $storeManager,
         NodeTranslationRepositoryInterface $nodeTranslationRepository,
-        NodeTranslationInterfaceFactory $nodeTranslationFactory
+        NodeTranslationInterfaceFactory $nodeTranslationFactory,
+        LoggerInterface $logger
     ) {
         $this->storeManager = $storeManager;
         $this->nodeTranslationRepository = $nodeTranslationRepository;
         $this->nodeTranslationFactory = $nodeTranslationFactory;
+        $this->logger = $logger;
         $this->initializeStoreMap();
     }
 
@@ -51,7 +55,13 @@ class TranslationProcessor
                 ->setStoreId($storeId)
                 ->setTitle($title);
 
-            $this->nodeTranslationRepository->save($translation);
+            try {
+                $this->nodeTranslationRepository->save($translation);
+            } catch (\Exception $e) {
+                $this->logger->error(
+                    sprintf('Failed to save translation for node %d, store %s: %s', $nodeId, $storeCode, $e->getMessage())
+                );
+            }
         }
     }
 }

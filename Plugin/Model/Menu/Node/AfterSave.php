@@ -4,7 +4,6 @@ declare(strict_types=1);
 namespace Snowdog\Menu\Plugin\Model\Menu\Node;
 
 use Snowdog\Menu\Api\NodeTranslationRepositoryInterface;
-use Snowdog\Menu\Api\Data\NodeTranslationInterface;
 use Snowdog\Menu\Api\Data\NodeTranslationInterfaceFactory;
 use Snowdog\Menu\Model\Menu\Node;
 
