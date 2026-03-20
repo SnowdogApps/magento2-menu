@@ -15,6 +15,8 @@ use Snowdog\Menu\Model\Menu\Node\Image\File as ImageFile;
 use Snowdog\Menu\Model\NodeTypeProvider;
 use Snowdog\Menu\Model\TemplateResolver;
 use Magento\Store\Model\Store;
+use Snowdog\Menu\Api\NodeTranslationRepositoryInterface;
+use Magento\Store\Model\StoreManagerInterface;
 
 /**
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
@@ -41,9 +43,19 @@ class Menu extends Template implements DataObject\IdentityInterface
      */
     private $nodeTypeProvider;
 
-    private $nodes;
+    /**
+     * @var NodeTranslationRepositoryInterface
+     */
+    private $nodeTranslationRepository;
 
+    /**
+     * @var StoreManagerInterface
+     */
+    private $storeManager;
+
+    private $nodes;
     private $menu = null;
+    private $nodeTranslations = [];
 
     /**
      * @var EventManager
@@ -103,6 +115,8 @@ class Menu extends Template implements DataObject\IdentityInterface
         ImageFile $imageFile,
         Escaper $escaper,
         Context $httpContext,
+        NodeTranslationRepositoryInterface $nodeTranslationRepository,
+        StoreManagerInterface $storeManager,
         array $nodeTypeCaches = [],
         array $data = []
     ) {
@@ -117,7 +131,10 @@ class Menu extends Template implements DataObject\IdentityInterface
         $this->setTemplate($this->getMenuTemplate($this->_template));
         $this->submenuTemplate = $this->getSubmenuTemplate();
         $this->httpContext = $httpContext;
+        $this->nodeTranslationRepository = $nodeTranslationRepository;
+        $this->storeManager = $storeManager;
         $this->nodeTypeCaches = $nodeTypeCaches;
+
     }
 
     /**
@@ -469,6 +486,20 @@ class Menu extends Template implements DataObject\IdentityInterface
         $customerGroupEnabled = $this->_scopeConfig->getValue(self::XML_SNOWMENU_GENERAL_CUSTOMER_GROUPS);
         $result = [];
         $types = [];
+        $nodeIds = [];
+
+        foreach($nodes as $node) {
+            $nodeIds[] = $node->getId();
+        }
+
+        if (!empty($nodeIds)) {
+            $storeId = (int)$this->storeManager->getStore()->getId();
+            $collection = $this->nodeTranslationRepository->getByNodeIds($nodeIds, $storeId);
+            foreach ($collection as $translation) {
+                $this->nodeTranslations[$translation->getNodeId()] = $translation;
+            }
+        }
+
         foreach ($nodes as $node) {
             if (!$node->getIsActive()) {
                 continue;
@@ -476,6 +507,8 @@ class Menu extends Template implements DataObject\IdentityInterface
             if ($customerGroupEnabled && !$node->isVisible($currentCustomerGroup)) {
                 continue;
             }
+
+            $node->setTitle($this->getNodeTitle($node));
 
             $level = $node->getLevel();
             $parent = $node->getParentId() ?: 0;
@@ -496,6 +529,7 @@ class Menu extends Template implements DataObject\IdentityInterface
                 'path' => [$level, $parent, $idx]
             ];
         }
+
         $this->nodes = $result;
 
         foreach ($types as $type => $nodes) {
@@ -556,5 +590,23 @@ class Menu extends Template implements DataObject\IdentityInterface
     public function getCustomerGroupId()
     {
         return $this->httpContext->getValue(\Magento\Customer\Model\Context::CONTEXT_GROUP);
+    }
+
+    /**
+     * Get translated node title based on current store view
+     *
+     * @param NodeInterface $node
+     * @return string
+     */
+    private function getNodeTitle(NodeInterface $node): string
+    {
+        $nodeId = $node->getId();
+        if (isset($this->nodeTranslations[$nodeId])) {
+            $title = $this->nodeTranslations[$nodeId]->getTitle();
+            if ($title) {
+                return $title;
+            }
+        }
+        return $node->getTitle();
     }
 }
