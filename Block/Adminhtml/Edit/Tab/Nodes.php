@@ -63,6 +63,9 @@ class Nodes extends Template implements TabInterface
      */
     private $nodeTranslationRepository;
 
+    /**
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
+     */
     public function __construct(
         Template\Context $context,
         NodeRepositoryInterface $nodeRepository,
@@ -252,6 +255,29 @@ class Nodes extends Template implements TabInterface
             ];
         }
         return $menu;
+    }
+
+    private function getTranslations($nodeId, $storeViewLabels): array
+    {
+        $translations = $this->nodeTranslationRepository->getByNodeId($nodeId);
+
+        $result = [];
+
+        foreach ($translations as $translation) {
+            $storeId = $translation->getStoreId();
+
+            if (!isset($storeViewLabels[$storeId])) {
+                continue;
+            }
+
+            $result[] = [
+                'store_id' => $storeViewLabels[$storeId]['value'],
+                'value' => $translation->getTitle(),
+                'label' => $storeViewLabels[$storeId]['label']
+            ];
+        }
+
+        return $result;
     }
 
     public function getNodeForms()
