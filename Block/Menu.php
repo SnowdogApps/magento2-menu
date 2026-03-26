@@ -526,7 +526,7 @@ class Menu extends Template implements DataObject\IdentityInterface
     {
         return $this->templateResolver->getMenuTemplate(
             $this,
-            $this->getData('menu'),
+            $this->getData('template-identifier') ?? $this->getData('menu'),
             $template
         );
     }
