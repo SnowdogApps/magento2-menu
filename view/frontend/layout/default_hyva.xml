@@ -8,7 +8,7 @@
                 class="Snowdog\Menu\Block\Menu"
             >
                 <arguments>
-                    <argument name="menu" xsi:type="string">hyva-topmenu-desktop</argument>
+                    <argument name="menu" xsi:type="string">hyva-topmenu-mobile</argument>
                     <argument name="template-identifier" xsi:type="string">hyva-topmenu-mobile</argument>
                 </arguments>
             </block>
