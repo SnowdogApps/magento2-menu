@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Updated
 - Bump minimatch from 3.1.2 to 3.1.5 ([#395](https://github.com/SnowdogApps/magento2-menu/pull/395))
 - Bump lodash from 4.17.21 to 4.17.23 ([#390](https://github.com/SnowdogApps/magento2-menu/pull/390))
+- Bump lodash from 4.17.23 to 4.18.1 ([#404](https://github.com/SnowdogApps/magento2-menu/pull/404))
 ### Removed
 - Frontend console log (SMM-46)
 - Unused variables from phtml files ([#357](https://github.com/SnowdogApps/magento2-menu/pull/357))
