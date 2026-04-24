@@ -6,6 +6,7 @@ namespace Snowdog\Menu\Service\Menu;
 
 use Exception;
 use Magento\Framework\App\ResourceConnection;
+use Magento\Framework\Serialize\SerializerInterface;
 use Snowdog\Menu\Api\Data\MenuInterface;
 use Snowdog\Menu\Api\Data\MenuInterfaceFactory;
 use Snowdog\Menu\Api\Data\NodeInterfaceFactory;
@@ -57,6 +58,11 @@ class Cloner
      */
     private $menuNodes;
 
+    /**
+     * @var SerializerInterface
+     */
+    private $serializer;
+
     public function __construct(
         ResourceConnection $resource,
         MenuInterfaceFactory $menuFactory,
@@ -65,7 +71,8 @@ class Cloner
         NodeRepositoryInterface $nodeRepository,
         MenuIdentifierProcessor $menuIdentifierProcessor,
         NodeTypeProvider $nodeTypeProvider,
-        MenuNodes $menuNodes
+        MenuNodes $menuNodes,
+        SerializerInterface $serializer
     ) {
         $this->resource = $resource;
         $this->menuFactory = $menuFactory;
@@ -75,6 +82,7 @@ class Cloner
         $this->menuIdentifierProcessor = $menuIdentifierProcessor;
         $this->nodeTypeProvider = $nodeTypeProvider;
         $this->menuNodes = $menuNodes;
+        $this->serializer = $serializer;
     }
 
     /**
@@ -106,8 +114,9 @@ class Cloner
                 $data = $node->getData();
 
                 if (isset($data['customer_groups'])) {
-                    $data['customer_groups'] = json_encode((array)$data['customer_groups']);
+                    $data['customer_groups'] = $this->serializer->serialize((array) $data['customer_groups']);
                 }
+
                 $nodeClone->setData($data);
                 $nodeClone->setId(null);
                 $nodeClone->setMenuId($menuCloneId);
