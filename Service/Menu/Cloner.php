@@ -103,8 +103,12 @@ class Cloner
 
             foreach ($this->menuNodes->getList($menu) as $node) {
                 $nodeClone = $this->nodeFactory->create();
+                $data = $node->getData();
 
-                $nodeClone->setData($node->getData());
+                if (isset($data['customer_groups'])) {
+                    $data['customer_groups'] = json_encode((array)$data['customer_groups']);
+                }
+                $nodeClone->setData($data);
                 $nodeClone->setId(null);
                 $nodeClone->setMenuId($menuCloneId);
 
