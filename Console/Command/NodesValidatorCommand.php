@@ -60,7 +60,7 @@ class NodesValidatorCommand extends Command
     /**
      * {@inheritdoc}
      */
-    protected function configure()
+    protected function configure(): void
     {
         $description = 'It will loop all menu nodes and return the IDs and description of invalid menu nodes.'
             . PHP_EOL
@@ -72,7 +72,7 @@ class NodesValidatorCommand extends Command
         parent::configure();
     }
 
-    public function execute(InputInterface $input, OutputInterface $output)
+    public function execute(InputInterface $input, OutputInterface $output): int
     {
         $this->setAreaCode();
         $invalidNodeIds = [];
