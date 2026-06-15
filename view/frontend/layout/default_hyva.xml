@@ -2,6 +2,7 @@
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
       xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
     <body>
+        <!--  Add menus  -->
         <referenceBlock name="topmenu_generic">
             <block
                 name="topmenu-mobile"
@@ -12,7 +13,6 @@
                 </arguments>
             </block>
         </referenceBlock>
-
         <block
             name="topmenu-desktop"
             class="Snowdog\Menu\Block\Menu"
@@ -21,7 +21,6 @@
                 <argument name="menu" xsi:type="string">hyva-topmenu-desktop</argument>
             </arguments>
         </block>
-
         <referenceBlock name="footer-content">
             <block
                 name="menu-footer"
@@ -38,16 +37,34 @@
             />
         </referenceBlock>
 
+        <!--  Move/Remove blocks -->
+        <move element="topmenu-desktop" destination="header.container" after="-"/>
+        <referenceBlock name="topmenu_mobile" remove="true"/>
+        <referenceBlock name="topmenu_desktop" remove="true"/>
+
+        <!--   Add scripts   -->
         <referenceBlock name="script-alpine-js">
             <block
                 name="alpine-plugin-collapse"
                 template="Snowdog_Menu::page/js/plugins/collapse.phtml"
             />
         </referenceBlock>
-
-        <move element="topmenu-desktop" destination="header.container" after="-"/>
-
-        <referenceBlock name="topmenu_mobile" remove="true"/>
-        <referenceBlock name="topmenu_desktop" remove="true"/>
+        <referenceContainer name="before.body.end">
+            <block
+                class="Magento\Framework\View\Element\Template"
+                name="snowdog-menu.footer.menu.js"
+                template="Snowdog_Menu::hyva-menu-footer/menu-js.phtml"
+            />
+            <block
+                class="Magento\Framework\View\Element\Template"
+                name="snowdog-menu.desktop.menu.js"
+                template="Snowdog_Menu::hyva-topmenu-desktop/menu-js.phtml"
+            />
+            <block
+                class="Magento\Framework\View\Element\Template"
+                name="snowdog-menu.mobile.menu.js"
+                template="Snowdog_Menu::hyva-topmenu-mobile/menu-js.phtml"
+            />
+        </referenceContainer>
     </body>
 </page>

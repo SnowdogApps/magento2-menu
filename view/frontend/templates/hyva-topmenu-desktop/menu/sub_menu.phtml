@@ -18,7 +18,9 @@ use Snowdog\Menu\Block\Menu;
         <div
             x-ref="submenu-<?= /* @noEscape */ (string) $parentNodeIndex ?>"
             class="absolute left-0 top-full w-full z-30 shadow-md bg-white flex"
-            x-show="openSubmenuId === '<?= /* @noEscape */ (string) $parentNodeIndex ?>'"
+            x-show="shouldDisplaySubmenu"
+            x-data="topmenuDesktopSubmenu"
+            data-parent-node-index="<?= /* @noEscape */ (string) $parentNodeIndex ?>"
             x-cloak
         >
             <div class="w-full">

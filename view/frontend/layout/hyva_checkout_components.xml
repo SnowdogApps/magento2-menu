@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceBlock name="topmenu-mobile" remove="true" />
+        <referenceBlock name="snowdog-menu.mobile.menu.js" remove="true" />
+
+        <referenceBlock name="topmenu-desktop" remove="true" />
+        <referenceBlock name="snowdog-menu.desktop.menu.js" remove="true" />
+    </body>
+</page>
