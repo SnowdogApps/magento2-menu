@@ -83,7 +83,7 @@ interface NodeInterface
     /**
      * Set content
      *
-     * @param string $content
+     * @param string|array $content
      * @return $this
      */
     public function setContent($content);
