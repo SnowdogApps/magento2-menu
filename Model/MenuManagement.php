@@ -9,6 +9,8 @@ use Magento\Catalog\Model\CategoryManagement;
 use Magento\Catalog\Model\Category;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Exception\NoSuchEntityException;
+use Magento\Store\Model\StoreManagerInterface;
+use Magento\Catalog\Model\ResourceModel\Category\CollectionFactory;
 
 class MenuManagement implements MenuManagementInterface
 {
@@ -18,12 +20,33 @@ class MenuManagement implements MenuManagementInterface
     private $categoryManagement;
 
     /**
+     * @var StoreManagerInterface
+     */
+    private $storeManager;
+
+    /**
+     * @var CollectionFactory
+     */
+    private $categoryCollectionFactory;
+
+    /**
+     * @var array
+     */
+    private $categoryNames = [];
+
+    /**
      * @param CategoryManagement $categoryManagement
+     * @param StoreManagerInterface $storeManager
+     * @param CollectionFactory $categoryCollectionFactory
      */
     public function __construct(
-        CategoryManagement $categoryManagement
+        CategoryManagement $categoryManagement,
+        StoreManagerInterface $storeManager,
+        CollectionFactory $categoryCollectionFactory
     ) {
         $this->categoryManagement = $categoryManagement;
+        $this->storeManager = $storeManager;
+        $this->categoryCollectionFactory = $categoryCollectionFactory;
     }
 
     /**
@@ -37,9 +60,58 @@ class MenuManagement implements MenuManagementInterface
     {
         $categoriesTree = $this->categoryManagement->getTree($rootCategoryId, $depth);
         $categories = $this->generateCategoriesNode($categoriesTree);
+
+        // Preload all category translations
+        $this->preloadCategoryTranslations($categories);
+
         $nodeList = $this->getCategoriesNodeList(0, 0, $categories);
 
         return $nodeList;
+    }
+
+    /**
+     * Preload all category translations in one go
+     *
+     * @param array $categories
+     * @return void
+     */
+    private function preloadCategoryTranslations(array $categories): void
+    {
+        $categoryIds = [];
+        foreach ($categories as $level) {
+            foreach ($level as $parentId => $nodes) {
+                foreach ($nodes as $node) {
+                    $categoryIds[] = $node['entity_id'];
+                }
+            }
+        }
+
+        if (empty($categoryIds)) {
+            return;
+        }
+
+        $stores = $this->storeManager->getStores();
+
+        foreach ($stores as $store) {
+            $storeId = $store->getId();
+            if ($storeId === 0) {
+                continue; // Skip admin store
+            }
+
+            /** @var \Magento\Catalog\Model\ResourceModel\Category\Collection $collection */
+            $collection = $this->categoryCollectionFactory->create();
+            $collection->setStoreId($storeId)
+                ->addAttributeToSelect('name')
+                ->addFieldToFilter('entity_id', ['in' => $categoryIds]);
+
+            foreach ($collection as $category) {
+                $categoryId = $category->getId();
+                if (!isset($this->categoryNames[$categoryId])) {
+                    $this->categoryNames[$categoryId] = [];
+                }
+                $this->categoryNames[$categoryId][$storeId] = $category->getName();
+            }
+        }
     }
 
     /**
@@ -88,8 +160,23 @@ class MenuManagement implements MenuManagementInterface
 
         $nodes = $data[$level][$parent];
         $nodeList = [];
+
         foreach ($nodes as $node) {
-            $nodeId = $node['id'];
+            $nodeId = $node['entity_id'];
+            $translations = [];
+
+            // Use preloaded translations
+            if (isset($this->categoryNames[$nodeId])) {
+                foreach ($this->categoryNames[$nodeId] as $storeId => $name) {
+                    if ($name !== $node['name']) {
+                        $translations[] = [
+                            'store_id' => (string)$storeId,
+                            'value' => $name
+                        ];
+                    }
+                }
+            }
+
             $nodeList[] = [
                 'is_active' => '1',
                 'type' => 'category',
@@ -104,6 +191,7 @@ class MenuManagement implements MenuManagementInterface
                 'image_width' => null,
                 'image_height' => null,
                 'submenu_template' => null,
+                'translations' => $translations,
                 'columns' => $this->getCategoriesNodeList($level + 1, $nodeId, $data) ?: []
             ];
         }

@@ -9,6 +9,7 @@ use Snowdog\Menu\Api\NodeRepositoryInterface;
 use Snowdog\Menu\Model\ImportExport\Processor\Import\Node\DataProcessor;
 use Snowdog\Menu\Model\ImportExport\Processor\Import\Node\Validator;
 use Snowdog\Menu\Model\ImportExport\Processor\Import\Node\Validator\TreeTrace;
+use Snowdog\Menu\Model\ImportExport\Processor\Import\Node\TranslationProcessor;
 use Snowdog\Menu\Model\ImportExport\Processor\ExtendedFields;
 use Snowdog\Menu\Model\ImportExport\File\Yaml;
 
@@ -44,13 +45,19 @@ class Node
      */
     private $yaml;
 
+    /**
+     * @var TranslationProcessor
+     */
+    private $translationProcessor;
+
     public function __construct(
         NodeInterfaceFactory $nodeFactory,
         NodeRepositoryInterface $nodeRepository,
         DataProcessor $dataProcessor,
         Validator $validator,
         TreeTrace $treeTrace,
-        Yaml $yaml
+        Yaml $yaml,
+        TranslationProcessor $translationProcessor
     ) {
         $this->nodeFactory = $nodeFactory;
         $this->nodeRepository = $nodeRepository;
@@ -58,6 +65,7 @@ class Node
         $this->validator = $validator;
         $this->treeTrace = $treeTrace;
         $this->yaml = $yaml;
+        $this->translationProcessor = $translationProcessor;
     }
 
     public function createNodes(
@@ -75,11 +83,20 @@ class Node
             $node = $this->nodeFactory->create();
             $data = $this->dataProcessor->getData($nodeData, $menuId, $level, $position++, $parentId);
 
+            // Extract translations before saving node
+            $translations = $nodeData[ExtendedFields::TRANSLATIONS] ?? [];
+            unset($data[ExtendedFields::TRANSLATIONS]);
+
             $node->setData($data);
             $this->nodeRepository->save($node);
 
+            // Process translations after node is saved
+            if (!empty($translations)) {
+                $this->translationProcessor->processTranslations((int)$node->getId(), $translations);
+            }
+
             if (isset($nodeData[ExtendedFields::NODES])) {
-                $nodeId = $node->getId() ? (int) $node->getId() : null;
+                $nodeId = $node->getId() ? (int)$node->getId() : null;
                 $this->createNodes($nodeData[ExtendedFields::NODES], $menuId, ($level + 1), 0, $nodeId);
             }
         }
