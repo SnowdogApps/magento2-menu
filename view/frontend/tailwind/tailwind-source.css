@@ -1,7 +1,5 @@
-@layer utilities {
-    .snowdog-menu-text-hover {
-        @apply text-blue-700;
-    }
+@utility snowdog-menu-text-hover {
+    @apply text-blue-700;
 }
 
 [x-cloak="tablet"] {
