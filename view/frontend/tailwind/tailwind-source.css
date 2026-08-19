@@ -1,5 +1,5 @@
 @utility snowdog-menu-text-hover {
-    @apply text-blue-700;
+    color: var(--color-blue-700);
 }
 
 [x-cloak="tablet"] {
