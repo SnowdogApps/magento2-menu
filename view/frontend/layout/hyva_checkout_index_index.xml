@@ -3,5 +3,6 @@
       xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
     <body>
         <referenceBlock name="topmenu-desktop" remove="true"/>
+        <referenceBlock name="menu-footer" remove="true"/>
     </body>
 </page>
