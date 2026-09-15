@@ -47,7 +47,7 @@ $uniqueId = '_' . uniqid();
     <nav
         class="
             <?= $escaper->escapeHtmlAttr($menu->getCssClass()) ?>
-            snowdog-topmenu-mobile z-20 order-2 text-primary-darker sm:order-1 navigation lg:hidden
+            snowdog-topmenu-mobile flex z-20 order-1 text-primary-darker sm:-order-1 navigation lg:hidden
         "
         x-data="initMenuMobile<?= $escaper->escapeHtml($uniqueId) ?>()"
         @keydown.escape="open && closeMenu"
