@@ -116,16 +116,6 @@ class TemplateResolver
     }
 
     /**
-     * @param Template $block
-     * @param string $template
-     * @return bool
-     */
-    public function isValidTemplate($block, $template)
-    {
-        return (bool) $this->validator->isValid($block->getTemplateFile($template));
-    }
-
-    /**
      * @param string $nodeType
      * @param string $defaultTemplateLabel
      * @return array

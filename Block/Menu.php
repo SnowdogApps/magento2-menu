@@ -447,9 +447,15 @@ class Menu extends Template implements DataObject\IdentityInterface
         $submenuTemplate = $parentNode->getSubmenuTemplate();
 
         if ($submenuTemplate) {
-            $customSubmenuTemplate = 'Snowdog_Menu::' . $this->getMenu()->getIdentifier() . "/menu/custom/sub_menu/{$submenuTemplate}.phtml";
-            $submenuTemplate = $this->templateResolver->isValidTemplate($block, $customSubmenuTemplate)
-                ? $customSubmenuTemplate
+            $submenuTemplatePath = 'Snowdog_Menu::menu/custom/sub_menu/' . $submenuTemplate . '.phtml';
+            $resolvedTemplate = $this->templateResolver->getMenuTemplate(
+                $block,
+                $this->getMenu()->getIdentifier(),
+                $submenuTemplatePath,
+                $parentNode->getNodeId()
+            );
+            $submenuTemplate = $resolvedTemplate !== $submenuTemplatePath
+                ? $resolvedTemplate
                 : $this->submenuTemplate;
         } else {
             $submenuTemplate = $this->submenuTemplate;
