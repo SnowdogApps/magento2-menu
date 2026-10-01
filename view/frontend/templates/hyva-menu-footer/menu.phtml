@@ -10,49 +10,22 @@ use Snowdog\Menu\Block\Menu;
 /** @var ViewModelRegistry $viewModels */
 
 $menu = $block->getMenu();
-$uniqueId = '_' . uniqid();
 
 $heroicons = $viewModels->require(HeroiconsOutline::class);
 ?>
 
 <?php if ($menu): ?>
-    <script>
-        'use strict';
-
-        const initMenuFooter<?= $escaper->escapeHtml($uniqueId) ?> = () => ({
-            isDesktop: true,
-            checkIsDesktopResolution() {
-                this.isDesktop = window.matchMedia('(min-width: 1024px)').matches
-            },
-            toggleSubmenu(event, index) {
-                const focusableElements = 'button:not([disabled]), a[href]:not([tabindex="-1"]), [tabindex]:not([tabindex="-1"])'
-
-                event.stopPropagation()
-                this[index] = !this[index]
-
-                if (this[index]) {
-                    this.$nextTick(() => {
-                        this.$refs['submenu-' + index]?.querySelector(focusableElements)?.focus()
-                    })
-                } else {
-                    this.$nextTick(() => {
-                        this.$refs['submenu-toggle-' + index]?.focus()
-                    })
-                }
-            },
-        })
-    </script>
     <div
         class="
             <?= $escaper->escapeHtmlAttr($menu->getCssClass()) ?>
              snowdog-menu-footer w-full flex flex-wrap text-primary-darker
         "
-        x-data="initMenuFooter<?= $escaper->escapeHtml($uniqueId) ?>()"
+        x-data="snowdogMenuFooter"
     >
         <ul class="w-full flex flex-col flex-wrap lg:flex-row lg:justify-between lg:gap-6 divide-y divide-container lg:divide-y-0"
-            x-init="checkIsDesktopResolution()"
-            @resize.window.debounce="checkIsDesktopResolution()"
-            @visibilitychange.window.debounce="checkIsDesktopResolution()"
+            x-init="checkIsDesktopResolution"
+            @resize.window.debounce="checkIsDesktopResolution"
+            @visibilitychange.window.debounce="checkIsDesktopResolution"
         >
             <?php foreach ($block->getNodes() as $node): ?>
                 <?php
@@ -64,25 +37,26 @@ $heroicons = $viewModels->require(HeroiconsOutline::class);
                 $nodeType = $node->getType();
                 $nodeClasses = $node->getClasses();
                 ?>
-                <li x-data="{'<?= /* @noEscape */ (string) $indexId ?>': false }"
+                <li x-data="snowdogMenuFooterNode"
+                    data-node-id="<?= $escaper->escapeHtmlAttr($indexId) ?>"
                     class="flex-1"
                 >
                     <?php if ($node->getIsParent() && !$node->getIsViewAllLink()): ?>
-                        <div @keydown.escape="(event) => !isDesktop && toggleSubmenu(event, '<?= /* @noEscape */ (string) $indexId ?>')">
+                        <div @keydown.escape="handleEscape">
                             <span x-show="isDesktop"
                                 x-cloak="tablet"
                                 class="block font-bold mb-6"
                             >
                                 <?= $escaper->escapeHtml($title) ?>
                             </span>
-                            <button x-show="!isDesktop"
+                            <button x-show="isMobile"
                                 x-cloak="desktop"
-                                x-ref="submenu-toggle-<?= /* @noEscape */ (string) $indexId ?>"
+                                x-ref="submenu-toggle-<?= $escaper->escapeHtmlAttr($indexId) ?>"
                                 class="
                                     w-full py-4 font-bold
                                 "
-                                @click="(event) => toggleSubmenu(event, '<?= /* @noEscape */ (string) $indexId ?>')"
-                                :aria-expanded="<?= /* @noEscape */ (string) $indexId ?> === true"
+                                @click="toggleSubmenu"
+                                :aria-expanded="open"
                                 type="button"
                             >
                                 <div class="flex items-center justify-between">
@@ -90,18 +64,18 @@ $heroicons = $viewModels->require(HeroiconsOutline::class);
                                         <?= $escaper->escapeHtml($title) ?>
                                     </span>
                                     <div class="transition-transform"
-                                        :class="{'rotate-180' : <?= /* @noEscape */ (string) $indexId ?> === true}"
+                                        :class="chevronClasses"
                                     >
                                         <?= $heroicons->chevronDownHtml('text-gray-500', 20, 20, ['aria-hidden' => 'true']); ?>
                                     </div>
                                 </div>
                             </button>
-                            <div x-show="isDesktop || !!<?= /* @noEscape */ (string) $indexId ?>"
+                            <div x-show="submenuVisible"
                                 x-cloak="tablet"
-                                x-ref="submenu-<?= /* @noEscape */ (string) $indexId ?>"
+                                x-ref="submenu-<?= $escaper->escapeHtmlAttr($indexId) ?>"
                                 x-collapse
                                 class="pb-2"
-                                :aria-hidden="!isDesktop && <?= /* @noEscape */ (string) $indexId ?> === false ? 'true' : 'false'"
+                                :aria-hidden="submenuHidden"
                             >
                                 <?= /* @noEscape */ $block->renderSubmenu($children, $node, $childrenLevel) ?>
                             </div>

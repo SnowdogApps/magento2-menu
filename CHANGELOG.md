@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 ### Fixed
+- Hyvä footer menu compatibility with Alpine CSP and cached menu HTML (SMM-58)
+- Mobile top menu remaining visible in Hyvä Checkout (SMM-58)
 - Custom URL field keeping the previous node type's content after changing a node's type (SMM-59)
 ### Updated
 - Bump minimatch from 3.1.2 to 3.1.5 ([#395](https://github.com/SnowdogApps/magento2-menu/pull/395))

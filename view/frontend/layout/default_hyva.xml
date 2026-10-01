@@ -40,6 +40,11 @@
 
         <referenceBlock name="script-alpine-js">
             <block
+                name="snowdog-menu-footer-js"
+                class="Magento\Framework\View\Element\Template"
+                template="Snowdog_Menu::page/js/menu-footer.phtml"
+            />
+            <block
                 name="alpine-plugin-collapse"
                 template="Snowdog_Menu::page/js/plugins/collapse.phtml"
             />
