@@ -62,8 +62,10 @@ class Node
      */
     public function getNodesByMenuIdentifier(string $identifier, int $storeId): array
     {
-        if (isset($this->loadedNodes[$identifier])) {
-            return $this->loadedNodes[$identifier];
+        $cacheKey = $identifier . '_' . $storeId;
+
+        if (isset($this->loadedNodes[$cacheKey])) {
+            return $this->loadedNodes[$cacheKey];
         }
 
         $menu = $this->menuDataProvider->get($identifier, $storeId);
@@ -74,20 +76,20 @@ class Node
             );
         }
 
-        $nodes = $this->nodeRepository->getByIdentifier($identifier);
+        $nodes = $this->nodeRepository->getByMenu((int) $menu->getId());
         $this->loadModels($nodes, $storeId);
+
+        $this->loadedNodes[$cacheKey] = [];
         foreach ($nodes as $node) {
             if ($node->getIsActive()) {
-                $this->loadedNodes[$identifier][(int) $node->getId()] = $this->convertData($node);
-                $this->loadedNodes[$identifier][(int) $node->getId()][self::URL_KEY] = $this->getUrlKey($node);
+                $nodeData = $this->convertData($node);
+                $nodeData[self::URL_KEY] = $this->getUrlKey($node);
+
+                $this->loadedNodes[$cacheKey][(int) $node->getId()] = $nodeData;
             }
         }
 
-        if (!isset($this->loadedNodes[$identifier])) {
-            $this->loadedNodes[$identifier] = [];
-        }
-
-        return $this->loadedNodes[$identifier];
+        return $this->loadedNodes[$cacheKey];
     }
 
     private function convertData(NodeInterface $node): array
