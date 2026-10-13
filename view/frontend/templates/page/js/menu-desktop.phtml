@@ -1,0 +1,170 @@
+<?php
+use Hyva\Theme\ViewModel\HyvaCsp;
+
+/** @var HyvaCsp $hyvaCsp */
+
+if (!$block->getLayout()->getBlock('topmenu-desktop')) {
+    return;
+}
+?>
+<script>
+    'use strict';
+
+    window.addEventListener('alpine:init', () => {
+        let nextMenuId = 0;
+        const focusable = 'button:not([disabled]), a[href]:not([tabindex="-1"]), '
+            + '[tabindex]:not([tabindex="-1"])';
+
+        Alpine.data('snowdogMenuDesktop', () => ({
+            desktopRoot: null,
+            desktopInstanceId: '',
+            openDesktopNodeId: null,
+            desktopTrappedPanel: null,
+            init() {
+                this.desktopRoot = this.$el;
+                this.desktopInstanceId = 'snowdog-desktop-' + ++nextMenuId;
+            },
+            desktopPanel(nodeId) {
+                return Array.from(this.desktopRoot.querySelectorAll('[data-desktop-panel]'))
+                    .find(panel => panel.dataset.nodeId === nodeId);
+            },
+            releaseDesktopFocus() {
+                if (this.desktopTrappedPanel) {
+                    hyva.releaseFocus(this.desktopTrappedPanel);
+                    this.desktopTrappedPanel = null;
+                }
+            },
+            closeDesktopMenu() {
+                this.releaseDesktopFocus();
+                this.openDesktopNodeId = null;
+            },
+            escapeDesktopMenu(event) {
+                if (this.openDesktopNodeId === null) {
+                    return;
+                }
+                event.stopPropagation();
+                const nodeId = this.openDesktopNodeId;
+                this.closeDesktopMenu();
+                Array.from(this.desktopRoot.querySelectorAll('[data-desktop-toggle]'))
+                    .find(button => button.dataset.nodeId === nodeId)?.focus();
+            },
+            checkDesktopBreakpoint() {
+                if (!window.matchMedia('(min-width: 1024px)').matches) {
+                    this.closeDesktopMenu();
+                }
+            },
+            destroy() {
+                this.closeDesktopMenu();
+            },
+        }));
+
+        Alpine.data('snowdogMenuDesktopNode', () => ({
+            desktopNodeId: '',
+            desktopHasChildren: false,
+            init() {
+                this.desktopNodeId = this.$el.dataset.nodeId;
+                this.desktopHasChildren = this.$el.dataset.hasChildren === 'true';
+            },
+            desktopNodeVisible() {
+                return this.desktopHasChildren && this.openDesktopNodeId === this.desktopNodeId;
+            },
+            desktopNodeExpanded() {
+                return this.desktopNodeVisible() ? 'true' : 'false';
+            },
+            desktopNodeHidden() {
+                return this.desktopNodeVisible() ? 'false' : 'true';
+            },
+            desktopPanelId() {
+                return this.desktopInstanceId + '-panel-' + this.desktopNodeId;
+            },
+            desktopNodeClasses() {
+                return { 'bg-white rounded-t-lg shadow-md': this.desktopNodeVisible() };
+            },
+            desktopChevronClasses() {
+                return { 'rotate-180': this.desktopNodeVisible() };
+            },
+            hoverDesktopNode(event) {
+                const nodeId = event.currentTarget.dataset.nodeId;
+                if (this.openDesktopNodeId !== nodeId) {
+                    this.releaseDesktopFocus();
+                }
+                this.openDesktopNodeId = this.desktopHasChildren ? nodeId : null;
+            },
+            toggleDesktopNode(event) {
+                const nodeId = event.currentTarget.dataset.nodeId;
+                if (this.openDesktopNodeId === nodeId) {
+                    this.closeDesktopMenu();
+                    event.currentTarget.focus();
+                    return;
+                }
+                this.releaseDesktopFocus();
+                this.openDesktopNodeId = nodeId;
+                this.$nextTick(() => {
+                    if (this.openDesktopNodeId !== nodeId) {
+                        return;
+                    }
+                    this.desktopTrappedPanel = this.desktopPanel(nodeId);
+                    hyva.trapFocus(this.desktopTrappedPanel);
+                });
+            },
+        }));
+
+        Alpine.data('snowdogMenuThreeLevel', () => ({
+            levelTwoRoot: null,
+            levelTwoInstanceId: '',
+            openLevelTwoNodeId: null,
+            init() {
+                this.levelTwoRoot = this.$el;
+                this.levelTwoInstanceId = this.desktopInstanceId + '-three-level-' + ++nextMenuId;
+                // Filtering can leave gaps in the PHP array. The DOM is the render order.
+                this.openLevelTwoNodeId = this.levelTwoRoot.querySelector('[data-level-two-node]')
+                    ?.dataset.levelTwoNode ?? null;
+            },
+            levelTwoPanel(nodeId) {
+                return Array.from(this.levelTwoRoot.querySelectorAll('[data-level-two-panel]'))
+                    .find(panel => panel.dataset.levelTwoPanel === nodeId);
+            },
+        }));
+
+        Alpine.data('snowdogMenuThreeLevelNode', () => ({
+            levelTwoNodeId: '',
+            init() {
+                this.levelTwoNodeId = this.$el.dataset.levelTwoNode;
+            },
+            hoverLevelTwo(event) {
+                this.openLevelTwoNodeId = event.currentTarget.dataset.levelTwoNode;
+            },
+            selectLevelTwo(event) {
+                const nodeId = event.currentTarget.dataset.levelTwoNode;
+                this.openLevelTwoNodeId = nodeId;
+                this.$nextTick(() => this.levelTwoPanel(nodeId)?.querySelector(focusable)?.focus());
+            },
+            levelTwoNodeClasses() {
+                return { '[&>a]:font-bold': this.openLevelTwoNodeId === this.levelTwoNodeId };
+            },
+            levelTwoExpanded() {
+                return this.openLevelTwoNodeId === this.levelTwoNodeId ? 'true' : 'false';
+            },
+            levelTwoPanelId() {
+                return this.levelTwoInstanceId + '-panel-' + this.levelTwoNodeId;
+            },
+        }));
+
+        Alpine.data('snowdogMenuThreeLevelPanel', () => ({
+            levelTwoPanelNodeId: '',
+            init() {
+                this.levelTwoPanelNodeId = this.$el.dataset.levelTwoPanel;
+            },
+            levelTwoPanelId() {
+                return this.levelTwoInstanceId + '-panel-' + this.levelTwoPanelNodeId;
+            },
+            levelTwoVisible() {
+                return this.openLevelTwoNodeId === this.levelTwoPanelNodeId;
+            },
+            levelTwoHidden() {
+                return this.levelTwoVisible() ? 'false' : 'true';
+            },
+        }));
+    }, { once: true });
+</script>
+<?php $hyvaCsp->registerInlineScript() ?>
