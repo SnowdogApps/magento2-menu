@@ -11,87 +11,60 @@ use Snowdog\Menu\Block\Menu;
 $heroicons = $viewModels->require(HeroiconsOutline::class);
 
 $menu = $block->getMenu();
-$uniqueId = '_' . uniqid();
 ?>
 
-<?php if ($menu): ?>
-    <script>
-        'use strict';
-
-        const initMenuMobile<?= $escaper->escapeHtml($uniqueId) ?> = () => ({
-            open: false,
-            openMenu(event) {
-                this.open = true
-                this.$nextTick(() => hyva.trapFocus(this.$refs['menu-dialog']))
-                // Prevent from body scrolling while mobile menu opened
-                document.body.classList.add('fixed', 'w-full')
-            },
-            closeMenu(event) {
-                event.stopPropagation()
-                document.body.classList.remove('fixed', 'w-full')
-                this.open = false
-                this.$nextTick(() => this.$refs['open-menu-button'].focus() || hyva.releaseFocus())
-            },
-            toggleSubmenu(index) {
-                this[index] = !this[index]
-
-                if (this[index]) {
-                    const focusableElements = 'button:not([disabled]), a[href]:not([tabindex="-1"]), [tabindex]:not([tabindex="-1"])'
-                    this.$nextTick(() => {
-                        this.$refs['submenu-' + index]?.querySelector(focusableElements)?.focus()
-                    })
-                }
-            },
-        })
-    </script>
+<?php if ($menu) : ?>
     <nav
         class="
             <?= $escaper->escapeHtmlAttr($menu->getCssClass()) ?>
             snowdog-topmenu-mobile flex z-20 order-1 text-primary-darker sm:-order-1 navigation lg:hidden
         "
-        x-data="initMenuMobile<?= $escaper->escapeHtml($uniqueId) ?>()"
-        @keydown.escape="open && closeMenu"
-        @click.outside="open && closeMenu"
+        x-data="snowdogMenuMobile"
+        @keydown.escape="escapeMobileMenu"
+        @resize.window.debounce="checkMobileBreakpoint"
+        @click.outside="outsideMobileMenu"
         aria-label="<?= $escaper->escapeHtmlAttr(__('Main menu')) ?>"
         role="navigation"
     >
-        <button x-ref="open-menu-button"
-            @click="openMenu"
+        <button x-ref="mobileMenuButton"
+            @click="openMobileMenu"
             type="button"
             aria-label="<?= $escaper->escapeHtmlAttr(__('Open menu')) ?>"
-            :aria-expanded="open"
+            :aria-expanded="menuOpen"
+            :aria-controls="mobileDialogId"
             aria-haspopup="menu"
         >
             <?= $heroicons->menuHtml('', 24, 24, ['aria-hidden' => 'true']) ?>
         </button>
         <div class="backdrop"
-            x-show="open"
+            x-show="menuOpen"
             x-transition:enter="ease-in-out duration-500"
             x-transition:enter-start="opacity-0"
             x-transition:enter-end="opacity-100"
             x-transition:leave="ease-in-out duration-500"
             x-transition:leave-start="opacity-100"
             x-transition:leave-end="opacity-0"
-            @click="closeMenu"
+            @click="closeMobileMenu"
             x-cloak
         ></div>
         <div class="fixed z-30 top-0 left-0 w-full max-w-lg h-full bg-container-lighter border-container overflow-y-auto overflow-x-hidden transform transition ease-in-out duration-500 sm:duration-700"
-            :class="{
-                '-translate-x-full' : !open,
-                'translate-x-0 shadow-2xl' : open,
-            }"
+            :class="mobileDialogClasses"
+            x-show="menuOpen"
+            x-transition
+            data-mobile-dialog
+            :id="mobileDialogId"
             x-cloak
-            x-ref="menu-dialog"
+            x-ref="mobileMenuDialog"
             role="dialog"
             aria-modal="true"
             aria-label="<?= $escaper->escapeHtmlAttr(__('Main menu')) ?>"
-            :aria-hidden="open ? 'false' : 'true'"
+            :aria-hidden="mobileDialogHidden"
         >
-            <div x-show="open"
+            <div x-show="menuOpen"
                 class="flex flex-col-reverse"
             >
                 <ul class="mb-1 divide-y divide-container">
-                    <?php foreach ($block->getNodes() as $node): ?>
+                    <?php foreach ($block->getNodes() as $node) : ?>
                         <?php
                         $childrenLevel = $node->getLevel() + 1;
                         $children = $block->getNodes($childrenLevel, $node);
@@ -101,28 +74,31 @@ $uniqueId = '_' . uniqid();
                         $nodeType = $node->getType();
                         $nodeClasses = $node->getClasses();
                         ?>
-                        <li x-data="{'<?= /* @noEscape */ (string) $indexId ?>': false }"
-                            class="<?= /* @noEscape */ (string) $nodeType === 'wrapper' ? $escaper->escapeHtmlAttr($nodeClasses) : '' ?>""
+                        <li x-data="snowdogMenuMobileBranch"
+                            data-node-id="<?= $escaper->escapeHtmlAttr($indexId) ?>"
+                            class="<?= /* @noEscape */ (string) $nodeType === 'wrapper' ? $escaper->escapeHtmlAttr($nodeClasses) : '' ?>"
                         >
-                            <?php if ($node->getIsParent() && !$node->getIsViewAllLink()): ?>
+                            <?php if ($node->getIsParent() && !$node->getIsViewAllLink()) : ?>
                                 <button
                                     class="flex items-center justify-between w-full px-8 py-4"
-                                    @click="toggleSubmenu('<?= /* @noEscape */ (string) $indexId ?>')"
+                                    @click="toggleMobileBranch"
+                                    data-node-id="<?= $escaper->escapeHtmlAttr($indexId) ?>"
                                     aria-label="<?= $escaper->escapeHtmlAttr(__('Toggle submenu for %1', $title)) ?>"
-                                    :aria-expanded="<?= /* @noEscape */ (string) $indexId ?> === true"
+                                    :aria-expanded="branchOpen"
+                                    :aria-controls="mobileBranchPanelId"
                                     type="button"
                                 >
                                     <span>
                                         <?= $escaper->escapeHtml($title) ?>
                                     </span>
                                     <div class="transition-transform"
-                                        :class="{'rotate-180' : <?= /* @noEscape */ (string) $indexId ?> === true}"
+                                        :class="mobileBranchChevronClasses"
                                     >
                                         <?= $heroicons->chevronDownHtml('text-gray-500', 20, 20, ['aria-hidden' => 'true']); ?>
                                     </div>
                                 </button>
                                 <?= /* @noEscape */ $block->renderSubmenu($children, $node, $childrenLevel) ?>
-                            <?php else: ?>
+                            <?php else : ?>
                                 <div class="group">
                                     <?= /* @noEscape */ $block->renderMenuNode($node) ?>
                                 </div>
@@ -132,7 +108,7 @@ $uniqueId = '_' . uniqid();
                 </ul>
                 <div class="flex justify-end px-3 border-b border-container">
                     <button
-                        @click="closeMenu"
+                        @click="closeMobileMenu"
                         class="flex justify-center items-center w-16 h-16"
                         aria-label="<?= $escaper->escapeHtmlAttr(__('Close menu')) ?>"
                         type="button"
