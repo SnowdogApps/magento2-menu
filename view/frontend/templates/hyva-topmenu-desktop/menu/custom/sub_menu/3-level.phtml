@@ -15,43 +15,32 @@ use Snowdog\Menu\Block\Menu;
 $heroiconsSolid = $viewModels->require(HeroiconsSolid::class);
 ?>
 
-<?php if ($block->getMenu()): ?>
+<?php if ($block->getMenu()) : ?>
     <?php
     $parentNode = $block->getParentNode();
     $parentNodeIndex = $parentNode->getId();
     $level = $block->getLevel();
     $parenttTitle = $parentNode->getTitle();
     ?>
-    <?php if ($level === 1): ?>
+    <?php if ($level === 1) : ?>
         <div
-            x-ref="submenu-<?= /* @noEscape */ (string) $parentNodeIndex ?>"
+            data-desktop-panel
+            data-node-id="<?= $escaper->escapeHtmlAttr((string) $parentNodeIndex) ?>"
+            :id="desktopPanelId"
             class="absolute left-0 top-full w-full z-30 shadow-md bg-white flex"
-            x-show="openSubmenuId === '<?= /* @noEscape */ (string) $parentNodeIndex ?>'"
+            x-show="desktopNodeVisible"
+            :aria-hidden="desktopNodeHidden"
             x-cloak
         >
-            <script>
-                'use strict';
-
-                const initSubMenu<?= $escaper->escapeHtml($parentNodeIndex) ?> = () => ({
-                    openLevel2SubmenuId: null,
-                    openLevel2Submenu(menuNode) {
-                        this.openLevel2SubmenuId = menuNode
-                        this.$nextTick(() => {
-                            const focusableElements = 'button:not([disabled]), a[href]:not([tabindex="-1"]), [tabindex]:not([tabindex="-1"])'
-                            this.$refs['level-2-submenu-' + menuNode]?.querySelector(focusableElements)?.focus()
-                        })
-                    },
-                })
-            </script>
             <div
                 class="container py-12 flex items-stretch justify-between"
-                x-data="initSubMenu<?= $escaper->escapeHtml($parentNodeIndex) ?>()"
+                x-data="snowdogMenuThreeLevel"
             >
                 <ul
                     class="space-y-6 w-1/4 border-r border-container-darker pb-12 mr-20 xl:mr-32"
                     title="Submenu for <?= $escaper->escapeHtmlAttr($parenttTitle) ?>"
                 >
-                    <?php foreach ($block->getSubmenuNodes() as $key => $node): ?>
+                    <?php foreach ($block->getSubmenuNodes() as $node) : ?>
                         <?php
                         $childrenLevel = $node->getLevel() + 1;
                         $children = $block->getNodes($childrenLevel, $node);
@@ -63,22 +52,22 @@ $heroiconsSolid = $viewModels->require(HeroiconsSolid::class);
                         ?>
                         <li
                             class="flex-1 <?= /* @noEscape */ (string) $nodeType === 'wrapper' ? $escaper->escapeHtmlAttr($nodeClasses) : '' ?>"
-                            @mouseenter="openLevel2SubmenuId = '<?= /* @noEscape */ (string) $nodeId ?>'"
-                            <?php if ($key === 0): ?>
-                                x-init="openLevel2SubmenuId = '<?= /* @noEscape */ (string) $nodeId ?>'"
-                            <?php endif; ?>
+                            x-data="snowdogMenuThreeLevelNode"
+                            data-level-two-node="<?= $escaper->escapeHtmlAttr((string) $nodeId) ?>"
+                            @mouseenter="hoverLevelTwo"
                         >
                             <div class="group flex justify-stretch [&>a]:!text-primary"
-                                :class="{ '[&>a]:font-bold': openLevel2SubmenuId === '<?= /* @noEscape */ (string) $nodeId ?>' }"
+                                :class="levelTwoNodeClasses"
                             >
                                 <?= /* @noEscape */ $block->renderMenuNode($node) ?>
-                                <?php if ($children): ?>
+                                <?php if ($children) : ?>
                                     <button
                                         type="button"
                                         class="flex-1 flex justify-end items-center pl-2 pr-10 xl:pr-14"
-                                        :aria-expanded="openLevel2SubmenuId === '<?= /* @noEscape */ (string) $nodeId ?>' ? 'true' : 'false'"
-                                        aria-controls="level-2-submenu-<?= /* @noEscape */ (string) $nodeId ?>"
-                                        @click="openLevel2Submenu('<?= /* @noEscape */ (string) $nodeId ?>')"
+                                        :aria-expanded="levelTwoExpanded"
+                                        :aria-controls="levelTwoPanelId"
+                                        data-level-two-node="<?= $escaper->escapeHtmlAttr((string) $nodeId) ?>"
+                                        @click="selectLevelTwo"
                                     >
                                         <?= $heroiconsSolid->chevronRightHtml('text-primary-darker', 20, 20, ['aria-hidden' => 'true']) ?>
                                         <span class="sr-only">
@@ -90,7 +79,7 @@ $heroiconsSolid = $viewModels->require(HeroiconsSolid::class);
                         </li>
                     <?php endforeach; ?>
                 </ul>
-                <?php foreach ($block->getSubmenuNodes() as $node): ?>
+                <?php foreach ($block->getSubmenuNodes() as $node) : ?>
                     <?php
                     $childrenLevel = $node->getLevel() + 1;
                     $children = $block->getNodes($childrenLevel, $node);
@@ -101,15 +90,18 @@ $heroiconsSolid = $viewModels->require(HeroiconsSolid::class);
         </div>
     <?php endif; ?>
 
-    <?php if ($level === 2): ?>
+    <?php if ($level === 2) : ?>
         <ul
-            id="level-2-submenu-<?= /* @noEscape */ (string) $parentNodeIndex ?>"
-            x-ref="level-2-submenu-<?= /* @noEscape */ (string) $parentNodeIndex ?>"
-            x-show="openLevel2SubmenuId === '<?= /* @noEscape */ (string) $parentNodeIndex ?>'"
+            x-data="snowdogMenuThreeLevelPanel"
+            data-level-two-panel="<?= $escaper->escapeHtmlAttr((string) $parentNodeIndex) ?>"
+            :id="levelTwoPanelId"
+            x-show="levelTwoVisible"
+            :aria-hidden="levelTwoHidden"
+            x-cloak
             title="Submenu for <?= $escaper->escapeHtmlAttr($parenttTitle) ?>"
             class="flex-1 flex space-x-14 xl:space-x-32"
         >
-            <?php foreach ($block->getSubmenuNodes() as $index => $node): ?>
+            <?php foreach ($block->getSubmenuNodes() as $index => $node) : ?>
                 <?php
                 $childrenLevel = $node->getLevel() + 1;
                 $children = $block->getNodes($childrenLevel, $node);
@@ -132,9 +124,9 @@ $heroiconsSolid = $viewModels->require(HeroiconsSolid::class);
         </ul>
     <?php endif; ?>
 
-    <?php if ($level > 2): ?>
+    <?php if ($level > 2) : ?>
         <ul class="space-y-2">
-            <?php foreach ($block->getSubmenuNodes() as $index => $node): ?>
+            <?php foreach ($block->getSubmenuNodes() as $index => $node) : ?>
                 <?php
                 $childrenLevel = $node->getLevel() + 1;
                 $children = $block->getNodes($childrenLevel, $node);
