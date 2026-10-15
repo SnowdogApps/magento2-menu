@@ -42,17 +42,17 @@
             <block
                 name="snowdog-menu-desktop-js"
                 class="Magento\Framework\View\Element\Template"
-                template="Snowdog_Menu::page/js/menu-desktop.phtml"
+                template="Snowdog_Menu::hyva-topmenu-desktop/menu-desktop.phtml"
             />
             <block
                 name="snowdog-menu-mobile-js"
                 class="Magento\Framework\View\Element\Template"
-                template="Snowdog_Menu::page/js/menu-mobile.phtml"
+                template="Snowdog_Menu::hyva-topmenu-mobile/menu-mobile.phtml"
             />
             <block
                 name="snowdog-menu-footer-js"
                 class="Magento\Framework\View\Element\Template"
-                template="Snowdog_Menu::page/js/menu-footer.phtml"
+                template="Snowdog_Menu::hyva-menu-footer/menu-footer.phtml"
             />
             <block
                 name="alpine-plugin-collapse"
