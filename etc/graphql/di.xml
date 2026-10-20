@@ -23,6 +23,7 @@
             <argument name="typeModels" xsi:type="array">
                 <item name="product" xsi:type="object">Snowdog\Menu\Model\ResourceModel\NodeType\Product</item>
                 <item name="category" xsi:type="object">Snowdog\Menu\Model\ResourceModel\NodeType\Category</item>
+                <item name="cms_block" xsi:type="object">Snowdog\Menu\Model\ResourceModel\NodeType\CmsBlock</item>
                 <item name="cms_page" xsi:type="object">Snowdog\Menu\Model\ResourceModel\NodeType\CmsPage</item>
             </argument>
         </arguments>
