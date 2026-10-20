@@ -230,7 +230,9 @@
                     }
                     else if (option && typeof option === 'string') {
                         this.$set(this.item, this.itemKey, option);
-                        this.$set(this.item, 'title', this.options.find(item => item.value === option)?.label);
+                        if (!this.item.title) {
+                            this.$set(this.item, 'title', this.options.find(item => item.value === option)?.label);
+                        }
                     }
                     else {
                         this.$set(this.item, this.itemKey, this.defaultSelectedOption ? this.defaultSelectedOption.value.toString() : '');
