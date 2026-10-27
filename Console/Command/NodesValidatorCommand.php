@@ -72,7 +72,7 @@ class NodesValidatorCommand extends Command
         parent::configure();
     }
 
-    public function execute(InputInterface $input, OutputInterface $output)
+    public function execute(InputInterface $input, OutputInterface $output): int
     {
         $this->setAreaCode();
         $invalidNodeIds = [];
