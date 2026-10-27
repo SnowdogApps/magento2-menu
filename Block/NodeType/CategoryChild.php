@@ -7,6 +7,7 @@ use Magento\Framework\Registry;
 use Magento\Catalog\Api\CategoryRepositoryInterface;
 use Snowdog\Menu\Model\TemplateResolver;
 use Snowdog\Menu\Model\NodeType\Category as ModelCategory;
+use Snowdog\Menu\Model\NodeType\CategoryChild as ModelCategoryChild;
 
 class CategoryChild extends Category
 {
@@ -17,11 +18,19 @@ class CategoryChild extends Category
     /**
      * @var string
      */
+    protected $customTemplateFolder = 'menu/custom/category_child/';
+    /**
+     * @var string
+     */
     protected $nodeType = 'category_child';
     /**
      * @var CategoryRepositoryInterface
      */
     protected $categoryRepository;
+    /**
+     * @var ModelCategoryChild
+     */
+    private $categoryChildModel;
 
     /**
      * Category constructor.
@@ -31,6 +40,7 @@ class CategoryChild extends Category
      * @param ModelCategory $categoryModel
      * @param TemplateResolver $templateResolver
      * @param CategoryRepositoryInterface $categoryRepository
+     * @param ModelCategoryChild $categoryChildModel
      * @param array $data
      */
     public function __construct(
@@ -39,10 +49,12 @@ class CategoryChild extends Category
         ModelCategory $categoryModel,
         TemplateResolver $templateResolver,
         CategoryRepositoryInterface $categoryRepository,
+        ModelCategoryChild $categoryChildModel,
         array $data = []
     ) {
         parent::__construct($context, $coreRegistry, $categoryModel, $templateResolver, $data);
         $this->categoryRepository = $categoryRepository;
+        $this->categoryChildModel = $categoryChildModel;
     }
 
     /**
@@ -56,6 +68,14 @@ class CategoryChild extends Category
             'route_' . $this->getRequest()->getRouteName(),
             'action_' . $this->getRequest()->getActionName()
         ];
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getJsonConfig()
+    {
+        return $this->categoryChildModel->fetchConfigData();
     }
 
     /**
