@@ -176,7 +176,7 @@ class SaveRequestProcessor
             $nodeObject->setClasses($nodeData['classes']);
         }
 
-        if (isset($nodeData['content'])) {
+        if (array_key_exists('content', $nodeData)) {
             $nodeObject->setContent($nodeData['content']);
         }
 
