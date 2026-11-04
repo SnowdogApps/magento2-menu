@@ -1,0 +1,122 @@
+<?php
+use Hyva\Theme\ViewModel\HyvaCsp;
+
+/** @var HyvaCsp $hyvaCsp */
+
+if (!$block->getLayout()->getBlock('topmenu-mobile')) {
+    return;
+}
+?>
+<script>
+    'use strict';
+
+    window.addEventListener('alpine:init', () => {
+        let nextMenuId = 0;
+        const bodyLockOwners = new Set();
+        let ownedBodyClasses = [];
+        const focusable = 'button:not([disabled]), a[href]:not([tabindex="-1"]), '
+            + '[tabindex]:not([tabindex="-1"])';
+
+        Alpine.data('snowdogMenuMobile', () => ({
+            menuOpen: false,
+            mobileRoot: null,
+            mobileInstanceId: '',
+            mobileDialog: null,
+            mobileButton: null,
+            init() {
+                this.mobileRoot = this.$el;
+                this.mobileInstanceId = 'snowdog-mobile-' + ++nextMenuId;
+                this.mobileDialog = this.mobileRoot.querySelector('[data-mobile-dialog]');
+                this.mobileButton = this.mobileRoot.querySelector('[x-ref="mobileMenuButton"]');
+            },
+            openMobileMenu() {
+                if (this.menuOpen) {
+                    return;
+                }
+                this.menuOpen = true;
+                if (bodyLockOwners.size === 0) {
+                    ownedBodyClasses = ['fixed', 'w-full']
+                        .filter(className => !document.body.classList.contains(className));
+                }
+                bodyLockOwners.add(this.mobileInstanceId);
+                document.body.classList.add('fixed', 'w-full');
+                this.$nextTick(() => {
+                    if (this.menuOpen) {
+                        hyva.trapFocus(this.mobileDialog);
+                    }
+                });
+            },
+            closeMobileMenu(event) {
+                if (!this.menuOpen) {
+                    return;
+                }
+                event?.stopPropagation();
+                hyva.releaseFocus(this.mobileDialog);
+                this.menuOpen = false;
+                bodyLockOwners.delete(this.mobileInstanceId);
+                if (bodyLockOwners.size === 0) {
+                    ownedBodyClasses.forEach(className => document.body.classList.remove(className));
+                    ownedBodyClasses = [];
+                }
+                this.$nextTick(() => this.mobileButton.focus());
+            },
+            escapeMobileMenu(event) {
+                this.closeMobileMenu(event);
+            },
+            outsideMobileMenu(event) {
+                this.closeMobileMenu(event);
+            },
+            checkMobileBreakpoint() {
+                if (window.matchMedia('(min-width: 1024px)').matches) {
+                    this.closeMobileMenu();
+                }
+            },
+            mobileDialogClasses() {
+                return {
+                    '-translate-x-full': !this.menuOpen,
+                    'translate-x-0 shadow-2xl': this.menuOpen,
+                };
+            },
+            mobileDialogId() {
+                return this.mobileInstanceId + '-dialog';
+            },
+            mobileDialogHidden() {
+                return this.menuOpen ? 'false' : 'true';
+            },
+            destroy() {
+                this.closeMobileMenu();
+            },
+        }));
+
+        Alpine.data('snowdogMenuMobileBranch', () => ({
+            branchOpen: false,
+            mobileBranchRoot: null,
+            mobileBranchNodeId: '',
+            init() {
+                this.mobileBranchRoot = this.$el;
+                this.mobileBranchNodeId = this.$el.dataset.nodeId;
+            },
+            mobileBranchPanel() {
+                return Array.from(this.mobileBranchRoot.children)
+                    .find(child => child.hasAttribute('data-mobile-branch-panel'));
+            },
+            toggleMobileBranch(event) {
+                event.stopPropagation();
+                this.branchOpen = !this.branchOpen;
+                if (this.branchOpen) {
+                    this.$nextTick(() => this.mobileBranchPanel()?.querySelector(focusable)?.focus());
+                }
+            },
+            mobileBranchPanelId() {
+                return this.mobileInstanceId + '-branch-' + this.mobileBranchNodeId;
+            },
+            mobileBranchHidden() {
+                return this.branchOpen ? 'false' : 'true';
+            },
+            mobileBranchChevronClasses() {
+                return { 'rotate-180': this.branchOpen };
+            },
+        }));
+    }, { once: true });
+</script>
+<?php $hyvaCsp->registerInlineScript() ?>

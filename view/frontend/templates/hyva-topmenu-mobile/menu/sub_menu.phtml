@@ -11,25 +11,28 @@ use Snowdog\Menu\Block\Menu;
 
 $heroicons = $viewModels->require(HeroiconsOutline::class);
 ?>
-<?php if ($block->getMenu()): ?>
+<?php if ($block->getMenu()) : ?>
     <?php
     $parentNode = $block->getParentNode();
     $parentNodeIndex = 'node' . $parentNode->getId();
     $title = $parentNode->getTitle();
     ?>
-    <ul x-ref="submenu-<?= /* @noEscape */ (string) $parentNodeIndex ?>"
+    <ul data-mobile-branch-panel
+        data-node-id="<?= $escaper->escapeHtmlAttr($parentNodeIndex) ?>"
+        :id="mobileBranchPanelId"
         class="pb-2 pl-4"
-        x-show="<?= /* @noEscape */ (string) $parentNodeIndex ?>"
+        x-show="branchOpen"
+        x-cloak
         x-collapse
-        :aria-hidden="<?= /* @noEscape */ (string) $parentNodeIndex ?> === false ? 'true' : 'false'"
+        :aria-hidden="mobileBranchHidden"
         title="<?= $escaper->escapeHtmlAttr($title) ?>"
     >
-    <?php if ($block->isViewAllLinkAllowed($parentNode->getType())): ?>
+    <?php if ($block->isViewAllLinkAllowed($parentNode->getType())) : ?>
         <li>
-            <?= $block->renderViewAllLink($parentNode) ?>
+            <?= /* @noEscape */ $block->renderViewAllLink($parentNode) ?>
         </li>
         <?php endif ?>
-        <?php foreach ($block->getSubmenuNodes() as $node): ?>
+        <?php foreach ($block->getSubmenuNodes() as $node) : ?>
             <?php
                 $childrenLevel = $node->getLevel() + 1;
                 $children = $block->getNodes($childrenLevel, $node);
@@ -38,29 +41,32 @@ $heroicons = $viewModels->require(HeroiconsOutline::class);
                 $nodeTitle = $node->getTitle();
                 $nodeType = $node->getType();
                 $nodeClasses = $node->getClasses();
-                ?>
+            ?>
                 <li class="<?= /* @noEscape */ (string) $nodeType === 'wrapper' ? $escaper->escapeHtmlAttr($nodeClasses) : '' ?>"
-                    x-data="{ '<?= /* @noEscape */ (string) $indexId ?>': false }"
+                    x-data="snowdogMenuMobileBranch"
+                    data-node-id="<?= $escaper->escapeHtmlAttr($indexId) ?>"
                 >
-                    <?php if ($node->getIsParent() && !$node->getIsViewAllLink()): ?>
+                    <?php if ($node->getIsParent() && !$node->getIsViewAllLink()) : ?>
                         <button class="flex items-center justify-between w-full px-8 py-4"
-                            @click="toggleSubmenu('<?= /* @noEscape */ (string) $indexId ?>')"
+                            @click="toggleMobileBranch"
+                            data-node-id="<?= $escaper->escapeHtmlAttr($indexId) ?>"
                             aria-label="<?= $escaper->escapeHtmlAttr(__('Toggle submenu for %1', $nodeTitle)) ?>"
                             aria-haspopup="true"
-                            :aria-expanded="<?= /* @noEscape */ (string) $indexId ?> === true"
+                            :aria-expanded="branchOpen"
+                            :aria-controls="mobileBranchPanelId"
                             type="button"
                         >
                             <span>
                                 <?= $escaper->escapeHtml($nodeTitle) ?>
                             </span>
                             <div class="transition-transform"
-                                :class="{'rotate-180' : <?= /* @noEscape */ (string) $indexId ?> === true}"
+                                :class="mobileBranchChevronClasses"
                             >
                                 <?= $heroicons->chevronDownHtml('text-gray-500', 20, 20, ['aria-hidden' => 'true']); ?>
                             </div>
                         </button>
                         <?= /* @noEscape */ $block->renderSubmenu($children, $node, $childrenLevel) ?>
-                    <?php else: ?>
+                    <?php else : ?>
                         <div class="group">
                             <?= /* @noEscape */ $block->renderMenuNode($node) ?>
                         </div>

@@ -1,0 +1,62 @@
+<?php
+use Hyva\Theme\ViewModel\HyvaCsp;
+
+/** @var HyvaCsp $hyvaCsp */
+
+if (!$block->getLayout()->getBlock('menu-footer')) {
+    return;
+}
+?>
+<script>
+    'use strict';
+
+    window.addEventListener('alpine:init', () => {
+        Alpine.data('snowdogMenuFooter', () => ({
+            isDesktop: true,
+            checkIsDesktopResolution() {
+                this.isDesktop = window.matchMedia('(min-width: 1024px)').matches;
+            },
+            isMobile() {
+                return !this.isDesktop;
+            },
+        }));
+
+        Alpine.data('snowdogMenuFooterNode', () => ({
+            open: false,
+            nodeId: '',
+            init() {
+                this.nodeId = this.$el.dataset.nodeId;
+            },
+            toggleSubmenu(event) {
+                const focusableElements = 'button:not([disabled]), a[href]:not([tabindex="-1"]), '
+                    + '[tabindex]:not([tabindex="-1"])';
+
+                event.stopPropagation();
+                this.open = !this.open;
+
+                this.$nextTick(() => {
+                    if (this.open) {
+                        this.$refs['submenu-' + this.nodeId]?.querySelector(focusableElements)?.focus();
+                    } else {
+                        this.$refs['submenu-toggle-' + this.nodeId]?.focus();
+                    }
+                });
+            },
+            handleEscape(event) {
+                if (!this.isDesktop) {
+                    this.toggleSubmenu(event);
+                }
+            },
+            submenuVisible() {
+                return this.isDesktop || this.open;
+            },
+            submenuHidden() {
+                return this.submenuVisible() ? 'false' : 'true';
+            },
+            chevronClasses() {
+                return { 'rotate-180': this.open };
+            },
+        }));
+    }, { once: true });
+</script>
+<?php $hyvaCsp->registerInlineScript() ?>
