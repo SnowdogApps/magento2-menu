@@ -92,6 +92,8 @@ class File
 
     public function delete(string $file): void
     {
+        $this->validatePath($file);
+
         $mediaDirectory = $this->filesystem->getDirectoryWrite(DirectoryList::MEDIA);
         $mediaDirectory->delete(self::PATH . $file);
     }
@@ -102,6 +104,8 @@ class File
      */
     public function clone(string $file): string
     {
+        $this->validatePath($file);
+
         $mediaDirectory = $this->filesystem->getDirectoryWrite(DirectoryList::MEDIA);
         $fileFullPath = $mediaDirectory->getAbsolutePath(self::PATH . $file);
         $fileCloneName = Uploader::getNewFileName($fileFullPath);
@@ -120,10 +124,28 @@ class File
 
     public function getImageSize(string $file): array
     {
+        $this->validatePath($file);
+
         $mediaDirectory = $this->filesystem->getDirectoryRead(DirectoryList::MEDIA);
         $fileFullPath = $mediaDirectory->getAbsolutePath(self::PATH . $file);
 
         return getimagesize($fileFullPath);
+    }
+
+    /**
+     * @throws FileSystemException
+     */
+    private function validatePath(string $file): void
+    {
+        $mediaDirectory = $this->filesystem->getDirectoryWrite(DirectoryList::MEDIA);
+        $driver = $mediaDirectory->getDriver();
+        $directory = rtrim($driver->getRealPathSafety($mediaDirectory->getAbsolutePath(self::PATH)), '/') . '/';
+        $path = $driver->getRealPathSafety($mediaDirectory->getAbsolutePath(self::PATH . $file));
+
+        // The file has to stay inside the node image directory.
+        if (strpos(rtrim($path, '/'), $directory) !== 0) {
+            throw new FileSystemException(__('Invalid node image file path "%1".', $file));
+        }
     }
 
     private function getAbsolutePath(): string
