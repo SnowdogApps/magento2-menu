@@ -147,6 +147,10 @@ class Menu extends Template implements DataObject\IdentityInterface
 
     protected function getCacheLifetime()
     {
+        if (!$this->getMenu()) {
+            return null;
+        }
+
         return 60*60*24*365;
     }
 
