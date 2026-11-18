@@ -16,11 +16,11 @@ class Node
     /**
      * GraphQL type fields.
      */
-    const TEMPLATE_FIELD = 'node_template';
-    const SUBMENU_TEMPLATE_FIELD = 'submenu_template';
-    const URL_KEY = 'url_key';
+    public const TEMPLATE_FIELD = 'node_template';
+    public const SUBMENU_TEMPLATE_FIELD = 'submenu_template';
+    public const URL_KEY = 'url_key';
 
-    const NODE_TYPE_CUSTOM_URL = 'custom_url';
+    public const NODE_TYPE_CUSTOM_URL = 'custom_url';
 
     /**
      * @var NodeRepositoryInterface
@@ -47,6 +47,13 @@ class Node
      */
     private $loadedModels = [];
 
+    /**
+     * Initialize dependencies.
+     *
+     * @param NodeRepositoryInterface $nodeRepository
+     * @param MenuDataProvider $menuDataProvider
+     * @param TypeModel $typeModel
+     */
     public function __construct(
         NodeRepositoryInterface $nodeRepository,
         MenuDataProvider $menuDataProvider,
@@ -58,6 +65,10 @@ class Node
     }
 
     /**
+     * Load active nodes and their URL keys for a menu.
+     *
+     * @param string $identifier
+     * @param int $storeId
      * @throws NoSuchEntityException
      */
     public function getNodesByMenuIdentifier(string $identifier, int $storeId): array
@@ -90,6 +101,11 @@ class Node
         return $this->loadedNodes[$identifier];
     }
 
+    /**
+     * Convert a node to GraphQL field values.
+     *
+     * @param NodeInterface $node
+     */
     private function convertData(NodeInterface $node): array
     {
         return [
@@ -119,8 +135,10 @@ class Node
     }
 
     /**
-     * @param $nodes
-     * @param $storeId
+     * Load linked models grouped by node type.
+     *
+     * @param NodeInterface[] $nodes
+     * @param int $storeId
      * @return void
      */
     private function loadModels($nodes, $storeId): void
@@ -143,7 +161,7 @@ class Node
                 continue;
             }
             try {
-                $this->loadedModels[$type] = $this->typeModel->getModels($type, $ids ?? [], $storeId);
+                $this->loadedModels[$type] = $this->typeModel->getModels($type, $ids, $storeId);
             } catch (Exception $e) {
                 continue;
             }
@@ -151,6 +169,8 @@ class Node
     }
 
     /**
+     * Return the URL key for a linked model or custom URL.
+     *
      * @param NodeInterface $node
      * @return string|null
      */

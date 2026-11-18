@@ -18,8 +18,8 @@ use Snowdog\Menu\Model\TemplateResolver;
 /** @noinspection MagentoApiInspection */
 abstract class AbstractNode extends Template implements NodeTypeInterface
 {
-    const NAME_CODE = 'node_name';
-    const CLASSES_CODE = 'node_classes';
+    public const NAME_CODE = 'node_name';
+    public const CLASSES_CODE = 'node_classes';
 
     /**
      * @var string
@@ -69,6 +69,8 @@ abstract class AbstractNode extends Template implements NodeTypeInterface
     }
 
     /**
+     * Return the node type code.
+     *
      * @return string
      */
     public function getNodeType()
@@ -81,6 +83,8 @@ abstract class AbstractNode extends Template implements NodeTypeInterface
     }
 
     /**
+     * Return the available node attributes.
+     *
      * @return array
      */
     public function getNodeAttributes()
@@ -89,7 +93,9 @@ abstract class AbstractNode extends Template implements NodeTypeInterface
     }
 
     /**
-     * @param $key
+     * Return a node attribute or an empty data object.
+     *
+     * @param string $key
      *
      * @return DataObject
      */
@@ -103,9 +109,11 @@ abstract class AbstractNode extends Template implements NodeTypeInterface
     }
 
     /**
-     * @param $key
-     * @param $label
-     * @param $type
+     * Register a node attribute.
+     *
+     * @param string $key
+     * @param string $label
+     * @param string $type
      */
     public function addNodeAttribute($key, $label, $type)
     {
@@ -119,7 +127,9 @@ abstract class AbstractNode extends Template implements NodeTypeInterface
     }
 
     /**
-     * @param $key
+     * Remove a registered node attribute.
+     *
+     * @param string $key
      *
      * @return bool
      */
@@ -135,6 +145,8 @@ abstract class AbstractNode extends Template implements NodeTypeInterface
     }
 
     /**
+     * Check whether the node type supports a view-all link.
+     *
      * @return bool
      */
     public function isViewAllLinkAllowed()
@@ -143,6 +155,8 @@ abstract class AbstractNode extends Template implements NodeTypeInterface
     }
 
     /**
+     * Return the custom template folder.
+     *
      * @return string
      */
     public function getCustomTemplateFolder()
@@ -151,6 +165,8 @@ abstract class AbstractNode extends Template implements NodeTypeInterface
     }
 
     /**
+     * Resolve the node template before rendering.
+     *
      * @return string
      */
     protected function _toHtml()
@@ -161,7 +177,7 @@ abstract class AbstractNode extends Template implements NodeTypeInterface
             $this->defaultTemplate,
             $this->getId()
         );
-        $this->setTemplate($template);
+        $this->_template = $template;
 
         return parent::_toHtml();
     }

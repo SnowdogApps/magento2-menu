@@ -12,11 +12,11 @@ use Magento\ImportExport\Helper\Data as ImportExportHelper;
 use Magento\ImportExport\Model\Import as ImportModel;
 use Magento\MediaStorage\Model\File\UploaderFactory;
 use Snowdog\Menu\Model\ImportExport\File\Yaml;
-use Zend_Validate_File_Upload;
+use Laminas\Validator\File\Upload;
 
 class Source
 {
-    const ENTITY = 'snowdog_menu';
+    public const ENTITY = 'snowdog_menu';
 
     /**
      * @var FileTransferFactory
@@ -38,6 +38,14 @@ class Source
      */
     private $uploaderFactory;
 
+    /**
+     * Initialize dependencies.
+     *
+     * @param FileTransferFactory $fileTransferFactory
+     * @param ImportExportHelper $importExportHelper
+     * @param ImportModel $import
+     * @param UploaderFactory $uploaderFactory
+     */
     public function __construct(
         FileTransferFactory $fileTransferFactory,
         ImportExportHelper $importExportHelper,
@@ -51,6 +59,8 @@ class Source
     }
 
     /**
+     * Upload a validated menu import file.
+     *
      * @throws ValidatorException
      * @SuppressWarnings(PHPMD.UnusedLocalVariable)
      */
@@ -77,6 +87,8 @@ class Source
     }
 
     /**
+     * Validate the uploaded import file.
+     *
      * @throws ValidatorException
      */
     private function validateFile(): void
@@ -86,7 +98,7 @@ class Source
         if (!$fileTransferAdapter->isValid(ImportModel::FIELD_NAME_SOURCE_FILE)) {
             $errors = $fileTransferAdapter->getErrors();
 
-            $errorMessage = $errors[0] === Zend_Validate_File_Upload::INI_SIZE
+            $errorMessage = $errors[0] === Upload::INI_SIZE
                 ? $this->importExportHelper->getMaxUploadSizeMessage()
                 : __('The file was not uploaded.');
 

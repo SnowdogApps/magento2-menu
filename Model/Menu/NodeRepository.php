@@ -14,6 +14,7 @@ use Snowdog\Menu\Api\Data\NodeInterface;
 use Snowdog\Menu\Api\NodeRepositoryInterface;
 use Snowdog\Menu\Model\Menu\NodeFactory;
 use Snowdog\Menu\Model\ResourceModel\Menu\Node\CollectionFactory;
+use Snowdog\Menu\Model\ResourceModel\Menu\Node as NodeResource;
 use Magento\Framework\Api\SortOrder;
 use Magento\Framework\DB\Sql\Expression;
 
@@ -34,11 +35,26 @@ class NodeRepository implements NodeRepositoryInterface
      */
     protected $collectionFactory;
 
+    /**
+     * @var NodeResource
+     */
+    private $nodeResource;
+
+    /**
+     * Initialize dependencies.
+     *
+     * @param NodeFactory $objectFactory
+     * @param CollectionFactory $collectionFactory
+     * @param SearchResultsInterfaceFactory $searchResultsFactory
+     * @param NodeResource $nodeResource
+     */
     public function __construct(
         NodeFactory $objectFactory,
         CollectionFactory $collectionFactory,
-        SearchResultsInterfaceFactory $searchResultsFactory
+        SearchResultsInterfaceFactory $searchResultsFactory,
+        NodeResource $nodeResource
     ) {
+        $this->nodeResource = $nodeResource;
         $this->objectFactory = $objectFactory;
         $this->collectionFactory = $collectionFactory;
         $this->searchResultsFactory = $searchResultsFactory;
@@ -63,7 +79,7 @@ class NodeRepository implements NodeRepositoryInterface
     public function getById($id)
     {
         $object = $this->objectFactory->create();
-        $object->load($id);
+        $this->nodeResource->load($object, $id);
         if (!$object->getId()) {
             throw new NoSuchEntityException(__('Object with id "%1" does not exist.', $id));
         }

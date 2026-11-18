@@ -18,6 +18,8 @@ class MenuManagement implements MenuManagementInterface
     private $categoryManagement;
 
     /**
+     * Initialize dependencies.
+     *
      * @param CategoryManagement $categoryManagement
      */
     public function __construct(
@@ -27,6 +29,8 @@ class MenuManagement implements MenuManagementInterface
     }
 
     /**
+     * Build menu node data from the category tree.
+     *
      * @param int|null $rootCategoryId
      * @param int|null $depth
      * @return array
@@ -43,27 +47,27 @@ class MenuManagement implements MenuManagementInterface
     }
 
     /**
+     * Group category data by level and parent.
+     *
      * @param Category $node
      * @param array $data
      * @return array
      */
     private function generateCategoriesNode(Category $node, &$data = []): array
     {
-        if (!empty($node)) {
-            $level = $node->getLevel() - 2;
-            $parent = (!$level ? 0 : $node->getParentId());
-            if (!isset($data[$level])) {
-                $data[$level] = [];
-            }
-            if (!isset($data[$level][$parent])) {
-                $data[$level][$parent] = [];
-            }
-            $data[$level][$parent][] = $node->getData();
+        $level = $node->getLevel() - 2;
+        $parent = (!$level ? 0 : $node->getParentId());
+        if (!isset($data[$level])) {
+            $data[$level] = [];
+        }
+        if (!isset($data[$level][$parent])) {
+            $data[$level][$parent] = [];
+        }
+        $data[$level][$parent][] = $node->getData();
 
-            if ($node->getChildrenData()) {
-                foreach ($node->getChildrenData() as $item) {
-                    $data = $this->generateCategoriesNode($item, $data);
-                }
+        if ($node->getChildrenData()) {
+            foreach ($node->getChildrenData() as $item) {
+                $data = $this->generateCategoriesNode($item, $data);
             }
         }
 
@@ -71,8 +75,10 @@ class MenuManagement implements MenuManagementInterface
     }
 
     /**
-     * @param $level
-     * @param $parent
+     * Build nested menu nodes from grouped category data.
+     *
+     * @param int $level
+     * @param int|string|null $parent
      * @param array $data
      * @return array
      */

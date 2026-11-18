@@ -23,8 +23,8 @@ use Magento\Store\Model\Store;
  */
 class Menu extends Template implements DataObject\IdentityInterface
 {
-    const XML_SNOWMENU_GENERAL_CUSTOMER_GROUPS = 'snowmenu/general/customer_groups';
-    const XML_SNOWMENU_GENERAL_CACHE_TAGS = 'snowmenu/general/cache_tags';
+    public const XML_SNOWMENU_GENERAL_CUSTOMER_GROUPS = 'snowmenu/general/customer_groups';
+    public const XML_SNOWMENU_GENERAL_CACHE_TAGS = 'snowmenu/general/cache_tags';
 
     /**
      * @var MenuRepositoryInterface
@@ -41,8 +41,14 @@ class Menu extends Template implements DataObject\IdentityInterface
      */
     private $nodeTypeProvider;
 
+    /**
+     * @var array|null
+     */
     private $nodes;
 
+    /**
+     * @var \Snowdog\Menu\Model\Menu|null
+     */
     private $menu = null;
 
     /**
@@ -91,6 +97,19 @@ class Menu extends Template implements DataObject\IdentityInterface
     private $nodeTypeCaches = [];
 
     /**
+     * Initialize dependencies.
+     *
+     * @param Template\Context $context
+     * @param EventManager $eventManager
+     * @param MenuRepositoryInterface $menuRepository
+     * @param NodeRepositoryInterface $nodeRepository
+     * @param NodeTypeProvider $nodeTypeProvider
+     * @param TemplateResolver $templateResolver
+     * @param ImageFile $imageFile
+     * @param Escaper $escaper
+     * @param Context $httpContext
+     * @param array $nodeTypeCaches
+     * @param array $data
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
@@ -114,7 +133,7 @@ class Menu extends Template implements DataObject\IdentityInterface
         $this->templateResolver = $templateResolver;
         $this->imageFile = $imageFile;
         $this->escaper = $escaper;
-        $this->setTemplate($this->getMenuTemplate($this->_template));
+        $this->_template = $this->getMenuTemplate($this->_template);
         $this->submenuTemplate = $this->getSubmenuTemplate();
         $this->httpContext = $httpContext;
         $this->nodeTypeCaches = $nodeTypeCaches;
@@ -145,12 +164,17 @@ class Menu extends Template implements DataObject\IdentityInterface
         return array_merge($tags, ...$otherCacheTagsArrays);
     }
 
+    /**
+     * @inheritdoc
+     */
     protected function getCacheLifetime()
     {
         return 60*60*24*365;
     }
 
     /**
+     * Load the menu for the current store with a default-store fallback.
+     *
      * @return \Snowdog\Menu\Model\Menu
      */
     private function loadMenu()
@@ -169,6 +193,8 @@ class Menu extends Template implements DataObject\IdentityInterface
     }
 
     /**
+     * Return the configured menu when it exists.
+     *
      * @return \Snowdog\Menu\Model\Menu|null
      */
     public function getMenu()
@@ -181,6 +207,9 @@ class Menu extends Template implements DataObject\IdentityInterface
         return $menu;
     }
 
+    /**
+     * @inheritdoc
+     */
     public function getCacheKeyInfo()
     {
         $info = [
@@ -202,6 +231,8 @@ class Menu extends Template implements DataObject\IdentityInterface
     }
 
     /**
+     * Collect cache key data for the current node context.
+     *
      * @return array
      */
     private function getNodeCacheKeyInfo()
@@ -242,6 +273,12 @@ class Menu extends Template implements DataObject\IdentityInterface
         return $info;
     }
 
+    /**
+     * Render the menu nodes and their children.
+     *
+     * @param int $level
+     * @param \Snowdog\Menu\Model\Menu\Node|null $parent
+     */
     public function getMenuHtml($level = 0, $parent = null)
     {
         $nodes = $this->getNodes($level, $parent);
@@ -279,6 +316,8 @@ class Menu extends Template implements DataObject\IdentityInterface
     }
 
     /**
+     * Check whether the node type supports a view-all link.
+     *
      * @param string $nodeType
      * @return bool
      */
@@ -288,6 +327,8 @@ class Menu extends Template implements DataObject\IdentityInterface
     }
 
     /**
+     * Render the view-all link for a node.
+     *
      * @param NodeInterface $node
      * @return string
      */
@@ -299,6 +340,8 @@ class Menu extends Template implements DataObject\IdentityInterface
     }
 
     /**
+     * Render a menu node.
+     *
      * @param NodeInterface $node
      * @return string
      */
@@ -308,6 +351,8 @@ class Menu extends Template implements DataObject\IdentityInterface
     }
 
     /**
+     * Render the children of a menu node.
+     *
      * @param array $nodes
      * @param NodeRepositoryInterface $parentNode
      * @param int $level
@@ -321,6 +366,8 @@ class Menu extends Template implements DataObject\IdentityInterface
     }
 
     /**
+     * Build the nested menu node tree.
+     *
      * @param int $level
      * @param NodeRepositoryInterface|null $parent
      * @return array
@@ -341,6 +388,8 @@ class Menu extends Template implements DataObject\IdentityInterface
     }
 
     /**
+     * Return the renderer for a node type.
+     *
      * @param string $nodeType
      * @return \Snowdog\Menu\Api\NodeTypeInterface
      */
@@ -349,6 +398,12 @@ class Menu extends Template implements DataObject\IdentityInterface
         return $this->nodeTypeProvider->getProvider($nodeType);
     }
 
+    /**
+     * Return nodes at the requested level under the given parent.
+     *
+     * @param int $level
+     * @param \Snowdog\Menu\Model\Menu\Node|null $parent
+     */
     public function getNodes($level = 0, $parent = null)
     {
         if (empty($this->nodes)) {
@@ -386,6 +441,8 @@ class Menu extends Template implements DataObject\IdentityInterface
     }
 
     /**
+     * Return the menu CSS class or the supplied fallback.
+     *
      * @param string $defaultClass
      * @return string
      */
@@ -401,6 +458,8 @@ class Menu extends Template implements DataObject\IdentityInterface
     }
 
     /**
+     * Prepare the renderer with the menu node data.
+     *
      * @param NodeInterface $node
      * @return Template
      */
@@ -436,6 +495,8 @@ class Menu extends Template implements DataObject\IdentityInterface
     }
 
     /**
+     * Prepare a cloned menu block for the submenu.
+     *
      * @param array $nodes
      * @param NodeRepositoryInterface $parentNode
      * @param int $level
@@ -454,12 +515,14 @@ class Menu extends Template implements DataObject\IdentityInterface
             ->setLevel($level);
 
         $block->setTemplateContext($block);
-        $block->setTemplate($submenuTemplate);
+        $block->_template = $submenuTemplate;
 
         return $block;
     }
 
     /**
+     * Load and group visible nodes and prepare their type providers.
+     *
      * @SuppressWarnings(PHPMD.NPathComplexity)
      */
     private function fetchData()
@@ -512,6 +575,12 @@ class Menu extends Template implements DataObject\IdentityInterface
         }
     }
 
+    /**
+     * Render a node through its type provider.
+     *
+     * @param \Snowdog\Menu\Model\Menu\Node $node
+     * @param int $level
+     */
     private function renderNode($node, $level)
     {
         $type = $node->getType();
@@ -519,6 +588,8 @@ class Menu extends Template implements DataObject\IdentityInterface
     }
 
     /**
+     * Resolve the menu template for the configured menu.
+     *
      * @param string $template
      * @return string
      */
@@ -532,6 +603,8 @@ class Menu extends Template implements DataObject\IdentityInterface
     }
 
     /**
+     * Resolve the configured submenu template.
+     *
      * @return string
      */
     private function getSubmenuTemplate()
@@ -544,6 +617,9 @@ class Menu extends Template implements DataObject\IdentityInterface
         return $this->getMenuTemplate($baseSubmenuTemplate);
     }
 
+    /**
+     * Check whether entity cache tags are enabled and providers are configured.
+     */
     private function canGatherEntityCacheTags()
     {
         if (!$this->_scopeConfig->isSetFlag(self::XML_SNOWMENU_GENERAL_CACHE_TAGS)) {
@@ -553,6 +629,9 @@ class Menu extends Template implements DataObject\IdentityInterface
         return !empty($this->nodeTypeCaches);
     }
 
+    /**
+     * Return the current customer group ID.
+     */
     public function getCustomerGroupId()
     {
         return $this->httpContext->getValue(\Magento\Customer\Model\Context::CONTEXT_GROUP);
