@@ -16,7 +16,7 @@ use Laminas\Validator\File\Upload;
 
 class Source
 {
-    const ENTITY = 'snowdog_menu';
+    public const ENTITY = 'snowdog_menu';
 
     /**
      * @var FileTransferFactory
@@ -38,6 +38,14 @@ class Source
      */
     private $uploaderFactory;
 
+    /**
+     * Initialize dependencies.
+     *
+     * @param FileTransferFactory $fileTransferFactory
+     * @param ImportExportHelper $importExportHelper
+     * @param ImportModel $import
+     * @param UploaderFactory $uploaderFactory
+     */
     public function __construct(
         FileTransferFactory $fileTransferFactory,
         ImportExportHelper $importExportHelper,
@@ -51,6 +59,8 @@ class Source
     }
 
     /**
+     * Upload a validated menu import file.
+     *
      * @throws ValidatorException
      * @SuppressWarnings(PHPMD.UnusedLocalVariable)
      */
@@ -77,6 +87,8 @@ class Source
     }
 
     /**
+     * Validate the uploaded import file.
+     *
      * @throws ValidatorException
      */
     private function validateFile(): void

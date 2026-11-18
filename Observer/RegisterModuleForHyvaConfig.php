@@ -11,6 +11,9 @@ use Magento\Framework\Filesystem\DirectoryList;
 
 class RegisterModuleForHyvaConfig implements ObserverInterface
 {
+    /**
+     * @var ComponentRegistrar
+     */
     private $componentRegistrar;
 
     /**
@@ -18,12 +21,21 @@ class RegisterModuleForHyvaConfig implements ObserverInterface
      */
     private $directoryList;
 
+    /**
+     * Initialize dependencies.
+     *
+     * @param ComponentRegistrar $componentRegistrar
+     * @param DirectoryList $directoryList
+     */
     public function __construct(ComponentRegistrar $componentRegistrar, DirectoryList $directoryList)
     {
         $this->componentRegistrar = $componentRegistrar;
         $this->directoryList = $directoryList;
     }
 
+    /**
+     * @inheritdoc
+     */
     public function execute(Observer $event)
     {
         $config = $event->getData('config');

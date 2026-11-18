@@ -40,6 +40,14 @@ class NodeRepository implements NodeRepositoryInterface
      */
     private $nodeResource;
 
+    /**
+     * Initialize dependencies.
+     *
+     * @param NodeFactory $objectFactory
+     * @param CollectionFactory $collectionFactory
+     * @param SearchResultsInterfaceFactory $searchResultsFactory
+     * @param NodeResource $nodeResource
+     */
     public function __construct(
         NodeFactory $objectFactory,
         CollectionFactory $collectionFactory,

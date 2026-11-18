@@ -18,6 +18,8 @@ class MenuManagement implements MenuManagementInterface
     private $categoryManagement;
 
     /**
+     * Initialize dependencies.
+     *
      * @param CategoryManagement $categoryManagement
      */
     public function __construct(
@@ -27,6 +29,8 @@ class MenuManagement implements MenuManagementInterface
     }
 
     /**
+     * Build menu node data from the category tree.
+     *
      * @param int|null $rootCategoryId
      * @param int|null $depth
      * @return array
@@ -43,6 +47,8 @@ class MenuManagement implements MenuManagementInterface
     }
 
     /**
+     * Group category data by level and parent.
+     *
      * @param Category $node
      * @param array $data
      * @return array
@@ -69,8 +75,10 @@ class MenuManagement implements MenuManagementInterface
     }
 
     /**
-     * @param $level
-     * @param $parent
+     * Build nested menu nodes from grouped category data.
+     *
+     * @param int $level
+     * @param int|string|null $parent
      * @param array $data
      * @return array
      */

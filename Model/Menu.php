@@ -14,8 +14,11 @@ use Snowdog\Menu\Api\Data\MenuInterface;
  */
 class Menu extends AbstractModel implements MenuInterface, IdentityInterface
 {
-    const CACHE_TAG = 'snowdog_menu_menu';
+    public const CACHE_TAG = 'snowdog_menu_menu';
 
+    /**
+     * @var string
+     */
     protected $_cacheTag = self::CACHE_TAG;
 
     /**
@@ -23,6 +26,15 @@ class Menu extends AbstractModel implements MenuInterface, IdentityInterface
      */
     private $menuResource;
 
+    /**
+     * Initialize dependencies.
+     *
+     * @param Context $context
+     * @param Registry $registry
+     * @param MenuResource $resource
+     * @param AbstractDb|null $resourceCollection
+     * @param array $data
+     */
     public function __construct(
         Context $context,
         Registry $registry,
@@ -34,16 +46,25 @@ class Menu extends AbstractModel implements MenuInterface, IdentityInterface
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
+    /**
+     * @inheritdoc
+     */
     protected function _construct()
     {
         $this->_init(\Snowdog\Menu\Model\ResourceModel\Menu::class);
     }
 
+    /**
+     * @inheritdoc
+     */
     public function getIdentities()
     {
         return [self::CACHE_TAG . '_' . $this->getId()];
     }
 
+    /**
+     * Return the store IDs assigned to the menu.
+     */
     public function getStores()
     {
         $connection = $this->menuResource->getConnection();
@@ -55,6 +76,9 @@ class Menu extends AbstractModel implements MenuInterface, IdentityInterface
     }
 
     /**
+     * Replace the assigned stores when the selection changes.
+     *
+     * @param array $stores
      * @return bool
      */
     public function saveStores(array $stores)

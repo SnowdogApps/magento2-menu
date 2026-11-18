@@ -29,14 +29,53 @@ use Symfony\Component\Console\Question\ConfirmationQuestion;
  */
 class NodesValidatorCommand extends Command
 {
+    /**
+     * @var MenuRepositoryInterface
+     */
     private MenuRepositoryInterface $menuRepository;
+
+    /**
+     * @var NodeRepositoryInterface
+     */
     private NodeRepositoryInterface $nodeRepository;
+
+    /**
+     * @var SearchCriteriaBuilder
+     */
     private SearchCriteriaBuilder $searchCriteriaBuilder;
+
+    /**
+     * @var Validator
+     */
     private Validator $validator;
+
+    /**
+     * @var ValidationAggregateError
+     */
     private ValidationAggregateError $validationAggregateError;
+
+    /**
+     * @var State
+     */
     private State $state;
+
+    /**
+     * @var TreeTrace
+     */
     private TreeTrace $treeTrace;
 
+    /**
+     * Initialize dependencies.
+     *
+     * @param MenuRepositoryInterface $menuRepository
+     * @param NodeRepositoryInterface $nodeRepository
+     * @param SearchCriteriaBuilder $searchCriteriaBuilder
+     * @param Validator $validator
+     * @param ValidationAggregateError $validationAggregateError
+     * @param State $state
+     * @param TreeTrace $treeTrace
+     * @param string|null $name
+     */
     public function __construct(
         MenuRepositoryInterface $menuRepository,
         NodeRepositoryInterface $nodeRepository,
@@ -59,7 +98,7 @@ class NodesValidatorCommand extends Command
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     protected function configure()
     {
@@ -73,6 +112,9 @@ class NodesValidatorCommand extends Command
         parent::configure();
     }
 
+    /**
+     * @inheritdoc
+     */
     public function execute(InputInterface $input, OutputInterface $output): int
     {
         $this->setAreaCode();
@@ -80,7 +122,9 @@ class NodesValidatorCommand extends Command
         $this->treeTrace->disableNodeIdAddend();
 
         foreach ($this->getAllMenus() as $menu) {
-            $output->writeln(PHP_EOL . '<info>... Validating nodes for menu with ID: ' . $menu->getMenuId(). ' </info>');
+            $output->writeln(
+                PHP_EOL . '<info>... Validating nodes for menu with ID: ' . $menu->getMenuId() . ' </info>'
+            );
             $nodes = $this->nodeRepository->getByMenu($menu->getMenuId());
             $menuInvalidNodes = $this->getInvalidNodes($nodes);
 
@@ -122,6 +166,9 @@ class NodesValidatorCommand extends Command
         return Cli::RETURN_SUCCESS;
     }
 
+    /**
+     * Set the admin area when no area is active.
+     */
     private function setAreaCode(): void
     {
         try {
@@ -132,6 +179,8 @@ class NodesValidatorCommand extends Command
     }
 
     /**
+     * Return all menus.
+     *
      * @return MenuInterface[]
      */
     private function getAllMenus(): array
@@ -141,6 +190,11 @@ class NodesValidatorCommand extends Command
             ->getItems();
     }
 
+    /**
+     * Collect validation errors by node ID.
+     *
+     * @param array $nodes
+     */
     private function getInvalidNodes(array $nodes): array
     {
         $invalidNodes = [];
@@ -165,6 +219,11 @@ class NodesValidatorCommand extends Command
         return $invalidNodes;
     }
 
+    /**
+     * Delete the selected nodes and collect successes and errors.
+     *
+     * @param array $nodeIds
+     */
     private function deleteNodesByIds(array $nodeIds): array
     {
         $errors = [];
@@ -186,6 +245,9 @@ class NodesValidatorCommand extends Command
         return ['success' => $success, 'errors' => $errors];
     }
 
+    /**
+     * Build the prompt for removing invalid nodes.
+     */
     private function getConfirmationQuestion(): ConfirmationQuestion
     {
         return new ConfirmationQuestion(
@@ -194,6 +256,12 @@ class NodesValidatorCommand extends Command
         );
     }
 
+    /**
+     * Display node deletion errors and successful removals.
+     *
+     * @param array $results
+     * @param OutputInterface $output
+     */
     private function displayResults(array $results, OutputInterface $output): void
     {
         foreach ($results['errors'] as $error) {
