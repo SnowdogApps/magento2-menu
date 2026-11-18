@@ -49,21 +49,19 @@ class MenuManagement implements MenuManagementInterface
      */
     private function generateCategoriesNode(Category $node, &$data = []): array
     {
-        if (!empty($node)) {
-            $level = $node->getLevel() - 2;
-            $parent = (!$level ? 0 : $node->getParentId());
-            if (!isset($data[$level])) {
-                $data[$level] = [];
-            }
-            if (!isset($data[$level][$parent])) {
-                $data[$level][$parent] = [];
-            }
-            $data[$level][$parent][] = $node->getData();
+        $level = $node->getLevel() - 2;
+        $parent = (!$level ? 0 : $node->getParentId());
+        if (!isset($data[$level])) {
+            $data[$level] = [];
+        }
+        if (!isset($data[$level][$parent])) {
+            $data[$level][$parent] = [];
+        }
+        $data[$level][$parent][] = $node->getData();
 
-            if ($node->getChildrenData()) {
-                foreach ($node->getChildrenData() as $item) {
-                    $data = $this->generateCategoriesNode($item, $data);
-                }
+        if ($node->getChildrenData()) {
+            foreach ($node->getChildrenData() as $item) {
+                $data = $this->generateCategoriesNode($item, $data);
             }
         }
 

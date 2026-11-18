@@ -7,6 +7,7 @@ namespace Snowdog\Menu\Console\Command;
 use Magento\Framework\Api\SearchCriteriaBuilder;
 use Magento\Framework\App\Area;
 use Magento\Framework\App\State;
+use Magento\Framework\Console\Cli;
 use Magento\Framework\Exception\CouldNotDeleteException;
 use Magento\Framework\Exception\LocalizedException;
 use Snowdog\Menu\Api\Data\MenuInterface;
@@ -72,7 +73,7 @@ class NodesValidatorCommand extends Command
         parent::configure();
     }
 
-    public function execute(InputInterface $input, OutputInterface $output)
+    public function execute(InputInterface $input, OutputInterface $output): int
     {
         $this->setAreaCode();
         $invalidNodeIds = [];
@@ -102,7 +103,7 @@ class NodesValidatorCommand extends Command
         }
 
         if (empty($invalidNodeIds) || !$input->isInteractive()) {
-            return 0;
+            return Cli::RETURN_SUCCESS;
         }
 
         $invalidNodeIds = array_merge([], ...$invalidNodeIds);
@@ -110,7 +111,7 @@ class NodesValidatorCommand extends Command
 
         if (!$helper->ask($input, $output, $this->getConfirmationQuestion())) {
             $output->writeln(PHP_EOL . '<info>Invalid nodes were NOT removed</info>');
-            return 0;
+            return Cli::RETURN_SUCCESS;
         }
 
         $this->displayResults(
@@ -118,7 +119,7 @@ class NodesValidatorCommand extends Command
             $output
         );
 
-        return 0;
+        return Cli::RETURN_SUCCESS;
     }
 
     private function setAreaCode(): void

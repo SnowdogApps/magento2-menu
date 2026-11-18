@@ -1,7 +1,11 @@
 <?php
 namespace Snowdog\Menu\Model;
 
+use Magento\Framework\Data\Collection\AbstractDb;
 use Magento\Framework\DataObject\IdentityInterface;
+use Magento\Framework\Model\Context;
+use Magento\Framework\Registry;
+use Snowdog\Menu\Model\ResourceModel\Menu as MenuResource;
 use Magento\Framework\Model\AbstractModel;
 use Snowdog\Menu\Api\Data\MenuInterface;
 
@@ -13,6 +17,22 @@ class Menu extends AbstractModel implements MenuInterface, IdentityInterface
     const CACHE_TAG = 'snowdog_menu_menu';
 
     protected $_cacheTag = self::CACHE_TAG;
+
+    /**
+     * @var MenuResource
+     */
+    private $menuResource;
+
+    public function __construct(
+        Context $context,
+        Registry $registry,
+        MenuResource $resource,
+        ?AbstractDb $resourceCollection = null,
+        array $data = []
+    ) {
+        $this->menuResource = $resource;
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
+    }
 
     protected function _construct()
     {
@@ -26,8 +46,8 @@ class Menu extends AbstractModel implements MenuInterface, IdentityInterface
 
     public function getStores()
     {
-        $connection = $this->getResource()->getConnection();
-        $select = $connection->select()->from($this->getResource()->getTable('snowmenu_store'), ['store_id'])->where(
+        $connection = $this->menuResource->getConnection();
+        $select = $connection->select()->from($this->menuResource->getTable('snowmenu_store'), ['store_id'])->where(
             'menu_id = ?',
             $this->getId()
         );
@@ -43,9 +63,9 @@ class Menu extends AbstractModel implements MenuInterface, IdentityInterface
             return false;
         }
 
-        $connection = $this->getResource()->getConnection();
+        $connection = $this->menuResource->getConnection();
         $connection->beginTransaction();
-        $table = $this->getResource()->getTable('snowmenu_store');
+        $table = $this->menuResource->getTable('snowmenu_store');
         $connection->delete($table, ['menu_id = ?' => $this->getId()]);
         foreach ($stores as $store) {
             $connection->insert($table, ['menu_id' => $this->getId(), 'store_id' => $store]);

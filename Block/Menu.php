@@ -114,7 +114,7 @@ class Menu extends Template implements DataObject\IdentityInterface
         $this->templateResolver = $templateResolver;
         $this->imageFile = $imageFile;
         $this->escaper = $escaper;
-        $this->setTemplate($this->getMenuTemplate($this->_template));
+        $this->_template = $this->getMenuTemplate($this->_template);
         $this->submenuTemplate = $this->getSubmenuTemplate();
         $this->httpContext = $httpContext;
         $this->nodeTypeCaches = $nodeTypeCaches;
@@ -454,7 +454,7 @@ class Menu extends Template implements DataObject\IdentityInterface
             ->setLevel($level);
 
         $block->setTemplateContext($block);
-        $block->setTemplate($submenuTemplate);
+        $block->_template = $submenuTemplate;
 
         return $block;
     }

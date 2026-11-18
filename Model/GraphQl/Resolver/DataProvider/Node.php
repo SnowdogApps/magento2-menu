@@ -143,7 +143,7 @@ class Node
                 continue;
             }
             try {
-                $this->loadedModels[$type] = $this->typeModel->getModels($type, $ids ?? [], $storeId);
+                $this->loadedModels[$type] = $this->typeModel->getModels($type, $ids, $storeId);
             } catch (Exception $e) {
                 continue;
             }

@@ -161,7 +161,7 @@ abstract class AbstractNode extends Template implements NodeTypeInterface
             $this->defaultTemplate,
             $this->getId()
         );
-        $this->setTemplate($template);
+        $this->_template = $template;
 
         return parent::_toHtml();
     }
