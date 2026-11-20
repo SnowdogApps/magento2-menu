@@ -140,8 +140,9 @@ class SaveRequestProcessor
                     continue;
                 }
 
-                // Reset the invalid node content and save the rest of the node new data.
+                // Reset the invalid node type and content and save the rest of the node new data.
                 // An error message will be printed to ask the user to fix the invalid node content.
+                $node['type'] = $nodeMap[$node['id']]->getType();
                 $node['content'] = $nodeMap[$node['id']]->getContent();
             }
 
