@@ -28,6 +28,7 @@
                 <item name="category_child" xsi:type="object">Snowdog\Menu\Model\NodeType\CategoryChild</item>
                 <item name="wrapper" xsi:type="object">Snowdog\Menu\Model\NodeType\Wrapper</item>
             </argument>
+            <argument name="logger" xsi:type="object">Psr\Log\LoggerInterface</argument>
         </arguments>
     </type>
     <type name="Snowdog\Menu\Model\Menu">

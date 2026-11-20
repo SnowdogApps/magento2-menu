@@ -112,9 +112,11 @@ class Cloner
                     $nodeClone->setParentId($nodeIdMap[$node->getParentId()]);
                 }
 
-                $this->nodeTypeProvider
-                    ->getTypeModel($node->getType())
-                    ->processNodeClone($node, $nodeClone);
+                if ($this->nodeTypeProvider->isTypeModelRegistered($node)) {
+                    $this->nodeTypeProvider
+                        ->getTypeModel($node->getType())
+                        ->processNodeClone($node, $nodeClone);
+                }
 
                 $this->nodeRepository->save($nodeClone);
 
