@@ -476,6 +476,9 @@ class Menu extends Template implements DataObject\IdentityInterface
             if ($customerGroupEnabled && !$node->isVisible($currentCustomerGroup)) {
                 continue;
             }
+            if (!$this->nodeTypeProvider->isProviderRegistered($node)) {
+                continue;
+            }
 
             $level = $node->getLevel();
             $parent = $node->getParentId() ?: 0;
